@@ -5,7 +5,7 @@
 import React from "react";
 import P from "prop-types";
 import "./index.scss";
-
+import {withRouter} from 'react-router-dom'
 import { Form, Input, Button, Icon, Checkbox, message } from "antd";
 
 
@@ -15,7 +15,7 @@ import {setUserInfo,compile,unCompile,trim} from "../../utils/dataStorage";
 // Definition
 // ==================
 const FormItem = Form.Item;
-export default class LoginContainer extends React.Component {
+class LoginContainer extends React.Component {
 	static propTypes = {
 		location: P.any,
 		history: P.any,
@@ -28,7 +28,6 @@ export default class LoginContainer extends React.Component {
 		this.state = {
 			loading: false, // 是否正在登录中
 			rememberPassword: false, // 是否记住密码
-			//codeValue: "00000", // 当前验证码的值
 		};
 	}
 	
@@ -48,48 +47,68 @@ export default class LoginContainer extends React.Component {
 		}
 		if (!userLoginInfo) {
 			document.getElementById("username").focus();
-		} else {
-			document.getElementById("vcode").focus();
 		}
 	}
 	
 	// 用户提交登录
 	onSubmit() {
+		console.log(this.props,'props');
 		const form = this.props.form;
 		form.validateFields((error, values) => {
 			if (error) {
 				return;
 			}
+			
+			//×××××××××××××××××××× 测试专用
+			sessionStorage.setItem(
+				"userInfo",
+				//compile(JSON.stringify(res.data))
+				"123456"
+			);
+			if (this.state.rememberPassword) {
+				localStorage.setItem(
+					"userLoginInfo",
+					JSON.stringify({
+						username: values.username,
+						password: compile(values.password) // 密码简单加密一下再存到localStorage
+					})
+				); // 保存用户名和密码
+			} else {
+				localStorage.removeItem("userLoginInfo");
+			}
 			this.setState({ loading: true });
-			this.loginIn(values.username, values.password)
-				.then(res => {
-					if (res.status === 200) {
-						message.success("登录成功");
-						if (this.state.rememberPassword) {
-							localStorage.setItem(
-								"userLoginInfo",
-								JSON.stringify({
-									username: values.username,
-									password: compile(values.password) // 密码简单加密一下再存到localStorage
-								})
-							); // 保存用户名和密码
-						} else {
-							localStorage.removeItem("userLoginInfo");
-						}
-						/** 将这些信息加密后存入sessionStorage,并存入store **/
-						sessionStorage.setItem(
-							"userinfo",
-							compile(JSON.stringify(res.data))
-						);
-						this.props.actions.setUserInfo(res.data);
-						setTimeout(() => this.props.history.replace("/")); // 跳转到主页,用setTimeout是为了等待上一句设置用户信息完成
-					} else {
-						message.error(res.message);
-					}
-				})
-				.finally(err => {
-					this.setState({ loading: false });
-				});
+			setTimeout(() => this.props.history.replace("/")); // 跳转到主页,用setTimeout是为了等待上一句设置用户信息
+			//××××××××××××××××××××
+			
+			
+			// this.loginIn(values.username, values.password)
+			// 	.then(res => {
+			// 		if (res.status === 200) {
+			// 			message.success("登录成功");
+			// 			if (this.state.rememberPassword) {
+			// 				localStorage.setItem(
+			// 					"userLoginInfo",
+			// 					JSON.stringify({
+			// 						username: values.username,
+			// 						password: compile(values.password) // 密码简单加密一下再存到localStorage
+			// 					})
+			// 				); // 保存用户名和密码
+			// 			} else {
+			// 				localStorage.removeItem("userLoginInfo");
+			// 			}
+			// 			/** 将这些信息加密后存入sessionStorage,并存入store **/
+			// 			sessionStorage.setItem(
+			// 				"userInfo",
+			// 				compile(JSON.stringify(res.data))
+			// 			);
+			// 			setTimeout(() => this.props.history.replace("/")); // 跳转到主页,用setTimeout是为了等待上一句设置用户信息完成
+			// 		} else {
+			// 			message.error(res.message);
+			// 		}
+			// 	})
+			// 	.finally(err => {
+			// 		this.setState({ loading: false });
+			// 	});
 		});
 	}
 	
@@ -124,7 +143,6 @@ export default class LoginContainer extends React.Component {
 	
 	
 	render() {
-		console.log(this.props,'==============');
 		const { getFieldDecorator } = this.props.form;
 		return (
 			<div className="page-login">
@@ -201,3 +219,4 @@ export default class LoginContainer extends React.Component {
 	}
 }
 LoginContainer = Form.create({})(LoginContainer);
+export default withRouter(LoginContainer)
