@@ -9,7 +9,7 @@ class Nav extends React.Component{
 			<div className="nav">
 				<div className="main-content main">
 					<div className="logo">
-						<h3>LOGO</h3>
+						<h3></h3>
 						<span>PineHub</span>
 					</div>
 					<ul className="navUl">

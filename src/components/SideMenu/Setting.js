@@ -6,7 +6,7 @@ import '../../style/sider.sass'
 const { SubMenu } = Menu;
 
 const Setting = ({ match }) => (
-	<div style={{ paddingBottom: '120px',width:'226px' }}>
+	<div style={{ paddingBottom: '120px',width:'216px' }}>
 		<Menu
 			theme="light"
 			defaultSelectedKeys={[match.url]}
@@ -16,13 +16,13 @@ const Setting = ({ match }) => (
 		>
 			<Menu.Item key="/setting">
 				<Link to="/setting">
-					<Icon type="user-add" />
+					<i className="iconfont">&#xe7d4;</i>
 					<span>人员配置</span>
 				</Link>
 			</Menu.Item>
 			<Menu.Item key="/setting/warningSetting">
 				<Link to="/setting/warningSetting">
-					<Icon type="schedule" />
+					<i className="iconfont">&#xe81a;</i>
 					<span>预警设置</span>
 				</Link>
 			</Menu.Item>

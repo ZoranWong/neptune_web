@@ -6,7 +6,7 @@ import '../../style/sider.sass'
 const { SubMenu } = Menu;
 
 const Finance = ({ match }) => (
-	<div style={{ paddingBottom: '120px',width:'226px' }}>
+	<div style={{ paddingBottom: '120px',width:'216px' }}>
 		<Menu
 			theme="light"
 			defaultSelectedKeys={[match.url]}

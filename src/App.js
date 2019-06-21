@@ -15,7 +15,7 @@ import Setting from "./components/SideMenu/Setting";
 import Order from "./components/SideMenu/Order";
 import Marketing from "./components/SideMenu/Marketing";
 import LoginContainer from "./containers/Login";
-import Pagination from './components/Layout/Pagination'
+import './style/iconFont.css'
 import TopBar from './components/Layout/TopBar'
 const { Header, Sider, Content } = Layout;
 class App extends React.Component{
@@ -53,7 +53,7 @@ class App extends React.Component{
 		return (
 			<Layout style={{minHeight:"100vh"}}>
 				<TopBar/>
-				<Header style={{background:"#fff"}}>
+				<Header style={{background:"#fff",height:'80px'}}>
 					<Nav/>
 				</Header>
 				<Layout style={{display:"flex",justifyContent:"center"}}>
