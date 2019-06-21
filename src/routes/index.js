@@ -28,7 +28,6 @@ function onEnter (Component, props) {
 	if (userInfo) {
 		return <Component {...props} />;
 	}
-	message.success("登录失效，即将跳转至登录页");
 	return <Redirect to="/login" />;
 
 	

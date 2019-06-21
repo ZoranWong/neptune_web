@@ -1,6 +1,6 @@
 import React from 'react';
 import './style/style.scss'
-import './App.css';
+import './App.sass';
 import { Layout } from 'antd';
 import Nav from './components/Layout/Nav'
 import Routes from './routes'
@@ -15,8 +15,9 @@ import Setting from "./components/SideMenu/Setting";
 import Order from "./components/SideMenu/Order";
 import Marketing from "./components/SideMenu/Marketing";
 import LoginContainer from "./containers/Login";
-const { Header, Footer, Sider, Content } = Layout;
-
+import './style/iconFont.css'
+import TopBar from './components/Layout/TopBar'
+const { Header, Sider, Content } = Layout;
 class App extends React.Component{
 	
 	handleSider = () =>{
@@ -51,20 +52,22 @@ class App extends React.Component{
 		}
 		return (
 			<Layout style={{minHeight:"100vh"}}>
-				<Header style={{background:"#fff"}}>
+				<TopBar/>
+				<Header style={{background:"#fff",height:'80px'}}>
 					<Nav/>
 				</Header>
-				<Layout >
-					<Sider
-						width={300}
-						style={{ background: '#fff' }}
-						className="fixed"
-					>
-						{this.handleSider()}
-					</Sider>
-					<Content style={{ margin: 0, minHeight: 280 }}><Routes/></Content>
+				<Layout style={{display:"flex",justifyContent:"center"}}>
+					<div className="main-content app">
+						<Sider
+							width={300}
+							style={{ background: '#fff' ,flex:1}}
+							className="fixed"
+						>
+							{this.handleSider()}
+						</Sider>
+						<Content className="container" ><Routes/></Content>
+					</div>
 				</Layout>
-				<Footer style={{ textAlign: 'center' }}>Footer</Footer>
 			</Layout>
 		);
 	}
