@@ -4,9 +4,9 @@ import React from 'react';
 import {Button,Icon,Table} from 'antd'
 import {withRouter} from 'react-router-dom'
 import './css/staffing.sass'
-import { Server, Faker, uid } from 'react-mock'
+// import { Server, Faker, uid } from 'react-mock'
 import axios from 'axios'
-import FetchApi from '../../utils/fetch-api'
+// import FetchApi from '../../utils/fetch-api'
 import StaffList from "./StaffList";
 import EditName from '../../components/EditName/EditName'
 
@@ -30,24 +30,24 @@ class Staffing extends React.Component{
 		const endPoint = '/api/v1/todos';
 		const todoSchema = {
 			accounts:Math.random(),
-			role: Faker.internet.email(),
-			key: () => Faker.lorem.sentence(),
-			id: () => Faker.date.past()
+			// role: Faker.internet.email(),
+			// key: () => Faker.lorem.sentence(),
+			// id: () => Faker.date.past()
 		};
 		const requestHandler = (request, generator) => {
 			const todoList = generator.next(10, todoSchema);
 			return [200, { 'Content-Type': 'application/json' }, JSON.stringify(todoList)];
 		};
-		Server.mockGet(endPoint, requestHandler)
-		Server.on(); // to start mocking /api/v1/todos API
+		// Server.mockGet(endPoint, requestHandler)
+		// Server.on(); // to start mocking /api/v1/todos API
 		axios.get('/api/v1/todos').then(({ data }) => {
 			// data is an array of 10 todo objects
 
 			this.setState({tableData:data.concat(data)})
 		});
-		
+
 	}
-	
+
 	/*
 	* 员工列表
 	* */
@@ -57,11 +57,11 @@ class Staffing extends React.Component{
 	closeList = () =>{
 		this.setState({listVisible:false})
 	};
-	
+
 	//*
 	// 编辑/新建角色
 	// */
-	
+
 	showModal = async (name) => {
 		await this.setState({
 			editText:name,
@@ -74,8 +74,8 @@ class Staffing extends React.Component{
 	onSubmit = () =>{
 		this.setState({editRoleVisible:false})
 	};
-	
-	
+
+
 	render(){
 		return (
 			<div>
@@ -89,7 +89,7 @@ class Staffing extends React.Component{
 					onSubmit={this.onSubmit}
 					onCancel={this.onCancel}
 				/>
-				
+
 				<div className="header">
 					<Button className="btn btnList" onClick={this.showList}>员工列表</Button>
 					<Button className="btn btnAdd" onClick={this.showModal} >
@@ -137,8 +137,8 @@ class Staffing extends React.Component{
 						/>
 					</Table>
 				</div>
-				
-				
+
+
 			</div>
 		)
 	}

@@ -4,7 +4,7 @@ import React from 'react'
 import {Modal, Input, Table, Button,Popover} from 'antd';
 import './css/common.sass'
 import './css/staffList.sass'
-import { Server, Faker, uid } from 'react-mock'
+// import { Server, Faker, uid } from 'react-mock'
 import axios from 'axios'
 const Search = Input.Search;
 const { Column } = Table;
@@ -15,7 +15,7 @@ const popoverContent = (
 			<Button className="btn1">取消</Button>
 			<Button className="btn2">确定</Button>
 		</div>
-	
+
 	</div>
 );
 class StaffList  extends React.Component{
@@ -26,39 +26,39 @@ class StaffList  extends React.Component{
 			confirmLoading: false
 		};
 	}
-	
+
 	componentWillMount() {
 		//mock
 		const endPoint = '/api/v1/todos';
 		const todoSchema = {
 			name:Math.random().toFixed(3),
-			role: Faker.internet.email(),
-			time: () => Faker.lorem.sentence().split(',')[1],
-			phone: () => Faker.date.past()
+			// role: Faker.internet.email(),
+			// time: () => Faker.lorem.sentence().split(',')[1],
+			// phone: () => Faker.date.past()
 		};
 		const requestHandler = (request, generator) => {
 			const todoList = generator.next(10, todoSchema);
 			return [200, { 'Content-Type': 'application/json' }, JSON.stringify(todoList)];
 		};
-		Server.mockGet(endPoint, requestHandler)
-		Server.on(); // to start mocking /api/v1/todos API
+		// Server.mockGet(endPoint, requestHandler)
+		// Server.on(); // to start mocking /api/v1/todos API
 		axios.get('/api/v1/todos').then(({ data }) => {
 			// data is an array of 10 todo objects
-			
+
 			this.setState({tableData:data.concat(data)})
 		});
-		
+
 	}
-	
+
 	handleCancel = () => {
 		this.props.onClose()
 	};
-	
+
 	render() {
 		const {  confirmLoading } = this.state;
 		return (
 			<div>
-				
+
 				<Modal
 					title="员工列表"
 					width={1000}
@@ -75,7 +75,7 @@ class StaffList  extends React.Component{
 							onSearch={value => console.log(value)}
 							enterButton
 						/>
-						
+
 						<div className="listChart">
 							<Table dataSource={this.state.tableData}>
 								<Column
