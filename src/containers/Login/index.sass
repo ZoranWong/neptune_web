@@ -1,0 +1,155 @@
+.page-login
+	width: 100%
+	height: 100vh
+	background: #4F9863
+	display: flex
+	justify-content: center
+	align-items: center
+	flex-direction: column
+	position: relative
+	.loginBox
+		width: 600px
+		height: 500px
+		box-shadow: 0 10px 50px rgba(0,0,0,0.2)
+		opacity: 1
+		border-radius: 4px
+		background: #fff
+		display: flex
+		justify-content: center
+		align-items: flex-start
+		position: relative
+		.title
+			width: 100%
+			height: 120px
+			display: flex
+			justify-content: center
+			align-items: center
+			h3
+				width: 60px
+				height: 60px
+				background-image: url("./12.jpg")
+				background-size: cover
+				border-radius: 50%
+				margin: 0
+			span
+				display: block
+				height: 40px
+				font-size: 30px
+				color: #8FC21F
+				font-weight: bold
+				margin-left: 8px
+		.form
+			width: 380px
+			display: flex
+			justify-content: center
+			align-items: center
+			flex-direction: column
+			margin-top: 20px
+			.user
+				border-bottom: 1px solid #E9E9E9
+				width: 100%
+				margin-bottom: 10px
+				display: flex
+				align-items: center
+				i
+					font-size: 15px
+					color: #4F9863
+				input
+					border: none
+					outline: none
+					margin-left: 10px
+					flex: 4
+				.getCode
+					width: 100px
+					height: 30px
+					border-radius: 15px
+					float: right
+			
+			.phone
+				width: 100%
+				font-size: 14px
+				color: #999
+				margin-bottom: 30px
+				h4
+					font-weight: normal
+					color: #4F9863
+		.remember
+			width: 100%
+			text-align: left
+			span
+				color: #999
+				font-size: 14px
+		.submit-btn
+			width: 100%
+			height: 30px
+			color: #fff
+			border-radius: 15px
+			margin-top: 40px
+		.forget
+			width: 380px
+			height: 322px
+			background: #fff
+			text-align: center
+			margin-top: 60px
+			position: absolute
+			bottom: 0
+			transform: translate3d(0,300px,0)
+			opacity: 0
+			transition: all 1s
+		.hide
+			display: none
+		.showBox
+			display: block
+			z-index: 10 !important
+			opacity: 1 !important
+			-webkit-transform: translate3d(0,0,0) !important
+			-moz-transform: translate3d(0,0,0) !important
+			-ms-transform: translate3d(0,0,0) !important
+			-o-transform:  translate3d(0,0,0) !important
+			transform: translate3d(0,0,0) !important
+
+	.loginFooter
+		width: 100%
+		height: 88px
+		display: flex
+		justify-content: center
+		align-items: center
+		margin-top: 46px
+		span
+			display: flex
+			justify-content: center
+			align-items: center
+			height: 22px
+			font-size: 12px
+			color: #4F9863
+			cursor: pointer
+			margin-right: 15px
+			&:last-child
+				padding-left: 15px
+				border-left: 1px solid #E9E9E9
+
+
+	input::-webkit-input-placeholder
+		font-size: 14px
+		color: #999
+	input::-moz-placeholder
+		font-size: 14px
+		color: #999
+	input:-moz-placeholder
+		font-size: 14px
+		color: #999
+	input:-ms-input-placeholder
+		font-size: 14px
+		color: #999
+		
+		
+.company
+	display: flex
+	justify-content: center
+	align-items: center
+	width: 100%
+	color: #fff
+	font-size: 12px
+	position: absolute
+	bottom: 10px
+	
