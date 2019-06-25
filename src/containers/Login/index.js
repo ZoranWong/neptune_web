@@ -1,33 +1,24 @@
 /** 登录页 **/
-
-
-
 import React from "react";
-import P from "prop-types";
-import "./index.scss";
+import "./index.sass";
 import {withRouter} from 'react-router-dom'
-import { Form, Input, Button, Icon, Checkbox, message } from "antd";
-
-
+import { Form,  Button, Checkbox, message } from "antd";
+import FetchApi from '../../utils/fetch-api'
 import {setUserInfo,compile,unCompile,trim} from "../../utils/dataStorage";
-
+import '../../mock/list'
 // ==================
 // Definition
 // ==================
-const FormItem = Form.Item;
+
 class LoginContainer extends React.Component {
-	static propTypes = {
-		location: P.any,
-		history: P.any,
-		form: P.any,
-		actions: P.any
-	};
 	
 	constructor(props) {
 		super(props);
 		this.state = {
 			loading: false, // 是否正在登录中
 			rememberPassword: false, // 是否记住密码
+			userValue:'',
+			password:'',
 		};
 	}
 	
@@ -51,66 +42,59 @@ class LoginContainer extends React.Component {
 	}
 	
 	// 用户提交登录
-	onSubmit() {
-		console.log(this.props,'props');
-		const form = this.props.form;
-		form.validateFields((error, values) => {
-			if (error) {
-				return;
-			}
-			
-			//×××××××××××××××××××× 测试专用
-			sessionStorage.setItem(
-				"userInfo",
-				//compile(JSON.stringify(res.data))
-				"123456"
-			);
-			if (this.state.rememberPassword) {
-				localStorage.setItem(
-					"userLoginInfo",
-					JSON.stringify({
-						username: values.username,
-						password: compile(values.password) // 密码简单加密一下再存到localStorage
-					})
-				); // 保存用户名和密码
-			} else {
-				localStorage.removeItem("userLoginInfo");
-			}
-			this.setState({ loading: true });
-			setTimeout(() => this.props.history.replace("/")); // 跳转到主页,用setTimeout是为了等待上一句设置用户信息
-			//××××××××××××××××××××
-			
-			
-			// this.loginIn(values.username, values.password)
-			// 	.then(res => {
-			// 		if (res.status === 200) {
-			// 			message.success("登录成功");
-			// 			if (this.state.rememberPassword) {
-			// 				localStorage.setItem(
-			// 					"userLoginInfo",
-			// 					JSON.stringify({
-			// 						username: values.username,
-			// 						password: compile(values.password) // 密码简单加密一下再存到localStorage
-			// 					})
-			// 				); // 保存用户名和密码
-			// 			} else {
-			// 				localStorage.removeItem("userLoginInfo");
-			// 			}
-			// 			/** 将这些信息加密后存入sessionStorage,并存入store **/
-			// 			sessionStorage.setItem(
-			// 				"userInfo",
-			// 				compile(JSON.stringify(res.data))
-			// 			);
-			// 			setTimeout(() => this.props.history.replace("/")); // 跳转到主页,用setTimeout是为了等待上一句设置用户信息完成
-			// 		} else {
-			// 			message.error(res.message);
-			// 		}
-			// 	})
-			// 	.finally(err => {
-			// 		this.setState({ loading: false });
-			// 	});
-		});
-	}
+	onSubmit = () => {
+		//×××××××××××××××××××× 测试专用
+		sessionStorage.setItem(
+			"userInfo",
+			//compile(JSON.stringify(res.data))
+			"123456"
+		);
+		// if (this.state.rememberPassword) {
+		// 	localStorage.setItem(
+		// 		"userLoginInfo",
+		// 		JSON.stringify({
+		// 			username: values.username,
+		// 			password: compile(values.password) // 密码简单加密一下再存到localStorage
+		// 		})
+		// 	); // 保存用户名和密码
+		// } else {
+		// 	localStorage.removeItem("userLoginInfo");
+		// }
+		// this.setState({ loading: true });
+		// setTimeout(() => this.props.history.replace("/")); // 跳转到主页,用setTimeout是为了等待上一句设置用户信息
+		// //××××××××××××××××××××
+		
+		
+		// this.loginIn(values.username, values.password)
+		// 	.then(res => {
+		// 		if (res.status === 200) {
+		// 			message.success("登录成功");
+		// 			if (this.state.rememberPassword) {
+		// 				localStorage.setItem(
+		// 					"userLoginInfo",
+		// 					JSON.stringify({
+		// 						username: values.username,
+		// 						password: compile(values.password) // 密码简单加密一下再存到localStorage
+		// 					})
+		// 				); // 保存用户名和密码
+		// 			} else {
+		// 				localStorage.removeItem("userLoginInfo");
+		// 			}
+		// 			/** 将这些信息加密后存入sessionStorage,并存入store **/
+		// 			sessionStorage.setItem(
+		// 				"userInfo",
+		// 				compile(JSON.stringify(res.data))
+		// 			);
+		 			setTimeout(() => this.props.history.replace("/")); // 跳转到主页,用setTimeout是为了等待上一句设置用户信息完成
+		// 		} else {
+		// 			message.error(res.message);
+		// 		}
+		// 	})
+		// 	.finally(err => {
+		// 		this.setState({ loading: false });
+		// 	});
+		
+	};
 	
 	/**
 	 * 执行登录
@@ -143,10 +127,8 @@ class LoginContainer extends React.Component {
 	
 	
 	render() {
-		const { getFieldDecorator } = this.props.form;
 		return (
 			<div className="page-login">
-				
 				<div
 					className={
 						this.state.show ? "loginBox all_trans5 show" : "loginBox all_trans5"
@@ -154,65 +136,75 @@ class LoginContainer extends React.Component {
 				>
 					<Form>
 						<div className="title">
-							<span>React-Admin</span>
+							<h3></h3>
+							<span>PineHub</span>
 						</div>
-						<div>
-							<FormItem>
-								{getFieldDecorator("username", {
-									rules: [
-										{ max: 12, message: "最大长度为12位字符" },
-										{
-											required: true,
-											whitespace: true,
-											message: "请输入用户名"
-										}
-									]
-								})(
-									<Input
-										prefix={<Icon type="user" style={{ fontSize: 13 }} />}
-										size="large"
-										id="username" // 为了获取焦点
-										placeholder="admin/user"
-										onPressEnter={() => this.onSubmit()}
-									/>
-								)}
-							</FormItem>
-							<FormItem>
-								{getFieldDecorator("password", {
-									rules: [
-										{ required: true, message: "请输入密码" },
-										{ max: 18, message: "最大长度18个字符" }
-									]
-								})(
-									<Input
-										prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
-										size="large"
-										type="password"
-										placeholder="123456/123456"
-										onPressEnter={() => this.onSubmit()}
-									/>
-								)}
-							</FormItem>
-							<div style={{ lineHeight: "40px" }}>
+						<div className="form">
+							<div className="user">
+								<i className="iconfont">&#xe7ae;</i>
+								<input 
+									type="text" 
+									className="input" 
+									placeholder="请输入手机号"
+									onInput={(e)=>{this.setState({userValue:e.target.value})}}
+									onBlur={()=>{}}
+								/>
+							</div>
+							<div className="user">
+								<i className="iconfont">&#xe7c9;</i>
+								<input
+									type="password"
+									className="input"
+									placeholder="请输入密码"
+									onInput={(e)=>{this.setState({password:e.target.value})}}
+								/>
+							</div>
+							<div style={{ lineHeight: "40px",width:"100%" }}>
 								<Checkbox
 									className="remember"
 									checked={this.state.rememberPassword}
 									onChange={e => this.onRemember(e)}
 								>
-									记住密码
+									自动登录
 								</Checkbox>
 								<Button
 									className="submit-btn"
-									size="large"
+									size="small"
 									type="primary"
 									loading={this.state.loading}
-									onClick={() => this.onSubmit()}
+									onClick={() => this.onSubmit}
 								>
 									{this.state.loading ? "请稍后" : "登录"}
 								</Button>
 							</div>
 						</div>
+						<div className="loginFooter">
+							<span
+								className="forgetPassword"
+								onClick={()=>{
+									let btn = document.getElementById('handle_Hide');
+									btn.className = "forget showBox"
+								}}>忘记密码</span>
+							<span>联系我们</span>
+						</div>
 					</Form>
+					<div className="forget hide" id="handle_Hide">
+						<Button
+							className="submit-btn"
+							size="small"
+							type="primary"
+							loading={this.state.loading}
+							onClick={()=>{
+								setTimeout(() => this.props.history.replace("/login/resetPassword"));
+							}}
+						>
+							下一步
+						</Button>
+					</div>
+				</div>
+				
+				<div className="company">
+					Copyright © 2019 安徽京抖云数据科技有限公司
 				</div>
 			</div>
 		);

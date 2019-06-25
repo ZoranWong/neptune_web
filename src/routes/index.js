@@ -17,7 +17,7 @@ import Membership from "../containers/User/Membership";
 import ConsumerBehavior from "../containers/User/ConsumerBehavior";
 import UserGroupManage from "../containers/User/UserGroupManage";
 import LoginContainer from '../containers/Login/index'
-
+import ResetPassword from '../containers/Login/ResetPassword'
 /** 跳转到某个路由之前触发 用于验证页面权限**/
 function onEnter (Component, props) {
 	/**
@@ -41,6 +41,7 @@ const Routes = () =>(
 		
 		{/*登录页*/}
 		<Route exact={true} path="/login" component={LoginContainer}/>} />
+		<Route exact={true} path="/login/resetPassword" component={ResetPassword}/>} />
 		
 		{/*数据*/}
 		<Route exact={true} path="/data" render={props => onEnter(Data, props)} />

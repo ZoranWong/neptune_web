@@ -17,14 +17,13 @@ import Marketing from "./components/SideMenu/Marketing";
 import LoginContainer from "./containers/Login";
 import './style/iconFont.css'
 import TopBar from './components/Layout/TopBar'
+import ResetPassword from "./containers/Login/ResetPassword";
 const { Header, Sider, Content } = Layout;
 class App extends React.Component{
 	
 	handleSider = () =>{
 		let key = this.props.location.pathname.split('/');
 		switch (key[1]) {
-			case "home":
-				return <Home match={{url:this.props.location.pathname}}/>;
 			case "user":
 				return <User match={{url:this.props.location.pathname}}/>;
 			case "goods":
@@ -41,6 +40,8 @@ class App extends React.Component{
 				return <Order match={{url:this.props.location.pathname}}/>;
 			case "setting":
 				return <Setting match={{url:this.props.location.pathname}}/>;
+			default:
+				return <Home match={{url:this.props.location.pathname}}/>;
 		}	
 	};
 	
@@ -49,6 +50,8 @@ class App extends React.Component{
 	render() {
 		if(this.props.location.pathname === '/login'){
 			return <LoginContainer/>
+		} else if(this.props.location.pathname === '/login/resetPassword'){
+			return <ResetPassword/>
 		}
 		return (
 			<Layout style={{minHeight:"100vh"}}>

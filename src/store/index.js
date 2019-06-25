@@ -11,11 +11,9 @@ const middleWares = [];
 // middleWares.push(logger);
 
 const store = createStore(RootReducer, applyMiddleware(...middleWares));
-console.log('-----------------------------------', module.hot);
 // REDUX 2.x 中，HMR检测不到reducer的变化，所以在创建store的文件中加入下面代码
 if (module.hot) {
   module.hot.accept("./reducers", (reducer) => {
-    console.log('-----------------------------------', reducer);
     const nextRootReducer = require("./reducers/index");
     store.replaceReducer(nextRootReducer);
   });

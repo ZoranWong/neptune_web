@@ -1,4 +1,4 @@
-// 员工列表
+// 管理账号
 
 import React from 'react'
 import {Modal, Input, Table, Button,Popover} from 'antd';
@@ -6,13 +6,21 @@ import './css/common.sass'
 import './css/staffList.sass'
 import axios from 'axios'
 import StaffAuthoritySetting from './StaffAuthoritySetting'
-import '../../mock/list'
-import FetchApi from '../../utils/fetch-api'
 import EditRole from './EditRole'
+import FetchApi from "../../utils/fetch-api";
 const Search = Input.Search;
 const { Column } = Table;
-
-class StaffList  extends React.Component{
+const popoverContent = (
+	<div className="popover">
+		<span className="popoverTitle">确定要删除该账号么</span>
+		<div className="btnBox">
+			<Button type="default" size="small">取消</Button>
+			<Button type="primary" size="small">确定</Button>
+		</div>
+	
+	</div>
+);
+class ManageStaff  extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
@@ -23,11 +31,9 @@ class StaffList  extends React.Component{
 	}
 	
 	componentWillMount() {
-		
 		FetchApi.newFetch('list.mock','get',{}).then(r=>{
 			this.setState({tableData:r.data.data.list})
 		})
-		
 	}
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(nextProps.onRoles){
@@ -44,7 +50,7 @@ class StaffList  extends React.Component{
 	* */
 	showAuth = (record) =>{
 		this.handleCancel();
-		this.setState({listAuthInfo:record});
+		this.setState({userAuthInfo:record})
 		this.setState({listAuthVisible:true})
 	};
 	closeAuth = () =>{
@@ -56,7 +62,7 @@ class StaffList  extends React.Component{
 	*  */
 	showEditRole = (record) =>{
 		this.handleCancel();
-		this.setState({roleInfo:record});
+		this.setState({userInfo:record});
 		this.setState({roleEditVisible:true})
 	};
 	closeEditRole = () =>{
@@ -64,31 +70,21 @@ class StaffList  extends React.Component{
 	};
 	
 	render() {
-		const popoverContent = (
-			<div className="popover">
-				<span className="popoverTitle">确定要删除该账号么</span>
-				<div className="btnBox">
-					<Button type="default" size="small">取消</Button>
-					<Button type="primary" size="small">确定</Button>
-				</div>
-			
-			</div>
-		);
 		return (
 			<div>
 				<StaffAuthoritySetting
 					visible={this.state.listAuthVisible}
 					onClose={this.closeAuth}
-					listAuthInfo={this.state.listAuthInfo}
+					userAuthInfo={this.state.userAuthInfo}
 				/>
 				<EditRole
 					visible={this.state.roleEditVisible}
 					onClose={this.closeEditRole}
 					onRoles={this.state.roles}
-					userInfo={this.state.roleInfo}
+					userInfo={this.state.userInfo}
 				/>
 				<Modal
-					title="员工列表"
+					title="管理账号"
 					width={1000}
 					centered={true}
 					visible={this.props.visible}
@@ -122,14 +118,9 @@ class StaffList  extends React.Component{
 									dataIndex="time"
 									key="time" />
 								<Column
-									style={{width:'150px'}}
-									title="角色"
-									dataIndex="roleName"
-									key="roleName" />
-								<Column
 									title="操作"
 									key="action"
-									className="primary"
+									className=" primary"
 									render={(text, record) => (
 										<span className="operationBox">
 											<Popover
@@ -151,4 +142,4 @@ class StaffList  extends React.Component{
 		);
 	}
 }
-export default StaffList
+export default ManageStaff
