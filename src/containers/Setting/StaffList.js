@@ -4,10 +4,10 @@ import React from 'react'
 import {Modal, Input, Table, Button,Popover} from 'antd';
 import './css/common.sass'
 import './css/staffList.sass'
-import axios from 'axios'
+
 import StaffAuthoritySetting from './StaffAuthoritySetting'
 import '../../mock/list'
-import FetchApi from '../../utils/fetch-api'
+import {admins} from "../../api/setting";
 import EditRole from './EditRole'
 const Search = Input.Search;
 const { Column } = Table;
@@ -23,12 +23,8 @@ class StaffList  extends React.Component{
 	}
 	
 	componentWillMount() {
-		
-		FetchApi.newFetch('list.mock','get',{}).then(r=>{
-			r.data.data.list.map(item=>{
-				return item.visible = false;
-			});
-			this.setState({tableData:r.data.data.list})
+		admins({limit:10,page:1}).then(r=>{
+			this.setState({tableData:r.data})
 		})
 		
 	}
@@ -117,13 +113,13 @@ class StaffList  extends React.Component{
 								<Column
 									style={{width:'150px'}}
 									title="手机号码"
-									dataIndex="phone"
-									key="phone" />
+									dataIndex="mobile"
+									key="mobile" />
 								<Column
 									style={{width:'190px'}}
 									title="新增时间"
-									dataIndex="time"
-									key="time" />
+									dataIndex="created_at"
+									key="created_at" />
 								<Column
 									style={{width:'150px'}}
 									title="角色"

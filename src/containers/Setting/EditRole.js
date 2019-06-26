@@ -21,8 +21,9 @@ export default class EditRole extends React.Component{
 				option.push({label:nextProps.onRoles[index][item],value:item})
 			})
 		});
+
 		this.setState({options:option});
-		this.setState({name:nextProps.userInfo.name,phone:nextProps.userInfo.phone})
+		this.setState({name:nextProps.userInfo.name,phone:nextProps.userInfo.mobile})
 	}
 	
 	handleCancel = () =>{

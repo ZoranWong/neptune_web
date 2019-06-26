@@ -4,7 +4,7 @@ import React from 'react';
 import {Button,Table} from 'antd'
 import {withRouter} from 'react-router-dom'
 import './css/staffing.sass'
-
+import {admins} from "../../api/setting";
 import AddNewStaff from './AddNewStaff'
 import StaffList from "./StaffList";
 import ManageStaff from './ManageStaff'
@@ -23,7 +23,7 @@ class Staffing extends React.Component{
 			tableData:[],
 			//弹窗可视与否
 			visible:false,
-			listVisible:false,   // 人员列表页弹窗
+			listVisible:true,   // 人员列表页弹窗
 			editRoleVisible:false,    // 编辑/新建角色弹窗
 			frozenVisible:false,  //已冻结账号
 			authoritySettingVisible:false,    //权限配置
@@ -33,9 +33,9 @@ class Staffing extends React.Component{
 		}
 	}
 	componentWillMount() {
-		// admins({}).then(r=>{
-		// 	console.log(r);
-		// })
+		admins({limit:10,page:1}).then(r=>{
+			this.setState({tableData:r.data})
+		})
 	}
 	
 	

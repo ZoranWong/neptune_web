@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, message, Form} from "antd";
-import {withRouter} from 'react-router-dom'
+import {withRouter} from 'react-router-dom';
+import {resetPwd} from "../../api/auth";
 import './index.sass'
 class ResetPassword extends React.Component {
 	constructor(props) {
@@ -17,6 +18,18 @@ class ResetPassword extends React.Component {
 		if(this.state.countDown < 60){
 			this.sendSms()
 		}
+	}
+
+	resetPassword = () =>{
+		if(!this.state.v_code || !this.state.password_1 || !this.state.password_2){
+			return
+		}
+		if(this.state.password_1 != this.state.password_2 ){
+			return
+		}
+		resetPwd({}).then(r=>{
+
+		})
 	}
 	
 	
@@ -100,7 +113,7 @@ class ResetPassword extends React.Component {
 									}}
 								/>
 							</div>
-							<Button className="submit-btn" type="primary" size="small">
+							<Button className="submit-btn" type="primary" size="small" onClick={this.resetPassword}>
 								下一步
 							</Button>
 						</div>

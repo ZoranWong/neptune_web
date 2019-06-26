@@ -19,10 +19,10 @@ service.interceptors.request.use(
         // if(!config.closeLoading){
         //     window.loadingInstance = Loading.service();
         // }
-
-        let noParameters = config.url.indexOf('?')  == -1;
-        //config.headers['X-Token'] = getToken() //
-        config.url = noParameters ? config.url+'?access_token=' + getToken(): config.url+'&access_token='+ getToken();
+        config.headers['Authorization'] = getToken()
+        //let noParameters = config.url.indexOf('?')  == -1;
+        // //
+        //config.url = noParameters ? config.url+'?access_token=' + getToken(): config.url+'&access_token='+ getToken();
 
         return config
     },
@@ -58,7 +58,8 @@ service.interceptors.response.use(
 		}
 		const { response: { status, statusText, data: { msg = '服务器发生错误' } }} = error;
 		const { response } = error;
-		message.error(response.data.message);// 弹出后端返回的错误
+        console.log(response);
+        message.error(response.data.message);// 弹出后端返回的错误
         return Promise.reject(error)//千万不能去掉，，，否则请求超时会进入到then方法，导致逻辑错误。
     }
 );

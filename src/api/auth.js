@@ -8,10 +8,10 @@ export function login(params) {
     })
 }
 
-export function bbb (params) {
+export function resetPwd (params) {
     return request({
-        url: '/',
-        method: 'post',
+        url: '/api/admins/resetPwd',
+        method: 'put',
         data: params
     })
 }

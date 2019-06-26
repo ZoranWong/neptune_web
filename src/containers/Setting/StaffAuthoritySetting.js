@@ -21,12 +21,12 @@ class StaffAuthoritySetting  extends React.Component{
 		if(nextProps.userAuthInfo){
 			this.setState({
 				name:nextProps.userAuthInfo.name,
-				phone:nextProps.userAuthInfo.phone
+				phone:nextProps.userAuthInfo.mobile
 			})
 		} else {
 			this.setState({
 				name:nextProps.listAuthInfo.name,
-				phone:nextProps.listAuthInfo.phone
+				phone:nextProps.listAuthInfo.mobile
 			})
 		}
 		

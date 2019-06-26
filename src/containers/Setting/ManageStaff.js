@@ -31,9 +31,9 @@ class ManageStaff  extends React.Component{
 	}
 	
 	componentWillMount() {
-		FetchApi.newFetch('list.mock','get',{}).then(r=>{
-			this.setState({tableData:r.data.data.list})
-		})
+		// FetchApi.newFetch('list.mock','get',{}).then(r=>{
+		// 	this.setState({tableData:r.data.data.list})
+		// })
 	}
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(nextProps.onRoles){
