@@ -4,8 +4,7 @@ import React from 'react';
 import {Button,Table} from 'antd'
 import {withRouter} from 'react-router-dom'
 import './css/staffing.sass'
-import axios from 'axios'
-import FetchApi from '../../utils/fetch-api'
+
 import AddNewStaff from './AddNewStaff'
 import StaffList from "./StaffList";
 import ManageStaff from './ManageStaff'
@@ -34,14 +33,9 @@ class Staffing extends React.Component{
 		}
 	}
 	componentWillMount() {
-		FetchApi.newFetch('list.mock','get',{}).then(r=>{
-			this.setState({tableData:r.data.data.list});
-			let role = [];
-			r.data.data.list.map(item=>{
-				role.push({[item.id]:item.roleName})
-			});
-			this.setState({roles:role});
-		})
+		// admins({}).then(r=>{
+		// 	console.log(r);
+		// })
 	}
 	
 	

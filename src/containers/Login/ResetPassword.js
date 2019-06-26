@@ -1,7 +1,8 @@
 import React from 'react';
 import {Button, message, Form} from "antd";
+import {withRouter} from 'react-router-dom'
 import './index.sass'
-export default class ResetPassword extends React.Component {
+class ResetPassword extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -12,10 +13,12 @@ export default class ResetPassword extends React.Component {
 		};
 	}
 	componentDidMount() {
+		console.log(this.props.location);
 		if(this.state.countDown < 60){
 			this.sendSms()
 		}
 	}
+	
 	
 	sendSms = ()=>{
 		window.timer = setInterval(()=>{
@@ -40,7 +43,7 @@ export default class ResetPassword extends React.Component {
 						<div className="form">
 							<div className="phone">
 								验证码已发送给:
-								<h4>15117863244</h4>
+								<h4>{this.props.location.state.phone}</h4>
 							</div>
 							<div className="user">
 								<i className="iconfont">&#xe7ae;</i>
@@ -110,3 +113,4 @@ export default class ResetPassword extends React.Component {
 		)
 	}
 }
+export default withRouter(ResetPassword)

@@ -1,5 +1,6 @@
 import React from 'react';
 import {Route,Switch,Redirect} from "react-router-dom";
+import {getToken} from "../utils/dataStorage";
 import {message} from 'antd'
 import Home from "../containers/Home/Home";
 import Data from "../containers/Data/Data";
@@ -24,14 +25,12 @@ function onEnter (Component, props) {
 	 *  有用户信息，说明已登录
 	 *  没有，则跳转至登录页
 	 * **/
-	const userInfo = sessionStorage.getItem("userInfo");
+	const userInfo = getToken();
 	if (userInfo) {
 		return <Component {...props} />;
 	}
 	return <Redirect to="/login" />;
-
 	
-	//return <Component {...props} />;
 }
 
 const Routes = () =>(

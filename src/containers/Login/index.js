@@ -2,10 +2,11 @@
 import React from "react";
 import "./index.sass";
 import {withRouter} from 'react-router-dom'
-import { Form,  Button, Checkbox, message } from "antd";
 import FetchApi from '../../utils/fetch-api'
-import {setUserInfo,compile,unCompile,trim} from "../../utils/dataStorage";
+import { Form,  Button, Checkbox, Popover ,message} from "antd";
+import {setToken,compile,unCompile} from "../../utils/dataStorage";
 import '../../mock/list'
+import {login} from "../../api/auth";
 // ==================
 // Definition
 // ==================
@@ -19,104 +20,56 @@ class LoginContainer extends React.Component {
 			rememberPassword: false, // 是否记住密码
 			userValue:'',
 			password:'',
+			popoverUserVisible:false,   //  泡泡visible
+			popoverPassVisible:false,   //  泡泡visible
 		};
 	}
 	
 	componentDidMount() {
 		// 进入登陆页时，判断之前是否保存了用户名和密码
-		const form = this.props.form;
 		let userLoginInfo = localStorage.getItem("userLoginInfo");
+
 		if (userLoginInfo) {
 			userLoginInfo = JSON.parse(userLoginInfo);
 			this.setState({
-				rememberPassword: true
-			});
-			form.setFieldsValue({
-				username: userLoginInfo.username,
-				password: unCompile(userLoginInfo.password)
+				rememberPassword: true,
+				userValue:userLoginInfo.username,
+				password:unCompile(userLoginInfo.password),
+				
 			});
 		}
-		if (!userLoginInfo) {
-			document.getElementById("username").focus();
-		}
+		// if (!userLoginInfo) {
+		// 	document.getElementById("username").focus();
+		// }
 	}
 	
 	// 用户提交登录
 	onSubmit = () => {
 		//×××××××××××××××××××× 测试专用
-		sessionStorage.setItem(
-			"userInfo",
-			//compile(JSON.stringify(res.data))
-			"123456"
-		);
-		// if (this.state.rememberPassword) {
-		// 	localStorage.setItem(
-		// 		"userLoginInfo",
-		// 		JSON.stringify({
-		// 			username: values.username,
-		// 			password: compile(values.password) // 密码简单加密一下再存到localStorage
-		// 		})
-		// 	); // 保存用户名和密码
-		// } else {
-		// 	localStorage.removeItem("userLoginInfo");
-		// }
-		// this.setState({ loading: true });
-		// setTimeout(() => this.props.history.replace("/")); // 跳转到主页,用setTimeout是为了等待上一句设置用户信息
-		// //××××××××××××××××××××
-		
-		
-		// this.loginIn(values.username, values.password)
-		// 	.then(res => {
-		// 		if (res.status === 200) {
-		// 			message.success("登录成功");
-		// 			if (this.state.rememberPassword) {
-		// 				localStorage.setItem(
-		// 					"userLoginInfo",
-		// 					JSON.stringify({
-		// 						username: values.username,
-		// 						password: compile(values.password) // 密码简单加密一下再存到localStorage
-		// 					})
-		// 				); // 保存用户名和密码
-		// 			} else {
-		// 				localStorage.removeItem("userLoginInfo");
-		// 			}
-		// 			/** 将这些信息加密后存入sessionStorage,并存入store **/
-		// 			sessionStorage.setItem(
-		// 				"userInfo",
-		// 				compile(JSON.stringify(res.data))
-		// 			);
-		 			setTimeout(() => this.props.history.replace("/")); // 跳转到主页,用setTimeout是为了等待上一句设置用户信息完成
-		// 		} else {
-		// 			message.error(res.message);
-		// 		}
-		// 	})
-		// 	.finally(err => {
-		// 		this.setState({ loading: false });
-		// 	});
-		
+		if(!this.state.userValue || !this.state.password){
+			message.error('请输入用户名或密码');
+			return
+		}
+		this.setState({ loading: true });
+		login({mobile:this.state.userValue,password:this.state.password}).then(res => {
+			setToken('bearer '+res.token);
+			message.success("登录成功");
+			if (this.state.rememberPassword) {
+				localStorage.setItem(
+					"userLoginInfo",
+					JSON.stringify({
+						username: this.state.userValue,
+						password: compile(this.state.password) // 密码简单加密一下再存到localStorage
+					})
+				);
+			}  else {
+				localStorage.removeItem("userLoginInfo");
+			}
+			this.setState({loading:false});
+			setTimeout(() => this.props.history.replace("/")); // 跳转到主页,用setTimeout是为了等待上一句设置用户信息完成} else {message.error(res.message);}}).finally(err => {this.setState({ loading: false });});
+		})
 	};
 	
-	/**
-	 * 执行登录
-	 * 这里模拟：
-	 * 1.登录，得到用户信息
-	 * 2.通过用户信息获取其拥有的所有角色信息
-	 * 3.通过角色信息获取其拥有的所有权限信息
-	 * **/
-	async loginIn(username, password) {
-		let userInfo = null;
-		let roles = [];
-		let menus = [];
-		let powers = [];
-		/** 1.登录 **/
-		const res1 = await this.props.actions.onLogin({ username, password }); // 登录接口
-		if (!res1 || res1.status !== 200) {
-			// 登录失败
-			return res1;
-		}
-		
-		userInfo = res1.data;
-	}
 	
 	// 记住密码按钮点击
 	onRemember(e) {
@@ -127,6 +80,12 @@ class LoginContainer extends React.Component {
 	
 	
 	render() {
+		const content = (
+			<div className="tips">
+				<h4>!</h4>
+				<p>请填写此字段</p>
+			</div>
+		);
 		return (
 			<div className="page-login">
 				<div
@@ -142,22 +101,53 @@ class LoginContainer extends React.Component {
 						<div className="form">
 							<div className="user">
 								<i className="iconfont">&#xe7ae;</i>
-								<input 
-									type="text" 
-									className="input" 
-									placeholder="请输入手机号"
-									onInput={(e)=>{this.setState({userValue:e.target.value})}}
-									onBlur={()=>{}}
-								/>
+								<Popover
+									placement="bottomLeft"
+									content={content}
+									trigger="click"
+									visible={this.state.popoverUserVisible}
+								>
+									<input
+										type="text"
+										className="input"
+										placeholder="请输入手机号"
+										value={this.state.userValue}
+										onChange={(e)=>{this.setState({userValue:e.target.value})}}
+										onBlur={()=>{
+											if(!this.state.userValue){
+												this.setState({popoverUserVisible:true})
+												setTimeout(()=>{
+													this.setState({popoverUserVisible:false})
+												},2000)
+											}
+										}}
+									/>
+								</Popover>
 							</div>
 							<div className="user">
 								<i className="iconfont">&#xe7c9;</i>
-								<input
-									type="password"
-									className="input"
-									placeholder="请输入密码"
-									onInput={(e)=>{this.setState({password:e.target.value})}}
-								/>
+								<Popover
+									placement="bottomLeft"
+									content={content}
+									trigger="click"
+									visible={this.state.popoverPassVisible}
+								>
+									<input
+										type="password"
+										className="input"
+										value={this.state.password}
+										placeholder="请输入密码"
+										onChange={(e)=>{this.setState({password:e.target.value})}}
+										onBlur={()=>{
+											if(!this.state.password){
+												this.setState({popoverPassVisible:true})
+												setTimeout(()=>{
+													this.setState({popoverPassVisible:false})
+												},2000)
+											}
+										}}
+									/>
+								</Popover>
 							</div>
 							<div style={{ lineHeight: "40px",width:"100%" }}>
 								<Checkbox
@@ -172,7 +162,7 @@ class LoginContainer extends React.Component {
 									size="small"
 									type="primary"
 									loading={this.state.loading}
-									onClick={() => this.onSubmit}
+									onClick={() => this.onSubmit()}
 								>
 									{this.state.loading ? "请稍后" : "登录"}
 								</Button>
@@ -195,7 +185,13 @@ class LoginContainer extends React.Component {
 							type="primary"
 							loading={this.state.loading}
 							onClick={()=>{
-								setTimeout(() => this.props.history.replace("/login/resetPassword"));
+								if(!this.state.userValue){
+									message.error('请填写手机号');
+									return
+								}
+								setTimeout(() => {
+									this.props.history.push({pathname:"/login/resetPassword",state:{phone:this.state.userValue}})
+								},1000);
 							}}
 						>
 							下一步
@@ -211,4 +207,4 @@ class LoginContainer extends React.Component {
 	}
 }
 LoginContainer = Form.create({})(LoginContainer);
-export default withRouter(LoginContainer)
+export default withRouter(LoginContainer);

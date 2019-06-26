@@ -1,6 +1,6 @@
 import Axios from 'axios'
 import Config from '../config/app.js'
-import { notification,Spin  } from 'antd';
+import { message  } from 'antd';
 import {getToken,removeToken} from '../utils/dataStorage.js'
 
 const service = Axios.create({
@@ -9,7 +9,7 @@ const service = Axios.create({
         'Accept': '*/*'
     },
     timeout: Config.timeout
-})
+});
 service.defaults.retry = Config.requestRetry;
 service.defaults.retryDelay = Config.requestRetryDelay;
 
@@ -42,41 +42,23 @@ service.interceptors.response.use(
         //     },400);
         // }
 
-        const res = response
+        const res = response;
         if (res.status !== 200) {
-            notification['warning']({
-                message:'数据返回出错',
-                description:"请稍后重试"
-            });
+			message.error('数据返回出错');
             //return Promise.reject('error')
         } else {
-            if((response.config).hasOwnProperty('closeInterceptors') && response.config.closeInterceptors){
-                return res.data
-            }
-
-            if(res.data.resultCode != 200){
-                notification['warning']({
-                    message:res.data.message
-                });
-                if(res.data.resultCode == 402){//登录状态失效
-                    removeToken();
-                    setTimeout(_=>{
-                        window.location.href = './login.html';
-                    },2000)
-                }
-                return Promise.reject('error');
-            }
-            return res.data.data
+            console.log(res,'===');
+            return res.data
         }
     },
     error => {
-        setTimeout(_=>{
-            //window.loadingInstance.close();
-        },300)
-        notification['warning']({
-            message:"请求未响应",
-            description:"服务器可能出了点问题"
-        });
+		if (error === undefined || error.code === 'ECONNABORTED') {
+			message.error("服务器请求超时");
+			return Promise.reject(error)
+		}
+		const { response: { status, statusText, data: { msg = '服务器发生错误' } }} = error;
+		const { response } = error;
+		message.error(response.data.message);// 弹出后端返回的错误
         return Promise.reject(error)//千万不能去掉，，，否则请求超时会进入到then方法，导致逻辑错误。
     }
 );

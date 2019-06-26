@@ -25,6 +25,9 @@ class StaffList  extends React.Component{
 	componentWillMount() {
 		
 		FetchApi.newFetch('list.mock','get',{}).then(r=>{
+			r.data.data.list.map(item=>{
+				return item.visible = false;
+			});
 			this.setState({tableData:r.data.data.list})
 		})
 		
@@ -69,7 +72,7 @@ class StaffList  extends React.Component{
 				<span className="popoverTitle">确定要删除该账号么</span>
 				<div className="btnBox">
 					<Button type="default" size="small">取消</Button>
-					<Button type="primary" size="small">确定</Button>
+					<Button type="primary" size="small" onClick={()=>{}}>确定</Button>
 				</div>
 			
 			</div>
@@ -135,8 +138,12 @@ class StaffList  extends React.Component{
 											<Popover
 												content={popoverContent}
 												trigger="click"
+												visible={record.visible}
 											>
-												<span className="operation">删除账号</span>
+												<span className="operation" onClick={()=>{
+													console.log(record);
+													record.visible = true
+												}}>删除账号</span>
 											</Popover>
 											<span className="operation" onClick={()=>this.showAuth(record)}>权限配置</span>
 											<span className="operation" onClick={()=>this.showEditRole(record)}>修改角色</span>

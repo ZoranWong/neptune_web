@@ -1,4 +1,4 @@
-const devApiUrl = 'http://localhost:8888';
+const devApiUrl = 'http://neptune.klsfood.cn';
 
 //正式环境变量,注意修改
 const proApiUrl = '';
