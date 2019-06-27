@@ -1,32 +1,37 @@
 // 员工列表
 
 import React from 'react'
-import {Modal, Button,Popover,Tree} from 'antd';
+import {Modal, Button,Popconfirm,Tree} from 'antd';
 import './css/common.sass'
 import './css/authoritySetting.sass'
+import {deleteRole,getPermissions} from "../../api/setting";
+import {permissions} from "../../api/permission";
+
 const { TreeNode } = Tree;
-const popoverContent = (
-	<div className="popover">
-		<span className="popoverTitle">确定要删除该账号么</span>
-		<div className="btnBox">
-			<Button type="default" size="small">取消</Button>
-			<Button type="primary" size="small">确定</Button>
-		</div>
-	
-	</div>
-);
+
 class AuthoritySetting  extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			roleName:''
+			role:''
 		};
 	}
-	
+
+	componentWillMount() {
+
+	}
+
 	componentWillReceiveProps(nextProps, nextContext) {
-		if(nextProps.roleName){
-			this.setState({roleName:nextProps.roleName})
+		permissions({}).then(r=>{
+			console.log(r);
+		})
+		if(nextProps.role){
+			this.setState({role:nextProps.role})
+			getPermissions({},nextProps.role.id).then(r=>{
+				console.log(r);
+			})
 		}
+
 	}
 	
 	onSelect = (selectedKeys, info) => {
@@ -56,14 +61,22 @@ class AuthoritySetting  extends React.Component{
 					<div className="all">
 						<div className="boxHeader">
 							<span>
-								角色名称：{this.state.roleName}
+								角色名称：{this.state.role.name}
 							</span>
-							<Popover
-								content={popoverContent}
-								trigger="click"
+							<Popconfirm
+								title="确定要删除该账号么"
+								okText="确定"
+								icon={null}
+								cancelText="取消"
+								onConfirm={()=>{
+									deleteRole({},this.state.role.id).then(r=>{
+										this.handleCancel()
+										this.props.refresh()
+									})
+								}}
 							>
 								<Button size="small">删除该角色</Button>
-							</Popover>
+							</Popconfirm>
 						</div>
 						<div className="tree">
 							<Tree

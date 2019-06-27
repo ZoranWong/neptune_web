@@ -2,14 +2,16 @@
 import React from 'react'
 import {Modal,Checkbox} from 'antd';
 import './css/editRole.sass'
-
+import {changeRole} from '../../api/setting'
 export default class EditRole extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
 			confirmLoading: false,
 			name:'',
-			phone:''
+			phone:'',
+			id:'',
+			selected:''  // checkbox默认选中的
 		};
 	}
 	
@@ -23,7 +25,20 @@ export default class EditRole extends React.Component{
 		});
 
 		this.setState({options:option});
-		this.setState({name:nextProps.userInfo.name,phone:nextProps.userInfo.mobile})
+		this.setState({name:nextProps.userInfo.name,phone:nextProps.userInfo.mobile,id:nextProps.userInfo.id})
+		let selected = [];
+		option.forEach(item=>{
+			selected.push(item.value)
+		});
+		selected = nextProps.userInfo.roles.filter(item=>{
+			return selected.indexOf(item.id) == -1
+		});
+		selected = selected.map(item=>{
+			return item.id+''
+		});
+		this.setState({selected:selected})
+		console.log(selected,';;;;;');
+
 	}
 	
 	handleCancel = () =>{
@@ -31,11 +46,15 @@ export default class EditRole extends React.Component{
 	};
 	
 	handleSubmit = () =>{
-		this.props.onClose()
+		changeRole({role_ids:this.state.selected},this.state.id).then(r=>{
+			this.props.onClose()
+			this.props.refresh()
+		})
 	};
 	
 	onChange = (checkedValues) => {
 		console.log('checked = ', checkedValues);
+		this.setState({selected:checkedValues})
 	};
 	
 	
@@ -62,7 +81,12 @@ export default class EditRole extends React.Component{
 						</li>
 						<li>
 							<span>角色</span>
-							<Checkbox.Group options={this.state.options} defaultValue={['Apple']} onChange={this.onChange} />
+							<Checkbox.Group
+								options={this.state.options}
+								defaultValue={['Apple']}
+								onChange={this.onChange}
+								value={this.state.selected}
+							/>
 						</li>
 					</ul>
 				</Modal>

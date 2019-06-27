@@ -31,6 +31,7 @@ class StaffList  extends React.Component{
 			});
 			this.setState({tableData:r.data,visible:v_list})
 		})
+		this.props.refresh()
 	};
 	
 	componentWillMount() {
@@ -84,6 +85,7 @@ class StaffList  extends React.Component{
 					onClose={this.closeEditRole}
 					onRoles={this.state.roles}
 					userInfo={this.state.roleInfo}
+					refresh={this.refresh}
 				/>
 				<Modal
 					title="员工列表"
@@ -157,6 +159,7 @@ class StaffList  extends React.Component{
 													ids.push(record.id);
 													adminDelete({ids:ids}).then(r=>{
 														this.refresh()
+														this.props.refresh()
 													})
 												}}
 											>

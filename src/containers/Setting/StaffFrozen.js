@@ -6,6 +6,7 @@ import './css/common.sass'
 import './css/staffList.sass'
 import axios from 'axios'
 import {admins} from "../../api/setting";
+import {trim} from "../../utils/dataStorage";
 const Search = Input.Search;
 const { Column } = Table;
 
@@ -43,7 +44,12 @@ class StaffFrozen  extends React.Component{
 						<Search
 							className="searchInput"
 							placeholder="请输入员工姓名或手机号码"
-							onSearch={value => console.log(value)}
+							onSearch={value => {
+								value = trim(value);
+								admins({limit:10,page:1,only_trashed:true,search:`name:${value};mobile:${value}`}).then(r=>{
+									this.setState({tableData:r.data})
+								});
+							}}
 							enterButton
 						/>
 						
@@ -58,13 +64,13 @@ class StaffFrozen  extends React.Component{
 								<Column
 									style={{width:'150px'}}
 									title="手机号码"
-									dataIndex="phone"
-									key="phone" />
+									dataIndex="mobile"
+									key="mobile" />
 								<Column
 									style={{width:'190px'}}
 									title="新增时间"
-									dataIndex="addTime"
-									key="addTime" />
+									dataIndex="created_at"
+									key="created_at" />
 								<Column
 									style={{width:'190px'}}
 									title="删除时间"
@@ -73,8 +79,21 @@ class StaffFrozen  extends React.Component{
 								<Column
 									style={{width:'150px'}}
 									title="角色"
-									dataIndex="role"
-									key="role" />
+									render={(text,record)=>{
+										let roles = [];
+										if(record.roles){
+											record.roles.forEach(item=>{
+												roles.push(item.name)
+											})
+										}
+										return (
+											<span>
+												{roles.toString()}
+											</span>
+										)
+									}}
+
+								/>
 							</Table>
 						</div>
 					</div>

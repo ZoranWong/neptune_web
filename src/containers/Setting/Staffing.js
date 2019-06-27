@@ -99,7 +99,7 @@ class Staffing extends React.Component{
 	* */
 	showAuthoritySetting = (record) => {
 		this.setState({
-			roleName:record.roleName,
+			a_role:record,
 			authoritySettingVisible:true
 		})
 	};
@@ -127,10 +127,10 @@ class Staffing extends React.Component{
 		return (
 			<div>
 				<StaffList
-					key={Math.random()}
 					visible={this.state.listVisible}
 					onClose={this.closeList}
 					onRoles={this.state.roles}
+                    refresh={this.refresh}
 				/>
 				<StaffFrozen
 					visible={this.state.frozenVisible}
@@ -139,7 +139,9 @@ class Staffing extends React.Component{
 				<ManageStaff
 					visible={this.state.manageStaffVisible}
 					onClose={this.closeManageStaff}
+                    onRoles={this.state.roles}
 					m_role={this.state.m_role}
+                    refresh={this.refresh}
 				/>
 				<EditName
 					visible={this.state.editRoleVisible}
@@ -155,7 +157,8 @@ class Staffing extends React.Component{
 				<AuthoritySetting
 					visible={this.state.authoritySettingVisible}
 					onClose={this.closeAuthoritySetting}
-					roleName={this.state.roleName}
+					role={this.state.a_role}
+                    refresh={this.refresh}
 				/>
 				
 				<div className="header">

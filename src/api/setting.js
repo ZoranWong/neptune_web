@@ -23,6 +23,15 @@ export function adminDelete(params) {
 		params: params
 	})
 }
+//修改管理员 /api/admins/{admin}/changeRole
+export function changeRole(params,id) {
+	return request({
+		url: `/api/admins/${id}/changeRole`,
+		method: 'post',
+		data: params
+	})
+}
+
 
 //角色列表
 export function roles(params) {
@@ -48,6 +57,21 @@ export function editRoles(params,id) {
 		data: params
 	})
 }
-
+// 删除角色
+export function deleteRole(params,id) {
+	return request({
+		url: `/api/roles/delete/${id}`,
+		method: 'delete',
+		params: params
+	})
+}
+// 角色拥有的权限
+export function getPermissions(params,id) {
+	return request({
+		url: `/api/roles/${id}/permissions`,
+		method: 'get',
+		params: params
+	})
+}
 
 

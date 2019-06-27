@@ -22,26 +22,35 @@ class LoginContainer extends React.Component {
 			password:'',
 			popoverUserVisible:false,   //  泡泡visible
 			popoverPassVisible:false,   //  泡泡visible
+			countDown:60,  //短信倒计时
 		};
 	}
 	
 	componentDidMount() {
 		// 进入登陆页时，判断之前是否保存了用户名和密码
-		let userLoginInfo = localStorage.getItem("userLoginInfo");
-
-		if (userLoginInfo) {
-			userLoginInfo = JSON.parse(userLoginInfo);
-			this.setState({
-				rememberPassword: true,
-				userValue:userLoginInfo.username,
-				password:unCompile(userLoginInfo.password),
-				
-			});
-		}
-		// if (!userLoginInfo) {
-		// 	document.getElementById("username").focus();
+		// let userLoginInfo = localStorage.getItem("userLoginInfo")
+		// if (userLoginInfo) {
+		// 	userLoginInfo = JSON.parse(userLoginInfo);
+		// 	this.setState({
+		// 		rememberPassword: true,
+		// 		userValue:userLoginInfo.username,
+		// 		password:unCompile(userLoginInfo.password),
+		// 	});
 		// }
+		if(this.state.countDown < 60){
+			this.sendSms()
+		}
 	}
+	//发送短信
+	sendSms = ()=>{
+		window.timer = setInterval(()=>{
+			this.setState({countDown:this.state.countDown-1});
+			if(this.state.countDown === 0){
+				clearInterval(window.timer);
+				this.setState({countDown:60})
+			}
+		},1000)
+	};
 	
 	// 用户提交登录
 	onSubmit = () => {
@@ -69,16 +78,16 @@ class LoginContainer extends React.Component {
 			setTimeout(() => this.props.history.replace("/")); // 跳转到主页,用setTimeout是为了等待上一句设置用户信息完成} else {message.error(res.message);}}).finally(err => {this.setState({ loading: false });});
 		})
 	};
-	
-	
-	// 记住密码按钮点击
-	onRemember(e) {
-		this.setState({
-			rememberPassword: e.target.checked
-		});
-	}
-	
-	
+
+
+	// // 记住密码按钮点击
+	// onRemember(e) {
+	// 	this.setState({
+	// 		rememberPassword: e.target.checked
+	// 	});
+	// }
+
+
 	render() {
 		const content = (
 			<div className="tips">
@@ -125,7 +134,7 @@ class LoginContainer extends React.Component {
 								</Popover>
 							</div>
 							<div className="user">
-								<i className="iconfont">&#xe7c9;</i>
+								<i className="iconfont">&#xe7ae;</i>
 								<Popover
 									placement="bottomLeft"
 									content={content}
@@ -133,13 +142,12 @@ class LoginContainer extends React.Component {
 									visible={this.state.popoverPassVisible}
 								>
 									<input
-										type="password"
+										type="tel"
 										className="input"
-										value={this.state.password}
-										placeholder="请输入密码"
-										onChange={(e)=>{this.setState({password:e.target.value})}}
+										placeholder="验证码"
+										onInput={(e)=>{this.setState({password:e.target.value})}}
 										onBlur={()=>{
-											if(!this.state.password){
+											if (!this.state.password){
 												this.setState({popoverPassVisible:true})
 												setTimeout(()=>{
 													this.setState({popoverPassVisible:false})
@@ -148,15 +156,24 @@ class LoginContainer extends React.Component {
 										}}
 									/>
 								</Popover>
+								<Button
+									size="small"
+									type="primary"
+									disabled={this.state.countDown < 60}
+									className="getCode"
+									onClick={this.sendSms}
+								>
+									{this.state.countDown === 60?'发送验证码' :this.state.countDown+'s'}
+								</Button>
 							</div>
 							<div style={{ lineHeight: "40px",width:"100%" }}>
-								<Checkbox
-									className="remember"
-									checked={this.state.rememberPassword}
-									onChange={e => this.onRemember(e)}
-								>
-									自动登录
-								</Checkbox>
+								{/*<Checkbox*/}
+								{/*	className="remember"*/}
+								{/*	checked={this.state.rememberPassword}*/}
+								{/*	onChange={e => this.onRemember(e)}*/}
+								{/*>*/}
+								{/*	自动登录*/}
+								{/*</Checkbox>*/}
 								<Button
 									className="submit-btn"
 									size="small"
@@ -168,35 +185,35 @@ class LoginContainer extends React.Component {
 								</Button>
 							</div>
 						</div>
-						<div className="loginFooter">
-							<span
-								className="forgetPassword"
-								onClick={()=>{
-									let btn = document.getElementById('handle_Hide');
-									btn.className = "forget showBox"
-								}}>忘记密码</span>
-							<span>联系我们</span>
-						</div>
+						{/*<div className="loginFooter">*/}
+						{/*	<span*/}
+						{/*		className="forgetPassword"*/}
+						{/*		onClick={()=>{*/}
+						{/*			let btn = document.getElementById('handle_Hide');*/}
+						{/*			btn.className = "forget showBox"*/}
+						{/*		}}>忘记密码</span>*/}
+						{/*	<span>联系我们</span>*/}
+						{/*</div>*/}
 					</Form>
-					<div className="forget hide" id="handle_Hide">
-						<Button
-							className="submit-btn"
-							size="small"
-							type="primary"
-							loading={this.state.loading}
-							onClick={()=>{
-								if(!this.state.userValue){
-									message.error('请填写手机号');
-									return
-								}
-								setTimeout(() => {
-									this.props.history.push({pathname:"/login/resetPassword",state:{phone:this.state.userValue}})
-								},1000);
-							}}
-						>
-							下一步
-						</Button>
-					</div>
+					{/*<div className="forget hide" id="handle_Hide">*/}
+					{/*	<Button*/}
+					{/*		className="submit-btn"*/}
+					{/*		size="small"*/}
+					{/*		type="primary"*/}
+					{/*		loading={this.state.loading}*/}
+					{/*		onClick={()=>{*/}
+					{/*			if(!this.state.userValue){*/}
+					{/*				message.error('请填写手机号');*/}
+					{/*				return*/}
+					{/*			}*/}
+					{/*			setTimeout(() => {*/}
+					{/*				this.props.history.push({pathname:"/login/resetPassword",state:{phone:this.state.userValue}})*/}
+					{/*			},1000);*/}
+					{/*		}}*/}
+					{/*	>*/}
+					{/*		下一步*/}
+					{/*	</Button>*/}
+					{/*</div>*/}
 				</div>
 				
 				<div className="company">

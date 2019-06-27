@@ -20,14 +20,16 @@ class ManageStaff  extends React.Component{
 	}
 	
 	refresh = () =>{
-		alert('222');
 		admins({limit:50,page:1,role_id:this.state.id}).then(r=>{
 			this.setState({tableData:r.data})
 		})
+		this.props.refresh()
 	};
 	
 	componentWillReceiveProps(nextProps, nextContext) {
-		console.log(nextProps);
+		if(nextProps.onRoles){
+			this.setState({roles:nextProps.onRoles})
+		}
 		if(nextProps.m_role){
 			this.setState({id:nextProps.m_role.id});
 			admins({limit:50,page:1,role_id:nextProps.m_role.id}).then(r=>{
@@ -77,6 +79,7 @@ class ManageStaff  extends React.Component{
 					onClose={this.closeEditRole}
 					onRoles={this.state.roles}
 					userInfo={this.state.userInfo}
+					refresh={this.refresh}
 				/>
 				<Modal
 					title="管理账号"
@@ -128,6 +131,7 @@ class ManageStaff  extends React.Component{
 													ids.push(record.id);
 													adminDelete({ids:ids}).then(r=>{
 														this.refresh()
+														this.props.refresh()
 													})
 												}}
 											>
