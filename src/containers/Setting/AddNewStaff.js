@@ -1,7 +1,9 @@
 
 import React from 'react'
-import {Modal, Input,Checkbox} from 'antd';
+import {Modal, Input,Checkbox,message} from 'antd';
 import './css/addNewStaff.sass'
+import {addAdmins} from '../../api/setting'
+import {checkPhone} from "../../utils/dataStorage";
 
 export default class AddNewStaff extends React.Component{
 	constructor(props) {
@@ -11,8 +13,6 @@ export default class AddNewStaff extends React.Component{
 			info:{
 				name:'',
 				tel:'',
-				password_1:'',
-				password_2:''
 			}
 		};
 	}
@@ -32,11 +32,34 @@ export default class AddNewStaff extends React.Component{
 	};
 	
 	handleSubmit = () =>{
-		this.props.onCancel()
+		if(!this.state.info.name){
+			message.error('请填写姓名');
+			return
+		}
+		if(!checkPhone(this.state.info.tel)){
+			message.error('请填写正确格式的手机号');
+			return
+		}
+		if(!this.state.ids){
+			message.error('请分配角色');
+			return
+		}
+		addAdmins({
+			name:this.state.info.name,
+			mobile:this.state.info.tel,
+			role_ids:this.state.ids
+		}).then(r=>{
+			this.setState({info:{
+					name:'',
+					tel:'',
+				}});
+			this.handleCancel()
+		})
 	};
 	
 	onChange = (checkedValues) => {
 		console.log('checked = ', checkedValues);
+		this.setState({ids:checkedValues})
 	};
 	
 	onInput = (e,key) =>{
@@ -54,6 +77,8 @@ export default class AddNewStaff extends React.Component{
 					confirmLoading={confirmLoading}
 					onCancel={this.handleCancel}
 					onOk={this.handleSubmit}
+					okText="确定"
+					cancelText="取消"
 				>
 					<ul className="addNew">
 						<li>
@@ -72,18 +97,6 @@ export default class AddNewStaff extends React.Component{
 									this.onInput(e,'tel')
 								}}
 							/>
-						</li>
-						<li>
-							<span>密码</span>
-							<Input type="password" value={this.state.info.password_1} onInput={(e)=>{
-								this.onInput(e,'password_1')
-							}}/>
-						</li>
-						<li>
-							<span>确认密码</span>
-							<Input type="password" value={this.state.info.password_2} onInput={(e)=>{
-								this.onInput(e,'password_2')
-							}}/>
 						</li>
 						<li>
 							<span>角色</span>

@@ -4,7 +4,7 @@ import React from 'react';
 import {Button,Table} from 'antd'
 import {withRouter} from 'react-router-dom'
 import './css/staffing.sass'
-import {admins} from "../../api/setting";
+import {addRoles, admins, editRoles, roles} from "../../api/setting";
 import AddNewStaff from './AddNewStaff'
 import StaffList from "./StaffList";
 import ManageStaff from './ManageStaff'
@@ -23,7 +23,7 @@ class Staffing extends React.Component{
 			tableData:[],
 			//弹窗可视与否
 			visible:false,
-			listVisible:true,   // 人员列表页弹窗
+			listVisible:false,   // 人员列表页弹窗
 			editRoleVisible:false,    // 编辑/新建角色弹窗
 			frozenVisible:false,  //已冻结账号
 			authoritySettingVisible:false,    //权限配置
@@ -33,11 +33,22 @@ class Staffing extends React.Component{
 		}
 	}
 	componentWillMount() {
-		admins({limit:10,page:1}).then(r=>{
-			this.setState({tableData:r.data})
-		})
+		this.refresh()
+	}
+	componentDidMount() {
+	
 	}
 	
+	refresh = () => {
+		roles({}).then(r=>{
+			this.setState({tableData:r.data});
+			let roles = [];
+			r.data.forEach(item=>{
+				roles.push({[item.id]:item.name})
+			});
+			this.setState({roles:roles});
+		});
+	};
 	
 	/*
 	* 员工列表
@@ -62,13 +73,19 @@ class Staffing extends React.Component{
 		this.setState({editRoleVisible:false})
 	};
 	onSubmit = (record,value) =>{
-		let newRecord = this.state.tableData.filter(item=>{
-			return item.id === record.id
-		});
-		if(newRecord.roleName){
-			newRecord.roleName = value
+		if(record.id){
+			editRoles({name:value},record.id).then(r=>{
+				this.setState({editRoleVisible:false});
+				this.refresh()
+			})
+		} else {
+			addRoles({name:value}).then(r=>{
+				this.setState({editRoleVisible:false});
+				this.refresh()
+			})
 		}
-		// this.setState({editRoleVisible:false})
+		
+		
 	};
 	
 	/*
@@ -92,18 +109,25 @@ class Staffing extends React.Component{
 	* 新增账号
 	* */
 	showAddStaff = () =>{this.setState({addStaffVisible:true})};
-	closeAddStaff = () =>{this.setState({addStaffVisible:false})};
+	closeAddStaff = () =>{
+		this.setState({addStaffVisible:false})
+		this.refresh()
+	};
 	
 	/*
 	* 账号管理
 	* */
-	showManageStaff = () =>{this.setState({manageStaffVisible:true})};
+	showManageStaff = (role) =>{this.setState({
+		manageStaffVisible:true,
+		m_role:role
+	})};
 	closeManageStaff = () =>{this.setState({manageStaffVisible:false})};
 	
 	render(){
 		return (
 			<div>
 				<StaffList
+					key={Math.random()}
 					visible={this.state.listVisible}
 					onClose={this.closeList}
 					onRoles={this.state.roles}
@@ -115,7 +139,7 @@ class Staffing extends React.Component{
 				<ManageStaff
 					visible={this.state.manageStaffVisible}
 					onClose={this.closeManageStaff}
-					onRoles={this.state.roles}
+					m_role={this.state.m_role}
 				/>
 				<EditName
 					visible={this.state.editRoleVisible}
@@ -150,8 +174,8 @@ class Staffing extends React.Component{
 						<Column
 							className="column"
 							title="角色"
-							dataIndex="roleName"
-							key="roleName"
+							dataIndex="name"
+							key="name"
 							render={(text, record) => (
 								<span>
 									<span>{text}</span>
@@ -166,15 +190,15 @@ class Staffing extends React.Component{
 						<Column
 							className="column primary"
 							title="已配置账号数"
-							dataIndex="accountNum"
-							key="accountNum" />
+							dataIndex="administrators_count"
+							key="administrators_count" />
 						<Column
 							title="操作"
 							key="action"
 							className="column"
 							render={(text, record) => (
 								<span>
-									<span className="operation" onClick={this.showManageStaff}>管理账号</span>
+									<span className="operation" onClick={()=>this.showManageStaff(record)}>管理账号</span>
 									<span className="operation" onClick={()=>this.showAddStaff()}>新增账号</span>
 									<span className="operation"
 										onClick={()=>this.showAuthoritySetting(record)}

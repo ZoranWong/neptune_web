@@ -1,10 +1,11 @@
 // 员工列表
 
 import React from 'react'
-import {Modal, Input, Table, Button,Popover} from 'antd';
+import {Modal, Input, Table} from 'antd';
 import './css/common.sass'
 import './css/staffList.sass'
 import axios from 'axios'
+import {admins} from "../../api/setting";
 const Search = Input.Search;
 const { Column } = Table;
 
@@ -18,7 +19,9 @@ class StaffFrozen  extends React.Component{
 	}
 	
 	componentWillMount() {
-	
+		admins({limit:10,page:1,only_trashed:true}).then(r=>{
+			this.setState({tableData:r.data})
+		})
 	}
 	
 	handleCancel = () => {

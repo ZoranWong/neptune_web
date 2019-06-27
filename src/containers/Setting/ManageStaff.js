@@ -1,25 +1,14 @@
 // 管理账号
 
 import React from 'react'
-import {Modal, Input, Table, Button,Popover} from 'antd';
+import {Modal, Input, Table, Button, Popconfirm} from 'antd';
 import './css/common.sass'
 import './css/staffList.sass'
-import axios from 'axios'
 import StaffAuthoritySetting from './StaffAuthoritySetting'
 import EditRole from './EditRole'
-import FetchApi from "../../utils/fetch-api";
+import {adminDelete, admins} from "../../api/setting";
 const Search = Input.Search;
 const { Column } = Table;
-const popoverContent = (
-	<div className="popover">
-		<span className="popoverTitle">确定要删除该账号么</span>
-		<div className="btnBox">
-			<Button type="default" size="small">取消</Button>
-			<Button type="primary" size="small">确定</Button>
-		</div>
-	
-	</div>
-);
 class ManageStaff  extends React.Component{
 	constructor(props){
 		super(props);
@@ -30,14 +19,20 @@ class ManageStaff  extends React.Component{
 		};
 	}
 	
-	componentWillMount() {
-		// FetchApi.newFetch('list.mock','get',{}).then(r=>{
-		// 	this.setState({tableData:r.data.data.list})
-		// })
-	}
+	refresh = () =>{
+		alert('222');
+		admins({limit:50,page:1,role_id:this.state.id}).then(r=>{
+			this.setState({tableData:r.data})
+		})
+	};
+	
 	componentWillReceiveProps(nextProps, nextContext) {
-		if(nextProps.onRoles){
-			this.setState({roles:nextProps.onRoles})
+		console.log(nextProps);
+		if(nextProps.m_role){
+			this.setState({id:nextProps.m_role.id});
+			admins({limit:50,page:1,role_id:nextProps.m_role.id}).then(r=>{
+				this.setState({tableData:r.data})
+			})
 		}
 	}
 	
@@ -110,25 +105,34 @@ class ManageStaff  extends React.Component{
 								<Column
 									style={{width:'150px'}}
 									title="手机号码"
-									dataIndex="phone"
-									key="phone" />
+									dataIndex="mobile"
+									key="mobile" />
 								<Column
 									style={{width:'190px'}}
 									title="新增时间"
-									dataIndex="time"
-									key="time" />
+									dataIndex="created_at"
+									key="created_at" />
 								<Column
 									title="操作"
 									key="action"
 									className=" primary"
 									render={(text, record) => (
 										<span className="operationBox">
-											<Popover
-												content={popoverContent}
-												trigger="click"
+											<Popconfirm
+												title="确定要删除该账号么"
+												okText="确定"
+												icon={null}
+												cancelText="取消"
+												onConfirm={()=>{
+													let ids = [];
+													ids.push(record.id);
+													adminDelete({ids:ids}).then(r=>{
+														this.refresh()
+													})
+												}}
 											>
 												<span className="operation">删除账号</span>
-											</Popover>
+											</Popconfirm>
 											<span className="operation" onClick={()=>this.showAuth(record)}>权限配置</span>
 											<span className="operation" onClick={()=>this.showEditRole(record)}>修改角色</span>
 										</span>

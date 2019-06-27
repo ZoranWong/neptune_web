@@ -1,0 +1,25 @@
+
+
+
+
+
+
+
+
+
+    nav
+        nav-index(首页)
+        nav-user(用户)
+        nav-shops(店铺)
+        nav-order(订单)
+        nav-market(营销)
+        nav-goods(商品)
+        nav-data(数据)
+        nav-finance(财务)
+        nav-setting(设置)
+            无细分权限，设置模块为根权限
+
+
+
+
+

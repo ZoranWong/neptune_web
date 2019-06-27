@@ -13,8 +13,8 @@ export default class EditName extends React.Component{
 	}
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(!nextProps.editInfo) return;
-		if(typeof (nextProps.editInfo.roleName) == 'string'){
-			this.setState({value:nextProps.editInfo.roleName})
+		if(typeof (nextProps.editInfo.name) == 'string'){
+			this.setState({value:nextProps.editInfo.name})
 		} else {
 			this.setState({value:''})
 		}
@@ -40,6 +40,8 @@ export default class EditName extends React.Component{
 					confirmLoading={confirmLoading}
 					onCancel={this.handleCancel}
 					onOk={this.handleSubmit}
+					okText="确定"
+					cancelText="取消"
 				>
 					<div className="editContent">
 						<span>角色名称</span>

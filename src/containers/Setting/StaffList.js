@@ -1,14 +1,15 @@
 // 员工列表
 
 import React from 'react'
-import {Modal, Input, Table, Button,Popover} from 'antd';
+import {Modal, Input, Table, Button,Popconfirm} from 'antd';
 import './css/common.sass'
 import './css/staffList.sass'
-
+import {trim} from "../../utils/dataStorage";
 import StaffAuthoritySetting from './StaffAuthoritySetting'
 import '../../mock/list'
-import {admins} from "../../api/setting";
+import {adminDelete, admins} from "../../api/setting";
 import EditRole from './EditRole'
+
 const Search = Input.Search;
 const { Column } = Table;
 
@@ -22,10 +23,18 @@ class StaffList  extends React.Component{
 		};
 	}
 	
-	componentWillMount() {
-		admins({limit:10,page:1}).then(r=>{
-			this.setState({tableData:r.data})
+	refresh = () =>{
+		admins({limit:50,page:1}).then(r=>{
+			let v_list = [];
+			r.data.forEach(item=>{
+				v_list.push({['visible'+item.id]:false})
+			});
+			this.setState({tableData:r.data,visible:v_list})
 		})
+	};
+	
+	componentWillMount() {
+		this.refresh()
 		
 	}
 	componentWillReceiveProps(nextProps, nextContext) {
@@ -63,16 +72,6 @@ class StaffList  extends React.Component{
 	};
 	
 	render() {
-		const popoverContent = (
-			<div className="popover">
-				<span className="popoverTitle">确定要删除该账号么</span>
-				<div className="btnBox">
-					<Button type="default" size="small">取消</Button>
-					<Button type="primary" size="small" onClick={()=>{}}>确定</Button>
-				</div>
-			
-			</div>
-		);
 		return (
 			<div>
 				<StaffAuthoritySetting
@@ -98,7 +97,12 @@ class StaffList  extends React.Component{
 						<Search
 							className="searchInput"
 							placeholder="请输入员工姓名或手机号码"
-							onSearch={value => console.log(value)}
+							onSearch={value => {
+								value = trim(value);
+								admins({limit:10,page:1,search:`name:${value};mobile:${value}`}).then(r=>{
+									this.setState({tableData:r.data})
+								});
+							}}
 							enterButton
 						/>
 						
@@ -122,25 +126,42 @@ class StaffList  extends React.Component{
 									key="created_at" />
 								<Column
 									style={{width:'150px'}}
+									className="max-roles"
 									title="角色"
-									dataIndex="roleName"
-									key="roleName" />
+									render={(text,record)=>{
+										let roles = [];
+										if(record.roles){
+											record.roles.forEach(item=>{
+												roles.push(item.name)
+											})
+										}
+										return (
+											<span>
+												{roles.toString()}
+											</span>
+										)
+									}}
+									key="roles" />
 								<Column
 									title="操作"
 									key="action"
-									className="primary"
 									render={(text, record) => (
 										<span className="operationBox">
-											<Popover
-												content={popoverContent}
-												trigger="click"
-												visible={record.visible}
+											<Popconfirm
+												title="确定要删除该账号么"
+												okText="确定"
+												icon={null}
+												cancelText="取消"
+												onConfirm={()=>{
+													let ids = [];
+													ids.push(record.id);
+													adminDelete({ids:ids}).then(r=>{
+														this.refresh()
+													})
+												}}
 											>
-												<span className="operation" onClick={()=>{
-													console.log(record);
-													record.visible = true
-												}}>删除账号</span>
-											</Popover>
+												<span className="operation">删除账号</span>
+											</Popconfirm>
 											<span className="operation" onClick={()=>this.showAuth(record)}>权限配置</span>
 											<span className="operation" onClick={()=>this.showEditRole(record)}>修改角色</span>
 										</span>
@@ -154,4 +175,4 @@ class StaffList  extends React.Component{
 		);
 	}
 }
-export default StaffList
+export default StaffList;

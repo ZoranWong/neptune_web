@@ -1,6 +1,7 @@
 import Storage from 'good-storage'
 import Cookies from 'js-cookie'
 import Config from '../config/app.js'
+import {Base64} from "./beSecret";
 
 /**
  *
@@ -126,5 +127,8 @@ export function unCompile(code) {
     return c;
 }
 
-
+export function searchJson(data) {
+    let params = Base64.encode(encodeURIComponent(JSON.stringify(data)));
+    return params
+}
 
