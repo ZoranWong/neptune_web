@@ -1,7 +1,7 @@
 // 员工列表
 
 import React from 'react'
-import {Modal, Input, Table, Button,Popconfirm} from 'antd';
+import {Modal, Input, Table, message,Popconfirm} from 'antd';
 import './css/common.sass'
 import './css/staffList.sass'
 import {trim} from "../../utils/dataStorage";
@@ -52,12 +52,17 @@ class StaffList  extends React.Component{
 	* 员工权限控制
 	* */
 	showAuth = (record) =>{
+		if(!record.roles || !record.roles.length ){
+			message.error('请先给该员工设置角色');
+			return
+		}
 		this.handleCancel();
 		this.setState({listAuthInfo:record});
 		this.setState({listAuthVisible:true})
 	};
 	closeAuth = () =>{
 		this.setState({listAuthVisible:false})
+		this.props.onShow()
 	};
 	
 	/*
@@ -70,6 +75,7 @@ class StaffList  extends React.Component{
 	};
 	closeEditRole = () =>{
 		this.setState({roleEditVisible:false})
+		this.props.onShow()
 	};
 	
 	render() {
@@ -78,7 +84,8 @@ class StaffList  extends React.Component{
 				<StaffAuthoritySetting
 					visible={this.state.listAuthVisible}
 					onClose={this.closeAuth}
-					listAuthInfo={this.state.listAuthInfo}
+					userAuthInfo={this.state.listAuthInfo}
+					refresh={this.refresh}
 				/>
 				<EditRole
 					visible={this.state.roleEditVisible}
@@ -104,6 +111,14 @@ class StaffList  extends React.Component{
 								admins({limit:10,page:1,search:`name:${value};mobile:${value}`}).then(r=>{
 									this.setState({tableData:r.data})
 								});
+							}}
+							onFocus={()=>{
+								let rightBtn = document.getElementsByClassName('ant-input-search-button')[0]
+								rightBtn.setAttribute("style","background-color:#4f9863!important;color:#FFF!important;border-color: #58A86E!important;box-shadow: 0  0 3px rgba(88,168,110,0.5)!important")
+							}}
+							onBlur={()=>{
+								let rightBtn = document.getElementsByClassName('ant-input-search-button')[0]
+								rightBtn.setAttribute("style","background-color:#fff!important;color:#666!important;border-color: #D9D9D9!important;box-shadow: none!important")
 							}}
 							enterButton
 						/>

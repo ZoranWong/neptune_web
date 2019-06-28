@@ -1,50 +1,57 @@
 // 员工列表
 
 import React from 'react'
-import {Modal, Button,Popconfirm,Tree} from 'antd';
+import {Modal, Button,Popconfirm} from 'antd';
 import './css/common.sass'
 import './css/authoritySetting.sass'
-import {deleteRole,getPermissions} from "../../api/setting";
+import {deleteRole,getPermissions,setPermissions} from "../../api/setting";
 import {permissions} from "../../api/permission";
-
-const { TreeNode } = Tree;
+import NewTreeNode from '../../components/NewTreeNode/NewTreeNode'
 
 class AuthoritySetting  extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			role:''
+			role:'',
+			permissions:[]
 		};
+		this.child = React.createRef();
 	}
 
 	componentWillMount() {
-
+		console.log(this.state.role,'111');
 	}
-
+	componentDidMount() {
+		console.log(this.state.role,'222');
+	}
+	
 	componentWillReceiveProps(nextProps, nextContext) {
-		permissions({}).then(r=>{
-			console.log(r);
-		})
 		if(nextProps.role){
-			this.setState({role:nextProps.role})
+			permissions({}).then(r=>{
+				this.setState({permissions:r.data});
+			});
+			this.setState({role:nextProps.role});
 			getPermissions({},nextProps.role.id).then(r=>{
-				console.log(r);
+				let list = [];
+				r.data.forEach(item=>{
+					list.push(item.id+'')
+				});
+				this.setState({activeKeys:list})
 			})
 		}
 
 	}
 	
-	onSelect = (selectedKeys, info) => {
-		console.log('selected', selectedKeys, info);
-	};
-	
-	onCheck = (checkedKeys, info) => {
-		console.log('onCheck', checkedKeys, info);
-	};
-	
 	
 	handleCancel = () => {
 		this.props.onClose()
+	};
+	
+	submit = () =>{
+		setPermissions({permission_ids:this.child.current.state.defaultKeys},this.state.role.id).then(r=>{
+			this.handleCancel()
+			this.props.refresh()
+		})
 	};
 	
 	render() {
@@ -70,7 +77,7 @@ class AuthoritySetting  extends React.Component{
 								cancelText="取消"
 								onConfirm={()=>{
 									deleteRole({},this.state.role.id).then(r=>{
-										this.handleCancel()
+										this.handleCancel();
 										this.props.refresh()
 									})
 								}}
@@ -79,29 +86,14 @@ class AuthoritySetting  extends React.Component{
 							</Popconfirm>
 						</div>
 						<div className="tree">
-							<Tree
-								defaultExpandAll={true}
-								checkable
-								selectable={false}
-								onSelect={this.onSelect}
-								onCheck={this.onCheck}
-							>
-								<TreeNode title="parent 1" key="0-0">
-									<TreeNode title="parent 1-0" key="0-0-0" >
-										<TreeNode title="leaf" key="0-0-0-0" />
-										<TreeNode title="leaf" key="0-0-0-1" />
-									</TreeNode>
-									<TreeNode title="parent 1-1" key="0-0-1">
-										<TreeNode title={<span>sss</span>} key="0-0-1-0" />
-									</TreeNode>
-									<TreeNode title="parent 1-2" key="0-0-2">
-										<TreeNode title={<span >sss</span>} key="0-0-1-0" />
-									</TreeNode>
-								</TreeNode>
-							</Tree>
+							<NewTreeNode
+								permissions={this.state.permissions}
+								ref={this.child}
+								activedList={this.state.activeKeys}
+							/>
 						</div>
 						<div className="footBtn">
-							<Button type="primary" size="small">保存配置</Button>
+							<Button type="primary" size="small" onClick={this.submit}>保存配置</Button>
 						</div>
 						
 					</div>

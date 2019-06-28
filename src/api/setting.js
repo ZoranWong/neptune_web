@@ -31,7 +31,14 @@ export function changeRole(params,id) {
 		data: params
 	})
 }
-
+// 设置管理员权限/api/admins/{administrator}/changePermission
+export function changePermission(params,id) {
+	return request({
+		url: `/api/admins/${id}/changePermission`,
+		method: 'post',
+		data: params
+	})
+}
 
 //角色列表
 export function roles(params) {
@@ -73,5 +80,12 @@ export function getPermissions(params,id) {
 		params: params
 	})
 }
-
+// 设置角色权限 /api/roles/{role}/setPermissions
+export function setPermissions(params,id) {
+	return request({
+		url: `/api/roles/${id}/setPermissions`,
+		method: 'post',
+		data: params
+	})
+}
 

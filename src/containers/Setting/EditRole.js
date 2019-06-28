@@ -11,7 +11,7 @@ export default class EditRole extends React.Component{
 			name:'',
 			phone:'',
 			id:'',
-			selected:''  // checkbox默认选中的
+			selected:[] // checkbox默认选中的
 		};
 	}
 	
@@ -36,8 +36,7 @@ export default class EditRole extends React.Component{
 		selected = selected.map(item=>{
 			return item.id+''
 		});
-		this.setState({selected:selected})
-		console.log(selected,';;;;;');
+		this.setState({selected:selected});
 
 	}
 	
@@ -47,7 +46,7 @@ export default class EditRole extends React.Component{
 	
 	handleSubmit = () =>{
 		changeRole({role_ids:this.state.selected},this.state.id).then(r=>{
-			this.props.onClose()
+			this.props.onClose();
 			this.props.refresh()
 		})
 	};
@@ -69,6 +68,8 @@ export default class EditRole extends React.Component{
 					confirmLoading={confirmLoading}
 					onCancel={this.handleCancel}
 					onOk={this.handleSubmit}
+					okText="确定"
+					cancelText="取消"
 				>
 					<ul className="editRole">
 						<li>
@@ -83,7 +84,6 @@ export default class EditRole extends React.Component{
 							<span>角色</span>
 							<Checkbox.Group
 								options={this.state.options}
-								defaultValue={['Apple']}
 								onChange={this.onChange}
 								value={this.state.selected}
 							/>

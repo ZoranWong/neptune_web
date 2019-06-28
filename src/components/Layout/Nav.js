@@ -1,10 +1,24 @@
 import React from 'react';
 import '../../style/nav.sass'
 import {NavLink} from 'react-router-dom'
+import {getUserInfo} from "../../utils/dataStorage";
 
 class Nav extends React.Component{
+	constructor(props){
+		super(props);
+		this.state = {
+			userPermission:[{slug:'nav-setting'}]
+		}
+	}
+	
+	componentDidMount() {
+		if(getUserInfo()){
+			this.setState({userPermission:JSON.parse(getUserInfo())})
+		}
+	}
 	
 	render(){
+		
 		const baseNav = [
 			{
 				text:'首页',
@@ -61,7 +75,11 @@ class Nav extends React.Component{
 				name:"nav-setting"
 			},
 		];
-		const navs = ["nav-index","nav-setting","nav-user"];
+		let navs = [];
+		console.log(this.state.userPermission);
+		this.state.userPermission.forEach(item=>{
+			navs.push(item.slug);
+		});
 		return (
 			<div className="nav">
 				<div className="main-content main">

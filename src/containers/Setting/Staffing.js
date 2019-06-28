@@ -4,7 +4,7 @@ import React from 'react';
 import {Button,Table} from 'antd'
 import {withRouter} from 'react-router-dom'
 import './css/staffing.sass'
-import {addRoles, admins, editRoles, roles} from "../../api/setting";
+import {addRoles, editRoles, roles} from "../../api/setting";
 import AddNewStaff from './AddNewStaff'
 import StaffList from "./StaffList";
 import ManageStaff from './ManageStaff'
@@ -108,7 +108,10 @@ class Staffing extends React.Component{
 	/*
 	* 新增账号
 	* */
-	showAddStaff = () =>{this.setState({addStaffVisible:true})};
+	showAddStaff = (id) =>{
+		this.setState({add_id:id})
+		this.setState({addStaffVisible:true})
+	};
 	closeAddStaff = () =>{
 		this.setState({addStaffVisible:false})
 		this.refresh()
@@ -131,6 +134,7 @@ class Staffing extends React.Component{
 					onClose={this.closeList}
 					onRoles={this.state.roles}
                     refresh={this.refresh}
+					onShow={this.showList}
 				/>
 				<StaffFrozen
 					visible={this.state.frozenVisible}
@@ -142,6 +146,7 @@ class Staffing extends React.Component{
                     onRoles={this.state.roles}
 					m_role={this.state.m_role}
                     refresh={this.refresh}
+					onShow={this.showManageStaff}
 				/>
 				<EditName
 					visible={this.state.editRoleVisible}
@@ -153,6 +158,7 @@ class Staffing extends React.Component{
 					visible={this.state.addStaffVisible}
 					onCancel={this.closeAddStaff}
 					onRoles={this.state.roles}
+					add_id={this.state.add_id}
 				/>
 				<AuthoritySetting
 					visible={this.state.authoritySettingVisible}
@@ -180,7 +186,7 @@ class Staffing extends React.Component{
 							dataIndex="name"
 							key="name"
 							render={(text, record) => (
-								<span>
+								<span className="editIcon">
 									<span>{text}</span>
 									<i
 										style={{color:'#4F9863',fontSize:'14px',marginLeft:'10px',cursor:'pointer'}}
@@ -202,10 +208,11 @@ class Staffing extends React.Component{
 							render={(text, record) => (
 								<span>
 									<span className="operation" onClick={()=>this.showManageStaff(record)}>管理账号</span>
-									<span className="operation" onClick={()=>this.showAddStaff()}>新增账号</span>
+									<span className="operation" onClick={()=>this.showAddStaff(record.id)}>新增账号</span>
 									<span className="operation"
 										onClick={()=>this.showAuthoritySetting(record)}
 									>
+										<i style={{color:"#4F9863",marginRight:"10px"}} className="iconfont">&#xe7c9;</i>
 										权限设置</span>
 								</span>
 							)}

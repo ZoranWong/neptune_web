@@ -7,3 +7,11 @@ export function permissions(params) {
         params: params
     })
 }
+
+// 我的权限列表 /api/admins/permissions
+export function myPermissions(params) {
+    return request({
+        url: '/api/admins/permissions',
+        params: params
+    })
+}

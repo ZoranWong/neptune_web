@@ -1,7 +1,9 @@
 const devApiUrl = 'http://neptune.klsfood.cn';
+const proApiUrl = 'http://neptune.klsfood.cn'; //正式环境变量,注意修改
 
-//正式环境变量,注意修改
-const proApiUrl = '';
+
+
+
 
 const nodeDevEnv = process.env.NODE_ENV=='development' ? true : false;
 

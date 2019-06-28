@@ -20,9 +20,15 @@ class StaffFrozen  extends React.Component{
 	}
 	
 	componentWillMount() {
-		admins({limit:10,page:1,only_trashed:true}).then(r=>{
-			this.setState({tableData:r.data})
-		})
+	
+	}
+	
+	componentWillReceiveProps(nextProps, nextContext) {
+		if(nextProps.visible){
+			admins({limit:50,page:1,only_trashed:true}).then(r=>{
+				this.setState({tableData:r.data})
+			})
+		}
 	}
 	
 	handleCancel = () => {
@@ -50,11 +56,19 @@ class StaffFrozen  extends React.Component{
 									this.setState({tableData:r.data})
 								});
 							}}
+							onFocus={()=>{
+								let rightBtn = document.getElementsByClassName('ant-input-search-button')[0]
+								rightBtn.setAttribute("style","background-color:#4f9863!important;color:#FFF!important;border-color: #58A86E!important;box-shadow: 0  0 3px rgba(88,168,110,0.5)!important")
+							}}
+							onBlur={()=>{
+								let rightBtn = document.getElementsByClassName('ant-input-search-button')[0]
+								rightBtn.setAttribute("style","background-color:#fff!important;color:#666!important;border-color: #D9D9D9!important;box-shadow: none!important")
+							}}
 							enterButton
 						/>
 						
 						<div className="listChart">
-							<Table dataSource={this.state.tableData}>
+							<Table dataSource={this.state.tableData} rowKey={record => record.id}>
 								<Column
 									style={{width:'170px'}}
 									title="姓名"
@@ -74,8 +88,8 @@ class StaffFrozen  extends React.Component{
 								<Column
 									style={{width:'190px'}}
 									title="删除时间"
-									dataIndex="deleteTime"
-									key="deleteTime" />
+									dataIndex="deleted_at"
+									key="deleted_at" />
 								<Column
 									style={{width:'150px'}}
 									title="角色"

@@ -1,35 +1,46 @@
 // 员工列表
 
 import React from 'react'
-import {Modal, Button, Tabs, Tree, Popover} from 'antd';
+import {Modal, Button, Tabs, Tree} from 'antd';
 import './css/common.sass'
 import './css/staffAuthoritySetting.sass'
+import NewTreeNode from "../../components/NewTreeNode/NewTreeNode";
+import {changePermission, getPermissions} from '../../api/setting'
+import {permissions} from "../../api/permission";
 const { TabPane } = Tabs;
-const { TreeNode } = Tree;
+const {TreeNode} = Tree;
 class StaffAuthoritySetting  extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			activeKey:'1',   // 选项卡激活key
+			activeKey:'',   // 选项卡激活key
 			name:'',
-			phone:''
+			phone:'',
+			roles:[],
+			activeKeys:[],
+			permissions:[],
+			disabled_per:[],   //已经确定的角色权限
 		};
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
-		if(!nextProps.userAuthInfo && !nextProps.listAuthInfo) return;
-		if(nextProps.userAuthInfo){
-			this.setState({
-				name:nextProps.userAuthInfo.name,
-				phone:nextProps.userAuthInfo.mobile
-			})
-		} else {
-			this.setState({
-				name:nextProps.listAuthInfo.name,
-				phone:nextProps.listAuthInfo.mobile
-			})
-		}
-		
+		if(!nextProps.userAuthInfo) return;
+		permissions({}).then(r=>{
+			this.setState({permissions:r.data});
+		});
+		this.setState({
+			name:nextProps.userAuthInfo.name,
+			phone:nextProps.userAuthInfo.mobile,
+			roles:nextProps.userAuthInfo.roles,
+		});
+		this.setState({activeKey:nextProps.userAuthInfo.roles[0].id+''})
+		getPermissions({},nextProps.userAuthInfo.roles[0].id).then(r=>{
+			let p_list = [];
+			r.data.forEach(res=>{
+				p_list.push(res.id+'')
+			});
+			this.setState({disabled_per:p_list,activeKeys:p_list})
+		});
 	}
 	
 	onSelect = (selectedKeys, info) => {
@@ -38,6 +49,7 @@ class StaffAuthoritySetting  extends React.Component{
 	
 	onCheck = (checkedKeys, info) => {
 		console.log('onCheck', checkedKeys, info);
+		this.setState({activeKeys:checkedKeys})
 	};
 	
 	
@@ -47,6 +59,39 @@ class StaffAuthoritySetting  extends React.Component{
 	
 	callback = (key) =>{
 		console.log(key);
+	};
+	
+	submit = ()=>{
+		let restAry = this.state.activeKeys.filter(item=>this.state.disabled_per.indexOf(item)==-1)
+		changePermission({permission_ids:restAry},this.state.activeKey).then(r=>{
+			this.handleCancel();
+			this.props.refresh()
+		})
+	};
+	
+	makeTree = (list) =>{
+		return list.map(item=>{
+			if(item.children){
+				return (
+					<TreeNode
+						title={item.name}
+						key={item.id}
+						disabled={this.state.disabled_per.indexOf(item.id+'') > -1 }
+					>
+						{this.makeTree(item.children)}
+					</TreeNode>
+				)
+			} else {
+				return (
+					<TreeNode
+						title={item.name}
+						key={item.id}
+						disableCheckbox={this.state.disabled_per.indexOf(item.id+'') > -1}
+					>
+					</TreeNode>
+				)
+			}
+		})
 	};
 	
 	render() {
@@ -67,9 +112,29 @@ class StaffAuthoritySetting  extends React.Component{
 								<span>手机号码：{this.state.phone}</span>
 							</div>
 							<div className="tab">
-								<span className={this.state.activeKey === '1'?'activeG':''} onClick={()=>{this.setState({activeKey:'1'})}}>早餐车</span>
-								<span className={this.state.activeKey === '2'?'activeG':''} onClick={()=>{this.setState({activeKey:'2'})}}>财务</span>
-								<span className={this.state.activeKey === '3'?'activeG':''} onClick={()=>{this.setState({activeKey:'3'})}}>设置</span>
+								{
+									this.state.roles.map(item=>{
+										
+										return (
+											<span
+												key={item.id}
+												className={this.state.activeKey === item.id+''?'activeG':''}
+												onClick={()=>{
+													this.setState({activeKey:item.id+''});
+													getPermissions({},item.id).then(r=>{
+														let p_list = [];
+														r.data.forEach(res=>{
+															p_list.push(res.id+'')
+														});
+														this.setState({disabled_per:p_list,activeKeys:p_list})
+													});
+												}}
+											>
+												{item.name}
+											</span>
+										)
+									})
+								}
 							</div>
 							
 						</div>
@@ -81,73 +146,33 @@ class StaffAuthoritySetting  extends React.Component{
 								type="card"
 								style={{"width":"100%"}}
 							>
-								<TabPane tab="Tab 1" key="1">
-									<div className="tree">
-										<Tree
-											defaultExpandAll={true}
-											checkable
-											selectable={false}
-											onSelect={this.onSelect}
-											onCheck={this.onCheck}
-										>
-											<TreeNode title="parent 1" key="0-0">
-												<TreeNode title="parent 1-0" key="0-0-0" >
-													<TreeNode title="leaf" key="0-0-0-0" />
-													<TreeNode title="leaf" key="0-0-0-1" />
-												</TreeNode>
-												<TreeNode title="parent 1-1" key="0-0-1">
-													<TreeNode title={<span>sss</span>} key="0-0-1-0" />
-												</TreeNode>
-												<TreeNode title="parent 1-2" key="0-0-2">
-													<TreeNode title={<span >sss</span>} key="0-0-1-0" />
-												</TreeNode>
-											</TreeNode>
-										</Tree>
-									</div>
-								</TabPane>
-								<TabPane tab="Tab 2" key="2">
-									<div className="tree">
-										<Tree
-											defaultExpandAll={true}
-											checkable
-											selectable={false}
-											onSelect={this.onSelect}
-											onCheck={this.onCheck}
-										>
-											<TreeNode title="parent 1" key="0-0">
-												<TreeNode title="parent 1-0" key="0-0-0" >
-													<TreeNode title="leaf" key="0-0-0-0" />
-													<TreeNode title="leaf" key="0-0-0-1" />
-												</TreeNode>
-												<TreeNode title="parent 1-1" key="0-0-1">
-													<TreeNode title={<span>sss</span>} key="0-0-1-0" />
-												</TreeNode>
-											</TreeNode>
-										</Tree>
-									</div>
-								</TabPane>
-								<TabPane tab="Tab 3" key="3">
-									<div className="tree">
-										<Tree
-											defaultExpandAll={true}
-											checkable
-											selectable={false}
-											onSelect={this.onSelect}
-											onCheck={this.onCheck}
-										>
-											<TreeNode title="parent 1" key="0-0">
-												<TreeNode title="parent 1-0" key="0-0-0" >
-													<TreeNode title="leaf" key="0-0-0-0" />
-													<TreeNode title="leaf" key="0-0-0-1" />
-												</TreeNode>
-											</TreeNode>
-										</Tree>
-									</div>
-								</TabPane>
+								{
+									this.state.roles.map(item=>{
+										return (
+											<TabPane tab={item.name} key={item.id}>
+												<div className="tree">
+													{this.state.permissions && this.state.permissions.length ? (
+														<Tree
+															defaultExpandAll={true}
+															checkable
+															selectable={false}
+															onCheck={this.onCheck}
+															checkedKeys={this.state.activeKeys}
+														>
+															{
+																this.makeTree(this.state.permissions)
+															}
+														</Tree>
+													): '暂无数据' }
+												</div>
+											</TabPane>
+										)
+									})
+								}
 							</Tabs>
 						</div>
 						<div className="footBtn">
-							<Button type="primary" size="small">保存配置</Button>
+							<Button type="primary" size="small" onClick={this.submit}>保存配置</Button>
 						</div>
 						
 					</div>

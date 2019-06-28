@@ -8,9 +8,8 @@ import {Base64} from "./beSecret";
  * @param key
  * @returns {*}
  */
-export function getUserInfo(key = null){
+export function getUserInfo(){
     let userInfo = Storage.get(Config.storageUserKey);
-    if(key)return userInfo.hasOwnProperty(key) ? userInfo[key] : null;
     return userInfo;
 }
 

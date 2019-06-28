@@ -7,6 +7,7 @@ import './css/staffList.sass'
 import StaffAuthoritySetting from './StaffAuthoritySetting'
 import EditRole from './EditRole'
 import {adminDelete, admins} from "../../api/setting";
+import {trim} from "../../utils/dataStorage";
 const Search = Input.Search;
 const { Column } = Table;
 class ManageStaff  extends React.Component{
@@ -22,7 +23,7 @@ class ManageStaff  extends React.Component{
 	refresh = () =>{
 		admins({limit:50,page:1,role_id:this.state.id}).then(r=>{
 			this.setState({tableData:r.data})
-		})
+		});
 		this.props.refresh()
 	};
 	
@@ -40,6 +41,7 @@ class ManageStaff  extends React.Component{
 	
 	handleCancel = () => {
 		this.props.onClose()
+		
 	};
 	
 	/*
@@ -52,6 +54,7 @@ class ManageStaff  extends React.Component{
 	};
 	closeAuth = () =>{
 		this.setState({listAuthVisible:false})
+		this.props.onShow()
 	};
 	
 	/*
@@ -64,6 +67,7 @@ class ManageStaff  extends React.Component{
 	};
 	closeEditRole = () =>{
 		this.setState({roleEditVisible:false})
+		this.props.onShow()
 	};
 	
 	render() {
@@ -73,6 +77,7 @@ class ManageStaff  extends React.Component{
 					visible={this.state.listAuthVisible}
 					onClose={this.closeAuth}
 					userAuthInfo={this.state.userAuthInfo}
+					refresh={this.refresh}
 				/>
 				<EditRole
 					visible={this.state.roleEditVisible}
@@ -93,7 +98,20 @@ class ManageStaff  extends React.Component{
 						<Search
 							className="searchInput"
 							placeholder="请输入员工姓名或手机号码"
-							onSearch={value => console.log(value)}
+							onSearch={value => {
+								value = trim(value);
+								admins({limit:10,page:1,role_id:this.state.id,search:`name:${value};mobile:${value}`}).then(r=>{
+									this.setState({tableData:r.data})
+								});
+							}}
+							onFocus={()=>{
+								let rightBtn = document.getElementsByClassName('ant-input-search-button')[0]
+								rightBtn.setAttribute("style","background-color:#4f9863!important;color:#FFF!important;border-color: #58A86E!important;box-shadow: 0  0 3px rgba(88,168,110,0.5)!important")
+							}}
+							onBlur={()=>{
+								let rightBtn = document.getElementsByClassName('ant-input-search-button')[0]
+								rightBtn.setAttribute("style","background-color:#fff!important;color:#666!important;border-color: #D9D9D9!important;box-shadow: none!important")
+							}}
 							enterButton
 						/>
 						

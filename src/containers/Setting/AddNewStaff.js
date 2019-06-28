@@ -13,11 +13,15 @@ export default class AddNewStaff extends React.Component{
 			info:{
 				name:'',
 				tel:'',
-			}
+			},
+			add_id:[]
 		};
 	}
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(!nextProps.onRoles) return;
+		let ids = [];
+		ids.push(nextProps.add_id+'');
+		this.setState({add_id:ids});
 		let option = [];
 		nextProps.onRoles.forEach((item,index)=>{
 			Object.keys(item).forEach(item=>{
@@ -40,14 +44,14 @@ export default class AddNewStaff extends React.Component{
 			message.error('请填写正确格式的手机号');
 			return
 		}
-		if(!this.state.ids){
+		if(!this.state.add_id){
 			message.error('请分配角色');
 			return
 		}
 		addAdmins({
 			name:this.state.info.name,
 			mobile:this.state.info.tel,
-			role_ids:this.state.ids
+			role_ids:this.state.add_id
 		}).then(r=>{
 			this.setState({info:{
 					name:'',
@@ -59,7 +63,7 @@ export default class AddNewStaff extends React.Component{
 	
 	onChange = (checkedValues) => {
 		console.log('checked = ', checkedValues);
-		this.setState({ids:checkedValues})
+		this.setState({add_id:checkedValues})
 	};
 	
 	onInput = (e,key) =>{
@@ -100,7 +104,15 @@ export default class AddNewStaff extends React.Component{
 						</li>
 						<li>
 							<span>角色</span>
-							<Checkbox.Group options={this.state.options} onChange={this.onChange} />
+							{
+								this.state.add_id && this.state.add_id.length ? (
+									<Checkbox.Group
+										options={this.state.options}
+										value={this.state.add_id}
+										onChange={this.onChange} />
+								) : '暂无数据'
+							}
+							
 						</li>
 					</ul>
 				</Modal>

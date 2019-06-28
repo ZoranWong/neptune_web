@@ -2,11 +2,11 @@
 import React from "react";
 import "./index.sass";
 import {withRouter} from 'react-router-dom'
-import FetchApi from '../../utils/fetch-api'
 import { Form,  Button, Checkbox, Popover ,message} from "antd";
-import {setToken,compile,unCompile} from "../../utils/dataStorage";
+import {setToken, compile, setUserInfo} from "../../utils/dataStorage";
 import '../../mock/list'
 import {login} from "../../api/auth";
+import {myPermissions} from "../../api/permission";
 // ==================
 // Definition
 // ==================
@@ -59,22 +59,12 @@ class LoginContainer extends React.Component {
 			message.error('请输入用户名或密码');
 			return
 		}
-		this.setState({ loading: true });
 		login({mobile:this.state.userValue,password:this.state.password}).then(res => {
 			setToken('bearer '+res.token);
 			message.success("登录成功");
-			if (this.state.rememberPassword) {
-				localStorage.setItem(
-					"userLoginInfo",
-					JSON.stringify({
-						username: this.state.userValue,
-						password: compile(this.state.password) // 密码简单加密一下再存到localStorage
-					})
-				);
-			}  else {
-				localStorage.removeItem("userLoginInfo");
-			}
-			this.setState({loading:false});
+			myPermissions({}).then(r=>{
+				setUserInfo(JSON.stringify(r.data))
+			});
 			setTimeout(() => this.props.history.replace("/")); // 跳转到主页,用setTimeout是为了等待上一句设置用户信息完成} else {message.error(res.message);}}).finally(err => {this.setState({ loading: false });});
 		})
 	};
@@ -109,7 +99,7 @@ class LoginContainer extends React.Component {
 						</div>
 						<div className="form">
 							<div className="user">
-								<i className="iconfont">&#xe7ae;</i>
+								<i className="iconfont" style={{marginBottom:'3px'}}>&#xe7ae;</i>
 								<Popover
 									placement="bottomLeft"
 									content={content}
@@ -134,7 +124,7 @@ class LoginContainer extends React.Component {
 								</Popover>
 							</div>
 							<div className="user">
-								<i className="iconfont">&#xe7ae;</i>
+								<i className="iconfont">&#xe7c9;</i>
 								<Popover
 									placement="bottomLeft"
 									content={content}
