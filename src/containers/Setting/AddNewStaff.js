@@ -1,4 +1,3 @@
-
 import React from 'react'
 import {Modal, Input,Checkbox,message} from 'antd';
 import './css/addNewStaff.sass'

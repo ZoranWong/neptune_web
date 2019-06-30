@@ -62,7 +62,7 @@ class LoginContainer extends React.Component {
 		login({mobile:this.state.userValue,password:this.state.password}).then(res => {
 			setToken('bearer '+res.token);
 			message.success("登录成功");
-			myPermissions({}).then(r=>{
+			myPermissions({},res.user.id).then(r=>{
 				setUserInfo(JSON.stringify(r.data))
 			});
 			setTimeout(() => this.props.history.replace("/")); // 跳转到主页,用setTimeout是为了等待上一句设置用户信息完成} else {message.error(res.message);}}).finally(err => {this.setState({ loading: false });});

@@ -4,7 +4,7 @@ import React from 'react'
 import {Modal, Button,Popconfirm} from 'antd';
 import './css/common.sass'
 import './css/authoritySetting.sass'
-import {deleteRole,getPermissions,setPermissions} from "../../api/setting";
+import {deleteRole,getPermissions,setRolePermissions} from "../../api/setting";
 import {permissions} from "../../api/permission";
 import NewTreeNode from '../../components/NewTreeNode/NewTreeNode'
 
@@ -31,13 +31,15 @@ class AuthoritySetting  extends React.Component{
 				this.setState({permissions:r.data});
 			});
 			this.setState({role:nextProps.role});
-			getPermissions({},nextProps.role.id).then(r=>{
-				let list = [];
-				r.data.forEach(item=>{
-					list.push(item.id+'')
-				});
-				this.setState({activeKeys:list})
-			})
+			if(nextProps.visible){
+				getPermissions({},nextProps.role.id).then(r=>{
+					let list = [];
+					r.data.forEach(item=>{
+						list.push(item.id+'')
+					});
+					this.setState({activeKeys:list})
+				})
+			}
 		}
 
 	}
@@ -48,7 +50,7 @@ class AuthoritySetting  extends React.Component{
 	};
 	
 	submit = () =>{
-		setPermissions({permission_ids:this.child.current.state.defaultKeys},this.state.role.id).then(r=>{
+		setRolePermissions({permission_ids:this.child.current.state.defaultKeys},this.state.role.id).then(r=>{
 			this.handleCancel()
 			this.props.refresh()
 		})

@@ -5,6 +5,7 @@
 	z-index: 100
 .all
 	width: 100%
+	position: relative
 	.boxHeader
 		display: flex
 		justify-content: space-between
@@ -54,8 +55,7 @@
 		justify-content: center
 		align-items: center
 		border-top: 1px solid #E9E9E9
-.ant-tabs-nav-container
-	margin: 0!important
-	display: none!important
-.ant-tabs-bar
-	margin: 0!important
+	.ant-tabs-bar
+		position: absolute
+		right: 0
+		top: 20px

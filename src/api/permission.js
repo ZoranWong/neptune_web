@@ -8,10 +8,10 @@ export function permissions(params) {
     })
 }
 
-// 我的权限列表 /api/admins/permissions
-export function myPermissions(params) {
+// 我的权限列表 /api/admins/permissions  /api/admins/{administrator}/permissions
+export function myPermissions(params,id) {
     return request({
-        url: '/api/admins/permissions',
+        url: `/api/admins/${id}/permissions`,
         params: params
     })
 }

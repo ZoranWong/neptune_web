@@ -2,31 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/NewTreeNode/NewTreeNode.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/NewTreeNode/NewTreeNode.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/permission.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/permission.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/setting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Layout/Nav.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout/Nav.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Login/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Login/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Login/index.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Login/index.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Setting/AddNewStaff.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/AddNewStaff.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Setting/AuthoritySetting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/AuthoritySetting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Setting/EditRole.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/EditRole.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Setting/ManageStaff.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/ManageStaff.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Setting/StaffAuthoritySetting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/StaffAuthoritySetting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Setting/StaffFrozen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/StaffFrozen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Setting/StaffList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/StaffList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Setting/Staffing.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/Staffing.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Setting/css/staffAuthoritySetting.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/css/staffAuthoritySetting.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Setting/css/staffList.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/css/staffList.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Setting/css/staffing.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/css/staffing.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/style/nav.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/nav.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/style/sider.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/sider.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/style/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/style.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/dataStorage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/dataStorage.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -41,12 +23,12 @@
     <favorites_list name="Neptune_web" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/containers/Setting/Staffing.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="409">
-              <caret line="204" column="38" lean-forward="true" selection-start-line="204" selection-start-column="38" selection-end-line="204" selection-end-column="38" />
+            <state relative-caret-position="230">
+              <caret line="99" column="4" selection-start-line="99" selection-start-column="4" selection-end-line="99" selection-end-column="4" />
               <folding>
                 <element signature="e#12#38#0" expanded="true" />
               </folding>
@@ -55,10 +37,46 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/style/style.scss">
+        <entry file="file://$PROJECT_DIR$/src/containers/Setting/AuthoritySetting.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="543">
-              <caret line="115" selection-start-line="115" selection-end-line="115" selection-end-column="24" />
+            <state relative-caret-position="418">
+              <caret line="52" column="26" selection-start-line="52" selection-start-column="26" selection-end-line="52" selection-end-column="26" />
+              <folding>
+                <element signature="e#9#34#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/containers/Setting/EditRole.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="361">
+              <caret line="43" column="28" selection-start-line="43" selection-start-column="28" selection-end-line="43" selection-end-column="28" />
+              <folding>
+                <element signature="e#1#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/containers/Setting/StaffAuthoritySetting.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="50" column="34" selection-start-line="50" selection-start-column="23" selection-end-line="50" selection-end-column="34" />
+              <folding>
+                <element signature="e#9#34#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/containers/Setting/css/staffAuthoritySetting.sass">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="576">
+              <caret line="60" column="17" selection-start-line="60" selection-start-column="17" selection-end-line="60" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -66,8 +84,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/containers/Setting/StaffList.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="710">
-              <caret line="121" column="30" lean-forward="true" selection-start-line="114" selection-start-column="28" selection-end-line="121" selection-end-column="30" />
+            <state relative-caret-position="380">
+              <caret line="20" column="33" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="33" />
               <folding>
                 <element signature="e#9#34#0" expanded="true" />
               </folding>
@@ -76,43 +94,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/containers/Setting/ManageStaff.js">
+        <entry file="file://$PROJECT_DIR$/src/api/permission.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="107" column="108" selection-start-line="107" selection-start-column="108" selection-end-line="107" selection-end-column="108" />
-              <folding>
-                <element signature="e#9#34#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="247">
+              <caret line="13" column="45" lean-forward="true" selection-start-line="13" selection-start-column="45" selection-end-line="13" selection-end-column="45" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/containers/Setting/StaffFrozen.js">
+        <entry file="file://$PROJECT_DIR$/src/api/setting.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="644">
-              <caret line="65" column="30" selection-start-line="65" selection-start-column="30" selection-end-line="65" selection-end-column="30" />
-              <folding>
-                <element signature="e#9#34#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/containers/Setting/css/staffList.sass">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="448">
-              <caret line="16" column="49" lean-forward="true" selection-start-line="16" selection-start-column="49" selection-end-line="16" selection-end-column="49" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/containers/Setting/css/staffing.sass">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="16" column="22" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="22" />
+            <state relative-caret-position="608">
+              <caret line="68" column="34" selection-start-line="68" selection-start-column="16" selection-end-line="68" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -130,28 +124,15 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>btn</find>
-      <find>true</find>
-      <find>EditRole</find>
-      <find>console.log</find>
-      <find>FaviconsWebpackPlugin</find>
-      <find>HtmlWebpackPlugin</find>
-      <find>8888</find>
-      <find>-moz-placeholder</find>
-      <find>process.env.NODE_ENV</find>
       <find>react-mock</find>
       <find>editText</find>
       <find>admins</find>
       <find>roleName</find>
       <find>addStaffVisible</find>
       <find>setTime</find>
-      <find>listAuthVisible</find>
       <find>userInfo</find>
-      <find>roles</find>
       <find>userAuthInfo</find>
       <find>ids</find>
-      <find>getPermissions</find>
-      <find>activeKeys</find>
       <find>getUserInfo</find>
       <find>userPermission</find>
       <find>roleEditVisible</find>
@@ -160,6 +141,19 @@
       <find>#D9D9D9`</find>
       <find>refresh</find>
       <find>#D9D9D9</find>
+      <find>getPermissions</find>
+      <find>listAuthVisible</find>
+      <find>this.state.roles</find>
+      <find>roles</find>
+      <find>disabled</find>
+      <find>NewTreeNode</find>
+      <find>permissions</find>
+      <find>disabled_per</find>
+      <find>listAuthInfo</find>
+      <find>console</find>
+      <find>makeTree</find>
+      <find>activeKeys</find>
+      <find>selectedObj</find>
     </findStrings>
     <replaceStrings>
       <replace>雾</replace>
@@ -176,6 +170,7 @@
       <dir>$PROJECT_DIR$/src/containers/Data</dir>
       <dir>$PROJECT_DIR$</dir>
       <dir>$PROJECT_DIR$/src</dir>
+      <dir>C:\Users\Administrator\Desktop\neptune_web\src</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -212,29 +207,29 @@
         <option value="$PROJECT_DIR$/src/components/NewTreeNode.js" />
         <option value="$PROJECT_DIR$/src/components/NewTreeNode/index.sass" />
         <option value="$PROJECT_DIR$/src/components/NewTreeNode/NewTreeNode.sass" />
-        <option value="$PROJECT_DIR$/src/containers/Setting/css/staffAuthoritySetting.sass" />
         <option value="$PROJECT_DIR$/src/components/NewTreeNode/NewTreeNode.js" />
-        <option value="$PROJECT_DIR$/src/api/setting.js" />
-        <option value="$PROJECT_DIR$/src/api/permission.js" />
         <option value="$PROJECT_DIR$/src/style/nav.sass" />
-        <option value="$PROJECT_DIR$/src/containers/Setting/AddNewStaff.js" />
         <option value="$PROJECT_DIR$/src/containers/Login/index.sass" />
-        <option value="$PROJECT_DIR$/src/containers/Setting/StaffAuthoritySetting.js" />
         <option value="$PROJECT_DIR$/src/utils/dataStorage.js" />
         <option value="$PROJECT_DIR$/src/config/app.js" />
         <option value="$PROJECT_DIR$/src/style/sider.sass" />
         <option value="$PROJECT_DIR$/src/utils/request.js" />
-        <option value="$PROJECT_DIR$/src/containers/Login/index.js" />
         <option value="$PROJECT_DIR$/src/components/Layout/Nav.js" />
         <option value="$PROJECT_DIR$/src/containers/Setting/EditRole.js" />
-        <option value="$PROJECT_DIR$/src/containers/Setting/AuthoritySetting.js" />
         <option value="$PROJECT_DIR$/src/containers/Setting/Staffing.js" />
         <option value="$PROJECT_DIR$/src/containers/Setting/css/staffing.sass" />
         <option value="$PROJECT_DIR$/src/style/style.scss" />
-        <option value="$PROJECT_DIR$/src/containers/Setting/StaffList.js" />
         <option value="$PROJECT_DIR$/src/containers/Setting/StaffFrozen.js" />
         <option value="$PROJECT_DIR$/src/containers/Setting/ManageStaff.js" />
         <option value="$PROJECT_DIR$/src/containers/Setting/css/staffList.sass" />
+        <option value="$PROJECT_DIR$/src/containers/Setting/AddNewStaff.js" />
+        <option value="$PROJECT_DIR$/src/api/permission.js" />
+        <option value="$PROJECT_DIR$/src/containers/Login/index.js" />
+        <option value="$PROJECT_DIR$/src/containers/Setting/StaffList.js" />
+        <option value="$PROJECT_DIR$/src/containers/Setting/css/staffAuthoritySetting.sass" />
+        <option value="$PROJECT_DIR$/src/api/setting.js" />
+        <option value="$PROJECT_DIR$/src/containers/Setting/AuthoritySetting.js" />
+        <option value="$PROJECT_DIR$/src/containers/Setting/StaffAuthoritySetting.js" />
       </list>
     </option>
   </component>
@@ -269,6 +264,12 @@
               <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
               <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
+              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -276,28 +277,7 @@
               <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="AdvancedFilter" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
-              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="EditName" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
-              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="Layout" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
-              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="SideMenu" type="462c0819:PsiDirectoryNode" />
+              <item name="NewTreeNode" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
@@ -367,7 +347,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jsx.switch.disabled" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../react-admin-master" />
+    <property name="last_opened_file_path" value="$USER_HOME$/react-admin-master" />
     <property name="list.type.of.created.stylesheet" value="Sass" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -537,11 +517,12 @@
       <workItem from="1561601152050" duration="25506000" />
       <workItem from="1561632798645" duration="6455000" />
       <workItem from="1561683251099" duration="36044000" />
+      <workItem from="1561897397469" duration="18225000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="256371000" />
+    <option name="totallyTimeSpent" value="274596000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -553,10 +534,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="27" width="1853" height="1053" extended-state="6" />
+    <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49834985" visible="true" weight="0.20787746" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49834985" visible="true" weight="0.20733428" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" sideWeight="0.50165015" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="3" sideWeight="0.50165015" side_tool="true" weight="0.20842451" />
@@ -666,37 +647,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/Setting/css/staffAuthoritySetting.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="39" column="32" selection-start-line="39" selection-start-column="32" selection-end-line="39" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/api/permission.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="13" column="39" selection-start-line="13" selection-start-column="39" selection-end-line="13" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/NewTreeNode/NewTreeNode.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="39">
-          <caret line="48" column="48" lean-forward="true" selection-start-line="48" selection-start-column="8" selection-end-line="48" selection-end-column="48" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/api/setting.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="75" column="30" selection-start-line="75" selection-start-column="16" selection-end-line="75" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/Login/index.sass">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -724,26 +674,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="28">
           <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/Setting/AddNewStaff.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="553">
-          <caret line="84" column="35" lean-forward="true" selection-start-line="83" selection-start-column="20" selection-end-line="84" selection-end-column="35" />
-          <folding>
-            <element signature="e#1#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/Setting/StaffAuthoritySetting.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="795">
-          <caret line="128" column="108" selection-start-line="128" selection-start-column="108" selection-end-line="128" selection-end-column="108" />
-          <folding>
-            <element signature="e#9#34#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -873,32 +803,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/Setting/EditRole.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="43" column="28" selection-start-line="43" selection-start-column="28" selection-end-line="43" selection-end-column="28" />
-          <folding>
-            <element signature="e#1#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/SideMenu/Setting.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="504">
           <caret line="22" column="52" selection-start-line="22" selection-start-column="52" selection-end-line="22" selection-end-column="52" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/Setting/AuthoritySetting.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="29" column="37" lean-forward="true" selection-start-line="29" selection-start-column="37" selection-end-line="29" selection-end-column="37" />
-          <folding>
-            <element signature="e#9#34#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -910,44 +820,71 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/Login/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="126" column="64" lean-forward="true" selection-start-line="126" selection-start-column="56" selection-end-line="126" selection-end-column="64" />
-          <folding>
-            <element signature="e#12#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/style/style.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="543">
-          <caret line="115" selection-start-line="115" selection-end-line="115" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/Setting/css/staffing.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="16" column="22" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/Setting/Staffing.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="409">
-          <caret line="204" column="38" lean-forward="true" selection-start-line="204" selection-start-column="38" selection-end-line="204" selection-end-column="38" />
-          <folding>
-            <element signature="e#12#38#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="1881">
+          <caret line="99" selection-start-line="99" selection-end-line="99" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/Setting/StaffFrozen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="644">
-          <caret line="65" column="30" selection-start-line="65" selection-start-column="30" selection-end-line="65" selection-end-column="30" />
+        <state relative-caret-position="1387">
+          <caret line="79" column="28" selection-start-line="79" selection-start-column="28" selection-end-line="79" selection-end-column="28" />
+          <folding>
+            <element signature="e#9#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Setting/css/staffing.sass">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="16" column="22" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Setting/css/staffList.sass">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="14" column="11" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Setting/AddNewStaff.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="36" column="25" lean-forward="true" selection-end-line="36" selection-end-column="25" />
+          <folding>
+            <element signature="e#1#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Login/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="626">
+          <caret line="67" column="12" lean-forward="true" selection-start-line="67" selection-start-column="12" selection-end-line="67" selection-end-column="12" />
+          <folding>
+            <element signature="e#12#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/NewTreeNode/NewTreeNode.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-697">
+          <caret line="4" column="32" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Setting/ManageStaff.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="163">
+          <caret line="75" column="26" selection-start-line="75" selection-start-column="26" selection-end-line="75" selection-end-column="26" />
           <folding>
             <element signature="e#9#34#0" expanded="true" />
           </folding>
@@ -956,28 +893,72 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/Setting/StaffList.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="710">
-          <caret line="121" column="30" lean-forward="true" selection-start-line="114" selection-start-column="28" selection-end-line="121" selection-end-column="30" />
+        <state relative-caret-position="380">
+          <caret line="20" column="33" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="33" />
           <folding>
             <element signature="e#9#34#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/Setting/ManageStaff.js">
+    <entry file="file://$PROJECT_DIR$/src/containers/Setting/css/staffAuthoritySetting.sass">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="107" column="108" selection-start-line="107" selection-start-column="108" selection-end-line="107" selection-end-column="108" />
+        <state relative-caret-position="576">
+          <caret line="60" column="17" selection-start-line="60" selection-start-column="17" selection-end-line="60" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/permission.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="13" column="45" lean-forward="true" selection-start-line="13" selection-start-column="45" selection-end-line="13" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/setting.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="68" column="34" selection-start-line="68" selection-start-column="16" selection-end-line="68" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Setting/EditRole.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="43" column="28" selection-start-line="43" selection-start-column="28" selection-end-line="43" selection-end-column="28" />
+          <folding>
+            <element signature="e#1#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Setting/Staffing.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="99" column="4" selection-start-line="99" selection-start-column="4" selection-end-line="99" selection-end-column="4" />
+          <folding>
+            <element signature="e#12#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Setting/AuthoritySetting.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="52" column="26" selection-start-line="52" selection-start-column="26" selection-end-line="52" selection-end-column="26" />
           <folding>
             <element signature="e#9#34#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/Setting/css/staffList.sass">
+    <entry file="file://$PROJECT_DIR$/src/containers/Setting/StaffAuthoritySetting.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="16" column="49" lean-forward="true" selection-start-line="16" selection-start-column="49" selection-end-line="16" selection-end-column="49" />
+        <state relative-caret-position="221">
+          <caret line="50" column="34" selection-start-line="50" selection-start-column="23" selection-end-line="50" selection-end-column="34" />
+          <folding>
+            <element signature="e#9#34#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

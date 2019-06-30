@@ -23,22 +23,15 @@ export function adminDelete(params) {
 		params: params
 	})
 }
-//修改管理员 /api/admins/{admin}/changeRole
+//修改管理员 /api/admins/{admin}/changeRole   /api/admins/{admin}/setRoles
 export function changeRole(params,id) {
 	return request({
-		url: `/api/admins/${id}/changeRole`,
+		url: `/api/admins/${id}/setRoles`,
 		method: 'post',
 		data: params
 	})
 }
-// 设置管理员权限/api/admins/{administrator}/changePermission
-export function changePermission(params,id) {
-	return request({
-		url: `/api/admins/${id}/changePermission`,
-		method: 'post',
-		data: params
-	})
-}
+
 
 //角色列表
 export function roles(params) {
@@ -72,16 +65,8 @@ export function deleteRole(params,id) {
 		params: params
 	})
 }
-// 角色拥有的权限
-export function getPermissions(params,id) {
-	return request({
-		url: `/api/roles/${id}/permissions`,
-		method: 'get',
-		params: params
-	})
-}
-// 设置角色权限 /api/roles/{role}/setPermissions
-export function setPermissions(params,id) {
+// 设置角色权限
+export function setRolePermissions(params,id) {
 	return request({
 		url: `/api/roles/${id}/setPermissions`,
 		method: 'post',
@@ -89,3 +74,27 @@ export function setPermissions(params,id) {
 	})
 }
 
+// // 角色拥有的权限
+export function getPermissions(params,id) {
+	return request({
+		url: `/api/roles/${id}/permissions`,
+		method: 'get',
+		params: params
+	})
+}
+// 设置管理员权限 /api/admins/{administrator}/setPermissions
+export function setPermissions(params,id) {
+	return request({
+		url: `/api/admins/${id}/setPermissions`,
+		method: 'post',
+		data: params
+	})
+}
+//管理员的角色列表，包括角色的所有权限和管理员在该角色下的拥有的权限
+export function getRoles(params,id) {
+	return request({
+		url: `/api/admins/${id}/rolePermissions`,
+		method: 'get',
+		params: params
+	})
+}
