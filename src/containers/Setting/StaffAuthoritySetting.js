@@ -38,6 +38,10 @@ class StaffAuthoritySetting  extends React.Component{
 		getRoles({},nextProps.userAuthInfo.id).then(r=>{
 			this.setState({roleData:r.data,activeKey:r.data[0].id+''})
 			this.callback(r.data[0].id+'')
+			r.data.forEach(item=>{
+				this.setState({selectedObj:{...this.state.selectedObj,[item.id]:this.checkedKeys(item.administrator_permissions)}})
+			})
+
 		});
 	}
 	
