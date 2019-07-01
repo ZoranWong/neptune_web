@@ -69,12 +69,28 @@ class StaffAuthoritySetting  extends React.Component{
 
 	// 默认选中的权限
 	checkedKeys = (permissions) =>{
+		if(!permissions||!permissions.length) return 
 		let ary = [];
-		if(permissions && permissions.length){
-			permissions.forEach(item=>{
-				ary.push(item.id+'')
-			})
+		console.log(permissions)
+		for(let i = 0;i < permissions.length;i++){
+			console.log('========');
+			console.log(i);
+			console.log('========');
+			if(permissions[i].selected == true){
+				ary.push(i.id+'')
+			}
+			if(permissions[i].child && permissions[i].child.length){
+				this.checkedKeys(permissions[i].child)
+			} else {
+				if(permissions[i].selected == true){
+					ary.push(permissions[i].id+'')
+				}
+			}
+			
 		}
+		console.log('====================================');
+		console.log(ary);
+		console.log('====================================');
 		return ary;
 	};
 	
@@ -88,14 +104,16 @@ class StaffAuthoritySetting  extends React.Component{
 	// list 该角色拥有的权限
 	// user 管理员已有的权限
 	makeTree = (list) =>{
+		if(!list||!list.length) return;
 		return list.map(item=>{
-			if(item.children){
+			if(item.child&&item.child.length){
 				return (
 					<TreeNode
 						title={item.name}
 						key={item.id}
+						selected={item.selected}
 					>
-						{this.makeTree(item.children)}
+						{this.makeTree(item.child)}
 					</TreeNode>
 				)
 			} else {
@@ -103,6 +121,7 @@ class StaffAuthoritySetting  extends React.Component{
 					<TreeNode
 						title={item.name}
 						key={item.id}
+						selected={item.selected}
 					>
 					</TreeNode>
 				)
@@ -148,7 +167,7 @@ class StaffAuthoritySetting  extends React.Component{
 															checkable
 															selectable={false}
 															onCheck={this.onCheck}
-															defaultCheckedKeys={this.checkedKeys(item.administrator_permissions)}
+															defaultCheckedKeys={this.checkedKeys(item.permissions)}
 														>
 															{
 																this.makeTree(item.permissions)
