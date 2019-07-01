@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/EditName/EditName.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/EditName/EditName.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NewTreeNode/NewTreeNode.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NewTreeNode/NewTreeNode.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Setting/AuthoritySetting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/AuthoritySetting.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Setting/StaffAuthoritySetting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/StaffAuthoritySetting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Setting/css/staffAuthoritySetting.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/css/staffAuthoritySetting.sass" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,7 +17,20 @@
     <favorites_list name="Neptune_web" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/containers/Setting/StaffAuthoritySetting.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="533">
+              <caret line="88" column="52" lean-forward="true" selection-start-line="88" selection-start-column="52" selection-end-line="88" selection-end-column="52" />
+              <folding>
+                <element signature="e#9#34#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -63,8 +71,8 @@
       <find>console</find>
       <find>makeTree</find>
       <find>activeKeys</find>
-      <find>selectedObj</find>
       <find>.tree</find>
+      <find>selectedObj</find>
     </findStrings>
     <replaceStrings>
       <replace>雾</replace>
@@ -139,8 +147,8 @@
         <option value="$PROJECT_DIR$/src/components/EditName/EditName.sass" />
         <option value="$PROJECT_DIR$/src/components/NewTreeNode/NewTreeNode.js" />
         <option value="$PROJECT_DIR$/src/containers/Setting/AuthoritySetting.js" />
-        <option value="$PROJECT_DIR$/src/containers/Setting/StaffAuthoritySetting.js" />
         <option value="$PROJECT_DIR$/src/containers/Setting/css/staffAuthoritySetting.sass" />
+        <option value="$PROJECT_DIR$/src/containers/Setting/StaffAuthoritySetting.js" />
       </list>
     </option>
   </component>
@@ -406,11 +414,12 @@
       <workItem from="1561683251099" duration="36044000" />
       <workItem from="1561897397469" duration="18225000" />
       <workItem from="1561943174561" duration="10947000" />
+      <workItem from="1561990503138" duration="3208000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="285551000" />
+    <option name="totallyTimeSpent" value="288759000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -422,9 +431,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="27" width="1853" height="1053" extended-state="6" />
+    <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49834985" visible="true" weight="0.20787746" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49834985" visible="true" weight="0.20733428" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" sideWeight="0.50165015" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="3" sideWeight="0.50165015" side_tool="true" weight="0.20842451" />
@@ -827,8 +837,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/Setting/StaffAuthoritySetting.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="26" column="37" selection-start-line="26" selection-start-column="37" selection-end-line="26" selection-end-column="37" />
+        <state relative-caret-position="533">
+          <caret line="88" column="52" lean-forward="true" selection-start-line="88" selection-start-column="52" selection-end-line="88" selection-end-column="52" />
           <folding>
             <element signature="e#9#34#0" expanded="true" />
           </folding>

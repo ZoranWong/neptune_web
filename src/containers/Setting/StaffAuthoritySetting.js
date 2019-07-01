@@ -39,7 +39,7 @@ class StaffAuthoritySetting  extends React.Component{
 			this.setState({roleData:r.data,activeKey:r.data[0].id+''})
 			this.callback(r.data[0].id+'')
 			r.data.forEach(item=>{
-				this.setState({selectedObj:{...this.state.selectedObj,[item.id]:this.checkedKeys(item.administrator_permissions)}})
+				this.setState({selectedObj:{...this.state.selectedObj,[item.id]:this.checkedKeys(item.permissions)}})
 			})
 
 		});
@@ -50,9 +50,18 @@ class StaffAuthoritySetting  extends React.Component{
 	};
 	
 	onCheck = (checkedKeys, info) => {
+		let ary =checkedKeys.slice();
+		if(checkedKeys&&checkedKeys.length){
+			ary.push(info.halfCheckedKeys[0])
+		}
 		console.log('onCheck', checkedKeys, info);
+		if(ary.length>0){
+			ary = ary.filter(item=>{
+				return item
+			})
+		}
 		this.setState({activeKeys:checkedKeys})
-		this.setState({selectedObj:{...this.state.selectedObj,[this.state.activeKey]:checkedKeys}})
+		this.setState({selectedObj:{...this.state.selectedObj,[this.state.activeKey]:ary}})
 	};
 	
 	
@@ -73,24 +82,20 @@ class StaffAuthoritySetting  extends React.Component{
 		let ary = [];
 		console.log(permissions)
 		for(let i = 0;i < permissions.length;i++){
-			console.log('========');
-			console.log(i);
-			console.log('========');
-			if(permissions[i].selected == true){
-				ary.push(i.id+'')
-			}
+			// if(permissions[i].selected == true){
+			// 	ary.push(permissions[i].id+'')
+			// }
 			if(permissions[i].child && permissions[i].child.length){
+				permissions[i].child.forEach(item=>{
+					if(item.selected){
+						ary.push(item.id+'')
+					}
+				})
 				this.checkedKeys(permissions[i].child)
-			} else {
-				if(permissions[i].selected == true){
-					ary.push(permissions[i].id+'')
-				}
 			}
 			
 		}
-		console.log('====================================');
-		console.log(ary);
-		console.log('====================================');
+		console.log(ary,'llllllll');
 		return ary;
 	};
 	
