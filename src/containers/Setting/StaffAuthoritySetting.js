@@ -24,6 +24,7 @@ class StaffAuthoritySetting  extends React.Component{
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
+		this.setState({roleData:[]});
 		if(!nextProps.userAuthInfo) return;
 		permissions({}).then(r=>{
 			this.setState({permissions:r.data});
@@ -39,8 +40,7 @@ class StaffAuthoritySetting  extends React.Component{
 			this.callback(r.data[0].id+'')
 		});
 	}
-
-
+	
 	onSelect = (selectedKeys, info) => {
 		console.log('selected', selectedKeys, info);
 	};
@@ -53,9 +53,11 @@ class StaffAuthoritySetting  extends React.Component{
 	
 	
 	handleCancel = () => {
-		this.props.onClose()
+		this.setState({roleData:[]})
+		this.props.onClose();
+		console.log(this.state.roleData);
 	};
-
+	
 	// 切换选项卡的回调
 	callback = (key) =>{
 		this.setState({activeKey:key})
@@ -77,25 +79,17 @@ class StaffAuthoritySetting  extends React.Component{
 			 this.handleCancel();
 			 this.props.refresh()
 		})
-		console.log(this.state.selectedObj,'89089009890');
 	};
 
 	// list 该角色拥有的权限
 	// user 管理员已有的权限
-	makeTree = (list,user) =>{
-		console.log(user,'user');
-		let id_s = [];
-		user.forEach(userItem=>{
-			id_s.push(userItem.id+'')
-		});
-		//console.log(id_s);
+	makeTree = (list) =>{
 		return list.map(item=>{
 			if(item.children){
 				return (
 					<TreeNode
 						title={item.name}
 						key={item.id}
-						disabled={id_s.indexOf(item.id+'') > -1 }
 					>
 						{this.makeTree(item.children)}
 					</TreeNode>
@@ -105,7 +99,6 @@ class StaffAuthoritySetting  extends React.Component{
 					<TreeNode
 						title={item.name}
 						key={item.id}
-						disableCheckbox={id_s.indexOf(item.id+'') > -1}
 					>
 					</TreeNode>
 				)
@@ -141,22 +134,20 @@ class StaffAuthoritySetting  extends React.Component{
 										type="card"
 										style={{"width":"100%"}}
 										activeKey={this.state.activeKey}
-										size={'small'}
 									>
 										{this.state.roleData.map(item=>{
 											return (
 												<TabPane tab={item.name} key={item.id}>
-													<div className="tree">
+													<div className="tree1">
 														<Tree
 															defaultExpandAll={true}
 															checkable
 															selectable={false}
 															onCheck={this.onCheck}
 															defaultCheckedKeys={this.checkedKeys(item.administrator_permissions)}
-															defaultSelectedKeys={this.checkedKeys(item.administrator_permissions)}
 														>
 															{
-																this.makeTree(item.permissions,item.administrator_permissions)
+																this.makeTree(item.permissions)
 															}
 														</Tree>
 													</div>

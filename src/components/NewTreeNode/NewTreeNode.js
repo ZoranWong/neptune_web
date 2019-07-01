@@ -47,6 +47,8 @@ export default class NewTreeNode extends React.Component{
 	
 	onCheck = (checkedKeys, info) => {
 		this.setState({defaultKeys:checkedKeys})
+		// let  title =  info.halfCheckedKeys.length&&checkedKeys.length? info.halfCheckedKeys[0]:''
+		// this.setState({title:title})
 	};
 	
 	render(){

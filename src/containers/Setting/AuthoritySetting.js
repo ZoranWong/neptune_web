@@ -50,6 +50,14 @@ class AuthoritySetting  extends React.Component{
 	};
 	
 	submit = () =>{
+		// if(this.child.current.state.title && this.child.current.state.title != ""){
+		// 	this.child.current.state.defaultKeys.push(this.child.current.state.title)
+		// }
+		// this.child.current.state.defaultKeys.forEach(item=>{
+		// 	if(item == ""){
+		// 		this.child.current.state.defaultKeys.splice(item,1)
+		// 	}
+		// })
 		setRolePermissions({permission_ids:this.child.current.state.defaultKeys},this.state.role.id).then(r=>{
 			this.handleCancel()
 			this.props.refresh()
