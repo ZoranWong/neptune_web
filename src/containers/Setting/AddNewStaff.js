@@ -57,12 +57,15 @@ export default class AddNewStaff extends React.Component{
 					tel:'',
 				}});
 			this.handleCancel()
-		})
+		}).catch(_=>{})
 	};
 	
 	onChange = (checkedValues) => {
 		console.log('checked = ', checkedValues);
+		
 		this.setState({add_id:checkedValues})
+		
+		
 	};
 	
 	onInput = (e,key) =>{
@@ -109,7 +112,12 @@ export default class AddNewStaff extends React.Component{
 										options={this.state.options}
 										value={this.state.add_id}
 										onChange={this.onChange} />
-								) : '暂无数据'
+								) : (
+									<Checkbox.Group
+										options={this.state.options}
+										value={[]}
+										onChange={this.onChange} />
+								)
 							}
 							
 						</li>

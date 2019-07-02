@@ -21,7 +21,7 @@ service.interceptors.request.use(
         // if(!config.closeLoading){
         //     window.loadingInstance = Loading.service();
         // }
-        config.headers['Authorization'] = getToken()
+        config.headers['Authorization'] = getToken();
         //let noParameters = config.url.indexOf('?')  == -1;
         // //
         //config.url = noParameters ? config.url+'?access_token=' + getToken(): config.url+'&access_token='+ getToken();

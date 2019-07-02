@@ -8,6 +8,15 @@ export function login(params) {
     })
 }
 
+//后台登出
+export function logout(params) {
+    return request({
+        url: '/api/auth/logout',
+        method: 'get',
+        data: params
+    })
+}
+
 export function resetPwd (params) {
     return request({
         url: '/api/admins/resetPwd',

@@ -1,5 +1,4 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom'
 class Membership extends React.Component{
 	
 	render(){
@@ -8,4 +7,4 @@ class Membership extends React.Component{
 		)
 	}
 }
-export default withRouter(Membership)
+export default Membership

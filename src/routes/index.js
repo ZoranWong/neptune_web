@@ -1,7 +1,6 @@
 import React from 'react';
 import {Route,Switch,Redirect} from "react-router-dom";
 import {getToken} from "../utils/dataStorage";
-import {message} from 'antd'
 import Home from "../containers/Home/Home";
 import Data from "../containers/Data/Data";
 import Finance from "../containers/Finance/Finance";
@@ -9,14 +8,15 @@ import Goods from "../containers/Goods/Goods";
 import Order from "../containers/Order/Order";
 import Marketing from "../containers/Marketing/Marketing";
 import Shops from "../containers/Shops/Shops";
-import IntegralRules from "../containers/User/IntegralRules";
+import IntegralRules from "../containers/User/IntegralRules/IntegralRules";
 import Staffing from "../containers/Setting/Staffing";
 import WarningSetting from '../containers/Setting/WarningSetting'
-import UserManage from "../containers/User/UserManage";
-import TagManage from "../containers/User/TagManage";
-import Membership from "../containers/User/Membership";
-import ConsumerBehavior from "../containers/User/ConsumerBehavior";
-import UserGroupManage from "../containers/User/UserGroupManage";
+import UserManage from "../containers/User/UserManage/UserManage";
+import TagManage from "../containers/User/TagManage/TagManage";
+import Membership from "../containers/User/Membership/Membership";
+import ConsumerBehavior from "../containers/User/ConsumerBehavior/ConsumerBehavior";
+import UserGroupManage from "../containers/User/UserGroupManage/UserGroupManage";
+import UserDetails from '../containers/User/UserDetails/UserDetails'
 import LoginContainer from '../containers/Login/index'
 import ResetPassword from '../containers/Login/ResetPassword'
 /** 跳转到某个路由之前触发 用于验证页面权限**/
@@ -32,6 +32,7 @@ function onEnter (Component, props) {
 	return <Redirect to="/login" />;
 	
 }
+
 
 const Routes = () =>(
 	<Switch>
@@ -67,6 +68,7 @@ const Routes = () =>(
 		<Route exact={true} path="/user/membership" render={props => onEnter(Membership, props)} />
 		<Route exact={true} path="/user/consumerBehavior" render={props => onEnter(ConsumerBehavior, props)} />
 		<Route exact={true} path="/user/groupManage" render={props => onEnter(UserGroupManage, props)} />
+		<Route exact={true} path="/user/UserDetails" render={props => onEnter(UserDetails, props)} />
 		
 		{/*设置*/}
 		<Route exact={true} path="/setting" render={props => onEnter(Staffing, props)} />

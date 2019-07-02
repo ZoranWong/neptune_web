@@ -1,6 +1,7 @@
 import React from 'react'
 import {Tree} from 'antd'
 import './NewTreeNode.sass'
+import {slugs} from '../../utils/slugs'
 const { TreeNode } = Tree;
 export default class NewTreeNode extends React.Component{
 	constructor(props) {
@@ -12,10 +13,18 @@ export default class NewTreeNode extends React.Component{
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
+		let ary = [];
 		if(!nextProps.permissions) return ;
+		if(!nextProps.activedList) return ;
+	
+		nextProps.activedList.forEach(item=>{
+			if(slugs.indexOf(item.slug) > -1){
+				ary.push(item.id+'')
+			}
+		});
 		this.setState({
 			permissions:nextProps.permissions,
-			defaultKeys:nextProps.activedList,
+			defaultKeys:ary
 		})
 	}
 	
@@ -49,6 +58,9 @@ export default class NewTreeNode extends React.Component{
 		this.setState({defaultKeys:checkedKeys})
 		// let  title =  info.halfCheckedKeys.length&&checkedKeys.length? info.halfCheckedKeys[0]:''
 		// this.setState({title:title})
+		if(info.halfCheckedKeys&&info.halfCheckedKeys.length){
+			this.setState({parent_id:info.halfCheckedKeys[0]})
+		}
 	};
 	
 	render(){

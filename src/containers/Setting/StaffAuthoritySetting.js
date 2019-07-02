@@ -28,7 +28,7 @@ class StaffAuthoritySetting  extends React.Component{
 		if(!nextProps.userAuthInfo) return;
 		permissions({}).then(r=>{
 			this.setState({permissions:r.data});
-		});
+		}).catch(_=>{});
 		this.setState({
 			name:nextProps.userAuthInfo.name,
 			phone:nextProps.userAuthInfo.mobile,
@@ -42,7 +42,7 @@ class StaffAuthoritySetting  extends React.Component{
 				this.setState({selectedObj:{...this.state.selectedObj,[item.id]:this.checkedKeys(item.permissions)}})
 			})
 
-		});
+		}).catch(_=>{});
 	}
 	
 	onSelect = (selectedKeys, info) => {
@@ -68,7 +68,6 @@ class StaffAuthoritySetting  extends React.Component{
 	handleCancel = () => {
 		this.setState({roleData:[]})
 		this.props.onClose();
-		console.log(this.state.roleData);
 	};
 	
 	// 切换选项卡的回调
@@ -80,7 +79,6 @@ class StaffAuthoritySetting  extends React.Component{
 	checkedKeys = (permissions) =>{
 		if(!permissions||!permissions.length) return 
 		let ary = [];
-		console.log(permissions)
 		for(let i = 0;i < permissions.length;i++){
 			// if(permissions[i].selected == true){
 			// 	ary.push(permissions[i].id+'')
@@ -95,7 +93,6 @@ class StaffAuthoritySetting  extends React.Component{
 			}
 			
 		}
-		console.log(ary,'llllllll');
 		return ary;
 	};
 	
@@ -103,7 +100,7 @@ class StaffAuthoritySetting  extends React.Component{
 		setPermissions({role_permissions:this.state.selectedObj},this.state.id).then(r=>{
 			 this.handleCancel();
 			 this.props.refresh()
-		})
+		}).catch(_=>{})
 	};
 
 	// list 该角色拥有的权限

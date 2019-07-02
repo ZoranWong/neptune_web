@@ -1,5 +1,4 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom'
 class TagManage extends React.Component{
 	
 	render(){
@@ -8,4 +7,4 @@ class TagManage extends React.Component{
 		)
 	}
 }
-export default withRouter(TagManage)
+export default TagManage

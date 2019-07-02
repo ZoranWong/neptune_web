@@ -1,5 +1,4 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom'
 class UserGroupManage extends React.Component{
 	
 	render(){
@@ -8,4 +7,4 @@ class UserGroupManage extends React.Component{
 		)
 	}
 }
-export default withRouter(UserGroupManage)
+export default UserGroupManage

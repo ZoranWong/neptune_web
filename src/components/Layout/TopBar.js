@@ -1,18 +1,32 @@
 import React from 'react';
 import '../../style/topBar.sass'
-import {Icon} from "antd";
-
+import {Icon,message} from "antd";
+import {removeToken} from "../../utils/dataStorage";
+import {logout} from "../../api/auth";
+import {withRouter} from 'react-router-dom'
 class TopBar extends React.Component{
 	
+	
+	
+	logout = () =>{
+		logout({}).then(r=>{
+			message.success('退出登录成功');
+			removeToken();
+			setTimeout(() =>{ this.props.history.replace("/")},1000);
+		}).catch(_=>{})
+	};
 	render(){
 		return (
 			<div className="topBar">
 				<div className="user">
 					<Icon type="user" />
-					<span>我的账户</span>
+					<span
+						style={{'cursor':'pointer'}}
+						onClick={this.logout}
+					>退出登录</span>
 				</div>
 			</div>
 		)
 	}
 }
-export default TopBar
+export default withRouter(TopBar)

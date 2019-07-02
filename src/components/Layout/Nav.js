@@ -11,7 +11,7 @@ class Nav extends React.Component{
 		}
 	}
 	
-	componentDidMount() {
+	componentWillMount() {
 		if(getUserInfo()){
 			this.setState({userPermission:JSON.parse(getUserInfo())})
 		}
@@ -46,7 +46,7 @@ class Nav extends React.Component{
 			},
 			{
 				text:'营销',
-				path:'/market',
+				path:'/marketing',
 				exact:true,
 				name:"nav-market"
 			},
@@ -76,7 +76,6 @@ class Nav extends React.Component{
 			},
 		];
 		let navs = [];
-		console.log(this.state.userPermission);
 		this.state.userPermission.forEach(item=>{
 			navs.push(item.slug);
 		});

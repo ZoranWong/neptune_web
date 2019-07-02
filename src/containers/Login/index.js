@@ -65,7 +65,7 @@ class LoginContainer extends React.Component {
 			myPermissions({},res.user.id).then(r=>{
 				setUserInfo(JSON.stringify(r.data))
 			});
-			setTimeout(() => this.props.history.replace("/")); // 跳转到主页,用setTimeout是为了等待上一句设置用户信息完成} else {message.error(res.message);}}).finally(err => {this.setState({ loading: false });});
+			setTimeout(() =>{ this.props.history.replace("/")},500); // 跳转到主页,用setTimeout是为了等待上一句设置用户信息完成} else {message.error(res.message);}}).finally(err => {this.setState({ loading: false });});
 		})
 	};
 
@@ -134,6 +134,11 @@ class LoginContainer extends React.Component {
 									<input
 										type="tel"
 										className="input"
+										onKeyDown={(e)=>{
+											if(e.keyCode === 13){
+												this.onSubmit()
+											}
+										}}
 										placeholder="验证码"
 										onInput={(e)=>{this.setState({password:e.target.value})}}
 										onBlur={()=>{

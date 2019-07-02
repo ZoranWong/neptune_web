@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Menu } from 'antd'
 import { Link } from 'react-router-dom'
 import '../../style/sider.sass'
-const { SubMenu } = Menu;
+
 
 const Setting = ({ match }) => (
 	<div style={{ paddingBottom: '120px',width:'216px' }}>
@@ -28,10 +28,10 @@ const Setting = ({ match }) => (
 			</Menu.Item>
 		</Menu>
 	</div>
-)
+);
 
 Setting.propTypes = {
 	match: PropTypes.object.isRequired
-}
+};
 
 export default Setting

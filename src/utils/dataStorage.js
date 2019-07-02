@@ -13,6 +13,7 @@ export function getUserInfo(){
     return userInfo;
 }
 
+
 /**
  *
  * @param user

@@ -4,9 +4,9 @@ import React from 'react'
 import {Modal, Input, Table} from 'antd';
 import './css/common.sass'
 import './css/staffList.sass'
-import axios from 'axios'
 import {admins} from "../../api/setting";
 import {trim} from "../../utils/dataStorage";
+import SearchInput from "../../components/SearchInput/SearchInput";
 const Search = Input.Search;
 const { Column } = Table;
 
@@ -19,20 +19,24 @@ class StaffFrozen  extends React.Component{
 		};
 	}
 	
-	componentWillMount() {
-	
-	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(nextProps.visible){
 			admins({limit:50,page:1,only_trashed:true}).then(r=>{
 				this.setState({tableData:r.data})
-			})
+			}).catch(_=>{})
 		}
 	}
 	
 	handleCancel = () => {
 		this.props.onClose()
+	};
+	
+	//搜索框搜索
+	searchDatas = (value) =>{
+		admins({limit:10,page:1,only_trashed:true,search:`name:${value};mobile:${value}`}).then(r=>{
+			this.setState({tableData:r.data})
+		}).catch(_=>{});
 	};
 	
 	render() {
@@ -47,26 +51,10 @@ class StaffFrozen  extends React.Component{
 					footer={null}
 				>
 					<div className="list">
-						<Search
-							className="searchInput"
-							placeholder="请输入员工姓名或手机号码"
-							onSearch={value => {
-								value = trim(value);
-								admins({limit:10,page:1,only_trashed:true,search:`name:${value};mobile:${value}`}).then(r=>{
-									this.setState({tableData:r.data})
-								});
-							}}
-							onFocus={()=>{
-								let rightBtn = document.getElementsByClassName('ant-input-search-button')[0]
-								rightBtn.setAttribute("style","background-color:#4f9863!important;color:#FFF!important;border-color: #58A86E!important;box-shadow: 0  0 3px rgba(88,168,110,0.5)!important")
-							}}
-							onBlur={()=>{
-								let rightBtn = document.getElementsByClassName('ant-input-search-button')[0]
-								rightBtn.setAttribute("style","background-color:#fff!important;color:#666!important;border-color: #D9D9D9!important;box-shadow: none!important")
-							}}
-							enterButton
-						/>
 						
+						<SearchInput
+							getDatas={this.searchDatas}
+						/>
 						<div className="listChart">
 							<Table dataSource={this.state.tableData} rowKey={record => record.id}>
 								<Column

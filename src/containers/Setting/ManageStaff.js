@@ -8,6 +8,7 @@ import StaffAuthoritySetting from './StaffAuthoritySetting'
 import EditRole from './EditRole'
 import {adminDelete, admins} from "../../api/setting";
 import {trim} from "../../utils/dataStorage";
+import SearchInput from "../../components/SearchInput/SearchInput";
 const Search = Input.Search;
 const { Column } = Table;
 class ManageStaff  extends React.Component{
@@ -23,9 +24,18 @@ class ManageStaff  extends React.Component{
 	refresh = () =>{
 		admins({limit:50,page:1,role_id:this.state.id}).then(r=>{
 			this.setState({tableData:r.data})
-		});
+		}).catch(_=>{});
 		this.props.refresh()
 	};
+	
+	
+	//搜索框搜索
+	searchDatas = (value) =>{
+		admins({limit:10,page:1,role_id:this.state.id,search:`name:${value};mobile:${value}`}).then(r=>{
+			this.setState({tableData:r.data})
+		}).catch(_=>{});
+	};
+	
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(nextProps.onRoles){
@@ -35,7 +45,7 @@ class ManageStaff  extends React.Component{
 			this.setState({id:nextProps.m_role.id});
 			admins({limit:50,page:1,role_id:nextProps.m_role.id}).then(r=>{
 				this.setState({tableData:r.data})
-			})
+			}).catch(_=>{})
 		}
 	}
 	
@@ -95,26 +105,9 @@ class ManageStaff  extends React.Component{
 					footer={null}
 				>
 					<div className="list">
-						<Search
-							className="searchInput"
-							placeholder="请输入员工姓名或手机号码"
-							onSearch={value => {
-								value = trim(value);
-								admins({limit:10,page:1,role_id:this.state.id,search:`name:${value};mobile:${value}`}).then(r=>{
-									this.setState({tableData:r.data})
-								});
-							}}
-							onFocus={()=>{
-								let rightBtn = document.getElementsByClassName('ant-input-search-button')[0]
-								rightBtn.setAttribute("style","background-color:#4f9863!important;color:#FFF!important;border-color: #58A86E!important;box-shadow: 0  0 3px rgba(88,168,110,0.5)!important")
-							}}
-							onBlur={()=>{
-								let rightBtn = document.getElementsByClassName('ant-input-search-button')[0]
-								rightBtn.setAttribute("style","background-color:#fff!important;color:#666!important;border-color: #D9D9D9!important;box-shadow: none!important")
-							}}
-							enterButton
+						<SearchInput
+							getDatas={this.searchDatas}
 						/>
-						
 						<div className="listChart">
 							<Table dataSource={this.state.tableData} rowKey={record => record.id}>
 								<Column
@@ -150,7 +143,7 @@ class ManageStaff  extends React.Component{
 													adminDelete({ids:ids}).then(r=>{
 														this.refresh()
 														this.props.refresh()
-													})
+													}).catch(_=>{})
 												}}
 											>
 												<span className="operation">删除账号</span>

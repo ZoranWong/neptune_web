@@ -47,7 +47,7 @@ class Staffing extends React.Component{
 				roles.push({[item.id]:item.name})
 			});
 			this.setState({roles:roles});
-		});
+		}).catch(_=>{});
 	};
 	
 	/*
@@ -77,12 +77,12 @@ class Staffing extends React.Component{
 			editRoles({name:value},record.id).then(r=>{
 				this.setState({editRoleVisible:false});
 				this.refresh()
-			})
+			}).catch(_=>{})
 		} else {
 			addRoles({name:value}).then(r=>{
 				this.setState({editRoleVisible:false});
 				this.refresh()
-			})
+			}).catch(_=>{})
 		}
 		
 		
@@ -212,7 +212,7 @@ class Staffing extends React.Component{
 									<span className="operation"
 										onClick={()=>this.showAuthoritySetting(record)}
 									>
-										<i style={{color:"#4F9863",marginRight:"10px"}} className="iconfont">&#xe7c9;</i>
+										<i style={{color:"#4F9863",marginRight:"10px"}} className="iconfont">&#xe818;</i>
 										权限设置</span>
 								</span>
 							)}

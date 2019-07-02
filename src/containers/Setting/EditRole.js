@@ -48,7 +48,7 @@ export default class EditRole extends React.Component{
 		changeRole({role_ids:this.state.selected},this.state.id).then(r=>{
 			this.props.onClose();
 			this.props.refresh()
-		})
+		}).catch(_=>{})
 	};
 	
 	onChange = (checkedValues) => {

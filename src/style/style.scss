@@ -119,3 +119,49 @@ select:-webkit-autofill {
   color: #666666!important;
   box-shadow: none!important;
 }
+.ant-pagination-item,.ant-pagination-item-link{
+  min-width: 28px!important;
+  width: 28px!important;
+  line-height: 28px!important;
+  height: 28px!important;
+  font-size: 12px!important;
+}
+.ant-pagination-prev,.ant-pagination-next{
+  width: 28px!important;
+  height: 28px!important;
+  line-height: 28px!important;
+}
+.ant-popover-buttons{
+  .ant-btn{
+    height: 22px!important;
+    line-height: 20px!important;
+    border: 1px solid #D9D9D9!important;
+    color: #666!important;
+    &:hover{
+      color: #4f9863!important;
+      border: 1px solid #4f9863!important;
+    }
+  }
+  .ant-btn-primary{
+    border: 1px solid #4f9863!important;
+    color: #fff!important;
+    &:hover{
+      color: #fff!important;
+    }
+  }
+}
+
+.ant-popover-message{
+  padding: 4px 0 20px!important;
+}
+.ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left{
+  border-right:none !important
+}
+.ant-tree-checkbox{
+  padding: 0!important;
+  width: 14px!important;
+  height:14px!important;
+}
+.ant-tree-title{
+  font-size: 12px;
+}

@@ -17,28 +17,17 @@ class AuthoritySetting  extends React.Component{
 		};
 		this.child = React.createRef();
 	}
-
-	componentWillMount() {
-		console.log(this.state.role,'111');
-	}
-	componentDidMount() {
-		console.log(this.state.role,'222');
-	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(nextProps.role){
 			permissions({}).then(r=>{
 				this.setState({permissions:r.data});
-			});
+			}).catch(_=>{});
 			this.setState({role:nextProps.role});
 			if(nextProps.visible){
 				getPermissions({},nextProps.role.id).then(r=>{
-					let list = [];
-					r.data.forEach(item=>{
-						list.push(item.id+'')
-					});
-					this.setState({activeKeys:list})
-				})
+					this.setState({activeKeys:r.data})
+				}).catch(_=>{})
 			}
 		}
 
@@ -50,16 +39,19 @@ class AuthoritySetting  extends React.Component{
 	};
 	
 	submit = () =>{
-		// if(this.child.current.state.title && this.child.current.state.title != ""){
-		// 	this.child.current.state.defaultKeys.push(this.child.current.state.title)
-		// }
-		// this.child.current.state.defaultKeys.forEach(item=>{
-		// 	if(item == ""){
-		// 		this.child.current.state.defaultKeys.splice(item,1)
-		// 	}
-		// })
-		setRolePermissions({permission_ids:this.child.current.state.defaultKeys},this.state.role.id).then(r=>{
-			this.handleCancel()
+		let ary = this.child.current.state.defaultKeys;
+		let id = this.child.current.state.parent_id || this.state.permissions[0].id;
+		if( this.child.current.state.defaultKeys&& this.child.current.state.defaultKeys.length){
+			ary.push(id+'')
+		}
+		let newAry = [];
+		ary.forEach(item=>{
+			if(newAry.indexOf(item) == -1){
+				newAry.push(item)
+			}
+		})
+		setRolePermissions({permission_ids:newAry},this.state.role.id).then(r=>{
+			this.handleCancel();
 			this.props.refresh()
 		})
 	};
@@ -89,7 +81,7 @@ class AuthoritySetting  extends React.Component{
 									deleteRole({},this.state.role.id).then(r=>{
 										this.handleCancel();
 										this.props.refresh()
-									})
+									}).catch(_=>{})
 								}}
 							>
 								<Button size="small">删除该角色</Button>
