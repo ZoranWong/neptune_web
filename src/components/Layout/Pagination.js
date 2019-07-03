@@ -1,32 +1,41 @@
 import React from 'react';
-import {Pagination} from "antd";
-
-class Pagination extends React.Component{
+import {Pagination,LocaleProvider} from "antd";
+import zhCN from 'antd/lib/locale-provider/zh_CN';
+import '../../style/pagination.sass'
+class CustomPagination extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
 			total: 0,
-			current: 0,
-			currentDataLength: 0,
+			current:1,
 		}
 	}
 	
-	componentWillMount() {
-	
-	
+	componentDidMount() {
+		this.pagination(1)
 	}
 	
-	paginate = () =>{
+	pagination = (page) =>{
+		if(!this.props.api) return;
 		let params = this.props.params;
 		params.limit = 10;
-		params.page = this.state.current;
-		let thisApp = this;
-		
-		thisApp.$Api[thisApp.api](params, function (data) {
-			thisApp.total = data.total;
-			thisApp.currentDataLength = (data.list).length
-			thisApp.$emit('val-change', data.list);
+		params.page = page;
+		this.props.api(params).then(r=>{
+			this.setState({
+				total:r.meta.pagination.total
+			})
 		})
+	};
+	
+	showTotal = (total,range) =>{
+		return `共 ${total}个用户，第${range[0]}-${range[1]} 条数据`
+	};
+	
+	onChange = page => {
+		this.pagination(page);
+		this.setState({
+			current: page,
+		});
 	};
 	
 	
@@ -34,11 +43,18 @@ class Pagination extends React.Component{
 	render() {
 		return (
 			<div>
-				<Pagination>
-				
-				</Pagination>
+				<LocaleProvider locale={zhCN}>
+					<Pagination
+						total={this.state.total}
+						showTotal={this.showTotal}
+						showQuickJumper
+						defaultCurrent={1}
+						pageSize={10}
+						onChange={this.onChange}
+					/>
+				</LocaleProvider>
 			</div>
 		)
 	}
 }
-export default Pagination
+export default CustomPagination

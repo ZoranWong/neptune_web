@@ -1,19 +1,17 @@
 import React from 'react'
 import {trim} from "../../utils/dataStorage";
-import {admins} from "../../api/setting";
 import './searchInput.sass'
 import {Input} from "antd";
 const Search = Input.Search;
 export default class SearchInput extends React.Component{
 	constructor(props) {
 		super(props);
-		
 	}
 	render() {
 		return (
 			<Search
 				className="searchInput"
-				placeholder="请输入员工姓名或手机号码"
+				placeholder={this.props.text}
 				onSearch={value => {
 					value = trim(value);
 					this.props.getDatas(value)

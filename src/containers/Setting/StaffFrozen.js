@@ -54,6 +54,7 @@ class StaffFrozen  extends React.Component{
 						
 						<SearchInput
 							getDatas={this.searchDatas}
+							text="请输入员工姓名或手机号码"
 						/>
 						<div className="listChart">
 							<Table dataSource={this.state.tableData} rowKey={record => record.id}>

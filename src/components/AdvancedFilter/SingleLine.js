@@ -1,72 +1,74 @@
 import React from 'react';
-import { Cascader,Select } from 'antd';
+import {Select,Switch } from 'antd';
 import './index.sass'
 const { Option } = Select;
+const provinceData = ['Zhejiang', 'Jiangsu'];
+const cityData = {
+	Zhejiang: ['Hangzhou', 'Ningbo', 'Wenzhou'],
+	Jiangsu: ['Nanjing', 'Suzhou', 'Zhenjiang'],
+};
+
 export default class SingleLine extends React.Component{
-	constructor(){
-		super()
+	constructor(props){
+		super(props);
+		this.state = {
+			cities: cityData[provinceData[0]],
+			secondCity: cityData[provinceData[0]][0]
+		};
 	};
 	
+	handleProvinceChange = value => {
+		this.setState({
+			cities: cityData[value],
+			secondCity: cityData[value][0],
+		});
+	};
 	
+	onSecondCityChange = value => {
+		this.setState({
+			secondCity: value,
+		});
+	};
 	
+
 	
 	
 	render(){
-		const options = [
-			{
-				value: 'zhejiang',
-				label: 'Zhejiang',
-				children: [
-					{
-						value: 'hangzhou',
-						label: 'Hangzhou',
-						children: [
-							{
-								value: 'xihu',
-								label: 'West Lake',
-							},
-						],
-					},
-				],
-			},
-			{
-				value: 'jiangsu',
-				label: 'Jiangsu',
-				children: [
-					{
-						value: 'nanjing',
-						label: 'Nanjing',
-						children: [
-							{
-								value: 'zhonghuamen',
-								label: 'Zhong Hua Men',
-							},
-						],
-					},
-				]
-			}
-		];
+		const { cities } = this.state;
 		return (
 			<div className="singleBox">
-				<Cascader
-					defaultValue={['zhejiang', 'hangzhou', 'xihu']}
-					options={options}
-				/>
-				<Select defaultValue="lucy" style={{ width: 120 }}>
-					<Option value="jack">Jack</Option>
-					<Option value="lucy">Lucy</Option>
-					<Option value="disabled" disabled>
-						Disabled
-					</Option>
-					<Option value="Yiminghe">yiminghe</Option>
-				</Select>
-				<Select defaultValue="male" style={{ width: 100 }}>
-					<Option value="male">男</Option>
-					<Option value="female">女</Option>
-					<Option value="unknown">未知</Option>
-				</Select>
+				<div style={{width:"100%"}} className="selectChild">
+					<Select
+						defaultValue={provinceData[0]}
+						style={{ width: 120 }}
+						onChange={this.handleProvinceChange}
+					>
+						{provinceData.map(province => (
+							<Option key={province}>{province}</Option>
+						))}
+					</Select>
+					<Select
+						style={{ width: 120 }}
+						value={this.state.secondCity}
+						onChange={this.onSecondCityChange}
+					>
+						{cities.map(city => (
+							<Option key={city}>{city}</Option>
+						))}
+					</Select>
+				</div>
+				<Switch checkedChildren="且" unCheckedChildren="或" defaultChecked />
+				{
+					this.props.groupAry&&this.props.singleAry?(
+						<i
+							className="iconfont"
+							style={{'display':(this.props.singleAry.length >1||this.props.groupAry.length >1) ?'block':'none'}}
+						>&#xe82a;</i>
+					):''
+				}
 				
 			</div>
+			
 		)
 	}
 }

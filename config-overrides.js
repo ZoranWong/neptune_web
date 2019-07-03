@@ -15,6 +15,7 @@ module.exports = override(
 			"@link-color": "#4f9863",
 			"@text-color":"#666",
 			"@disabled-color":"#BDBDBD",
+			"@btn-disable-bg": "#F7F7F7",
 			"@warning-color":"#FF9C4B",
 			"@border-radius-base":"2px",
 			"@item-active-bg": "#478759",
@@ -31,6 +32,7 @@ module.exports = override(
 			"@btn-default-color": "#4f9863",
 			"@btn-default-bg": "#fff",
 			"@btn-default-border": "#4f9863",
+			"@input-height-base":"28px",
 }
 	})
 )

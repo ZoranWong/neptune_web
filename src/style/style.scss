@@ -150,7 +150,9 @@ select:-webkit-autofill {
     }
   }
 }
-
+.ant-layout{
+  background: #f0f0f0!important;
+}
 .ant-popover-message{
   padding: 4px 0 20px!important;
 }
@@ -164,4 +166,10 @@ select:-webkit-autofill {
 }
 .ant-tree-title{
   font-size: 12px;
+}
+.ant-switch{
+  background-color: #FF9C4B!important;
+}
+.ant-switch-checked{
+  background-color: #4f9863!important;
 }
