@@ -11,9 +11,19 @@ export default class SingleGroup extends React.Component{
 	
 	cloneSingLine = () =>{
 		let id = this.state.singleAry[this.state.singleAry.length-1];
-		this.setState({singleAry:[...this.state.singleAry,id++]})
+		id++;
+		this.setState({singleAry:[...this.state.singleAry,id]});
 	};
 	
+	deleteSingle = (id) =>{
+		let newAry = this.state.singleAry.filter(item=>{
+			return item !== id
+		});
+		if(!newAry.length){
+			this.props.watch(this.props.operating)
+		}
+		this.setState({singleAry:newAry});
+	};
 	
 	
 	
@@ -26,6 +36,7 @@ export default class SingleGroup extends React.Component{
 							key={item}
 							singleAry={this.state.singleAry}
 							groupAry={this.props.groupAry}
+							deleteSingle={()=>this.deleteSingle(item)}
 						/>
 					})
 				}

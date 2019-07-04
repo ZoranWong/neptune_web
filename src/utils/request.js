@@ -1,6 +1,5 @@
 import Axios from 'axios'
 import Config from '../config/app.js'
-import {Redirect} from 'react-router-dom'
 import { message  } from 'antd';
 import {getToken,removeToken} from '../utils/dataStorage.js'
 import React from "react";
@@ -51,6 +50,7 @@ service.interceptors.response.use(
         message.error(response.data.message);// 弹出后端返回的错误
 		setTimeout(()=>{
 			if(response.status === 401 || response.status === 500){
+				removeToken();
 				window.location.href = './login'
 			}
 		},2000);

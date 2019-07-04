@@ -2,13 +2,13 @@ import React from 'react';
 import SingleGroup from './SingleGroup'
 import {Modal} from "antd";
 import './index.sass'
-import SingleLine from "./SingleLine";
 export default class AdvancedFilter extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			groupAry:['1']
-		}
+			groupAry:[1]
+		};
+		this.child = React.createRef();
 	};
 	
 	handleCancel = () =>{
@@ -16,7 +16,17 @@ export default class AdvancedFilter extends React.Component{
 	};
 	
 	cloneGroupLine = () =>{
-		this.setState({groupAry:[...this.state.groupAry,'3']})
+		let id = this.state.groupAry[this.state.groupAry.length-1];
+		id++;
+		this.setState({groupAry:[...this.state.groupAry,id]});
+	};
+	
+	watch = (id) =>{
+		let newAry = this.state.groupAry.filter(item=>{
+			return item !== id
+		});
+		this.setState({groupAry:newAry});
+		
 	};
 	
 	
@@ -37,7 +47,13 @@ export default class AdvancedFilter extends React.Component{
 					
 					{
 						this.state.groupAry.map(item=>{
-							return <SingleGroup key={item} groupAry={this.state.groupAry}/>
+							return <SingleGroup
+								key={item}
+								groupAry={this.state.groupAry}
+								operating={item}
+								ref={this.child}
+								watch={this.watch}
+							/>
 						})
 					}
 					<div className="addNewGroup">

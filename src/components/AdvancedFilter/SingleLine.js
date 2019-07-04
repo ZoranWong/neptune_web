@@ -63,6 +63,7 @@ export default class SingleLine extends React.Component{
 						<i
 							className="iconfont"
 							style={{'display':(this.props.singleAry.length >1||this.props.groupAry.length >1) ?'block':'none'}}
+							onClick={this.props.deleteSingle}
 						>&#xe82a;</i>
 					):''
 				}

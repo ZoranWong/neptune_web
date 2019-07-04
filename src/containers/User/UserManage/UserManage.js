@@ -5,16 +5,23 @@ import { admins} from "../../../api/setting";
 import SearchInput from '../../../components/SearchInput/SearchInput'
 import {Button,Table} from "antd";
 import './css/index.sass'
+import CustomItem from './CustomItems'
 import AdvancedFilter from '../../../components/AdvancedFilter/AdvancedFilter'
 class UserManage extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			filterVisible:false
+			filterVisible:false,
+			customVisible:false
 		}
 	}
 	
-	// 占位符 用于跳转至用户详情
+	componentDidMount() {
+		document.addEventListener('click', this.closeCustom);
+	}
+		
+		
+		// 占位符 用于跳转至用户详情
 	jump = () =>{
 		this.props.history.replace("/user/UserDetails")
 	};
@@ -29,7 +36,16 @@ class UserManage extends React.Component{
 	};
 	closeHigherFilter = () =>{
 		this.setState({filterVisible:false})
-	}
+	};
+	
+	//自定义显示项
+	showCustom = (e) =>{
+		e.nativeEvent.stopImmediatePropagation();
+		this.setState({customVisible:!this.state.customVisible})
+	};
+	closeCustom = () =>{
+		this.setState({customVisible:false})
+	};
 	
 	render(){
 		return (
@@ -51,11 +67,13 @@ class UserManage extends React.Component{
 						<Button size="small" disabled={true}>赠送</Button>
 						<Button size="small" disabled={true}>导出</Button>
 					</div>
-					<Button type="primary" size="small">自定义显示项</Button>
+					<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
+					
 				</div>
 				
-				
-				
+				<div style={{'display':this.state.customVisible?'block':'none'}}>
+					<CustomItem/>
+				</div>
 				
 				
 				<CustomPagination
