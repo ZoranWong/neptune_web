@@ -71,9 +71,9 @@ class UserManage extends React.Component{
 					
 				</div>
 				
-				<div style={{'display':this.state.customVisible?'block':'none'}}>
-					<CustomItem/>
-				</div>
+				{/*<div style={{'display':this.state.customVisible?'block':'none'}}>*/}
+				{/*	<CustomItem/>*/}
+				{/*</div>*/}
 				
 				
 				<CustomPagination

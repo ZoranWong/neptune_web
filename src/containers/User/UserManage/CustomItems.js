@@ -1,7 +1,7 @@
 import React from 'react'
 import {Transfer} from 'antd';
 import './css/customItem.sass'
-import {user_fields} from "../../../utils/user_fields";
+import {user_values} from "../../../utils/user_fields";
 
 export default class CustomItem extends React.Component{
 	
@@ -13,7 +13,7 @@ export default class CustomItem extends React.Component{
 		};
 	}
 	componentDidMount() {
-		this.setState({dataList:user_fields})
+		this.setState({dataList:user_values})
 		
 	}
 	

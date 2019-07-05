@@ -1,6 +1,6 @@
 import React from 'react';
 import SingleGroup from './SingleGroup'
-import {Modal} from "antd";
+import {Modal, Switch} from "antd";
 import './index.sass'
 export default class AdvancedFilter extends React.Component{
 	constructor(props){
@@ -55,6 +55,9 @@ export default class AdvancedFilter extends React.Component{
 								watch={this.watch}
 							/>
 						})
+					}
+					{
+						this.state.groupAry.length >1?<Switch checkedChildren="且" unCheckedChildren="或" defaultChecked />:''
 					}
 					<div className="addNewGroup">
 						<i className="iconfont">&#xe822;</i>

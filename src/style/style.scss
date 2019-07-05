@@ -173,3 +173,30 @@ select:-webkit-autofill {
 .ant-switch-checked{
     background-color: #4f9863!important;
 }
+.ant-cascader-menu-item:hover{
+    background: #f7f7f7 !important
+}
+.ant-calendar-picker-input {
+    height: 28px!important;
+    line-height: 28px!important;
+
+}
+.ant-calendar-date:hover{
+    color: #fff!important;
+}
+
+.ant-calendar-picker{
+    height: 28px;
+}
+.ant-calendar-range-picker-separator{
+    line-height: 18px;
+}
+.ant-calendar-range .ant-calendar-in-range-cell::before{
+    background: #F1FCF4!important;
+}
+/*
+选择时间button
+*/
+.ant-calendar-time-picker-btn{
+    display: none!important;
+}

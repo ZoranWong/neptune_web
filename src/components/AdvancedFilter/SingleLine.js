@@ -1,63 +1,82 @@
 import React from 'react';
-import {Select,Switch } from 'antd';
+import {Select,Cascader} from 'antd';
 import './index.sass'
+import {user_values,operation} from "../../utils/user_fields";
+import AdvancedFilterValues from './AdvancedFilterValues'
 const { Option } = Select;
-const provinceData = ['Zhejiang', 'Jiangsu'];
-const cityData = {
-	Zhejiang: ['Hangzhou', 'Ningbo', 'Wenzhou'],
-	Jiangsu: ['Nanjing', 'Suzhou', 'Zhenjiang'],
-};
-
 export default class SingleLine extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			cities: cityData[provinceData[0]],
-			secondCity: cityData[provinceData[0]][0]
+			activeKey:{},      // 选中key框对应的对象
+			activeOptions:operation['timeCompare'][0].label  //默认选中的option
 		};
 	};
 	
-	handleProvinceChange = value => {
-		this.setState({
-			cities: cityData[value],
-			secondCity: cityData[value][0],
+	onKeyChange = (value) => {
+		
+		let parent =  user_values.filter(item=>{
+			return item.value == value[0]
 		});
+		let child = parent[0].children.filter(item=>{
+			return item.value == value[value.length -1]
+		});
+		this.setState({activeKey:child[0]});
+		this.setState({activeOptions:operation[child[0].type][0].value})
+	};
+
+	// 选择后渲染的样式
+	displayRender = (label) => {
+		return label[0] + '-'+ label[label.length - 1];
 	};
 	
-	onSecondCityChange = value => {
-		this.setState({
-			secondCity: value,
-		});
+	onOperationChange = (value) => {
+		let type;
+		if(this.state.activeKey.type){
+			type = operation[this.state.activeKey.type].filter(item=>{
+				return item.value == value
+			})[0].type;
+		} else {
+			type = value == 'between'?'period':'timestamp'
+		}
+		this.setState({type:type});
+		this.setState({activeOptions:value})
 	};
 	
 
 	
 	
 	render(){
-		const { cities } = this.state;
 		return (
 			<div className="singleBox">
 				<div style={{width:"100%"}} className="selectChild">
+					<Cascader
+						options={user_values}
+						className="cascader"
+						defaultValue={["purchase_information", "last_purchased_at"]}
+						expandTrigger="hover"
+						displayRender={this.displayRender}
+						onChange={this.onKeyChange}
+					/>
 					<Select
-						defaultValue={provinceData[0]}
-						style={{ width: 120 }}
-						onChange={this.handleProvinceChange}
+						style={{ width: 120,marginLeft:5 }}
+						onChange={this.onOperationChange}
+						value={this.state.activeOptions}
+						defaultValue={operation['timeCompare'][0].label}
 					>
-						{provinceData.map(province => (
-							<Option key={province}>{province}</Option>
-						))}
+						{
+							this.state.activeKey&&this.state.activeKey.type?
+								(operation[this.state.activeKey.type].map(item=>(
+									<Option key={item.value}>{item.label}</Option>
+								)))
+								:
+								(operation['timeCompare'].map(item=>(
+									<Option key={item.value}>{item.label}</Option>
+								)))
+						}
 					</Select>
-					<Select
-						style={{ width: 120 }}
-						value={this.state.secondCity}
-						onChange={this.onSecondCityChange}
-					>
-						{cities.map(city => (
-							<Option key={city}>{city}</Option>
-						))}
-					</Select>
+					<AdvancedFilterValues type={this.state.type} />
 				</div>
-				<Switch checkedChildren="且" unCheckedChildren="或" defaultChecked />
 				{
 					this.props.groupAry&&this.props.singleAry?(
 						<i
@@ -73,3 +92,8 @@ export default class SingleLine extends React.Component{
 		)
 	}
 }
+
+
+
+
+

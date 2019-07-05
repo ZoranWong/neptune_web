@@ -1,6 +1,7 @@
 import React from 'react';
 import SingleLine from './SingleLine'
 import './index.sass'
+import {Switch} from "antd";
 export default class SingleGroup extends React.Component{
 	constructor(props){
 		super(props);
@@ -8,6 +9,7 @@ export default class SingleGroup extends React.Component{
 			singleAry:[1]
 		}
 	};
+	
 	
 	cloneSingLine = () =>{
 		let id = this.state.singleAry[this.state.singleAry.length-1];
@@ -40,6 +42,10 @@ export default class SingleGroup extends React.Component{
 						/>
 					})
 				}
+				{
+					this.state.singleAry.length >1?<Switch checkedChildren="且" unCheckedChildren="或" defaultChecked />:''
+				}
+				
 				<div className="addNew">
 					<i className="iconfont">&#xe822;</i>
 					<span onClick={()=>this.cloneSingLine()}>新加一个条件</span>
