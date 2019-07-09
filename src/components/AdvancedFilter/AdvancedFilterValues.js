@@ -9,7 +9,7 @@ export default class AdvancedFilterValues extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-			type:'selectedBox',
+			type:'timestamp',
 			selectedItems: [],
 		}
 	}
@@ -83,7 +83,7 @@ export default class AdvancedFilterValues extends React.Component{
 				</span>;
 				break;
 			case 'selectedBox':
-				return  <div>
+				return  <span>
 					<Select
 							mode="tags"
 							placeholder="Inserted are removed"
@@ -98,15 +98,15 @@ export default class AdvancedFilterValues extends React.Component{
 							</Select.Option>
 						))}
 					</Select>
-				</div>;
+				</span>;
 				break;
 			case 'selectedBoxGender':
 				return  <span>
-						<Select defaultValue="male" style={{ width: 120 }} onChange={this.handleGenderChange}>
-						<Option value="male">男</Option>
-						<Option value="female">女</Option>
-						</Select>
-				</span>;
+							<Select defaultValue="male" style={{ width: 120 }} onChange={this.handleGenderChange}>
+							<Option value="male">男</Option>
+							<Option value="female">女</Option>
+							</Select>
+					</span>;
 				break;
 			default:
 				return null

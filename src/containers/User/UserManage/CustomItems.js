@@ -12,9 +12,14 @@ export default class CustomItem extends React.Component{
 			targetKeys: [],
 		};
 	}
-	componentDidMount() {
-		this.setState({dataList:user_values})
-		
+	componentWillMount() {
+		let ary = [];
+		user_values.forEach(item=>{
+			item.children.forEach(i=>{
+				ary.push(i)
+			})
+		});
+		this.setState({dataList:ary});
 	}
 	
 	filterOption = (inputValue, option) => {
@@ -31,7 +36,6 @@ export default class CustomItem extends React.Component{
 	};
 	
 	
-	
 	render() {
 		return (
 			<div>
@@ -44,8 +48,8 @@ export default class CustomItem extends React.Component{
 					targetKeys={this.state.targetKeys}
 					onChange={this.handleChange}
 					onSearch={this.handleSearch}
-					render={item => item.name}
-					rowKey={record => record.id}
+					render={item => item.label}
+					rowKey={record => record.value}
 					locale={{'itemUnit': '项', 'itemsUnit': '项', 'notFoundContent': '列表为空', 'searchPlaceholder': '搜索'} }
 				/>
 			</div>

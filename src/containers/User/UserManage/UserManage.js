@@ -41,7 +41,7 @@ class UserManage extends React.Component{
 	//自定义显示项
 	showCustom = (e) =>{
 		e.nativeEvent.stopImmediatePropagation();
-		this.setState({customVisible:!this.state.customVisible})
+		this.setState({customVisible:true})
 	};
 	closeCustom = () =>{
 		this.setState({customVisible:false})
@@ -71,9 +71,9 @@ class UserManage extends React.Component{
 					
 				</div>
 				
-				{/*<div style={{'display':this.state.customVisible?'block':'none'}}>*/}
-				{/*	<CustomItem/>*/}
-				{/*</div>*/}
+				<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
+					<CustomItem  />
+				</div>
 				
 				
 				<CustomPagination
