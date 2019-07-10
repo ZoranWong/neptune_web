@@ -132,3 +132,10 @@ export function searchJson(data) {
     return params
 }
 
+/*
+* 生成随机整数
+*
+* */
+export function getRandom() {
+    return parseInt(Math.random()*10000000000)
+}

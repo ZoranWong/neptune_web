@@ -1,23 +1,24 @@
 import React from 'react';
 import SingleGroup from './SingleGroup'
 import {Modal, Switch} from "antd";
+import {getRandom} from "../../utils/dataStorage";
 import './index.sass'
 export default class AdvancedFilter extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			groupAry:[{gid:Math.random(),conditions:[], logic: 'and'}],
+			groupAry:[{gid:getRandom(),conditions:[], logic: 'and'}],
 		};
 		this.child = React.createRef();
 	};
 	
 	handleCancel = () =>{
 		this.props.onCancel()
-		this.setState({groupAry:[{gid:Math.random(),conditions:[], logic: 'and'}]})
+		this.setState({groupAry:[{gid:getRandom(),conditions:[], logic: 'and'}]})
 	};
 	
 	cloneGroupLine = () =>{
-		let data = {gid:Math.random(),conditions:[], logic: 'and'};
+		let data = {gid:getRandom(),conditions:[], logic: 'and'};
 		this.setState({groupAry:[...this.state.groupAry,data]})
 	};
 	
@@ -54,7 +55,12 @@ export default class AdvancedFilter extends React.Component{
 		setTimeout(()=>{
 			console.log(this.state.groupAry);
 		},1000)
-		
+
+		let data = {
+			conditions:this.state.groupAry,
+			logic:'and'
+		};
+
 	};
 	
 	render(){
@@ -72,23 +78,26 @@ export default class AdvancedFilter extends React.Component{
 					cancelText="清空筛选条件"
 					okText="确认"
 				>
-					
-					{
-						this.state.groupAry.map(item=>{
-							return <SingleGroup
-								key={item.gid}
-								ref={this.child}
-								item={item}
-								watch={this.watch}
-								onSaveData={this.saveData}
-								groupNeedRemove={groupNeedRemove}
-							/>
-						})
-					}
-					{
-						this.state.groupAry.length >1?<Switch checkedChildren="且" unCheckedChildren="或" defaultChecked />:''
-					}
-					<div className="addNewGroup">
+					<div className={groupNeedRemove?'groups':''}>
+						{
+							this.state.groupAry.map(item=>{
+								return <SingleGroup
+									key={item.gid}
+									ref={this.child}
+									item={item}
+									watch={this.watch}
+									onSaveData={this.saveData}
+									groupNeedRemove={groupNeedRemove}
+								/>
+							})
+						}
+						<div className="switch">
+							{
+								this.state.groupAry.length >1?<Switch checkedChildren="且" unCheckedChildren="或" defaultChecked />:''
+							}
+						</div>
+					</div>
+					<div className={groupNeedRemove?'addNewGroup addNewGroupTwo':'addNewGroup'}>
 						<i className="iconfont">&#xe822;</i>
 						<span onClick={this.cloneGroupLine}>新加一个条件</span>
 					</div>

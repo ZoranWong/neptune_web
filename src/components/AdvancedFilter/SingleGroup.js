@@ -2,19 +2,20 @@ import React from 'react';
 import SingleLine from './SingleLine'
 import './index.sass'
 import {Switch} from "antd";
+import {getRandom} from "../../utils/dataStorage";
 export default class SingleGroup extends React.Component{
 	constructor(props){
 		super(props);
 		this.item = props.item;
 		this.gid = this.item.gid;
 		this.state = {
-			singleAry:[{key:'',value:'',operation:'', cid: Math.random()}],
+			singleAry:[{key:'',value:'',operation:'', cid: getRandom()}],
 		}
 	};
 	
 	
 	cloneSingLine = () =>{
-		let data = {key:'',value:'',operation:'', cid: Math.random()};
+		let data = {key:'',value:'',operation:'', cid: getRandom()};
 		this.setState({singleAry:[...this.state.singleAry,data]});
 	};
 	
@@ -52,7 +53,7 @@ export default class SingleGroup extends React.Component{
 		let lineNeedRemove = this.state.singleAry.length > 1 || this.props.groupNeedRemove;
 		return (
 			<div className="groupBox">
-				<div className="lines">
+				<div className={this.state.singleAry.length > 1? 'lines' :''}>
 					{
 						this.state.singleAry.map((item, key)=>{
 							return <SingleLine
