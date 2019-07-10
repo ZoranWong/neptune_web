@@ -1,8 +1,7 @@
 .singleBox
 	width: 100%
 	background: #F4F4F4
-	padding: 10px
-	padding-bottom: 0
+	margin-bottom: 10px
 	display: flex
 	justify-content: flex-start
 	text-align: left
@@ -10,7 +9,6 @@
 	.selectChild
 		height: 28px!important
 	.iconfont
-		margin-right: 50px
 		font-size: 12px
 		color: #FF7373
 		cursor: pointer
@@ -32,6 +30,7 @@
 
 .groupBox
 	background: #F4F4F4
+	padding-top: 10px
 	padding-bottom: 20px
 	margin-bottom: 16px
 	.addNew
@@ -88,4 +87,23 @@
 	display: block
 	flex-wrap: wrap
 	margin-top: 5px
-
+.lines
+	width: 80%
+	margin-left: 80px
+	position: relative
+	&:before
+		content: ""
+		width: 51px
+		height: 80%
+		background: transparent
+		border: 1px solid #D9D9D9
+		position: absolute
+		left: -50px
+		top: 10%
+		border-right: none
+		z-index: 10
+	.switch
+		position: absolute
+		left: -70px
+		top: calc(50% - 11px)
+		z-index: 100

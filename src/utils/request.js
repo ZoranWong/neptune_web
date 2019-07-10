@@ -41,19 +41,19 @@ service.interceptors.response.use(
     },
     error => {
 		
-		if (error === undefined || error.code === 'ECONNABORTED') {
-			message.error("服务器请求超时");
-			return Promise.reject(error)
-		}
-		const { response: { status, statusText, data: { msg = '服务器发生错误' } }} = error;
-		const { response } = error;
-        message.error(response.data.message);// 弹出后端返回的错误
-		setTimeout(()=>{
-			if(response.status === 401 || response.status === 500){
-				removeToken();
-				window.location.href = './login'
-			}
-		},2000);
+		// if (error === undefined || error.code === 'ECONNABORTED') {
+		// 	message.error("服务器请求超时");
+		// 	return Promise.reject(error)
+		// }
+		// const { response: { status, statusText, data: { msg = '服务器发生错误' } }} = error;
+		// const { response } = error;
+        // message.error(response.data.message);// 弹出后端返回的错误
+		// setTimeout(()=>{
+		// 	if(response.status === 401 || response.status === 500){
+		// 		removeToken();
+		// 		window.location.href = './login'
+		// 	}
+		// },2000);
 		
         return Promise.reject(error)//千万不能去掉，，，否则请求超时会进入到then方法，导致逻辑错误。
 	}

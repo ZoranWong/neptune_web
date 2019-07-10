@@ -7,23 +7,33 @@ const { Option } = Select;
 export default class SingleLine extends React.Component{
 	constructor(props){
 		super(props);
+		this.itemData = props.item;
+		this.cid = this.itemData.cid;//用于标识每一行数据
 		this.state = {
+			singleLineData:{},
 			activeKey:{},      // 选中key框对应的对象
-			activeOptions:operation['timeCompare'][0].label  //默认选中的option
+			activeOptions:operation['timeCompare'][0].label,  //默认选中的option
+			activeValue:''
 		};
 	};
 	
+	
 	onKeyChange = (value) => {
-		
+		this.setState({activeValue:''});
 		let parent =  user_values.filter(item=>{
 			return item.value == value[0]
 		});
 		let child = parent[0].children.filter(item=>{
 			return item.value == value[value.length -1]
 		});
-		this.setState({activeKey:child[0]});
-		this.setState({activeOptions:operation[child[0].type][0].value})
-	};
+		let type = operation[child[0].type][0].type;
+		this.setState({
+			activeKey:child[0],
+			activeOptions:operation[child[0].type][0].value,
+			type:type
+		});
+	}
+	;
 
 	// 选择后渲染的样式
 	displayRender = (label) => {
@@ -40,9 +50,30 @@ export default class SingleLine extends React.Component{
 			type = value == 'between'?'period':'timestamp'
 		}
 		this.setState({type:type});
-		this.setState({activeOptions:value})
+		this.setState({activeOptions:value});
+		if(this.state.activeValue){
+			let data = {
+				key:this.state.activeKey.value,
+				operation:value,
+				value:this.state.activeValue,
+				cid:this.cid
+			};
+			this.setState({singleLineData:data});
+			this.props.onData(data);
+		}
 	};
 	
+	
+	valueChange = (value) =>{
+		let data = {
+			key:this.state.activeKey.value || "last_purchased_at",
+			operation:this.state.activeOptions,
+			value:value,
+			cid:this.cid
+		};
+		this.setState({singleLineData:data,activeValue:value});
+		this.props.onData(data);
+	};
 
 	
 	
@@ -57,6 +88,7 @@ export default class SingleLine extends React.Component{
 						expandTrigger="hover"
 						displayRender={this.displayRender}
 						onChange={this.onKeyChange}
+						allowClear={false}
 					/>
 					<Select
 						style={{ width: 120,marginLeft:5 }}
@@ -75,13 +107,13 @@ export default class SingleLine extends React.Component{
 								)))
 						}
 					</Select>
-					<AdvancedFilterValues type={this.state.type} />
+					<AdvancedFilterValues type={this.state.type} onValueChange={this.valueChange} />
 				</div>
 				{
-					this.props.groupAry&&this.props.singleAry?(
+					this.props.lineNeedRemove?(
 						<i
 							className="iconfont"
-							style={{'display':(this.props.singleAry.length >1||this.props.groupAry.length >1) ?'block':'none'}}
+							style={{'display':(this.props.lineNeedRemove) ?'block':'none'}}
 							onClick={this.props.deleteSingle}
 						>&#xe82a;</i>
 					):''

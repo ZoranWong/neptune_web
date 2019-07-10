@@ -11,6 +11,12 @@ export default class AdvancedFilterValues extends React.Component{
 		this.state = {
 			type:'timestamp',
 			selectedItems: [],
+			inputValue:'',
+			inputRangeOne:'',
+			inputRangeTwo:'',
+			gender:'',
+			period:'',
+			timestamp:''
 		}
 	}
 	
@@ -21,22 +27,26 @@ export default class AdvancedFilterValues extends React.Component{
 	
 	//时间戳发生变化
 	onTimestampChange = (date,dateString) =>{
-		console.log(date, dateString);
+		this.setState({timestamp:dateString});
+		this.props.onValueChange(dateString)
 	};
 	
 	// 时间段发生变化
 	onPeriodChange = (date,dateString) =>{
-		console.log(date, dateString);
+		this.setState({period:dateString});
+		this.props.onValueChange(dateString)
 	};
 	
 	// 选定下拉标签时
 	handleChange = selectedItems => {
 		this.setState({ selectedItems });
+		this.props.onValueChange(selectedItems)
 	};
 	
 	//性别选择框发生变化
 	handleGenderChange = (value) =>{
-		console.log(`selected ${value}`);
+		this.setState({gender:value});
+		this.props.onValueChange(value)
 	};
 	
 	renderTree = () =>{
@@ -56,7 +66,7 @@ export default class AdvancedFilterValues extends React.Component{
 				return <span>
 					  <RangePicker
 						  onChange={this.onPeriodChange}
-						  showTime={true}
+						  //showTime={true}
 						  locale={locale}
 					  />
 				</span>;
@@ -66,6 +76,13 @@ export default class AdvancedFilterValues extends React.Component{
 					<Input
 						placeholder="Basic usage"
 						className="optionInput"
+						value={this.state.inputValue}
+						onChange={(e)=>{
+							this.setState({inputValue:e.target.value})
+						}}
+						onBlur={()=>{
+							this.props.onValueChange(this.state.inputValue)
+						}}
 					/>
 				</span>;
 				break;
@@ -74,11 +91,22 @@ export default class AdvancedFilterValues extends React.Component{
 					<Input
 						placeholder="Basic usage"
 						className="optionInput"
+						value={this.state.inputRangeOne}
+						onChange={(e)=>{
+							this.setState({inputRangeOne:e.target.value});
+						}}
 					/>
 					<span>-</span>
 					<Input
 						placeholder="Basic usage"
 						className="optionInput"
+						value={this.state.inputRangeTwo}
+						onChange={(e)=>{
+							this.setState({inputRangeTwo:e.target.value});
+						}}
+						onBlur={()=>{
+							this.props.onValueChange([this.state.inputRangeOne,this.state.inputRangeTwo])
+						}}
 					/>
 				</span>;
 				break;
