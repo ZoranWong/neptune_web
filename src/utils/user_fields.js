@@ -232,7 +232,7 @@ export const operation = {
 		},
 		{
 			label:'不等于',
-			value:'!=',
+			value:'<>',
 			type:'timestamp'
 		},
 		{
@@ -269,7 +269,7 @@ export const operation = {
 		},
 		{
 			label:'不等于',
-			value:'!=',
+			value:'<>',
 			type:'input'
 		},
 		{
@@ -321,7 +321,7 @@ export const operation = {
 		},
 		{
 			label:'不为空',
-			value:'not null',
+			value:'is not null',
 			type:''
 		},
 	],
@@ -348,7 +348,7 @@ export const operation = {
 		},
 		{
 			label:'不为空',
-			value:'not null',
+			value:'is not null',
 			type:''
 		},
 	],
@@ -382,7 +382,7 @@ export const operation = {
 		},
 		{
 			label:'不为空',
-			value:'not null',
+			value:'is not null',
 			type:''
 		},
 	],
@@ -394,7 +394,7 @@ export const operation = {
 		},
 		{
 			label:'不等于',
-			value:'!=',
+			value:'<>',
 			type:'selectedBoxGender'
 		},
 		{
@@ -404,7 +404,7 @@ export const operation = {
 		},
 		{
 			label:'不为空',
-			value:'not null',
+			value:'is not null',
 			type:''
 		},
 	],
@@ -431,7 +431,7 @@ export const operation = {
 		},
 		{
 			label:'不为空',
-			value:'not null',
+			value:'is not null',
 			type:''
 		},
 	],

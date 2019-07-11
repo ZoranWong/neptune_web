@@ -2,29 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewTag.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/User/TagManage/css/createNewTag.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/User/UserGroupManage/CreateNewGroup.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/User/UserGroupManage/css/createNewGroup.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/User/UserManage/AdvancedFilterComponent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/permission.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/permission.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/setting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilter.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilter.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Login/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Login/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Setting/css/staffAuthoritySetting.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/css/staffAuthoritySetting.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewGroup.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/css/createNewGroup.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/css/createNewGroup.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/css/tagManage.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/css/tagManage.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserGroupManage/UserGroupManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserGroupManage/UserGroupManage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserGroupManage/css/userGroupManage.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserGroupManage/css/userGroupManage.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserManage/UserManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserManage/UserManage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/user_fields.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/user_fields.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -43,33 +22,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1109">
-              <caret line="24" column="46" selection-start-line="24" selection-start-column="46" selection-end-line="24" selection-end-column="46" />
+            <state relative-caret-position="131">
+              <caret line="10" column="36" lean-forward="true" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="36" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
-                <element signature="e#1043#1626#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/containers/Login/index.js">
+        <entry file="file://$PROJECT_DIR$/src/utils/user_fields.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="448">
-              <caret line="67" column="71" selection-start-line="67" selection-start-column="71" selection-end-line="67" selection-end-column="71" />
-              <folding>
-                <element signature="e#12#38#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/api/user.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="627">
-              <caret line="71" column="25" selection-start-line="71" selection-start-column="16" selection-end-line="71" selection-end-column="25" />
+            <state relative-caret-position="3287">
+              <caret line="396" column="21" selection-start-line="396" selection-start-column="21" selection-end-line="396" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -163,7 +129,6 @@
         <option value="$PROJECT_DIR$/config-overrides.js" />
         <option value="$PROJECT_DIR$/src/utils/slugs.js" />
         <option value="$PROJECT_DIR$/src/containers/User/UserManage/css/customItem.sass" />
-        <option value="$PROJECT_DIR$/src/utils/user_fields.js" />
         <option value="$PROJECT_DIR$/src/style/style.scss" />
         <option value="$PROJECT_DIR$/src/api/group.js" />
         <option value="$PROJECT_DIR$/src/style/iconFont.css" />
@@ -194,9 +159,10 @@
         <option value="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewTag.js" />
         <option value="$PROJECT_DIR$/src/containers/User/TagManage/css/createNewTag.sass" />
         <option value="$PROJECT_DIR$/src/api/user.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" />
         <option value="$PROJECT_DIR$/src/api/auth.js" />
         <option value="$PROJECT_DIR$/src/containers/Login/index.js" />
+        <option value="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" />
+        <option value="$PROJECT_DIR$/src/utils/user_fields.js" />
       </list>
     </option>
   </component>
@@ -505,11 +471,12 @@
       <workItem from="1562766682970" duration="4580000" />
       <workItem from="1562807958384" duration="10883000" />
       <workItem from="1562826005542" duration="12796000" />
+      <workItem from="1562855146711" duration="2346000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="440275000" />
+    <option name="totallyTimeSpent" value="442621000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -521,10 +488,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="27" width="1853" height="1053" extended-state="6" />
+    <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49834985" visible="true" weight="0.20623632" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49834985" visible="true" weight="0.20592384" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" sideWeight="0.50165015" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="3" sideWeight="0.50165015" side_tool="true" weight="0.20842451" />
@@ -537,7 +504,7 @@
       <window_info anchor="bottom" id="Debug" order="6" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="8" weight="0.4" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32673267" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.3257066" />
       <window_info anchor="bottom" id="TODO" order="10" weight="0.32893288" />
       <window_info anchor="bottom" id="TypeScript" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -698,7 +665,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/user_fields.js" />
     <entry file="file://$PROJECT_DIR$/src/utils/dataStorage.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="503">
@@ -824,16 +790,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/AdvancedFilterComponent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-308">
-          <caret line="2" column="78" selection-start-line="2" selection-start-column="78" selection-end-line="2" selection-end-column="78" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/AdvancedFilterComponent.js" />
     <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/CustomItems.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="336">
@@ -932,30 +889,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/CreateNewTag.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="700">
-          <caret line="85" column="60" selection-start-line="85" selection-start-column="51" selection-end-line="85" selection-end-column="60" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/css/createNewTag.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="15" column="29" lean-forward="true" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/api/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="627">
-          <caret line="71" column="25" selection-start-line="71" selection-start-column="16" selection-end-line="71" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/CreateNewTag.js" />
+    <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/css/createNewTag.sass" />
     <entry file="file://$PROJECT_DIR$/src/api/auth.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
@@ -963,24 +898,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js">
+    <entry file="file://$PROJECT_DIR$/src/api/user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1109">
-          <caret line="24" column="46" selection-start-line="24" selection-start-column="46" selection-end-line="24" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#1043#1626#0" />
-          </folding>
+        <state relative-caret-position="1463">
+          <caret line="77" column="1" selection-start-line="77" selection-start-column="1" selection-end-line="77" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/Login/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="67" column="71" selection-start-line="67" selection-start-column="71" selection-end-line="67" selection-end-column="71" />
+        <state relative-caret-position="-217">
+          <caret line="62" column="35" lean-forward="true" selection-start-line="62" selection-start-column="35" selection-end-line="62" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="10" column="36" lean-forward="true" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="36" />
           <folding>
-            <element signature="e#12#38#0" expanded="true" />
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/user_fields.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3287">
+          <caret line="396" column="21" selection-start-line="396" selection-start-column="21" selection-end-line="396" selection-end-column="21" />
         </state>
       </provider>
     </entry>

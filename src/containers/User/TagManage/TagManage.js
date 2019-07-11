@@ -1,10 +1,17 @@
 import React from 'react';
-import {Button, Popconfirm, Table, Tabs} from "antd";
+import {Button, Popconfirm, Table, Tabs,Popover} from "antd";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import './css/tagManage.sass'
 import CreateNewGroup from './CreateNewGroup'
 import CreateNewTag from './CreateNewTag'
 import {deleteGroup, tagGroupList,tagList,deleteTag} from '../../../api/user'
+
+const content = (
+	<div>
+		进行标签规则计算时，一个客户只允许被打上该分组的一个标签
+	</div>
+);
+
 class TagManage extends React.Component{
 	constructor(props) {
 		super(props);
@@ -87,9 +94,12 @@ class TagManage extends React.Component{
 						text="请输入标签名称"
 					/>
 					<div className="createNew">
-						<Button size="small" className="btn btnAdd fBtn" onClick={this.showCreateNew}>
-							<i className="iconfont" style={{color:'#4F9863',fontSize:'12px',marginRight:'6px'}}>&#xe7e0;</i>
-							新建分组</Button>
+						<Popover content={content} placement="bottom" trigger="hover">
+							<Button size="small" className="btn btnAdd fBtn" onClick={this.showCreateNew}>
+								<i className="iconfont" style={{color:'#4F9863',fontSize:'12px',marginRight:'6px'}}>&#xe7e0;</i>
+								新建分组</Button>
+						</Popover>
+
 						<Button size="small" className="btn btnAdd" onClick={this.showCreateTag}>
 							<i className="iconfont" style={{color:'#4F9863',fontSize:'12px',marginRight:'6px'}}>&#xe7e0;</i>
 							新建标签
@@ -134,6 +144,7 @@ class TagManage extends React.Component{
 															className="column groupOperation"
 															render={(text, record) => (
 																<span>
+
 																	<span className="operation" >详情</span>
 																	<Popconfirm
 																		title="确定要删除该标签么"
