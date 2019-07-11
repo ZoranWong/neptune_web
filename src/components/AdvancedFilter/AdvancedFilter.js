@@ -1,6 +1,6 @@
 import React from 'react';
 import SingleGroup from './SingleGroup'
-import {Modal, Switch} from "antd";
+import {Switch} from "antd";
 import {getRandom} from "../../utils/dataStorage";
 import './index.sass'
 export default class AdvancedFilter extends React.Component{
@@ -8,30 +8,40 @@ export default class AdvancedFilter extends React.Component{
 		super(props);
 		this.state = {
 			groupAry:[{gid:getRandom(),conditions:[], logic: 'and'}],
+			logic:'and'
 		};
 		this.child = React.createRef();
 	};
 	
-	handleCancel = () =>{
-		this.props.onCancel()
-		this.setState({groupAry:[{gid:getRandom(),conditions:[], logic: 'and'}]})
-	};
-	
 	cloneGroupLine = () =>{
+		if(this.props.renderChild){
+			this.props.renderChild(true)
+		}
 		let data = {gid:getRandom(),conditions:[], logic: 'and'};
 		this.setState({groupAry:[...this.state.groupAry,data]})
+		
 	};
 	
 	watch = (id) =>{
+		if(this.props.renderChild){
+			this.state.groupAry.length >2 ?this.props.renderChild(true):this.props.renderChild(false)
+		}
 		let newAry = this.state.groupAry.filter(item=>{
 			return item.gid !== id
 		});
 		this.setState({groupAry:newAry});
+		
 	};
 	
 	
-	onSubmit = () =>{
 	
+	
+	switchChange = (checked)=>{
+		if(checked){
+			this.setState({logic:'and'})
+		} else {
+			this.setState({logic:'or'})
+		}
 	};
 	
 	saveData = () =>{
@@ -58,50 +68,43 @@ export default class AdvancedFilter extends React.Component{
 
 		let data = {
 			conditions:this.state.groupAry,
-			logic:'and'
+			logic:this.state.logic
 		};
-
+		
+		this.setState({data:data})
 	};
 	
 	render(){
 		let groupNeedRemove = this.state.groupAry.length > 1;
 		return (
 			<div>
-				<Modal
-					title="高级筛选"
-					width={1000}
-					centered={true}
-					visible={this.props.visible}
-					onCancel={this.handleCancel}
-					onOk={this.onSubmit}
-					cancelButtonProps={this.handleCancel}
-					cancelText="清空筛选条件"
-					okText="确认"
-				>
-					<div className={groupNeedRemove?'groups':''}>
+				<div className={groupNeedRemove?'groups':''}>
+					{
+						this.state.groupAry.map(item=>{
+							return <SingleGroup
+								key={item.gid}
+								ref={this.child}
+								item={item}
+								watch={this.watch}
+								onSaveData={this.saveData}
+								groupNeedRemove={groupNeedRemove}
+							/>
+						})
+					}
+					<div className="switch">
 						{
-							this.state.groupAry.map(item=>{
-								return <SingleGroup
-									key={item.gid}
-									ref={this.child}
-									item={item}
-									watch={this.watch}
-									onSaveData={this.saveData}
-									groupNeedRemove={groupNeedRemove}
-								/>
-							})
+							this.state.groupAry.length >1?<Switch
+								checkedChildren="且"
+								unCheckedChildren="或"
+								onChange={this.switchChange}
+								defaultChecked />:''
 						}
-						<div className="switch">
-							{
-								this.state.groupAry.length >1?<Switch checkedChildren="且" unCheckedChildren="或" defaultChecked />:''
-							}
-						</div>
 					</div>
-					<div className={groupNeedRemove?'addNewGroup addNewGroupTwo':'addNewGroup'}>
-						<i className="iconfont">&#xe822;</i>
-						<span onClick={this.cloneGroupLine}>新加一个条件</span>
-					</div>
-				</Modal>
+				</div>
+				<div className={groupNeedRemove?'addNewGroup addNewGroupTwo':'addNewGroup'}>
+					<i className="iconfont">&#xe822;</i>
+					<span onClick={this.cloneGroupLine}>新加一个条件</span>
+				</div>
 			</div>
 		)
 	}

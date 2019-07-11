@@ -1,12 +1,36 @@
 .header
 	height: 60px
 	display: flex
-	justify-content: flex-start
+	justify-content: space-between
 	align-items: center
 	border-bottom: 1px solid #E9E9E9
 	margin-bottom: 0
 	padding-bottom: 20px
-	.fBtn
-		margin-left: 30px
-	.btnAdd
-		margin-right: 10px
+	.createNew
+		.fBtn
+			margin-left: 30px
+		.btnAdd
+			margin-right: 10px
+.tagGroups
+	margin-top: 16px
+	.ant-tabs-bar
+		border: 0
+		margin-bottom: 4px
+	.ant-tabs-nav-wrap
+		height: 28px
+		.ant-tabs-tab
+			padding: 6px 15px
+			color: #666
+			font-size: 12px
+			border: 1px solid #d9d9d9!important
+			.ant-tabs-close-x
+				color: #fff!important
+				display: none
+	.ant-tabs-tab-active
+		border: 1px solid #4f9863
+		.ant-tabs-close-x
+			display: inline-block !important
+	.chart
+		.column
+			width: 33.3% !important
+		

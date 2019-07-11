@@ -18,7 +18,7 @@ export function addAdmins(params) {
 //删除管理员 /api/admins/delete
 export function adminDelete(params) {
 	return request({
-		url: '/api/admins/delete',
+		url: '/api/backend/admins/delete',
 		method: 'delete',
 		params: params
 	})
@@ -26,7 +26,7 @@ export function adminDelete(params) {
 //修改管理员 /api/admins/{admin}/changeRole   /api/admins/{admin}/setRoles
 export function changeRole(params,id) {
 	return request({
-		url: `/api/admins/${id}/setRoles`,
+		url: `/api/backend/admins/${id}/setRoles`,
 		method: 'post',
 		data: params
 	})
@@ -36,7 +36,7 @@ export function changeRole(params,id) {
 //角色列表
 export function roles(params) {
 	return request({
-		url: '/api/roles',
+		url: '/api/backend/roles',
 		method: 'get',
 		params: params
 	})
@@ -44,7 +44,7 @@ export function roles(params) {
 // 新建角色
 export function addRoles(params) {
 	return request({
-		url: `/api/roles`,
+		url: `/api/backend/roles`,
 		method: 'post',
 		data: params
 	})
@@ -52,7 +52,7 @@ export function addRoles(params) {
 // 修改角色
 export function editRoles(params,id) {
 	return request({
-		url: `/api/roles/${id}`,
+		url: `/api/backend/roles/${id}`,
 		method: 'put',
 		data: params
 	})
@@ -60,7 +60,7 @@ export function editRoles(params,id) {
 // 删除角色
 export function deleteRole(params,id) {
 	return request({
-		url: `/api/roles/delete/${id}`,
+		url: `/api/backend/roles/delete/${id}`,
 		method: 'delete',
 		params: params
 	})
@@ -68,7 +68,7 @@ export function deleteRole(params,id) {
 // 设置角色权限
 export function setRolePermissions(params,id) {
 	return request({
-		url: `/api/roles/${id}/setPermissions`,
+		url: `/api/backend/roles/${id}/setPermissions`,
 		method: 'post',
 		data: params
 	})
@@ -77,7 +77,7 @@ export function setRolePermissions(params,id) {
 // // 角色拥有的权限
 export function getPermissions(params,id) {
 	return request({
-		url: `/api/roles/${id}/permissions`,
+		url: `/api/backend/roles/${id}/permissions`,
 		method: 'get',
 		params: params
 	})
@@ -85,7 +85,7 @@ export function getPermissions(params,id) {
 // 设置管理员权限 /api/admins/{administrator}/setPermissions
 export function setPermissions(params,id) {
 	return request({
-		url: `/api/admins/${id}/setPermissions`,
+		url: `/api/backend/admins/${id}/setPermissions`,
 		method: 'post',
 		data: params
 	})
@@ -93,7 +93,7 @@ export function setPermissions(params,id) {
 //管理员的角色列表，包括角色的所有权限和管理员在该角色下的拥有的权限
 export function getRoles(params,id) {
 	return request({
-		url: `/api/admins/${id}/rolePermissions`,
+		url: `/api/backend/admins/${id}/rolePermissions`,
 		method: 'get',
 		params: params
 	})

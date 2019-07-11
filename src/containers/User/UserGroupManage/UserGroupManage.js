@@ -1,46 +1,64 @@
 import React from 'react';
-import {Table, Tabs} from 'antd';
-import {getDynamic,addNewGroup,getStatic} from "../../../api/user";
+import {Table, Tabs, Button, Popconfirm} from 'antd';
+import {getDynamic,getStatic,deleteGroup} from "../../../api/user";
 import './css/userGroupManage.sass'
+import CreateNewGroup from './CreateNewGroup'
+import {adminDelete} from "../../../api/setting";
 const { TabPane } = Tabs;
 const { Column } = Table;
 class UserGroupManage extends React.Component{
 	
 	state = {
 		dynamicList:[],
-		staticList:[]
+		staticList:[],
+		createVisible:false,
+		type:'dynamic'
 	};
 	
 	componentWillMount() {
+		this.refresh()
+	}
+	
+	refresh = ()=>{
 		getDynamic({}).then(r=>{
-			console.log(r);
+			this.setState({dynamicList:r.data})
 		}).catch(_=>{});
 		
 		
 		getStatic({}).then(res=>{
 			this.setState({staticList:res.data})
 		}).catch(_=>{})
-	}
-	
-	addNewStatic = () =>{
-		addNewGroup({name:'111',remark:'2222'},'static').then(r=>{
-			console.log(r);
-		}).catch(_=>{})
 	};
 	
+	addNewStatic = () =>{
+		this.setState({type:'static',createVisible:true})
+	};
 	
+	addNewDynamic = () =>{
+		this.setState({type:'dynamic',createVisible:true})
+	};
+	
+	onCancel = () =>{
+		this.setState({createVisible:false})
+	};
 	
 	render(){
 		return (
 			<div>
+				<CreateNewGroup
+					visible={this.state.createVisible}
+					type={this.state.type}
+					onCancel={this.onCancel}
+					refresh={this.refresh}
+				/>
 				<Tabs defaultActiveKey="dynamic" type="card">
 					<TabPane tab="智能群组" key="dynamic">
 						<div className="chart">
-							<span className="addNew">
+							<Button className="addNew" onClick={this.addNewDynamic}>
 								<i className="iconfont">&#xe7e0;</i>
-								新建群组</span>
+								新建群组</Button>
 							<Table
-								// dataSource={this.state.tableData}
+								dataSource={this.state.dynamicList}
 								rowKey={record => record.id}
 							>
 								<Column
@@ -61,8 +79,8 @@ class UserGroupManage extends React.Component{
 								<Column
 									className="column primary"
 									title="建立时间"
-									dataIndex="built_at"
-									key="built_at" />
+									dataIndex="created_at"
+									key="created_at" />
 								<Column
 									className="column primary"
 									title="总人数"
@@ -75,7 +93,19 @@ class UserGroupManage extends React.Component{
 									render={(text, record) => (
 										<span>
 									<span className="operation" >详情</span>
-									<span className="operation" >删除</span>
+									<Popconfirm
+										title="确定要删除该账号么"
+										okText="确定"
+										icon={null}
+										cancelText="取消"
+										onConfirm={()=>{
+											deleteGroup({},record.id).then(r=>{
+												this.refresh()
+											})
+										}}
+									>
+										<span className="operation" >删除</span>
+									</Popconfirm>
 								</span>
 									)}
 								/>
@@ -84,9 +114,9 @@ class UserGroupManage extends React.Component{
 					</TabPane>
 					<TabPane tab="静态群组" key="static">
 						<div className="chart">
-							<span className="addNew" onClick={this.addNewStatic}>
+							<Button className="addNew" onClick={this.addNewStatic}>
 								<i className="iconfont">&#xe7e0;</i>
-								新建群组</span>
+								新建群组</Button>
 							<Table
 								dataSource={this.state.staticList}
 								rowKey={record => record.id}
@@ -123,7 +153,21 @@ class UserGroupManage extends React.Component{
 									render={(text, record) => (
 										<span>
 									<span className="operation" >详情</span>
-									<span className="operation" >删除</span>
+									<Popconfirm
+										title="确定要删除该账号么"
+										okText="确定"
+										icon={null}
+										cancelText="取消"
+										onConfirm={()=>{
+											let ids = [];
+											ids.push(record.id);
+											deleteGroup({},record.id).then(r=>{
+												this.refresh();
+											})
+										}}
+									>
+										<span className="operation" >删除</span>
+									</Popconfirm>
 								</span>
 									)}
 								/>

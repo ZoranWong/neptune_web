@@ -6,7 +6,7 @@ import SearchInput from '../../../components/SearchInput/SearchInput'
 import {Button,Table} from "antd";
 import './css/index.sass'
 import CustomItem from './CustomItems'
-import AdvancedFilter from '../../../components/AdvancedFilter/AdvancedFilter'
+import AdvancedFilterComponent from './AdvancedFilterComponent'
 class UserManage extends React.Component{
 	constructor(props){
 		super(props);
@@ -50,7 +50,7 @@ class UserManage extends React.Component{
 	render(){
 		return (
 			<div>
-				<AdvancedFilter
+				<AdvancedFilterComponent
 					visible={this.state.filterVisible}
 					onCancel={this.closeHigherFilter}
 				/>

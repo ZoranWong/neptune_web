@@ -1,12 +1,12 @@
 import React from 'react'
 import './css/createNewGroup.sass'
-import {Switch, Modal,Checkbox,Input,message} from "antd";
-import {addNewTags} from '../../../api/user'
+import {Switch, Modal,Radio,Input,message} from "antd";
+import {addNewTagGroup} from '../../../api/user'
 export default class CreateNewGroup extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			modelValue:['自动'],
+			modelValue:'自动',
 			inputValue:'',
 			switchValue:'1',
 		}
@@ -19,30 +19,29 @@ export default class CreateNewGroup extends React.Component{
 		if(!this.state.inputValue) return;
 		let type;
 		type = this.state.switchValue?'normal':'mutual_exclusion';
-		if(!this.state.modelValue.length){
-			message.error('请选择标签组类型');
-			return;
-		}
 		let auto_tag;
-		auto_tag = this.state.modelValue['0'] == '自动'?true:false
-		addNewTags({name:this.state.inputValue,type:type,auto_tag:auto_tag}).then(r=>{
-			console.log(r);
+		auto_tag = this.state.modelValue == '自动'?true:false
+		console.log(type);
+		console.log(auto_tag);
+		addNewTagGroup({name:this.state.inputValue,type:type,auto_tag:auto_tag}).then(r=>{
+			this.setState({
+				modelValue:'自动',
+				inputValue:'',
+				switchValue:'1',
+			});
+			this.props.refresh();
+			this.props.onClose()
 		})
 	};
 	
 	switchChange = (checked) => {
-		console.log(`switch to ${checked}`);
 		this.setState({switchValue:checked})
 	};
 	
-	modelChange = (checkedValues) =>{
-		console.log('checked = ', checkedValues);
-		if(checkedValues.length&&checkedValues.length >1){
-			let ary = [];
-			ary.push(checkedValues.pop());
-			checkedValues = ary;
-		}
-		this.setState({modelValue:checkedValues})
+	modelChange = (e) =>{
+		this.setState({
+			modelValue: e.target.value,
+		});
 	};
 	
 	inputChange = (e) =>{
@@ -51,7 +50,6 @@ export default class CreateNewGroup extends React.Component{
 	
 	
 	render() {
-		const model = ['自动', '手动'];
 		return (
 			<div>
 				<Modal
@@ -71,11 +69,10 @@ export default class CreateNewGroup extends React.Component{
 							unCheckedChildren="单选"
 							onChange={this.switchChange}
 						/>
-						<Checkbox.Group
-							options={model}
-							value={this.state.modelValue}
-							defaultValue={['自动']}
-							onChange={this.modelChange} />
+						<Radio.Group onChange={this.modelChange} value={this.state.modelValue}>
+							<Radio value='自动'>自动</Radio>
+							<Radio value='手动'>手动</Radio>
+						</Radio.Group>
 					</div>
 					<div className="name">
 						分组名称

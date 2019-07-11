@@ -5,8 +5,9 @@ import {withRouter} from 'react-router-dom'
 import { Form,  Button, Checkbox, Popover ,message} from "antd";
 import {setToken, compile, setUserInfo} from "../../utils/dataStorage";
 import '../../mock/list'
-import {login} from "../../api/auth";
+import {login,getPublic} from "../../api/auth";
 import {myPermissions} from "../../api/permission";
+const md5 = require('js-md5');
 // ==================
 // Definition
 // ==================
@@ -23,6 +24,7 @@ class LoginContainer extends React.Component {
 			popoverUserVisible:false,   //  泡泡visible
 			popoverPassVisible:false,   //  泡泡visible
 			countDown:60,  //短信倒计时
+			public_key:''
 		};
 	}
 	
@@ -40,6 +42,10 @@ class LoginContainer extends React.Component {
 		if(this.state.countDown < 60){
 			this.sendSms()
 		}
+		
+		getPublic({}).then(r=>{
+			this.setState({public_key:r.public_key})
+		}).catch(_=>{})
 	}
 	//发送短信
 	sendSms = ()=>{
@@ -59,14 +65,16 @@ class LoginContainer extends React.Component {
 			message.error('请输入用户名或密码');
 			return
 		}
-		login({mobile:this.state.userValue,password:this.state.password}).then(res => {
+		let password = md5(this.state.password + this.state.public_key);
+		
+		login({mobile:this.state.userValue,password:password}).then(res => {
 			setToken('bearer '+res.token);
 			message.success("登录成功");
 			myPermissions({},res.user.id).then(r=>{
 				setUserInfo(JSON.stringify(r.data))
 			});
 			setTimeout(() =>{ this.props.history.replace("/")},500); // 跳转到主页,用setTimeout是为了等待上一句设置用户信息完成} else {message.error(res.message);}}).finally(err => {this.setState({ loading: false });});
-		})
+		 })
 	};
 
 
