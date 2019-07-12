@@ -22,34 +22,43 @@ export default class AdvancedFilterDisabled extends React.Component{
 				{
 					this.state.groupData && this.state.groupData.conditions?
 						(
-							<div className={this.state.groupData.conditions[0].children.length >1 ?'groups':''}>
-								{
-									this.state.groupData.conditions[0].children.map((item,index)=>{
-										return <SingleGroupDisabled
-											key={index}
-											item={item}
-										/>
-									})
-								}
-								<div className="switch">
+							<div>
+								<div className={this.state.groupData.conditions[0].children.length >1 ?'groups':''}>
 									{
-										this.state.groupData && this.state.groupData.conditions?
-											(this.state.groupData.conditions[0].children.length >1?<Switch
-												checkedChildren="且"
-												unCheckedChildren="或"
-												checked={this.state.groupData.conditions[0].logic == 'and'}
-												disabled={true}
-											/>:''):''
+										this.state.groupData.conditions[0].children.map((item,index)=>{
+											return <SingleGroupDisabled
+												key={index}
+												item={item}
+											/>
+										})
 									}
+									<div className="switch">
+										{
+											this.state.groupData && this.state.groupData.conditions?
+												(this.state.groupData.conditions[0].children.length >1?<Switch
+													checkedChildren="且"
+													unCheckedChildren="或"
+													checked={this.state.groupData.conditions[0].logic == 'and'}
+													disabled={true}
+												/>:''):''
+										}
+									</div>
+								
 								</div>
+								<div className={this.state.groupData.conditions[0].children.length > 1? 'addNewGroup addNewGroupTwo':'addNewGroup'} >
+									<i className="iconfont">&#xe822;</i>
+									<span>新加一个条件</span>
+								</div>
+							
+							
 							</div>
+							
+							
 						):''
+					
 				}
 				
-				<div className='addNewGroup' >
-					<i className="iconfont">&#xe822;</i>
-					<span>新加一个条件</span>
-				</div>
+				
 			</div>
 		)
 	}

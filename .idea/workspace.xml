@@ -2,32 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterDisabled.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterValuesDisabled.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleGroupDisabled.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleLineDisabled.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/index.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/User/UserGroupManage/GroupDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/permission.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/common.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilterValues.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilterValues.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilter/SingleLine.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilter/SingleLine.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilter/index.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilter/index.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Login/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Login/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Setting/AuthoritySetting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/AuthoritySetting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Setting/EditRole.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/EditRole.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Setting/StaffAuthoritySetting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/StaffAuthoritySetting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/css/tagManage.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/css/tagManage.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserGroupManage/UserGroupManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserGroupManage/UserGroupManage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserGroupManage/css/userGroupManage.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserGroupManage/css/userGroupManage.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserManage/UserManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserManage/UserManage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/style/iconFont.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/iconFont.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/style/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/style.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/user_fields.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/user_fields.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterDisabled.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterDisabled.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -52,11 +27,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterDisabled.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="403">
-              <caret line="39" column="107" lean-forward="true" selection-start-line="39" selection-start-column="48" selection-end-line="39" selection-end-column="107" />
+            <state relative-caret-position="795">
+              <caret line="50" column="38" selection-start-line="50" selection-start-column="38" selection-end-line="50" selection-end-column="38" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -64,11 +39,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleGroupDisabled.js">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilter.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="56">
-              <caret line="8" column="8" lean-forward="true" selection-start-line="8" selection-start-column="8" selection-end-line="9" selection-end-column="31" />
+            <state relative-caret-position="767">
+              <caret line="103" column="48" lean-forward="true" selection-start-line="103" selection-start-column="48" selection-end-line="103" selection-end-column="90" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -196,9 +171,9 @@
         <option value="$PROJECT_DIR$/src/api/user.js" />
         <option value="$PROJECT_DIR$/src/containers/User/UserGroupManage/UserGroupManage.js" />
         <option value="$PROJECT_DIR$/src/containers/User/UserGroupManage/GroupDetail.js" />
-        <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterDisabled.js" />
         <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterValuesDisabled.js" />
         <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleGroupDisabled.js" />
+        <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterDisabled.js" />
       </list>
     </option>
   </component>
@@ -515,12 +490,12 @@
       <workItem from="1562807958384" duration="10883000" />
       <workItem from="1562826005542" duration="12796000" />
       <workItem from="1562855146711" duration="2346000" />
-      <workItem from="1562910051182" duration="14689000" />
+      <workItem from="1562910051182" duration="15009000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="468513000" />
+    <option name="totallyTimeSpent" value="468833000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -535,7 +510,7 @@
     <frame x="67" y="27" width="1853" height="1053" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49724972" visible="true" weight="0.20623632" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49724972" visible="true" weight="0.20623632" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" sideWeight="0.50165015" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="3" sideWeight="0.5027503" side_tool="true" weight="0.20623632" />
@@ -925,16 +900,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1708">
-          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/User/UserGroupManage/CreateNewGroup.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="627">
@@ -972,20 +937,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterDisabled.js">
+    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleGroupDisabled.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="39" column="107" lean-forward="true" selection-start-line="39" selection-start-column="48" selection-end-line="39" selection-end-column="107" />
+        <state relative-caret-position="613">
+          <caret line="35" column="40" lean-forward="true" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleGroupDisabled.js">
+    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilter.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="8" column="8" lean-forward="true" selection-start-line="8" selection-start-column="8" selection-end-line="9" selection-end-column="31" />
+        <state relative-caret-position="767">
+          <caret line="103" column="48" lean-forward="true" selection-start-line="103" selection-start-column="48" selection-end-line="103" selection-end-column="90" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterDisabled.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="795">
+          <caret line="50" column="38" selection-start-line="50" selection-start-column="38" selection-end-line="50" selection-end-column="38" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
