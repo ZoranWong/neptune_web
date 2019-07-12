@@ -73,15 +73,15 @@ export default class EditRole extends React.Component{
 				>
 					<ul className="editRole">
 						<li>
-							<span>姓名</span>
+							<span>姓名：</span>
 							<h5>{this.state.name}</h5>
 						</li>
 						<li>
-							<span>手机号码</span>
+							<span>手机号码：</span>
 							<h5>{this.state.phone}</h5>
 						</li>
 						<li>
-							<span>角色</span>
+							<span>角色：</span>
 							<Checkbox.Group
 								options={this.state.options}
 								onChange={this.onChange}

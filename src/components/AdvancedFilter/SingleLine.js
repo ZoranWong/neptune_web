@@ -107,7 +107,10 @@ export default class SingleLine extends React.Component{
 								)))
 						}
 					</Select>
-					<AdvancedFilterValues type={this.state.type} onValueChange={this.valueChange} />
+					<AdvancedFilterValues
+						activeKey={this.state.activeKey}
+						type={this.state.type}
+						onValueChange={this.valueChange} />
 				</div>
 				{
 					this.props.lineNeedRemove?(

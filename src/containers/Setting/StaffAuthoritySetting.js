@@ -6,7 +6,7 @@ import './css/common.sass'
 import './css/staffAuthoritySetting.sass'
 import NewTreeNode from "../../components/NewTreeNode/NewTreeNode";
 import {setPermissions, getRoles} from '../../api/setting'
-import {permissions} from "../../api/permission";
+import {permissions} from "../../api/common";
 const { TabPane } = Tabs;
 const {TreeNode} = Tree;
 class StaffAuthoritySetting  extends React.Component{

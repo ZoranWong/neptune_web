@@ -412,17 +412,17 @@ export const operation = {
 		{
 			label:'等于',
 			value:'=',
-			type:'selectedBox'
+			type:'cityBox'
 		},
 		{
 			label:'等于其中之一',
 			value:'in',
-			type:'selectedBox'
+			type:'cityBox'
 		},
 		{
 			label:'不等于其中任意',
 			value:'not in',
-			type:'selectedBox'
+			type:'cityBox'
 		},
 		{
 			label:'为空',

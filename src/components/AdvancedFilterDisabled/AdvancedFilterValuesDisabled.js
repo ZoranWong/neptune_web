@@ -7,7 +7,7 @@ const { RangePicker } = DatePicker;
 const { Option } = Select;
 
 const OPTIONS = ['Apples', 'Nails', 'Bananas', 'Helicopters'];
-export default class AdvancedFilterValues extends React.Component{
+export default class AdvancedFilterValuesDisabled extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -28,7 +28,6 @@ export default class AdvancedFilterValues extends React.Component{
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
-		console.log(nextProps);
 		if(nextProps.type === undefined) return;
 		this.setState({type:nextProps.type+'',value:nextProps.activeKey.value})
 	}

@@ -12,6 +12,16 @@ export function permissions(params) {
 export function myPermissions(params,id) {
     return request({
         url: `/api/backend/admins/${id}/permissions`,
+        methid:'get',
+        params: params
+    })
+}
+
+//  省市区字典
+export function regions(params) {
+    return request({
+        url: '/api/backend/regions',
+        method: 'get',
         params: params
     })
 }

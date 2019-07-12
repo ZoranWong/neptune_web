@@ -5,7 +5,7 @@ import {Modal, Button,Popconfirm} from 'antd';
 import './css/common.sass'
 import './css/authoritySetting.sass'
 import {deleteRole,getPermissions,setRolePermissions} from "../../api/setting";
-import {permissions} from "../../api/permission";
+import {permissions} from "../../api/common";
 import NewTreeNode from '../../components/NewTreeNode/NewTreeNode'
 
 class AuthoritySetting  extends React.Component{

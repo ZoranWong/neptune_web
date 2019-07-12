@@ -3,7 +3,7 @@ import {Table, Tabs, Button, Popconfirm} from 'antd';
 import {getDynamic,getStatic,deleteGroup} from "../../../api/user";
 import './css/userGroupManage.sass'
 import CreateNewGroup from './CreateNewGroup'
-import {adminDelete} from "../../../api/setting";
+import GroupDetail from './GroupDetail'
 const { TabPane } = Tabs;
 const { Column } = Table;
 class UserGroupManage extends React.Component{
@@ -12,7 +12,9 @@ class UserGroupManage extends React.Component{
 		dynamicList:[],
 		staticList:[],
 		createVisible:false,
-		type:'dynamic'
+		type:'dynamic',
+		detailVisible:false,
+		detailId:''
 	};
 	
 	componentWillMount() {
@@ -42,9 +44,23 @@ class UserGroupManage extends React.Component{
 		this.setState({createVisible:false})
 	};
 	
+	
+	showDetail = (record) => {
+		this.setState({detailVisible:true,detailId:record.id})
+	};
+	hideDetail = () =>{
+		this.setState({detailVisible:false})
+	};
+	
 	render(){
 		return (
 			<div>
+				<GroupDetail
+					visible={this.state.detailVisible}
+					onCancel={this.hideDetail}
+					groupId={this.state.detailId}
+				/>
+				
 				<CreateNewGroup
 					visible={this.state.createVisible}
 					type={this.state.type}
@@ -72,6 +88,7 @@ class UserGroupManage extends React.Component{
 									<i
 										style={{color:'#4F9863',fontSize:'14px',marginLeft:'10px',cursor:'pointer'}}
 										className="iconfont"
+										onClick={()=>this.showDetail(record)}
 									>&#xe7ab;</i>
 								</span>
 									)}
@@ -84,8 +101,8 @@ class UserGroupManage extends React.Component{
 								<Column
 									className="column primary"
 									title="总人数"
-									dataIndex="amount"
-									key="amount" />
+									dataIndex="model_count"
+									key="model_count" />
 								<Column
 									title="操作"
 									key="action"
@@ -120,6 +137,11 @@ class UserGroupManage extends React.Component{
 							<Table
 								dataSource={this.state.staticList}
 								rowKey={record => record.id}
+								rowClassName={(record, index) => {
+									let className = '';
+									if (index % 2 ) className = 'dark-row';
+									return className;
+								}}
 							>
 								<Column
 									className="column"
@@ -128,12 +150,12 @@ class UserGroupManage extends React.Component{
 									key="name"
 									render={(text, record) => (
 										<span className="editIcon">
-									<span>{text}</span>
-									<i
-										style={{color:'#4F9863',fontSize:'14px',marginLeft:'10px',cursor:'pointer'}}
-										className="iconfont"
-									>&#xe7ab;</i>
-								</span>
+										<span>{text}</span>
+										<i
+											style={{color:'#4F9863',fontSize:'14px',marginLeft:'10px',cursor:'pointer'}}
+											className="iconfont"
+										>&#xe7ab;</i>
+									</span>
 									)}
 								/>
 								<Column
@@ -144,15 +166,15 @@ class UserGroupManage extends React.Component{
 								<Column
 									className="column primary"
 									title="总人数"
-									dataIndex="amount"
-									key="amount" />
+									dataIndex="model_count"
+									key="model_count" />
 								<Column
 									title="操作"
 									key="action"
 									className="column groupOperation"
 									render={(text, record) => (
 										<span>
-									<span className="operation" >详情</span>
+									<span className="operation">详情</span>
 									<Popconfirm
 										title="确定要删除该账号么"
 										okText="确定"

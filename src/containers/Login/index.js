@@ -6,7 +6,7 @@ import { Form,  Button, Checkbox, Popover ,message} from "antd";
 import {setToken, compile, setUserInfo} from "../../utils/dataStorage";
 import '../../mock/list'
 import {login,getPublic} from "../../api/auth";
-import {myPermissions} from "../../api/permission";
+import {myPermissions} from "../../api/common";
 const md5 = require('js-md5');
 // ==================
 // Definition

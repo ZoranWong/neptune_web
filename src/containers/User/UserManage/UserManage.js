@@ -3,33 +3,41 @@ import {withRouter} from 'react-router-dom'
 import CustomPagination from '../../../components/Layout/Pagination'
 import { admins} from "../../../api/setting";
 import SearchInput from '../../../components/SearchInput/SearchInput'
-import {Button,Table} from "antd";
+import {Button} from "antd";
 import './css/index.sass'
 import CustomItem from './CustomItems'
 import AdvancedFilterComponent from './AdvancedFilterComponent'
+
+// 测试
+import { Table } from 'antd';
+
+
+
+
 class UserManage extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
 			filterVisible:false,
-			customVisible:false
-		}
+			customVisible:false,
+		};
+		
 	}
+	
+	
 	
 	componentDidMount() {
 		document.addEventListener('click', this.closeCustom);
 	}
 		
 		
-		// 占位符 用于跳转至用户详情
+	// 占位符 用于跳转至用户详情
 	jump = () =>{
 		this.props.history.replace("/user/UserDetails")
 	};
-	
 	// 头部搜索框
 	search = () =>{
 	};
-	
 	//高级筛选
 	higherFilter = () =>{
 		this.setState({filterVisible:true})
@@ -37,7 +45,6 @@ class UserManage extends React.Component{
 	closeHigherFilter = () =>{
 		this.setState({filterVisible:false})
 	};
-	
 	//自定义显示项
 	showCustom = (e) =>{
 		e.nativeEvent.stopImmediatePropagation();
@@ -48,6 +55,8 @@ class UserManage extends React.Component{
 	};
 	
 	render(){
+		
+		const {Column} = Table;
 		return (
 			<div>
 				<AdvancedFilterComponent
@@ -74,6 +83,14 @@ class UserManage extends React.Component{
 				<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
 					<CustomItem  />
 				</div>
+				
+				
+				
+				
+				
+				
+				
+				
 				
 				
 				<CustomPagination

@@ -33,7 +33,14 @@ export function addNewGroup(params,type) {
 		data: params
 	})
 }
-
+// 群组详情
+export function groupDetails(params,id) {
+	return request({
+		url: `/api/backend/groups/${id}`,
+		method: 'get',
+		params: params
+	})
+}
 
 
 // 新建标签组
@@ -74,5 +81,13 @@ export function deleteTag(params,tagId) {
 		url: `/api/backend/tags/${tagId}`,
 		method: 'delete',
 		params: params
+	})
+}
+// 调整标签优先级
+export function sortTags(params,tagGroupId) {
+	return request({
+		url: `/api/backend/tag_groups/${tagGroupId}`,
+		method: 'put',
+		data: params
 	})
 }
