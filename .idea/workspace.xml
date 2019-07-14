@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterDisabled.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterDisabled.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterValuesDisabled.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterValuesDisabled.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleGroupDisabled.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleGroupDisabled.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleLineDisabled.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleLineDisabled.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/User/UserManage/css/index.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserManage/css/index.sass" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -25,7 +21,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterValuesDisabled.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="504">
@@ -33,6 +29,24 @@
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/css/customItem.sass">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/css/index.sass">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="483">
+              <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -143,7 +157,6 @@
         <option value="$PROJECT_DIR$/src/api/group.js" />
         <option value="$PROJECT_DIR$/src/containers/User/TagManage/createNewGroup.js" />
         <option value="$PROJECT_DIR$/src/containers/User/UserManage/CustomItems.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/UserManage/css/index.sass" />
         <option value="$PROJECT_DIR$/src/utils/dataStorage.js" />
         <option value="$PROJECT_DIR$/src/components/AdvancedFilter/SingleGroup.js" />
         <option value="$PROJECT_DIR$/src/containers/User/UserManage/AdvancedFilter.js" />
@@ -181,6 +194,7 @@
         <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleGroupDisabled.js" />
         <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleLineDisabled.js" />
         <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterValuesDisabled.js" />
+        <option value="$PROJECT_DIR$/src/containers/User/UserManage/css/index.sass" />
       </list>
     </option>
   </component>
@@ -229,13 +243,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
               <item name="AdvancedFilter" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
-              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="AdvancedFilterDisabled" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
@@ -499,12 +506,12 @@
       <workItem from="1562855146711" duration="2346000" />
       <workItem from="1562910051182" duration="15009000" />
       <workItem from="1563117118701" duration="1390000" />
-      <workItem from="1563118539779" duration="5706000" />
+      <workItem from="1563118539779" duration="6151000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="475929000" />
+    <option name="totallyTimeSpent" value="476374000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -519,7 +526,7 @@
     <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49724972" weight="0.19746122" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49724972" visible="true" weight="0.19746122" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" sideWeight="0.50165015" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="3" sideWeight="0.5027503" side_tool="true" weight="0.20623632" />
@@ -592,25 +599,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/css/customItem.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/style/topBar.sass">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/SearchInput/searchInput.sass">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/css/index.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="840">
-          <caret line="30" selection-start-line="30" selection-end-line="30" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/Setting/StaffList.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -973,6 +966,20 @@
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/css/customItem.sass">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/css/index.sass">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
         </state>
       </provider>
     </entry>
