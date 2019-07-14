@@ -3,56 +3,69 @@ import {Select,Cascader} from 'antd';
 import './index.sass'
 import {user_values,operation} from "../../utils/user_fields";
 import AdvancedFilterValuesDisabled from './AdvancedFilterValuesDisabled'
+
 const { Option } = Select;
 export default class SingleLineDisabled extends React.Component{
 	constructor(props){
 		super(props);
-		this.itemData = props.item;
-		this.cid = this.itemData.cid;//用于标识每一行数据
 		this.state = {
 			singleLineData:{},
-			activeKey:{},      // 选中key框对应的对象
-			activeOptions:operation['timeCompare'][0].label,  //默认选中的option
-			activeValue:''
+			activeKey:[],      // 选中key框对应的对象
+			activeOptions:'',  //默认选中的option
+			item:{},   // 每一行的数据
+			type:'',  // operation的类型
 		};
 	};
-	
-	
+
+	componentWillReceiveProps(nextProps, nextContext) {
+		this.setState({item:nextProps.item});
+		let key_p =[];
+		user_values.forEach(item=>{
+			item.children.forEach(i=>{
+				if(i.value == nextProps.item.key){
+					key_p.push(item.value);
+					this.setState({type:i.type});
+					operation[i.type].forEach(item_operation=>{
+						if(item_operation.value == nextProps.item.operation){
+							this.setState({activeOptions:item_operation.label})
+						}
+					})
+				}
+			})
+		});
+		key_p.push(nextProps.item.key);
+		this.setState({activeKey:key_p})
+	}
+
 	render(){
 		return (
 			<div className="singleBox">
-				<div style={{width:"100%"}} className="selectChild">
-					<Cascader
-						options={user_values}
-						className="cascader"
-						defaultValue={["purchase_information", "last_purchased_at"]}
-						expandTrigger="hover"
-						allowClear={false}
-						disabled={true}
-					/>
-					<Select
-						style={{ width: 120,marginLeft:5 }}
-						disabled={true}
-						value={this.state.activeOptions}
-						defaultValue={operation['timeCompare'][0].label}
-					>
-						{
-							this.state.activeKey&&this.state.activeKey.type?
-								(operation[this.state.activeKey.type].map(item=>(
-									<Option key={item.value}>{item.label}</Option>
-								)))
-								:
-								(operation['timeCompare'].map(item=>(
-									<Option key={item.value}>{item.label}</Option>
-								)))
-						}
-					</Select>
-					<AdvancedFilterValuesDisabled
-						activeKey={this.state.activeKey}
-						type={this.state.type}
-					/>
-				</div>
-				
+				{
+					this.state.item && this.state.item.key?(
+						<div style={{width:"100%"}} className="selectChild">
+							<Cascader
+								options={user_values}
+								className="cascader"
+								value={this.state.activeKey}
+								expandTrigger="hover"
+								allowClear={false}
+								disabled={true}
+							/>
+							<Select
+								style={{ width: 120,marginLeft:5 }}
+								disabled={true}
+								value={this.state.activeOptions}
+							>
+							</Select>
+							<AdvancedFilterValuesDisabled
+								activeKey={this.state.item.value}
+								type={this.state.type}
+								operation={this.state.item.operation}
+							/>
+						</div>
+					):''
+				}
+
 			</div>
 			
 		)

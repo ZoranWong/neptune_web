@@ -1,7 +1,6 @@
 import React from 'react';
 import SingleGroupDisabled from './SingleGroupDisabled'
 import {Switch} from "antd";
-import {getRandom} from "../../utils/dataStorage";
 import './index.sass'
 export default class AdvancedFilterDisabled extends React.Component{
 	constructor(props){
@@ -14,6 +13,7 @@ export default class AdvancedFilterDisabled extends React.Component{
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(!nextProps.groupData) return;
+
 		this.setState({groupData:nextProps.groupData});
 	}
 	render(){
@@ -49,16 +49,9 @@ export default class AdvancedFilterDisabled extends React.Component{
 									<i className="iconfont">&#xe822;</i>
 									<span>新加一个条件</span>
 								</div>
-							
-							
 							</div>
-							
-							
 						):''
-					
 				}
-				
-				
 			</div>
 		)
 	}

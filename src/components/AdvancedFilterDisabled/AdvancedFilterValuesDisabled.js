@@ -1,22 +1,18 @@
 import React from 'react'
 import {DatePicker,Input,Select} from 'antd'
 import locale from 'antd/lib/date-picker/locale/zh_CN';
-import {regions} from "../../api/common";
+import {operation} from "../../utils/user_fields";
 import './index.sass'
 const { RangePicker } = DatePicker;
-const { Option } = Select;
+
 
 const OPTIONS = ['Apples', 'Nails', 'Bananas', 'Helicopters'];
 export default class AdvancedFilterValuesDisabled extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-			type:'timestamp',
+			type:'',
 			value:'',
-			selectedItems: [],
-			inputValue:'',
-			inputRangeOne:'',
-			inputRangeTwo:'',
 			gender:'',
 			period:'',
 			timestamp:'',
@@ -26,74 +22,28 @@ export default class AdvancedFilterValuesDisabled extends React.Component{
 			areaData:[]
 		}
 	}
-	
+
+	// timecompare 1111
 	componentWillReceiveProps(nextProps, nextContext) {
+		this.setState({activeKey:nextProps.activeKey})
 		if(nextProps.type === undefined) return;
-		this.setState({type:nextProps.type+'',value:nextProps.activeKey.value})
+		operation[nextProps.type].forEach(item=>{
+			if(item.value == nextProps.operation){
+				this.setState({type:item.type})
+			}
+		})
 	}
 	
 	componentDidMount() {
-		regions({}).then(r=>{
-			let cityAry = [];
-			r.forEach(item=>{
-				cityAry = cityAry.concat(item.children)
-			});
-			let areaAry=[];
-			cityAry.forEach(item=>{
-				areaAry = areaAry.concat(item.children)
-			});
-			this.setState({provinceData:r,cityData:cityAry,areaData:areaAry})
-		}).catch(_=>{})
 		
 	}
-	
-	//时间戳发生变化
-	onTimestampChange = (date,dateString) =>{
-		this.setState({timestamp:dateString});
-		this.props.onValueChange(dateString)
-	};
-	
-	// 时间段发生变化
-	onPeriodChange = (date,dateString) =>{
-		this.setState({period:dateString});
-		this.props.onValueChange(dateString)
-	};
-	
-	// 选定下拉标签时
-	handleChange = selectedItems => {
-		this.setState({ selectedItems });
-		this.props.onValueChange(selectedItems)
-	};
-	
-	//性别选择框发生变化
-	handleGenderChange = (value) =>{
-		this.setState({gender:value});
-		this.props.onValueChange(value)
-	};
-	
-	// 城市选择发生变化
-	handleCityChange = (value) =>{
-		this.setState({city:value});
-		this.props.onValueChange(value)
-	};
-	handleCityData = () =>{
-		if(this.state.value == 'province'){
-			return this.state.provinceData
-		} else if(this.state.value == 'city'){
-			return this.state.cityData
-		} else {
-			return this.state.areaData
-		}
-	};
-	
 	renderTree = () =>{
+		console.log(this.state.type);
 		const { selectedItems } = this.state;
-		const filteredOptions = OPTIONS.filter(o => !selectedItems.includes(o));
 		switch (this.state.type) {
 			case 'timestamp':
 				return <span>
 					<DatePicker
-						onChange={this.onTimestampChange}
 						placeholder="请选择日期"
 						showToday={false}
 					/>
@@ -102,7 +52,6 @@ export default class AdvancedFilterValuesDisabled extends React.Component{
 			case 'period':
 				return <span>
 					  <RangePicker
-						  onChange={this.onPeriodChange}
 						  //showTime={true}
 						  locale={locale}
 					  />
@@ -112,14 +61,9 @@ export default class AdvancedFilterValuesDisabled extends React.Component{
 				return  <span>
 					<Input
 						placeholder="Basic usage"
+						disabled={true}
 						className="optionInput"
-						value={this.state.inputValue}
-						onChange={(e)=>{
-							this.setState({inputValue:e.target.value})
-						}}
-						onBlur={()=>{
-							this.props.onValueChange(this.state.inputValue)
-						}}
+						value={this.state.activeKey}
 					/>
 				</span>;
 				break;
@@ -127,23 +71,16 @@ export default class AdvancedFilterValuesDisabled extends React.Component{
 				return  <span className="inputRange">
 					<Input
 						placeholder="Basic usage"
+						disabled={true}
 						className="optionInput"
-						value={this.state.inputRangeOne}
-						onChange={(e)=>{
-							this.setState({inputRangeOne:e.target.value});
-						}}
+						value={this.state.activeKey[0]}
 					/>
 					<span>-</span>
 					<Input
 						placeholder="Basic usage"
+						disabled={true}
 						className="optionInput"
-						value={this.state.inputRangeTwo}
-						onChange={(e)=>{
-							this.setState({inputRangeTwo:e.target.value});
-						}}
-						onBlur={()=>{
-							this.props.onValueChange([this.state.inputRangeOne,this.state.inputRangeTwo])
-						}}
+						value={this.state.activeKey[1]}
 					/>
 				</span>;
 				break;
@@ -151,51 +88,34 @@ export default class AdvancedFilterValuesDisabled extends React.Component{
 				return  <span>
 					<Select
 							mode="tags"
+							disabled={true}
 							placeholder="Inserted are removed"
-							value={selectedItems}
+							value={this.state.activeKey}
 							className='selectedBox'
-							onChange={this.handleChange}
 						
 						>
-						{filteredOptions.map(item => (
-							<Select.Option key={item} value={item}>
-								{item}
-							</Select.Option>
-						))}
 					</Select>
 				</span>;
 				break;
 			case 'cityBox':
 				return  <span>
 					<Select
+						disabled={true}
 						mode="multiple"
 						placeholder="Inserted are removed"
-						value={this.state.city}
+						value={this.state.activeKey}
 						className='selectedBox tagBox'
 						onChange={this.handleCityChange}
 						optionLabelProp="label"
 						showSearch
 						optionFilterProp="children"
-						filterOption={(input, option) =>
-							option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-						}
 					>
-						{this.handleCityData().map(item => (
-							<Select.Option
-								key={item.region_code+''}
-								label={item.name}
-								value={item.region_code+''}>
-								{item.name}
-							</Select.Option>
-						))}
 					</Select>
 				</span>;
 				break;
 			case 'selectedBoxGender':
 				return  <span>
-							<Select defaultValue="male" style={{ width: 120 }} onChange={this.handleGenderChange}>
-							<Option value="male">男</Option>
-							<Option value="female">女</Option>
+							<Select defaultValue="male" disabled={true} style={{ width: 120 }}>
 							</Select>
 					</span>;
 				break;
