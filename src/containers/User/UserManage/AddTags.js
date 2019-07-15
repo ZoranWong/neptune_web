@@ -112,23 +112,24 @@ export default class AddTags extends React.Component{
 						</li>
 						<li>
 							<span className="left">标签分组</span>
-							<Select
-								showSearch
-								style={{ width: 300 }}
-								optionFilterProp="children"
-								onChange={this.onChange}
-								filterOption={(input, option) =>
-									option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-								}
-							>
-								{
-									this.state.tagGroupList.map(item => (
-										<Option key={item.id}>{item.name}</Option>
-									))
-								}
-							</Select>
+								<Select
+									showSearch
+									style={{ width: 300 }}
+									optionFilterProp="children"
+									placeholder="请选择分组"
+									onChange={this.onChange}
+									filterOption={(input, option) =>
+										option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+									}
+								>
+									{
+										this.state.tagGroupList.map(item => (
+											<Option key={item.id}>{item.name}</Option>
+										))
+									}
+								</Select>
 						</li>
-						<li className="tags" style={{'display':this.state.type == 'create'?'none':'inline-block'}}>
+						<li className="tags" style={{'display':this.state.type == 'create'||(!this.state.tagList)?'none':'inline-block'}}>
 							{
 								this.state.tagList.length > 0?(
 									this.state.tagList.map(item=>{

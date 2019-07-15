@@ -44,10 +44,19 @@ class App extends React.Component{
 				return <Home match={{url:this.props.location.pathname}}/>;
 		}	
 	};
-	
+
+	// check container
+	routeClassName = () =>{
+		let routePath = this.props.location.pathname.split('/');
+		if(routePath[2] && (routePath[2] === 'integralRules'||routePath[2] === 'userDetails')){
+			return true
+		}
+		return false
+	};
 	
 	
 	render() {
+		console.log(this.props.location.pathname.split('/'));
 		if(this.props.location.pathname === '/login'){
 			return <LoginContainer/>
 		} else if(this.props.location.pathname === '/login/resetPassword'){
@@ -68,7 +77,7 @@ class App extends React.Component{
 						>
 							{this.handleSider()}
 						</Sider>
-						<Content className="container" ><Routes/></Content>
+						<Content className={this.routeClassName()?'container no-padding-container':'container'} ><Routes/></Content>
 					</div>
 				</Layout>
 			</Layout>

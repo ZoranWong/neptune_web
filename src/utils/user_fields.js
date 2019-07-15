@@ -307,17 +307,17 @@ export const operation = {
 		{
 			label:'包含以下任意',
 			value:'in',
-			type:'selectedBox'
+			type:'selectedTagBox'
 		},
 		{
 			label:'包含以下所有',
 			value:'all',
-			type:'selectedBox'
+			type:'selectedTagBox'
 		},
 		{
 			label:'不包含以下任意',
 			value:'not in',
-			type:'selectedBox'
+			type:'selectedTagBox'
 		},
 		{
 			label:'为空',
@@ -334,17 +334,17 @@ export const operation = {
 		{
 			label:'在以下任意群组中',
 			value:'in',
-			type:'selectedBox'
+			type:'selectedGroupBox'
 		},
 		{
 			label:'在以下所有群组中',
 			value:'all',
-			type:'selectedBox'
+			type:'selectedGroupBox'
 		},
 		{
 			label:'不在以下任意群组中',
 			value:'not in',
-			type:'selectedBox'
+			type:'selectedGroupBox'
 		},
 		{
 			label:'为空',

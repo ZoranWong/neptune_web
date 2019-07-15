@@ -19,6 +19,7 @@ import {searchJson} from "../../../utils/dataStorage";
 class UserManage extends React.Component{
 	constructor(props){
 		super(props);
+		this.child = React.createRef();
 		this.state = {
 			filterVisible:false,
 			customVisible:false,
@@ -78,10 +79,11 @@ class UserManage extends React.Component{
 		this.setState({filterVisible:false})
 	};
 	onSubmit = (data) =>{
-		//this.setState({paginationParams:{...this.state.paginationParams,logic_conditions:data}})
-		users({limit:10,page:1,logic_conditions:searchJson(data)}).then(r=>{
-			this.setState({user_data:r.data})
-		}).catch(_=>{})
+		this.setState({paginationParams:{...this.state.paginationParams,logic_conditions:searchJson(data)}},()=>{
+			this.child.current.pagination(1)
+		});
+
+
 	};
 	//自定义显示项
 	showCustom = (e) =>{
@@ -203,6 +205,7 @@ class UserManage extends React.Component{
 				<div className="pagination">
 					<CustomPagination
 						api={users}
+						ref={this.child}
 						params={this.state.paginationParams}
 						refresh={false}
 						valChange={this.paginationChange}

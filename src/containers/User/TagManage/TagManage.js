@@ -290,8 +290,8 @@ class TagManage extends React.Component{
 															<Column
 																className="column primary"
 																title="人数"
-																dataIndex="amount"
-																key="amount" />
+																dataIndex="model_count"
+																key="model_count" />
 															<Column
 																title="操作"
 																key="action"

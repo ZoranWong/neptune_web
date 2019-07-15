@@ -58,6 +58,14 @@ export function addNewTagGroup(params) {
 		data: params
 	})
 }
+// 所有标签列表
+export function tags(params) {
+	return request({
+		url: '/api/backend/tags',
+		method: 'get',
+		params: params
+	})
+}
 // 标签组列表
 export function tagGroupList(params) {
 	return request({

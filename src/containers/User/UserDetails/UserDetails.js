@@ -20,7 +20,6 @@ class UserDetails extends React.Component{
 							<li >
 								<p>ID：A20190701</p>
 								<p>手机号码：15866327791</p>
-								<p>微信号：Len15866327791</p>
 								<p>注册时间：2019-07-01  18:22</p>
 							</li>
 							<li>

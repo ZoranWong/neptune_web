@@ -64,7 +64,7 @@ export default class CreateNewGroup extends React.Component{
 				>
 					<div className="modelHeader">
 						<Switch
-							defaultChecked
+							checked={this.state.switchValue}
 							checkedChildren="多选"
 							unCheckedChildren="单选"
 							onChange={this.switchChange}

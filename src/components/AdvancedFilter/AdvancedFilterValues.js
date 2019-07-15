@@ -3,6 +3,7 @@ import {DatePicker,Input,Select} from 'antd'
 import locale from 'antd/lib/date-picker/locale/zh_CN';
 import {regions} from "../../api/common";
 import './index.sass'
+import {getStatic,tags} from '../../api/user'
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 
@@ -23,7 +24,10 @@ export default class AdvancedFilterValues extends React.Component{
 			city:[],
 			provinceData:[],
 			cityData:[],
-			areaData:[]
+			areaData:[],
+			selectedTagItems:[],
+			selectedGroupItems:[],
+			scrollPage:1
 		}
 	}
 	
@@ -43,9 +47,21 @@ export default class AdvancedFilterValues extends React.Component{
 				areaAry = areaAry.concat(item.children)
 			});
 			this.setState({provinceData:r,cityData:cityAry,areaData:areaAry})
-		}).catch(_=>{})
-		
+		}).catch(_=>{});
+
+		getStatic({}).then(r=>{
+			this.setState({selectedGroupItems:r.data})
+		});
+		this.getTagList(1)
+
 	}
+
+	getTagList = (page) =>{
+		tags({limit:10,page:page}).then(r=>{
+			if(!r.data.length) return;
+			this.setState({selectedTagItems:this.state.selectedTagItems.concat(r.data)})
+		})
+	};
 	
 	//时间戳发生变化
 	onTimestampChange = (date,dateString) =>{
@@ -63,6 +79,17 @@ export default class AdvancedFilterValues extends React.Component{
 	handleChange = selectedItems => {
 		this.setState({ selectedItems });
 		this.props.onValueChange(selectedItems)
+	};
+	// 下拉框分页加载
+	tagScroll = e => {
+		e.persist();
+		const { target } = e;
+		if (target.scrollTop + target.offsetHeight === target.scrollHeight) {
+			const { scrollPage } = this.state;
+			const nextScrollPage = scrollPage + 1;
+			this.setState({ scrollPage: nextScrollPage });
+			this.getTagList(nextScrollPage); // 调用api方法
+		}
 	};
 	
 	//性别选择框发生变化
@@ -160,6 +187,41 @@ export default class AdvancedFilterValues extends React.Component{
 						{filteredOptions.map(item => (
 							<Select.Option key={item} value={item}>
 								{item}
+							</Select.Option>
+						))}
+					</Select>
+				</span>;
+				break;
+			case 'selectedTagBox':
+				return  <span>
+					<Select
+						mode="tags"
+						placeholder="Inserted are removed"
+						value={selectedItems}
+						className='selectedBox'
+						onChange={this.handleChange}
+						onPopupScroll={this.tagScroll}
+					>
+						{this.state.selectedTagItems.map(item => (
+							<Select.Option key={item.id} value={item.id+''}>
+								{item.name}
+							</Select.Option>
+						))}
+					</Select>
+				</span>;
+				break;
+			case 'selectedGroupBox':
+				return  <span>
+					<Select
+						mode="tags"
+						placeholder="Inserted are removed"
+						value={selectedItems}
+						className='selectedBox'
+						onChange={this.handleChange}
+					>
+						{this.state.selectedGroupItems.map(item => (
+							<Select.Option key={item.id} value={item.id+''}>
+								{item.name}
 							</Select.Option>
 						))}
 					</Select>
