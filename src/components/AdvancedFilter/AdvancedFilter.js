@@ -61,10 +61,6 @@ export default class AdvancedFilter extends React.Component{
 		} else {
 			this.setState({groupAry:[...this.state.groupAry,this.child.current.state.singleAry]})
 		}
-		
-		setTimeout(()=>{
-			console.log(this.state.groupAry);
-		},1000)
 
 		let data = {
 			conditions:this.state.groupAry,

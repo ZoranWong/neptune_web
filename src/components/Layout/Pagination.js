@@ -15,12 +15,17 @@ class CustomPagination extends React.Component{
 		this.pagination(1)
 	}
 	
+	componentWillReceiveProps(nextProps, nextContext) {
+		if(!nextProps.params) return
+	}
+	
 	pagination = (page) =>{
 		if(!this.props.api) return;
 		let params = this.props.params;
 		params.limit = 10;
 		params.page = page;
 		this.props.api(params).then(r=>{
+			this.props.valChange(r.data);
 			this.setState({
 				total:r.meta.pagination.total
 			})

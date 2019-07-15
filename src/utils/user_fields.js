@@ -108,8 +108,13 @@ export const user_values = [
 				type:'emptyCompare'
 			},
 			{
-				label:'微信号',
+				label:'openId',
 				value:'open_id',
+				type:'emptyCompare'
+			},
+			{
+				label:'unionId',
+				value:'union_id',
 				type:'emptyCompare'
 			},
 			{

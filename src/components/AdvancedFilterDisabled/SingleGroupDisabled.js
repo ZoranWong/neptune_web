@@ -43,7 +43,7 @@ export default class SingleGroupDisabled extends React.Component{
 								</div>
 							</div>
 
-							<div className="addNew">
+							<div className="addNew1">
 								<i className="iconfont">&#xe822;</i>
 								<span>新加一个条件</span>
 							</div>

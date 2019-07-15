@@ -54,8 +54,8 @@ service.interceptors.response.use(
 		// 		window.location.href = './login'
 		// 	}
 		// },2000);
-		
-        return Promise.reject(error)//千万不能去掉，，，否则请求超时会进入到then方法，导致逻辑错误。
+		//
+        // return Promise.reject(error)//千万不能去掉，，，否则请求超时会进入到then方法，导致逻辑错误。
 	}
 );
 

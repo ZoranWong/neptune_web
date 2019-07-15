@@ -45,7 +45,7 @@ export default class AdvancedFilterDisabled extends React.Component{
 									</div>
 								
 								</div>
-								<div className={this.state.groupData.conditions[0].children.length > 1? 'addNewGroup addNewGroupTwo':'addNewGroup'} >
+								<div className={this.state.groupData.conditions[0].children.length > 1? 'addNewGroup1 addNewGroupTwo1':'addNewGroup1'} >
 									<i className="iconfont">&#xe822;</i>
 									<span>新加一个条件</span>
 								</div>

@@ -4,6 +4,7 @@ import AdvancedFilter from '../../../components/AdvancedFilter/AdvancedFilter'
 export default class AdvancedFilterComponent extends React.Component{
 	constructor(props){
 		super(props);
+		this.child = React.createRef()
 	};
 	
 	handleCancel = () =>{
@@ -13,7 +14,8 @@ export default class AdvancedFilterComponent extends React.Component{
 	
 	
 	onSubmit = () =>{
-	
+		this.props.onSubmit(this.child.current.state.data);
+		this.handleCancel()
 	};
 	
 	
@@ -32,7 +34,7 @@ export default class AdvancedFilterComponent extends React.Component{
 					cancelText="清空筛选条件"
 					okText="确认"
 				>
-					<AdvancedFilter />
+					<AdvancedFilter ref={this.child} />
 				</Modal>
 			</div>
 		)

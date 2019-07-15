@@ -28,7 +28,6 @@ export default class AdvancedFilterValues extends React.Component{
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
-		console.log(nextProps);
 		if(nextProps.type === undefined) return;
 		this.setState({type:nextProps.type+'',value:nextProps.activeKey.value})
 	}

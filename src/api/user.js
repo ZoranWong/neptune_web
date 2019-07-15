@@ -41,7 +41,14 @@ export function groupDetails(params,id) {
 		params: params
 	})
 }
-
+// 添加用户进入群组
+export function userToGroup(params,id) {
+	return request({
+		url: `/api/backend/groups/${id}/add`,
+		method: 'post',
+		data: params
+	})
+}
 
 // 新建标签组
 export function addNewTagGroup(params) {
@@ -68,7 +75,7 @@ export function tagList(params,tagGroupId) {
 	})
 }
 // 新建标签
-export function addTag(params,tagGroupId) {
+export function addTag(params) {
 	return request({
 		url: `/api/backend/tags`,
 		method: 'post',
@@ -89,5 +96,23 @@ export function sortTags(params,tagGroupId) {
 		url: `/api/backend/tag_groups/${tagGroupId}`,
 		method: 'put',
 		data: params
+	})
+}
+// 为用户添加标签
+export function addTags(params,tagId) {
+	return request({
+		url: `/api/backend/tags/${tagId}/users/add`,
+		method: 'post',
+		data: params
+	})
+}
+
+
+// 用户列表
+export function users(params) {
+	return request({
+		url: '/api/backend/users',
+		method: 'get',
+		params: params
 	})
 }
