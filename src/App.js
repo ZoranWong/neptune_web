@@ -56,7 +56,6 @@ class App extends React.Component{
 	
 	
 	render() {
-		console.log(this.props.location.pathname.split('/'));
 		if(this.props.location.pathname === '/login'){
 			return <LoginContainer/>
 		} else if(this.props.location.pathname === '/login/resetPassword'){

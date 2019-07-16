@@ -94,7 +94,7 @@ export const user_values = [
 		children:[
 			{
 				label:'姓名',
-				value:'label',
+				value:'name',
 				type:'emptyCompare'
 			},
 			{
@@ -104,7 +104,7 @@ export const user_values = [
 			},
 			{
 				label:'微信昵称',
-				value:'wx_label',
+				value:'wx_name',
 				type:'emptyCompare'
 			},
 			{
@@ -361,7 +361,7 @@ export const operation = {
 		{
 			label:'等于',
 			value:'=',
-			type:'selectedBox'
+			type:'selectedOneBox'
 		},
 		{
 			label:'等于其中之一',
@@ -417,7 +417,7 @@ export const operation = {
 		{
 			label:'等于',
 			value:'=',
-			type:'cityBox'
+			type:'cityOneBox'
 		},
 		{
 			label:'等于其中之一',

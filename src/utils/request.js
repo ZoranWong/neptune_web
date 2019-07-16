@@ -40,7 +40,7 @@ service.interceptors.response.use(
     	return response.data;
     },
     error => {
-		
+
 		if (error === undefined || error.code === 'ECONNABORTED') {
 			message.error("服务器请求超时");
 			return Promise.reject(error)
@@ -49,7 +49,7 @@ service.interceptors.response.use(
 		const { response } = error;
         message.error(response.data.message);// 弹出后端返回的错误
 		setTimeout(()=>{
-			if(response.status === 401 || response.status === 500){
+			if(response.status === 401){
 				removeToken();
 				window.location.href = './login'
 			}

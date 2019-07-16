@@ -91,7 +91,7 @@ export default class CreateNewGroup extends React.Component{
 						<li style={{'display':this.state.type == 'dynamic'?'block':'none'}}>
 							<span className="left">筛选条件</span>
 							<div className="advanced">
-								<AdvancedFilter ref={this.child} renderChild={this.renderChild} />
+								<AdvancedFilter  ref={this.child} renderChild={this.renderChild} />
 							</div>
 						</li>
 					</ul>

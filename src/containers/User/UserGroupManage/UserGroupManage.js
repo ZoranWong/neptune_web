@@ -1,9 +1,11 @@
 import React from 'react';
 import {Table, Tabs, Button, Popconfirm} from 'antd';
-import {getDynamic,getStatic,deleteGroup} from "../../../api/user";
+import {getDynamic, getStatic, deleteGroup, groupDetails} from "../../../api/user";
 import './css/userGroupManage.sass'
 import CreateNewGroup from './CreateNewGroup'
 import GroupDetail from './GroupDetail'
+import {withRouter} from "react-router-dom";
+
 const { TabPane } = Tabs;
 const { Column } = Table;
 class UserGroupManage extends React.Component{
@@ -49,7 +51,11 @@ class UserGroupManage extends React.Component{
 		this.setState({detailVisible:true,detailId:record.id})
 	};
 	hideDetail = () =>{
-		this.setState({detailVisible:false})
+		this.setState({detailVisible:false,detailId:''})
+	};
+	
+	goUserList = (record) =>{
+		this.props.history.push({pathname:'/user',query:{groupId:record.id}});
 	};
 	
 	render(){
@@ -78,7 +84,7 @@ class UserGroupManage extends React.Component{
 								rowKey={record => record.id}
 							>
 								<Column
-									className="column"
+									className="column_group"
 									title="群组名称"
 									dataIndex="name"
 									key="name"
@@ -94,22 +100,22 @@ class UserGroupManage extends React.Component{
 									)}
 								/>
 								<Column
-									className="column primary"
+									className="column_group primary"
 									title="建立时间"
 									dataIndex="created_at"
 									key="created_at" />
 								<Column
-									className="column primary"
+									className="column_group primary"
 									title="总人数"
 									dataIndex="model_count"
 									key="model_count" />
 								<Column
 									title="操作"
 									key="action"
-									className="column groupOperation"
+									className="column_group groupOperation"
 									render={(text, record) => (
 										<span>
-									<span className="operation" >详情</span>
+									<span className="operation" onClick={()=>this.goUserList(record)} >详情</span>
 									<Popconfirm
 										title="确定要删除该账号么"
 										okText="确定"
@@ -154,6 +160,7 @@ class UserGroupManage extends React.Component{
 										<i
 											style={{color:'#4F9863',fontSize:'14px',marginLeft:'10px',cursor:'pointer'}}
 											className="iconfont"
+											onClick={()=>this.showDetail(record)}
 										>&#xe7ab;</i>
 									</span>
 									)}
@@ -174,7 +181,7 @@ class UserGroupManage extends React.Component{
 									className="column groupOperation"
 									render={(text, record) => (
 										<span>
-									<span className="operation">详情</span>
+									<span className="operation" onClick={()=>this.goUserList(record)}>详情</span>
 									<Popconfirm
 										title="确定要删除该账号么"
 										okText="确定"
@@ -201,4 +208,4 @@ class UserGroupManage extends React.Component{
 		)
 	}
 }
-export default UserGroupManage
+export default withRouter(UserGroupManage);

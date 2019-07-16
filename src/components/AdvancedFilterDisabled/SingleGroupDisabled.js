@@ -8,13 +8,10 @@ export default class SingleGroupDisabled extends React.Component{
 		super(props);
 		this.state = {
 			singleAry:[{key:'',value:'',operation:'', cid: getRandom()}],
-			item:[]
+			item:props.item
 		}
 	};
 
-	componentWillReceiveProps(nextProps, nextContext) {
-		this.setState({item:nextProps.item})
-	}
 
 	render(){
 		return (

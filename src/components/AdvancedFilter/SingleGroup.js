@@ -10,6 +10,7 @@ export default class SingleGroup extends React.Component{
 		this.gid = this.item.gid;
 		this.state = {
 			singleAry:[{key:'',value:'',operation:'', cid: getRandom()}],
+			logic:'and'
 		}
 	};
 	
@@ -46,7 +47,13 @@ export default class SingleGroup extends React.Component{
 		}
 		this.props.onSaveData()
 	};
-	
+	switchChange = (checked) =>{
+		if(checked){
+			this.setState({logic:'and'})
+		} else {
+			this.setState({logic:'or'})
+		}
+	};
 	
 	
 	render(){
@@ -67,7 +74,11 @@ export default class SingleGroup extends React.Component{
 					}
 					<div className="switch">
 						{
-							this.state.singleAry.length >1?<Switch checkedChildren="且" unCheckedChildren="或" defaultChecked />:''
+							this.state.singleAry.length >1?<Switch
+								checkedChildren="且"
+								unCheckedChildren="或"
+								onChange={this.switchChange}
+								defaultChecked />:''
 						}
 					</div>
 				</div>

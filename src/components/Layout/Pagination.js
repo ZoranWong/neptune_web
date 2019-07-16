@@ -19,15 +19,15 @@ class CustomPagination extends React.Component{
 	pagination = (page) =>{
 		if(!this.props.api) return;
 		let params = this.props.params;
-		console.log(params);
 		params.limit = 10;
 		params.page = page;
-		this.props.api(params).then(r=>{
+		this.props.api(params,this.props.id).then(r=>{
 			this.props.valChange(r.data);
 			this.setState({
 				total:r.meta.pagination.total
 			})
 		})
+		
 	};
 	
 	showTotal = (total,range) =>{

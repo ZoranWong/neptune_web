@@ -13,16 +13,27 @@ export default class GroupDetail extends React.Component{
 			remarkValue:''
 		};
 	}
+	componentWillMount() {
+
+	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(!nextProps.groupId) return;
 		groupDetails({},nextProps.groupId).then(r=>{
-			this.setState({groupData:r})
+			if(r.data){
+				this.setState({groupData:r.data})
+			} else {
+				this.setState({groupData:r})
+			}
+			
 		}).catch(_=>{})
 	}
 	
 	handleCancel = () =>{
-		this.props.onCancel()
+		this.setState({groupData:{}},()=>{
+			this.props.onCancel()
+		});
+	
 	};
 	
 	render(){
@@ -34,6 +45,7 @@ export default class GroupDetail extends React.Component{
 					visible={this.props.visible}
 					onCancel={this.handleCancel}
 					footer={null}
+					centered={true}
 				>
 					<ul className="mainUl">
 						<li>

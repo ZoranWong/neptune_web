@@ -98,6 +98,14 @@ export function deleteTag(params,tagId) {
 		params: params
 	})
 }
+// 标签组删除
+export function deleteTagGroup(params,groupId) {
+	return request({
+		url: `/api/backend/tag_groups/${groupId}`,
+		method: 'delete',
+		params: params
+	})
+}
 // 调整标签优先级
 export function sortTags(params,tagGroupId) {
 	return request({
@@ -122,5 +130,39 @@ export function users(params) {
 		url: '/api/backend/users',
 		method: 'get',
 		params: params
+	})
+}
+
+//某一群组下用户列表
+export function groupUsers(params,groupId) {
+	return request({
+		url: `/api/backend/groups/${groupId}/models`,
+		method: 'get',
+		params: params
+	})
+}
+//某一群组下用户列表
+export function tagUsers(params,tagId) {
+	return request({
+		url: `/api/backend/tags/${tagId}/users`,
+		method: 'get',
+		params: params
+	})
+}
+
+// 积分规则列表
+export function rules(params) {
+	return request({
+		url: '/api/backend/scores',
+		method: 'get',
+		params: params
+	})
+}
+// 修改积分规则
+export function editRules(params) {
+	return request({
+		url: '/api/backend/scores',
+		method: 'put',
+		data: params
 	})
 }

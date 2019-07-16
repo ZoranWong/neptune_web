@@ -1,7 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
 import CustomPagination from '../../../components/Layout/Pagination'
-import { users,addTags} from "../../../api/user";
+import { users,groupUsers,tagUsers} from "../../../api/user";
 import SearchInput from '../../../components/SearchInput/SearchInput'
 import {Button} from "antd";
 import './css/index.sass'
@@ -21,6 +21,8 @@ class UserManage extends React.Component{
 		super(props);
 		this.child = React.createRef();
 		this.state = {
+			api:users,
+			id:'',
 			filterVisible:false,
 			customVisible:false,
 			tagVisible:false,
@@ -32,13 +34,17 @@ class UserManage extends React.Component{
 				search:''
 			}
 		};
-		
 	}
 	
 	
 	
-	componentDidMount() {
+	componentWillMount() {
 		document.addEventListener('click', this.closeCustom);
+		if(this.props.location.query&&this.props.location.query.groupId){
+			this.setState({id:this.props.location.query.groupId,api:groupUsers})
+		} else if(this.props.location.query&&this.props.location.query.tagId){
+			this.setState({id:this.props.location.query.tagId,api:tagUsers})
+		}
 	}
 	
 	// 加标签
@@ -67,7 +73,7 @@ class UserManage extends React.Component{
 	};
 	// 头部搜索框
 	search = (value) =>{
-		users({limit:10,page:1,search:searchJson(value)}).then(r=>{
+		users({limit:10,page:1,searchJson:searchJson({search:value})}).then(r=>{
 			this.setState({user_data:r.data})
 		}).catch(_=>{})
 	};
@@ -79,11 +85,10 @@ class UserManage extends React.Component{
 		this.setState({filterVisible:false})
 	};
 	onSubmit = (data) =>{
-		this.setState({paginationParams:{...this.state.paginationParams,logic_conditions:searchJson(data)}},()=>{
+		console.log(data);
+		this.setState({paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
 			this.child.current.pagination(1)
 		});
-
-
 	};
 	//自定义显示项
 	showCustom = (e) =>{
@@ -105,6 +110,9 @@ class UserManage extends React.Component{
 			{
 				title: '昵称',
 				dataIndex: 'nickname',
+				render: text => <span
+					style={{'color':'#4F9863','cursor':'pointer'}}
+					onClick={this.jump}>{text}</span>,
 			},
 			{
 				title: '手机号',
@@ -204,10 +212,11 @@ class UserManage extends React.Component{
 				</div>
 				<div className="pagination">
 					<CustomPagination
-						api={users}
+						api={this.state.api}
 						ref={this.child}
 						params={this.state.paginationParams}
 						refresh={false}
+						id={this.state.id}
 						valChange={this.paginationChange}
 					/>
 				</div>

@@ -49,6 +49,7 @@ export default class CustomItem extends React.Component{
 					targetKeys={this.state.targetKeys}
 					onChange={this.handleChange}
 					onSearch={this.handleSearch}
+					showSelectAll={false}
 					render={item => item.label}
 					rowKey={record => record.value}
 					locale={{'itemUnit': '项', 'itemsUnit': '项', 'notFoundContent': '列表为空', 'searchPlaceholder': '搜索'} }

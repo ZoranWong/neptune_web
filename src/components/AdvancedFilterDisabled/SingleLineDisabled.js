@@ -12,28 +12,26 @@ export default class SingleLineDisabled extends React.Component{
 			singleLineData:{},
 			activeKey:[],      // 选中key框对应的对象
 			activeOptions:'',  //默认选中的option
-			item:{},   // 每一行的数据
+			item:props.item,   // 每一行的数据
 			type:'',  // operation的类型
 		};
 	};
-
-	componentWillReceiveProps(nextProps, nextContext) {
-		this.setState({item:nextProps.item});
+	componentDidMount() {
 		let key_p =[];
 		user_values.forEach(item=>{
 			item.children.forEach(i=>{
-				if(i.value == nextProps.item.key){
+				if(i.value == this.state.item.key){
 					key_p.push(item.value);
 					this.setState({type:i.type});
 					operation[i.type].forEach(item_operation=>{
-						if(item_operation.value == nextProps.item.operation){
+						if(item_operation.value == this.state.item.operation){
 							this.setState({activeOptions:item_operation.label})
 						}
 					})
 				}
 			})
 		});
-		key_p.push(nextProps.item.key);
+		key_p.push(this.state.item.key);
 		this.setState({activeKey:key_p})
 	}
 

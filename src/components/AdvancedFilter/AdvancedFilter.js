@@ -54,19 +54,19 @@ export default class AdvancedFilter extends React.Component{
 			let ary = this.state.groupAry;
 			ary.forEach(i=>{
 				if(i.gid == item.gid){
-					i.conditions = data
+					i.conditions = data;
+					i.logic = this.child.current.state.logic;
 				}
 			});
 			this.setState({groupAry:ary})
 		} else {
 			this.setState({groupAry:[...this.state.groupAry,this.child.current.state.singleAry]})
 		}
-
 		let data = {
 			conditions:this.state.groupAry,
 			logic:this.state.logic
 		};
-		
+		console.log(data);
 		this.setState({data:data})
 	};
 	

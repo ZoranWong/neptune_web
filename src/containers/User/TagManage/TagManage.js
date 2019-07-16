@@ -7,7 +7,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
 import CreateNewGroup from './CreateNewGroup'
 import CreateNewTag from './CreateNewTag'
-import {deleteGroup, tagGroupList,tagList,deleteTag,sortTags} from '../../../api/user'
+import {deleteTagGroup, tagGroupList,tagList,deleteTag,sortTags} from '../../../api/user'
 
 ///// 整行拖拽的方法 别问 问就不知道为什么
 let dragingIndex = -1;
@@ -177,7 +177,9 @@ class TagManage extends React.Component{
 	};
 	// 删除标签组
 	remove = (key)=>{
-		console.log(key);
+		deleteTagGroup({},key).then(r=>{
+			this.refresh()
+		})
 	};
 	
 	// 切换单多选解释文案
@@ -194,14 +196,14 @@ class TagManage extends React.Component{
 	/*
 	* 废弃方法！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
 	* */
-	clickTab = (id)=>{
-		let currentGroup = this.state.tagGroups.filter(item=>{
-			return item.id == id
-		});
-		let active = document.getElementsByClassName('ant-tabs-tab-active')[0];
-		if(currentGroup[0].type === '互斥组'){
-			active.classList.add('singleTab');
-		}
+	clickTab = (id,e)=>{
+		// let {target} = e;
+		// console.log(target.parentNode.classList);
+		// target.parentNode.style.setProperty("background","red","important");
+	};
+	
+	goUserList = (record) =>{
+		this.props.history.push({pathname:'/user',query:{tagId:record.id}});
 	};
 	
 	render(){
@@ -221,11 +223,7 @@ class TagManage extends React.Component{
 					refresh={this.refresh}
 				/>
 				
-				<div className="header">
-					<SearchInput
-						getDatas={this.searchDatas}
-						text="请输入标签名称"
-					/>
+				<div className="header_tag">
 					<div className="createNew">
 						<Button size="small" className="btn btnAdd fBtn" onClick={this.showCreateNew}>
 							<i className="iconfont" style={{color:'#4F9863',fontSize:'12px',marginRight:'6px'}}>&#xe7e0;</i>
@@ -265,7 +263,7 @@ class TagManage extends React.Component{
 									this.state.tagGroups.map(item=>{
 										return (
 											<TabPane tab={item.name} key={item.id} >
-												<div className="chart">
+												<div className="chart chart_tag">
 													<DndProvider backend={HTML5Backend}>
 														<Table
 															dataSource={this.state.allTagsInGroup}
@@ -299,7 +297,7 @@ class TagManage extends React.Component{
 																render={(text, record) => (
 																	<span>
 	
-																		<span className="operation" >详情</span>
+																		<span className="operation" onClick={()=>this.goUserList(record)}>详情</span>
 																		<Popconfirm
 																			title="确定要删除该标签么"
 																			okText="确定"

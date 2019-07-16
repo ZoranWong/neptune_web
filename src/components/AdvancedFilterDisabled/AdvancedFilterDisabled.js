@@ -6,16 +6,12 @@ export default class AdvancedFilterDisabled extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			groupData:{}
+			groupData:props.groupData
 		};
 		this.child = React.createRef();
 	};
 	
-	componentWillReceiveProps(nextProps, nextContext) {
-		if(!nextProps.groupData) return;
-
-		this.setState({groupData:nextProps.groupData});
-	}
+	
 	render(){
 		return (
 			<div>

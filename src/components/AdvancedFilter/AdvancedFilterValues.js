@@ -178,7 +178,6 @@ export default class AdvancedFilterValues extends React.Component{
 				return  <span>
 					<Select
 							mode="tags"
-							placeholder="Inserted are removed"
 							value={selectedItems}
 							className='selectedBox'
 							onChange={this.handleChange}
@@ -192,11 +191,26 @@ export default class AdvancedFilterValues extends React.Component{
 					</Select>
 				</span>;
 				break;
-			case 'selectedTagBox':
+			case 'selectedOneBox':
 				return  <span>
 					<Select
 						mode="tags"
-						placeholder="Inserted are removed"
+						value={selectedItems}
+						className='selectedBox'
+						onChange={this.handleChange}
+					
+					>
+						{filteredOptions.map(item => (
+							<Select.Option key={item} value={item}>
+								{item}
+							</Select.Option>
+						))}
+					</Select>
+				</span>;
+				break;
+			case 'selectedTagBox':
+				return  <span>
+					<Select
 						value={selectedItems}
 						className='selectedBox'
 						onChange={this.handleChange}
@@ -214,7 +228,6 @@ export default class AdvancedFilterValues extends React.Component{
 				return  <span>
 					<Select
 						mode="tags"
-						placeholder="Inserted are removed"
 						value={selectedItems}
 						className='selectedBox'
 						onChange={this.handleChange}
@@ -231,7 +244,30 @@ export default class AdvancedFilterValues extends React.Component{
 				return  <span>
 					<Select
 						mode="multiple"
-						placeholder="Inserted are removed"
+						value={this.state.city}
+						className='selectedBox tagBox'
+						onChange={this.handleCityChange}
+						optionLabelProp="label"
+						showSearch
+						optionFilterProp="children"
+						filterOption={(input, option) =>
+							option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+						}
+					>
+						{this.handleCityData().map(item => (
+							<Select.Option
+								key={item.region_code+''}
+								label={item.name}
+								value={item.region_code+''}>
+								{item.name}
+							</Select.Option>
+						))}
+					</Select>
+				</span>;
+				break;
+			case 'cityOneBox':
+				return  <span>
+					<Select
 						value={this.state.city}
 						className='selectedBox tagBox'
 						onChange={this.handleCityChange}
@@ -256,8 +292,8 @@ export default class AdvancedFilterValues extends React.Component{
 			case 'selectedBoxGender':
 				return  <span>
 							<Select defaultValue="male" style={{ width: 120 }} onChange={this.handleGenderChange}>
-							<Option value="male">男</Option>
-							<Option value="female">女</Option>
+								<Option value="male">男</Option>
+								<Option value="female">女</Option>
 							</Select>
 					</span>;
 				break;
