@@ -41,13 +41,15 @@ export default class AddTags extends React.Component{
 				group_id:this.state.groupId
 			}).then(r=>{
 				addTags({user_ids:this.props.checkedAry},r.data.id).then(res=>{
+					message.success('标签添加成功');
 					this.setState({tagName:''});
 					this.handleCancel()
 				})
 			})
 		} else {
 			addTags({user_ids:this.props.checkedAry},this.state.selectedTags[0]).then(res=>{
-				this.handleCancel()
+				message.success('标签添加成功');
+				this.handleCancel();
 			})
 		}
 	};
@@ -73,6 +75,7 @@ export default class AddTags extends React.Component{
 			<div className="addTag">
 				<Modal
 					title={this.state.type == 'create'?'新建标签':'加入已有标签'}
+					className="user_add"
 					width={520}
 					centered={true}
 					visible={this.props.visible}
@@ -83,7 +86,7 @@ export default class AddTags extends React.Component{
 					okText="保存"
 				>
 					<div className="t_header"
-						 style={{'display':this.state.type == 'create'?'block':'none'}}
+						 style={{'display':this.state.type == 'create'?'inline-flex':'none'}}
 						 onClick={()=>{
 							this.setState({type:'join'})
 						}}>
@@ -91,7 +94,7 @@ export default class AddTags extends React.Component{
 						加入已有标签
 					</div>
 					<div className="t_header"
-						 style={{'display':this.state.type == 'create'?'none':'block'}}
+						 style={{'display':this.state.type == 'create'?'none':'inline-flex'}}
 						 onClick={()=>{
 							 this.setState({type:'create'})
 						 }}>

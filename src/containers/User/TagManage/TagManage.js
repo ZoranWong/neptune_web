@@ -84,6 +84,7 @@ class TagManage extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
+			activeGroup:[],
 			createNewVisible:false,
 			createTagVisible:false,
 			tagGroups:[],
@@ -117,6 +118,13 @@ class TagManage extends React.Component{
 			this.sortTag()
 		},1000)
 	};
+	moveNoRow = (dragIndex, hoverIndex) => {
+		const  data  = this.state.allTagsInGroup;
+		const dragRow = data[dragIndex];
+		setTimeout(()=>{
+			this.sortTag()
+		},1000)
+	};
 	
 	// 调整标签优先级顺序
 	sortTag = () =>{
@@ -134,7 +142,7 @@ class TagManage extends React.Component{
 	
 	refresh = () =>{
 		tagGroupList({}).then(r=>{
-			this.setState({tagGroups:r.data});
+			this.setState({tagGroups:r.data,activeGroup:r.data[0]});
 			this.complainPopover(r.data[0].id);
 			let id = this.state.activeGroupId || r.data[0].id;
 			tagList({},id).then(r=>{
@@ -170,7 +178,10 @@ class TagManage extends React.Component{
 	// 切换标签组
 	tagGroupChange = (key)=>{
 		this.complainPopover(key);
-		this.setState({activeGroupId:key})
+		let ary = this.state.tagGroups.filter(item=>{
+			return item.id == key
+		});
+		this.setState({activeGroupId:key,activeGroup:ary[0]});
 		tagList({},key).then(r=>{
 			this.setState({allTagsInGroup:r.data})
 		}).catch(_=>{});
@@ -276,7 +287,7 @@ class TagManage extends React.Component{
 															components={this.components}
 															onRow={(record, index) => ({
 																index,
-																moveRow: this.moveRow,
+																moveRow: (this.state.activeGroup.type == '互斥组' && this.state.activeGroup.auto_tag == true)?this.moveRow:this.moveNoRow,
 															})}
 														>
 															<Column
@@ -311,6 +322,10 @@ class TagManage extends React.Component{
 																		>
 																			<span className="operation" >删除</span>
 																		</Popconfirm>
+
+																		<span style={{'display':(this.state.activeGroup.type == '互斥组' && this.state.activeGroup.auto_tag == true)?'inline-block':'none'}}>
+																			<i className="iconfont" style={{'fontSize':'14px'}}>&#xe836;</i>
+																		</span>
 																	</span>
 																)}
 															/>

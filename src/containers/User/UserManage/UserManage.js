@@ -68,8 +68,8 @@ class UserManage extends React.Component{
 		this.setState({groupVisible:true})
 	};
 	// 占位符 用于跳转至用户详情
-	jump = () =>{
-		this.props.history.replace("/user/UserDetails")
+	jump = (record) =>{
+		this.props.history.push({pathname:"/user/userDetails",state:{id:record.id}})
 	};
 	// 头部搜索框
 	search = (value) =>{
@@ -110,9 +110,9 @@ class UserManage extends React.Component{
 			{
 				title: '昵称',
 				dataIndex: 'nickname',
-				render: text => <span
+				render: (text,record) => <span
 					style={{'color':'#4F9863','cursor':'pointer'}}
-					onClick={this.jump}>{text}</span>,
+					onClick={()=>this.jump(record)}>{text}</span>,
 			},
 			{
 				title: '手机号',

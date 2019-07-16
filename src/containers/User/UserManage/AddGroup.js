@@ -39,6 +39,7 @@ export default class AddGroup extends React.Component{
 				remark:this.state.remark
 			},'static').then(r=>{
 				userToGroup({ids:this.props.checkedAry},r.data.id).then(res=>{
+					message.success('群组添加成功');
 					this.setState({name:'',remark:''});
 					this.handleCancel()
 				})
@@ -49,7 +50,8 @@ export default class AddGroup extends React.Component{
 				return
 			}
 			userToGroup({ids:this.props.checkedAry},this.state.selectedGroups[0]).then(r=>{
-				this.handleCancel()
+				message.success('群组添加成功');
+				this.handleCancel();
 			})
 		}
 	};
@@ -66,6 +68,7 @@ export default class AddGroup extends React.Component{
 			<div>
 				<Modal
 					title={this.state.type == 'create'?'新建群组':'加入静态群组'}
+					className="user_add"
 					width={520}
 					centered={true}
 					visible={this.props.visible}
@@ -76,7 +79,7 @@ export default class AddGroup extends React.Component{
 					okText="保存"
 				>
 					<div className="t_header"
-						 style={{'display':this.state.type == 'create'?'block':'none'}}
+						 style={{'display':this.state.type == 'create'?'inline-flex':'none'}}
 						 onClick={()=>{
 							 this.setState({type:'join'})
 						 }}>
@@ -84,7 +87,7 @@ export default class AddGroup extends React.Component{
 						加入静态群组
 					</div>
 					<div className="t_header"
-						 style={{'display':this.state.type == 'create'?'none':'block'}}
+						 style={{'display':this.state.type == 'create'?'none':'inline-flex'}}
 						 onClick={()=>{
 							 this.setState({type:'create'})
 						 }}>
@@ -93,7 +96,7 @@ export default class AddGroup extends React.Component{
 					</div>
 					<ul className="mainUl t_body">
 						<li >
-							<span className="left" style={{'display':this.state.type == 'create'?'inline-block':'none'}}>群组名称</span>
+							<span className="left" style={{'display':this.state.type == 'create'?'block':'none'}}>群组名称</span>
 							<Input
 								className="liInput"
 								style={{'display':this.state.type == 'create'?'inline-block':'none'}}
@@ -104,7 +107,7 @@ export default class AddGroup extends React.Component{
 							/>
 						</li>
 						<li >
-							<span className="left" style={{'display':this.state.type == 'create'?'inline-block':'none'}}>备注</span>
+							<span className="left" style={{'display':this.state.type == 'create'?'block':'none'}}>备注</span>
 							<Input
 								className="liInput"
 								style={{'display':this.state.type == 'create'?'inline-block':'none'}}
@@ -114,7 +117,7 @@ export default class AddGroup extends React.Component{
 								}}
 							/>
 						</li>
-						<li className="tags" style={{'display':this.state.type == 'create'?'none':'inline-block'}}>
+						<li className="tags t_group" style={{'display':this.state.type == 'create'?'none':'inline-block'}}>
 							{
 								this.state.groupList.length > 0?(
 									this.state.groupList.map(item=>{

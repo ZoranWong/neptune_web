@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal} from "antd";
+import {Modal,Button} from "antd";
 import AdvancedFilter from '../../../components/AdvancedFilter/AdvancedFilter'
 export default class AdvancedFilterComponent extends React.Component{
 	constructor(props){
@@ -17,8 +17,10 @@ export default class AdvancedFilterComponent extends React.Component{
 		this.props.onSubmit(this.child.current.state.data);
 		this.handleCancel()
 	};
-	
-	
+
+	clearFilter = ()=>{
+		this.child.current.clearFilter()
+	};
 	
 	render(){
 		return (
@@ -29,10 +31,18 @@ export default class AdvancedFilterComponent extends React.Component{
 					centered={true}
 					visible={this.props.visible}
 					onCancel={this.handleCancel}
-					onOk={this.onSubmit}
-					cancelButtonProps={this.handleCancel}
-					cancelText="清空筛选条件"
-					okText="确认"
+					footer={
+						<div>
+							<Button
+								size="small"
+								onClick={this.clearFilter}
+							>清空筛选条件</Button>
+							<Button
+								size="small"
+								onClick={this.onSubmit}
+								type="primary">确认</Button>
+						</div>
+					}
 				>
 					<AdvancedFilter ref={this.child} />
 				</Modal>

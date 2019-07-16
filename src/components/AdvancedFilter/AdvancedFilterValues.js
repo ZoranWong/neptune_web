@@ -291,9 +291,9 @@ export default class AdvancedFilterValues extends React.Component{
 				break;
 			case 'selectedBoxGender':
 				return  <span>
-							<Select defaultValue="male" style={{ width: 120 }} onChange={this.handleGenderChange}>
-								<Option value="male">男</Option>
-								<Option value="female">女</Option>
+							<Select defaultValue="1" style={{ width: 120 }} onChange={this.handleGenderChange}>
+								<Option value="1">男</Option>
+								<Option value="2">女</Option>
 							</Select>
 					</span>;
 				break;

@@ -178,8 +178,8 @@ export default class AdvancedFilterValuesDisabled extends React.Component{
 			case 'selectedBoxGender':
 				return  <span>
 							<Select value={this.state.activeKey} disabled={true} style={{ width: 120 }}>
-								<Option value="male">男</Option>
-								<Option value="female">女</Option>
+								<Option value="1">男</Option>
+								<Option value="2">女</Option>
 							</Select>
 					</span>;
 				break;

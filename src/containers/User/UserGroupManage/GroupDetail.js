@@ -1,5 +1,5 @@
 import React from 'react';
-import {Input, Modal} from "antd";
+import {Input, Modal,Button} from "antd";
 import {groupDetails} from '../../../api/user'
 import AdvancedFilterDisabled from "../../../components/AdvancedFilterDisabled/AdvancedFilterDisabled";
 
@@ -41,11 +41,14 @@ export default class GroupDetail extends React.Component{
 			<div>
 				<Modal
 					title="群组详情"
+					className="disabled-filter"
 					width={this.state.groupData.type == '智能群组'?1088:520}
 					visible={this.props.visible}
 					onCancel={this.handleCancel}
-					footer={null}
 					centered={true}
+					footer={
+						null
+					}
 				>
 					<ul className="mainUl">
 						<li>

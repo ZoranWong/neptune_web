@@ -166,3 +166,36 @@ export function editRules(params) {
 		data: params
 	})
 }
+
+// 用户详情
+export function userDetails(params,id) {
+	return request({
+		url: `/api/backend/users/${id}`,
+		method: 'get',
+		params: params
+	})
+}
+// 删除用户某一群组
+export function deleteUserGroup(params,id) {
+	return request({
+		url: `/api/backend/users/${id}/detach/group`,
+		method: 'put',
+		data: params
+	})
+}
+// 删除用户某一标签
+export function deleteUserTag(params,id) {
+	return request({
+		url: `/api/backend/users/${id}/detach/tag`,
+		method: 'put',
+		data: params
+	})
+}
+// 为用户添加积分
+export function addScore(params,id) {
+	return request({
+		url: `/api/backend/users/${id}/add/score`,
+		method: 'put',
+		data: params
+	})
+}

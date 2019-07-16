@@ -13,6 +13,9 @@ export default class SingleGroup extends React.Component{
 			logic:'and'
 		}
 	};
+	clearFilter = () =>{
+		this.setState({singleAry:[{key:'',value:'',operation:'', cid: getRandom()}]});
+	};
 	
 	
 	cloneSingLine = () =>{

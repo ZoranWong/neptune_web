@@ -82,6 +82,11 @@ class UserGroupManage extends React.Component{
 							<Table
 								dataSource={this.state.dynamicList}
 								rowKey={record => record.id}
+								rowClassName={(record, index) => {
+									let className = '';
+									if (index % 2 ) className = 'dark-row';
+									return className;
+								}}
 							>
 								<Column
 									className="column_group"
@@ -150,7 +155,7 @@ class UserGroupManage extends React.Component{
 								}}
 							>
 								<Column
-									className="column"
+									className="column_group"
 									title="群组名称"
 									dataIndex="name"
 									key="name"
@@ -166,19 +171,19 @@ class UserGroupManage extends React.Component{
 									)}
 								/>
 								<Column
-									className="column primary"
+									className="column_group primary"
 									title="建立时间"
 									dataIndex="created_at"
 									key="created_at" />
 								<Column
-									className="column primary"
+									className="column_group primary"
 									title="总人数"
 									dataIndex="model_count"
 									key="model_count" />
 								<Column
 									title="操作"
 									key="action"
-									className="column groupOperation"
+									className="column_group groupOperation"
 									render={(text, record) => (
 										<span>
 									<span className="operation" onClick={()=>this.goUserList(record)}>详情</span>

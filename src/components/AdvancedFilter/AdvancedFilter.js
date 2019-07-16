@@ -12,6 +12,11 @@ export default class AdvancedFilter extends React.Component{
 		};
 		this.child = React.createRef();
 	};
+
+	clearFilter = () =>{
+		this.setState({groupAry:[{gid:getRandom(),conditions:[], logic: 'and'}]})
+		this.child.current.clearFilter()
+	};
 	
 	cloneGroupLine = () =>{
 		if(this.props.renderChild){
