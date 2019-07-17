@@ -33,6 +33,7 @@ export default class AddTags extends React.Component{
 	
 	showConfirm =(item) => {
 		let closeFn = this.handleCancel;
+		let failedTagList = this.props.failedTagList;
 		confirm({
 			title: (
 				<div className= 'u_confirm_header'>
@@ -60,12 +61,15 @@ export default class AddTags extends React.Component{
 				closeFn()
 			},
 			onCancel() {
+				failedTagList(item.failed_user_ids);
+				closeFn();
 				//this.props.history.push({pathname:'/user',query:{tagId:record.id}});
 			},
 		});
 	};
 	
 	onSubmit = ()=>{
+		let data = this.props.conditionsData || {};
 		if(this.state.type == 'create'){
 			if(!this.state.tagName){
 				message.error('请填写标签名');
@@ -79,7 +83,7 @@ export default class AddTags extends React.Component{
 				name:this.state.tagName,
 				group_id:this.state.groupId
 			}).then(r=>{
-				addTags({user_ids:this.props.checkedAry},r.data.id).then(res=>{
+				addTags({user_ids:this.props.checkedAry,logic_conditions:data},r.data.id).then(res=>{
 					if(res.failed_count){
 						this.showConfirm(res)
 					} else {
@@ -90,7 +94,7 @@ export default class AddTags extends React.Component{
 				})
 			})
 		} else {
-			addTags({user_ids:this.props.checkedAry},this.state.selectedTags[0]).then(res=>{
+			addTags({user_ids:this.props.checkedAry,logic_conditions:data},this.state.selectedTags[0]).then(res=>{
 				if(res.failed_count){
 					this.showConfirm(res)
 				} else {

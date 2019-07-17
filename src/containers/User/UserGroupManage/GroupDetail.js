@@ -20,6 +20,7 @@ export default class GroupDetail extends React.Component{
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(!nextProps.groupId) return;
 		groupDetails({},nextProps.groupId).then(r=>{
+			console.log(r);
 			if(r.data){
 				this.setState({groupData:r.data})
 			} else {

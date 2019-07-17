@@ -25,6 +25,7 @@ export default class AddGroup extends React.Component{
 	}
 	
 	onSubmit = ()=>{
+		let data = this.props.conditionsData || {};
 		if(this.state.type == 'create'){
 			if(!this.state.name){
 				message.error('请填写群组名称');
@@ -38,7 +39,7 @@ export default class AddGroup extends React.Component{
 				name:this.state.name,
 				remark:this.state.remark
 			},'static').then(r=>{
-				userToGroup({ids:this.props.checkedAry},r.data.id).then(res=>{
+				userToGroup({ids:this.props.checkedAry,logic_conditions:data},r.data.id).then(res=>{
 					message.success('群组添加成功');
 					this.setState({name:'',remark:''});
 					this.handleCancel()
@@ -49,7 +50,7 @@ export default class AddGroup extends React.Component{
 				message.error('请先选择分组');
 				return
 			}
-			userToGroup({ids:this.props.checkedAry},this.state.selectedGroups[0]).then(r=>{
+			userToGroup({ids:this.props.checkedAry,logic_conditions:data},this.state.selectedGroups[0]).then(r=>{
 				message.success('群组添加成功');
 				this.handleCancel();
 			})
@@ -60,6 +61,7 @@ export default class AddGroup extends React.Component{
 		let ary = [];
 		ary.push(item.id);
 		this.setState({selectedGroups:ary});
+		console.log(ary);
 	}
 	
 	render() {

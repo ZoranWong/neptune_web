@@ -122,7 +122,14 @@ export function addTags(params,tagId) {
 		data: params
 	})
 }
-
+// 标签详情/api/backend/tags/{tagId}
+export function tagDetails(params,tagId) {
+	return request({
+		url:`/api/backend/tags/${tagId}`,
+		method: 'get',
+		params: params
+	})
+}
 
 // 用户列表
 export function users(params) {

@@ -47,7 +47,6 @@ class UserManage extends React.Component{
 		}
 	}
 	refresh = ()=>{
-		
 		this.setState({filterVisible:false,paginationParams:{
 				logic_conditions:[],
 				search:''
@@ -55,26 +54,34 @@ class UserManage extends React.Component{
 			this.child.current.pagination(1)
 		})
 	};
-	
+	// 失败标签组人
+	failedTagList = (ids) =>{
+		this.setState({tagVisible:false,paginationParams:{
+				searchJson:searchJson({user_ids:ids})
+			}},()=>{
+			this.child.current.pagination(1)
+		})
+	};
+
 	// 加标签
 	closeAddTags = () =>{
-		this.setState({tagVisible:false})
+		this.setState({tagVisible:false,filterVisible:false})
 	};
 	onSubmitAdd = () =>{
 		this.setState({tagVisible:false})
 	};
-	showAddTags = () =>{
-		this.setState({tagVisible:true})
+	showAddTags = (data) =>{
+		this.setState({tagVisible:true,conditions_data:data})
 	};
 	// 加群组
 	closeAddGroup= () =>{
-		this.setState({groupVisible:false})
+		this.setState({groupVisible:false,filterVisible:false})
 	};
 	onSubmitGroup = () =>{
 		this.setState({groupVisible:false})
 	};
-	showAddGroup = () =>{
-		this.setState({groupVisible:true})
+	showAddGroup = (data) =>{
+		this.setState({groupVisible:true,conditions_data:data})
 	};
 	// 占位符 用于跳转至用户详情
 	jump = (record) =>{
@@ -168,18 +175,23 @@ class UserManage extends React.Component{
 					onCancel={this.closeHigherFilter}
 					onSubmit={this.onSubmit}
 					refresh={this.refresh}
+					showAddGroup={this.showAddGroup}
+					showAddTags={this.showAddTags}
 				/>
 				<AddTags
 					visible={this.state.tagVisible}
 					onCancel={this.closeAddTags}
 					onSubmit={this.onSubmitAdd}
 					checkedAry={this.state.checkedAry}
+					failedTagList={this.failedTagList}
+					conditionsData={this.state.conditions_data}
 				/>
 				<AddGroup
 					visible={this.state.groupVisible}
 					onCancel={this.closeAddGroup}
 					onSubmit={this.onSubmitGroup}
 					checkedAry={this.state.checkedAry}
+					conditionsData={this.state.conditions_data}
 				/>
 				<div className="userHeader">
 					<div className="headerLeft">

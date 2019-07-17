@@ -22,6 +22,13 @@ export default class AdvancedFilterComponent extends React.Component{
 		this.child.current.clearFilter();
 		this.props.refresh()
 	};
+	showAddGroup = () =>{
+		this.props.showAddGroup(this.child.current.state.data)
+	};
+
+	showAddTags = () =>{
+		this.props.showAddTags(this.child.current.state.data)
+	};
 	
 	render(){
 		return (
@@ -34,6 +41,16 @@ export default class AdvancedFilterComponent extends React.Component{
 					onCancel={this.handleCancel}
 					footer={
 						<div>
+							<Button
+								size="small"
+								type="default"
+								onClick={this.showAddGroup}
+							>加群组</Button>
+							<Button
+								size="small"
+								type="default"
+								onClick={this.showAddTags}
+							>加标签</Button>
 							<Button
 								size="small"
 								onClick={this.clearFilter}

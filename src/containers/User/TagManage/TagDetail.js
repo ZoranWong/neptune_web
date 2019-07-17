@@ -1,9 +1,9 @@
 import React from 'react';
-import {Input, Modal,Button} from "antd";
-import {groupDetails} from '../../../api/user'
+import {Input, Modal,Button,Select} from "antd";
+import {tagDetails} from '../../../api/user'
 import AdvancedFilterDisabled from "../../../components/AdvancedFilterDisabled/AdvancedFilterDisabled";
-
-
+import './css/createNewTag.sass'
+const {Option} = Select;
 export default class TagDetail extends React.Component{
 	constructor(props){
 		super(props);
@@ -19,7 +19,8 @@ export default class TagDetail extends React.Component{
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(!nextProps.groupId) return;
-		groupDetails({},nextProps.groupId).then(r=>{
+		tagDetails({},nextProps.groupId).then(r=>{
+			console.log(r);
 			if(r.data){
 				this.setState({groupData:r.data})
 			} else {
@@ -42,7 +43,7 @@ export default class TagDetail extends React.Component{
 				<Modal
 					title="群组详情"
 					className="disabled-filter"
-					width={this.state.groupData.type == '智能群组'?1088:520}
+					width={1088}
 					visible={this.props.visible}
 					onCancel={this.handleCancel}
 					centered={true}
@@ -52,22 +53,24 @@ export default class TagDetail extends React.Component{
 				>
 					<ul className="mainUl">
 						<li>
-							<span className="left">群组名称</span>
-							<Input
-								className="liInput"
+							<span className="left">选择分组</span>
+							<Select
+								style={{ width: 200 }}
+								value={this.state.groupData.group_name}
+								className="tag_group"
 								disabled={true}
-								value={this.state.groupData.name}
-							/>
+							>
+							</Select>
 						</li>
 						<li>
 							<span className="left">备注</span>
 							<Input
 								className="liInput"
 								disabled={true}
-								value={this.state.groupData.remark}
+								value={this.state.groupData.name}
 							/>
 						</li>
-						<li style={{'display':this.state.groupData.type == '智能群组'?'block':'none'}}>
+						<li style={{'display':'block'}}>
 							<span className="left">筛选条件</span>
 							{
 								this.state.groupData && this.state.groupData.conditions?(
