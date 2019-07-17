@@ -39,16 +39,19 @@ export default class AdvancedFilterComponent extends React.Component{
 					centered={true}
 					visible={this.props.visible}
 					onCancel={this.handleCancel}
+					className="f_com"
 					footer={
 						<div>
 							<Button
 								size="small"
 								type="default"
+								className="e_btn"
 								onClick={this.showAddGroup}
 							>加群组</Button>
 							<Button
 								size="small"
 								type="default"
+								className="e_btn"
 								onClick={this.showAddTags}
 							>加标签</Button>
 							<Button
