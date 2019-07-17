@@ -1,6 +1,5 @@
 import React from 'react';
-import {Button, Popconfirm, Table, Tabs,Popover} from "antd";
-import SearchInput from "../../../components/SearchInput/SearchInput";
+import {Button, Popconfirm, Table, Tabs, Popover, Modal} from "antd";
 import './css/tagManage.sass'
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -8,9 +7,11 @@ import update from 'immutability-helper';
 import CreateNewGroup from './CreateNewGroup'
 import CreateNewTag from './CreateNewTag'
 import {deleteTagGroup, tagGroupList,tagList,deleteTag,sortTags} from '../../../api/user'
+import TagDetail from "./TagDetail";
 
 ///// 整行拖拽的方法 别问 问就不知道为什么
 let dragingIndex = -1;
+const {confirm} = Modal;
 class BodyRow extends React.Component {
 	render() {
 		const { isOver, connectDragSource, connectDropTarget, moveRow, ...restProps } = this.props;
@@ -91,6 +92,8 @@ class TagManage extends React.Component{
 			allTagsInGroup:[],
 			singleOrDouble:'',
 			activeGroupId:'',   //当前激活的标签组id
+			detailId:'',
+			detailVisible:false,
 		};
 		this.components = {
 			body: {
@@ -129,11 +132,9 @@ class TagManage extends React.Component{
 	// 调整标签优先级顺序
 	sortTag = () =>{
 		let priorities = {};
-		console.log(this.state.allTagsInGroup);
 		this.state.allTagsInGroup.forEach((item,index)=>{
 			priorities[item.id+''] = index
 		});
-		console.log(priorities);
 		let id = this.state.activeGroupId || this.state.tagGroups[0].id;
 		sortTags({priorities},id).then(r=>{
 			console.log(r);
@@ -168,9 +169,6 @@ class TagManage extends React.Component{
 	};
 	
 	
-	searchDatas = () => {
-	
-	};
 	// 编辑标签
 	onEdit = (targetKey, action) => {
 		this[action](targetKey);
@@ -188,9 +186,83 @@ class TagManage extends React.Component{
 	};
 	// 删除标签组
 	remove = (key)=>{
-		deleteTagGroup({},key).then(r=>{
-			this.refresh()
-		})
+		this.showConfirm(key)
+	};
+	
+	showError = (msg) =>{
+		let refresh = this.refresh;
+		confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont">&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			content: (
+				<div className="U_confirm">
+					{msg}
+				</div>
+			),
+			cancelText: '取消',
+			okText:'知道了',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small',
+				style:{'display':'none'}
+			},
+			onOk() {
+				refresh()
+			}
+		});
+	};
+	
+	showConfirm =(key) => {
+		let refresh = this.refresh;
+		let showError = this.showError;
+		confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont">&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			content: (
+				<div className="U_confirm">
+					确定删除该标签分组么？
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				deleteTagGroup({},key).then(r=>{
+					console.log(r);
+					if(r.status_code == 200){
+						showError(r.message)
+					} else {
+						refresh()
+					}
+				})
+			},
+			onCancel() {
+			
+			},
+		});
 	};
 	
 	// 切换单多选解释文案
@@ -204,6 +276,15 @@ class TagManage extends React.Component{
 			this.setState({singleOrDouble:'double'})
 		}
 	};
+	
+	// 查看标签详情
+	showDetail = (record) => {
+		this.setState({detailVisible:true,detailId:record.id})
+	};
+	hideDetail = () =>{
+		this.setState({detailVisible:false,detailId:''})
+	};
+	
 	/*
 	* 废弃方法！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
 	* */
@@ -233,7 +314,11 @@ class TagManage extends React.Component{
 					tagGroups={this.state.tagGroups}
 					refresh={this.refresh}
 				/>
-				
+				<TagDetail
+					visible={this.state.detailVisible}
+					onCancel={this.hideDetail}
+					groupId={this.state.detailId}
+				/>
 				<div className="header_tag">
 					<div className="createNew">
 						<Button size="small" className="btn btnAdd fBtn" onClick={this.showCreateNew}>
@@ -295,6 +380,19 @@ class TagManage extends React.Component{
 																title="标签名称"
 																dataIndex="name"
 																key="name"
+																render={(text,record)=>(
+																	<div>
+																		<span>{text}</span>
+																		<span style={{'display':(this.state.activeGroup.type == '互斥组' && this.state.activeGroup.auto_tag == true)?'inline-block':'none'}}>
+																			<i
+																				style={{color:'#4F9863',fontSize:'14px',marginLeft:'10px',cursor:'pointer'}}
+																				className="iconfont"
+																				onClick={()=>this.showDetail(record)}
+																			>&#xe7ab;</i>
+																		</span>
+																	</div>
+																	
+																)}
 															/>
 															<Column
 																className="column primary"

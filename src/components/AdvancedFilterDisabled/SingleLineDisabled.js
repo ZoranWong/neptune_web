@@ -50,6 +50,7 @@ export default class SingleLineDisabled extends React.Component{
 								disabled={true}
 							/>
 							<Select
+								defaultActiveFirstOption={false}
 								style={{ width: 120,marginLeft:5 }}
 								disabled={true}
 								value={this.state.activeOptions}

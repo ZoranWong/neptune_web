@@ -71,7 +71,6 @@ export default class AdvancedFilter extends React.Component{
 			conditions:this.state.groupAry,
 			logic:this.state.logic
 		};
-		console.log(data);
 		this.setState({data:data})
 	};
 	
@@ -102,9 +101,9 @@ export default class AdvancedFilter extends React.Component{
 						}
 					</div>
 				</div>
-				<div className={groupNeedRemove?'addNewGroup addNewGroupTwo':'addNewGroup'}>
+				<div className={groupNeedRemove?'addNewGroup addNewGroupTwo':'addNewGroup'} onClick={this.cloneGroupLine}>
 					<i className="iconfont">&#xe822;</i>
-					<span onClick={this.cloneGroupLine}>新加一个条件</span>
+					<span >新加一个条件</span>
 				</div>
 			</div>
 		)

@@ -46,6 +46,15 @@ class UserManage extends React.Component{
 			this.setState({id:this.props.location.query.tagId,api:tagUsers})
 		}
 	}
+	refresh = ()=>{
+		
+		this.setState({filterVisible:false,paginationParams:{
+				logic_conditions:[],
+				search:''
+			}},()=>{
+			this.child.current.pagination(1)
+		})
+	};
 	
 	// 加标签
 	closeAddTags = () =>{
@@ -73,9 +82,13 @@ class UserManage extends React.Component{
 	};
 	// 头部搜索框
 	search = (value) =>{
-		users({limit:10,page:1,searchJson:searchJson({search:value})}).then(r=>{
-			this.setState({user_data:r.data})
-		}).catch(_=>{})
+		this.setState({
+			api:users,
+			paginationParams:{...this.state.paginationParams,
+				searchJson:searchJson({search:value})}
+			},()=>{
+			this.child.current.pagination(1)
+		});
 	};
 	//高级筛选
 	higherFilter = () =>{
@@ -85,8 +98,7 @@ class UserManage extends React.Component{
 		this.setState({filterVisible:false})
 	};
 	onSubmit = (data) =>{
-		console.log(data);
-		this.setState({paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
+		this.setState({api:users,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
 			this.child.current.pagination(1)
 		});
 	};
@@ -146,7 +158,7 @@ class UserManage extends React.Component{
 			getCheckboxProps: record => ({
 				disabled: record.name === 'Disabled User', // Column configuration not to be checked
 				name: record.name,
-			}),
+			})
 		};
 		
 		return (
@@ -155,6 +167,7 @@ class UserManage extends React.Component{
 					visible={this.state.filterVisible}
 					onCancel={this.closeHigherFilter}
 					onSubmit={this.onSubmit}
+					refresh={this.refresh}
 				/>
 				<AddTags
 					visible={this.state.tagVisible}
@@ -215,7 +228,6 @@ class UserManage extends React.Component{
 						api={this.state.api}
 						ref={this.child}
 						params={this.state.paginationParams}
-						refresh={false}
 						id={this.state.id}
 						valChange={this.paginationChange}
 					/>

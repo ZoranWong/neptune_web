@@ -1,12 +1,12 @@
 import React from 'react'
-import {DatePicker,Input,Select} from 'antd'
-import locale from 'antd/lib/date-picker/locale/zh_CN';
+import {DatePicker,Input,Select,LocaleProvider} from 'antd'
+import zh_CN from 'antd/lib/locale-provider/zh_CN';
+import 'moment/locale/zh-cn';
 import {regions} from "../../api/common";
 import './index.sass'
 import {getStatic,tags} from '../../api/user'
 const { RangePicker } = DatePicker;
 const { Option } = Select;
-
 const OPTIONS = ['Apples', 'Nails', 'Bananas', 'Helicopters'];
 export default class AdvancedFilterValues extends React.Component{
 	constructor(props) {
@@ -119,20 +119,24 @@ export default class AdvancedFilterValues extends React.Component{
 		switch (this.state.type) {
 			case 'timestamp':
 				return <span>
-					<DatePicker
-						onChange={this.onTimestampChange}
-						placeholder="请选择日期"
-						showToday={false}
-					/>
+					<LocaleProvider locale={zh_CN}>
+						<DatePicker
+							onChange={this.onTimestampChange}
+							placeholder="请选择日期"
+							showToday={false}
+						/>
+					</LocaleProvider>
 				</span>;
 				break;
 			case 'period':
 				return <span>
-					  <RangePicker
-						  onChange={this.onPeriodChange}
-						  //showTime={true}
-						  locale={locale}
-					  />
+					<LocaleProvider locale={zh_CN}>
+						<RangePicker
+							onChange={this.onPeriodChange}
+							//showTime={true}
+						/>
+					</LocaleProvider>
+					
 				</span>;
 				break;
 			case 'input':
@@ -177,14 +181,20 @@ export default class AdvancedFilterValues extends React.Component{
 			case 'selectedBox':
 				return  <span>
 					<Select
+						defaultActiveFirstOption={false}
 							mode="tags"
 							value={selectedItems}
 							className='selectedBox'
 							onChange={this.handleChange}
+							optionLabelProp="label"
+							optionFilterProp="children"
+							filterOption={(input, option) =>
+								option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+							}
 						
 						>
 						{filteredOptions.map(item => (
-							<Select.Option key={item} value={item}>
+							<Select.Option key={item} label={item} value={item}>
 								{item}
 							</Select.Option>
 						))}
@@ -194,14 +204,20 @@ export default class AdvancedFilterValues extends React.Component{
 			case 'selectedOneBox':
 				return  <span>
 					<Select
+						defaultActiveFirstOption={false}
 						mode="tags"
 						value={selectedItems}
 						className='selectedBox'
 						onChange={this.handleChange}
+						optionLabelProp="label"
+						optionFilterProp="children"
+						filterOption={(input, option) =>
+							option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+						}
 					
 					>
 						{filteredOptions.map(item => (
-							<Select.Option key={item} value={item}>
+							<Select.Option key={item} label={item} value={item}>
 								{item}
 							</Select.Option>
 						))}
@@ -211,13 +227,20 @@ export default class AdvancedFilterValues extends React.Component{
 			case 'selectedTagBox':
 				return  <span>
 					<Select
+						defaultActiveFirstOption={false}
+						mode="tags"
 						value={selectedItems}
 						className='selectedBox'
 						onChange={this.handleChange}
 						onPopupScroll={this.tagScroll}
+						optionLabelProp="label"
+						optionFilterProp="children"
+						filterOption={(input, option) =>
+							option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+						}
 					>
 						{this.state.selectedTagItems.map(item => (
-							<Select.Option key={item.id} value={item.id+''}>
+							<Select.Option key={item.id+''} label={item.name} value={item.id+''}>
 								{item.name}
 							</Select.Option>
 						))}
@@ -227,13 +250,19 @@ export default class AdvancedFilterValues extends React.Component{
 			case 'selectedGroupBox':
 				return  <span>
 					<Select
+						defaultActiveFirstOption={false}
 						mode="tags"
 						value={selectedItems}
 						className='selectedBox'
 						onChange={this.handleChange}
+						optionLabelProp="label"
+						optionFilterProp="children"
+						filterOption={(input, option) =>
+							option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+						}
 					>
 						{this.state.selectedGroupItems.map(item => (
-							<Select.Option key={item.id} value={item.id+''}>
+							<Select.Option key={item.id+""} label={item.name} value={item.id+''}>
 								{item.name}
 							</Select.Option>
 						))}
@@ -243,6 +272,7 @@ export default class AdvancedFilterValues extends React.Component{
 			case 'cityBox':
 				return  <span>
 					<Select
+						defaultActiveFirstOption={false}
 						mode="multiple"
 						value={this.state.city}
 						className='selectedBox tagBox'
@@ -268,6 +298,7 @@ export default class AdvancedFilterValues extends React.Component{
 			case 'cityOneBox':
 				return  <span>
 					<Select
+						defaultActiveFirstOption={false}
 						value={this.state.city}
 						className='selectedBox tagBox'
 						onChange={this.handleCityChange}
@@ -291,7 +322,7 @@ export default class AdvancedFilterValues extends React.Component{
 				break;
 			case 'selectedBoxGender':
 				return  <span>
-							<Select defaultValue="1" style={{ width: 120 }} onChange={this.handleGenderChange}>
+							<Select defaultActiveFirstOption={false} defaultValue="1" style={{ width: 120 }} onChange={this.handleGenderChange}>
 								<Option value="1">男</Option>
 								<Option value="2">女</Option>
 							</Select>

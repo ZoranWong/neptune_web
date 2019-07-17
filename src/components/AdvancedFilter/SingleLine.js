@@ -50,17 +50,30 @@ export default class SingleLine extends React.Component{
 			type = value == 'between'?'period':'timestamp'
 		}
 		this.setState({type:type});
-		this.setState({activeOptions:value});
-		if(this.state.activeValue){
-			let data = {
-				key:this.state.activeKey.value,
-				operation:value,
-				value:this.state.activeValue,
-				cid:this.cid
-			};
-			this.setState({singleLineData:data});
-			this.props.onData(data);
-		}
+		this.setState({activeOptions:value},()=>{
+			if(this.state.activeValue){
+				let data = {
+					key:this.state.activeKey.value,
+					operation:value,
+					value:this.state.activeValue,
+					cid:this.cid
+				};
+				this.setState({singleLineData:data},()=>{
+					this.props.onData(data);
+				});
+			} else
+			if(value == 'is null' || value == 'is not null'){
+				let data = {
+					key:this.state.activeKey.value,
+					operation:value,
+					value:'',
+					cid:this.cid
+				};
+				this.setState({singleLineData:data},()=>{
+					this.props.onData(data);
+				});
+			}
+		});
 	};
 	
 	
@@ -91,6 +104,7 @@ export default class SingleLine extends React.Component{
 						allowClear={false}
 					/>
 					<Select
+						defaultActiveFirstOption={false}
 						style={{ width: 120,marginLeft:5 }}
 						onChange={this.onOperationChange}
 						value={this.state.activeOptions}

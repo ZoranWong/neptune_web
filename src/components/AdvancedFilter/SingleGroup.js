@@ -86,9 +86,11 @@ export default class SingleGroup extends React.Component{
 					</div>
 				</div>
 				
-				<div className="addNew">
-					<i className="iconfont">&#xe822;</i>
-					<span onClick={()=>this.cloneSingLine()}>新加一个条件</span>
+				<div className="addNew" >
+					<div onClick={()=>this.cloneSingLine()} style={{'width':'100px','cursor':'pointer'}}>
+						<i className="iconfont">&#xe822;</i>
+						<span >新加一个条件</span>
+					</div>
 				</div>
 				
 			</div>

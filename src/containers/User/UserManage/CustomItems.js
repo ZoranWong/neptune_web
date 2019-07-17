@@ -23,12 +23,10 @@ export default class CustomItem extends React.Component{
 	}
 	
 	filterOption = (inputValue, option) => {
-		console.log(option);
 		return option.label.indexOf(inputValue) > -1;
 	};
 	
 	handleChange = targetKeys => {
-		console.log(targetKeys);
 		this.setState({ targetKeys });
 	};
 	

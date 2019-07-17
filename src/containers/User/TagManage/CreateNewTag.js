@@ -1,5 +1,5 @@
 import React from 'react'
-import {Input, Modal,message,Select} from "antd";
+import {Input, Modal, message, Select, Button} from "antd";
 import AdvancedFilter from "../../../components/AdvancedFilter/AdvancedFilter";
 import './css/createNewTag.sass'
 import {addTag} from '../../../api/user'
@@ -58,6 +58,11 @@ export default class CreateNewTag extends React.Component{
 		})
 	};
 	
+	clearFilter = () =>{
+		this.child.current.clearFilter();
+		this.handleCancel()
+	};
+	
 	
 	
 	render() {
@@ -69,9 +74,27 @@ export default class CreateNewTag extends React.Component{
 					width={this.state.automatic?1088:520}
 					visible={this.props.visible}
 					onCancel={this.handleCancel}
-					onOk={this.handleSubmit}
-					okText="保存"
-					cancelText="取消"
+					footer={
+						<div>
+							{
+								this.state.automatic?(
+									<Button
+										size="small"
+										onClick={this.clearFilter}
+									>清空筛选条件</Button>
+								):(
+									<Button
+										size="small"
+										onClick={this.handleCancel}
+									>取消</Button>
+								)
+							}
+							<Button
+								size="small"
+								onClick={this.handleSubmit}
+								type="primary">确认</Button>
+						</div>
+					}
 				>
 					<ul className="mainUl">
 						<li>
@@ -79,6 +102,7 @@ export default class CreateNewTag extends React.Component{
 							{
 								this.state.tagGroups && this.state.tagGroups.length?(
 									<Select
+										defaultActiveFirstOption={false}
 										showSearch
 										style={{ width: 200 }}
 										onChange={this.onGroupChange}

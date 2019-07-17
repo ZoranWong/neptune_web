@@ -7,28 +7,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/containers/User/UserDetails/AdjustScore.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/User/UserDetails/css/adjust_score.sass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/User/TagManage/TagDetail.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilter.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilter.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilterValues.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilterValues.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilter/SingleGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilter/SingleGroup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilter/SingleLine.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilter/SingleLine.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilter/index.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilter/index.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterValuesDisabled.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterValuesDisabled.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/index.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/index.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/IntegralRules/IntegralRules.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/IntegralRules/IntegralRules.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleLineDisabled.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleLineDisabled.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Home/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Home/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Login/ResetPassword.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Login/ResetPassword.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewGroup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewTag.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewTag.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/css/tagManage.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/css/tagManage.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/User/UserDetails/UserDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserDetails/UserDetails.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/User/UserDetails/css/user_details.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserDetails/css/user_details.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserGroupManage/GroupDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserGroupManage/GroupDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserGroupManage/UserGroupManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserGroupManage/UserGroupManage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserGroupManage/css/userGroupManage.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserGroupManage/css/userGroupManage.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserManage/AddGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserManage/AddGroup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/User/UserDetails/header.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/User/UserGroupManage/CreateNewGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserGroupManage/CreateNewGroup.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/User/UserManage/AddTags.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserManage/AddTags.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/User/UserManage/AdvancedFilterComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserManage/AdvancedFilterComponent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/User/UserManage/CustomItems.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserManage/CustomItems.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/User/UserManage/UserManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserManage/UserManage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserManage/css/addTags.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserManage/css/addTags.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/User/UserManage/css/index.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserManage/css/index.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/style/iconFont.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/iconFont.css" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -44,18 +49,35 @@
     <favorites_list name="Neptune_web" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/containers/User/IntegralRules/IntegralRules.js">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/AddTags.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="18" column="27" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
+            <state relative-caret-position="627">
+              <caret line="65" column="6" lean-forward="true" selection-start-line="33" selection-start-column="4" selection-end-line="65" selection-end-column="6" />
+              <folding>
+                <element signature="e#0#25#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/css/tagManage.sass">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="627">
+              <caret line="79" column="27" selection-start-line="79" selection-start-column="27" selection-end-line="79" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="555">
+              <caret line="254" column="43" selection-start-line="254" selection-start-column="43" selection-end-line="254" selection-end-column="43" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
-                <element signature="e#1198#1293#0" />
-                <element signature="e#1860#2500#0" />
-                <element signature="e#2306#2738#0" />
-                <element signature="e#1334#3564#0" />
               </folding>
             </state>
           </provider>
@@ -74,10 +96,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>groupData</find>
-      <find>Math</find>
-      <find>selectChild</find>
-      <find>nameValue</find>
       <find>border</find>
       <find>ant-tabs</find>
       <find>groups</find>
@@ -96,7 +114,6 @@
       <find>logic</find>
       <find>cityData</find>
       <find>.selectedBox</find>
-      <find>console</find>
       <find>tag</find>
       <find>selectedBox</find>
       <find>margin-right: 11px</find>
@@ -104,6 +121,11 @@
       <find>'no'</find>
       <find>.chart</find>
       <find>tagGroups</find>
+      <find>locale</find>
+      <find>tagGroupList</find>
+      <find>checkedAry</find>
+      <find>console</find>
+      <find>message</find>
     </findStrings>
     <replaceStrings>
       <replace>雾</replace>
@@ -135,65 +157,65 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/api/permission.js" />
-        <option value="$PROJECT_DIR$/src/api/setting.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/TagManage/css/createNewGroup.sass" />
-        <option value="$PROJECT_DIR$/src/containers/Setting/css/staffAuthoritySetting.sass" />
         <option value="$PROJECT_DIR$/src/containers/User/TagManage/css/createNewTag.sass" />
         <option value="$PROJECT_DIR$/src/api/auth.js" />
         <option value="$PROJECT_DIR$/src/containers/Login/index.js" />
         <option value="$PROJECT_DIR$/src/containers/Setting/EditRole.js" />
         <option value="$PROJECT_DIR$/src/style/style.scss" />
         <option value="$PROJECT_DIR$/src/api/common.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/UserManage/css/index.sass" />
         <option value="$PROJECT_DIR$/src/style/pagination.sass" />
-        <option value="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewGroup.js" />
         <option value="$PROJECT_DIR$/src/App.sass" />
         <option value="$PROJECT_DIR$/src/containers/User/IntegralRules/index.sass" />
-        <option value="$PROJECT_DIR$/src/components/AdvancedFilter/SingleLine.js" />
         <option value="$PROJECT_DIR$/src/containers/User/UserGroupManage/css/createNewGroup.sass" />
-        <option value="$PROJECT_DIR$/src/containers/User/UserGroupManage/CreateNewGroup.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewTag.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/UserManage/CustomItems.js" />
         <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterDisabled.js" />
         <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleGroupDisabled.js" />
-        <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleLineDisabled.js" />
-        <option value="$PROJECT_DIR$/src/components/Layout/Pagination.js" />
         <option value="$PROJECT_DIR$/src/App.js" />
         <option value="$PROJECT_DIR$/src/utils/request.js" />
         <option value="$PROJECT_DIR$/src/utils/user_fields.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/TagManage/css/tagManage.sass" />
-        <option value="$PROJECT_DIR$/src/containers/User/UserManage/AdvancedFilterComponent.js" />
-        <option value="$PROJECT_DIR$/src/components/AdvancedFilter/SingleGroup.js" />
-        <option value="$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilter.js" />
         <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/index.sass" />
         <option value="$PROJECT_DIR$/src/containers/User/UserGroupManage/GroupDetail.js" />
-        <option value="$PROJECT_DIR$/src/components/AdvancedFilter/index.sass" />
-        <option value="$PROJECT_DIR$/src/style/iconFont.css" />
-        <option value="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/UserManage/UserManage.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/UserDetails/css/user_details.sass" />
         <option value="$PROJECT_DIR$/src/containers/User/UserDetails/css/adjust_score.sass" />
         <option value="$PROJECT_DIR$/src/api/user.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/UserDetails/UserDetails.js" />
         <option value="$PROJECT_DIR$/src/containers/User/UserDetails/AdjustScore.js" />
         <option value="$PROJECT_DIR$/src/containers/User/UserManage/css/addTags.sass" />
         <option value="$PROJECT_DIR$/src/containers/User/UserGroupManage/UserGroupManage.js" />
         <option value="$PROJECT_DIR$/src/containers/User/UserGroupManage/css/userGroupManage.sass" />
-        <option value="$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilterValues.js" />
-        <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterValuesDisabled.js" />
         <option value="$PROJECT_DIR$/src/containers/User/UserManage/AddGroup.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/UserManage/AddTags.js" />
         <option value="$PROJECT_DIR$/src/components/SideMenu/User.js" />
         <option value="$PROJECT_DIR$/src/containers/User/IntegralRules/IntegralRules.js" />
+        <option value="$PROJECT_DIR$/src/containers/User/UserManage/AdvancedFilterComponent.js" />
+        <option value="$PROJECT_DIR$/src/containers/Home/Home.js" />
+        <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleLineDisabled.js" />
+        <option value="$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilterValues.js" />
+        <option value="$PROJECT_DIR$/src/style/iconFont.css" />
+        <option value="$PROJECT_DIR$/src/containers/User/UserManage/AddTags.js" />
+        <option value="$PROJECT_DIR$/src/containers/User/UserDetails/UserDetails.js" />
+        <option value="$PROJECT_DIR$/src/routes/index.js" />
+        <option value="$PROJECT_DIR$/src/components/Layout/Pagination.js" />
+        <option value="$PROJECT_DIR$/src/containers/User/UserDetails/css/user_details.sass" />
+        <option value="$PROJECT_DIR$/src/containers/User/UserManage/UserManage.js" />
+        <option value="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewTag.js" />
+        <option value="$PROJECT_DIR$/src/components/AdvancedFilter/SingleGroup.js" />
+        <option value="$PROJECT_DIR$/src/components/AdvancedFilter/index.sass" />
+        <option value="$PROJECT_DIR$/src/containers/User/TagManage/TagDetail.js" />
+        <option value="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewGroup.js" />
+        <option value="$PROJECT_DIR$/src/containers/Login/ResetPassword.js" />
+        <option value="$PROJECT_DIR$/src/components/AdvancedFilter/SingleLine.js" />
+        <option value="$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilter.js" />
+        <option value="$PROJECT_DIR$/src/containers/User/UserManage/CustomItems.js" />
+        <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterValuesDisabled.js" />
+        <option value="$PROJECT_DIR$/src/containers/User/UserGroupManage/CreateNewGroup.js" />
+        <option value="$PROJECT_DIR$/src/containers/User/UserManage/css/index.sass" />
+        <option value="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" />
+        <option value="$PROJECT_DIR$/src/containers/User/TagManage/css/tagManage.sass" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="294" />
-    <option name="y" value="86" />
-    <option name="width" value="1045" />
-    <option name="height" value="803" />
+    <option name="x" value="446" />
+    <option name="y" value="108" />
+    <option name="width" value="1400" />
+    <option name="height" value="1000" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -225,18 +247,19 @@
               <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
               <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
-              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
               <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="AdvancedFilter" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
+              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="containers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -244,7 +267,7 @@
               <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="User" type="462c0819:PsiDirectoryNode" />
+              <item name="Login" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
@@ -252,7 +275,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="containers" type="462c0819:PsiDirectoryNode" />
               <item name="User" type="462c0819:PsiDirectoryNode" />
-              <item name="IntegralRules" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
@@ -261,6 +283,40 @@
               <item name="containers" type="462c0819:PsiDirectoryNode" />
               <item name="User" type="462c0819:PsiDirectoryNode" />
               <item name="TagManage" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
+              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="containers" type="462c0819:PsiDirectoryNode" />
+              <item name="User" type="462c0819:PsiDirectoryNode" />
+              <item name="TagManage" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
+              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="containers" type="462c0819:PsiDirectoryNode" />
+              <item name="User" type="462c0819:PsiDirectoryNode" />
+              <item name="UserGroupManage" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
+              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="containers" type="462c0819:PsiDirectoryNode" />
+              <item name="User" type="462c0819:PsiDirectoryNode" />
+              <item name="UserManage" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
+              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="containers" type="462c0819:PsiDirectoryNode" />
+              <item name="User" type="462c0819:PsiDirectoryNode" />
+              <item name="UserManage" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
@@ -291,7 +347,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jsx.switch.disabled" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/containers/User/UserManage" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/containers/User/TagManage" />
     <property name="list.type.of.created.stylesheet" value="Sass" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -300,19 +356,19 @@
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/containers/User/UserManage" />
-      <recent name="$PROJECT_DIR$/src/containers/User/UserDetails" />
-      <recent name="$PROJECT_DIR$/src/components" />
-      <recent name="$PROJECT_DIR$/src/containers/User/TagManage" />
-      <recent name="$PROJECT_DIR$/src/containers/User/TagManage/css" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/components/NewTreeNode" />
       <recent name="$PROJECT_DIR$/src/components" />
       <recent name="$PROJECT_DIR$/src/containers/User/UserManage" />
       <recent name="$PROJECT_DIR$/src/containers/User/UserGroupManage" />
       <recent name="$PROJECT_DIR$/src/containers/User/TagManage" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/containers/User/TagManage" />
+      <recent name="$PROJECT_DIR$/src/containers/User/UserManage" />
+      <recent name="$PROJECT_DIR$/src/containers/User/UserDetails" />
+      <recent name="$PROJECT_DIR$/src/components" />
+      <recent name="$PROJECT_DIR$/src/containers/User/TagManage/css" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -480,11 +536,12 @@
       <workItem from="1563118539779" duration="6151000" />
       <workItem from="1563196290460" duration="11763000" />
       <workItem from="1563280987570" duration="21342000" />
+      <workItem from="1563351653273" duration="5698000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="561588000" />
+    <option name="totallyTimeSpent" value="578861000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -496,10 +553,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
+    <frame x="67" y="27" width="1853" height="1053" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49724972" weight="0.22320117" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49724972" visible="true" weight="0.20623632" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" sideWeight="0.50165015" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="3" sideWeight="0.5027503" side_tool="true" weight="0.20623632" />
@@ -512,7 +569,7 @@
       <window_info anchor="bottom" id="Debug" order="6" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="8" weight="0.4" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.5585464" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.55775577" />
       <window_info anchor="bottom" id="TODO" order="10" weight="0.32893288" />
       <window_info anchor="bottom" id="TypeScript" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -545,62 +602,10 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/css/index.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="34" column="34" lean-forward="true" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/style/pagination.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/@types/react/index.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="660" column="8" selection-start-line="660" selection-start-column="8" selection-end-line="660" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="70" column="89" selection-start-line="70" selection-start-column="78" selection-end-line="70" selection-end-column="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/style/style.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="511">
-          <caret line="203" column="23" selection-start-line="203" selection-start-column="23" selection-end-line="203" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="19" column="23" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/User/IntegralRules/index.sass">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="63">
           <caret line="3" column="17" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/SingleLine.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="66" column="29" selection-start-line="66" selection-start-column="29" selection-end-line="66" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -611,13 +616,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="597">
           <caret line="27" column="5" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/CreateNewTag.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="485">
-          <caret line="112" column="49" lean-forward="true" selection-start-line="112" selection-start-column="49" selection-end-line="112" selection-end-column="49" />
         </state>
       </provider>
     </entry>
@@ -640,16 +638,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/permission">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserGroupManage/CreateNewGroup.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2305">
-          <caret line="90" column="91" selection-start-line="90" selection-start-column="28" selection-end-line="90" selection-end-column="91" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterDisabled.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -681,13 +669,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Layout/Pagination.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="26" lean-forward="true" selection-start-column="26" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/App.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
@@ -715,13 +696,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/css/tagManage.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="487">
-          <caret line="46" column="14" selection-start-line="46" selection-start-column="14" selection-end-line="46" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/CreateNewGroup.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
@@ -732,27 +706,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/_react-router-dom@5.0.1@react-router-dom/esm/react-router-dom.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="197" column="9" selection-start-line="197" selection-start-column="9" selection-end-line="197" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/_react-router-dom@5.0.1@react-router-dom/esm/react-router-dom.js" />
     <entry file="file://$PROJECT_DIR$/src/components/Layout/Nav.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
           <caret line="92" column="44" lean-forward="true" selection-start-line="92" selection-start-column="44" selection-end-line="92" selection-end-column="44" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/AdvancedFilterComponent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="44" column="21" lean-forward="true" selection-start-line="33" selection-start-column="20" selection-end-line="44" selection-end-column="21" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
@@ -766,74 +724,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="17" column="40" selection-start-line="17" selection-start-column="40" selection-end-line="17" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/SingleGroup.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="16" column="86" selection-start-line="16" selection-start-column="86" selection-end-line="16" selection-end-column="86" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/style/iconFont.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/index.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="123" column="30" lean-forward="true" selection-start-line="123" selection-start-column="30" selection-end-line="123" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserDetails/css/user_details.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="129" column="37" selection-start-line="129" selection-start-column="37" selection-end-line="129" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/User/UserGroupManage/GroupDetail.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="567">
           <caret line="83" column="24" lean-forward="true" selection-start-line="41" selection-start-column="16" selection-end-line="83" selection-end-column="24" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/api/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="193" column="10" lean-forward="true" selection-start-line="193" selection-start-column="10" selection-end-line="193" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserDetails/UserDetails.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="67" column="41" selection-start-line="67" selection-start-column="41" selection-end-line="67" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#1728#2431#0" />
-            <element signature="e#2894#4221#0" />
-            <element signature="e#3332#4963#0" />
-            <element signature="e#3363#3779#0" />
           </folding>
         </state>
       </provider>
@@ -848,27 +744,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/UserManage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="71" column="50" selection-start-line="71" selection-start-column="50" selection-end-line="71" selection-end-column="50" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/User/UserDetails/css/adjust_score.sass">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="42">
           <caret line="2" column="18" lean-forward="true" selection-start-line="1" selection-start-column="4" selection-end-line="2" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/css/addTags.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="567">
-          <caret line="55" column="30" selection-start-line="55" selection-start-column="30" selection-end-line="55" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -879,44 +758,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserGroupManage/UserGroupManage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="91" column="59" selection-start-line="91" selection-start-column="47" selection-end-line="91" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/user_fields.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="651">
-          <caret line="419" column="29" selection-start-line="419" selection-start-column="25" selection-end-line="419" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilterValues.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="293" column="51" selection-start-line="293" selection-start-column="51" selection-end-line="293" selection-end-column="51" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterValuesDisabled.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="423">
           <caret line="181" column="48" selection-start-line="181" selection-start-column="48" selection-end-line="181" selection-end-column="48" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/AddTags.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="567">
-          <caret line="51" column="36" selection-start-line="51" selection-start-column="36" selection-end-line="51" selection-end-column="36" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>
@@ -952,16 +797,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2821">
-          <caret line="325" column="186" selection-start-line="325" selection-start-column="186" selection-end-line="325" selection-end-column="186" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/User/IntegralRules/IntegralRules.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
@@ -973,6 +808,217 @@
             <element signature="e#2306#2738#0" />
             <element signature="e#1334#3564#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="151">
+          <caret line="178" column="31" selection-start-line="178" selection-start-column="16" selection-end-line="178" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/user_fields.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-6365">
+          <caret line="97" column="34" selection-start-line="97" selection-start-column="22" selection-end-line="97" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package-lock.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-924" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-45" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/style/iconFont.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="599">
+          <caret line="99" column="60" lean-forward="true" selection-start-line="99" selection-start-column="60" selection-end-line="99" selection-end-column="60" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="28">
+          <caret line="1" column="29" selection-start-line="1" selection-start-column="29" selection-end-line="1" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/dataStorage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2520">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/UserDetails/UserDetails.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1932">
+          <caret line="73" column="39" selection-start-line="73" selection-start-column="39" selection-end-line="73" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/UserDetails/css/user_details.sass">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1092">
+          <caret line="39" column="42" selection-start-line="39" selection-start-column="42" selection-end-line="39" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Layout/Pagination.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/AdvancedFilterComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="487">
+          <caret line="24" column="4" lean-forward="true" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/UserGroupManage/CreateNewGroup.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="57" column="27" lean-forward="true" selection-start-line="56" selection-start-column="8" selection-end-line="57" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/index.sass">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="61" column="22" selection-start-line="61" selection-start-column="22" selection-end-line="61" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/SingleGroup.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="487">
+          <caret line="88" column="35" selection-start-line="88" selection-start-column="35" selection-end-line="88" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/CreateNewTag.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="347">
+          <caret line="75" column="48" lean-forward="true" selection-start-line="75" selection-start-column="48" selection-end-line="75" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/UserGroupManage/UserGroupManage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="54" column="6" lean-forward="true" selection-start-line="52" selection-start-column="4" selection-end-line="54" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/TagDetail.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="6" column="30" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/SingleLine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="571">
+          <caret line="68" column="27" selection-start-line="68" selection-start-column="27" selection-end-line="68" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilterValues.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-952">
+          <caret line="2" column="51" selection-start-line="2" selection-start-column="51" selection-end-line="2" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/UserManage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="543">
+          <caret line="151" column="14" lean-forward="true" selection-start-line="151" selection-start-column="14" selection-end-line="151" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/AddTags.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="627">
+          <caret line="65" column="6" lean-forward="true" selection-start-line="33" selection-start-column="4" selection-end-line="65" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/css/addTags.sass">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="655">
+          <caret line="55" column="29" lean-forward="true" selection-start-line="55" selection-start-column="29" selection-end-line="55" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/css/index.sass">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="48" selection-start-line="48" selection-end-line="75" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="254" column="43" selection-start-line="254" selection-start-column="43" selection-end-line="254" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/css/tagManage.sass">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="627">
+          <caret line="79" column="27" selection-start-line="79" selection-start-column="27" selection-end-line="79" selection-end-column="27" />
         </state>
       </provider>
     </entry>

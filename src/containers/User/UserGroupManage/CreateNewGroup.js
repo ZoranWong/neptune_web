@@ -1,5 +1,5 @@
 import React from 'react'
-import {Input, Modal,message} from "antd";
+import {Input, Modal, message, Button} from "antd";
 import AdvancedFilter from "../../../components/AdvancedFilter/AdvancedFilter";
 import './css/createNewGroup.sass'
 import {addNewGroup} from '../../../api/user'
@@ -32,7 +32,6 @@ export default class CreateNewGroup extends React.Component{
 	};
 	
 	handleSubmit = ()=>{
-		console.log(this.child.current.state.data);
 		if(!this.state.nameValue || !this.state.remarkValue) {
 			message.error('请填写相关信息');
 			return;
@@ -53,6 +52,10 @@ export default class CreateNewGroup extends React.Component{
 		}).catch(_=>{})
 	};
 	
+	clearFilter = () =>{
+		this.child.current.clearFilter();
+		this.handleCancel()
+	};
 	
 	
 	render() {
@@ -63,9 +66,27 @@ export default class CreateNewGroup extends React.Component{
 					width={this.state.type == 'dynamic'?1088:520}
 					visible={this.props.visible}
 					onCancel={this.handleCancel}
-					onOk={this.handleSubmit}
-					okText="保存"
-					cancelText="取消"
+					footer={
+						<div>
+							{
+								this.state.type == 'dynamic'?(
+									<Button
+										size="small"
+										onClick={this.clearFilter}
+									>清空筛选条件</Button>
+								):(
+									<Button
+										size="small"
+										onClick={this.handleCancel}
+									>取消</Button>
+								)
+							}
+							<Button
+								size="small"
+								onClick={this.handleSubmit}
+								type="primary">确认</Button>
+						</div>
+					}
 				>
 					<ul className="mainUl">
 						<li>

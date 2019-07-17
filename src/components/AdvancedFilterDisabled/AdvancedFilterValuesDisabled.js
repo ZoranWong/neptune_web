@@ -62,7 +62,6 @@ export default class AdvancedFilterValuesDisabled extends React.Component{
 			this.setState({selectedGroupItems:r.data})
 		});
 		tags({limit:100,page:1}).then(r=>{
-			console.log(r.data);
 			this.setState({selectedTagItems:r.data})
 		})
 	}
@@ -118,6 +117,7 @@ export default class AdvancedFilterValuesDisabled extends React.Component{
 			case 'selectedBox':
 				return  <span>
 					<Select
+							defaultActiveFirstOption={false}
 							mode="tags"
 							disabled={true}
 							placeholder="Inserted are removed"
@@ -130,6 +130,7 @@ export default class AdvancedFilterValuesDisabled extends React.Component{
 			case 'selectedTagBox':
 				return  <span>
 					<Select
+						defaultActiveFirstOption={false}
 						disabled={true}
 						value={this.state.activeKey+''}
 						className='selectedBox'
@@ -145,6 +146,7 @@ export default class AdvancedFilterValuesDisabled extends React.Component{
 			case 'selectedGroupBox':
 				return  <span>
 					<Select
+						defaultActiveFirstOption={false}
 						disabled={true}
 						value={this.state.activeKey}
 						className='selectedBox'
@@ -160,6 +162,7 @@ export default class AdvancedFilterValuesDisabled extends React.Component{
 			case 'cityBox':
 				return  <span>
 					<Select
+						defaultActiveFirstOption={false}
 						disabled={true}
 						value={this.state.activeKey}
 						className='selectedBox tagBox'
@@ -177,7 +180,7 @@ export default class AdvancedFilterValuesDisabled extends React.Component{
 				break;
 			case 'selectedBoxGender':
 				return  <span>
-							<Select value={this.state.activeKey} disabled={true} style={{ width: 120 }}>
+							<Select defaultActiveFirstOption={false} value={this.state.activeKey} disabled={true} style={{ width: 120 }}>
 								<Option value="1">男</Option>
 								<Option value="2">女</Option>
 							</Select>

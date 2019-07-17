@@ -19,7 +19,8 @@ export default class AdvancedFilterComponent extends React.Component{
 	};
 
 	clearFilter = ()=>{
-		this.child.current.clearFilter()
+		this.child.current.clearFilter();
+		this.props.refresh()
 	};
 	
 	render(){

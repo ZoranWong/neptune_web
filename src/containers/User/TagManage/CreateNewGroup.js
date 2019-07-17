@@ -21,8 +21,6 @@ export default class CreateNewGroup extends React.Component{
 		type = this.state.switchValue?'normal':'mutual_exclusion';
 		let auto_tag;
 		auto_tag = this.state.modelValue == '自动'?true:false
-		console.log(type);
-		console.log(auto_tag);
 		addNewTagGroup({name:this.state.inputValue,type:type,auto_tag:auto_tag}).then(r=>{
 			this.setState({
 				modelValue:'自动',

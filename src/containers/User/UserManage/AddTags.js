@@ -1,7 +1,9 @@
 import React from 'react'
-import {Input, Modal,Select,Tag,message} from "antd";
+import {Input, Modal,Select,Tag,message, Button } from "antd";
 import './css/addTags.sass'
 import {tagGroupList,tagList,addTag,addTags} from "../../../api/user";
+
+const { confirm } = Modal;
 export default class AddTags extends React.Component{
 	constructor(props){
 		super(props);
@@ -18,12 +20,49 @@ export default class AddTags extends React.Component{
 	
 	componentDidMount() {
 		tagGroupList({}).then(r=>{
-			this.setState({tagGroupList:r.data})
+			let ary = r.data.filter(item=>{
+				return item.auto_tag == false
+			});
+			this.setState({tagGroupList:ary})
 		})
 	}
 	
 	handleCancel = ()=>{
 		this.props.onCancel()
+	};
+	
+	showConfirm =(item) => {
+		let closeFn = this.handleCancel;
+		confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont">&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			content: (
+				<div className="U_confirm">
+					<i className="iconfont">&#xe7dc;</i>
+					{item.message}
+				</div>
+			),
+			cancelText: '查看详情',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				closeFn()
+			},
+			onCancel() {
+				//this.props.history.push({pathname:'/user',query:{tagId:record.id}});
+			},
+		});
 	};
 	
 	onSubmit = ()=>{
@@ -41,15 +80,23 @@ export default class AddTags extends React.Component{
 				group_id:this.state.groupId
 			}).then(r=>{
 				addTags({user_ids:this.props.checkedAry},r.data.id).then(res=>{
-					message.success('标签添加成功');
-					this.setState({tagName:''});
-					this.handleCancel()
+					if(res.failed_count){
+						this.showConfirm(res)
+					} else {
+						this.setState({tagName:''});
+						message.success('标签添加成功');
+						this.handleCancel();
+					}
 				})
 			})
 		} else {
 			addTags({user_ids:this.props.checkedAry},this.state.selectedTags[0]).then(res=>{
-				message.success('标签添加成功');
-				this.handleCancel();
+				if(res.failed_count){
+					this.showConfirm(res)
+				} else {
+					message.success('标签添加成功');
+					this.handleCancel();
+				}
 			})
 		}
 	};
@@ -102,36 +149,45 @@ export default class AddTags extends React.Component{
 						新建标签
 					</div>
 					<ul className="mainUl t_body">
+						<li>
+							<span className="left">选择分组</span>
+							<Select
+								
+								showSearch
+								style={{ width: 300 }}
+								optionFilterProp="children"
+								placeholder="请选择分组"
+								defaultActiveFirstOption={false}
+								onChange={this.onChange}
+								filterOption={(input, option) =>
+									option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+								}
+							>
+								{
+									this.state.tagGroupList.map(item => (
+										<Option key={item.id}>{item.name}</Option>
+									))
+								}
+							</Select>
+						</li>
 						<li >
 							<span className="left" style={{'display':this.state.type == 'create'?'inline-block':'none'}}>标签名称</span>
 							<Input
 								className="liInput"
 								style={{'display':this.state.type == 'create'?'inline-block':'none'}}
 								value={this.state.tagName}
+								onFocus={()=>{
+									if(!this.state.groupId){
+										message.error('请先选择分组')
+										return
+									}
+								}}
 								onChange={(e)=>{
 									this.setState({tagName:e.target.value})
 								}}
 							/>
 						</li>
-						<li>
-							<span className="left">标签分组</span>
-								<Select
-									showSearch
-									style={{ width: 300 }}
-									optionFilterProp="children"
-									placeholder="请选择分组"
-									onChange={this.onChange}
-									filterOption={(input, option) =>
-										option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-									}
-								>
-									{
-										this.state.tagGroupList.map(item => (
-											<Option key={item.id}>{item.name}</Option>
-										))
-									}
-								</Select>
-						</li>
+						
 						<li className="tags" style={{'display':this.state.type == 'create'||(!this.state.tagList)?'none':'inline-block'}}>
 							{
 								this.state.tagList.length > 0?(

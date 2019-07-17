@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button,Tabs,Tag } from "antd";
-import {userDetails,deleteUserTag,deleteGroup} from "../../../api/user";
+import {userDetails,deleteUserTag,deleteUserGroup} from "../../../api/user";
 import './css/user_details.sass'
 import AdjustScore from './AdjustScore'
 const { TabPane } = Tabs;
@@ -29,13 +29,13 @@ class UserDetails extends React.Component{
 	};
 
 	removeGroup = (e) =>{
-		deleteGroup({group_id:e},this.props.location.state.id).then(r=>{
-
+		deleteUserGroup({group_id:e},this.props.location.state.id).then(r=>{
+			this.refresh()
 		}).catch(_=>{})
 	};
 	removeTag = (e) =>{
 		deleteUserTag({tag_id:e},this.props.location.state.id).then(r=>{
-
+			this.refresh()
 		}).catch(_=>{})
 	};
 
@@ -70,7 +70,9 @@ class UserDetails extends React.Component{
 				<div className="u_top">
 					<div className="u_header">
 						<span>用户详情</span>
-						<Button type="default" size="small">返回用户列表</Button>
+						<Button type="default" size="small" onClick={()=>{
+							this.props.history.go(-1)
+						}}>返回用户列表</Button>
 					</div>
 					<div className="u_body">
 						<ul className="u_body_top">
