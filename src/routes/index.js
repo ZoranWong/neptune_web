@@ -7,7 +7,10 @@ import Finance from "../containers/Finance/Finance";
 import Goods from "../containers/Goods/Goods";
 import Order from "../containers/Order/Order";
 import Marketing from "../containers/Marketing/Marketing";
-import Shops from "../containers/Shops/Shops";
+import ShopManage from "../containers/Shops/ShopManage/ShopManage";
+import ShopGroup from '../containers/Shops/ShopGroup/ShopGroup'
+import FrozenShop from '../containers/Shops/FrozenShop/FrozenShop'
+import ShopChannel from '../containers/Shops/ShopChannel/ShopChannel'
 import IntegralRules from "../containers/User/IntegralRules/IntegralRules";
 import Staffing from "../containers/Setting/Staffing";
 import WarningSetting from '../containers/Setting/WarningSetting'
@@ -59,7 +62,10 @@ const Routes = () =>(
 		<Route exact={true} path="/marketing" render={props => onEnter(Marketing, props)} />
 		
 		{/*店铺*/}
-		<Route exact={true} path="/shops" render={props => onEnter(Shops, props)} />
+		<Route exact={true} path="/shops" render={props => onEnter(ShopManage, props)} />
+		<Route exact={true} path="/shops/groups" render={props => onEnter(ShopGroup, props)} />
+		<Route exact={true} path="/shops/frozen" render={props => onEnter(FrozenShop, props)} />
+		<Route exact={true} path="/shops/channel" render={props => onEnter(ShopChannel, props)} />
 		
 		{/*用户*/}
 		

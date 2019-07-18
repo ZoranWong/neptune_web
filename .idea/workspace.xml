@@ -7,33 +7,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/utils/IconFont.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Shops/FrozenShop/FrozenShop.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopChannel/ShopChannel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopGroup/ShopGroup.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilterValues.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilterValues.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilter/SingleLine.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilter/SingleLine.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilter/index.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilter/index.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterValuesDisabled.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterValuesDisabled.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/index.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/index.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SideMenu/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SideMenu/User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewGroup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewTag.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewTag.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/TagDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/TagDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/css/createNewTag.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/css/createNewTag.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/css/tagManage.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/css/tagManage.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserDetails/AdjustScore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserDetails/AdjustScore.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserDetails/UserDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserDetails/UserDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserGroupManage/CreateNewGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserGroupManage/CreateNewGroup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserGroupManage/GroupDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserGroupManage/GroupDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserManage/AddGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserManage/AddGroup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserManage/AddTags.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserManage/AddTags.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserManage/AdvancedFilterComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserManage/AdvancedFilterComponent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserManage/UserManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserManage/UserManage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserManage/css/addTags.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserManage/css/addTags.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/style/sider.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/sider.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/style/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/style.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/user_fields.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/user_fields.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout/Nav.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout/Nav.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/SideMenu/Setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SideMenu/Setting.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/SideMenu/Shops.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SideMenu/Shops.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Shops/Shops.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopManage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopsOneOne.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopsTwoTwo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -49,62 +34,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="795">
-              <caret line="474" column="140" selection-start-line="474" selection-start-column="135" selection-end-line="474" selection-end-column="140" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/Layout/Nav.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="672">
-              <caret line="92" column="44" lean-forward="true" selection-start-line="92" selection-start-column="44" selection-end-line="92" selection-end-column="44" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/SideMenu/User.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="112">
-              <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/style/sider.sass">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="32" column="27" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="27" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/index.sass">
+        <entry file="file://$PROJECT_DIR$/src/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="515">
-              <caret line="50" column="30" lean-forward="true" selection-start-line="50" selection-start-column="30" selection-end-line="50" selection-end-column="30" />
+            <state relative-caret-position="235">
+              <caret line="49" column="66" selection-start-line="49" selection-start-column="66" selection-end-line="49" selection-end-column="66" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/css/tagManage.sass">
+        <entry file="file://$PROJECT_DIR$/src/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="655">
-              <caret line="89" selection-start-line="89" selection-end-line="89" />
+            <state relative-caret-position="280">
+              <caret line="64" column="40" selection-start-line="64" selection-start-column="40" selection-end-line="64" selection-end-column="40" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -177,6 +126,7 @@
       <dir>$PROJECT_DIR$/src/containers/User</dir>
       <dir>$PROJECT_DIR$/src/components/AdvancedFilter</dir>
       <dir>$PROJECT_DIR$/src</dir>
+      <dir>$PROJECT_DIR$/src/containers/Shops</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -185,13 +135,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/api/common.js" />
-        <option value="$PROJECT_DIR$/src/style/pagination.sass" />
-        <option value="$PROJECT_DIR$/src/App.sass" />
-        <option value="$PROJECT_DIR$/src/containers/User/IntegralRules/index.sass" />
-        <option value="$PROJECT_DIR$/src/containers/User/UserGroupManage/css/createNewGroup.sass" />
-        <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterDisabled.js" />
-        <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleGroupDisabled.js" />
         <option value="$PROJECT_DIR$/src/utils/request.js" />
         <option value="$PROJECT_DIR$/src/containers/User/UserDetails/css/adjust_score.sass" />
         <option value="$PROJECT_DIR$/src/api/user.js" />
@@ -201,7 +144,6 @@
         <option value="$PROJECT_DIR$/src/containers/Home/Home.js" />
         <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleLineDisabled.js" />
         <option value="$PROJECT_DIR$/src/style/iconFont.css" />
-        <option value="$PROJECT_DIR$/src/routes/index.js" />
         <option value="$PROJECT_DIR$/src/components/Layout/Pagination.js" />
         <option value="$PROJECT_DIR$/src/containers/User/UserDetails/css/user_details.sass" />
         <option value="$PROJECT_DIR$/src/components/AdvancedFilter/SingleGroup.js" />
@@ -219,7 +161,6 @@
         <option value="$PROJECT_DIR$/src/containers/User/UserGroupManage/GroupDetail.js" />
         <option value="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewTag.js" />
         <option value="$PROJECT_DIR$/src/containers/User/UserDetails/UserDetails.js" />
-        <option value="$PROJECT_DIR$/src/App.js" />
         <option value="$PROJECT_DIR$/src/containers/User/UserManage/css/addTags.sass" />
         <option value="$PROJECT_DIR$/src/containers/User/UserManage/AddGroup.js" />
         <option value="$PROJECT_DIR$/src/containers/User/UserManage/AddTags.js" />
@@ -236,6 +177,15 @@
         <option value="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" />
         <option value="$PROJECT_DIR$/src/style/sider.sass" />
         <option value="$PROJECT_DIR$/src/components/AdvancedFilter/index.sass" />
+        <option value="$PROJECT_DIR$/src/components/SideMenu/Setting.js" />
+        <option value="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopManage.js" />
+        <option value="$PROJECT_DIR$/src/containers/Shops/ShopGroup/ShopGroup.js" />
+        <option value="$PROJECT_DIR$/src/containers/Shops/FrozenShop/ShopGroup.js" />
+        <option value="$PROJECT_DIR$/src/containers/Shops/ShopChannel/ShopGroup.js" />
+        <option value="$PROJECT_DIR$/src/App.js" />
+        <option value="$PROJECT_DIR$/src/components/SideMenu/Shops.js" />
+        <option value="$PROJECT_DIR$/src/components/Layout/Nav.js" />
+        <option value="$PROJECT_DIR$/src/routes/index.js" />
       </list>
     </option>
   </component>
@@ -277,13 +227,6 @@
               <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="AdvancedFilter" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
-              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
               <item name="Layout" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -304,40 +247,15 @@
               <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="User" type="462c0819:PsiDirectoryNode" />
+              <item name="Shops" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
               <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="User" type="462c0819:PsiDirectoryNode" />
-              <item name="TagManage" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
-              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="User" type="462c0819:PsiDirectoryNode" />
-              <item name="UserGroupManage" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
-              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="User" type="462c0819:PsiDirectoryNode" />
-              <item name="UserManage" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
-              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="User" type="462c0819:PsiDirectoryNode" />
-              <item name="UserManage" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
+              <item name="Shops" type="462c0819:PsiDirectoryNode" />
+              <item name="ShopManage" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
@@ -351,12 +269,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="style" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
-              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -367,7 +279,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jsx.switch.disabled" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/containers/User/TagManage" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/containers/Shops" />
     <property name="list.type.of.created.stylesheet" value="Sass" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -377,18 +289,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/containers/Shops" />
+      <recent name="$PROJECT_DIR$/src/containers/Shops/ShopGroup" />
       <recent name="$PROJECT_DIR$/src/containers/User/TagManage" />
       <recent name="$PROJECT_DIR$/src/containers/User/UserManage" />
       <recent name="$PROJECT_DIR$/src/containers/User/UserDetails" />
-      <recent name="$PROJECT_DIR$/src/components" />
-      <recent name="$PROJECT_DIR$/src/containers/User/TagManage/css" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/containers/Shops/ShopManage" />
       <recent name="$PROJECT_DIR$/src/components/NewTreeNode" />
       <recent name="$PROJECT_DIR$/src/components" />
       <recent name="$PROJECT_DIR$/src/containers/User/UserManage" />
       <recent name="$PROJECT_DIR$/src/containers/User/UserGroupManage" />
-      <recent name="$PROJECT_DIR$/src/containers/User/TagManage" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -562,7 +474,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="596367000" />
+    <option name="totallyTimeSpent" value="599266000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -590,7 +502,7 @@
       <window_info anchor="bottom" id="Debug" order="6" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="8" weight="0.4" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.14521453" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.49394938" />
       <window_info anchor="bottom" id="TODO" order="10" weight="0.32893288" />
       <window_info anchor="bottom" id="TypeScript" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -623,54 +535,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleGroupDisabled.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilterDisabled/SingleLineDisabled.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="35" column="5" selection-start-line="35" selection-start-column="5" selection-end-line="35" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/request.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="51" column="24" selection-start-line="51" selection-start-column="24" selection-end-line="51" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/api/auth.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="13" column="26" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/CreateNewGroup.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="20" column="40" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/_react-router-dom@5.0.1@react-router-dom/esm/react-router-dom.js" />
     <entry file="file://$PROJECT_DIR$/src/containers/User/UserDetails/AdjustScore.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="441">
@@ -739,13 +603,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
           <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="28">
-          <caret line="1" column="29" selection-start-line="1" selection-start-column="29" selection-end-line="1" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -853,16 +710,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="336">
           <caret line="62" column="35" selection-start-line="62" selection-start-column="35" selection-end-line="62" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="50" column="121" selection-start-line="50" selection-start-column="121" selection-end-line="50" selection-end-column="121" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
@@ -1018,23 +865,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Layout/Nav.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="672">
-          <caret line="92" column="44" lean-forward="true" selection-start-line="92" selection-start-column="44" selection-end-line="92" selection-end-column="44" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/SideMenu/User.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/style/sider.sass">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
@@ -1046,6 +876,96 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="515">
           <caret line="50" column="30" lean-forward="true" selection-start-line="50" selection-start-column="30" selection-end-line="50" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/SideMenu/Setting.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="24" selection-start-line="24" selection-end-line="25" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopGroup/ShopGroup.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="10" column="35" selection-start-line="10" selection-start-column="35" selection-end-line="10" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Shops/FrozenShop/FrozenShop.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="10" column="36" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopChannel/ShopChannel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="10" column="37" selection-start-line="10" selection-start-column="37" selection-end-line="10" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/SideMenu/User.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-728">
+          <caret line="7" selection-start-line="7" selection-end-line="38" selection-end-column="2" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopManage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/SideMenu/Shops.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="24" column="20" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Layout/Nav.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="31" column="27" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="64" column="40" selection-start-line="64" selection-start-column="40" selection-end-line="64" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="49" column="66" selection-start-line="49" selection-start-column="66" selection-end-line="49" selection-end-column="66" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

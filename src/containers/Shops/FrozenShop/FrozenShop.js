@@ -1,6 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
-class Shops extends React.Component{
+class FrozenShop extends React.Component{
 	
 	render(){
 		return (
@@ -8,4 +8,4 @@ class Shops extends React.Component{
 		)
 	}
 }
-export default withRouter(Shops)
+export default withRouter(FrozenShop)
