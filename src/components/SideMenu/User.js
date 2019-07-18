@@ -3,36 +3,36 @@ import PropTypes from 'prop-types'
 import { Menu, Icon } from 'antd'
 import { Link } from 'react-router-dom'
 import '../../style/sider.sass'
-
+import IconFont from '../../utils/IconFont'
 const mockList = ['nav-user-manage','nav-user-taps','nav-user-groups','nav-user-membership','nav-user-integralRules'];
 const baseMenu = [
 	{
 		path:'/user',
-		icon:'&#xe7d4;',
+		icon:'icon-userplus-fill',
 		text:'用户管理',
 		name:'nav-user-manage'
 	},
 	{
 		path:'/user/tagManage',
-		icon:'&#xe7d4;',
+		icon:'icon-tag-fill',
 		text:'标签管理',
 		name:'nav-user-taps'
 	},
 	{
 		path:'/user/groupManage',
-		icon:'&#xe7d4;',
+		icon:'icon-user-group-fill',
 		text:'群组管理',
 		name:'nav-user-groups'
 	},
 	{
 		path:'/user/integralRules',
-		icon:'&#xe7d4;',
+		icon:'icon-YUAN-circle-fill',
 		text:'积分规则',
 		name:'nav-user-integralRules'
 	},
 	{
 		path:'/user/membership',
-		icon:'&#xe7d4;',
+		icon:'icon-crown-fill',
 		text:'会员等级',
 		name:'nav-user-membership'
 	}
@@ -52,7 +52,7 @@ const User = ({ match }) => (
 						return (
 							<Menu.Item key={item.path}>
 								<Link to={item.path}>
-									<Icon type="home" />
+									<IconFont type={item.icon} />
 									<span>{item.text}</span>
 								</Link>
 							</Menu.Item>

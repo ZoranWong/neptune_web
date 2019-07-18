@@ -15,7 +15,7 @@ export default class AddGroup extends React.Component{
 		}
 	}
 	handleCancel = ()=>{
-		this.props.onCancel()
+		this.props.onClose()
 	};
 	
 	componentDidMount() {
@@ -79,6 +79,8 @@ export default class AddGroup extends React.Component{
 					cancelButtonProps={this.handleCancel}
 					cancelText="取消"
 					okText="保存"
+					maskClosable={false}
+					zIndex={1001}
 				>
 					<div className="t_header"
 						 style={{'display':this.state.type == 'create'?'inline-flex':'none'}}

@@ -54,7 +54,6 @@ export default class CreateNewGroup extends React.Component{
 	
 	clearFilter = () =>{
 		this.child.current.clearFilter();
-		this.handleCancel()
 	};
 	
 	
@@ -66,6 +65,7 @@ export default class CreateNewGroup extends React.Component{
 					width={this.state.type == 'dynamic'?1088:520}
 					visible={this.props.visible}
 					onCancel={this.handleCancel}
+					maskClosable={false}
 					footer={
 						<div>
 							{

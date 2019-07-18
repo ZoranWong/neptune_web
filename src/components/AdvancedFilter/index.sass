@@ -7,10 +7,12 @@
 	justify-content: flex-start
 	text-align: left
 	align-items: center
+	flex-wrap: wrap
 	.selectChild
 		display: flex
 		justify-content: flex-start
 		align-items: center
+		flex-wrap: wrap
 	.iconfont
 		position: absolute
 		right: 50px
@@ -40,6 +42,7 @@
 			line-height: 28px!important
 			padding: 3px 11px !important
 	.ant-calendar-picker-input
+		width: 220px
 		height: 28px!important
 		min-height: 0!important
 		padding: 0 11px!important
@@ -108,8 +111,7 @@
 		margin: 0 5px
 		
 .selectedBox
-	min-width: 300px
-	max-width: 400px
+	width: 300px
 	display: block
 	flex-wrap: wrap
 	margin-top: 5px
@@ -171,3 +173,8 @@
 
 .ant-cascader-menu-item
 	font-size: 12px !important
+.ant-select-selection__clear, .ant-select-selection--multiple .ant-select-arrow
+	top: 14px !important
+.tagBox
+	width: 650px!important
+	margin-top: 5px

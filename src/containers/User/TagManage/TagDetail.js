@@ -44,6 +44,7 @@ export default class TagDetail extends React.Component{
 					title="群组详情"
 					className="disabled-filter"
 					width={1088}
+					maskClosable={false}
 					visible={this.props.visible}
 					onCancel={this.handleCancel}
 					centered={true}

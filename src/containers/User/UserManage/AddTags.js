@@ -28,7 +28,7 @@ export default class AddTags extends React.Component{
 	}
 	
 	handleCancel = ()=>{
-		this.props.onCancel()
+		this.props.onClose()
 	};
 	
 	showConfirm =(item) => {
@@ -128,6 +128,7 @@ export default class AddTags extends React.Component{
 					title={this.state.type == 'create'?'新建标签':'加入已有标签'}
 					className="user_add"
 					width={520}
+					maskClosable={false}
 					centered={true}
 					visible={this.props.visible}
 					onCancel={this.handleCancel}
@@ -135,6 +136,7 @@ export default class AddTags extends React.Component{
 					cancelButtonProps={this.handleCancel}
 					cancelText="取消"
 					okText="保存"
+					zIndex={1001}
 				>
 					<div className="t_header"
 						 style={{'display':this.state.type == 'create'?'inline-flex':'none'}}

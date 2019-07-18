@@ -12,8 +12,9 @@ export default class SingleLine extends React.Component{
 		this.state = {
 			singleLineData:{},
 			activeKey:{},      // 选中key框对应的对象
-			activeOptions:operation['timeCompare'][0].label,  //默认选中的option
-			activeValue:''
+			activeOptions:operation['emptyCompare'][0].value,  //默认选中的option
+			activeValue:'',
+			type:operation['emptyCompare'][0].type
 		};
 	};
 	
@@ -47,7 +48,9 @@ export default class SingleLine extends React.Component{
 				return item.value == value
 			})[0].type;
 		} else {
-			type = value == 'between'?'period':'timestamp'
+			type = operation['emptyCompare'].filter(item=>{
+				return item.value == value
+			})[0].type;
 		}
 		this.setState({type:type});
 		this.setState({activeOptions:value},()=>{
@@ -61,10 +64,9 @@ export default class SingleLine extends React.Component{
 				this.setState({singleLineData:data},()=>{
 					this.props.onData(data);
 				});
-			} else
-			if(value == 'is null' || value == 'is not null'){
+			} else if(value == 'is null' || value == 'is not null'){
 				let data = {
-					key:this.state.activeKey.value,
+					key:this.state.activeKey.value || 'name',
 					operation:value,
 					value:'',
 					cid:this.cid
@@ -79,7 +81,7 @@ export default class SingleLine extends React.Component{
 	
 	valueChange = (value) =>{
 		let data = {
-			key:this.state.activeKey.value || "last_purchased_at",
+			key:this.state.activeKey.value || "name",
 			operation:this.state.activeOptions,
 			value:value,
 			cid:this.cid
@@ -97,7 +99,7 @@ export default class SingleLine extends React.Component{
 					<Cascader
 						options={user_values}
 						className="cascader"
-						defaultValue={["purchase_information", "last_purchased_at"]}
+						defaultValue={["base_attributes", "name"]}
 						expandTrigger="hover"
 						displayRender={this.displayRender}
 						onChange={this.onKeyChange}
@@ -108,7 +110,6 @@ export default class SingleLine extends React.Component{
 						style={{ width: 120,marginLeft:5 }}
 						onChange={this.onOperationChange}
 						value={this.state.activeOptions}
-						defaultValue={operation['timeCompare'][0].label}
 					>
 						{
 							this.state.activeKey&&this.state.activeKey.type?
@@ -116,7 +117,7 @@ export default class SingleLine extends React.Component{
 									<Option key={item.value}>{item.label}</Option>
 								)))
 								:
-								(operation['timeCompare'].map(item=>(
+								(operation['emptyCompare'].map(item=>(
 									<Option key={item.value}>{item.label}</Option>
 								)))
 						}

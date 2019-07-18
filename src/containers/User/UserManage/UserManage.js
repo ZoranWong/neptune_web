@@ -65,7 +65,7 @@ class UserManage extends React.Component{
 
 	// 加标签
 	closeAddTags = () =>{
-		this.setState({tagVisible:false,filterVisible:false})
+		this.setState({tagVisible:false})
 	};
 	onSubmitAdd = () =>{
 		this.setState({tagVisible:false})
@@ -75,7 +75,7 @@ class UserManage extends React.Component{
 	};
 	// 加群组
 	closeAddGroup= () =>{
-		this.setState({groupVisible:false,filterVisible:false})
+		this.setState({groupVisible:false})
 	};
 	onSubmitGroup = () =>{
 		this.setState({groupVisible:false})
@@ -176,11 +176,13 @@ class UserManage extends React.Component{
 					onSubmit={this.onSubmit}
 					refresh={this.refresh}
 					showAddGroup={this.showAddGroup}
+					closeAddGroup={this.closeAddGroup}
 					showAddTags={this.showAddTags}
+					closeAddTags={this.closeAddTags}
 				/>
 				<AddTags
 					visible={this.state.tagVisible}
-					onCancel={this.closeAddTags}
+					onClose={this.closeAddTags}
 					onSubmit={this.onSubmitAdd}
 					checkedAry={this.state.checkedAry}
 					failedTagList={this.failedTagList}
@@ -188,7 +190,7 @@ class UserManage extends React.Component{
 				/>
 				<AddGroup
 					visible={this.state.groupVisible}
-					onCancel={this.closeAddGroup}
+					onClose={this.closeAddGroup}
 					onSubmit={this.onSubmitGroup}
 					checkedAry={this.state.checkedAry}
 					conditionsData={this.state.conditions_data}

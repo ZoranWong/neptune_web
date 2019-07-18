@@ -181,7 +181,7 @@ export default class AdvancedFilterValues extends React.Component{
 			case 'selectedBox':
 				return  <span>
 					<Select
-						defaultActiveFirstOption={false}
+							defaultActiveFirstOption={false}
 							mode="tags"
 							value={selectedItems}
 							className='selectedBox'
@@ -209,6 +209,7 @@ export default class AdvancedFilterValues extends React.Component{
 						value={selectedItems}
 						className='selectedBox'
 						onChange={this.handleChange}
+						allowClear
 						optionLabelProp="label"
 						optionFilterProp="children"
 						filterOption={(input, option) =>
@@ -230,9 +231,10 @@ export default class AdvancedFilterValues extends React.Component{
 						defaultActiveFirstOption={false}
 						mode="tags"
 						value={selectedItems}
-						className='selectedBox'
+						className='selectedBox tagBox'
 						onChange={this.handleChange}
 						onPopupScroll={this.tagScroll}
+						allowClear
 						optionLabelProp="label"
 						optionFilterProp="children"
 						filterOption={(input, option) =>
@@ -253,9 +255,10 @@ export default class AdvancedFilterValues extends React.Component{
 						defaultActiveFirstOption={false}
 						mode="tags"
 						value={selectedItems}
-						className='selectedBox'
+						className='selectedBox tagBox'
 						onChange={this.handleChange}
 						optionLabelProp="label"
+						allowClear
 						optionFilterProp="children"
 						filterOption={(input, option) =>
 							option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -280,6 +283,7 @@ export default class AdvancedFilterValues extends React.Component{
 						optionLabelProp="label"
 						showSearch
 						optionFilterProp="children"
+						allowClear
 						filterOption={(input, option) =>
 							option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 						}
@@ -325,6 +329,7 @@ export default class AdvancedFilterValues extends React.Component{
 							<Select defaultActiveFirstOption={false} defaultValue="1" style={{ width: 120 }} onChange={this.handleGenderChange}>
 								<Option value="1">男</Option>
 								<Option value="2">女</Option>
+								<Option value="0">无</Option>
 							</Select>
 					</span>;
 				break;

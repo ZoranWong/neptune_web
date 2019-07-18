@@ -14,17 +14,22 @@ export default class AdvancedFilterComponent extends React.Component{
 	
 	
 	onSubmit = () =>{
+		console.log(this.child.current.state.data);
 		this.props.onSubmit(this.child.current.state.data);
 		this.handleCancel()
 	};
 
 	clearFilter = ()=>{
 		this.child.current.clearFilter();
-		this.props.refresh()
 	};
 	showAddGroup = () =>{
 		this.props.showAddGroup(this.child.current.state.data)
 	};
+	closeAdd = ()=>{
+		this.props.closeAddGroup();
+		this.props.closeAddTags()
+	};
+
 
 	showAddTags = () =>{
 		this.props.showAddTags(this.child.current.state.data)
@@ -36,10 +41,11 @@ export default class AdvancedFilterComponent extends React.Component{
 				<Modal
 					title="高级筛选"
 					width={1000}
-					centered={true}
 					visible={this.props.visible}
 					onCancel={this.handleCancel}
+					onClose={this.closeAdd}
 					className="f_com"
+					maskClosable={false}
 					footer={
 						<div>
 							<Button
@@ -56,6 +62,7 @@ export default class AdvancedFilterComponent extends React.Component{
 							>加标签</Button>
 							<Button
 								size="small"
+								className="e_btn"
 								onClick={this.clearFilter}
 							>清空筛选条件</Button>
 							<Button

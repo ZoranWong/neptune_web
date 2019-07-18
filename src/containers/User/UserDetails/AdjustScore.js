@@ -39,6 +39,7 @@ export default class AdjustScore extends React.Component{
                     centered={true}
                     okText="确定"
                     cancelText="取消"
+                    maskClosable={false}
                     onOk={this.submit}
                 >
                     <div className="a_header">

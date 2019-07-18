@@ -57,6 +57,7 @@ export default class CreateNewGroup extends React.Component{
 					visible={this.props.visible}
 					onCancel={this.handleCancel}
 					onOk={this.handleSubmit}
+					maskClosable={false}
 					okText="保存"
 					cancelText="取消"
 				>

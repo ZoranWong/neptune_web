@@ -183,6 +183,7 @@ export default class AdvancedFilterValuesDisabled extends React.Component{
 							<Select defaultActiveFirstOption={false} value={this.state.activeKey} disabled={true} style={{ width: 120 }}>
 								<Option value="1">男</Option>
 								<Option value="2">女</Option>
+								<Option value="0">无</Option>
 							</Select>
 					</span>;
 				break;

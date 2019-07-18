@@ -60,7 +60,6 @@ export default class CreateNewTag extends React.Component{
 	
 	clearFilter = () =>{
 		this.child.current.clearFilter();
-		this.handleCancel()
 	};
 	
 	
@@ -71,6 +70,7 @@ export default class CreateNewTag extends React.Component{
 			<div>
 				<Modal
 					title="新建标签"
+					maskClosable={false}
 					width={this.state.automatic?1088:520}
 					visible={this.props.visible}
 					onCancel={this.handleCancel}

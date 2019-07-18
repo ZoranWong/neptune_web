@@ -81,6 +81,11 @@ const doubleContent = (
 		进行标签规则计算时，一个客户允许被打上该分组的多个标签
 	</div>
 );
+const complainContent = (
+	<div style={{fontSize:'12px'}}>
+		通过拖拽标签，设置标签规则的执行顺序，当某个用户满足了前面的标签规则，将不再运算后面的标签规则。
+	</div>
+);
 class TagManage extends React.Component{
 	constructor(props) {
 		super(props);
@@ -186,16 +191,60 @@ class TagManage extends React.Component{
 	};
 	// 删除标签组
 	remove = (key)=>{
-		this.showConfirm(key)
+		tagList({},key).then(r=>{
+			if(r.data.length){
+				this.showErrorConfirm()
+			} else {
+				this.showConfirm(key)
+			}
+		}).catch(_=>{});
+		//this.showConfirm(key)
 	};
 	
-	showError = (msg) =>{
+	showErrorConfirm= () =>{
 		let refresh = this.refresh;
-		confirm({
+		let confirmModal = confirm({
 			title: (
 				<div className= 'u_confirm_header'>
 					提示
-					<i className="iconfont">&#xe82a;</i>
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			content: (
+				<div className="U_confirm">
+					该标签分组下还有标签，无法删除！
+				</div>
+			),
+			cancelText: '取消',
+			okText:'知道了',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small',
+				style:{'display':'none'}
+			},
+			onOk() {
+				refresh()
+			}
+		});
+	};
+	
+	showAjaxError = (msg) =>{
+		let refresh = this.refresh;
+		let confirmModal = confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
 				</div>
 			),
 			icon:null,
@@ -224,18 +273,22 @@ class TagManage extends React.Component{
 	
 	showConfirm =(key) => {
 		let refresh = this.refresh;
-		let showError = this.showError;
-		confirm({
+		let showError = this.showAjaxError;
+		console.log(confirm);
+		let confirmModal = confirm({
 			title: (
 				<div className= 'u_confirm_header'>
 					提示
-					<i className="iconfont">&#xe82a;</i>
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
 				</div>
 			),
 			icon:null,
 			width:'280px',
 			closable:true,
 			centered:true,
+			maskClosable:true,
 			content: (
 				<div className="U_confirm">
 					确定删除该标签分组么？
@@ -251,7 +304,6 @@ class TagManage extends React.Component{
 			},
 			onOk() {
 				deleteTagGroup({},key).then(r=>{
-					console.log(r);
 					if(r.status_code == 200){
 						showError(r.message)
 					} else {
@@ -302,7 +354,7 @@ class TagManage extends React.Component{
 		const { TabPane } = Tabs;
 		const { Column } = Table;
 		return (
-			<div>
+			<div className="tag_manage">
 				<CreateNewGroup
 					visible={this.state.createNewVisible}
 					onClose={this.hideCreateNew}
@@ -383,7 +435,7 @@ class TagManage extends React.Component{
 																render={(text,record)=>(
 																	<div>
 																		<span>{text}</span>
-																		<span style={{'display':(this.state.activeGroup.type == '互斥组' && this.state.activeGroup.auto_tag == true)?'inline-block':'none'}}>
+																		<span style={{'display': this.state.activeGroup.auto_tag == true?'inline-block':'none'}}>
 																			<i
 																				style={{color:'#4F9863',fontSize:'14px',marginLeft:'10px',cursor:'pointer'}}
 																				className="iconfont"
@@ -420,10 +472,11 @@ class TagManage extends React.Component{
 																		>
 																			<span className="operation" >删除</span>
 																		</Popconfirm>
-
-																		<span style={{'display':(this.state.activeGroup.type == '互斥组' && this.state.activeGroup.auto_tag == true)?'inline-block':'none'}}>
-																			<i className="iconfont" style={{'fontSize':'14px'}}>&#xe836;</i>
-																		</span>
+																		<Popover content={complainContent} placement="bottom" trigger="hover">
+																			<span style={{'display':(this.state.activeGroup.type == '互斥组' && this.state.activeGroup.auto_tag == true)?'inline-block':'none'}}>
+																				<i className="iconfont" style={{'fontSize':'14px'}}>&#xe836;</i>
+																			</span>
+																		</Popover>
 																	</span>
 																)}
 															/>

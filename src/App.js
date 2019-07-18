@@ -48,7 +48,7 @@ class App extends React.Component{
 	// check container
 	routeClassName = () =>{
 		let routePath = this.props.location.pathname.split('/');
-		if(routePath[2] && (routePath[2] === 'integralRules'||routePath[2] === 'userDetails')){
+		if(routePath[2] && (routePath[2] === 'integralRules'||routePath[2] === 'userDetails'||routePath[2] === 'tagManage')){
 			return true
 		}
 		return false

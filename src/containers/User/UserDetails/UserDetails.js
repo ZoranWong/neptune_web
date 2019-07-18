@@ -1,9 +1,10 @@
 import React from 'react';
-import {Button,Tabs,Tag } from "antd";
-import {userDetails,deleteUserTag,deleteUserGroup} from "../../../api/user";
+import {Button,Tabs,Tag,Modal } from "antd";
+import {userDetails, deleteUserTag, deleteUserGroup, deleteTagGroup} from "../../../api/user";
 import './css/user_details.sass'
 import AdjustScore from './AdjustScore'
 const { TabPane } = Tabs;
+const {confirm} = Modal;
 class UserDetails extends React.Component{
 	constructor(props){
 		super(props);
@@ -29,14 +30,10 @@ class UserDetails extends React.Component{
 	};
 
 	removeGroup = (e) =>{
-		deleteUserGroup({group_id:e},this.props.location.state.id).then(r=>{
-			this.refresh()
-		}).catch(_=>{})
+		this.showConfirm(e,deleteUserGroup,'群组');
 	};
 	removeTag = (e) =>{
-		deleteUserTag({tag_id:e},this.props.location.state.id).then(r=>{
-			this.refresh()
-		}).catch(_=>{})
+		this.showConfirm(e,deleteUserTag,'标签');
 	};
 
 	// 调整积分
@@ -45,6 +42,54 @@ class UserDetails extends React.Component{
 	};
 	hideAdjust = () =>{
 		this.setState({adjustScoreVisible:false})
+	};
+	
+	// 删除确认框
+	showConfirm =(key,fn,text) => {
+		let refresh = this.refresh;
+		let params;
+		let id = this.props.location.state.id;
+		if(text == '群组'){
+			params = 'group_id'
+		} else {
+			params = 'tag_id'
+		}
+		let confirmModal = confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			maskClosable:true,
+			content: (
+				<div className="U_confirm">
+					确定删除该{text}么？
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				fn({[params]:key},id).then(r=>{
+					refresh()
+				}).catch(_=>{})
+			},
+			onCancel() {
+			
+			},
+		});
 	};
 
 	render(){

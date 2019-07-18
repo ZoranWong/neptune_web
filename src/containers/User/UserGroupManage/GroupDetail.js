@@ -42,6 +42,7 @@ export default class GroupDetail extends React.Component{
 			<div>
 				<Modal
 					title="群组详情"
+					maskClosable={false}
 					className="disabled-filter"
 					width={this.state.groupData.type == '智能群组'?1088:520}
 					visible={this.props.visible}
