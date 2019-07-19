@@ -1,5 +1,5 @@
 import React from 'react'
-import {DatePicker,Input,Select,LocaleProvider} from 'antd'
+import {DatePicker,Input,Select,LocaleProvider,message} from 'antd'
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
 import {regions} from "../../api/common";
@@ -326,7 +326,11 @@ export default class AdvancedFilterValues extends React.Component{
 				break;
 			case 'selectedBoxGender':
 				return  <span>
-							<Select defaultActiveFirstOption={false} defaultValue="1" style={{ width: 120 }} onChange={this.handleGenderChange}>
+							<Select
+								defaultActiveFirstOption={false}
+								placeholder="请选择性别"
+								style={{ width: 120 }}
+								onChange={this.handleGenderChange}>
 								<Option value="1">男</Option>
 								<Option value="2">女</Option>
 								<Option value="0">无</Option>

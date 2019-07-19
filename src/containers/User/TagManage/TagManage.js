@@ -151,6 +151,10 @@ class TagManage extends React.Component{
 			this.setState({tagGroups:r.data,activeGroup:r.data[0]});
 			this.complainPopover(r.data[0].id);
 			let id = this.state.activeGroupId || r.data[0].id;
+			let color = r.data[0].type == '普通组'?'#4F9863':'#FF9C4B';
+			let active = document.getElementsByClassName('ant-tabs-tab-active');
+			active[0].style.setProperty("background",color,"important");
+			active[0].style.setProperty("border",`1px solid ${color}`,"important");
 			tagList({},id).then(r=>{
 				this.setState({allTagsInGroup:r.data})
 			}).catch(_=>{})
@@ -337,13 +341,23 @@ class TagManage extends React.Component{
 		this.setState({detailVisible:false,detailId:''})
 	};
 	
-	/*
-	* 废弃方法！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
-	* */
 	clickTab = (id,e)=>{
-		// let {target} = e;
-		// console.log(target.parentNode.classList);
-		// target.parentNode.style.setProperty("background","red","important");
+		let active = this.state.tagGroups.filter(item=>{
+			return item.id == id
+		});
+		let color = active[0].type == '普通组'?'#4F9863':'#FF9C4B';
+		let {target} = e;
+		let list = document.getElementsByClassName('ant-tabs-tab');
+		let ary = [];
+		for(let i = 0;i < list.length;i++){
+			ary.push(list[i])
+		}
+		ary.forEach(item=>{
+			item.style.setProperty("background","#fff","important");
+			item.style.setProperty("border"," 1px solid #d9d9d9","important");
+		});
+		target.parentNode.style.setProperty("background",color,"important");
+		target.parentNode.style.setProperty("border",`1px solid ${color}`,"important");
 	};
 	
 	goUserList = (record) =>{
@@ -406,7 +420,6 @@ class TagManage extends React.Component{
 								onEdit={this.onEdit}
 								onTabClick={this.clickTab}
 							>
-								
 								{
 									this.state.tagGroups.map(item=>{
 										return (

@@ -139,3 +139,13 @@ export function searchJson(data) {
 export function getRandom() {
     return parseInt(Math.random()*10000000000)
 }
+
+/*
+* 将数组某一项始终置顶在第一位
+* */
+export function sortAry(ary,key) {
+    let index = ary.indexOf(key);
+    ary.splice(index,1);
+    ary.unshift(key);
+    return ary
+}

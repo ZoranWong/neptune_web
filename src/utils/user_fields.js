@@ -50,7 +50,7 @@ export const user_values = [
 			},
 			{
 				label:'注册时间',
-				value:'registered_at',
+				value:'created_at',
 				type:'timeCompare'
 			},
 			{
@@ -242,22 +242,22 @@ export const operation = {
 		},
 		{
 			label:'晚于',
-			value:'<',
-			type:'timestamp'
-		},
-		{
-			label:'晚于(含)',
-			value:'<=',
-			type:'timestamp'
-		},
-		{
-			label:'早于',
 			value:'>',
 			type:'timestamp'
 		},
 		{
-			label:'早于(含)',
+			label:'晚于(含)',
 			value:'>=',
+			type:'timestamp'
+		},
+		{
+			label:'早于',
+			value:'<',
+			type:'timestamp'
+		},
+		{
+			label:'早于(含)',
+			value:'<=',
 			type:'timestamp'
 		},
 		{

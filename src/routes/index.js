@@ -22,6 +22,7 @@ import UserGroupManage from "../containers/User/UserGroupManage/UserGroupManage"
 import UserDetails from '../containers/User/UserDetails/UserDetails'
 import LoginContainer from '../containers/Login/index'
 import ResetPassword from '../containers/Login/ResetPassword'
+import ShopDetails from "../containers/Shops/shopDetails/ShopDetails";
 /** 跳转到某个路由之前触发 用于验证页面权限**/
 function onEnter (Component, props) {
 	/**
@@ -66,6 +67,7 @@ const Routes = () =>(
 		<Route exact={true} path="/shops/groups" render={props => onEnter(ShopGroup, props)} />
 		<Route exact={true} path="/shops/frozen" render={props => onEnter(FrozenShop, props)} />
 		<Route exact={true} path="/shops/channel" render={props => onEnter(ShopChannel, props)} />
+		<Route exact={true} path="/shops/shopDetails" render={props => onEnter(ShopDetails, props)} />
 		
 		{/*用户*/}
 		

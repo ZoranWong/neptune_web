@@ -4,7 +4,9 @@ class ShopManage extends React.Component{
 	
 	render(){
 		return (
-			<div>Thunder</div>
+			<div onClick={()=>{
+				this.props.history.push({pathname:"/shops/shopDetails"})
+			}}>Thunder</div>
 		)
 	}
 }

@@ -5,10 +5,11 @@ import { users,groupUsers,tagUsers} from "../../../api/user";
 import SearchInput from '../../../components/SearchInput/SearchInput'
 import {Button} from "antd";
 import './css/index.sass'
-import CustomItem from './CustomItems'
+import CustomItem from '../../../components/CustomItems/CustomItems'
 import AdvancedFilterComponent from './AdvancedFilterComponent'
 import AddTags from './AddTags'
 import AddGroup from './AddGroup'
+import {user_values} from "../../../utils/user_fields";
 // 测试
 import { Table } from 'antd';
 import {searchJson} from "../../../utils/dataStorage";
@@ -17,7 +18,43 @@ import {searchJson} from "../../../utils/dataStorage";
 
 
 class UserManage extends React.Component{
+	
 	constructor(props){
+		
+		const columns = [
+			{
+				title: '昵称',
+				dataIndex: 'nickname',
+				render: (text,record) => <span
+					style={{'color':'#4F9863','cursor':'pointer'}}
+					onClick={()=>this.jump(record)}>{text}</span>,
+			},
+			{
+				title: '手机号',
+				dataIndex: 'mobile',
+			},
+			{
+				title: '注册时间',
+				dataIndex: 'created_at',
+			},
+			{
+				title: '储值总额',
+				dataIndex: 'charge_amount',
+			},
+			{
+				title: '购买总额',
+				dataIndex: 'total_purchase_amount',
+			},
+			{
+				title: '购买次数',
+				dataIndex: 'purchased_count',
+			},
+			{
+				title: '账户余额',
+				dataIndex: 'balance',
+			},
+		];
+		
 		super(props);
 		this.child = React.createRef();
 		this.state = {
@@ -32,7 +69,8 @@ class UserManage extends React.Component{
 			paginationParams:{
 				logic_conditions:[],
 				search:''
-			}
+			},
+			columns:columns
 		};
 	}
 	
@@ -117,6 +155,25 @@ class UserManage extends React.Component{
 	closeCustom = () =>{
 		this.setState({customVisible:false})
 	};
+	handleCustom = (e) =>{
+		let ary = [];
+		e.forEach(e=>{
+			user_values.forEach(u=>{
+				u.children.forEach(c=>{
+					if(e == c.value){
+						let obj = {};
+						obj.title = c.label;
+						obj.dataIndex = e;
+						ary.push(obj)
+					}
+				})
+			})
+		});
+		ary[0].render = (text,record) => <span
+			style={{'color':'#4F9863','cursor':'pointer'}}
+			onClick={()=>this.jump(record)}>{text}</span>
+		this.setState({columns:ary})
+	};
 	
 	// 分页器改变值
 	paginationChange = (list) =>{
@@ -124,40 +181,6 @@ class UserManage extends React.Component{
 	};
 	
 	render(){
-		
-		const columns = [
-			{
-				title: '昵称',
-				dataIndex: 'nickname',
-				render: (text,record) => <span
-					style={{'color':'#4F9863','cursor':'pointer'}}
-					onClick={()=>this.jump(record)}>{text}</span>,
-			},
-			{
-				title: '手机号',
-				dataIndex: 'mobile',
-			},
-			{
-				title: '注册时间',
-				dataIndex: 'created_at',
-			},
-			{
-				title: '储值总额',
-				dataIndex: 'charge_amount',
-			},
-			{
-				title: '购买总额',
-				dataIndex: 'total_purchase_amount',
-			},
-			{
-				title: '购买次数',
-				dataIndex: 'purchased_count',
-			},
-			{
-				title: '账户余额',
-				dataIndex: 'balance',
-			},
-		];
 		const rowSelection = {
 			onChange: (selectedRowKeys, selectedRows) => {
 				this.setState({checkedAry:selectedRowKeys})
@@ -220,13 +243,13 @@ class UserManage extends React.Component{
 				</div>
 				
 				<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
-					<CustomItem  />
+					<CustomItem data={user_values}  handleCustom={this.handleCustom} />
 				</div>
 				
 				<div className="chart u_chart">
 					<Table
 						rowSelection={rowSelection}
-						columns={columns}
+						columns={this.state.columns}
 						rowKey={record => record.id}
 						pagination={false}
 						rowClassName={(record, index) => {
