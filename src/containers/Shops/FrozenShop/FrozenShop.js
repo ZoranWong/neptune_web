@@ -4,7 +4,7 @@ class FrozenShop extends React.Component{
 	
 	render(){
 		return (
-			<div>Thunder</div>
+			<div>FrozenShop</div>
 		)
 	}
 }

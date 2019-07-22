@@ -28,7 +28,7 @@ export default class CreateNewChannel extends React.Component{
 	onChange = e => {
 		console.log('radio checked', e.target.value);
 		this.setState({
-			value: e.target.value,
+			radio: e.target.value,
 		});
 	};
 	
@@ -58,7 +58,7 @@ export default class CreateNewChannel extends React.Component{
 					<ul className="mainUl">
 						<li>
 							<span className="left">选择店铺渠道</span>
-							<Radio.Group onChange={this.onChange} value={this.state.value}>
+							<Radio.Group onChange={this.onChange} value={this.state.radio}>
 								<Radio value={1}>早餐车</Radio>
 								<Radio value={2}>商户</Radio>
 								<Radio value={3}>分销员</Radio>

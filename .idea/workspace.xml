@@ -7,30 +7,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/api/shops/groups.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopChannel/CreateNewChannel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopChannel/css/createNewChannel.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopChannel/css/shopGroup.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopGroup/CreateNewGroup.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopGroup/css/createNewGroup.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopGroup/css/shopGroup.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Shops/shopDetails/ShopDetails.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Shops/shopDetails/css/shop_details.sass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Map/Map.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Map/map.sass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/BreakfastCar.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/Distributor.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/SelectChannel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/ShopKeeper.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopApplication.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/css/ShopAdd.sass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/css/ShopApplication.sass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/css/shopManage.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilterValues.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilterValues.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopChannel/ShopChannel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopChannel/ShopChannel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopGroup/ShopGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopGroup/ShopGroup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AdvancedFilter/SingleLine.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdvancedFilter/SingleLine.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/EditName/EditName.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/EditName/EditName.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Setting/AddNewStaff.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/AddNewStaff.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Setting/css/addNewStaff.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Setting/css/addNewStaff.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Shops/FrozenShop/FrozenShop.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/FrozenShop/FrozenShop.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopChannel/CreateNewChannel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopChannel/CreateNewChannel.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopManage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/css/tagManage.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/css/tagManage.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserGroupManage/CreateNewGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserGroupManage/CreateNewGroup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserManage/CustomItems.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CustomItems/CustomItems.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserManage/UserManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/UserManage/UserManage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/UserManage/css/customItem.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CustomItems/customItem.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/dataStorage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/dataStorage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/user_fields.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/user_fields.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/style/iconFont.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/iconFont.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/IconFont.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/IconFont.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.dev.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.dev.config.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -49,8 +50,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopChannel/ShopChannel.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="38" column="42" lean-forward="true" selection-start-line="38" selection-start-column="42" selection-end-line="38" selection-end-column="42" />
+            <state relative-caret-position="235">
+              <caret line="38" column="42" selection-start-line="38" selection-start-column="42" selection-end-line="38" selection-end-column="42" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -58,13 +59,22 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopChannel/CreateNewChannel.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="431">
-              <caret line="16" column="33" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
+            <state relative-caret-position="823">
+              <caret line="64" column="42" lean-forward="true" selection-start-line="60" selection-start-column="28" selection-end-line="64" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/BreakfastCar.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="196">
+              <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
               <folding>
-                <element signature="e#2#27#0" expanded="true" />
+                <element signature="e#0#26#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -83,8 +93,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>refresh</find>
-      <find>setState</find>
       <find>dark-row</find>
       <find>current</find>
       <find>consol</find>
@@ -109,10 +117,12 @@
       <find>message</find>
       <find>clearFilter</find>
       <find>Modal</find>
-      <find>type</find>
       <find>400</find>
       <find>max-width</find>
       <find>早于</find>
+      <find>type</find>
+      <find>USERS</find>
+      <find>searchContent</find>
     </findStrings>
     <replaceStrings>
       <replace>雾</replace>
@@ -147,29 +157,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/containers/User/UserManage/CustomItems.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/UserManage/css/index.sass" />
-        <option value="$PROJECT_DIR$/src/utils/font.js" />
-        <option value="$PROJECT_DIR$/src/components/SideMenu/User.js" />
-        <option value="$PROJECT_DIR$/src/utils/IconFont.js" />
-        <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/AdvancedFilterValuesDisabled.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewGroup.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/UserDetails/AdjustScore.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/TagManage/TagDetail.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/UserGroupManage/GroupDetail.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/TagManage/CreateNewTag.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/UserDetails/UserDetails.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/UserManage/css/addTags.sass" />
-        <option value="$PROJECT_DIR$/src/containers/User/UserManage/AddGroup.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/UserManage/AddTags.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/TagManage/css/createNewTag.sass" />
-        <option value="$PROJECT_DIR$/src/style/style.scss" />
-        <option value="$PROJECT_DIR$/src/components/AdvancedFilterDisabled/index.sass" />
-        <option value="$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilter.js" />
-        <option value="$PROJECT_DIR$/src/containers/User/UserManage/AdvancedFilterComponent.js" />
-        <option value="$PROJECT_DIR$/src/style/sider.sass" />
-        <option value="$PROJECT_DIR$/src/components/AdvancedFilter/index.sass" />
-        <option value="$PROJECT_DIR$/src/components/SideMenu/Setting.js" />
         <option value="$PROJECT_DIR$/src/containers/Shops/FrozenShop/ShopGroup.js" />
         <option value="$PROJECT_DIR$/src/components/SideMenu/Shops.js" />
         <option value="$PROJECT_DIR$/src/components/Layout/Nav.js" />
@@ -188,9 +175,7 @@
         <option value="$PROJECT_DIR$/src/containers/Shops/shopDetails/UserDetails.js" />
         <option value="$PROJECT_DIR$/src/routes/index.js" />
         <option value="$PROJECT_DIR$/src/App.js" />
-        <option value="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopManage.js" />
         <option value="$PROJECT_DIR$/src/utils/user_fields.js" />
-        <option value="$PROJECT_DIR$/src/components/AdvancedFilter/SingleLine.js" />
         <option value="$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilterValues.js" />
         <option value="$PROJECT_DIR$/src/containers/Shops/shopDetails/ShopDetails.js" />
         <option value="$PROJECT_DIR$/src/containers/Shops/shopDetails/css/shop_details.sass" />
@@ -198,6 +183,31 @@
         <option value="$PROJECT_DIR$/src/containers/Shops/ShopChannel/CreateNewGroup.js" />
         <option value="$PROJECT_DIR$/src/containers/Shops/ShopChannel/ShopChannel.js" />
         <option value="$PROJECT_DIR$/src/containers/Shops/ShopChannel/CreateNewChannel.js" />
+        <option value="$PROJECT_DIR$/src/components/AdvancedFilter/SingleLine.js" />
+        <option value="$PROJECT_DIR$/src/App.sass" />
+        <option value="$PROJECT_DIR$/src/containers/Shops/ShopManage/css/shopManage.sass" />
+        <option value="$PROJECT_DIR$/src/containers/Shops/ShopManage/css/ShopApplication.sass" />
+        <option value="$PROJECT_DIR$/src/containers/Shops/FrozenShop/FrozenShop.js" />
+        <option value="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopApplication.js" />
+        <option value="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd.js" />
+        <option value="$PROJECT_DIR$/src/containers/Shops/ShopManage/css/ShopAdd.sass" />
+        <option value="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/ShopAdd.js" />
+        <option value="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopManage.js" />
+        <option value="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/Distributor.js" />
+        <option value="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/ShopKeeper.js" />
+        <option value="$PROJECT_DIR$/src/utils/IconFont.js" />
+        <option value="$PROJECT_DIR$/src/style/iconFont.css" />
+        <option value="$PROJECT_DIR$/src/components/map/map.sass" />
+        <option value="$PROJECT_DIR$/src/components/map/map.js" />
+        <option value="$PROJECT_DIR$/public/index.html" />
+        <option value="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/SelectChannel.js" />
+        <option value="$PROJECT_DIR$/webpack.dev.config.js" />
+        <option value="$PROJECT_DIR$/src/containers/Setting/AddNewStaff.js" />
+        <option value="$PROJECT_DIR$/src/containers/Setting/css/addNewStaff.sass" />
+        <option value="$PROJECT_DIR$/src/components/EditName/EditName.sass" />
+        <option value="$PROJECT_DIR$/src/components/Map/Map.js" />
+        <option value="$PROJECT_DIR$/src/components/Map/map.sass" />
+        <option value="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/BreakfastCar.js" />
       </list>
     </option>
   </component>
@@ -215,7 +225,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -226,13 +235,18 @@
             <path>
               <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
               <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
+              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
               <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
@@ -246,6 +260,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="containers" type="462c0819:PsiDirectoryNode" />
               <item name="Shops" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
+              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="containers" type="462c0819:PsiDirectoryNode" />
+              <item name="Shops" type="462c0819:PsiDirectoryNode" />
+              <item name="FrozenShop" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
@@ -261,8 +283,7 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="containers" type="462c0819:PsiDirectoryNode" />
               <item name="Shops" type="462c0819:PsiDirectoryNode" />
-              <item name="ShopChannel" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
+              <item name="ShopManage" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
@@ -270,28 +291,8 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="containers" type="462c0819:PsiDirectoryNode" />
               <item name="Shops" type="462c0819:PsiDirectoryNode" />
-              <item name="shopDetails" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
-              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="Shops" type="462c0819:PsiDirectoryNode" />
-              <item name="ShopGroup" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
-              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="User" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
-              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="routes" type="462c0819:PsiDirectoryNode" />
+              <item name="ShopManage" type="462c0819:PsiDirectoryNode" />
+              <item name="ShopAdd" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
@@ -299,17 +300,24 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="style" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="neptune_web" type="b2602c69:ProjectViewProjectNode" />
+              <item name="neptune_web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jsx.switch.disabled" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/containers/Shops/shopDetails" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/containers/Shops/ShopManage" />
     <property name="list.type.of.created.stylesheet" value="Sass" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -318,19 +326,19 @@
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/components/CustomItems" />
-      <recent name="$PROJECT_DIR$/src/containers/Shops/ShopManage" />
-      <recent name="$PROJECT_DIR$/src/components/NewTreeNode" />
-      <recent name="$PROJECT_DIR$/src/components" />
-      <recent name="$PROJECT_DIR$/src/containers/User/UserManage" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/containers/Shops/ShopManage" />
       <recent name="$PROJECT_DIR$/src/containers/Shops/shopDetails" />
       <recent name="$PROJECT_DIR$/src/containers/Shops/ShopChannel" />
       <recent name="$PROJECT_DIR$/src/containers/Shops/ShopGroup/css" />
       <recent name="$PROJECT_DIR$/src/containers/Shops/ShopGroup" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd" />
       <recent name="$PROJECT_DIR$/src/components/CustomItems" />
+      <recent name="$PROJECT_DIR$/src/containers/Shops/ShopManage" />
+      <recent name="$PROJECT_DIR$/src/components/NewTreeNode" />
+      <recent name="$PROJECT_DIR$/src/components" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -500,12 +508,13 @@
       <workItem from="1563280987570" duration="21342000" />
       <workItem from="1563351653273" duration="5698000" />
       <workItem from="1563378781310" duration="768000" />
-      <workItem from="1563498377813" duration="23441000" />
+      <workItem from="1563498377813" duration="24413000" />
+      <workItem from="1563757988395" duration="21565000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="623842000" />
+    <option name="totallyTimeSpent" value="646379000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -533,7 +542,7 @@
       <window_info anchor="bottom" id="Debug" order="6" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="8" weight="0.4" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.4928493" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.49174917" />
       <window_info anchor="bottom" id="TODO" order="10" weight="0.32893288" />
       <window_info anchor="bottom" id="TypeScript" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -566,238 +575,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserDetails/UserDetails.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="62" column="35" selection-start-line="62" selection-start-column="35" selection-end-line="62" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="9" column="3" selection-start-line="9" selection-start-column="3" selection-end-line="9" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/css/addTags.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="28">
-          <caret line="1" column="16" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/AddTags.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-17">
-          <caret line="20" column="17" lean-forward="true" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/AddGroup.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/CreateNewTag.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-73">
-          <caret line="75" column="48" lean-forward="true" selection-start-line="75" selection-start-column="48" selection-end-line="75" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/TagManage/css/createNewTag.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/style/style.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="711">
-          <caret line="207" column="23" selection-start-line="207" selection-start-column="23" selection-end-line="207" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilterDisabled/index.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="114" column="19" selection-start-line="114" selection-start-column="19" selection-end-line="114" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/AdvancedFilterComponent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="16" column="51" selection-start-line="16" selection-start-column="51" selection-end-line="16" selection-end-column="51" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/index.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="515">
-          <caret line="50" column="30" lean-forward="true" selection-start-line="50" selection-start-column="30" selection-end-line="50" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/SideMenu/Setting.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="24" selection-start-line="24" selection-end-line="25" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/Shops/FrozenShop/FrozenShop.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="10" column="36" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/SideMenu/Shops.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="24" column="20" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Layout/Nav.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="31" column="27" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/CustomItems.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-840">
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/CustomItems/customItem.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="14" column="14" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/dataStorage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="655">
-          <caret line="145" column="23" selection-start-line="145" selection-start-column="16" selection-end-line="145" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/CustomItems/CustomItems.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="64" column="42" selection-start-line="64" selection-start-column="42" selection-end-line="64" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/api/shops.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/api/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-224">
-          <caret line="1" selection-start-line="1" selection-end-line="9" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserGroupManage/css/userGroupManage.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="532">
-          <caret line="19" column="16" lean-forward="true" selection-end-line="59" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopGroup/css/shopGroup.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-269">
-          <caret line="7" column="23" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/api/auth.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="5" column="26" lean-forward="true" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/api/common.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopGroup/css/createNewGroup.sass">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserGroupManage/UserGroupManage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="627">
-          <caret line="46" column="6" lean-forward="true" selection-start-line="40" selection-start-column="4" selection-end-line="46" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/api/shops/groups.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="2" column="27" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopChannel/css/shopGroup.sass">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserGroupManage/CreateNewGroup.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1691">
-          <caret line="123" selection-start-line="123" selection-end-line="123" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopGroup/CreateNewGroup.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
@@ -828,34 +605,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/Shops/shopDetails/css/adjust_score.sass">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Shops/shopDetails/css/adjust_score.sass" />
     <entry file="file://$PROJECT_DIR$/src/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="403">
           <caret line="69" column="52" selection-start-line="69" selection-start-column="41" selection-end-line="69" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/UserManage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="123" column="20" lean-forward="true" selection-start-line="123" selection-start-column="20" selection-end-line="123" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="n#!!block;n#componentWillMount#0;n#UserManage#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="49" column="78" selection-start-line="49" selection-start-column="78" selection-end-line="49" selection-end-column="78" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
@@ -876,53 +630,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
           <caret line="32" column="27" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopManage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="7" column="57" selection-start-line="7" selection-start-column="57" selection-end-line="7" selection-end-column="57" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/user_fields.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3003">
-          <caret line="253" column="21" selection-start-line="253" selection-start-column="19" selection-end-line="253" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="616">
-          <caret line="70" column="42" selection-start-line="70" selection-start-column="34" selection-end-line="70" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/SingleLine.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="423">
-          <caret line="125" column="33" selection-start-line="125" selection-start-column="24" selection-end-line="125" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilterValues.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="683">
-          <caret line="95" column="36" selection-start-line="95" selection-start-column="36" selection-end-line="95" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -951,9 +658,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopChannel/ShopGroup.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopChannel/ShopGroup.js" />
     <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopGroup/ShopGroup.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="28">
@@ -961,10 +666,311 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="49" column="78" selection-start-line="49" selection-start-column="78" selection-end-line="49" selection-end-column="78" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1960">
+          <caret line="70" column="42" selection-start-line="70" selection-start-column="34" selection-end-line="70" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/AdvancedFilterValues.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="17" column="24" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/SingleGroup.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/user_fields.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="24" selection-start-column="13" selection-end-column="24" />
+          <folding>
+            <element signature="e#3543#3965#0" />
+            <element signature="e#3981#4381#0" />
+            <element signature="e#4394#4723#0" />
+            <element signature="e#4734#5075#0" />
+            <element signature="e#5093#5295#0" />
+            <element signature="e#5313#5486#0" />
+            <element signature="e#5505#5758#0" />
+            <element signature="e#5775#6080#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/AdvancedFilter/SingleLine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="16" column="30" lean-forward="true" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/style/style.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="627">
+          <caret line="207" column="23" selection-start-line="207" selection-start-column="23" selection-end-line="207" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/App.sass">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="15" column="29" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/AddGroup.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/css/index.sass">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/User/UserManage/UserManage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="557">
+          <caret line="271" column="16" lean-forward="true" selection-start-line="220" selection-start-column="16" selection-end-line="271" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+            <element signature="n#!!block;n#componentWillMount#0;n#UserManage#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopManage/css/shopManage.sass">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/CustomItems/CustomItems.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopManage/css/ShopApplication.sass">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Shops/FrozenShop/FrozenShop.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopManage/css/ShopAdd.sass">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopManage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="13" column="51" lean-forward="true" selection-start-line="13" selection-start-column="51" selection-end-line="13" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopApplication.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="15" column="31" selection-end-line="28" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/SideMenu/Goods.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/style/iconFont.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/IconFont.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="9" column="23" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/ShopKeeper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2240">
+          <caret line="80" column="42" selection-start-line="80" selection-start-column="42" selection-end-line="80" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="26" lean-forward="true" selection-start-column="26" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="795">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/manifest.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/Distributor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="627">
+          <caret line="85" column="24" lean-forward="true" selection-start-line="15" selection-start-column="16" selection-end-line="85" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/SelectChannel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1540">
+          <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webpack.dev.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="627">
+          <caret line="105" column="1" selection-start-line="105" selection-start-column="1" selection-end-line="105" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Setting/css/addNewStaff.sass">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="14" selection-start-column="14" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Setting/AddNewStaff.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="56">
+          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Setting/EditRole.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="3" column="21" lean-forward="true" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Setting/css/editRole.sass">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Setting/Staffing.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="479">
+          <caret line="150" column="22" lean-forward="true" selection-start-line="150" selection-start-column="17" selection-end-line="150" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/EditName/EditName.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="3" column="20" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/EditName/EditName.sass">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="7" column="23" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Map/map.sass">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="14" column="25" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Map/Map.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="487">
+          <caret line="92" column="137" selection-start-line="92" selection-start-column="137" selection-end-line="92" selection-end-column="137" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopChannel/ShopChannel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="38" column="42" lean-forward="true" selection-start-line="38" selection-start-column="42" selection-end-line="38" selection-end-column="42" />
+        <state relative-caret-position="235">
+          <caret line="38" column="42" selection-start-line="38" selection-start-column="42" selection-end-line="38" selection-end-column="42" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
@@ -973,10 +979,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopChannel/CreateNewChannel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
-          <caret line="16" column="33" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
+        <state relative-caret-position="823">
+          <caret line="64" column="42" lean-forward="true" selection-start-line="60" selection-start-column="28" selection-end-line="64" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/BreakfastCar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
           <folding>
-            <element signature="e#2#27#0" expanded="true" />
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>

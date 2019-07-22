@@ -12,9 +12,9 @@ export default class SingleLine extends React.Component{
 		this.state = {
 			singleLineData:{},
 			activeKey:{},      // 选中key框对应的对象
-			activeOptions:operation['emptyCompare'][0].value,  //默认选中的option
+			activeOptions:operation[user_values[0].children[0].type][0].value,  //默认选中的option
 			activeValue:'',
-			type:operation['emptyCompare'][0].type
+			type:operation[user_values[0].children[0].type][0].type
 		};
 	};
 	
@@ -48,7 +48,7 @@ export default class SingleLine extends React.Component{
 				return item.value == value
 			})[0].type;
 		} else {
-			type = operation['emptyCompare'].filter(item=>{
+			type = operation[user_values[0].children[0].type].filter(item=>{
 				return item.value == value
 			})[0].type;
 		}
@@ -66,7 +66,7 @@ export default class SingleLine extends React.Component{
 				});
 			} else if(value == 'is null' || value == 'is not null'){
 				let data = {
-					key:this.state.activeKey.value || 'name',
+					key:this.state.activeKey.value || user_values[0].children[0].value,
 					operation:value,
 					value:'',
 					cid:this.cid
@@ -81,7 +81,7 @@ export default class SingleLine extends React.Component{
 	
 	valueChange = (value) =>{
 		let data = {
-			key:this.state.activeKey.value || "name",
+			key:this.state.activeKey.value || user_values[0].children[0].name,
 			operation:this.state.activeOptions,
 			value:value,
 			cid:this.cid
@@ -99,7 +99,7 @@ export default class SingleLine extends React.Component{
 					<Cascader
 						options={user_values}
 						className="cascader"
-						defaultValue={["base_attributes", "name"]}
+						defaultValue={[user_values[0].value,user_values[0].children[0].value]}
 						expandTrigger="hover"
 						displayRender={this.displayRender}
 						onChange={this.onKeyChange}
@@ -117,7 +117,7 @@ export default class SingleLine extends React.Component{
 									<Option key={item.value}>{item.label}</Option>
 								)))
 								:
-								(operation['emptyCompare'].map(item=>(
+								(operation[user_values[0].children[0].type].map(item=>(
 									<Option key={item.value}>{item.label}</Option>
 								)))
 						}
