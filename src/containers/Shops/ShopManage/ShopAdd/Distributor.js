@@ -1,7 +1,17 @@
 import React from 'react';
-import {Button, Input, Modal, Radio} from "antd";
-class ShopApplication extends React.Component{
-	
+import {Input, Modal} from "antd";
+import '../css/common.sass'
+import Address from "../../../../components/Address/Address";
+import CustomUpload from "../../../../components/Upload/Upload";
+class Distributor extends React.Component{
+	constructor(props) {
+		super(props);
+		this.state = {
+			listData:{
+			
+			}
+		}
+	}
 	
 	
 	handleCancel = ()=>{
@@ -10,6 +20,7 @@ class ShopApplication extends React.Component{
 	handleSubmit = () =>{
 	
 	};
+	
 	render(){
 		return (
 			<div>
@@ -26,22 +37,17 @@ class ShopApplication extends React.Component{
 					<ul className="mainUl">
 						<li>
 							<span className="left">店铺渠道：</span>
-							<span>早餐车</span>
+							<span>分销员</span>
 						</li>
 						<li>
-							<span className="left">店铺编号</span>
-							<Input
-								className="liInput"
-							/>
-						</li>
-						<li>
-							<span className="left">店铺名称</span>
+							<span className="left">介绍人编号</span>
 							<Input
 								className="liInput"
 							/>
 						</li>
 						<li>
 							<span className="left">店铺地址</span>
+							<Address ref={this.child} />
 						</li>
 						<li>
 							<span className="left">详细地址</span>
@@ -50,42 +56,34 @@ class ShopApplication extends React.Component{
 							/>
 						</li>
 						<li>
-							<span className="left">地图位置</span>
+							<span className="left">分销员姓名</span>
 							<Input
 								className="liInput"
 							/>
 						</li>
 						<li>
-							<span className="left">车主姓名</span>
+							<span className="left">分销员电话</span>
 							<Input
 								className="liInput"
 							/>
 						</li>
 						<li>
-							<span className="left">车主电话</span>
+							<span className="left">分销员身份证号码</span>
 							<Input
 								className="liInput"
 							/>
 						</li>
-						<li>
-							<span className="left">车主身份证号码</span>
-							<Input
-								className="liInput"
-							/>
+						<li  className="li">
+							<span className="left">上传身份证照片</span>
+							<CustomUpload text="正面" />
+							<CustomUpload text="反面"/>
+							<CustomUpload text="手持"/>
 						</li>
-						<li>
-							<span className="left">店铺状态</span>
-							<Radio.Group>
-								<Radio value={1}>开业</Radio>
-								<Radio value={2}>打烊</Radio>
-							</Radio.Group>
-						</li>
-					
-					
 					</ul>
+				
 				</Modal>
 			</div>
 		)
 	}
 }
-export default ShopApplication
+export default Distributor

@@ -1,12 +1,19 @@
 import React from 'react';
 import {Button, Input, Modal, Radio} from "antd";
 import Map from '../../../../components/Map/Map'
+import Address from "../../../../components/Address/Address";
 class ShopApplication extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-			visible:false
-		}
+			visible:false,
+			positionData : {},
+			address:'设置地图坐标',
+			listData:{
+			
+			}
+		};
+		this.child = React.createRef()
 	}
 	
 	
@@ -22,7 +29,14 @@ class ShopApplication extends React.Component{
 		this.setState({visible:true})
 	};
 	hideMap = () =>{
+		this.props.showBreakfast();
 		this.setState({visible:false})
+	};
+	
+	handleLocation = (position,lng) =>{
+		console.log(position);
+		console.log(lng);
+		this.setState({address:position})
 	};
 	
 	
@@ -31,6 +45,7 @@ class ShopApplication extends React.Component{
 			<div>
 				<Map visible={this.state.visible}
 					 hideMap={this.hideMap}
+					 handleLocation={this.handleLocation}
 				/>
 				
 				<Modal
@@ -62,6 +77,7 @@ class ShopApplication extends React.Component{
 						</li>
 						<li>
 							<span className="left">店铺地址</span>
+							<Address ref={this.child} />
 						</li>
 						<li>
 							<span className="left">详细地址</span>
@@ -73,7 +89,7 @@ class ShopApplication extends React.Component{
 							<span className="left" >地图位置</span>
 							<span onClick={this.showMap} style={{'cursor':'pointer'}}>
 								<i className="iconfont" style={{'fontSize':'14px','color':'#4F9863','marginRight':'3px'}}>&#xe7b0;</i>
-								设置地图坐标
+								{this.state.address}
 							</span>
 						</li>
 						<li>

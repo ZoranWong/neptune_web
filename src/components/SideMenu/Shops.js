@@ -8,7 +8,7 @@ const { SubMenu } = Menu;
 const baseMenu = [
 	{
 		path:'/shops',
-		icon:'icon-ai204',
+		icon:'icon-arraive',
 		text:'店铺管理',
 	},
 	{
@@ -23,7 +23,7 @@ const baseMenu = [
 	},
 	{
 		path:'/shops/channel',
-		icon:'icon-icon04',
+		icon:'icon-qudao1',
 		text:'店铺渠道',
 	}
 ];

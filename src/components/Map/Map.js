@@ -10,7 +10,6 @@ export default class CustomMap extends React.Component{
 			markerPosition:{
 				longitude: 117.227355,
 				latitude: 31.820621,
-				addr:''
 			},
 			searchContent:'安徽省合肥市政府',
 		}
@@ -21,17 +20,6 @@ export default class CustomMap extends React.Component{
 	}
 	
 	
-	// changeData = (value, key) => {
-	// 	let { markerPosition } = this.state;
-	// 	markerPosition[key] = value;
-	//
-	// 	this.setState({
-	// 		markerPosition:markerPosition
-	// 	},()=>{
-	// 		console.log(this.state.markerPosition);
-	// 	})
-	// };
-	
 	placeSearch = (e) => {
 		this.setState({searchContent:e})
 	};
@@ -41,7 +29,8 @@ export default class CustomMap extends React.Component{
 	};
 	
 	handleSubmit = ()=>{
-	
+		this.props.handleLocation(this.state.searchContent,this.state.markerPosition)
+		this.handleCancel();
 	};
 	
 	
@@ -64,18 +53,12 @@ export default class CustomMap extends React.Component{
 					let self = this;
 					window.AMap.event.addListener(auto, "select", (e) => {
 						place.search(e.poi.name);
-						geocoder.getAddress(e.poi.location, function (status, result) {
-							console.log(result);
+						geocoder.getAddress(e.poi.position, function (status, result) {
 							if (status === 'complete' && result.regeocode) {
-								//let address = result.regeocode.formattedAddress;
 								let address = result.regeocode.aois[0].name;
 								let data = result.regeocode.addressComponent;
 								let name = data.township + data.street + data.streetNumber;
-								// self.changeData(address, 'addr');
-								// self.changeData(name, 'name');
-								//self.changeData(e.poi.location.lng, 'longitude');
-								//self.changeData(e.poi.location.lat, 'latitude');
-								self.setState({
+								 self.setState({
 									markerPosition:
 										{...self.state.markerPosition,
 											longitude:e.poi.location.lng,
@@ -90,6 +73,30 @@ export default class CustomMap extends React.Component{
 				
 			},
 			click: (e) => {
+				let geocoder;
+				let self = this;
+				window.AMap.plugin(["AMap.Geocoder"],function(){
+					geocoder= new window.AMap.Geocoder({
+						radius:1000, //以已知坐标为中心点，radius为半径，返回范围内兴趣点和道路信息
+						extensions: "all"//返回地址描述以及附近兴趣点和道路信息，默认"base"
+					});
+				});
+				geocoder.getAddress(e.lnglat, function (status, result) {
+					console.log(status, result);
+					if (status === 'complete' && result.regeocode) {
+						let address = result.regeocode.formattedAddress;
+						let data = result.regeocode.addressComponent;
+						let name = data.township + data.street + data.streetNumber;
+						self.setState({
+							markerPosition:
+								{...self.state.markerPosition,
+									longitude:e.lnglat.lng,
+									latitude:e.lnglat.lat,
+								},
+							searchContent:address
+						})
+					}
+				});
 				this.setState({markerPosition:{...this.state.markerPosition,longitude:e.lnglat.lng,latitude:e.lnglat.lat},searchContent:''})
 			},
 		};

@@ -8,7 +8,7 @@ class SelectChannel extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-			radio:1,
+			radio:'breakfast',
 			breakfast:false,
 			shopKeeper:false,
 			distributor:false
@@ -26,7 +26,16 @@ class SelectChannel extends React.Component{
 	};
 	handleSubmit = () =>{
 		this.handleCancel();
-		this.showBreakfast()
+		switch (this.state.radio) {
+			case "breakfast":
+				this.showBreakfast();
+				return;
+			case "shopKeeper":
+				this.showShopKeeper();
+				return;
+			default:
+				this.showDistributor()
+		}
 	};
 	
 	
@@ -64,14 +73,17 @@ class SelectChannel extends React.Component{
 				<BreakfastCar
 					visible={this.state.breakfast}
 					onClose={this.hideBreakfast}
+					showBreakfast={this.showBreakfast}
 				/>
 				<Distributor
 					visible={this.state.distributor}
 					onClose={this.hideDistributor}
+					showDistributor={this.showDistributor}
 				/>
 				<ShopKeeper
 					visible={this.state.shopKeeper}
 					onClose={this.hideShopKeeper}
+					showShopKeeper={this.showShopKeeper}
 				/>
 				
 				
@@ -88,9 +100,9 @@ class SelectChannel extends React.Component{
 					<div className="s_channel">
 						<span className="left">选择店铺渠道</span>
 						<Radio.Group onChange={this.onChange} value={this.state.radio}>
-							<Radio value={1}>早餐车</Radio>
-							<Radio value={2}>商户</Radio>
-							<Radio value={3}>分销员</Radio>
+							<Radio value='breakfast'>早餐车</Radio>
+							<Radio value='shopKeeper'>商户</Radio>
+							<Radio value='distributor'>分销员</Radio>
 						</Radio.Group>
 					</div>
 				</Modal>
