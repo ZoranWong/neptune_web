@@ -3,6 +3,7 @@ import {Input, Modal} from "antd";
 import '../css/common.sass'
 import Address from "../../../../components/Address/Address";
 import CustomUpload from "../../../../components/Upload/Upload";
+import {applicationsDetail} from "../../../../api/shops/shopManage";
 class Distributor extends React.Component{
 	constructor(props) {
 		super(props);
@@ -16,9 +17,12 @@ class Distributor extends React.Component{
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(!nextProps.data) return;
-		this.setState({listData:nextProps.data})
-	}
-	
+		 this.setState({listData:nextProps.data})
+	// 	applicationsDetail({},nextProps.data).then(r=> {
+	// 		this.setState({listData: r.data});
+	// 	})
+	 }
+
 	
 	
 	handleCancel = ()=>{

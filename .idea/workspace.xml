@@ -2,28 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/api/shops/channel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/api/shops/shopManage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopGroup/GroupDetail.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/DistributorDisabled.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/Refuse.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/ShopKeeperDisabled.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Address/Address.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Address/Address.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Layout/Pagination.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout/Pagination.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/Map.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Map.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Upload/Upload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Upload/Upload.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopChannel/CreateNewChannel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopChannel/CreateNewChannel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopChannel/ShopChannel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopChannel/ShopChannel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopGroup/ShopGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopGroup/ShopGroup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/BreakfastCar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/BreakfastCar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/Distributor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/Distributor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/ShopKeeper.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/ShopKeeper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopApplication.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopApplication.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopManage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopManage/css/ShopApplication.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/css/ShopApplication.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopManage/css/common.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/css/common.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/DistributorDisabled.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/DistributorDisabled.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -45,12 +26,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="446" />
-    <option name="y" value="108" />
-    <option name="width" value="1400" />
-    <option name="height" value="1000" />
   </component>
   <component name="ProjectId" id="1OOOGWTaesYQxhJyJMXacA3kuKG" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -254,7 +229,7 @@
       <workItem from="1563498377813" duration="24413000" />
       <workItem from="1563757988395" duration="22200000" />
       <workItem from="1563845085719" duration="22938000" />
-      <workItem from="1563930506759" duration="23977000" />
+      <workItem from="1563930506759" duration="25405000" />
     </task>
     <servers />
   </component>
