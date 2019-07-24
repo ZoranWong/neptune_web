@@ -27,6 +27,10 @@ export default class CustomUpload extends React.Component{
 		};
 	}
 	
+	componentWillReceiveProps(nextProps, nextContext) {
+		if(!nextProps.defaultImg) return;
+		this.setState({imageUrl:nextProps.defaultImg})
+	}
 	
 	
 	handleChange = info => {

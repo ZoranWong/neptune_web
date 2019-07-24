@@ -2,9 +2,9 @@ import React from 'react';
 import {Table, Button, Popconfirm} from 'antd';
 import './css/shopGroup.sass'
 import {withRouter} from "react-router-dom";
-import {groups} from "../../../api/shops/groups";
+import {groups,deleteGroup} from "../../../api/shops/groups";
 import CreateNewGroup from "./CreateNewGroup";
-
+import GroupDetail from "./GroupDetail";
 const { Column } = Table;
 class ShopGroup extends React.Component{
 	
@@ -52,6 +52,11 @@ class ShopGroup extends React.Component{
 					onCancel={this.closeNew}
 					refresh={this.refresh}
 				/>
+				<GroupDetail
+					visible={this.state.detailVisible}
+					onCancel={this.hideDetail}
+					groupId={this.state.detailId}
+				/>
 				<div className="chart">
 					<Button className="addNew" onClick={this.addNew}>
 						<i className="iconfont">&#xe7e0;</i>
@@ -67,7 +72,7 @@ class ShopGroup extends React.Component{
 					>
 						<Column
 							className="column_group"
-							title="群组名称"
+							title="店铺组"
 							dataIndex="name"
 							key="name"
 							render={(text, record) => (
@@ -83,12 +88,7 @@ class ShopGroup extends React.Component{
 						/>
 						<Column
 							className="column_group primary"
-							title="建立时间"
-							dataIndex="created_at"
-							key="created_at" />
-						<Column
-							className="column_group primary"
-							title="总人数"
+							title="店铺数量"
 							dataIndex="model_count"
 							key="model_count" />
 						<Column
@@ -97,14 +97,16 @@ class ShopGroup extends React.Component{
 							className="column_group groupOperation"
 							render={(text, record) => (
 								<span>
-							<span className="operation" onClick={()=>this.goUserList(record)} >详情</span>
+							<span className="operation" >详情</span>
 							<Popconfirm
-								title="确定要删除该账号么"
+								title="确定要删除该店铺组么"
 								okText="确定"
 								icon={null}
 								cancelText="取消"
 								onConfirm={()=>{
-								
+									deleteGroup({},record.id).then(r=>{
+										this.refresh()
+									})
 								}}
 							>
 								<span className="operation" >删除</span>

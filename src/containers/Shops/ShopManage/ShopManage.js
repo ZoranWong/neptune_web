@@ -14,7 +14,6 @@ import ShopApplication from './ShopApplication'
 import SelectChannel from './ShopAdd/SelectChannel'
 class ShopManage extends React.Component{
 	constructor(props){
-		
 		const columns = [
 			{
 				title: '昵称',
@@ -241,7 +240,7 @@ class ShopManage extends React.Component{
 					<div className="headerLeft">
 						<SearchInput
 							getDatas={this.search}
-							text='请输入昵称或手机号码'
+							text='请输入关键词'
 						/>
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
 						<Button size="small" disabled={this.state.checkedAry.length == 0}>修改店铺状态</Button>

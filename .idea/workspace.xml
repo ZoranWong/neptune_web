@@ -2,28 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Address/Address.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Address/Address.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Upload/Upload.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Upload/upload.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/css/common.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Shops/shopDetails/CodePayment.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Shops/shopDetails/Introduction.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Shops/shopDetails/IntroductionPerson.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Shops/shopDetails/ShopInformation.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Shops/shopDetails/header.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/shops/channel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/shops/shopManage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopGroup/GroupDetail.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/DistributorDisabled.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/Refuse.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/ShopKeeperDisabled.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/EditName/EditName.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/EditName/EditName.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Address/Address.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Address/Address.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout/Pagination.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout/Pagination.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Map/Map.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Map.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SideMenu/Shops.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SideMenu/Shops.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Upload/Upload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Upload/Upload.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopChannel/CreateNewChannel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopChannel/CreateNewChannel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopChannel/ShopChannel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopChannel/ShopChannel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopGroup/ShopGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopGroup/ShopGroup.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/BreakfastCar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/BreakfastCar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/Distributor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/Distributor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/SelectChannel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/SelectChannel.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/ShopKeeper.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd/ShopKeeper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Shops/shopDetails/ShopDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/shopDetails/ShopDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Shops/shopDetails/css/shop_details.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/shopDetails/css/shop_details.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/style/sider.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/sider.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/IconFont.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/IconFont.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopApplication.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopApplication.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopManage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopManage/css/ShopApplication.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/css/ShopApplication.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Shops/ShopManage/css/common.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/ShopManage/css/common.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/User/TagManage/TagManage.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -60,7 +60,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jsx.switch.disabled" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/containers/Shops/shopDetails" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd" />
     <property name="list.type.of.created.stylesheet" value="Sass" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -69,19 +69,19 @@
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd" />
+      <recent name="$PROJECT_DIR$/src/containers/Shops/ShopGroup" />
+      <recent name="$PROJECT_DIR$/src/containers/Shops/shopDetails" />
+      <recent name="$PROJECT_DIR$/src/containers/Shops/ShopManage" />
+      <recent name="$PROJECT_DIR$/src/containers/Shops/ShopChannel" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd" />
       <recent name="$PROJECT_DIR$/src/components/CustomItems" />
       <recent name="$PROJECT_DIR$/src/containers/Shops/ShopManage" />
       <recent name="$PROJECT_DIR$/src/components/NewTreeNode" />
       <recent name="$PROJECT_DIR$/src/components" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/containers/Shops/shopDetails" />
-      <recent name="$PROJECT_DIR$/src/containers/Shops/ShopManage" />
-      <recent name="$PROJECT_DIR$/src/containers/Shops/ShopChannel" />
-      <recent name="$PROJECT_DIR$/src/containers/Shops/ShopGroup/css" />
-      <recent name="$PROJECT_DIR$/src/containers/Shops/ShopGroup" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -254,6 +254,7 @@
       <workItem from="1563498377813" duration="24413000" />
       <workItem from="1563757988395" duration="22200000" />
       <workItem from="1563845085719" duration="22938000" />
+      <workItem from="1563930506759" duration="23977000" />
     </task>
     <servers />
   </component>
@@ -274,7 +275,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

@@ -1,13 +1,13 @@
 
 import React from 'react'
 import {Input, Modal, message, Button,Radio} from "antd";
+import {createChannel} from "../../../api/shops/channel";
 import './css/createNewChannel.sass'
 export default class CreateNewChannel extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
 			nameValue:'',
-			radio:1
 		};
 	}
 	
@@ -22,7 +22,10 @@ export default class CreateNewChannel extends React.Component{
 		let data = {
 			name:this.state.nameValue
 		};
-		
+		createChannel(data).then(r=>{
+			this.props.onCancel();
+			this.props.refresh()
+		})
 	};
 	
 	onChange = e => {
@@ -56,14 +59,6 @@ export default class CreateNewChannel extends React.Component{
 					}
 				>
 					<ul className="mainUl">
-						<li>
-							<span className="left">选择店铺渠道</span>
-							<Radio.Group onChange={this.onChange} value={this.state.radio}>
-								<Radio value={1}>早餐车</Radio>
-								<Radio value={2}>商户</Radio>
-								<Radio value={3}>分销员</Radio>
-							</Radio.Group>
-						</li>
 						<li>
 							<span className="left">渠道名称</span>
 							<Input

@@ -6,6 +6,14 @@ const { Option } = Select;
 export default class Address extends React.Component{
 	constructor(props) {
 		super(props);
+		this.p = [];
+		this.s = [];
+		if(props.defaultData){
+			Object.keys(props.defaultData).forEach(key=>{
+				this.p.push(parseInt(key));
+				this.s.push(props.defaultData[key]);
+			});
+		}
 		this.state = {
 			province:[],
 			activeProvince:'',
@@ -13,20 +21,24 @@ export default class Address extends React.Component{
 			activeCity:'',
 			area: [],
 			activeArea:''
-		}
+		};
 	}
 	
 	componentWillMount() {
-		let ary = [];
 		regions({}).then(r=>{
 			this.setState({
 				province:r,
+				cities:r[0].children,
+				area:r[0].children[0].children,
 				activeProvince:r[0].region_code,
 				activeCity:r[0].children[0].region_code,
-				cities:r[0].children,
-				activeArea:r[0].children[0].children[0].region_code,
-				area:r[0].children[0].children,
-			})
+				activeArea:r[0].children[0].children[0].region_code
+			});
+			if(this.props.defaultData){
+				this.handleProvinceChange(this.p[0]);
+				this.onSecondCityChange(this.p[1]);
+				this.onAreaChange(this.p[2])
+			}
 		}).catch(_=>{})
 	}
 	

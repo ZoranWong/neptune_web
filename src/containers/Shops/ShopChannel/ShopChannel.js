@@ -2,25 +2,30 @@ import React from 'react';
 import {Table, Button, Popconfirm} from 'antd';
 import './css/shopGroup.sass'
 import {withRouter} from "react-router-dom";
-import {groups} from "../../../api/shops/groups";
+import {getChannels} from "../../../api/shops/channel";
 import CreateNewChannel from './CreateNewChannel'
-
+import CustomPagination from '../../../components/Layout/Pagination'
 const { Column } = Table;
 class ShopGroup extends React.Component{
-	
-	state = {
-		data:[],
-		createVisible:false,
-		detailVisible:false,
-		detailId:''
+	constructor(props) {
+		super(props);
+		this.state = {
+			api:getChannels,
+			data:[],
+			createVisible:false,
+			detailVisible:false,
+			detailId:''
+		};
+		this.child = React.createRef();
+	}
+	paginationChange = (list)=>{
+		this.setState({data:list})
 	};
 	
-	componentWillMount() {
-		this.refresh()
-	}
+	
 	
 	refresh = ()=>{
-	
+		this.child.current.pagination(1)
 	};
 	
 	addNew = () =>{
@@ -45,6 +50,7 @@ class ShopGroup extends React.Component{
 					<Table
 						dataSource={this.state.data}
 						rowKey={record => record.id}
+						pagination={false}
 						rowClassName={(record, index) => {
 							let className = '';
 							if (index % 2 ) className = 'dark-row';
@@ -60,9 +66,16 @@ class ShopGroup extends React.Component{
 						<Column
 							className="column_group primary"
 							title="店铺数量"
-							dataIndex="created_at"
-							key="created_at" />
+							dataIndex="model_count"
+							key="model_count" />
 					</Table>
+				</div>
+				<div className="pagination">
+					<CustomPagination
+						api={this.state.api}
+						ref={this.child}
+						valChange={this.paginationChange}
+					/>
 				</div>
 			</div>
 		)

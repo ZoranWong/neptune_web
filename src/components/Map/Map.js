@@ -5,6 +5,7 @@ import {Input, Modal} from "antd";
 export default class CustomMap extends React.Component{
 	constructor(props) {
 		super(props);
+		console.log(props);
 		this.mapPlugins = ['ToolBar','MapType'];
 		this.state = {
 			markerPosition:{
@@ -15,9 +16,11 @@ export default class CustomMap extends React.Component{
 		}
 	}
 	
-	componentDidMount() {
-	
+	componentWillReceiveProps(nextProps, nextContext) {
+		if (!nextProps.position) return;
+		this.setState({markerPosition:{...this.state.markerPosition,longitude:nextProps.position.lng,latitude:nextProps.position.lat},searchContent:''})
 	}
+	
 	
 	
 	placeSearch = (e) => {
@@ -29,7 +32,7 @@ export default class CustomMap extends React.Component{
 	};
 	
 	handleSubmit = ()=>{
-		this.props.handleLocation(this.state.searchContent,this.state.markerPosition)
+		this.props.handleLocation(this.state.searchContent,this.state.markerPosition);
 		this.handleCancel();
 	};
 	

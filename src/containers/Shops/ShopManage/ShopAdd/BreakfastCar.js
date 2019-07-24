@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Input, Modal, Radio} from "antd";
 import Map from '../../../../components/Map/Map'
 import Address from "../../../../components/Address/Address";
-class ShopApplication extends React.Component{
+class BreakfastCar extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -60,11 +60,11 @@ class ShopApplication extends React.Component{
 				>
 					<ul className="mainUl">
 						<li>
-							<span className="left">店铺渠道：</span>
+							<span className="left">店铺渠道</span>
 							<span>早餐车</span>
 						</li>
 						<li>
-							<span className="left">店铺编号</span>
+							<span className="left">早餐车编号</span>
 							<Input
 								className="liInput"
 							/>
@@ -124,4 +124,4 @@ class ShopApplication extends React.Component{
 		)
 	}
 }
-export default ShopApplication
+export default BreakfastCar

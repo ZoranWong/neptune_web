@@ -270,7 +270,7 @@ class TagManage extends React.Component{
 				style:{'display':'none'}
 			},
 			onOk() {
-				refresh()
+			
 			}
 		});
 	};
