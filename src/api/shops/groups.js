@@ -7,6 +7,14 @@ export function createGroup(params) {
 		data: params
 	})
 }
+// 添加店铺入店铺组
+export function addGroups(params,id) {
+	return request({
+		url: `/api/backend/groups/${id}/add`,
+		method: 'post',
+		data: params
+	})
+}
 // 群组详情
 export function groupDetails(params,groupId) {
 	return request({
@@ -31,11 +39,4 @@ export function deleteGroup(params,groupId) {
 		params: params
 	})
 }
-// 添加店铺入静态组
-export function addShops(params,groupId) {
-	return request({
-		url: `/api/backend/groups/${groupId}/add`,
-		method: 'post',
-		data: params
-	})
-}
+

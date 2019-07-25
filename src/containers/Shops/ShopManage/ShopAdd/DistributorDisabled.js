@@ -2,6 +2,8 @@ import React from 'react';
 import {Button, Modal} from "antd";
 import '../css/common.sass'
 import Distributor from "./Distributor";
+import {refuse} from "../../../../api/shops/shopManage";
+
 const {confirm} = Modal;
 class DistributorDisabled extends React.Component{
 	constructor(props) {
@@ -20,6 +22,8 @@ class DistributorDisabled extends React.Component{
 		this.props.onClose()
 	};
 	refuse = () =>{
+		let {data} = this.state;
+		let self = this;
 		let confirmModal = confirm({
 			title: (
 				<div className= 'u_confirm_header'>
@@ -47,14 +51,16 @@ class DistributorDisabled extends React.Component{
 				size:'small',
 			},
 			onOk() {
-				//// 拒绝接口对接处
-				alert('111')
+				refuse({},data.id).then(r=>{
+					self.handleCancel();
+					self.props.onShowApp()
+				})
 			}
 		});
 	};
 	handleSubmit = () =>{
 		this.handleCancel();
-		this.setState({distributorVisible:true})
+		this.setState({distributorVisible:true,newData:this.state.data})
 	};
 	hideDistributor = () =>{
 		this.setState({distributorVisible:false})
@@ -65,7 +71,7 @@ class DistributorDisabled extends React.Component{
 			<div>
 				<Distributor
 					visible={this.state.distributorVisible}
-					data={this.state.data}
+					data={this.state.newData}
 					onClose={this.hideDistributor}
 				/>
 				<Modal

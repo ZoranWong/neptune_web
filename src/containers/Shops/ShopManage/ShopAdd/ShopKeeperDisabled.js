@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Button} from "antd";
 import Map from '../../../../components/Map/Map'
 import '../css/common.sass'
-import Address from "../../../../components/Address/Address";
+import {refuse} from "../../../../api/shops/shopManage";
 import ShopKeeper from './ShopKeeper'
 const {confirm} = Modal;
 class ShopKeeperDisabled extends React.Component{
@@ -34,6 +34,8 @@ class ShopKeeperDisabled extends React.Component{
 	};
 	
 	refuse = () =>{
+		let {data} = this.state;
+		let self = this;
 		let confirmModal = confirm({
 			title: (
 				<div className= 'u_confirm_header'>
@@ -62,7 +64,10 @@ class ShopKeeperDisabled extends React.Component{
 			},
 			onOk() {
 				//// 拒绝接口对接处
-				alert('111')
+				refuse({},data.id).then(r=>{
+					self.handleCancel();
+					self.props.onShowApp()
+				})
 			}
 		});
 	};

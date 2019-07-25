@@ -5,7 +5,6 @@ import {Input, Modal} from "antd";
 export default class CustomMap extends React.Component{
 	constructor(props) {
 		super(props);
-		console.log(props);
 		this.mapPlugins = ['ToolBar','MapType'];
 		this.state = {
 			markerPosition:{

@@ -47,7 +47,12 @@ service.interceptors.response.use(
 		}
 		const { response: { status, statusText, data: { msg = '服务器发生错误' } }} = error;
 		const { response } = error;
-        message.error(response.data.message);// 弹出后端返回的错误
+		console.log(response);
+		if(response.status === 422 && response.data.errors.introducer_code){
+			message.error('请输入正确的介绍人编号');
+			return Promise.reject(error);
+		}
+		message.error(response.data.message);// 弹出后端返回的错误
 		setTimeout(()=>{
 			if(response.status === 401){
 				removeToken();

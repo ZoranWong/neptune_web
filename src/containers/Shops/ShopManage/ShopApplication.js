@@ -25,6 +25,11 @@ class ShopApplication extends React.Component{
 		this.props.onClose()
 	};
 	
+	handleShow=()=>{
+		this.props.onShow();
+		this.child.current.pagination(1)
+	};
+	
 	// 分页器改变时赋值
 	paginationChange = (list) =>{
 		this.setState({data:list})
@@ -49,6 +54,9 @@ class ShopApplication extends React.Component{
 	
 	closeD = () =>{
 		this.setState({d_visible:false})
+	};
+	showD=()=>{
+		this.setState({d_visible:true})
 	};
 	closeS = () =>{
 		this.setState({s_visible:false})
@@ -83,13 +91,16 @@ class ShopApplication extends React.Component{
 				<DistributorDisabled
 					visible={this.state.d_visible}
 					onClose={this.closeD}
+					onShow={this.showD}
 					data={this.state.shop_data}
+					onShowApp={this.handleShow}
 				/>
 				<ShopKeeperDisabled
 					visible={this.state.s_visible}
 					onClose={this.closeS}
 					onShow={this.showS}
 					data={this.state.shop_data}
+					onShowApp={this.handleShow}
 				/>
 				
 				

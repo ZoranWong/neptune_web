@@ -6,77 +6,115 @@ import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import {user_values} from "../../../utils/user_fields";
 import {searchJson} from "../../../utils/dataStorage";
+import {shops} from "../../../api/shops/shopManage";
 import CustomPagination from "../../../components/Layout/Pagination";
-import {users} from "../../../api/user";
 import AdvancedFilterComponent from "../../User/UserManage/AdvancedFilterComponent";
-import AddGroup from "../../User/UserManage/AddGroup";
+import AddGroup from "./AddGroup";
 import ShopApplication from './ShopApplication'
 import SelectChannel from './ShopAdd/SelectChannel'
+import ChangeStatus from './ChangeStatus'
+import BreakfastCar from "./ShopAdd/BreakfastCar";
+import Distributor from "./ShopAdd/Distributor";
+import ShopKeeper from "./ShopAdd/ShopKeeper";
 class ShopManage extends React.Component{
 	constructor(props){
 		const columns = [
 			{
-				title: '昵称',
-				dataIndex: 'nickname',
+				title: '店铺名称',
+				dataIndex: 'name',
 				render: (text,record) => <span
 					style={{'color':'#4F9863','cursor':'pointer'}}
 					onClick={()=>this.jump(record)}>{text}</span>,
 			},
 			{
-				title: '手机号',
-				dataIndex: 'mobile',
+				title: '商户主',
+				dataIndex: 'keeper_name',
 			},
 			{
-				title: '注册时间',
-				dataIndex: 'created_at',
+				title: '店铺编号',
+				dataIndex: 'code',
 			},
 			{
-				title: '储值总额',
-				dataIndex: 'charge_amount',
+				title: '销售总额',
+				dataIndex: 'total_sale',
 			},
 			{
-				title: '购买总额',
-				dataIndex: 'total_purchase_amount',
+				title: '店铺渠道',
+				dataIndex: 'channel',
 			},
 			{
-				title: '购买次数',
-				dataIndex: 'purchased_count',
+				title: '店铺状态',
+				dataIndex: 'status',
 			},
 			{
-				title: '账户余额',
-				dataIndex: 'balance',
+				title: '操作',
+				render: (text,record) =>
+					<div>
+						<span
+							style={{'color':'#4F9863','cursor':'pointer'}}
+							onClick={()=>this.editShop(record)}
+							>编辑
+						</span>
+						<span
+							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
+						>门店码
+						</span>
+					</div>
+					,
 			},
 		];
 		
 		super(props);
 		this.child = React.createRef();
 		this.state = {
-			api:users,
+			api:shops,
 			id:'',
 			filterVisible:false,
 			customVisible:false,
 			applicationVisible:false,
 			groupVisible:false,
-			addVisible:false,
+			statusVisible:false,
+			distributor:false,
+			breakfast:false,
+			shopKeeper:false,
+			
 			user_data:[],
 			checkedAry:[],     // 列表页选中的用户id组
 			paginationParams:{
 				logic_conditions:[],
 				search:''
 			},
+			recordId:'',
 			columns:columns
 		};
 	}
 	
 	componentWillMount() {
 		document.addEventListener('click', this.closeCustom);
-		
 	}
+	
+	
+	editShop = (record) =>{
+		this.setState({recordId:record.id});
+		switch (record.channel) {
+			case "早餐车":
+				this.showBreakfast();
+				return;
+			case "分销员":
+				this.showDistributor();
+				return;
+			default :
+				this.showShopKeeper()
+		}
+	};
 	refresh = ()=>{
-		this.setState({filterVisible:false,paginationParams:{
+		this.setState({
+			filterVisible:false,
+			paginationParams:{
 				logic_conditions:[],
 				search:''
-			}},()=>{
+			}
+		},()=>{
 			this.child.current.pagination(1)
 		})
 	};
@@ -115,7 +153,7 @@ class ShopManage extends React.Component{
 	// 头部搜索框
 	search = (value) =>{
 		this.setState({
-			api:users,
+			api:shops,
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value})}
 		},()=>{
@@ -130,10 +168,35 @@ class ShopManage extends React.Component{
 		this.setState({filterVisible:false})
 	};
 	onSubmit = (data) =>{
-		this.setState({api:users,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
+		this.setState({api:shops,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
 			this.child.current.pagination(1)
 		});
 	};
+	
+	// 早餐车
+	showBreakfast = () =>{
+		this.setState({breakfast:true})
+	};
+	hideBreakfast = () =>{
+		this.setState({breakfast:false})
+	};
+	
+	// 分销员
+	showDistributor = () =>{
+		this.setState({distributor:true})
+	};
+	hideDistributor = () =>{
+		this.setState({distributor:false})
+	};
+	
+	// 商户
+	showShopKeeper = () =>{
+		this.setState({shopKeeper:true})
+	};
+	hideShopKeeper = () =>{
+		this.setState({shopKeeper:false})
+	};
+	
 	
 	//自定义显示项
 	showCustom = (e) =>{
@@ -143,6 +206,16 @@ class ShopManage extends React.Component{
 	closeCustom = () =>{
 		this.setState({customVisible:false})
 	};
+	
+	// 修改店铺状态
+	showChangeStatus = () =>{
+		this.setState({statusVisible:true});
+	};
+	closeChangeStatus = () =>{
+		this.setState({statusVisible:false})
+	};
+	
+	
 	handleCustom = (e) =>{
 		let ary = [];
 		e.forEach(e=>{
@@ -165,6 +238,7 @@ class ShopManage extends React.Component{
 	
 	// 分页器改变值
 	paginationChange = (list) =>{
+		console.log(list);
 		this.setState({user_data:list})
 	};
 	
@@ -202,16 +276,42 @@ class ShopManage extends React.Component{
 					conditionsData={this.state.conditions_data}
 				/>
 				
+				<BreakfastCar
+					visible={this.state.breakfast}
+					onClose={this.hideBreakfast}
+					onShow={this.showBreakfast}
+					recordId={this.state.recordId}
+				/>
+				<Distributor
+					visible={this.state.distributor}
+					onClose={this.hideDistributor}
+					onShow={this.showDistributor}
+					recordId={this.state.recordId}
+				/>
+				<ShopKeeper
+					visible={this.state.shopKeeper}
+					onClose={this.hideShopKeeper}
+					onShow={this.showShopKeeper}
+					recordId={this.state.recordId}
+				/>
+				
 				
 				<ShopApplication
 					visible={this.state.applicationVisible}
 					onClose={this.closeApplication}
+					onShow={this.showApplication}
 				/>
 				<SelectChannel
 					visible={this.state.addVisible}
 					onClose={this.closeAdd}
 				/>
 				
+				<ChangeStatus
+					visible={this.state.statusVisible}
+					onClose={this.closeChangeStatus}
+					checkedAry={this.state.checkedAry}
+					refresh={this.refresh}
+				/>
 				
 				
 				
@@ -243,7 +343,7 @@ class ShopManage extends React.Component{
 							text='请输入关键词'
 						/>
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
-						<Button size="small" disabled={this.state.checkedAry.length == 0}>修改店铺状态</Button>
+						<Button size="small" disabled={this.state.checkedAry.length == 0} onClick={this.showChangeStatus}>修改店铺状态</Button>
 						<Button
 							size="small"
 							disabled={this.state.checkedAry.length == 0}

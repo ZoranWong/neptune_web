@@ -4,21 +4,33 @@ import { Modal, Radio} from "antd";
 import BreakfastCar from './BreakfastCar'
 import Distributor from './Distributor'
 import ShopKeeper from './ShopKeeper'
+import {getFatherChannels} from "../../../../api/shops/channel";
+
 class SelectChannel extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-			radio:'breakfast',
+			radio:'',
 			breakfast:false,
 			shopKeeper:false,
-			distributor:false
+			distributor:false,
+			channels:[],
+			radioName:''
 		}
+	}
+	componentDidMount() {
+		getFatherChannels({}).then(r=>{
+			this.setState({channels:r.data,radio:r.data[0].id,radioName:r.data[0].name})
+		})
 	}
 	
 	onChange = e => {
-		console.log('radio checked', e.target.value);
+		let n = this.state.channels.filter(item=>{
+			return item.id == e.target.value
+		});
 		this.setState({
 			radio: e.target.value,
+			radioName:n[0].name
 		});
 	};
 	handleCancel = ()=>{
@@ -26,11 +38,11 @@ class SelectChannel extends React.Component{
 	};
 	handleSubmit = () =>{
 		this.handleCancel();
-		switch (this.state.radio) {
-			case "breakfast":
+		switch (this.state.radioName) {
+			case "早餐车":
 				this.showBreakfast();
 				return;
-			case "shopKeeper":
+			case "商户":
 				this.showShopKeeper();
 				return;
 			default:
@@ -73,17 +85,20 @@ class SelectChannel extends React.Component{
 				<BreakfastCar
 					visible={this.state.breakfast}
 					onClose={this.hideBreakfast}
-					showBreakfast={this.showBreakfast}
+					onShow={this.showBreakfast}
+					id={this.state.radio}
 				/>
 				<Distributor
 					visible={this.state.distributor}
 					onClose={this.hideDistributor}
-					showDistributor={this.showDistributor}
+					onShow={this.showDistributor}
+					id={this.state.radio}
 				/>
 				<ShopKeeper
 					visible={this.state.shopKeeper}
 					onClose={this.hideShopKeeper}
-					showShopKeeper={this.showShopKeeper}
+					onShow={this.showShopKeeper}
+					id={this.state.radio}
 				/>
 				
 				
@@ -100,9 +115,11 @@ class SelectChannel extends React.Component{
 					<div className="s_channel">
 						<span className="left">选择店铺渠道</span>
 						<Radio.Group onChange={this.onChange} value={this.state.radio}>
-							<Radio value='breakfast'>早餐车</Radio>
-							<Radio value='shopKeeper'>商户</Radio>
-							<Radio value='distributor'>分销员</Radio>
+							{
+								this.state.channels.map(item=>(
+									<Radio value={item.id} key={item.id}>{item.name}</Radio>
+								))
+							}
 						</Radio.Group>
 					</div>
 				</Modal>

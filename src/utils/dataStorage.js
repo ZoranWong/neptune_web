@@ -93,9 +93,15 @@ export function  addMosaic(str) {
 
 /** 正则 手机号验证 **/
 export function  checkPhone(str) {
-    const rex = /^1[34578]\d{9}$/;
+    const rex = /^1[345789]\d{9}$/;
     return rex.test(str);
 }
+/*正则 身份证号验证*/
+export function checkIdCard(str) {
+    const rex = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+    return rex.test(str)
+}
+
 
 /** 正则 邮箱验证 **/
 export function checkEmail(str) {

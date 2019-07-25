@@ -39,3 +39,38 @@ export function breakfastCar(params) {
 		data: params
 	})
 }
+
+// 拒绝店铺申请
+export function refuse(params,id) {
+	return request({
+		url: `/api/backend/shops/applications/${id}/refuse`,
+		method: 'put',
+		data: params
+	})
+}
+
+
+// 店铺列表
+export function shops(params) {
+	return request({
+		url: '/api/backend/shops',
+		method: 'get',
+		params: params
+	})
+}
+// 修改店铺状态
+export function changeStatus(params) {
+	return request({
+		url: '/api/backend/shops/switch/status',
+		method: 'put',
+		data: params
+	})
+}
+// 编辑店铺
+export function editShop(params,id) {
+	return request({
+		url:`/api/backend/shops/${id}`,
+		method: 'put',
+		data: params
+	})
+}

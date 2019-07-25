@@ -1,7 +1,9 @@
 import React from 'react';
-import {Button, Input, Modal, Radio} from "antd";
+import {Input, message, Modal, Radio} from "antd";
 import Map from '../../../../components/Map/Map'
 import Address from "../../../../components/Address/Address";
+import {checkIdCard, checkPhone} from "../../../../utils/dataStorage";
+import {applicationsDetail, breakfastCar, editShop, shopKeeper} from "../../../../api/shops/shopManage";
 class BreakfastCar extends React.Component{
 	constructor(props) {
 		super(props);
@@ -9,19 +11,78 @@ class BreakfastCar extends React.Component{
 			visible:false,
 			positionData : {},
 			address:'设置地图坐标',
-			listData:{
-			
-			}
+			listData:{},
+			status:100,
 		};
-		this.child = React.createRef()
+		this.childMap = React.createRef();
+		this.childAdd = React.createRef();
 	}
 	
+	componentWillReceiveProps(nextProps, nextContext) {
+		if(!(this.props.recordId ==  nextProps.recordId)){
+			applicationsDetail({},nextProps.recordId).then(r=>{
+				this.setState({listData:r.data})
+			});
+		}
+	}
 	
 	handleCancel = ()=>{
 		this.props.onClose()
 	};
 	handleSubmit = () =>{
-	
+		const {listData} = this.state;
+		if(!listData.address) {
+			message.error('请填写地址');
+			return
+		}
+		if(!listData.keeper_name) {
+			message.error('请填写车主姓名');
+			return
+		}
+		if(!listData.breakfast_car_code) {
+			message.error('请填写店铺编号');
+			return
+		}
+		if(!listData.name) {
+			message.error('请填写店铺名');
+			return
+		}
+		if(!checkPhone(listData.keeper_mobile)) {
+			message.error('请填写正确格式的手机号');
+			return
+		}
+		if(!checkIdCard(listData.keeper_id_card_no)) {
+			message.error('请填写正确格式的身份证号');
+			return
+		}
+		let data = {
+			application_id:listData.id || '',
+			channel_id:this.props.id ,
+			channel_slug:'BREAKFAST_CAR',
+			province_code:this.childAdd.current.state.activeProvince,
+			city_code:this.childAdd.current.state.activeCity,
+			area_code:this.childAdd.current.state.activeArea,
+			address:listData.address,
+			keeper_name:listData.keeper_name,
+			keeper_mobile:listData.keeper_mobile,
+			keeper_id_card_no:listData.keeper_id_card_no,
+			status:this.state.status,
+			breakfast_car_code:listData.breakfast_car_code,
+			name:listData.name,
+			lat:this.childMap.current.state.markerPosition.latitude,
+			lng:this.childMap.current.state.markerPosition.longitude
+		};
+		if(this.props.recordId){
+			editShop(data,this.props.recordId).then(r=>{
+				message.success('编辑店铺成功');
+				this.handleCancel()
+			}).catch(_=>{})
+		} else {
+			shopKeeper(data).then(r=>{
+				message.success('新增店铺成功');
+				this.handleCancel()
+			})
+		}
 	};
 	
 	showMap = () =>{
@@ -29,23 +90,27 @@ class BreakfastCar extends React.Component{
 		this.setState({visible:true})
 	};
 	hideMap = () =>{
-		this.props.showBreakfast();
+		this.props.onShow();
 		this.setState({visible:false})
 	};
 	
 	handleLocation = (position,lng) =>{
-		console.log(position);
-		console.log(lng);
 		this.setState({address:position})
 	};
 	
 	
 	render(){
+		const {listData} = this.state;
+		let positionData = {};
+		positionData[listData.province_code] = listData.province;
+		positionData[listData.city_code] = listData.city;
+		positionData[listData.area_code] = listData.area;
 		return (
 			<div>
 				<Map visible={this.state.visible}
 					 hideMap={this.hideMap}
 					 handleLocation={this.handleLocation}
+					 ref={this.childMap}
 				/>
 				
 				<Modal
@@ -61,28 +126,52 @@ class BreakfastCar extends React.Component{
 					<ul className="mainUl">
 						<li>
 							<span className="left">店铺渠道</span>
-							<span>早餐车</span>
+							{
+								this.props.recordId?(
+									<span>{listData.channel_name}</span>
+								):<span>早餐车</span>
+							}
+							
 						</li>
 						<li>
-							<span className="left">早餐车编号</span>
-							<Input
-								className="liInput"
-							/>
+							<span className="left">店铺编号</span>
+							
+							{
+								this.props.recordId?(
+									<span>{listData.introducer_no}</span>
+								):(
+									<Input
+										className="liInput"
+										value={listData.breakfast_car_code}
+										onChange={(e)=>{
+											this.setState({listData:{...listData,breakfast_car_code:e.target.value}})
+										}}
+									/>
+								)
+							}
 						</li>
 						<li>
 							<span className="left">店铺名称</span>
 							<Input
 								className="liInput"
+								value={listData.name}
+								onChange={(e)=>{
+									this.setState({listData:{...listData,name:e.target.value}})
+								}}
 							/>
 						</li>
 						<li>
 							<span className="left">店铺地址</span>
-							<Address ref={this.child} />
+							<Address ref={this.childAdd} />
 						</li>
 						<li>
 							<span className="left">详细地址</span>
 							<Input
 								className="liInput"
+								value={listData.address}
+								onChange={(e)=>{
+									this.setState({listData:{...listData,address:e.target.value}})
+								}}
 							/>
 						</li>
 						<li>
@@ -96,25 +185,47 @@ class BreakfastCar extends React.Component{
 							<span className="left">车主姓名</span>
 							<Input
 								className="liInput"
+								value={listData.keeper_name}
+								onChange={(e)=>{
+									this.setState({listData:{...listData,keeper_name:e.target.value}})
+								}}
 							/>
 						</li>
 						<li>
 							<span className="left">车主电话</span>
 							<Input
 								className="liInput"
+								value={listData.keeper_mobile}
+								onChange={(e)=>{
+									this.setState({listData:{...listData,keeper_mobile:e.target.value}})
+								}}
 							/>
 						</li>
 						<li>
 							<span className="left">车主身份证号码</span>
-							<Input
-								className="liInput"
-							/>
+							
+							{
+								this.props.recordId?(
+									<span>{listData.keeper_id_card_no}</span>
+								):(
+									<Input
+										className="liInput"
+										value={listData.keeper_id_card_no}
+										onChange={(e)=>{
+											this.setState({listData:{...listData,keeper_id_card_no:e.target.value}})
+										}}
+									/>
+								)
+							}
 						</li>
 						<li>
 							<span className="left">店铺状态</span>
-							<Radio.Group>
-								<Radio value={1}>开业</Radio>
-								<Radio value={2}>打烊</Radio>
+							<Radio.Group value={this.state.status} onChange={
+								(e)=>{
+									this.setState({status:e.target.value})
+								}}>
+								<Radio value={100}>开业</Radio>
+								<Radio value={200}>打烊</Radio>
 							</Radio.Group>
 						</li>
 					</ul>
