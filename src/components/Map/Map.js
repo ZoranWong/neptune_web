@@ -5,6 +5,7 @@ import {Input, Modal} from "antd";
 export default class CustomMap extends React.Component{
 	constructor(props) {
 		super(props);
+		console.log(props);
 		this.mapPlugins = ['ToolBar','MapType'];
 		this.state = {
 			markerPosition:{
@@ -31,8 +32,14 @@ export default class CustomMap extends React.Component{
 	};
 	
 	handleSubmit = ()=>{
-		this.props.handleLocation(this.state.searchContent,this.state.markerPosition);
-		this.handleCancel();
+		if(this.props.disabled){
+			this.handleCancel();
+		} else {
+			this.props.handleLocation(this.state.searchContent,this.state.markerPosition);
+			this.handleCancel();
+		}
+		
+		
 	};
 	
 	
@@ -75,6 +82,7 @@ export default class CustomMap extends React.Component{
 				
 			},
 			click: (e) => {
+				//if(this.props.disabled) return;
 				let geocoder;
 				let self = this;
 				window.AMap.plugin(["AMap.Geocoder"],function(){

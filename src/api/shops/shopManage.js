@@ -74,3 +74,27 @@ export function editShop(params,id) {
 		data: params
 	})
 }
+// 店铺详情
+export function shopDetails(params,id) {
+	return request({
+		url: `/api/backend/shops/${id}`,
+		method: 'get',
+		params: params
+	})
+}
+//解除店铺与群组的关联
+export function deleteGroup(params,id) {
+	return request({
+		url:`/api/backend/shops/${id}/detach/group`,
+		method: 'put',
+		data: params
+	})
+}
+// ta介绍的店铺
+export function introducedShops(params,id) {
+	return request({
+		url: `/api/backend/shops/${id}/introduced_shops`,
+		method: 'get',
+		params: params
+	})
+}

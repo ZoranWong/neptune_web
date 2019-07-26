@@ -72,6 +72,8 @@ export default class SingleGroup extends React.Component{
 								lineNeedRemove={lineNeedRemove}
 								deleteSingle={()=>this.deleteSingle(item.cid)}
 								onData={this.saveData}
+								value={this.props.value}
+								operation={this.props.operation}
 							/>
 						})
 					}

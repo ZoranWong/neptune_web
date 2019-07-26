@@ -8,7 +8,7 @@ import {user_values} from "../../../utils/user_fields";
 import {searchJson} from "../../../utils/dataStorage";
 import {shops} from "../../../api/shops/shopManage";
 import CustomPagination from "../../../components/Layout/Pagination";
-import AdvancedFilterComponent from "../../User/UserManage/AdvancedFilterComponent";
+import AdvancedFilterComponent from "./AdvancedFilterComponent";
 import AddGroup from "./AddGroup";
 import ShopApplication from './ShopApplication'
 import SelectChannel from './ShopAdd/SelectChannel'
@@ -119,8 +119,8 @@ class ShopManage extends React.Component{
 		})
 	};
 	
-	jump = () =>{
-		this.props.history.push({pathname:"/shops/shopDetails"})
+	jump = (record) =>{
+		this.props.history.push({pathname:"/shops/shopDetails",state:{id:record.id}})
 	};
 	
 	// 店铺申请

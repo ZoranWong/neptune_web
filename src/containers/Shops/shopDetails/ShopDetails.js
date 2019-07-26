@@ -1,27 +1,36 @@
 import React from 'react';
-import {Button,Tabs,Tag } from "antd";
+import {Button,Tag,Modal } from "antd";
+import {shopDetails,deleteGroup} from "../../../api/shops/shopManage";
 import './css/shop_details.sass'
 import ShopInformation from "./ShopInformation";
 import Introduction from './Introduction'
 import IntroductionPerson from './IntroductionPerson'
 import CodePayment from "./CodePayment";
+import Map from "../../../components/Map/Map";
 class ShopDetails extends React.Component{
 	constructor(props){
 		super(props);
+		this.id = props.location.state.id;    // 店铺id
 		this.state = {
 			shopInformationVisible:false,
 			introductionVisible:false,
 			introductionPersonVisible:false,
-			codePaymentVisible:false
+			codePaymentVisible:false,
+			mapVisible:false,
+			data:{},  // 店铺详情数据
+			position:{},
 		}
 	}
 
 	refresh = () =>{
-	
+		shopDetails({},this.id).then(r=>{
+			this.setState({data:r})
+		}).catch(_=>{})
 	};
 
 	componentWillMount() {
-		this.refresh()
+		this.refresh();
+		
 	}
 	
 	// 店铺资料
@@ -54,18 +63,80 @@ class ShopDetails extends React.Component{
 		this.setState({codePaymentVisible:false})
 	};
 	
+	// 删除某个群组
+	removeTag = (e) =>{
+		this.showConfirm(e,deleteGroup);
+	};
+	
+	// 删除确认框
+	showConfirm =(key,fn) => {
+		let refresh = this.refresh;
+		let id = this.id;
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			maskClosable:true,
+			content: (
+				<div className="U_confirm">
+					确定解除此店铺与该群组的关联吗？
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				fn({group_id:key},id).then(r=>{
+					refresh()
+				}).catch(_=>{})
+			},
+			onCancel() {
+			
+			},
+		});
+	};
+	
+	
+	showMap = (e) =>{
+		this.setState({mapVisible:true,position:e})
+	};
+	hideMap = () =>{
+		this.setState({mapVisible:false})
+	};
+	
+	handleLocation = () =>{
+	
+	};
+	
 	
 	render(){
+		const {data} = this.state;
 		return (
 			<div>
 				
 				<ShopInformation
 					visible={this.state.shopInformationVisible}
 					onClose={this.hideShopInformation}
+					shopInfo={this.state.data.keeper_info}
 				/>
 				<Introduction
 					visible={this.state.introductionVisible}
 					onClose={this.hideIntroduction}
+					shopId={this.id}
 				/>
 				<IntroductionPerson
 					visible={this.state.introductionPersonVisible}
@@ -75,7 +146,12 @@ class ShopDetails extends React.Component{
 					visible={this.state.codePaymentVisible}
 					onClose={this.hideCodePayment}
 				/>
-				
+				<Map visible={this.state.mapVisible}
+					 hideMap={this.hideMap}
+					 handleLocation={this.handleLocation}
+					 position={this.state.position}
+					 disabled={true}
+				/>
 				
 				
 				
@@ -115,23 +191,26 @@ class ShopDetails extends React.Component{
 						<ul className="u_body_top">
 							<li className="firstChild"><h3></h3></li>
 							<li >
-								<p>店铺渠道：早餐车</p>
-								<p>早餐编号：A018</p>
-								<p>店铺编号：C00028</p>
+								<p>店铺渠道：{data.channel}</p>
+								<p>早餐编号：{data.breakfast_car_code}</p>
+								<p>店铺编号：{data.code}</p>
 							</li>
 							<li>
-								<p>地区：安徽省 合肥市 蜀山区</p>
-								<p>地址：玉兰大道8号</p>
-								<p>地图位置：地图</p>
+								<p>地区：{data.province} {data.city} {data.area}</p>
+								<p>地址：{data.address}</p>
+								<p>地图位置：<span onClick={()=>this.showMap(data.position)} style={{'cursor':'pointer'}}>
+								<i className="iconfont" style={{'fontSize':'14px','color':'#4F9863','marginRight':'3px'}}>&#xe7b0;</i>
+									地图
+							</span></p>
 							</li>
 							<li>
-								<p>店铺名称：嘟哥便利店</p>
-								<p>店铺主姓名：孙小娃</p>
-								<p>店铺主电话：16277622895</p>
+								<p>店铺名称：{data.name}</p>
+								<p>店铺主姓名：{data.keeper_name}</p>
+								<p>店铺主电话：{data.mobile}</p>
 							</li>
 							<li>
-								<p>开业时间：2019-07-06</p>
-								<p>介绍人：哔哥</p>
+								<p>开业时间：{data.created_at}</p>
+								<p>介绍人：{data.introducer || '无'}</p>
 							</li>
 							<li className="btns">
 								<Button size="small" onClick={this.showShopInformation}>店铺资料</Button>
@@ -150,25 +229,25 @@ class ShopDetails extends React.Component{
 						<li>
 							<h3>余额</h3>
 							<div>
-								10000
+								{data.balance}
 							</div>
 						</li>
 						<li>
 							<h3>充值总额</h3>
 							<div>
-								5000
-							</div>
-						</li>
-						<li>
-							<h3>充值总额</h3>
-							<div>
-								500
+								{data.total_recharge}
 							</div>
 						</li>
 						<li>
 							<h3>提现总额</h3>
 							<div>
-								500
+								{data.total_withdrawal}
+							</div>
+						</li>
+						<li>
+							<h3>返现总额</h3>
+							<div>
+								{data.total_commission}
 							</div>
 						</li>
 					</ul>
@@ -181,32 +260,37 @@ class ShopDetails extends React.Component{
 								<span onClick={this.showCodePayment}>详情</span>
 							</div>
 							<div className="li_body">
-								<ul>
-									<li>
-										<h4>
-											总金额:
-											<span>2000</span>
-										</h4>
-										<div className="d_detail">
-											<span>微信：800</span>
-											<span>支付宝：600</span>
-											<span>余额：500</span>
-											<span>招行一网通：200</span>
-										</div>
-									</li>
-									<li>
-										<h4>
-											本月金额:
-											<span>2000</span>
-										</h4>
-										<div className="d_detail">
-											<span>微信：800</span>
-											<span>支付宝：600</span>
-											<span>余额：500</span>
-											<span>招行一网通：200</span>
-										</div>
-									</li>
-								</ul>
+								{
+									data.code_scan?(
+										<ul>
+											<li>
+												<h4>
+													总金额:
+													<span>{data.code_scan.total_amount}</span>
+												</h4>
+												<div className="d_detail">
+													<span>微信：{data.code_scan.payment_mode_total_amount.wechat}</span>
+													<span>支付宝：{data.code_scan.payment_mode_total_amount.alipay}</span>
+													<span>余额：{data.code_scan.payment_mode_total_amount.balance}</span>
+													<span>招行一网通：{data.code_scan.payment_mode_total_amount.cmb}</span>
+												</div>
+											</li>
+											<li>
+												<h4>
+													本月金额:
+													<span>{data.code_scan.monthly_amount}</span>
+												</h4>
+												<div className="d_detail">
+													<span>微信：{data.code_scan.payment_mode_monthly_amount.wechat}</span>
+													<span>支付宝：{data.code_scan.payment_mode_monthly_amount.alipay}</span>
+													<span>余额：{data.code_scan.payment_mode_monthly_amount.balance}</span>
+													<span>招行一网通：{data.code_scan.payment_mode_monthly_amount.cmb}</span>
+												</div>
+											</li>
+										</ul>
+									):''
+								}
+								
 							</div>
 						</li>
 						<li>
@@ -214,53 +298,60 @@ class ShopDetails extends React.Component{
 								自提单
 							</div>
 							<div className="li_body">
-								<ul>
-									<li>
-										<h4>
-											总金额:
-											<span>1500</span>
-										</h4>
-										<span>本月金额：700</span>
-									
-									</li>
-									<li>
-										<h4>
-											总订单数:
-											<span>500</span>
-										</h4>
-										<span>本月订单数：300</span>
-									</li>
-									<li>
-										<h4>
-											总用户数:
-											<span>800</span>
-										</h4>
-										<span>本月用户数：220</span>
-									</li>
-								</ul>
+								{
+									data.self_pick?(
+										<ul>
+											<li>
+												<h4>
+													总金额:
+													<span>{data.self_pick.total_amount}</span>
+												</h4>
+												<span>本月金额：{data.self_pick.monthly_amount}</span>
+											
+											</li>
+											<li>
+												<h4>
+													总订单数:
+													<span>{data.self_pick.total_orders}</span>
+												</h4>
+												<span>本月订单数：{data.self_pick.monthly_orders}</span>
+											</li>
+											<li>
+												<h4>
+													总用户数:
+													<span>{data.self_pick.total_users}</span>
+												</h4>
+												<span>本月用户数：{data.self_pick.total_users}</span>
+											</li>
+										</ul>
+									):''
+								}
 							</div>
 						</li>
 						<li>
 							<div className="li_header">
 								扫码付订单
-								
 							</div>
 							<div className="li_body">
-								<ul>
-									<li className="centerLi">
-										<h4>
-											总订单数:
-											<span>1500</span>
-										</h4>
-									
-									</li>
-									<li className="centerLi">
-										<h4>
-											本月订单数:
-											<span>500</span>
-										</h4>
-									</li>
-								</ul>
+								{
+									data.code_scan?(
+										<ul>
+											<li className="centerLi">
+												<h4>
+													总订单数:
+													<span>{data.code_scan.total_orders}</span>
+												</h4>
+											
+											</li>
+											<li className="centerLi">
+												<h4>
+													本月订单数:
+													<span>{data.code_scan.monthly_orders}</span>
+												</h4>
+											</li>
+										</ul>
+									):''
+								}
 							</div>
 						</li>
 						<li>
@@ -268,23 +359,26 @@ class ShopDetails extends React.Component{
 								订货额
 							</div>
 							<div className="li_body">
-								<ul>
-									<li className="centerLi">
-										<h4>
-											总订货额:
-											<span>1500</span>
-										</h4>
-										<span>订货批次：2</span>
-									
-									</li>
-									<li className="centerLi">
-										<h4>
-											本月订货额:
-											<span>50000</span>
-										</h4>
-										<span>订货批次：2</span>
-									</li>
-								</ul>
+								{
+									data.order_product?(
+										<ul>
+											<li className="centerLi">
+												<h4>
+													总订货额:
+													<span>{data.order_product.total_amount}</span>
+												</h4>
+												<span>订货批次：{data.order_product.total_batch}</span>
+											</li>
+											<li className="centerLi">
+												<h4>
+													本月订货额:
+													<span>{data.order_product.monthly_amount}</span>
+												</h4>
+												<span>订货批次：{data.order_product.monthly_batch}</span>
+											</li>
+										</ul>
+									):''
+								}
 							</div>
 						</li>
 					</ul>
@@ -359,8 +453,14 @@ class ShopDetails extends React.Component{
 						店铺组
 					</div>
 					<div className="group_tags">
-						111111
-						222222
+						{
+							data.groups&&data.groups.length?(
+								data.groups.map(item=>{
+									return <Tag closable={true} key={item.id} onClose={()=>this.removeTag(item.id)}>
+										{item.name}
+									</Tag>
+								})):''
+						}
 					</div>
 				</div>
 			</div>
@@ -368,3 +468,9 @@ class ShopDetails extends React.Component{
 	}
 }
 export default ShopDetails
+
+
+
+
+
+

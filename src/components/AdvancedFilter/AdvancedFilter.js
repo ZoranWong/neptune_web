@@ -14,7 +14,7 @@ export default class AdvancedFilter extends React.Component{
 	};
 
 	clearFilter = () =>{
-		this.setState({groupAry:[{gid:getRandom(),conditions:[], logic: 'and'}]})
+		this.setState({groupAry:[{gid:getRandom(),conditions:[], logic: 'and'}]});
 		this.child.current.clearFilter()
 	};
 	
@@ -88,6 +88,8 @@ export default class AdvancedFilter extends React.Component{
 								watch={this.watch}
 								onSaveData={this.saveData}
 								groupNeedRemove={groupNeedRemove}
+								value={this.props.value}
+								operation={this.props.operation}
 							/>
 						})
 					}

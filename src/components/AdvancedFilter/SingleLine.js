@@ -1,7 +1,7 @@
 import React from 'react';
 import {Select,Cascader} from 'antd';
 import './index.sass'
-import {user_values,operation} from "../../utils/user_fields";
+//import {this.props.value,operation} from "../../utils/user_fields";
 import AdvancedFilterValues from './AdvancedFilterValues'
 const { Option } = Select;
 export default class SingleLine extends React.Component{
@@ -12,25 +12,25 @@ export default class SingleLine extends React.Component{
 		this.state = {
 			singleLineData:{},
 			activeKey:{},      // 选中key框对应的对象
-			activeOptions:operation[user_values[0].children[0].type][0].value,  //默认选中的option
+			activeOptions:this.props.operation[this.props.value[0].children[0].type][0].value,  //默认选中的option
 			activeValue:'',
-			type:operation[user_values[0].children[0].type][0].type
+			type:this.props.operation[this.props.value[0].children[0].type][0].type
 		};
 	};
 	
 	
 	onKeyChange = (value) => {
 		this.setState({activeValue:''});
-		let parent =  user_values.filter(item=>{
+		let parent =  this.props.value.filter(item=>{
 			return item.value == value[0]
 		});
 		let child = parent[0].children.filter(item=>{
 			return item.value == value[value.length -1]
 		});
-		let type = operation[child[0].type][0].type;
+		let type = this.props.operation[child[0].type][0].type;
 		this.setState({
 			activeKey:child[0],
-			activeOptions:operation[child[0].type][0].value,
+			activeOptions:this.props.operation[child[0].type][0].value,
 			type:type
 		});
 	}
@@ -44,11 +44,11 @@ export default class SingleLine extends React.Component{
 	onOperationChange = (value) => {
 		let type;
 		if(this.state.activeKey.type){
-			type = operation[this.state.activeKey.type].filter(item=>{
+			type = this.props.operation[this.state.activeKey.type].filter(item=>{
 				return item.value == value
 			})[0].type;
 		} else {
-			type = operation[user_values[0].children[0].type].filter(item=>{
+			type = this.props.operation[this.props.value[0].children[0].type].filter(item=>{
 				return item.value == value
 			})[0].type;
 		}
@@ -66,7 +66,7 @@ export default class SingleLine extends React.Component{
 				});
 			} else if(value == 'is null' || value == 'is not null'){
 				let data = {
-					key:this.state.activeKey.value || user_values[0].children[0].value,
+					key:this.state.activeKey.value || this.props.value[0].children[0].value,
 					operation:value,
 					value:'',
 					cid:this.cid
@@ -81,7 +81,7 @@ export default class SingleLine extends React.Component{
 	
 	valueChange = (value) =>{
 		let data = {
-			key:this.state.activeKey.value || user_values[0].children[0].name,
+			key:this.state.activeKey.value || this.props.value[0].children[0].name,
 			operation:this.state.activeOptions,
 			value:value,
 			cid:this.cid
@@ -97,9 +97,9 @@ export default class SingleLine extends React.Component{
 			<div className="singleBox">
 				<div style={{width:"100%"}} className="selectChild">
 					<Cascader
-						options={user_values}
+						options={this.props.value}
 						className="cascader"
-						defaultValue={[user_values[0].value,user_values[0].children[0].value]}
+						defaultValue={[this.props.value[0].value,this.props.value[0].children[0].value]}
 						expandTrigger="hover"
 						displayRender={this.displayRender}
 						onChange={this.onKeyChange}
@@ -113,11 +113,11 @@ export default class SingleLine extends React.Component{
 					>
 						{
 							this.state.activeKey&&this.state.activeKey.type?
-								(operation[this.state.activeKey.type].map(item=>(
+								(this.props.operation[this.state.activeKey.type].map(item=>(
 									<Option key={item.value}>{item.label}</Option>
 								)))
 								:
-								(operation[user_values[0].children[0].type].map(item=>(
+								(this.props.operation[this.props.value[0].children[0].type].map(item=>(
 									<Option key={item.value}>{item.label}</Option>
 								)))
 						}

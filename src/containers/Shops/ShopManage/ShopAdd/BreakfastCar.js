@@ -4,6 +4,7 @@ import Map from '../../../../components/Map/Map'
 import Address from "../../../../components/Address/Address";
 import {checkIdCard, checkPhone} from "../../../../utils/dataStorage";
 import {applicationsDetail, breakfastCar, editShop, shopKeeper} from "../../../../api/shops/shopManage";
+import CustomUpload from "../../../../components/Upload/Upload";
 class BreakfastCar extends React.Component{
 	constructor(props) {
 		super(props);
@@ -217,6 +218,18 @@ class BreakfastCar extends React.Component{
 									/>
 								)
 							}
+						</li>
+						<li className="li">
+							<span className="left">上传身份证照片：</span>
+							<CustomUpload text="正面" defaultImg={listData.id_card_images?listData.id_card_images[0]:''} />
+							<CustomUpload text="反面" defaultImg={listData.id_card_images?listData.id_card_images[1]:''}/>
+							<CustomUpload text="手持" defaultImg={listData.id_card_images?listData.id_card_images[2]:''}/>
+						</li>
+						<li className="li">
+							<span className="left">上传店铺照片：</span>
+							<CustomUpload text="上传" defaultImg={listData.shop_images?listData.shop_images[0]:''}/>
+							<CustomUpload text="上传" defaultImg={listData.shop_images?listData.shop_images[0]:''}/>
+							<CustomUpload text="上传" defaultImg={listData.shop_images?listData.shop_images[0]:''}/>
 						</li>
 						<li>
 							<span className="left">店铺状态</span>
