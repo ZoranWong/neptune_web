@@ -1,24 +1,17 @@
 import React from 'react';
-import {Button, Table} from 'antd'
-import './css/shopManage.sass'
 import {withRouter} from 'react-router-dom'
+import {Button, Table} from 'antd'
+import IconFont from "../../../utils/IconFont";
+import './css/goodsManage.sass'
+import {shops} from "../../../api/shops/shopManage";
+import {searchJson} from "../../../utils/dataStorage";
+import {user_values} from "../../../utils/user_fields";
+import AdvancedFilterComponent from "../../Shops/ShopManage/AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
-import {user_values} from "../../../utils/user_fields";
-import {searchJson} from "../../../utils/dataStorage";
-import {shops} from "../../../api/shops/shopManage";
 import CustomPagination from "../../../components/Layout/Pagination";
-import AdvancedFilterComponent from "./AdvancedFilterComponent";
-import AddGroup from "./AddGroup";
-import ShopApplication from './ShopApplication'
-import SelectChannel from './ShopAdd/SelectChannel'
-import ChangeStatus from './ChangeStatus'
-import BreakfastCar from "./ShopAdd/BreakfastCar";
-import Distributor from "./ShopAdd/Distributor";
-import ShopKeeper from "./ShopAdd/ShopKeeper";
-import {shopListInGroup} from "../../../api/shops/groups";
-
-class ShopManage extends React.Component{
+import ReleaseGoods from "./ReleaseGoods";
+class GoodsManage extends React.Component{
 	constructor(props){
 		const columns = [
 			{
@@ -55,14 +48,14 @@ class ShopManage extends React.Component{
 						<span
 							style={{'color':'#4F9863','cursor':'pointer'}}
 							onClick={()=>this.editShop(record)}
-							>编辑
+						>编辑
 						</span>
 						<span
 							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
 						>门店码
 						</span>
 					</div>
-					,
+				,
 			},
 		];
 		
@@ -73,44 +66,22 @@ class ShopManage extends React.Component{
 			id:'',
 			filterVisible:false,
 			customVisible:false,
-			applicationVisible:false,
-			groupVisible:false,
-			statusVisible:false,
-			distributor:false,
-			breakfast:false,
-			shopKeeper:false,
+			releaseVisible:false,
 			user_data:[],
 			checkedAry:[],     // 列表页选中的用户id组
 			paginationParams:{
 				logic_conditions:[],
 				search:''
 			},
-			recordId:'',
 			columns:columns
 		};
 	}
 	
 	componentWillMount() {
 		document.addEventListener('click', this.closeCustom);
-		if(this.props.location.query&&this.props.location.query.groupId){
-			this.setState({id:this.props.location.query.groupId,api:shopListInGroup})
-		}
 	}
 	
 	
-	editShop = (record) =>{
-		this.setState({recordId:record.id});
-		switch (record.channel) {
-			case "早餐车":
-				this.showBreakfast();
-				return;
-			case "分销员":
-				this.showDistributor();
-				return;
-			default :
-				this.showShopKeeper()
-		}
-	};
 	refresh = ()=>{
 		this.setState({
 			filterVisible:false,
@@ -127,32 +98,9 @@ class ShopManage extends React.Component{
 		this.props.history.push({pathname:"/shops/shopDetails",state:{id:record.id}})
 	};
 	
-	// 店铺申请
-	showApplication = () =>{
-		this.setState({applicationVisible:true})
-	};
-	closeApplication = ()=>{
-		this.setState({applicationVisible:false})
-	};
 	
-	//新增店铺
-	showAdd = () =>{
-		this.setState({addVisible:true})
-	};
-	closeAdd = ()=>{
-		this.setState({addVisible:false})
-	};
 	
-	// 加群组
-	closeAddGroup= () =>{
-		this.setState({groupVisible:false})
-	};
-	onSubmitGroup = () =>{
-		this.setState({groupVisible:false})
-	};
-	showAddGroup = (data) =>{
-		this.setState({groupVisible:true,conditions_data:data})
-	};
+	
 	
 	// 头部搜索框
 	search = (value) =>{
@@ -176,32 +124,7 @@ class ShopManage extends React.Component{
 			this.child.current.pagination(1)
 		});
 	};
-	
-	// 早餐车
-	showBreakfast = () =>{
-		this.setState({breakfast:true})
-	};
-	hideBreakfast = () =>{
-		this.setState({breakfast:false})
-	};
-	
-	// 分销员
-	showDistributor = () =>{
-		this.setState({distributor:true})
-	};
-	hideDistributor = () =>{
-		this.setState({distributor:false})
-	};
-	
-	// 商户
-	showShopKeeper = () =>{
-		this.setState({shopKeeper:true})
-	};
-	hideShopKeeper = () =>{
-		this.setState({shopKeeper:false})
-	};
-	
-	
+
 	//自定义显示项
 	showCustom = (e) =>{
 		e.nativeEvent.stopImmediatePropagation();
@@ -209,14 +132,6 @@ class ShopManage extends React.Component{
 	};
 	closeCustom = () =>{
 		this.setState({customVisible:false})
-	};
-	
-	// 修改店铺状态
-	showChangeStatus = () =>{
-		this.setState({statusVisible:true});
-	};
-	closeChangeStatus = () =>{
-		this.setState({statusVisible:false})
 	};
 	
 	
@@ -242,9 +157,20 @@ class ShopManage extends React.Component{
 	
 	// 分页器改变值
 	paginationChange = (list) =>{
-		console.log(list);
 		this.setState({user_data:list})
 	};
+	
+	// 发布商品
+	showRelease = () =>{
+		this.setState({releaseVisible:true})
+	};
+	hideRelease = () =>{
+		this.setState({releaseVisible:false})
+	};
+	
+	
+	
+	
 	
 	
 	
@@ -258,7 +184,6 @@ class ShopManage extends React.Component{
 				name: record.name,
 			})
 		};
-		
 		return (
 			<div>
 				<AdvancedFilterComponent
@@ -271,74 +196,18 @@ class ShopManage extends React.Component{
 					showAddTags={this.showAddTags}
 					closeAddTags={this.closeAddTags}
 				/>
-				
-				<AddGroup
-					visible={this.state.groupVisible}
-					onClose={this.closeAddGroup}
-					onSubmit={this.onSubmitGroup}
-					checkedAry={this.state.checkedAry}
-					conditionsData={this.state.conditions_data}
+				<ReleaseGoods
+					visible={this.state.releaseVisible}
+					onClose={this.hideRelease}
 				/>
 				
-				<BreakfastCar
-					visible={this.state.breakfast}
-					onClose={this.hideBreakfast}
-					onShow={this.showBreakfast}
-					recordId={this.state.recordId}
-				/>
-				<Distributor
-					visible={this.state.distributor}
-					onClose={this.hideDistributor}
-					onShow={this.showDistributor}
-					recordId={this.state.recordId}
-				/>
-				<ShopKeeper
-					visible={this.state.shopKeeper}
-					onClose={this.hideShopKeeper}
-					onShow={this.showShopKeeper}
-					recordId={this.state.recordId}
-				/>
-				
-				
-				<ShopApplication
-					visible={this.state.applicationVisible}
-					onClose={this.closeApplication}
-					onShow={this.showApplication}
-				/>
-				<SelectChannel
-					visible={this.state.addVisible}
-					onClose={this.closeAdd}
-				/>
-				
-				<ChangeStatus
-					visible={this.state.statusVisible}
-					onClose={this.closeChangeStatus}
-					checkedAry={this.state.checkedAry}
-					refresh={this.refresh}
-				/>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				<div className="s_header">
-					<Button size="small" type="primary" onClick={this.showApplication}>店铺申请</Button>
-					<Button size="small" onClick={this.showAdd}>新增店铺</Button>
+				<div className="goods_manage_header">
+					<Button type="primary" size="small" onClick={this.showRelease}>发布商品</Button>
+					<Button size="small">
+						<IconFont type="icon-download" />
+						批量导入
+					</Button>
 				</div>
-				
 				
 				<div className="s_body">
 					<div className="headerLeft">
@@ -347,13 +216,11 @@ class ShopManage extends React.Component{
 							text='请输入关键词'
 						/>
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
-						<Button size="small" disabled={this.state.checkedAry.length == 0} onClick={this.showChangeStatus}>修改店铺状态</Button>
+						<Button size="small" disabled={this.state.checkedAry.length == 0} >加入店铺组</Button>
 						<Button
 							size="small"
 							disabled={this.state.checkedAry.length == 0}
-							onClick={this.showAddGroup}
-						>加入群组组</Button>
-						<Button size="small" disabled={this.state.checkedAry.length == 0}>导出</Button>
+						>下架</Button>
 					</div>
 					<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 				</div>
@@ -385,12 +252,8 @@ class ShopManage extends React.Component{
 						valChange={this.paginationChange}
 					/>
 				</div>
-			
-			
-			
-			
 			</div>
 		)
 	}
 }
-export default withRouter(ShopManage)
+export default withRouter(GoodsManage)

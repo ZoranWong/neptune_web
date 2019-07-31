@@ -1,11 +1,11 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
-class Goods extends React.Component{
+class Groups extends React.Component{
 	
 	render(){
 		return (
-			<div>Mountain</div>
+			<div>goods</div>
 		)
 	}
 }
-export default withRouter(Goods)
+export default withRouter(Groups)

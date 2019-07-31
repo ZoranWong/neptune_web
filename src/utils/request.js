@@ -47,7 +47,7 @@ service.interceptors.response.use(
 		}
 		const { response: { status, statusText, data: { msg = '服务器发生错误' } }} = error;
 		const { response } = error;
-		console.log(response);
+		if(!response.status) return;
 		if(response.status === 422 && response.data.errors.introducer_code){
 			message.error('请输入正确的介绍人编号');
 			return Promise.reject(error);

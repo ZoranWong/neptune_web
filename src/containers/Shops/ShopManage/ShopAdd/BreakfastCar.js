@@ -79,7 +79,7 @@ class BreakfastCar extends React.Component{
 				this.handleCancel()
 			}).catch(_=>{})
 		} else {
-			shopKeeper(data).then(r=>{
+			breakfastCar(data).then(r=>{
 				message.success('新增店铺成功');
 				this.handleCancel()
 			})

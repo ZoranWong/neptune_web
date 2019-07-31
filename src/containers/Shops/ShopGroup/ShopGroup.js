@@ -40,9 +40,11 @@ class ShopGroup extends React.Component{
 		this.setState({detailVisible:false,detailId:''})
 	};
 	
-	goUserList = (record) =>{
-		this.props.history.push({pathname:'/user',query:{groupId:record.id}});
+	goGroupManage = (record) =>{
+		this.props.history.push({pathname:'/shops',query:{groupId:record.id}});
 	};
+	
+	
 	
 	render(){
 		return (
@@ -97,7 +99,7 @@ class ShopGroup extends React.Component{
 							className="column_group groupOperation"
 							render={(text, record) => (
 								<span>
-							<span className="operation" >详情</span>
+							<span className="operation" onClick={()=>this.goGroupManage(record)}>详情</span>
 							<Popconfirm
 								title="确定要删除该店铺组么"
 								okText="确定"

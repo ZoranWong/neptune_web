@@ -56,9 +56,9 @@ class Distributor extends React.Component{
 			application_id:listData.id || '',
 			channel_id:this.props.id||'',
 			channel_slug:'DISTRIBUTOR',
-			province_code:this.child.current.state.activeProvince,
-			city_code:this.child.current.state.activeCity,
-			area_code:this.child.current.state.activeArea,
+			province_code:this.child.current.state.activeProvince+'',
+			city_code:this.child.current.state.activeCity+'',
+			area_code:this.child.current.state.activeArea+'',
 			address:listData.address,
 			keeper_name:listData.applicant_name,
 			keeper_mobile:listData.mobile,
@@ -73,7 +73,7 @@ class Distributor extends React.Component{
 				this.handleCancel()
 			}).catch(_=>{})
 		} else {
-			shopKeeper(data).then(r=>{
+			distributor(data).then(r=>{
 				message.success('新增店铺成功');
 				this.handleCancel()
 			})

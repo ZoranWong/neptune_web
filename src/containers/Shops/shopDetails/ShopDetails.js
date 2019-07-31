@@ -192,7 +192,7 @@ class ShopDetails extends React.Component{
 							<li className="firstChild"><h3></h3></li>
 							<li >
 								<p>店铺渠道：{data.channel}</p>
-								<p>早餐编号：{data.breakfast_car_code}</p>
+								<p>早餐编号：{data.breakfast_car_code || '无'}</p>
 								<p>店铺编号：{data.code}</p>
 							</li>
 							<li>

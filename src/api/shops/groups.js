@@ -39,4 +39,12 @@ export function deleteGroup(params,groupId) {
 		params: params
 	})
 }
+// 店铺组的店铺列表
+export function shopListInGroup(params,groupId) {
+	return request({
+		url: `/api/backend/groups/${groupId}/models`,
+		method: 'get',
+		params: params
+	})
+}
 
