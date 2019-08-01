@@ -81,11 +81,12 @@ export default class SingleLine extends React.Component{
 	
 	valueChange = (value) =>{
 		let data = {
-			key:this.state.activeKey.value || this.props.value[0].children[0].name,
+			key:this.state.activeKey.value || this.props.value[0].children[0].value,
 			operation:this.state.activeOptions,
 			value:value,
 			cid:this.cid
 		};
+		console.log(this.props.value[0].children[0].value);
 		this.setState({singleLineData:data,activeValue:value});
 		this.props.onData(data);
 	};
@@ -124,6 +125,7 @@ export default class SingleLine extends React.Component{
 					</Select>
 					<AdvancedFilterValues
 						activeKey={this.state.activeKey}
+						api={this.props.api}
 						type={this.state.type}
 						onValueChange={this.valueChange} />
 				</div>

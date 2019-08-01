@@ -2,6 +2,7 @@ import React from 'react';
 import {Modal,Button} from "antd";
 import AdvancedFilter from '../../../components/AdvancedFilter/AdvancedFilter'
 import {user_values,operation} from "../../../utils/user_fields";
+import {getStatic,tags} from '../../../api/user'
 export default class AdvancedFilterComponent extends React.Component{
 	constructor(props){
 		super(props);
@@ -77,6 +78,7 @@ export default class AdvancedFilterComponent extends React.Component{
 						ref={this.child}
 						value={user_values}
 						operation={operation}
+						api={{getStatic,tags}}
 					/>
 				</Modal>
 			</div>

@@ -4,7 +4,7 @@ import './css/shopManage.sass'
 import {withRouter} from 'react-router-dom'
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
-import {user_values} from "../../../utils/user_fields";
+import {shop_values} from "../../../utils/shop_fields";
 import {searchJson} from "../../../utils/dataStorage";
 import {shops} from "../../../api/shops/shopManage";
 import CustomPagination from "../../../components/Layout/Pagination";
@@ -62,7 +62,6 @@ class ShopManage extends React.Component{
 						>门店码
 						</span>
 					</div>
-					,
 			},
 		];
 		
@@ -223,7 +222,7 @@ class ShopManage extends React.Component{
 	handleCustom = (e) =>{
 		let ary = [];
 		e.forEach(e=>{
-			user_values.forEach(u=>{
+			shop_values.forEach(u=>{
 				u.children.forEach(c=>{
 					if(e == c.value){
 						let obj = {};
@@ -237,12 +236,27 @@ class ShopManage extends React.Component{
 		ary[0].render = (text,record) => <span
 			style={{'color':'#4F9863','cursor':'pointer'}}
 			onClick={()=>this.jump(record)}>{text}</span>
+		
+		ary.push({
+			title: '操作',
+			render: (text,record) =>
+				<div>
+						<span
+							style={{'color':'#4F9863','cursor':'pointer'}}
+							onClick={()=>this.editShop(record)}
+						>编辑
+						</span>
+					<span
+						style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
+					>门店码
+						</span>
+				</div>
+		});
 		this.setState({columns:ary})
 	};
 	
 	// 分页器改变值
 	paginationChange = (list) =>{
-		console.log(list);
 		this.setState({user_data:list})
 	};
 	
@@ -268,8 +282,6 @@ class ShopManage extends React.Component{
 					refresh={this.refresh}
 					showAddGroup={this.showAddGroup}
 					closeAddGroup={this.closeAddGroup}
-					showAddTags={this.showAddTags}
-					closeAddTags={this.closeAddTags}
 				/>
 				
 				<AddGroup
@@ -318,22 +330,6 @@ class ShopManage extends React.Component{
 				/>
 				
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 				<div className="s_header">
 					<Button size="small" type="primary" onClick={this.showApplication}>店铺申请</Button>
 					<Button size="small" onClick={this.showAdd}>新增店铺</Button>
@@ -352,14 +348,17 @@ class ShopManage extends React.Component{
 							size="small"
 							disabled={this.state.checkedAry.length == 0}
 							onClick={this.showAddGroup}
-						>加入群组组</Button>
+						>加入群组</Button>
 						<Button size="small" disabled={this.state.checkedAry.length == 0}>导出</Button>
 					</div>
 					<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 				</div>
 				
 				<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
-					<CustomItem data={user_values}  handleCustom={this.handleCustom} />
+					<CustomItem
+						data={shop_values}
+						targetKeys={['name','keeper_name',"introducer_code",'total_code_scan_amount','channel','status']}
+						handleCustom={this.handleCustom} />
 				</div>
 				
 				<div className="chart u_chart">

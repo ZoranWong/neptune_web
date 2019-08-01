@@ -1,10 +1,9 @@
 import React from 'react'
-import {DatePicker,Input,Select,LocaleProvider,message} from 'antd'
+import {DatePicker,Input,Select,LocaleProvider} from 'antd'
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
 import {regions} from "../../api/common";
 import './index.sass'
-import {getStatic,tags} from '../../api/user'
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 const OPTIONS = ['Apples', 'Nails', 'Bananas', 'Helicopters'];
@@ -27,7 +26,8 @@ export default class AdvancedFilterValues extends React.Component{
 			areaData:[],
 			selectedTagItems:[],
 			selectedGroupItems:[],
-			scrollPage:1
+			scrollPage:1,
+			selectedChannelItems:[]
 		}
 	}
 	
@@ -48,18 +48,30 @@ export default class AdvancedFilterValues extends React.Component{
 			});
 			this.setState({provinceData:r,cityData:cityAry,areaData:areaAry})
 		}).catch(_=>{});
-
-		getStatic({}).then(r=>{
-			this.setState({selectedGroupItems:r.data})
-		});
-		this.getTagList(1)
+		
+		if(this.props.api.getStatic){
+			this.props.api.getStatic({}).then(r=>{
+				this.setState({selectedGroupItems:r.data})
+			});
+			this.props.api.tags({limit:10,page:1}).then(r=>{
+				this.setState({selectedTagItems:r.data})
+			});
+		} else if(this.props.api.getChannels){
+			this.props.api.getChannels({}).then(r=>{
+				this.setState({selectedChannelItems:r.data})
+			});
+			this.props.api.groups({}).then(r=>{
+				this.setState({selectedGroupItems:r.data})
+			});
+		}
+		
 
 	}
 
 	getTagList = (page) =>{
-		tags({limit:10,page:page}).then(r=>{
+		this.props.api.tags({limit:10,page:page}).then(r=>{
 			if(!r.data.length) return;
-			this.setState({selectedTagItems:this.state.selectedTagItems.concat(r.data)})
+			this.setState({selectedTagItems:this.state.selectedTagItems})
 		})
 	};
 	
@@ -115,7 +127,6 @@ export default class AdvancedFilterValues extends React.Component{
 	
 	renderTree = () =>{
 		const { selectedItems } = this.state;
-		const filteredOptions = OPTIONS.filter(o => !selectedItems.includes(o));
 		switch (this.state.type) {
 			case 'timestamp':
 				return <span>
@@ -193,7 +204,7 @@ export default class AdvancedFilterValues extends React.Component{
 							}
 						
 						>
-						{filteredOptions.map(item => (
+						{OPTIONS.map(item => (
 							<Select.Option key={item} label={item} value={item}>
 								{item}
 							</Select.Option>
@@ -217,9 +228,54 @@ export default class AdvancedFilterValues extends React.Component{
 						}
 					
 					>
-						{filteredOptions.map(item => (
+						{this.state.selectedChannelItems.map(item => (
 							<Select.Option key={item} label={item} value={item}>
 								{item}
+							</Select.Option>
+						))}
+					</Select>
+				</span>;
+				break;
+			case 'selectedChannelOneBox':
+				return <span>
+					<Select
+						defaultActiveFirstOption={false}
+						value={selectedItems}
+						className='selectedBox tagBox'
+						onChange={this.handleChange}
+						optionLabelProp="label"
+						allowClear
+						optionFilterProp="children"
+						filterOption={(input, option) =>
+							option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+						}
+					>
+						{this.state.selectedChannelItems.map(item => (
+							<Select.Option key={item.id+""} label={item.name} value={item.id+''}>
+								{item.name}
+							</Select.Option>
+						))}
+					</Select>
+				</span>;
+				break;
+			case 'selectedChannelBox':
+				return <span>
+					<Select
+						defaultActiveFirstOption={false}
+						mode="tags"
+						value={selectedItems}
+						className='selectedBox tagBox'
+						onChange={this.handleChange}
+						optionLabelProp="label"
+						allowClear
+						optionFilterProp="children"
+						filterOption={(input, option) =>
+							option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+						}
+					>
+						{this.state.selectedChannelItems.map(item => (
+							<Select.Option key={item.id+""} label={item.name} value={item.id+''}>
+								{item.name}
 							</Select.Option>
 						))}
 					</Select>

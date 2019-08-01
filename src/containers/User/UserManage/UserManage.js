@@ -243,7 +243,10 @@ class UserManage extends React.Component{
 				</div>
 				
 				<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
-					<CustomItem data={user_values}  handleCustom={this.handleCustom} />
+					<CustomItem
+						data={user_values}
+						targetKeys={['name','mobile',"created_at",'charge_amount','total_purchase_amount','purchased_count','account_balance']}
+						handleCustom={this.handleCustom} />
 				</div>
 				
 				<div className="chart u_chart">

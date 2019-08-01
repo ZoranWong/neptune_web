@@ -15,7 +15,7 @@ export default class CustomItem extends React.Component{
 		});
 		this.state = {
 			dataList: ary,
-			targetKeys: ['name','mobile',"created_at",'charge_amount','total_purchase_amount','purchased_count','account_balance'],
+			targetKeys: props.targetKeys,
 			selectedKeys:['name']
 		};
 	}

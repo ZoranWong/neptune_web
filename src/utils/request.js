@@ -41,7 +41,7 @@ service.interceptors.response.use(
     },
     error => {
 
-		if (error === undefined || error.code === 'ECONNABORTED') {
+		if (error === undefined || error.code === '502') {
 			message.error("服务器请求超时");
 			return Promise.reject(error)
 		}

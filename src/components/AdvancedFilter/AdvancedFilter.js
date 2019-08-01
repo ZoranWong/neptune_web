@@ -90,6 +90,7 @@ export default class AdvancedFilter extends React.Component{
 								groupNeedRemove={groupNeedRemove}
 								value={this.props.value}
 								operation={this.props.operation}
+								api={this.props.api}
 							/>
 						})
 					}

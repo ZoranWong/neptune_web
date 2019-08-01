@@ -1,7 +1,10 @@
 import React from 'react';
 import {Modal,Button} from "antd";
 import AdvancedFilter from '../../../components/AdvancedFilter/AdvancedFilter'
-import {user_values,operation} from "../../../utils/user_fields";
+import {shop_values,operation} from "../../../utils/shop_fields";
+import {getChannels} from "../../../api/shops/channel";
+import {groups} from "../../../api/shops/groups";
+
 export default class AdvancedFilterComponent extends React.Component{
 	constructor(props){
 		super(props);
@@ -28,13 +31,8 @@ export default class AdvancedFilterComponent extends React.Component{
 	};
 	closeAdd = ()=>{
 		this.props.closeAddGroup();
-		this.props.closeAddTags()
 	};
-
-
-	showAddTags = () =>{
-		this.props.showAddTags(this.child.current.state.data)
-	};
+	
 	
 	render(){
 		return (
@@ -57,12 +55,6 @@ export default class AdvancedFilterComponent extends React.Component{
 							>加群组</Button>
 							<Button
 								size="small"
-								type="default"
-								className="e_btn"
-								onClick={this.showAddTags}
-							>加标签</Button>
-							<Button
-								size="small"
 								className="e_btn"
 								onClick={this.clearFilter}
 							>清空筛选条件</Button>
@@ -75,8 +67,9 @@ export default class AdvancedFilterComponent extends React.Component{
 				>
 					<AdvancedFilter
 						ref={this.child}
-						value={user_values}
+						value={shop_values}
 						operation={operation}
+						api={{groups,getChannels}}
 					/>
 				</Modal>
 			</div>
