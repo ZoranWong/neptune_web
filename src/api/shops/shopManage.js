@@ -1,4 +1,12 @@
 import request from '../../utils/request.js'
+// 店铺申请总数
+export function applicationsCount(params) {
+	return request({
+		url: '/api/backend/shops/applications/count',
+		method: 'get',
+		params: params
+	})
+}
 // 店铺申请列表
 export function applications(params) {
 	return request({

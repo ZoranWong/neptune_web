@@ -6,7 +6,7 @@ import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import {shop_values} from "../../../utils/shop_fields";
 import {searchJson} from "../../../utils/dataStorage";
-import {shops} from "../../../api/shops/shopManage";
+import {shops,applicationsCount} from "../../../api/shops/shopManage";
 import CustomPagination from "../../../components/Layout/Pagination";
 import AdvancedFilterComponent from "./AdvancedFilterComponent";
 import AddGroup from "./AddGroup";
@@ -79,6 +79,7 @@ class ShopManage extends React.Component{
 			breakfast:false,
 			shopKeeper:false,
 			user_data:[],
+			applications_count:0,
 			checkedAry:[],     // 列表页选中的用户id组
 			paginationParams:{
 				logic_conditions:[],
@@ -94,6 +95,9 @@ class ShopManage extends React.Component{
 		if(this.props.location.query&&this.props.location.query.groupId){
 			this.setState({id:this.props.location.query.groupId,api:shopListInGroup})
 		}
+		// applicationsCount({}).then(r=>{
+		// 	console.log(r);
+		// })
 	}
 	
 	
@@ -331,7 +335,7 @@ class ShopManage extends React.Component{
 				
 				
 				<div className="s_header">
-					<Button size="small" type="primary" onClick={this.showApplication}>店铺申请</Button>
+					<Button size="small" type="primary" onClick={this.showApplication}>店铺申请({this.state.applications_count})</Button>
 					<Button size="small" onClick={this.showAdd}>新增店铺</Button>
 				</div>
 				

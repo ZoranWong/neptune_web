@@ -97,7 +97,7 @@ class Distributor extends React.Component{
 					cancelText="取消"
 					onOk={this.handleSubmit}
 				>
-					<ul className="mainUl">
+					<ul className="mainUl shops-input">
 						<li>
 							<span className="left">店铺渠道：</span>
 							{
@@ -175,9 +175,12 @@ class Distributor extends React.Component{
 						</li>
 						<li  className="li">
 							<span className="left">上传身份证照片</span>
-							<CustomUpload defaultImg={listData.id_card_images?listData.id_card_images[0]:''} text="正面" />
-							<CustomUpload defaultImg={listData.id_card_images?listData.id_card_images[1]:''} text="反面"/>
-							<CustomUpload defaultImg={listData.id_card_images?listData.id_card_images[2]:''} text="手持"/>
+							<div className="imgs">
+								<CustomUpload defaultImg={listData.id_card_images?listData.id_card_images[0]:''} text="正面" />
+								<CustomUpload defaultImg={listData.id_card_images?listData.id_card_images[1]:''} text="反面"/>
+								<CustomUpload defaultImg={listData.id_card_images?listData.id_card_images[2]:''} text="手持"/>
+							</div>
+							
 						</li>
 					</ul>
 				

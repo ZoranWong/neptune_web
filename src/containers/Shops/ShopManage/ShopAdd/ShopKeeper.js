@@ -152,7 +152,7 @@ class ShopKeeper extends React.Component{
 					cancelText="取消"
 					onOk={this.handleSubmit}
 				>
-					<ul className="mainUl">
+					<ul className="mainUl shops-input">
 						<li>
 							<span className="left">店铺渠道：</span>
 							{
@@ -169,7 +169,7 @@ class ShopKeeper extends React.Component{
 								):(
 									<Select
 										value={this.state.activeChannel}
-										style={{width:'300px'}}
+										style={{width:'320px'}}
 										onChange={this.handleChannelChange}
 										defaultActiveFirstOption={false}
 									>
@@ -268,19 +268,28 @@ class ShopKeeper extends React.Component{
 						</li>
 						<li className="li">
 							<span className="left">上传身份证照片：</span>
-							<CustomUpload text="正面" defaultImg={listData.id_card_images?listData.id_card_images[0]:''} />
-							<CustomUpload text="反面" defaultImg={listData.id_card_images?listData.id_card_images[1]:''}/>
-							<CustomUpload text="手持" defaultImg={listData.id_card_images?listData.id_card_images[2]:''}/>
+							<div className="imgs">
+								<CustomUpload text="正面" defaultImg={listData.id_card_images?listData.id_card_images[0]:''} />
+								<CustomUpload text="反面" defaultImg={listData.id_card_images?listData.id_card_images[1]:''}/>
+								<CustomUpload text="手持" defaultImg={listData.id_card_images?listData.id_card_images[2]:''}/>
+							</div>
+							
 						</li>
 						<li className="li">
 							<span className="left">上传营业执照：</span>
-							<CustomUpload text="上传" defaultImg={listData.business_license_images?listData.business_license_images[0]:''}/>
+							<div className="imgs">
+								<CustomUpload text="上传" defaultImg={listData.business_license_images?listData.business_license_images[0]:''}/>
+							</div>
+							
 						</li>
 						<li className="li">
 							<span className="left">上传店铺照片：</span>
-							<CustomUpload text="上传" defaultImg={listData.shop_images?listData.shop_images[0]:''}/>
-							<CustomUpload text="上传" defaultImg={listData.shop_images?listData.shop_images[0]:''}/>
-							<CustomUpload text="上传" defaultImg={listData.shop_images?listData.shop_images[0]:''}/>
+							<div className="imgs">
+								<CustomUpload text="上传" defaultImg={listData.shop_images?listData.shop_images[0]:''}/>
+								<CustomUpload text="上传" defaultImg={listData.shop_images?listData.shop_images[0]:''}/>
+								<CustomUpload text="上传" defaultImg={listData.shop_images?listData.shop_images[0]:''}/>
+							</div>
+							
 						</li>
 						<li>
 							<span className="left">店铺状态</span>

@@ -96,7 +96,7 @@ class DistributorDisabled extends React.Component{
 				>
 					{
 						this.state.data.channel_name?(
-							<ul className="mainUl">
+							<ul className="mainUl ">
 								<li>
 									<span className="left">店铺渠道：</span>
 									<span>{data.channel_name}</span>

@@ -18,7 +18,7 @@ export default class AdvancedFilterComponent extends React.Component{
 	
 	
 	onSubmit = () =>{
-		console.log(this.child.current.state.data);
+		
 		this.props.onSubmit(this.child.current.state.data);
 		this.handleCancel()
 	};

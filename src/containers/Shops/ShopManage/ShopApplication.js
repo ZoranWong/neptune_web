@@ -108,7 +108,7 @@ class ShopApplication extends React.Component{
 				
 				<Modal
 					title="申请列表"
-					width={1000}
+					width={520}
 					visible={this.props.visible}
 					onCancel={this.handleCancel}
 					maskClosable={false}
