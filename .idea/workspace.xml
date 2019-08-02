@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Classification/css/classification.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/GoodDetails/GoodDetails.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/GoodDetails/shopDetail.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Goods/Classification/Classification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/Classification/Classification.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/GoodsManage/GoodsManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/GoodsManage/GoodsManage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/GoodsManage/ReleaseGoods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/GoodsManage/ReleaseGoods.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Shops/shopDetails/css/shop_details.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Shops/shopDetails/css/shop_details.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/Classification/css/classification.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/Classification/css/classification.sass" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -250,6 +243,7 @@
       <workItem from="1564622297285" duration="9170000" />
       <workItem from="1564632631804" duration="9190000" />
       <workItem from="1564707992156" duration="10312000" />
+      <workItem from="1564728686303" duration="4679000" />
     </task>
     <servers />
   </component>

@@ -36,7 +36,8 @@ class Classification extends React.Component{
 	render(){
 		const {data} = this.state;
 		function NestedTable() {
-			const expandedRowRender = () => {
+			const expandedRowRender = (record) => {
+				console.log(record);
 				const columns = [
 					{ title: 'cName', dataIndex: 'cName', key: 'cName' },
 					{
@@ -50,6 +51,7 @@ class Classification extends React.Component{
 						),
 					},
 				];
+				//  Here to get ChildClassification , params :record.id
 				const data = [];
 				for (let i = 0; i < 3; ++i) {
 					data.push({
@@ -57,7 +59,12 @@ class Classification extends React.Component{
 						cName:'牛肉包'
 					});
 				}
-				return <Table columns={columns} dataSource={data} pagination={false} showHeader={false}/>;
+				return <Table
+							className="innerTable"
+							columns={columns}
+							dataSource={data}
+							pagination={false}
+							showHeader={false}/>;
 			};
 			
 			const columns = [
@@ -84,6 +91,7 @@ class Classification extends React.Component{
 					columns={columns}
 					expandedRowRender={expandedRowRender}
 					dataSource={data}
+					pagination={false}
 				/>
 			);
 		}
