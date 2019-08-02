@@ -1,0 +1,46 @@
+
+.classification
+	.ant-table-thead
+		tr
+			th
+				&:first-child
+					padding-left: 40px!important
+	.ant-table-expanded-row
+		transition: all 0.5s !important
+		background: #fff
+	.ant-table-row-expand-icon
+		border: none !important
+		background: transparent !important
+		position: relative
+		&:after
+			position: absolute
+			content: ""
+			display: block
+			width: 8px
+			height: 8px
+			border: #666 solid
+			border-width: 1px 1px 0 0
+			transform: rotate(45deg)
+			left: 7px
+			top: 7px
+	.ant-table-row-expanded
+		position: relative
+		&:after
+			position: absolute
+			content: ""
+			display: block
+			width: 8px
+			height: 8px
+			border: #666 solid
+			border-width: 1px 1px 0 0
+			transform: rotate(135deg)
+			left: 10px
+			top: 3px
+	.ant-table-tbody
+		span
+			color: #4f8963
+	.operation
+		color: #4f8963
+		span
+			&:first-child
+				margin-right: 15px

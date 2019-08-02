@@ -1,5 +1,5 @@
 import React from 'react';
-import {Input, Modal, Upload, Icon} from "antd";
+import {Input, Modal, Upload, Icon, Radio} from "antd";
 import './css/releaseGoods.sass'
 import CustomUpload from "../../../components/Upload/Upload";
 function getBase64(file) {
@@ -193,6 +193,22 @@ export default class ReleaseGoods extends React.Component{
 							<Input
 								className="liInput"
 							/>
+						</li>
+						<li>
+							<span className="left">保存方式</span>
+							<Radio.Group >
+								<Radio value={100}>冷冻</Radio>
+								<Radio value={200}>冷藏</Radio>
+								<Radio value={200}>常温</Radio>
+								<Radio value={200}>热食</Radio>
+							</Radio.Group>
+						</li>
+						<li>
+							<span className="left">商品状态</span>
+							<Radio.Group>
+								<Radio value={100}>上架</Radio>
+								<Radio value={200}>下架</Radio>
+							</Radio.Group>
 						</li>
 					</ul>
 				

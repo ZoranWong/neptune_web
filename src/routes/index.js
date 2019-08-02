@@ -15,6 +15,7 @@ import BreakfastOrder from "../containers/Goods/BreakfastOrder/BreakfastOrder";
 import ClientOrder from "../containers/Goods/ClientOrder/ClientOrder";
 import Activities from "../containers/Goods/Activities/Activities";
 import DistributionMall from "../containers/Goods/DistributionMall/DistributionMall";
+import GoodDetails from "../containers/Goods/GoodDetails/GoodDetails";
 
 import Order from "../containers/Order/Order";
 
@@ -82,6 +83,7 @@ const Routes = () =>(
 		<Route exact={true} path="/goods/clientOrder" render={props => onEnter(ClientOrder, props)} />
 		<Route exact={true} path="/goods/activities" render={props => onEnter(Activities, props)} />
 		<Route exact={true} path="/goods/distributionMall" render={props => onEnter(DistributionMall, props)} />
+		<Route exact={true} path="/goods/goodDetails" render={props => onEnter(GoodDetails, props)} />
 		
 		{/*订单*/}
 		<Route exact={true} path="/order" render={props => onEnter(Order, props)} />

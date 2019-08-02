@@ -95,7 +95,7 @@ class GoodsManage extends React.Component{
 	};
 	
 	jump = (record) =>{
-		this.props.history.push({pathname:"/shops/shopDetails",state:{id:record.id}})
+		this.props.history.push({pathname:"/goods/goodDetails"})
 	};
 	
 	
