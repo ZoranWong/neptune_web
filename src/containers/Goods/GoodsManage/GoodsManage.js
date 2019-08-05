@@ -1,6 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
-import {Button, Table} from 'antd'
+import {Button, Table,Modal} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/goodsManage.sass'
 import {shops} from "../../../api/shops/shopManage";
@@ -168,6 +168,39 @@ class GoodsManage extends React.Component{
 		this.setState({releaseVisible:false})
 	};
 	
+	// 下架商品
+	unSale = () =>{
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			content: (
+				<div className="U_confirm">
+					确定下架商品么？
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				// 确定按钮执行操作
+			}
+		});
+	};
 	
 	
 	
@@ -220,6 +253,7 @@ class GoodsManage extends React.Component{
 						<Button
 							size="small"
 							disabled={this.state.checkedAry.length == 0}
+							onClick={this.unSale}
 						>下架</Button>
 					</div>
 					<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
