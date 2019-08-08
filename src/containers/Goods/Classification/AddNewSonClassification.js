@@ -1,13 +1,22 @@
 import React from "react";
 import {Input, Modal} from "antd";
-import './css/warningStock.sass'
-export default class WarningStock extends React.Component{
+import './css/addNewSonClassification.sass'
+export default class AddNewSonClassification extends React.Component{
+	constructor(props) {
+		super(props);
+		this.state = {
+			value:'',
+			disabled:false
+		};
+	}
 	
-	state = {
-		value:''
-	};
+	componentWillReceiveProps(nextProps, nextContext) {
+		if(!nextProps.name) return;
+		this.setState({value:nextProps.name,disabled:true})
+	}
 	
 	handleCancel = () =>{
+		this.setState({value:'',disabled:false});
 		this.props.onCancel()
 	};
 	
@@ -19,7 +28,7 @@ export default class WarningStock extends React.Component{
 		return (
 			<div>
 				<Modal
-					title="警戒库存"
+					title={this.state.disabled?"修改分类名称":"添加子分类"}
 					width={520}
 					visible={this.props.visible}
 					onCancel={this.handleCancel}
@@ -29,7 +38,7 @@ export default class WarningStock extends React.Component{
 					onOk={this.handleSubmit}
 				>
 					<div className="warningStock">
-						设置警戒库存
+						分类名称
 						<Input
 							value={this.state.value}
 							onChange={(e)=>{

@@ -108,7 +108,7 @@ export default class ReleaseGoods extends React.Component{
 							<Input
 								className="liInput"
 								value={this.state.goodIntro}
-								maxLength="20"
+								maxLength={20}
 								onChange={(e)=>{
 									this.setState({goodIntro:e.target.value})
 								}}
@@ -121,7 +121,7 @@ export default class ReleaseGoods extends React.Component{
 							<span className="left">商品描述</span>
 							<Input.TextArea
 								className="textAreaInput"
-								maxLength="50"
+								maxLength={50}
 								value={this.state.goodDesp}
 								onChange={(e)=>{
 									this.setState({goodDesp:e.target.value})
@@ -135,7 +135,7 @@ export default class ReleaseGoods extends React.Component{
 							<span className="left">分享描述</span>
 							<Input.TextArea
 								className="textAreaInput"
-								maxLength="50"
+								maxLength={50}
 								value={this.state.shareDesp}
 								onChange={(e)=>{
 									this.setState({shareDesp:e.target.value})

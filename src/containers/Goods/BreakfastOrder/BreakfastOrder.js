@@ -10,6 +10,7 @@ import AdvancedFilterComponent from "../../Shops/ShopManage/AdvancedFilterCompon
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomPagination from "../../../components/Layout/Pagination";
 import WarningStock from "../Components/WarningStock";
+import ShelfGoods from "../Components/ShelfGoods";
 class BreakfastOrder extends React.Component{
 	constructor(props){
 		const columns = [
@@ -80,6 +81,7 @@ class BreakfastOrder extends React.Component{
 			api:shops,
 			filterVisible:false,  // 高级筛选
 			warningStockVisible:false,   // 售卖范围
+			shelfGoodsVisible:false,  // 上架商品
 			user_data:[],
 			checkedAry:[],     // 列表页选中的用户id组
 			paginationParams:{
@@ -194,7 +196,18 @@ class BreakfastOrder extends React.Component{
 		console.log(value);
 	};
 	
+	// 上架商品
+	showShelfGoods = () =>{
+		this.setState({shelfGoodsVisible:true})
+	};
 	
+	hideShelfGoods = () =>{
+		this.setState({shelfGoodsVisible:false})
+	};
+	
+	onSubmitShelfGoods = (value) =>{
+		console.log(value);
+	};
 	
 	
 	render(){
@@ -222,6 +235,12 @@ class BreakfastOrder extends React.Component{
 					onSubmit={this.onSubmitWarningStock}
 				/>
 				
+				<ShelfGoods
+					visible={this.state.shelfGoodsVisible}
+					onCancel={this.hideShelfGoods}
+					onSubmit={this.onSubmitShelfGoods}
+				/>
+				
 				<SaleRange
 					visible={this.state.saleRange}
 					onCancel={this.hideSaleRange}
@@ -229,7 +248,7 @@ class BreakfastOrder extends React.Component{
 				
 				
 				<div className="breakfast_header">
-					<Button type="primary" size="small" onClick={this.showRelease}>上架商品</Button>
+					<Button type="primary" size="small" onClick={this.showShelfGoods}>上架商品</Button>
 					<Button size="small">
 						<IconFont type="icon-edit" />
 						修改库存

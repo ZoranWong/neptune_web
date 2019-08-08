@@ -134,7 +134,7 @@ export function unCompile(code) {
 }
 
 export function searchJson(data) {
-    let params = Base64.encode(encodeURIComponent(JSON.stringify(data)));
+    let params = encodeURIComponent(Base64.encode(JSON.stringify(data)));
     return params
 }
 

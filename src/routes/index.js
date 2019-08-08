@@ -26,6 +26,7 @@ import ShopGroup from '../containers/Shops/ShopGroup/ShopGroup'
 import FrozenShop from '../containers/Shops/FrozenShop/FrozenShop'
 import ShopChannel from '../containers/Shops/ShopChannel/ShopChannel'
 import ShopDetails from "../containers/Shops/shopDetails/ShopDetails";
+import ReleaseGoods from "../containers/Goods/ReleaseGoods/ReleaseGoods";
 
 import Staffing from "../containers/Setting/Staffing";
 import WarningSetting from '../containers/Setting/WarningSetting'
@@ -84,6 +85,7 @@ const Routes = () =>(
 		<Route exact={true} path="/goods/activities" render={props => onEnter(Activities, props)} />
 		<Route exact={true} path="/goods/distributionMall" render={props => onEnter(DistributionMall, props)} />
 		<Route exact={true} path="/goods/goodDetails" render={props => onEnter(GoodDetails, props)} />
+		<Route exact={true} path="/goods/releaseGoods" render={props => onEnter(ReleaseGoods, props)} />
 		
 		{/*订单*/}
 		<Route exact={true} path="/order" render={props => onEnter(Order, props)} />

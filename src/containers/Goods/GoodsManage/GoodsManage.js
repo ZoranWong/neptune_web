@@ -66,7 +66,6 @@ class GoodsManage extends React.Component{
 			id:'',
 			filterVisible:false,
 			customVisible:false,
-			releaseVisible:false,
 			user_data:[],
 			checkedAry:[],     // 列表页选中的用户id组
 			paginationParams:{
@@ -162,10 +161,8 @@ class GoodsManage extends React.Component{
 	
 	// 发布商品
 	showRelease = () =>{
-		this.setState({releaseVisible:true})
-	};
-	hideRelease = () =>{
-		this.setState({releaseVisible:false})
+		//this.setState({releaseVisible:true})
+		this.props.history.push({pathname:"/goods/releaseGoods"})
 	};
 	
 	// 下架商品
@@ -228,10 +225,6 @@ class GoodsManage extends React.Component{
 					closeAddGroup={this.closeAddGroup}
 					showAddTags={this.showAddTags}
 					closeAddTags={this.closeAddTags}
-				/>
-				<ReleaseGoods
-					visible={this.state.releaseVisible}
-					onClose={this.hideRelease}
 				/>
 				
 				<div className="goods_manage_header">
