@@ -3,6 +3,13 @@
 		height: 50px
 		display: flex
 		align-items: center
+		z-index: 9999
+		.ant-checkbox-indeterminate
+			.ant-checkbox-inner
+				background: #4f8963!important
+				&:after
+					background: #fff
+					height: 4px !important
 	.ant-transfer-list-search
 		margin-top: 10px
 	.ant-transfer-list-search-action
@@ -13,6 +20,12 @@
 		.ant-table-thead
 			height: 30px !important
 			border: 0!important
+			.ant-checkbox-indeterminate
+				.ant-checkbox-inner
+					background: #4f8963!important
+					&:after
+						background: #fff
+						height: 4px !important
 			tr
 				height: 30px !important
 				border: 0!important

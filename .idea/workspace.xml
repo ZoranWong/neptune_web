@@ -2,35 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/api/goods/classification.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/api/goods/groups.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Editor/Editor.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Editor/index.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Classification/AddNewClassification.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Classification/AddNewSonClassification.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Classification/css/addNewClassification.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Classification/css/addNewSonClassification.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Components/ShelfGoods.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Components/css/shelfGoods.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Groups/CreateNewGroup.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Groups/GroupDetail.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Groups/css/createNewGroup.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Groups/css/shopGroup.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/ReleaseGoods.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/index.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/BreakfastOrder/BreakfastOrder.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/BreakfastOrder/BreakfastOrder.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/Classification/Classification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/Classification/Classification.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/Classification/css/classification.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/Classification/css/classification.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/Components/WarningStock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/Components/WarningStock.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/GoodsManage/GoodsManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/GoodsManage/GoodsManage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/GoodsManage/ReleaseGoods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/GoodsManage/ReleaseGoods.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/Groups/Groups.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/Groups/Groups.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/style/nav.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/nav.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/dataStorage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/dataStorage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/Components/ShelfGoods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/Components/ShelfGoods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/Components/css/shelfGoods.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/Components/css/shelfGoods.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/ReleaseGoods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/ReleaseGoods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/index.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/index.sass" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -272,7 +249,8 @@
       <workItem from="1564728686303" duration="4679000" />
       <workItem from="1564965187256" duration="14690000" />
       <workItem from="1565143483146" duration="9494000" />
-      <workItem from="1565230018519" duration="15239000" />
+      <workItem from="1565230018519" duration="15900000" />
+      <workItem from="1565312978449" duration="12585000" />
     </task>
     <servers />
   </component>

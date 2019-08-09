@@ -37,42 +37,60 @@ const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
 				selectedRowKeys: listSelectedKeys,
 			};
 			
-			return (
-				<div>
-					<Table
-						rowSelection={rowSelection}
-						columns={columns}
-						showHeader={showHeader}
-						dataSource={filteredItems}
-						size="small"
-						pagination={false}
-						style={{ pointerEvents: listDisabled ? 'none' : null }}
-						onRow={({ key, disabled: itemDisabled }) => ({
-							onClick: () => {
-								if (itemDisabled || listDisabled) return;
-								onItemSelect(key, !listSelectedKeys.includes(key));
-							},
-						})}
-					/>
-					<Table
-						rowSelection={rowSelection}
-						columns={columns}
-						showHeader={showHeader}
-						dataSource={filteredItems}
-						size="small"
-						pagination={false}
-						style={{ pointerEvents: listDisabled ? 'none' : null }}
-						onRow={({ key, disabled: itemDisabled }) => ({
-							onClick: () => {
-								if (itemDisabled || listDisabled) return;
-								onItemSelect(key, !listSelectedKeys.includes(key));
-							},
-						})}
-					/>
-				</div>
-				
-				
-			);
+			if(direction === 'left'){
+				return (
+					<div>
+						<Table
+							rowSelection={rowSelection}
+							columns={columns}
+							showHeader={showHeader}
+							dataSource={filteredItems}
+							size="small"
+							pagination={false}
+							style={{ pointerEvents: listDisabled ? 'none' : null }}
+							onRow={({ key, disabled: itemDisabled }) => ({
+								onClick: () => {
+									if (itemDisabled || listDisabled) return;
+									onItemSelect(key, !listSelectedKeys.includes(key));
+								},
+							})}
+						/>
+						<Table
+							rowSelection={rowSelection}
+							columns={columns}
+							showHeader={showHeader}
+							dataSource={filteredItems}
+							size="small"
+							pagination={false}
+							style={{ pointerEvents: listDisabled ? 'none' : null }}
+							onRow={({ key, disabled: itemDisabled }) => ({
+								onClick: () => {
+									if (itemDisabled || listDisabled) return;
+									onItemSelect(key, !listSelectedKeys.includes(key));
+								},
+							})}
+						/>
+					</div>
+				);
+			} else {
+				return <Table
+					rowSelection={rowSelection}
+					columns={columns}
+					showHeader={showHeader}
+					dataSource={filteredItems}
+					size="small"
+					pagination={false}
+					style={{ pointerEvents: listDisabled ? 'none' : null }}
+					onRow={({ key, disabled: itemDisabled }) => ({
+						onClick: () => {
+							if (itemDisabled || listDisabled) return;
+							onItemSelect(key, !listSelectedKeys.includes(key));
+						},
+					})}
+				/>
+			}
+			
+			
 		}}
 	</Transfer>
 );
@@ -88,6 +106,7 @@ for (let i = 0; i < 20; i++) {
 }
 
 const originTargetKeys = mockData.filter(item => +item.key % 3 > 1).map(item => item.key);
+
 
 const leftTableColumns = [
 	{
@@ -127,7 +146,6 @@ export default class ShelfGoods extends React.Component {
 		return list.map((item,index)=>{
 			return <span
 				className="headerTabs"
-				
 				key={index}>
 				{item}
 			</span>
