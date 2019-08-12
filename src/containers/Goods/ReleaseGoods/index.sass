@@ -26,14 +26,19 @@
 					justify-content: center
 					align-items: center
 		.forms
-			width: 50%
-			padding-left: 10px
+			width: 100%
+			.ant-switch
+				background: #BDBDBD!important
+			.ant-switch-checked
+				background: #4f8963!important
 			.ant-form-explain
 				font-size: 12px
 				margin-top: 5px
 			.ant-form-item-with-help
 				margin-bottom: 20px
 			.ant-form-item
+				width: 50%
+				padding-left: 10px
 				display: flex
 				justify-content: flex-start
 				align-items: center
@@ -43,11 +48,27 @@
 					label
 						font-size: 12px
 						color: #666
+						&:before
+							content: ""
+							display: inline-block
+							width: 4px
+							height: 4px
+							margin-right: 4px
+					.ant-form-item-required
+						&:before
+							display: inline-block
+							margin-right: 4px
+							color: #f5222d
+							font-size: 14px
+							font-family: SimSun, sans-serif
+							line-height: 1
+							content: '*'
+
 				.ant-form-item-control-wrapper
 					width: 320px
 					height: 30px
 					position: absolute
-					right: 0
+					right: 90px
 					.ant-form-item-control
 						width: 100%
 						height: 100%

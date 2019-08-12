@@ -23,6 +23,11 @@ const baseMenu = [
 		text:'商品分类',
 	},
 	{
+		path:'/goods/specification',
+		icon:'icon-box-fill',
+		text:'商品规格',
+	},
+	{
 		path:'/goods/groups',
 		icon:'icon-database-fill',
 		text:'商品组',

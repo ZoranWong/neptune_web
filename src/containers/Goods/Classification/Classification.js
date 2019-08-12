@@ -1,37 +1,21 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
 import './css/classification.sass'
-import {Button, Table} from "antd";
+import {Button, Table, Modal, Popconfirm} from "antd";
 import CustomPagination from "../../../components/Layout/Pagination";
-import {FatherClassification} from "../../../api/goods/classification";
+import {FatherClassification,createNewFatherClassification,SonClassification,deleteClassification} from "../../../api/goods/classification";
 import AddNewClassification from "./AddNewClassification";
 import AddNewSonClassification from "./AddNewSonClassification";
-import {createNewFatherClassification} from '../../../api/goods/classification'
 class Classification extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-			data:[
-				{
-					key: 1,
-					name: 'John Brown',
-					description:'1111',
-				},
-				{
-					key: 2,
-					name: 'Jim Green',
-					description:'222',
-				},
-				{
-					key: 3,
-					name: 'Joe Black',
-					description:'333',
-				},
-			],
+			data:[],
 			addNewVisible:false,
 			addNewSonVisible:false,
 			classificationName:'',
-			sonClassificationName:''
+			sonClassificationName:'',
+			parentId:''
 		}
 	}
 	
@@ -40,17 +24,20 @@ class Classification extends React.Component{
 	}
 	
 	refresh = () =>{
-		FatherClassification({}).then(r=>{
-			console.log(r);
-		}).catch(_=>{})
+		// FatherClassification({}).then(r=>{
+		// 	this.setState({data:r.data})
+		// }).catch(_=>{});
+		SonClassification({}).then(r=>{
+			this.setState({data:r})
+		})
 	};
 	
 	addNew = () =>{
 		this.showAddNewClassification()
 	};
 	
-	addNewSon = () =>{
-		this.showAddNewSonClassification();
+	addNewSon = (id) =>{
+		this.showAddNewSonClassification(id);
 	};
 	
 	// 添加分类
@@ -61,20 +48,24 @@ class Classification extends React.Component{
 		this.setState({addNewVisible:false,classificationName:''})
 	};
 	submitAddNewClassification = (value) =>{
-		// createNewFatherClassification({}).then(r=>{
-		// 	console.log(r);
-		// })
+		createNewFatherClassification({name:value}).then(r=>{
+			this.hideAddNewClassification();
+			this.refresh()
+		})
 	};
 	
 	// 添加子分类
-	showAddNewSonClassification = () =>{
-		this.setState({addNewSonVisible:true})
+	showAddNewSonClassification = (id) =>{
+		this.setState({addNewSonVisible:true,parentId:id})
 	};
 	hideAddNewSonClassification = () =>{
 		this.setState({addNewSonVisible:false,sonClassificationName:''})
 	};
 	submitAddNewSonClassification = (value) =>{
-		console.log(value);
+		createNewFatherClassification({name:value,parent_id:this.state.parentId}).then(r=>{
+			this.hideAddNewSonClassification();
+			this.refresh()
+		})
 	};
 	
 	// 查看分类详情
@@ -85,9 +76,14 @@ class Classification extends React.Component{
 	};
 	// 编辑子分类
 	editSonClassification = (record) =>{
-		this.setState({sonClassificationName:record.cName},()=>{
+		this.setState({sonClassificationName:record.name},()=>{
 			this.showAddNewSonClassification()
 		})
+	};
+	
+	// 删除分类
+	delete = (id) =>{
+	
 	};
 	
 	render(){
@@ -96,30 +92,36 @@ class Classification extends React.Component{
 		function NestedTable() {
 			const expandedRowRender = (record) => {
 				const columns = [
-					{ title: 'cName', dataIndex: 'cName', key: 'cName' },
+					{ title: 'cName', dataIndex: 'name', key: record.id },
 					{
 						title: 'Status',
 						key: 'state',
 						render: (r) => (
 							<div className="operation">
 								<span onClick={()=>_this.editSonClassification(r)}>编辑</span>
-								<span>删除</span>
+								<Popconfirm
+									title="确定要删除该分类么"
+									okText="确定"
+									icon={null}
+									cancelText="取消"
+									onConfirm={()=>{
+										deleteClassification({},r.id).then(r=>{
+											_this.refresh()
+										})
+									}}
+								>
+									<span>删除</span>
+								</Popconfirm>
 							</div>
 						),
 					},
 				];
 				//  Here to get ChildClassification , params :record.id
-				const data = [];
-				for (let i = 0; i < 3; ++i) {
-					data.push({
-						key: i,
-						cName:'牛肉包'
-					});
-				}
 				return <Table
 							className="innerTable"
 							columns={columns}
-							dataSource={data}
+							rowKey={record => record.id}
+							dataSource={record.children}
 							pagination={false}
 							showHeader={false}/>;
 			};
@@ -142,9 +144,21 @@ class Classification extends React.Component{
 					title: '操作',
 					dataIndex: '',
 					key: 'x',
-					render: () => <div className="operation">
-						<span onClick={_this.addNewSon}>添加子分类</span>
-						<span>删除</span>
+					render: (text,record) => <div className="operation">
+						<span onClick={()=>_this.addNewSon(record.id)}>添加子分类</span>
+						<Popconfirm
+							title="确定要删除该分类么"
+							okText="确定"
+							icon={null}
+							cancelText="取消"
+							onConfirm={()=>{
+								deleteClassification({},record.id).then(r=>{
+									_this.refresh()
+								})
+							}}
+						>
+							<span>删除</span>
+						</Popconfirm>
 					</div>
 				},
 			];
@@ -153,6 +167,7 @@ class Classification extends React.Component{
 				<Table
 					className="components-table-demo-nested"
 					columns={columns}
+					rowKey={record => record.id}
 					expandedRowRender={expandedRowRender}
 					dataSource={data}
 					pagination={false}

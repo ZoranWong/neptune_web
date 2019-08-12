@@ -24,3 +24,12 @@ export function SonClassification(params) {
 		params: params
 	})
 }
+
+// 删除分类
+export function deleteClassification(params,id) {
+	return request({
+		url: `/api/backend/categories/${id}`,
+		method: 'delete',
+		params: params
+	})
+}
