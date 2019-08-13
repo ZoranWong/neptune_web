@@ -2,25 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/api/goods/specification.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/NewSon.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/NewSpecification.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/Specification.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/common.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/specification.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Specification/Specification.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Specification/css/index.sass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Specification/CreateSpecification.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Specification/css/createSpecification.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/goods/classification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/goods/classification.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SideMenu/Goods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SideMenu/Goods.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/Classification/Classification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/Classification/Classification.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/Classification/css/classification.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/Classification/css/classification.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config-overrides.js" beforeDir="false" afterPath="$PROJECT_DIR$/config-overrides.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/goods/specification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/goods/specification.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/ReleaseGoods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/ReleaseGoods.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/index.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/index.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/NewSon.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/NewSon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/NewSpecification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/NewSpecification.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/Specification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/Specification.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/specification.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/specification.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/Specification/Specification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/Specification/Specification.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Home/1.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Home/1.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Home/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Home/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/style/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/style.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/IconFont.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/IconFont.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/dataStorage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/dataStorage.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,8 +32,8 @@
       <list>
         <option value="CSS File" />
         <option value="TypeScript File" />
-        <option value="Sass File" />
         <option value="JavaScript File" />
+        <option value="Sass File" />
       </list>
     </option>
   </component>
@@ -61,19 +57,19 @@
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/containers/Goods/Classification/css" />
-      <recent name="$PROJECT_DIR$/src/containers/Goods/Classification" />
-      <recent name="$PROJECT_DIR$/src/containers/Goods/Groups" />
-      <recent name="$PROJECT_DIR$/src/api/goods" />
-      <recent name="$PROJECT_DIR$/src/containers/Goods/BreakfastOrder/css" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification" />
       <recent name="$PROJECT_DIR$/src/containers/Goods/GoodsManage" />
       <recent name="$PROJECT_DIR$/src/api/shops" />
       <recent name="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd" />
       <recent name="$PROJECT_DIR$/src/components/CustomItems" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/containers/Goods/Classification/css" />
+      <recent name="$PROJECT_DIR$/src/containers/Goods/Classification" />
+      <recent name="$PROJECT_DIR$/src/containers/Goods/Groups" />
+      <recent name="$PROJECT_DIR$/src/api/goods" />
+      <recent name="$PROJECT_DIR$/src/containers/Goods/BreakfastOrder/css" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -264,7 +260,9 @@
       <workItem from="1565143483146" duration="9494000" />
       <workItem from="1565230018519" duration="15900000" />
       <workItem from="1565312978449" duration="13010000" />
-      <workItem from="1565573878189" duration="18624000" />
+      <workItem from="1565573878189" duration="19342000" />
+      <workItem from="1565603910799" duration="5000" />
+      <workItem from="1565661601794" duration="14742000" />
     </task>
     <servers />
   </component>

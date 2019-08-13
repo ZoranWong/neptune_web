@@ -18,7 +18,7 @@ module.exports = override(
 			"@btn-disable-bg": "#F7F7F7",
 			"@warning-color":"#FF9C4B",
 			"@border-radius-base":"2px",
-			"@item-active-bg": "#478759",
+			"@item-active-bg": "#F1FCF4",
 			"@item-hover-bg": "#58A86E",
 			"@link-hover-color":"#58A86E",
 			"@link-active-color": "#478759",

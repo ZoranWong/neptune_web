@@ -23,6 +23,7 @@ class Home extends React.Component{
 			<Select
 				defaultActiveFirstOption={false}
 				mode="multiple"
+				className="home"
 				placeholder="Inserted are removed"
 				value={selectedItems}
 				onChange={this.handleChange}

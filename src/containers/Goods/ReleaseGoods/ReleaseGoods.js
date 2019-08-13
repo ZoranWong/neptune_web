@@ -22,6 +22,7 @@ class ReleaseGoods extends React.Component{
 			share_desc:'',// 分享描述，
 			property:'', // 商品属性
 			category_ids:[],  // 商品分类id组
+			specificationIsOpen:false
 		};
 	}
 	
@@ -166,32 +167,40 @@ class ReleaseGoods extends React.Component{
 									</Form.Item>
 									<Form.Item label="开启规格：" >
 										{getFieldDecorator('open_specification', {
-											rules: [{ required: true, message: '请输入商品单位' }],
+										
 										})(<Switch  onChange={(e)=>{
 											this.props.form.setFieldsValue({
 												open_specification:e
 											});
+											this.setState({specificationIsOpen:e})
 										}}/>)}
 									</Form.Item>
-									<Specification />
-									<Form.Item label="零售价：" >
-										{getFieldDecorator('retailPrice', {
-											initialValue:'',
-											rules: [{ required: true, message: '请输入零售价' }],
-										})(<Input />)}
-									</Form.Item>
-									<Form.Item label="市场价：" >
-										{getFieldDecorator('marketPrice', {
-											initialValue:'',
-											rules: [{ required: true, message: '请输入市场价' }],
-										})(<Input />)}
-									</Form.Item>
-									<Form.Item label="成本价：" >
-										{getFieldDecorator('costPrice', {
-											initialValue:'',
-											rules: [{ required: true, message: '请输入成本价' }],
-										})(<Input />)}
-									</Form.Item>
+									{
+										this.state.specificationIsOpen?(<Specification />):(
+											<div>
+												<Form.Item label="零售价：" >
+													{getFieldDecorator('retailPrice', {
+														initialValue:'',
+														rules: [{ required: true, message: '请输入零售价' }],
+													})(<Input />)}
+												</Form.Item>
+												<Form.Item label="市场价：" >
+													{getFieldDecorator('marketPrice', {
+														initialValue:'',
+														rules: [{ required: true, message: '请输入市场价' }],
+													})(<Input />)}
+												</Form.Item>
+												<Form.Item label="成本价：" >
+													{getFieldDecorator('costPrice', {
+														initialValue:'',
+														rules: [{ required: true, message: '请输入成本价' }],
+													})(<Input />)}
+												</Form.Item>
+											</div>
+										)
+									}
+									
+									
 									<Form.Item label="PV值：" >
 										{getFieldDecorator('pv', {
 											initialValue:'',

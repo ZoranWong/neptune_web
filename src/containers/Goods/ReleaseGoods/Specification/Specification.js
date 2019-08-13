@@ -2,11 +2,13 @@ import React from "react";
 import './specification.sass'
 import {Button,Table} from "antd";
 import NewSpecification from "./NewSpecification";
+import IconFont from "../../../../utils/IconFont";
 export default class Specification extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-			newSpecificationVisible:false
+			newSpecificationVisible:false,
+			tableChildren:[]
 		}
 	}
 	
@@ -18,7 +20,8 @@ export default class Specification extends React.Component{
 	hideNewSpecification = () =>{
 		this.setState({newSpecificationVisible:false})
 	};
-	createNewSpecification = (val) =>{
+	createNewSpecification = (ary) =>{
+		this.setState({tableChildren:ary});
 		this.hideNewSpecification()
 	};
 	
@@ -26,23 +29,54 @@ export default class Specification extends React.Component{
 	
 	
 	render() {
+		const {tableChildren} = this.state;
+		console.log(tableChildren);
+		let tableChild = [];
+		let nameChild = [];
+		tableChildren.forEach(item=>tableChild.push({'title':item.name,dataIndex:item.id,align:'center',}));
+		console.log(tableChild);
 		const columns = [
 			{
-				title: 'Name',
-				dataIndex: 'name',
-				align:'center'
+				title: '商品规格',
+				dataIndex: '111',
+				align:'center',
+				children:tableChild
 			},
 			{
-				title: 'Cash Assets',
+				title: '规格图片',
 				className: 'column-money',
-				dataIndex: 'money',
+				dataIndex: 'thumbnail',
 				align:'center'
 			},
 			{
-				title: 'Address',
-				dataIndex: 'address',
+				title: '商品条码',
+				dataIndex: 'barcode',
 				align:'center'
 			},
+			{
+				title: '零售价',
+				dataIndex: 'retailPrice',
+				align:'center'
+			},
+			{
+				title: '成本价',
+				dataIndex: 'costPrice',
+				align:'center'
+			},
+			{
+				title: '市场价'	,
+				dataIndex: 'marketPrice',
+				align:'center'
+			},
+			{
+				title: '操作',
+				render: (text,record)=>(
+					<IconFont type="icon-delete-fill" />
+				),
+				align:'center'
+			},
+			
+			
 		];
 		const data = [
 			{
@@ -68,6 +102,7 @@ export default class Specification extends React.Component{
 						dataSource={data}
 						bordered
 						pagination={false}
+						rowKey={record => record.title}
 					/>
 				</div>
 			</div>

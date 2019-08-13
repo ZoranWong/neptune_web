@@ -13,7 +13,6 @@ export default class NewSpecification extends React.Component{
 		this.state = {
 			value:'',
 			SelectedSpecification:[],
-			SelectedSonSpecification:[],
 			allSpecification:[],
 			newSonVisible:false,
 			parent:{}
@@ -40,7 +39,7 @@ export default class NewSpecification extends React.Component{
 		
 		this.state.allSpecification.filter(item=>item.id == val).map(item=>ary.push(item));
 		this.setState({SelectedSpecification:ary,value:''});
-		this.props.onSubmit()
+		this.props.onSubmit(ary)
 	};
 	
 	// 新增规格值
@@ -52,20 +51,13 @@ export default class NewSpecification extends React.Component{
 		this.setState({newSonVisible:false})
 	};
 	createNewSon = (ary) =>{
-		this.setState({SelectedSonSpecification:ary});
 		this.hideNewSon()
 	};
 	
 	render() {
 		return (
 			<div>
-				<NewSon
-					visible={this.state.newSonVisible}
-					onCancel={this.hideNewSon}
-					onSubmit={this.createNewSon}
-					parent={this.state.parent}
-					ref={this.child}
-				/>
+				
 				<div className="s_tagBox">
 					{this.state.SelectedSpecification.map(item=>{
 						return (
@@ -80,19 +72,13 @@ export default class NewSpecification extends React.Component{
 								</div>
 								
 								<div className="bottom">
-									{
-										this.state.SelectedSonSpecification.length?(
-											<div>
-												{
-													this.state.SelectedSonSpecification.map(item=>{
-														return <Tag closable key={item.id} >
-															{item.value}
-														</Tag>
-													})
-												}
-											</div>
-										):''
-									}
+									<NewSon
+										visible={this.state.newSonVisible}
+										onCancel={this.hideNewSon}
+										onSubmit={this.createNewSon}
+										parent={this.state.parent}
+										ref={this.child}
+									/>
 								</div>
 							</div>
 						)

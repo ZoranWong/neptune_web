@@ -1,6 +1,6 @@
 
 import React from "react";
-import {Select, Modal} from "antd";
+import {Select, Modal, Tag} from "antd";
 import './common.sass'
 const {Option} = Select;
 let ary = [];
@@ -42,6 +42,20 @@ export default class NewSpecification extends React.Component{
 	render() {
 		return (
 			<div>
+				
+				{
+					this.state.SelectedSpecification.length?(
+						<div>
+							{
+								this.state.SelectedSpecification.map(item=>{
+									return <Tag closable key={item.id} >
+										{item.value}
+									</Tag>
+								})
+							}
+						</div>
+					):''
+				}
 				
 				<Modal
 					title="新增规格"
