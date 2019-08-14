@@ -1,6 +1,6 @@
 import React from "react";
 import './specification.sass'
-import {Button,Table} from "antd";
+import {Button,Table,Tag} from "antd";
 import NewSpecification from "./NewSpecification";
 import IconFont from "../../../../utils/IconFont";
 export default class Specification extends React.Component{
@@ -8,8 +8,12 @@ export default class Specification extends React.Component{
 		super(props);
 		this.state = {
 			newSpecificationVisible:false,
-			tableChildren:[]
-		}
+			tableChildren:[],
+			SelectedSpecification:[],
+			SelectedSonSpecification:[],
+			sonData:[]
+		};
+		this.child = React.createRef();
 	}
 	
 	
@@ -21,12 +25,40 @@ export default class Specification extends React.Component{
 		this.setState({newSpecificationVisible:false})
 	};
 	createNewSpecification = (ary) =>{
-		this.setState({tableChildren:ary});
+		this.setState({tableChildren:ary,SelectedSpecification:ary});
 		this.hideNewSpecification()
 	};
-	
-	
-	
+	// 新增规格值
+	createNewSon = (sons) =>{
+		console.log(sons);
+		this.setState({sonData:sons})
+		console.log(sons,'--------------');
+		//this.setState({SelectedSonSpecification:ary})
+	};
+	showNewSon = (item) =>{
+		this.child.current.showNewSon(item);
+	};
+
+	renderSon = (rId,itemId) =>{
+		if(rId == itemId){
+			let data = this.state.sonData.filter(i=>{
+				return i.id == rId
+			})[0];
+			this.renderSonFin(data.son)
+		}
+	};
+
+	renderSonFin = (data) =>{
+
+			return (
+				data.map(i=>{
+					return <Tag closable key={i.id} >
+						{i.value}
+					</Tag>
+				}))
+
+
+	};
 	
 	render() {
 		const {tableChildren} = this.state;
@@ -92,7 +124,35 @@ export default class Specification extends React.Component{
 					visible={this.state.newSpecificationVisible}
 					onCancel={this.hideNewSpecification}
 					onSubmit={this.createNewSpecification}
+					createNewSon={this.createNewSon}
+					ref={this.child}
 				/>
+				<div className="s_tagBox">
+					{this.state.SelectedSpecification.map(item=>{
+						return (
+							<div className="s_tags" key={item.id}>
+								<div className="top">
+									<Tag closable >
+										{item.name}
+									</Tag>
+									<div className="addNewSon" onClick={()=>this.showNewSon(item)} >
+										<IconFont type="icon-plus-circle-fill" />新增规格值
+									</div>
+								</div>
+
+								<div className="bottom">
+									{
+										this.state.sonData.length?(
+											this.state.sonData.map(r=>{
+												this.renderSon(r.id,item.id)
+											})
+										):''
+									}
+								</div>
+							</div>
+						)
+					})}
+				</div>
 				<div className="specification_header">
 					<Button type="primary" size="small" onClick={this.showNewSpecification}>新增规格</Button>
 				</div>

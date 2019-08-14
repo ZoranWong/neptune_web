@@ -3,43 +3,45 @@ import {withRouter} from 'react-router-dom'
 import {Button, Table,Modal} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/goodsManage.sass'
-import {shops} from "../../../api/shops/shopManage";
 import {searchJson} from "../../../utils/dataStorage";
 import {user_values} from "../../../utils/user_fields";
 import AdvancedFilterComponent from "../../Shops/ShopManage/AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
-import ReleaseGoods from "./ReleaseGoods";
+import {products,offShelvesProducts} from "../../../api/goods/goods";
+import AddGroup from "../../User/UserManage/AddGroup";
+import {goodInGroup} from "../../../api/goods/groups";
+
 class GoodsManage extends React.Component{
 	constructor(props){
 		const columns = [
 			{
-				title: '店铺名称',
+				title: '商品名称',
 				dataIndex: 'name',
 				render: (text,record) => <span
 					style={{'color':'#4F9863','cursor':'pointer'}}
 					onClick={()=>this.jump(record)}>{text}</span>,
 			},
 			{
-				title: '商户主',
-				dataIndex: 'keeper_name',
+				title: '分类',
+				dataIndex: 'category_desc',
 			},
 			{
-				title: '店铺编号',
-				dataIndex: 'code',
+				title: '规格',
+				dataIndex: 'spec',
 			},
 			{
-				title: '销售总额',
-				dataIndex: 'total_sale',
+				title: '单位',
+				dataIndex: '',
 			},
 			{
-				title: '店铺渠道',
-				dataIndex: 'channel',
+				title: '零售价',
+				dataIndex: 'retail_price',
 			},
 			{
-				title: '店铺状态',
-				dataIndex: 'status',
+				title: '总销量',
+				dataIndex: 'total_sales',
 			},
 			{
 				title: '操作',
@@ -50,10 +52,6 @@ class GoodsManage extends React.Component{
 							onClick={()=>this.editShop(record)}
 						>编辑
 						</span>
-						<span
-							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
-						>门店码
-						</span>
 					</div>
 				,
 			},
@@ -62,22 +60,27 @@ class GoodsManage extends React.Component{
 		super(props);
 		this.child = React.createRef();
 		this.state = {
-			api:shops,
+			api:products,
 			id:'',
 			filterVisible:false,
 			customVisible:false,
-			user_data:[],
+			data:[],
 			checkedAry:[],     // 列表页选中的用户id组
 			paginationParams:{
 				logic_conditions:[],
 				search:''
 			},
-			columns:columns
+			columns:columns,
+			groupVisible:false
 		};
 	}
 	
 	componentWillMount() {
 		document.addEventListener('click', this.closeCustom);
+		if(this.props.location.query&&this.props.location.query.groupId){
+			this.setState({id:this.props.location.query.groupId,api:goodInGroup})
+		}
+
 	}
 	
 	
@@ -94,7 +97,7 @@ class GoodsManage extends React.Component{
 	};
 	
 	jump = (record) =>{
-		this.props.history.push({pathname:"/goods/goodDetails"})
+		this.props.history.push({pathname:"/goods/goodDetails",state:{id:record.id}})
 	};
 	
 	
@@ -104,7 +107,7 @@ class GoodsManage extends React.Component{
 	// 头部搜索框
 	search = (value) =>{
 		this.setState({
-			api:shops,
+			api:products,
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value})}
 		},()=>{
@@ -119,7 +122,7 @@ class GoodsManage extends React.Component{
 		this.setState({filterVisible:false})
 	};
 	onSubmit = (data) =>{
-		this.setState({api:shops,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
+		this.setState({api:products,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
 			this.child.current.pagination(1)
 		});
 	};
@@ -156,7 +159,7 @@ class GoodsManage extends React.Component{
 	
 	// 分页器改变值
 	paginationChange = (list) =>{
-		this.setState({user_data:list})
+		this.setState({data:list})
 	};
 	
 	// 发布商品
@@ -167,6 +170,8 @@ class GoodsManage extends React.Component{
 	
 	// 下架商品
 	unSale = () =>{
+		let refresh = this.refresh;
+		let checkedAry = this.state.checkedAry;
 		let confirmModal = Modal.confirm({
 			title: (
 				<div className= 'u_confirm_header'>
@@ -195,12 +200,24 @@ class GoodsManage extends React.Component{
 			},
 			onOk() {
 				// 确定按钮执行操作
+				offShelvesProducts({product_ids:checkedAry}).then(r=>{
+					refresh()
+				}).catch(_=>{})
 			}
 		});
 	};
-	
-	
-	
+
+
+	// 加群组
+	closeAddGroup= () =>{
+		this.setState({groupVisible:false})
+	};
+	onSubmitGroup = () =>{
+		this.setState({groupVisible:false})
+	};
+	showAddGroup = (data) =>{
+		this.setState({groupVisible:true,conditions_data:data})
+	};
 	
 	
 	
@@ -226,6 +243,13 @@ class GoodsManage extends React.Component{
 					showAddTags={this.showAddTags}
 					closeAddTags={this.closeAddTags}
 				/>
+
+				<AddGroup
+					visible={this.state.groupVisible}
+					onClose={this.closeAddGroup}
+					onSubmit={this.onSubmitGroup}
+					checkedAry={this.state.checkedAry}
+				/>
 				
 				<div className="goods_manage_header">
 					<Button type="primary" size="small" onClick={this.showRelease}>发布商品</Button>
@@ -242,7 +266,11 @@ class GoodsManage extends React.Component{
 							text='请输入关键词'
 						/>
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
-						<Button size="small" disabled={this.state.checkedAry.length == 0} >加入店铺组</Button>
+						<Button
+							size="small"
+							disabled={this.state.checkedAry.length == 0}
+							onClick={this.showAddGroup}
+						>加入商品组</Button>
 						<Button
 							size="small"
 							disabled={this.state.checkedAry.length == 0}
@@ -267,7 +295,7 @@ class GoodsManage extends React.Component{
 							if (index % 2 ) className = 'dark-row';
 							return className;
 						}}
-						dataSource={this.state.user_data}
+						dataSource={this.state.data}
 					/>
 				</div>
 				<div className="pagination">

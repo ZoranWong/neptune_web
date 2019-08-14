@@ -31,4 +31,19 @@ export function deleteGroup(params,groupId) {
 		params: params
 	})
 }
-
+// 添加商品入静态群组
+export function addToGroup(params,groupId) {
+	return request({
+		url: `/api/backend/groups/${groupId}/add`,
+		method: 'post',
+		data: params
+	})
+}
+// 分组下商品列表
+export function goodInGroup(params,groupId) {
+	return request({
+		url: `/api/backend/groups/${groupId}/models`,
+		method: 'get',
+		params: params
+	})
+}

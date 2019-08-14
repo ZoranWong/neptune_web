@@ -4,6 +4,8 @@ import Editor from "../../../components/Editor/Editor";
 import { Tabs,Button , Form, Input,  Select, Radio,Switch} from 'antd';
 import {SonClassification} from "../../../api/goods/classification";
 import Specification from './Specification/Specification'
+import {releaseProducts} from "../../../api/goods/goods";
+
 const { TabPane } = Tabs;
 
 class ReleaseGoods extends React.Component{
@@ -49,7 +51,11 @@ class ReleaseGoods extends React.Component{
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
-				console.log('Received values of form: ', values);
+				values.banners = ['1','2'];
+				values.desc = '111';
+				releaseProducts(values).then(r=>{
+					console.log(r);
+				}).catch(_=>{})
 			}
 		});
 	};
@@ -104,7 +110,7 @@ class ReleaseGoods extends React.Component{
 									</Form.Item>
 									<Form.Item label="商品banner图：">
 										{getFieldDecorator('banners', {
-											initialValue:'',
+											initialValue:[],
 											rules: [{ required: true, message: '请选择商品banner图' }],
 										})(<Input />)}
 									</Form.Item>
@@ -167,7 +173,7 @@ class ReleaseGoods extends React.Component{
 									</Form.Item>
 									<Form.Item label="开启规格：" >
 										{getFieldDecorator('open_specification', {
-										
+											initialValue:false
 										})(<Switch  onChange={(e)=>{
 											this.props.form.setFieldsValue({
 												open_specification:e
@@ -179,19 +185,19 @@ class ReleaseGoods extends React.Component{
 										this.state.specificationIsOpen?(<Specification />):(
 											<div>
 												<Form.Item label="零售价：" >
-													{getFieldDecorator('retailPrice', {
+													{getFieldDecorator('retail_price', {
 														initialValue:'',
 														rules: [{ required: true, message: '请输入零售价' }],
 													})(<Input />)}
 												</Form.Item>
 												<Form.Item label="市场价：" >
-													{getFieldDecorator('marketPrice', {
+													{getFieldDecorator('market_price', {
 														initialValue:'',
 														rules: [{ required: true, message: '请输入市场价' }],
 													})(<Input />)}
 												</Form.Item>
 												<Form.Item label="成本价：" >
-													{getFieldDecorator('costPrice', {
+													{getFieldDecorator('cost_price', {
 														initialValue:'',
 														rules: [{ required: true, message: '请输入成本价' }],
 													})(<Input />)}
@@ -241,15 +247,15 @@ class ReleaseGoods extends React.Component{
 									</Form.Item>
 									<Form.Item label="商品状态：" >
 										{getFieldDecorator('status', {
-											initialValue:'true',
+											initialValue:true,
 											rules: [{ required: true, message: '请选择商品状态' }],
 										})(<Radio.Group onChange={(e)=>{
 											this.props.form.setFieldsValue({
 												status:e
 											});
 										}} >
-											<Radio value="true">上架</Radio>
-											<Radio value="false">下架</Radio>
+											<Radio value={true}>上架</Radio>
+											<Radio value={false}>下架</Radio>
 										</Radio.Group>)}
 									</Form.Item>
 								</Form>

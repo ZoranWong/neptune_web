@@ -17,3 +17,37 @@ export function onShelves(params) {
 		data: params
 	})
 }
+
+// 商品列表
+export function products(params) {
+	return request({
+		url: '/api/backend/products',
+		method: 'get',
+		params: params
+	})
+}
+
+// 发布商品
+export function releaseProducts(params) {
+	return request({
+		url: '/api/backend/products',
+		method: 'post',
+		data: params
+	})
+}
+// 商品详情
+export function goodDetails(params,productId) {
+	return request({
+		url: `/api/backend/products/${productId}/show`,
+		method: 'get',
+		params: params
+	})
+}
+// 下架标准商品
+export function offShelvesProducts(params) {
+	return request({
+		url: '/api/backend/products/get_off_shelves',
+		method: 'post',
+		data: params
+	})
+}

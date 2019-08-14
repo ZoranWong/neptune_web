@@ -1,10 +1,24 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
 import {Button, Tag} from "antd";
+import {goodDetails} from "../../../api/goods/goods";
 import './shopDetail.sass'
 class GoodDetails extends React.Component{
-	
+
+	state = {
+		data:{}
+	};
+
+
+	componentDidMount() {
+		goodDetails({},this.props.location.state.id).then(r=>{
+			this.setState({data:r})
+		}).catch(_=>{})
+	}
+
+
 	render(){
+		const {data} = this.state;
 		return (
 			<div>
 				<div className="u_top">
@@ -18,37 +32,35 @@ class GoodDetails extends React.Component{
 						<ul className="u_body_top">
 							<li className="firstChild"><h3></h3></li>
 							<li >
-								<p>商品名称：培根三明治</p>
-								<p>商品条码：A201906011822</p>
-								<p>商品属性：特惠商品</p>
-								<p>商品分类：三明治</p>
+								<p>商品名称：{data.name}</p>
+								<p>商品条码：{data.barcode}</p>
+								<p>商品属性：{data.property_desc}</p>
+								<p>商品分类：{data.category_desc}</p>
 							</li>
 							<li>
-								<p>规格：20g/个</p>
-								<p>零售价：3.5元</p>
-								<p>市场价：5元</p>
-								<p>成本价：2.5元</p>
+								<p>规格：{data.spec}</p>
+								<p>零售价：{data.retail_price}</p>
+								<p>市场价：{data.market_price}</p>
+								<p>成本价：{data.cost_price}</p>
 							</li>
 							<li>
-								<p>PV值：2.0</p>
-								<p>配送批次：上午5:30</p>
-								<p>保存方式：冷藏</p>
-								<p>商品状态：上架</p>
+								<p>PV值：{data.pv}</p>
+								<p>配送批次：{data.batch}</p>
+								<p>保存方式：{data.keep_mode_desc}</p>
+								<p>商品状态：111</p>
 							</li>
 							<li className="goodDesp">
 								<p>
 									<span>商品简介：</span>
-									<span>进口培根新鲜食材</span>
+									<span>{data.intro}</span>
 									</p>
 								<p>
 									<span>商品描述：</span>
-									<span>西班牙进口的培根肉，搭配新鲜爽口的蔬菜和健康的鸡蛋
-										加上美味的沙拉酱，品味美味的同时又给你带来了健康！</span>
+									<span>{data.desc}</span>
 								</p>
 								<p>
-									<span>商品描述：</span>
-									<span>限时优惠，原价5.9元的培根三明治现在只需要3.5元。线
-										上下单即可成为会员更享优惠！</span>
+									<span>分享描述：</span>
+									<span>{data.share_desc}</span>
 								</p>
 							</li>
 						</ul>
@@ -66,19 +78,19 @@ class GoodDetails extends React.Component{
 									<li className="ranking">
 										<h4>
 											总销量:
-											<span>5000</span>
+											<span>{data.total_sales}</span>
 										</h4>
 									</li>
 									<li  className="ranking">
 										<h4>
 											订货单销量:
-											<span>500</span>
+											<span>{data.total_order_product_sales}</span>
 										</h4>
 									</li>
 									<li  className="ranking">
 										<h4>
 											预订单销量:
-											<span>0</span>
+											<span>{data.total_preorder_sales}</span>
 										</h4>
 									</li>
 								</ul>
@@ -95,14 +107,14 @@ class GoodDetails extends React.Component{
 									<li  className="ranking">
 										<h4>
 											排名:
-											<span>5</span>
+											<span>{data.ranking}</span>
 										</h4>
 									
 									</li>
 									<li  className="ranking">
 										<h4>
 											分类中排行:
-											<span>800</span>
+											<span>{data.category_ranking}</span>
 										</h4>
 									</li>
 									
@@ -116,7 +128,16 @@ class GoodDetails extends React.Component{
 						店铺组
 					</div>
 					<div className="group_tags">
-					
+						{
+							data.groups&&data.groups.length?(
+								this.state.data.groups.map(item=>{
+									return <Tag closable key={item.id} onClose={()=>this.removeGroup(item.id)}>
+										{item.name}
+									</Tag>
+								})
+							):''
+
+						}
 					</div>
 				</div>
 			</div>
