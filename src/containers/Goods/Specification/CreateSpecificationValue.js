@@ -1,11 +1,12 @@
 import React from "react";
-import {Input, message, Modal,Select} from "antd";
+import {Input, message, Modal} from "antd";
 import './css/createSpecification.sass'
-import {createSpecification} from "../../../api/goods/specification";
-const { Option } = Select;
+import {addSpecificationValue} from "../../../api/goods/specification";
+
 export default class CreateSpecification extends React.Component{
 	
 	state = {
+		id:'',
 		name:'',
 		value:[]
 	};
@@ -14,20 +15,26 @@ export default class CreateSpecification extends React.Component{
 		this.setState({value})
 	};
 	
+	componentWillReceiveProps(nextProps, nextContext) {
+		if(!nextProps.id) return;
+		console.log(nextProps);
+		this.setState({id:nextProps.id})
+	}
 	
 	handleCancel = () =>{
 		this.props.onCancel()
 	};
 	
 	handleSubmit = () =>{
-		if(!this.state.name){
+		const {id} = this.state;
+		if(!this.state.value){
 			message.error('请填写规格名称');
 			return;
 		}
-		createSpecification({
-			name:this.state.name,
-			values:this.state.value
-		}).then(r=>{
+		addSpecificationValue({
+			value:this.state.value
+		},id).then(r=>{
+			this.setState({value:''});
 			this.handleCancel();
 			this.props.refresh()
 		}).catch(_=>{})
@@ -38,7 +45,7 @@ export default class CreateSpecification extends React.Component{
 		return (
 			<div>
 				<Modal
-					title="新增规格"
+					title="新增规格值"
 					width={520}
 					visible={this.props.visible}
 					onCancel={this.handleCancel}
@@ -48,22 +55,13 @@ export default class CreateSpecification extends React.Component{
 					onOk={this.handleSubmit}
 				>
 					<div className="createSpecification">
-						规格名称
+						规格值
 						<Input
-							value={this.state.name}
+							value={this.state.value}
 							onChange={(e)=>{
-								this.setState({name:e.target.value})
+								this.setState({value:e.target.value})
 							}}
 						/>
-					</div>
-					<div className="createSpecification">
-						规格值
-						<Select
-							mode="tags"
-							placeholder="请输入规格值"
-							onChange={this.handleChange}>
-							{children}
-						</Select>
 					</div>
 				</Modal>
 			</div>

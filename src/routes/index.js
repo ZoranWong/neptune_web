@@ -28,6 +28,10 @@ import ShopChannel from '../containers/Shops/ShopChannel/ShopChannel'
 import ShopDetails from "../containers/Shops/shopDetails/ShopDetails";
 import ReleaseGoods from "../containers/Goods/ReleaseGoods/ReleaseGoods";
 import Specification from "../containers/Goods/Specification/Specification";
+import InStock from "../containers/Goods/InStock/InStock";
+import InStockNew from "../containers/Goods/InStockNew/InStockNew";
+import OutStock from "../containers/Goods/OutStock/OutStock";
+import OutStockNew from "../containers/Goods/OutStockNew/OutStockNew";
 
 import Staffing from "../containers/Setting/Staffing";
 import WarningSetting from '../containers/Setting/WarningSetting'
@@ -44,6 +48,7 @@ import UserDetails from '../containers/User/UserDetails/UserDetails'
 
 import LoginContainer from '../containers/Login/index'
 import ResetPassword from '../containers/Login/ResetPassword'
+
 
 
 /** 跳转到某个路由之前触发 用于验证页面权限**/
@@ -88,6 +93,10 @@ const Routes = () =>(
 		<Route exact={true} path="/goods/goodDetails" render={props => onEnter(GoodDetails, props)} />
 		<Route exact={true} path="/goods/releaseGoods" render={props => onEnter(ReleaseGoods, props)} />
 		<Route exact={true} path="/goods/specification" render={props => onEnter(Specification, props)} />
+		<Route exact={true} path="/goods/inStock" render={props => onEnter(InStock, props)} />
+		<Route exact={true} path="/goods/outStock" render={props => onEnter(OutStock, props)} />
+		<Route exact={true} path="/goods/inStockNew" render={props => onEnter(InStockNew, props)} />
+		<Route exact={true} path="/goods/outStockNew" render={props => onEnter(OutStockNew, props)} />
 		
 		{/*订单*/}
 		<Route exact={true} path="/order" render={props => onEnter(Order, props)} />

@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom'
 import {Button, Table, Modal, Input} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/breakfastOrder.sass'
-import {shops} from "../../../api/shops/shopManage";
+import {channelsGoods} from "../../../api/goods/goods";
 import {searchJson} from "../../../utils/dataStorage";
 import SaleRange from "./SaleRange";
 import AdvancedFilterComponent from "../../Shops/ShopManage/AdvancedFilterComponent";
@@ -78,7 +78,7 @@ class BreakfastOrder extends React.Component{
 		super(props);
 		this.child = React.createRef();
 		this.state = {
-			api:shops,
+			api:channelsGoods,
 			filterVisible:false,  // 高级筛选
 			warningStockVisible:false,   // 售卖范围
 			shelfGoodsVisible:false,  // 上架商品
@@ -86,7 +86,8 @@ class BreakfastOrder extends React.Component{
 			checkedAry:[],     // 列表页选中的用户id组
 			paginationParams:{
 				logic_conditions:[],
-				search:''
+				search:'',
+				channel:'BREAKFAST_CAR'
 			},
 			columns:columns
 		};
@@ -120,7 +121,7 @@ class BreakfastOrder extends React.Component{
 	// 头部搜索框
 	search = (value) =>{
 		this.setState({
-			api:shops,
+			api:channelsGoods,
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value})}
 		},()=>{
@@ -135,7 +136,7 @@ class BreakfastOrder extends React.Component{
 		this.setState({filterVisible:false})
 	};
 	onSubmit = (data) =>{
-		this.setState({api:shops,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
+		this.setState({api:channelsGoods,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
 			this.child.current.pagination(1)
 		});
 	};
@@ -209,6 +210,15 @@ class BreakfastOrder extends React.Component{
 		console.log(value);
 	};
 	
+	// 商品入库
+	inStock = () =>{
+		this.props.history.push({pathname:"/goods/inStock",state:{channel:'BREAKFAST_CAR'}})
+	};
+	
+	// 商品出库
+	outStock = () =>{
+		this.props.history.push({pathname:"/goods/inStock",state:{channel:'BREAKFAST_CAR'}})
+	};
 	
 	render(){
 		const rowSelection = {
@@ -249,9 +259,13 @@ class BreakfastOrder extends React.Component{
 				
 				<div className="breakfast_header">
 					<Button type="primary" size="small" onClick={this.showShelfGoods}>上架商品</Button>
-					<Button size="small">
-						<IconFont type="icon-edit" />
-						修改库存
+					<Button size="small" onClick={this.inStock}>
+						<IconFont type="icon-download" />
+						商品入库
+					</Button>
+					<Button size="small" onClick={this.outStock}>
+						<IconFont type="icon-upload" />
+						商品出库
 					</Button>
 				</div>
 				

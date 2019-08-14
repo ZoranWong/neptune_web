@@ -24,3 +24,20 @@ export function createSpecification(params) {
 		data: params
 	})
 }
+// 新增规格值
+export function addSpecificationValue(params,id) {
+	return request({
+		url: `/api/backend/products/specification/${id}/add_spec_value`,
+		method: 'put',
+		data: params
+	})
+}
+// 删除规格值
+export function deleteSpecification(params) {
+	return request({
+		url: '/api/backend/products/specification/destroy',
+		method: 'delete',
+		data: params
+	})
+}
+// 编辑规格
