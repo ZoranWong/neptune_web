@@ -10,7 +10,7 @@ import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
 import {products,offShelvesProducts} from "../../../api/goods/goods";
-import AddGroup from "../../User/UserManage/AddGroup";
+import AddGroup from "./AddGroup";
 import {goodInGroup} from "../../../api/goods/groups";
 
 class GoodsManage extends React.Component{
@@ -33,7 +33,7 @@ class GoodsManage extends React.Component{
 			},
 			{
 				title: '单位',
-				dataIndex: '',
+				dataIndex: 'unit',
 			},
 			{
 				title: '零售价',
@@ -97,7 +97,7 @@ class GoodsManage extends React.Component{
 	};
 	
 	jump = (record) =>{
-		this.props.history.push({pathname:"/goods/goodDetails",state:{id:record.id}})
+		this.props.history.push({pathname:"/goods/goodDetails",state:{id:record.product_id}})
 	};
 	
 	
@@ -288,7 +288,7 @@ class GoodsManage extends React.Component{
 					<Table
 						rowSelection={rowSelection}
 						columns={this.state.columns}
-						rowKey={record => record.id}
+						rowKey={record => record.product_id}
 						pagination={false}
 						rowClassName={(record, index) => {
 							let className = '';

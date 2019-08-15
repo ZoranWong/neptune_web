@@ -18,6 +18,31 @@ export function onShelves(params) {
 	})
 }
 
+//  下架渠道下已上架商品
+export function offShelves(params) {
+	return request({
+		url: '/api/backend/products/stock/get_off_shelves',
+		method: 'post',
+		data: params
+	})
+}
+// 设置警戒库存
+export function setWarning(params,stockId) {
+	return request({
+		url: `/api/backend/products/stock/${stockId}/set_warning_stock`,
+		method: 'put',
+		data: params
+	})
+}
+// 设置虚拟销量
+export function setVirtualSales(params,provideId) {
+	return request({
+		url: `/api/backend/products/stock/${provideId}/set_virtual_sales`,
+		method: 'put',
+		data: params
+	})
+}
+
 // 商品列表
 export function products(params) {
 	return request({
@@ -51,3 +76,5 @@ export function offShelvesProducts(params) {
 		data: params
 	})
 }
+
+//

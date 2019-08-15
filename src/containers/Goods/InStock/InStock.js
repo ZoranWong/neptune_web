@@ -3,6 +3,8 @@ import {Button, Input, Table, DatePicker, LocaleProvider} from "antd";
 import 'moment/locale/zh-cn';
 import './css/inStock.sass'
 import zh_CN from "antd/lib/locale-provider/zh_CN";
+
+
 const { RangePicker } = DatePicker;
 
 export default class InStock extends React.Component{

@@ -1,6 +1,6 @@
 import React from 'react'
 import {Input, message, Modal,Tag} from "antd";
-import './css/addTags.sass'
+import '../../User/UserManage/css/addTags.sass'
 import {createGroup, groups,addToGroup} from "../../../api/goods/groups";
 export default class AddGroup extends React.Component{
 	constructor(props){
@@ -19,9 +19,7 @@ export default class AddGroup extends React.Component{
 	};
 	
 	componentDidMount() {
-		alert('111')
 		groups({}).then(r=>{
-			console.log(r,'1');
 			this.setState({groupList:r.data})
 		});
 	}

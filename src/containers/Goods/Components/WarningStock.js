@@ -1,5 +1,5 @@
 import React from "react";
-import {Input, Modal} from "antd";
+import {InputNumber, Modal} from "antd";
 import './css/warningStock.sass'
 export default class WarningStock extends React.Component{
 	
@@ -12,7 +12,7 @@ export default class WarningStock extends React.Component{
 	};
 	
 	handleSubmit = () =>{
-		this.props.onSubmit(this.state.value)
+		this.props.onSubmit(this.state.value,this.props.id)
 	};
 	
 	render() {
@@ -30,10 +30,10 @@ export default class WarningStock extends React.Component{
 				>
 					<div className="warningStock">
 						设置警戒库存
-						<Input
+						<InputNumber
 							value={this.state.value}
 							onChange={(e)=>{
-								this.setState({value:e.target.value})
+								this.setState({value:e})
 							}}
 						/>
 					</div>

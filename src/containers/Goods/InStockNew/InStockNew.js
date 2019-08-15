@@ -4,6 +4,7 @@ import 'moment/locale/zh-cn';
 import './css/inStockNew.sass'
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import SelectGoods from "./SelectGoods";
+
 const { RangePicker } = DatePicker;
 
 export default class InStockNew extends React.Component{
@@ -18,7 +19,6 @@ export default class InStockNew extends React.Component{
 	
 	onDateChange = (date,dateString) =>{
 		console.log(date, dateString);
-		console.log(this.props.location.state);
 	};
 	
 	// 选择入库商品
@@ -83,6 +83,7 @@ export default class InStockNew extends React.Component{
 					visible={this.state.visible}
 					onCancel={this.hideSelectGoods}
 					onSubmit={this.selectedGoods}
+					channel={this.props.location.state.channel}
 				/>
 				
 				

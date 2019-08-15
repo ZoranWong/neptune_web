@@ -1,13 +1,46 @@
 import React from "react";
 import {Input, Modal, Select, Button, Table,Checkbox} from 'antd'
 import './css/selectGoods.sass'
+import {channelsGoods} from "../../../api/goods/goods";
 export default class SelectGoods extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-			data:[]
+			data:[],
+			scrollPage:1
 		}
 	}
+	
+	componentDidMount() {
+		// let chart = document.getElementsByClassName('selectGoodsChart');
+		console.log(document);
+		// console.log(chart);
+		// chart.addEventListener('scroll', this.handleScroll);
+		this.getGoods()
+	}
+	// 获取列表数据
+	getGoods = (page) =>{
+		channelsGoods({
+			channel:this.props.channel,
+			limit:10,
+			page:page
+		}).then(r=>{
+			if(!r.data.length) return;
+			this.setState({data:r.data})
+		}).catch(_=>{})
+	};
+	
+	// 下拉框分页加载
+	handleScroll = e => {
+		e.persist();
+		const { target } = e;
+		if (target.scrollTop + target.offsetHeight === target.scrollHeight) {
+			const { scrollPage } = this.state;
+			const nextScrollPage = scrollPage + 1;
+			this.setState({ scrollPage: nextScrollPage });
+			this.getGoods(nextScrollPage); // 调用api方法
+		}
+	};
 	
 	handleCancel = () =>{
 		this.props.onCancel()
@@ -25,17 +58,17 @@ export default class SelectGoods extends React.Component{
 			},
 			{
 				title: '规格',
-				render: (text, record) => (
-					<div>111</div>
-				)
+				render:(text,record) =>{
+					if(record.open_specification){
+						return (<span style={{'color':'#4F9863','cursor':'pointer'}}>选择规格</span>)
+					} else {
+						return <span>无</span>
+					}
+				}
 			},
 			{
 				title: '商品分类',
-				dataIndex: 'code',
-			},
-			{
-				title: '添加时间',
-				dataIndex:'time'
+				dataIndex: 'category',
 			},
 			{
 				title: '操作',
@@ -46,13 +79,6 @@ export default class SelectGoods extends React.Component{
 				,
 			},
 		];
-		const data = [
-			{
-				name:'1',
-				code:'2',
-				time:'222'
-			}
-		]
 		return(
 			<div className="selectGoods">
 				<Modal
@@ -80,7 +106,7 @@ export default class SelectGoods extends React.Component{
 							className="button"
 						>刷新</Button>
 					</div>
-					<div className="selectGoodsChart">
+					<div className="selectGoodsChart" onScrollCapture={this.handleScroll}>
 						<Table
 							columns={columns}
 							rowKey={record => record.id}
@@ -90,7 +116,7 @@ export default class SelectGoods extends React.Component{
 								if (index % 2 ) className = 'dark-row';
 								return className;
 							}}
-							dataSource={data}
+							dataSource={this.state.data}
 						/>
 					</div>
 					<div className="selectGoodFooter">

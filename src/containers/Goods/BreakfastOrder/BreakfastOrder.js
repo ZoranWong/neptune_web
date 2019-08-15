@@ -1,9 +1,9 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
-import {Button, Table, Modal, Input} from 'antd'
+import {Button, Table, Modal, Input, message, InputNumber} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/breakfastOrder.sass'
-import {channelsGoods} from "../../../api/goods/goods";
+import {channelsGoods,onShelves,offShelves,setWarning,setVirtualSales} from "../../../api/goods/goods";
 import {searchJson} from "../../../utils/dataStorage";
 import SaleRange from "./SaleRange";
 import AdvancedFilterComponent from "../../Shops/ShopManage/AdvancedFilterComponent";
@@ -19,27 +19,34 @@ class BreakfastOrder extends React.Component{
 				dataIndex: 'name',
 				render: (text,record) => <span
 					style={{'color':'#4F9863','cursor':'pointer'}}
+					onClick={()=>this.jump(record)}
 					>{text}</span>,
 			},
 			{
 				title: '分类',
-				dataIndex: 'keeper_name',
+				dataIndex: 'category',
 			},
 			{
 				title: '规格',
-				dataIndex: 'code',
+				render:(text,record) =>{
+					if(record.open_specification){
+						return (<span style={{'color':'#4F9863','cursor':'pointer'}}>查看规格</span>)
+					} else {
+						return <span>无</span>
+					}
+				}
 			},
 			{
 				title: '零售价',
-				dataIndex: 'channel',
+				dataIndex: 'retail_price',
 			},
 			{
 				title: '库存',
-				dataIndex:'total_sale',
+				dataIndex:'stock',
 				render: (text,record) =>
-					<div className="warning">
+					<div className="warning" >
 						{text}
-						<span>
+						<span style={{display:record.stock_alert?'block':'none'}}>
 							<IconFont type="icon-info-circle-fill" />
 							警戒
 						</span>
@@ -48,13 +55,23 @@ class BreakfastOrder extends React.Component{
 			},
 			{
 				title: '实际销量',
-				dataIndex: 'status',
+				dataIndex: 'total_sales',
 			},
 			{
 				title: '虚拟销量',
-				dataIndex: 'statusSale',
+				dataIndex: 'virtual_sales',
 				render: (text,record) =>
-					<Input className="virtualSales" />
+					<InputNumber
+						className="virtualSales"
+						defaultValue={text}
+						onBlur={(e)=>{
+							e.target.value = e.target.value < 0? 0:e.target.value;
+							if(e.target.value <= 0) return;
+							setVirtualSales({virtual_sales:e.target.value},record.provide_id).then(r=>{
+								message.success(r.message)
+							}).catch(_=>{})
+						}}
+					/>
 			},
 			{
 				title: '操作',
@@ -67,7 +84,7 @@ class BreakfastOrder extends React.Component{
 						</span>
 						<span
 							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
-							onClick={this.showWarningStock}
+							onClick={()=>this.showWarningStock(record)}
 						>警戒库存
 						</span>
 					</div>
@@ -82,6 +99,7 @@ class BreakfastOrder extends React.Component{
 			filterVisible:false,  // 高级筛选
 			warningStockVisible:false,   // 售卖范围
 			shelfGoodsVisible:false,  // 上架商品
+			stock_id:'',
 			user_data:[],
 			checkedAry:[],     // 列表页选中的用户id组
 			paginationParams:{
@@ -103,11 +121,17 @@ class BreakfastOrder extends React.Component{
 			filterVisible:false,
 			paginationParams:{
 				logic_conditions:[],
-				search:''
+				search:'',
+				channel:'BREAKFAST_CAR'
 			}
 		},()=>{
 			this.child.current.pagination(1)
 		})
+	};
+	
+	// 商品详情
+	jump = (record) =>{
+		this.props.history.push({pathname:"/goods/goodDetails",state:{id:record.product_id}})
 	};
 	
 	// 售卖范围
@@ -151,6 +175,15 @@ class BreakfastOrder extends React.Component{
 	
 	// 下架商品
 	unSale = () =>{
+		let products_ids = [];
+		this.state.checkedAry.forEach(id=>{
+			this.state.user_data.forEach(item=>{
+				if(id == item.stock_id){
+					products_ids.push(item.product_id)
+				}
+			})
+		});
+		let refresh = this.refresh;
 		let confirmModal = Modal.confirm({
 			title: (
 				<div className= 'u_confirm_header'>
@@ -179,22 +212,38 @@ class BreakfastOrder extends React.Component{
 			},
 			onOk() {
 				// 确定按钮执行操作
+				offShelves({
+					channel:'BREAKFAST_CAR',
+					product_ids:products_ids
+				}).then(r=>{
+					message.success(r.message);
+					refresh()
+				}).catch(_=>{})
 			}
 		});
 	};
 	
 	
 	// 警戒范围
-	showWarningStock = () =>{
-		this.setState({warningStockVisible:true})
+	showWarningStock = (record) =>{
+		if(record.open_specification){
+		
+		} else {
+			this.setState({warningStockVisible:true,stock_id:record.stock_id})
+		}
+		
 	};
 	
 	hideWarningStock = () =>{
 		this.setState({warningStockVisible:false})
 	};
 	
-	onSubmitWarningStock = (value) =>{
-		console.log(value);
+	onSubmitWarningStock = (value,id) =>{
+		setWarning({warning_stock:value},id).then(r=>{
+			message.success(r.message);
+			this.hideWarningStock();
+			this.refresh()
+		}).catch(_=>{})
 	};
 	
 	// 上架商品
@@ -207,7 +256,14 @@ class BreakfastOrder extends React.Component{
 	};
 	
 	onSubmitShelfGoods = (value) =>{
-		console.log(value);
+		onShelves({
+			channel:'BREAKFAST_CAR',
+			product_ids:value
+		}).then(r=>{
+			message.success(r.message);
+			this.hideShelfGoods();
+			this.refresh()
+		}).catch(_=>{})
 	};
 	
 	// 商品入库
@@ -223,6 +279,7 @@ class BreakfastOrder extends React.Component{
 	render(){
 		const rowSelection = {
 			onChange: (selectedRowKeys, selectedRows) => {
+				console.log(selectedRowKeys);
 				this.setState({checkedAry:selectedRowKeys})
 			},
 			getCheckboxProps: record => ({
@@ -243,6 +300,7 @@ class BreakfastOrder extends React.Component{
 					visible={this.state.warningStockVisible}
 					onCancel={this.hideWarningStock}
 					onSubmit={this.onSubmitWarningStock}
+					id={this.state.stock_id}
 				/>
 				
 				<ShelfGoods
@@ -288,7 +346,7 @@ class BreakfastOrder extends React.Component{
 					<Table
 						rowSelection={rowSelection}
 						columns={this.state.columns}
-						rowKey={record => record.id}
+						rowKey={record => record.stock_id}
 						pagination={false}
 						rowClassName={(record, index) => {
 							let className = '';

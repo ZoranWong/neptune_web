@@ -1,7 +1,8 @@
 import React from "react";
-import { Transfer, Table ,Modal} from 'antd';
+import {Transfer, Table, Modal, message} from 'antd';
 import difference from 'lodash/difference';
 import './css/shelfGoods.sass'
+import {products} from "../../../api/goods/goods";
 // Customize Table Transfer
 const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
 	<Transfer {...restProps} >
@@ -20,52 +21,34 @@ const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
 			
 			const showHeader = direction === 'left' ? true : false;
 			
- 		
 			const rowSelection = {
 				onSelectAll(selected, selectedRows) {
 					const treeSelectedKeys = selectedRows
 						.filter(item => !item.disabled)
-						.map(({ key }) => key);
+						.map((item) => item.product_id);
 					const diffKeys = selected
 						? difference(treeSelectedKeys, listSelectedKeys)
 						: difference(listSelectedKeys, treeSelectedKeys);
 					onItemSelectAll(diffKeys, selected);
 				},
-				onSelect({ key }, selected) {
-					onItemSelect(key, selected);
+				onSelect(selectedRowKeys, selected) {
+					onItemSelect(selectedRowKeys.product_id, selected);
 				},
 				selectedRowKeys: listSelectedKeys,
 			};
-			
 			if(direction === 'left'){
 				return (
 					<div>
 						<Table
 							rowSelection={rowSelection}
+							rowKey={record => record.product_id}
 							columns={columns}
 							showHeader={showHeader}
 							dataSource={filteredItems}
 							size="small"
 							pagination={false}
-							style={{ pointerEvents: listDisabled ? 'none' : null }}
 							onRow={({ key, disabled: itemDisabled }) => ({
 								onClick: () => {
-									if (itemDisabled || listDisabled) return;
-									onItemSelect(key, !listSelectedKeys.includes(key));
-								},
-							})}
-						/>
-						<Table
-							rowSelection={rowSelection}
-							columns={columns}
-							showHeader={showHeader}
-							dataSource={filteredItems}
-							size="small"
-							pagination={false}
-							style={{ pointerEvents: listDisabled ? 'none' : null }}
-							onRow={({ key, disabled: itemDisabled }) => ({
-								onClick: () => {
-									if (itemDisabled || listDisabled) return;
 									onItemSelect(key, !listSelectedKeys.includes(key));
 								},
 							})}
@@ -76,6 +59,7 @@ const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
 				return <Table
 					rowSelection={rowSelection}
 					columns={columns}
+					rowKey={record => record.product_id}
 					showHeader={showHeader}
 					dataSource={filteredItems}
 					size="small"
@@ -105,18 +89,17 @@ for (let i = 0; i < 20; i++) {
 	});
 }
 
-const originTargetKeys = mockData.filter(item => +item.key % 3 > 1).map(item => item.key);
 
 
 const leftTableColumns = [
 	{
-		dataIndex: 'title',
+		dataIndex: 'name',
 		title: 'Name',
 	}
 ];
 const rightTableColumns = [
 	{
-		dataIndex: 'title',
+		dataIndex: 'name',
 		title: 'Name',
 	},
 ];
@@ -125,11 +108,17 @@ const rightTableColumns = [
 
 export default class ShelfGoods extends React.Component {
 	state = {
-		targetKeys: originTargetKeys,
+		targetKeys: [],
+		data:[]
 	};
 	
+	componentDidMount() {
+		products({limit:100,page:1}).then(r=>{
+			this.setState({data:r.data})
+		}).catch(_=>{});
+	}
+	
 	onChange = nextTargetKeys => {
-		console.log(nextTargetKeys);
 		this.setState({ targetKeys: nextTargetKeys });
 	};
 	
@@ -138,7 +127,11 @@ export default class ShelfGoods extends React.Component {
 	};
 	
 	handleSubmit = () =>{
-		this.props.onSubmit(this.state.value)
+		if(!this.state.targetKeys.length){
+			message.error('请选择上架商品');
+			return;
+		}
+		this.props.onSubmit(this.state.targetKeys)
 	};
 	
 	handleTabs = () =>{
@@ -168,9 +161,10 @@ export default class ShelfGoods extends React.Component {
 					onOk={this.handleSubmit}
 				>
 					<TableTransfer
-						dataSource={mockData}
+						dataSource={this.state.data}
 						targetKeys={targetKeys}
 						showSearch={true}
+						rowKey={record => record.product_id}
 						onChange={this.onChange}
 						locale={{'itemUnit': '项', 'itemsUnit': '项', 'notFoundContent': '列表为空', 'searchPlaceholder': '请输入商品名称'}}
 						leftColumns={leftTableColumns}
