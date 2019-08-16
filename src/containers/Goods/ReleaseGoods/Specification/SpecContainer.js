@@ -1,6 +1,6 @@
 import React from "react";
 import './specification.sass'
-import {Button,Table,Tag} from "antd";
+import {Button, Input, Table, Tag} from "antd";
 import AddSpecName from "./AddSpecName";
 import IconFont from "../../../../utils/IconFont";
 import SpecItem from "./SpecItem";
@@ -65,7 +65,6 @@ export default class Specification extends React.Component{
 				
 			})
 		}
-		console.log(newTableData,'------');
 		this.setState({data: newTableData})
 	};
 	
@@ -103,22 +102,42 @@ export default class Specification extends React.Component{
 			{
 				title: '商品条码',
 				dataIndex: 'barcode',
-				align:'center'
+				align:'center',
+				render:(text,record)=>{
+					return <Input placeholder='请输入条形码' onChange={(e)=>{
+						record.barcodr = e.target.value;
+					}} />
+				}
 			},
 			{
 				title: '零售价',
 				dataIndex: 'retailPrice',
-				align:'center'
+				align:'center',
+				render:(text,record)=>{
+					return <Input addonAfter="元" onChange={(e)=>{
+						record.retailPrice = e.target.value;
+					}} />
+				}
 			},
 			{
 				title: '成本价',
 				dataIndex: 'costPrice',
-				align:'center'
+				align:'center',
+				render:(text,record)=>{
+					return <Input addonAfter="元" onChange={(e)=>{
+						record.costPrice = e.target.value;
+					}}/>
+				}
 			},
 			{
 				title: '市场价'	,
 				dataIndex: 'marketPrice',
-				align:'center'
+				align:'center',
+				render:(text,record)=>{
+					return <Input addonAfter="元" onChange={(e)=>{
+						record.marketPrice = e.target.value;
+					}} />
+				}
 			},
 			{
 				title: '操作',

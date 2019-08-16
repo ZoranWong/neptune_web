@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecItem.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/ReleaseGoods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/ReleaseGoods.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/NewSon.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/AddSpecValue.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/NewSpecification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/AddSpecName.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/Specification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/common.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/common.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/dataStorage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/dataStorage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecContainer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/specification.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/specification.sass" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -278,7 +274,7 @@
       <workItem from="1565744611658" duration="11000" />
       <workItem from="1565752827577" duration="11709000" />
       <workItem from="1565790894426" duration="13504000" />
-      <workItem from="1565921661803" duration="18127000" />
+      <workItem from="1565921661803" duration="20691000" />
     </task>
     <servers />
   </component>

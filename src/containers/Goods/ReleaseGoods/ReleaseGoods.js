@@ -26,6 +26,7 @@ class ReleaseGoods extends React.Component{
 			category_ids:[],  // 商品分类id组
 			specificationIsOpen:false
 		};
+		this.child = React.createRef();
 	}
 	
 	componentDidMount() {
@@ -48,6 +49,7 @@ class ReleaseGoods extends React.Component{
 		this.setState({activeKey})
 	};
 	handleSubmit = e => {
+		console.log(this.child.current.state.data);
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
@@ -55,7 +57,9 @@ class ReleaseGoods extends React.Component{
 				values.desc = '111';
 				releaseProducts(values).then(r=>{
 					console.log(r);
-				}).catch(_=>{})
+				}).catch(_=>{});
+				
+				
 			}
 		});
 	};
@@ -182,7 +186,7 @@ class ReleaseGoods extends React.Component{
 										}}/>)}
 									</Form.Item>
 									{
-										this.state.specificationIsOpen?(<Specification />):(
+										this.state.specificationIsOpen?(<Specification ref={this.child} />):(
 											<div>
 												<Form.Item label="零售价：" >
 													{getFieldDecorator('retail_price', {
