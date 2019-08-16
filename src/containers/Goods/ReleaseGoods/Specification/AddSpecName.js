@@ -4,10 +4,9 @@ import {Select, Modal,Tag} from "antd";
 import './common.sass'
 import IconFont from '../../../../utils/IconFont'
 import {allSpecification} from '../../../../api/goods/specification'
-import NewSon from "./NewSon";
+import NewSon from "./AddSpecValue";
 const {Option} = Select;
-let ary = [];
-export default class NewSpecification extends React.Component{
+export default class AddSpecName extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -15,7 +14,7 @@ export default class NewSpecification extends React.Component{
 
 			//SelectedSonSpecification:[],
 			allSpecification:[],
-			newSonVisible:false,
+			
 			parent:{}
 		};
 		this.child = React.createRef();
@@ -37,40 +36,18 @@ export default class NewSpecification extends React.Component{
 	
 	handleSubmit = () =>{
 		let val = this.state.value;
-		
+		let ary = [];
 		this.state.allSpecification.filter(item=>item.id == val).map(item=>ary.push(item));
-		//this.setState({SelectedSpecification:ary,value:''});
+		this.setState({value:''});
 		this.props.onSubmit(ary)
 	};
 	
-	// 新增规格值
-	showNewSon = (item) =>{
-		this.setState({parent:item});
-		this.setState({newSonVisible:true})
-	};
-	hideNewSon = () =>{
-		this.setState({newSonVisible:false})
-	};
-	createNewSon = (sons) =>{
-		// this.setState({SelectedSonSpecification:ary},()=>{
-		// 	this.hideNewSon()
-		// });
-		this.props.createNewSon(sons);
-		this.hideNewSon()
-
-	};
+	
 	
 	render() {
 		return (
 			<div>
-				<NewSon
-					visible={this.state.newSonVisible}
-					onCancel={this.hideNewSon}
-					onSubmit={this.createNewSon}
-					parent={this.state.parent}
-					ref={this.child}
-				/>
-
+				
 				
 				<Modal
 					title="新增规格"

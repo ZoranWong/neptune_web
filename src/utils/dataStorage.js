@@ -156,3 +156,28 @@ export function sortAry(ary,key) {
     return ary
 }
 
+/*
+* 数组相乘
+* */
+//接受可变长数组参数
+function addNewType(heads,choices){
+    var result=[];
+    for(var i=0,len=heads.length;i<len;i++){
+        for(var j=0,lenj=choices.length;j<lenj;j++){
+            let a = [];
+            a.push(heads[i],choices[j]);
+            result.push(a);
+        }
+    }
+    return result;
+}
+export function arrayMultiplication(){
+    let heads=arguments[0];
+    for(let i=1,len=arguments.length;i<len;i++){
+        if(arguments[i].length){
+            heads=addNewType(heads,arguments[i]);
+        }
+    }
+    return heads?heads:[];
+}
+

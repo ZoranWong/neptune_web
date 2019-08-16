@@ -29,27 +29,10 @@ export default class NewSpecification extends React.Component{
 	};
 	
 	handleSubmit = () =>{
-		let a;
-		let son = sons.filter(item=>item.id == this.props.parent.id)[0];
-		a = son?son.son:[];  // 对象里如果有父id 则变更父id下的子规格值 若无 则新建
+		let specValues = [];
 		let val = this.state.value;
-		this.state.sonSpecification.filter(item=>item.id == val).map(item=>a.push(item));
-
-		if(son){
-			sons.forEach(item=>{
-				if(item.id == this.props.parent.id){
-					item.son = a
-				}
-			})
-		} else {
-			let data = {
-				id:this.props.parent.id,
-				son:a
-			};
-			sons.push(data);
-		}
-
-		this.props.onSubmit(sons);
+		this.state.sonSpecification.filter(item=>item.id == val).map(item=>specValues.push(item));
+		this.props.onSubmit(this.props.parent.id,specValues);
 		this.setState({value:''});
 	};
 	
@@ -75,13 +58,14 @@ export default class NewSpecification extends React.Component{
 								this.setState({value:e})
 							}}
 							defaultActiveFirstOption={false}
+							
 						>
 							{
-								this.state.sonSpecification.map(item=>{
+								this.state.sonSpecification.length?this.state.sonSpecification.map(item=>{
 									return (
 										<Option key={item.id} value={item.id}>{item.value}</Option>
 									)
-								})
+								}):''
 							}
 						</Select>
 					</div>

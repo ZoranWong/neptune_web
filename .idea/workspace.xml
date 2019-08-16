@@ -2,35 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Activities/SaleRange.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Activities/css/breakfastOrder.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Activities/css/saleRange.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/ClientOrder/SaleRange.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/ClientOrder/css/breakfastOrder.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/ClientOrder/css/saleRange.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/DistributionMall/SaleRange.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/DistributionMall/css/breakfastOrder.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/DistributionMall/css/saleRange.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/ObtainedGoods/SaleRange.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/ObtainedGoods/css/breakfastOrder.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Goods/ObtainedGoods/css/saleRange.sass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecItem.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/goods/goods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/goods/goods.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/Activities/Activities.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/Activities/Activities.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/BreakfastOrder/BreakfastOrder.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/BreakfastOrder/BreakfastOrder.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/BreakfastOrder/css/breakfastOrder.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/BreakfastOrder/css/breakfastOrder.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ClientOrder/ClientOrder.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ClientOrder/ClientOrder.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/Components/ShelfGoods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/Components/ShelfGoods.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/Components/WarningStock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/Components/WarningStock.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/Components/css/warningStock.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/Components/css/warningStock.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/DistributionMall/DistributionMall.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/DistributionMall/DistributionMall.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/GoodsManage/AddGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/GoodsManage/AddGroup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/GoodsManage/GoodsManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/GoodsManage/GoodsManage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/InStock/InStock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/InStock/InStock.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/InStockNew/InStockNew.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/InStockNew/InStockNew.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/InStockNew/SelectGoods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/InStockNew/SelectGoods.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/InStockNew/css/selectGoods.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/InStockNew/css/selectGoods.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ObtainedGoods/ObtainedGoods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ObtainedGoods/ObtainedGoods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/ReleaseGoods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/ReleaseGoods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/NewSon.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/AddSpecValue.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/NewSpecification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/AddSpecName.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/Specification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecContainer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/common.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/common.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/dataStorage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/dataStorage.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -46,8 +25,8 @@
       <list>
         <option value="CSS File" />
         <option value="TypeScript File" />
-        <option value="JavaScript File" />
         <option value="Sass File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -299,6 +278,7 @@
       <workItem from="1565744611658" duration="11000" />
       <workItem from="1565752827577" duration="11709000" />
       <workItem from="1565790894426" duration="13504000" />
+      <workItem from="1565921661803" duration="18127000" />
     </task>
     <servers />
   </component>

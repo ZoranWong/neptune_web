@@ -3,7 +3,7 @@ import './index.sass'
 import Editor from "../../../components/Editor/Editor";
 import { Tabs,Button , Form, Input,  Select, Radio,Switch} from 'antd';
 import {SonClassification} from "../../../api/goods/classification";
-import Specification from './Specification/Specification'
+import Specification from './Specification/SpecContainer'
 import {releaseProducts} from "../../../api/goods/goods";
 
 const { TabPane } = Tabs;
