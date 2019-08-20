@@ -2,10 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/UploadMany/Upload.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/UploadMany/upload.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/common.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/goods/goods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/goods/goods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/goods/specification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/goods/specification.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Upload/Upload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Upload/Upload.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/InStockNew/InStockNew.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/InStockNew/InStockNew.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/InStockNew/SelectGoods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/InStockNew/SelectGoods.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/ReleaseGoods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/ReleaseGoods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/AddSpecName.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/AddSpecName.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/AddSpecValue.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/AddSpecValue.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/specification.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/specification.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/common.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/common.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/index.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/index.sass" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,12 +44,6 @@
   <component name="PackageJsonUpdateNotifier">
     <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-71" />
-    <option name="y" value="33" />
-    <option name="width" value="1400" />
-    <option name="height" value="920" />
-  </component>
   <component name="ProjectId" id="1OOOGWTaesYQxhJyJMXacA3kuKG" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -46,7 +52,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jsx.switch.disabled" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/containers/Goods/ClientOrder" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Funath" />
     <property name="list.type.of.created.stylesheet" value="Sass" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -55,19 +61,19 @@
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/containers/Goods/ClientOrder" />
-      <recent name="$PROJECT_DIR$/src/containers/Goods/DistributionMall" />
-      <recent name="$PROJECT_DIR$/src/containers/Goods/Activities" />
-      <recent name="$PROJECT_DIR$/src/containers/Goods/ObtainedGoods" />
-      <recent name="C:\Users\Administrator\Documents\GitHub\neptune_web\src\containers\Goods\GoodsManage" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/containers/Goods/OutStockNew" />
       <recent name="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification" />
       <recent name="$PROJECT_DIR$/src/containers/Goods/GoodsManage" />
       <recent name="$PROJECT_DIR$/src/api/shops" />
       <recent name="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components" />
+      <recent name="$PROJECT_DIR$/src/containers/Goods/ClientOrder" />
+      <recent name="$PROJECT_DIR$/src/containers/Goods/DistributionMall" />
+      <recent name="$PROJECT_DIR$/src/containers/Goods/Activities" />
+      <recent name="$PROJECT_DIR$/src/containers/Goods/ObtainedGoods" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -275,6 +281,7 @@
       <workItem from="1565752827577" duration="11709000" />
       <workItem from="1565790894426" duration="13504000" />
       <workItem from="1565921661803" duration="20691000" />
+      <workItem from="1566263234534" duration="19380000" />
     </task>
     <servers />
   </component>

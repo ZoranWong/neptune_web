@@ -5,7 +5,8 @@ import { Tabs,Button , Form, Input,  Select, Radio,Switch} from 'antd';
 import {SonClassification} from "../../../api/goods/classification";
 import Specification from './Specification/SpecContainer'
 import {releaseProducts} from "../../../api/goods/goods";
-
+import Upload from '../../../components/Upload/Upload'
+import UploadMany from "../../../components/UploadMany/Upload";
 const { TabPane } = Tabs;
 
 class ReleaseGoods extends React.Component{
@@ -49,7 +50,6 @@ class ReleaseGoods extends React.Component{
 		this.setState({activeKey})
 	};
 	handleSubmit = e => {
-		console.log(this.child.current.state.data);
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
@@ -58,8 +58,6 @@ class ReleaseGoods extends React.Component{
 				releaseProducts(values).then(r=>{
 					console.log(r);
 				}).catch(_=>{});
-				
-				
 			}
 		});
 	};
@@ -92,7 +90,7 @@ class ReleaseGoods extends React.Component{
 										})(<Input
 										/>)}
 									</Form.Item>
-									<Form.Item label="商品条码：" >
+									<Form.Item label="商品条码：" style={{marginBottom:0}} >
 										{getFieldDecorator('barcode', {
 											initialValue:'',
 											rules: [
@@ -100,7 +98,7 @@ class ReleaseGoods extends React.Component{
 										})(<Input
 										/>)}
 									</Form.Item>
-									<Form.Item label="商品缩略图：" >
+									<Form.Item label="商品缩略图：" className="upload">
 										{getFieldDecorator('thumbnail', {
 											initialValue:'',
 											rules: [
@@ -109,16 +107,18 @@ class ReleaseGoods extends React.Component{
 													message: '请选择商品缩略图',
 												},
 											],
-										})(<Input
-										/>)}
+										})(<Upload text="上传"/>)}
 									</Form.Item>
-									<Form.Item label="商品banner图：">
+									<Form.Item label="商品banner图："  className="upload">
 										{getFieldDecorator('banners', {
 											initialValue:[],
 											rules: [{ required: true, message: '请选择商品banner图' }],
-										})(<Input />)}
+										})(<div className="bannerImg">
+											<UploadMany />
+											<span className="suggest">建议尺寸：640 * 640像素，最多上传10张；你可以拖拽图片调整图片顺序。</span>
+										</div>)}
 									</Form.Item>
-									<Form.Item label="商品简介：">
+									<Form.Item label="商品简介：" style={{marginTop:'60px'}}>
 										{getFieldDecorator('intro', {
 											initialValue:'',
 											rules: [{ required: true, message: '请输入商品简介' }],

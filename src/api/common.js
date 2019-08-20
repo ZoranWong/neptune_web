@@ -25,3 +25,29 @@ export function regions(params) {
         params: params
     })
 }
+
+// 上传图片
+export function upload(params) {
+    return request({
+        url: '/api/common/image/upload',
+        method: 'post',
+        data: params
+    })
+}
+
+// 删除图片
+export function deleteImg(params) {
+    return request({
+        url: '/api/common/image/delete',
+        method: 'delete',
+        params: params
+    })
+}
+// 修改图片信息
+export function editImg(params,resourceId) {
+    return request({
+        url: `/api/common/image/${resourceId}`,
+        method: 'put',
+        data: params
+    })
+}

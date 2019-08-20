@@ -2,13 +2,15 @@
 import React from "react";
 import {Select, Modal, Tag} from "antd";
 import './common.sass'
+import {createValues} from '../../../../api/goods/specification'
 const {Option} = Select;
 let sons = [];
 export default class NewSpecification extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-			value:'',
+			specValues:[],
+			allValues:[],
 			sonSpecification:[],
 		};
 	}
@@ -23,17 +25,34 @@ export default class NewSpecification extends React.Component{
 	
 	}
 	
+	handleChange = (e) =>{
+		this.setState({specValues:e})
+	};
+	
 	handleCancel = () =>{
 		this.setState({value:''});
 		this.props.onCancel()
 	};
 	
 	handleSubmit = () =>{
-		let specValues = [];
-		let val = this.state.value;
-		this.state.sonSpecification.filter(item=>item.id == val).map(item=>specValues.push(item));
-		this.props.onSubmit(this.props.parent.id,specValues);
-		this.setState({value:''});
+		// let specValues = [];
+		// let val = this.state.value;
+		// this.state.sonSpecification.filter(item=>item.id == val).map(item=>specValues.push(item));
+		// this.props.onSubmit(this.props.parent.id,specValues);
+		
+		
+		
+		
+		let allValues = this.state.allValues;
+		let specValues = this.state.specValues;
+		allValues.forEach(item=>{
+			if(specValues.indexOf(item) > -1){
+				specValues.splice(specValues[item],1)
+			}
+		});
+		createValues({values:specValues},this.props.parent.id).then(r=>{
+			this.props.onSubmit(this.props.parent.id,this.state.specValues);
+		}).catch(_=>{})
 	};
 	
 
@@ -53,11 +72,9 @@ export default class NewSpecification extends React.Component{
 					<div className="newSpecification">
 						选择规格值
 						<Select
-							value={this.state.value}
-							onChange={(e)=>{
-								this.setState({value:e})
-							}}
-							defaultActiveFirstOption={false}
+							mode="tags"
+							onChange={this.handleChange}
+							allowClear={true}
 							
 						>
 							{

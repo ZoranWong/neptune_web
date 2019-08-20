@@ -1,13 +1,14 @@
 import React from "react";
 import {Input, Modal, Select, Button, Table,Checkbox} from 'antd'
 import './css/selectGoods.sass'
-import {channelsGoods} from "../../../api/goods/goods";
+import {stockable} from "../../../api/goods/goods";
 export default class SelectGoods extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
 			data:[],
-			scrollPage:1
+			scrollPage:1,
+			checkedAry:[]
 		}
 	}
 	
@@ -20,7 +21,7 @@ export default class SelectGoods extends React.Component{
 	}
 	// 获取列表数据
 	getGoods = (page) =>{
-		channelsGoods({
+		stockable({
 			channel:this.props.channel,
 			limit:10,
 			page:page
@@ -47,7 +48,17 @@ export default class SelectGoods extends React.Component{
 	};
 	
 	handleSubmit = () =>{
-		this.props.onSubmit()
+		this.props.onSubmit(this.state.checkedAry)
+	};
+	
+	handleCheckChange = (record,e) =>{
+		let ary = this.state.checkedAry;
+		if(e.target.checked){
+			ary.push(record)
+		} else {
+			ary = ary.filter(item=>item.product_id != record.product_id)
+		}
+		this.setState({checkedAry:ary})
 	};
 	
 	render() {
@@ -74,7 +85,7 @@ export default class SelectGoods extends React.Component{
 				title: '操作',
 				render: (text,record) =>
 					<div className="checkBox">
-						<Checkbox > </Checkbox>
+						<Checkbox onChange={(e)=>this.handleCheckChange(record,e)}> </Checkbox>
 					</div>
 				,
 			},
@@ -121,11 +132,13 @@ export default class SelectGoods extends React.Component{
 					</div>
 					<div className="selectGoodFooter">
 						<div className="text">
-							已选<span>1</span>个产品
+							已选<span>{this.state.checkedAry.length}</span>个产品
 						</div>
 						<Button
 							type="primary"
-							size="small">确定</Button>
+							size="small"
+							onClick={this.handleSubmit}
+						>确定</Button>
 					</div>
 				</Modal>
 			</div>

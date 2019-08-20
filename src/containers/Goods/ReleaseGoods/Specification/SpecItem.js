@@ -26,7 +26,9 @@ export default class SpecItem extends React.Component{
 		if(!copySpecItemData[specId]){
 			copySpecItemData[specId] = []
 		}
-		copySpecItemData[specId].push(values[0]);
+		values.forEach(item=>{
+			copySpecItemData[specId].push(item);
+		});
 		console.log(copySpecItemData);
 		this.setState({specItemData:copySpecItemData});
 		this.props.renderTable();
@@ -65,8 +67,8 @@ export default class SpecItem extends React.Component{
 									{
 										this.state.specItemData[item.id]?(
 											this.state.specItemData[item.id].map(r=>{
-												return <Tag closable key={r.id} >
-													{r.value}
+												return <Tag closable key={r} >
+													{r}
 												</Tag>
 											})
 										):''

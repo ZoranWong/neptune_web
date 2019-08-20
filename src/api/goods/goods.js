@@ -77,4 +77,21 @@ export function offShelvesProducts(params) {
 	})
 }
 
-//
+// 售卖范围
+export function setSaleScope(params,productProvideId) {
+	return request({
+		url: `/api/backend/products/stock/&{productProvideId}/set_sale_scope`,
+		method: 'put',
+		data: params
+	})
+}
+
+// 出库时选择商品接口
+export function stockable(params) {
+	return request({
+		url: '/api/backend/products/stock/stockable',
+		method: 'get',
+		params: params
+	})
+}
+

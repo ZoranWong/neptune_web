@@ -29,7 +29,8 @@ export default class Specification extends React.Component{
 		this.setState({newSpecificationVisible:false})
 	};
 	createNewSpecification = (ary) =>{
-		this.setState({SelectedSpecification:[...this.state.SelectedSpecification,ary[0]]});
+		console.log(ary,'00000');
+		this.setState({SelectedSpecification:[...this.state.SelectedSpecification,ary]});
 		this.hideNewSpecification();
 		this.renderTable()
 	};

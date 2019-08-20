@@ -1,9 +1,10 @@
 import React from "react";
-import {Button, Input, DatePicker, LocaleProvider, Table} from "antd";
+import {Button, Input, DatePicker, LocaleProvider, Table, message, InputNumber} from "antd";
 import 'moment/locale/zh-cn';
 import './css/inStockNew.sass'
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import SelectGoods from "./SelectGoods";
+import {setVirtualSales} from "../../../api/goods/goods";
 
 const { RangePicker } = DatePicker;
 
@@ -13,7 +14,7 @@ export default class InStockNew extends React.Component{
 		this.state = {
 			remark:'',   //备注
 			data:[],    // 已选入库商品
-			visible:true,
+			visible:false,
 		}
 	}
 	
@@ -29,7 +30,9 @@ export default class InStockNew extends React.Component{
 		this.setState({visible:false})
 	};
 	selectedGoods = data =>{
+		this.hideSelectGoods();
 		console.log(data);
+		this.setState({data})
 	};
 	
 	
@@ -51,13 +54,20 @@ export default class InStockNew extends React.Component{
 				title: '入库数量',
 				render: (text,record) =>
 					<div>
-						<Input className="inStockNum" />
+						<Input className="inStockNum"
+							   defaultValue={0}
+							   onBlur={(e)=>{
+									e.target.value = e.target.value < 0? 0:e.target.value;
+									if(e.target.value <= 0) return;
+									record.quantity = e.target.value;
+							   }}
+						/>
 					</div>
 				,
 			},
 			{
 				title: '成本价',
-				dataIndex: 'channel2',
+				dataIndex: 'retail_price',
 			},
 			{
 				title: '小计',

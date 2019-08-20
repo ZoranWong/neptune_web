@@ -41,3 +41,12 @@ export function deleteSpecification(params) {
 	})
 }
 // 编辑规格
+
+// 新增多个规格值
+export function createValues(params,specificationId) {
+	return request({
+		url: `/api/backend/products/specification/${specificationId}/add_spec_value_array`,
+		method: 'put',
+		data: params
+	})
+}
