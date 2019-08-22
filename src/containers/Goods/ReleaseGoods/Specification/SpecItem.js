@@ -29,7 +29,6 @@ export default class SpecItem extends React.Component{
 		values.forEach(item=>{
 			copySpecItemData[specId].push(item);
 		});
-		console.log(copySpecItemData);
 		this.setState({specItemData:copySpecItemData});
 		this.props.renderTable();
 		this.hideNewSon()
@@ -41,6 +40,24 @@ export default class SpecItem extends React.Component{
 		this.setState({newSonVisible:false})
 	};
 	
+	// 删除规格 closeName
+	closeName = (id) =>{
+		let names = this.state.SelectedSpecification;
+		names = names.filter(item=>item.id != id);
+		this.setState({SelectedSpecification:names});
+		this.props.onSubmit(names)
+	};
+	
+	closeValue = (pId,id) =>{
+		let itemData = this.state.specItemData;
+		for (let key in itemData){
+			if(key == pId){
+				itemData[key] = itemData[key].filter(item=>item.id != id)
+			}
+		}
+		this.setState({specItemData:itemData});
+		this.props.renderTable();
+	};
 	
 	render() {
 		return (
@@ -56,7 +73,7 @@ export default class SpecItem extends React.Component{
 						return (
 							<div className="s_tags" key={item.id}>
 								<div className="top">
-									<Tag closable >
+									<Tag closable onClose={()=>this.closeName(item.id)}>
 										{item.name}
 									</Tag>
 									<div className="addNewSon" onClick={()=>this.showNewSon(item)} >
@@ -67,8 +84,8 @@ export default class SpecItem extends React.Component{
 									{
 										this.state.specItemData[item.id]?(
 											this.state.specItemData[item.id].map(r=>{
-												return <Tag closable key={r} >
-													{r}
+												return <Tag closable key={r.id} onClose={()=>this.closeValue(item.id,r.id)} >
+													{r.value}
 												</Tag>
 											})
 										):''

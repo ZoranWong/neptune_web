@@ -1,6 +1,6 @@
 
 import React from "react";
-import {Select, Modal} from "antd";
+import {Select, Modal,AutoComplete} from "antd";
 import './common.sass'
 import {allSpecification,createSpecification} from '../../../../api/goods/specification'
 const {Option} = Select;
@@ -12,13 +12,15 @@ export default class AddSpecName extends React.Component{
 			allSpecification:[],
 			allNames:[], //  后台获取当前所有规格值名称
 			parent:{},
-			specNames:[]
+			specName:[]
 		};
 		this.child = React.createRef();
 	}
 	
 	handleChange = (e) =>{
-		this.setState({specNames:e})
+		this.setState({specName:e})
+		
+		
 	};
 	
 	
@@ -38,19 +40,16 @@ export default class AddSpecName extends React.Component{
 	};
 	
 	handleSubmit = () =>{
-		// let newNames = [];
-		// let allNames = this.state.allNames;
-		// let specNames = this.state.specNames;
-		// //
-		// allNames.forEach(item=>{
-		// 	if(specNames.indexOf(item) > -1){
-		// 		specNames.splice(specNames[item],1)
-		// 	}
-		// });
-		createSpecification({name:this.state.specNames[0]}).then(r=>{
-			this.props.onSubmit(r.data)
-			
-		}).catch(_=>{});
+		let allNames = this.state.allNames;
+		let specName = this.state.specName;
+		let isInAll = allNames.indexOf(specName);
+		if(isInAll > -1){
+			this.props.onSubmit(this.state.allSpecification.filter(item=>item.name == specName)[0])
+		} else {
+			createSpecification({name:specName}).then(r=>{
+				this.props.onSubmit(r.data)
+			}).catch(_=>{});
+		}
 	};
 	
 	
@@ -67,24 +66,22 @@ export default class AddSpecName extends React.Component{
 					onCancel={this.handleCancel}
 					maskClosable={false}
 					okText="确定"
+					destroyOnClose={true}
 					cancelText="取消"
 					onOk={this.handleSubmit}
 				>
 					<div className="newSpecification">
 						选择规格
-						<Select
-							mode="tags"
+						<AutoComplete
+							defaultValue=""
+							style={{ width: 300 }}
+							dataSource={this.state.allNames}
 							onChange={this.handleChange}
-							allowClear={true}
-						>
-							{
-								this.state.allSpecification.map(item=>{
-									return (
-										<Option key={item.name} >{item.name}</Option>
-									)
-								})
+							placeholder="1"
+							filterOption={(inputValue, option) =>
+								option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
 							}
-						</Select>
+						/>
 					</div>
 				</Modal>
 			</div>

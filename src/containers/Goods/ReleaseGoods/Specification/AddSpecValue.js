@@ -11,13 +11,12 @@ export default class NewSpecification extends React.Component{
 		this.state = {
 			specValues:[],
 			allValues:[],
-			sonSpecification:[],
 		};
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(!nextProps.parent.id) return;
-		this.setState({sonSpecification:nextProps.parent.spec_value})
+		this.setState({allValues:nextProps.parent.spec_value})
 	}
 	
 	
@@ -44,15 +43,31 @@ export default class NewSpecification extends React.Component{
 		
 		
 		let allValues = this.state.allValues;
+		console.log(allValues,'=====');
 		let specValues = this.state.specValues;
+		console.log(specValues,'-------');
+		let isInAll = [];
+		let notInAll = specValues;  // 初始默认值
 		allValues.forEach(item=>{
-			if(specValues.indexOf(item) > -1){
-				specValues.splice(specValues[item],1)
+			if(specValues.indexOf(item.value)> -1){
+				isInAll.push(item);
 			}
 		});
-		createValues({values:specValues},this.props.parent.id).then(r=>{
-			this.props.onSubmit(this.props.parent.id,this.state.specValues);
-		}).catch(_=>{})
+		if(isInAll.length){
+			isInAll.forEach(item=>{
+				notInAll = notInAll.filter(i=>i != item.value)
+			})
+		}
+		console.log(isInAll);
+		console.log(notInAll);
+		if(notInAll.length){
+			createValues({values:notInAll},this.props.parent.id).then(r=>{
+				this.props.onSubmit(this.props.parent.id,r.data.concat(isInAll));
+			}).catch(_=>{})
+		} else {
+			this.props.onSubmit(this.props.parent.id,isInAll);
+		}
+		
 	};
 	
 
@@ -67,6 +82,7 @@ export default class NewSpecification extends React.Component{
 					maskClosable={false}
 					okText="确定"
 					cancelText="取消"
+					destroyOnClose={true}
 					onOk={this.handleSubmit}
 				>
 					<div className="newSpecification">
@@ -78,9 +94,9 @@ export default class NewSpecification extends React.Component{
 							
 						>
 							{
-								this.state.sonSpecification.length?this.state.sonSpecification.map(item=>{
+								this.state.allValues.length?this.state.allValues.map(item=>{
 									return (
-										<Option key={item.id} value={item.id}>{item.value}</Option>
+										<Option key={item.value}>{item.value}</Option>
 									)
 								}):''
 							}

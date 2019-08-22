@@ -2,22 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/UploadMany/Upload.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/UploadMany/upload.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/common.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/goods/goods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/goods/goods.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/goods/specification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/goods/specification.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Upload/Upload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Upload/Upload.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/InStockNew/InStockNew.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/InStockNew/InStockNew.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/InStockNew/SelectGoods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/InStockNew/SelectGoods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/UploadMany/Upload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UploadMany/Upload.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/ReleaseGoods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/ReleaseGoods.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/AddSpecName.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/AddSpecName.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/AddSpecValue.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/AddSpecValue.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecContainer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/common.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/common.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/index.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/index.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/specification.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/specification.sass" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -61,19 +54,19 @@
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/containers/Goods/OutStockNew" />
-      <recent name="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification" />
-      <recent name="$PROJECT_DIR$/src/containers/Goods/GoodsManage" />
-      <recent name="$PROJECT_DIR$/src/api/shops" />
-      <recent name="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/components" />
       <recent name="$PROJECT_DIR$/src/containers/Goods/ClientOrder" />
       <recent name="$PROJECT_DIR$/src/containers/Goods/DistributionMall" />
       <recent name="$PROJECT_DIR$/src/containers/Goods/Activities" />
       <recent name="$PROJECT_DIR$/src/containers/Goods/ObtainedGoods" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/containers/Goods/OutStockNew" />
+      <recent name="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification" />
+      <recent name="$PROJECT_DIR$/src/containers/Goods/GoodsManage" />
+      <recent name="$PROJECT_DIR$/src/api/shops" />
+      <recent name="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -281,7 +274,12 @@
       <workItem from="1565752827577" duration="11709000" />
       <workItem from="1565790894426" duration="13504000" />
       <workItem from="1565921661803" duration="20691000" />
-      <workItem from="1566263234534" duration="19380000" />
+      <workItem from="1566263234534" duration="19736000" />
+      <workItem from="1566351337652" duration="24005000" />
+      <workItem from="1566437964497" duration="7132000" />
+      <workItem from="1566456495225" duration="2930000" />
+      <workItem from="1566460323812" duration="1029000" />
+      <workItem from="1566462557448" duration="611000" />
     </task>
     <servers />
   </component>

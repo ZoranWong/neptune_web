@@ -1,5 +1,7 @@
 import { Upload, Icon, Modal,message } from 'antd';
 import React from "react";
+import {upload} from "../../api/common";
+import {getToken} from "../../utils/dataStorage";
 function getBase64(file) {
 	return new Promise((resolve, reject) => {
 		const reader = new FileReader();
@@ -8,28 +10,17 @@ function getBase64(file) {
 		reader.onerror = error => reject(error);
 	});
 }
-function beforeUpload(file) {
-	const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png');
-	if (!isJPG) {
-		message.error('仅支持上传JPG,PNG格式的图片!');
-	}
-	const isLt2M = file.size / 1024 / 1024 < 2;
-	if (!isLt2M) {
-		message.error('图片大小不能超过2MB!');
-	}
-	return isJPG && isLt2M;
-}
+
 
 export default class UploadMany extends React.Component{
 	constructor(props) {
 		super(props);
 		this.text = props.text;
-		this. state = {
+		this.state = {
 			previewVisible: false,
 			previewImage: '',
-			fileList: [
-			
-			],
+			fileList: [],
+			banners:[]
 		};
 	}
 	
@@ -38,8 +29,22 @@ export default class UploadMany extends React.Component{
 		this.setState({imageUrl:nextProps.defaultImg})
 	}
 	
+	beforeUpload = file => {
+		const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png');
+		if (!isJPG) {
+			message.error('仅支持上传JPG,PNG格式的图片!');
+		}
+		const isLt2M = file.size / 1024 / 1024 < 2;
+		if (!isLt2M) {
+			message.error('图片大小不能超过2MB!');
+		}
+		return isJPG && isLt2M;
+	};
 	
-	handleCancel = () => this.setState({ previewVisible: false });
+	
+	handleCancel = () => {
+		this.setState({ previewVisible: false })
+	};
 	
 	handlePreview = async file => {
 		if (!file.url && !file.preview) {
@@ -52,7 +57,9 @@ export default class UploadMany extends React.Component{
 		});
 	};
 	
-	handleChange = ({ fileList }) => this.setState({ fileList });
+	handleChange = ({ fileList }) => {
+		this.setState({fileList})
+	};
 	
 	
 	render() {
@@ -66,11 +73,13 @@ export default class UploadMany extends React.Component{
 		return (
 			<div className="clearfix">
 				<Upload
-					action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
 					listType="picture-card"
 					fileList={fileList}
 					onPreview={this.handlePreview}
 					onChange={this.handleChange}
+					action={`http://neptune.klsfood.cn/api/common/image/upload`}
+					headers={{'Authorization': `${getToken()}`}}
+					beforeUpload={this.beforeUpload}
 				>
 					{fileList.length >= 10 ? null : uploadButton}
 				</Upload>

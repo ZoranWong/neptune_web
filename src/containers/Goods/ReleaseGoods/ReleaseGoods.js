@@ -1,10 +1,11 @@
 import React from "react";
 import './index.sass'
 import Editor from "../../../components/Editor/Editor";
-import { Tabs,Button , Form, Input,  Select, Radio,Switch} from 'antd';
+import {Tabs, Button, Form, Input, Select, Radio, Switch, message} from 'antd';
 import {SonClassification} from "../../../api/goods/classification";
 import Specification from './Specification/SpecContainer'
 import {releaseProducts} from "../../../api/goods/goods";
+
 import Upload from '../../../components/Upload/Upload'
 import UploadMany from "../../../components/UploadMany/Upload";
 const { TabPane } = Tabs;
@@ -28,6 +29,8 @@ class ReleaseGoods extends React.Component{
 			specificationIsOpen:false
 		};
 		this.child = React.createRef();
+		this.uploadChild = React.createRef();
+		this.bannerChild = React.createRef();
 	}
 	
 	componentDidMount() {
@@ -49,15 +52,86 @@ class ReleaseGoods extends React.Component{
 	tabChange = (activeKey) =>{
 		this.setState({activeKey})
 	};
+	
+	devideIds = (item,all) =>{
+		console.log(item,'itme');
+		console.log(all,'all');
+		let ary = [];
+		let str = 'value';
+		all.forEach(i=>{
+			i.spec_value.forEach(k=>{
+				if(k.id == item.id || item.id.indexOf(k.id) > -1){
+					for (let key in item){
+						let index = key.indexOf(str);
+						if(index > -1){
+							let d = {};
+							d[`${key.substring(index + 5)}`] = item["id"];
+							ary.push(d);
+						}
+					}
+				}
+			})
+		});
+		return ary
+	};
+	
 	handleSubmit = e => {
 		e.preventDefault();
+		this.props.form.setFieldsValue({'thumbnail':this.uploadChild.current.state.imgUrl}); // 缩略图
 		this.props.form.validateFieldsAndScroll((err, values) => {
+			//console.log(this.child.current.state.SelectedSpecification);   // parent Id  name   values:[]
+			values.banners = [];  // banner图
+			let fileList =this.bannerChild.current.state.fileList;
+			fileList.forEach(item=>{
+				values.banners.push(item.response.data.url)
+			});
+			
+			
 			if (!err) {
-				values.banners = ['1','2'];
-				values.desc = '111';
-				releaseProducts(values).then(r=>{
-					console.log(r);
-				}).catch(_=>{});
+				
+				if(values.open_specification){
+					values.open_specification = 1;
+					// 规格
+					let specs = [];
+					let childName = this.child.current.state.SelectedSpecification;
+					let childValue = this.child.current.specItemChild.current.state.specItemData;
+					childName.forEach(item=>{
+						let nameData = {};
+						nameData['id'] = item.id;
+						nameData['name'] = item.name;
+						nameData['values'] = [];
+						childValue[item.id].forEach(item=>{
+							item['name'] = item['value'];
+							nameData['values'].push(item);
+						});
+						specs.push(nameData)
+					});
+					
+					// 数量
+					let tableData = this.child.current.state.data;
+					tableData.forEach(item=>{
+						let spec = this.devideIds(item, childName);
+						item['name']=values.name;
+						item['image']='xxx';
+						item['spec'] = [];
+						item['spec'].push(spec[0])
+					});
+					values.spec = specs;
+					values.entities = tableData;
+					values.desc = '111';
+					releaseProducts(values).then(r=>{
+						message.success('发布商品成功')
+					}).catch(_=>{});
+					
+				} else {
+					values.open_specification = 0;
+					values.banners = ['1','2'];
+					values.desc = '111';
+					releaseProducts(values).then(r=>{
+						message.success('发布商品成功')
+					}).catch(_=>{});
+				}
+				
 			}
 		});
 	};
@@ -107,14 +181,14 @@ class ReleaseGoods extends React.Component{
 													message: '请选择商品缩略图',
 												},
 											],
-										})(<Upload text="上传"/>)}
+										})(<Upload ref={this.uploadChild} text="上传"/>)}
 									</Form.Item>
 									<Form.Item label="商品banner图："  className="upload">
 										{getFieldDecorator('banners', {
 											initialValue:[],
 											rules: [{ required: true, message: '请选择商品banner图' }],
 										})(<div className="bannerImg">
-											<UploadMany />
+											<UploadMany ref={this.bannerChild} />
 											<span className="suggest">建议尺寸：640 * 640像素，最多上传10张；你可以拖拽图片调整图片顺序。</span>
 										</div>)}
 									</Form.Item>
@@ -137,7 +211,6 @@ class ReleaseGoods extends React.Component{
 											rules: [{ required: true, message: '请选择商品属性' }],
 										})(<Select
 												onChange={(e)=>{
-													console.log(this.props.form.getFieldValue());
 													this.props.form.setFieldsValue({
 														property:e
 													});

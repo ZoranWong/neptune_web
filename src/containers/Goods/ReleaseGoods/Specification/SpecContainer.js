@@ -1,6 +1,6 @@
 import React from "react";
 import './specification.sass'
-import {Button, Input, Table, Tag} from "antd";
+import {Button, Input, InputNumber, Table, Tag} from "antd";
 import AddSpecName from "./AddSpecName";
 import IconFont from "../../../../utils/IconFont";
 import SpecItem from "./SpecItem";
@@ -20,6 +20,8 @@ export default class Specification extends React.Component{
 		this.specItemChild = React.createRef();
 	}
 	
+	componentDidMount() {
+	}
 	
 	// 新增规格
 	showNewSpecification = () =>{
@@ -29,11 +31,23 @@ export default class Specification extends React.Component{
 		this.setState({newSpecificationVisible:false})
 	};
 	createNewSpecification = (ary) =>{
-		console.log(ary,'00000');
-		this.setState({SelectedSpecification:[...this.state.SelectedSpecification,ary]});
+		let specs = this.state.SelectedSpecification;
+		if(specs.length){
+			specs.forEach(item=>{
+				if(item.id != ary.id){
+					this.setState({SelectedSpecification:[...this.state.SelectedSpecification,ary]});
+				}
+			})
+		} else {
+			this.setState({SelectedSpecification:[...this.state.SelectedSpecification,ary]});
+		}
 		this.hideNewSpecification();
 		this.renderTable()
 	};
+	
+	handleDeleteSpecification = (data) =>{
+		this.setState({SelectedSpecification:data})
+	}
 	
 	// 数据变更时渲染表格
 	renderTable = () =>{
@@ -42,24 +56,32 @@ export default class Specification extends React.Component{
 		if(this.specItemChild.current){
 			let specValue = this.specItemChild.current.state.specItemData;
 			let specValueArray = [];
+			console.log(specValue,'-----');
 			for ( let key in specValue){
 				specValue[key].forEach(item=>{
 					item["parentKey"] = key
 				});
 				specValueArray.push(specValue[key])
 			}
+			console.log(specValueArray);
 			data = arrayMultiplication.apply(this,specValueArray);
+			console.log(data,'data');
 			data.forEach(item=>{
 				if(item.value){
 					let d = {};
 					let key = `value${item["parentKey"]}`;
 					d[key] = item['value'];
+					d['id'] = item['id'];
+					d['parentKey']=item["parentKey"];
 					newTableData.push(d);
 				} else {
 					let d = {};
+					d["id"] = [];
 					item.forEach(i=>{
 						let key = `value${i["parentKey"]}`;
 						d[key] = i['value'];
+						d['id'].push(i['id']);
+						d['parentKey']=i["parentKey"];
 					});
 					newTableData.push(d)
 				}
@@ -102,31 +124,31 @@ export default class Specification extends React.Component{
 			},
 			{
 				title: '商品条码',
-				dataIndex: 'barcode',
+				dataIndex: 'bar_code',
 				align:'center',
 				render:(text,record)=>{
 					return <Input placeholder='请输入条形码' onChange={(e)=>{
-						record.barcodr = e.target.value;
+						record.bar_code = e.target.value;
 					}} />
 				}
 			},
 			{
 				title: '零售价',
-				dataIndex: 'retailPrice',
+				dataIndex: 'retail_price',
 				align:'center',
 				render:(text,record)=>{
-					return <Input addonAfter="元" onChange={(e)=>{
-						record.retailPrice = e.target.value;
+					return <Input type="number" addonAfter="元" onChange={(e)=>{
+						record.retail_price = e.target.value;
 					}} />
 				}
 			},
 			{
 				title: '成本价',
-				dataIndex: 'costPrice',
+				dataIndex: 'cost_price',
 				align:'center',
 				render:(text,record)=>{
-					return <Input addonAfter="元" onChange={(e)=>{
-						record.costPrice = e.target.value;
+					return <Input  type="number" addonAfter="元" onChange={(e)=>{
+						record.cost_price = e.target.value;
 					}}/>
 				}
 			},
@@ -135,7 +157,7 @@ export default class Specification extends React.Component{
 				dataIndex: 'marketPrice',
 				align:'center',
 				render:(text,record)=>{
-					return <Input addonAfter="元" onChange={(e)=>{
+					return <Input type="number"  addonAfter="元" onChange={(e)=>{
 						record.marketPrice = e.target.value;
 					}} />
 				}
@@ -167,6 +189,7 @@ export default class Specification extends React.Component{
 					SelectedSpecification={this.state.SelectedSpecification}
 					ref={this.specItemChild}
 					renderTable={this.renderTable}
+					onSubmit={this.handleDeleteSpecification}
 				/>
 				<div className="specification_header">
 					<Button type="primary" size="small" onClick={this.showNewSpecification}>新增规格</Button>
