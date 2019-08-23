@@ -1,7 +1,6 @@
 import { Input, Radio,Upload, Icon, Modal,message } from "antd";
 import React from "react";
 import './upload.sass'
-import {upload} from '../../api/common'
 import {getToken} from "../../utils/dataStorage";
 
 function getBase64(img, callback) {

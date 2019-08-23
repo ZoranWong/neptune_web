@@ -95,3 +95,32 @@ export function stockable(params) {
 	})
 }
 
+// 编辑商品的回显
+export function beforeEditGood(params,productId) {
+	return request({
+		url: `/api/backend/products/${productId}`,
+		method: 'get',
+		params: params
+	})
+}
+
+// 编辑商品
+export function editGood(params,productId) {
+	return request({
+		url: `/api/backend/products/${productId}`,
+		method: 'put',
+		data: params
+	})
+}
+
+
+// 入库流水列表，按照入库创建时间倒序排序
+
+export function inStockList(params) {
+	return request({
+		url: '/api/backend/products/stock/in_stock/flows',
+		method: 'get',
+		params: params
+	})
+}
+

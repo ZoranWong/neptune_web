@@ -2,13 +2,17 @@ import React from "react";
 import {Input, Modal, Select, Button, Table,Checkbox} from 'antd'
 import './css/selectGoods.sass'
 import {stockable} from "../../../api/goods/goods";
+import SelectSpec from "./SelectSpec";
 export default class SelectGoods extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
 			data:[],
 			scrollPage:1,
-			checkedAry:[]
+			checkedAry:[],
+			specVisible:false,
+			recordStocks:{},  // 用于渲染选择规格
+			selectedSpec:[]
 		}
 	}
 	
@@ -43,6 +47,10 @@ export default class SelectGoods extends React.Component{
 		}
 	};
 	
+	closeSpec = () =>{
+		this.setState({specVisible:false})
+	};
+	
 	handleCancel = () =>{
 		this.props.onCancel()
 	};
@@ -53,12 +61,25 @@ export default class SelectGoods extends React.Component{
 	
 	handleCheckChange = (record,e) =>{
 		let ary = this.state.checkedAry;
-		if(e.target.checked){
-			ary.push(record)
+		record.checked = e.target.checked;
+		if(record.open_specification){
+			this.setState({specVisible:true,recordStocks:record.stocks});
 		} else {
-			ary = ary.filter(item=>item.product_id != record.product_id)
+			if(e.target.checked){
+				ary.push(record)
+			} else {
+				ary = ary.filter(item=>item.product_id != record.product_id)
+			}
 		}
+		
 		this.setState({checkedAry:ary})
+	};
+	
+	selectSpec = (record) =>{
+		this.setState({specVisible:true,recordStocks:record.stocks})
+	};
+	submitSpec = (ary,record)=>{
+		this.setState({selectedSpec:ary,checkedAry:this.state.checkedAry.concat(ary)})
 	};
 	
 	render() {
@@ -71,7 +92,14 @@ export default class SelectGoods extends React.Component{
 				title: '规格',
 				render:(text,record) =>{
 					if(record.open_specification){
-						return (<span style={{'color':'#4F9863','cursor':'pointer'}}>选择规格</span>)
+						return (<span
+							style={{'color':'#4F9863','cursor':'pointer'}}
+							onClick={()=>this.selectSpec(record)}
+						>
+							{
+								this.state.selectedSpec.length?`选择规格(${this.state.selectedSpec.length})`:'选择规格'
+							}
+						</span>)
 					} else {
 						return <span>无</span>
 					}
@@ -85,13 +113,21 @@ export default class SelectGoods extends React.Component{
 				title: '操作',
 				render: (text,record) =>
 					<div className="checkBox">
-						<Checkbox onChange={(e)=>this.handleCheckChange(record,e)}> </Checkbox>
+						<Checkbox
+							checked={record.checked || false}
+							onChange={(e)=>this.handleCheckChange(record,e)}> </Checkbox>
 					</div>
 				,
 			},
 		];
 		return(
 			<div className="selectGoods">
+				<SelectSpec
+					visible={this.state.specVisible}
+					onCancel={this.closeSpec}
+					onSubmit={this.submitSpec}
+					recordStocks={this.state.recordStocks}
+				/>
 				<Modal
 					title="选择入库商品"
 					width={1000}

@@ -11,6 +11,7 @@ import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomPagination from "../../../components/Layout/Pagination";
 import WarningStock from "../Components/WarningStock";
 import ShelfGoods from "../Components/ShelfGoods";
+import RecordSpec from "../Components/RecordSpec";
 class BreakfastOrder extends React.Component{
 	constructor(props){
 		const columns = [
@@ -30,7 +31,13 @@ class BreakfastOrder extends React.Component{
 				title: '规格',
 				render:(text,record) =>{
 					if(record.open_specification){
-						return (<span style={{'color':'#4F9863','cursor':'pointer'}}>查看规格</span>)
+						return (<span
+							style={{'color':'#4F9863','cursor':'pointer'}}
+							onClick={()=>{
+								this.setState({recordSpecVisible:true,provide_id:record.provide_id})
+								}
+							}
+						>查看规格</span>)
 					} else {
 						return <span>无</span>
 					}
@@ -100,6 +107,7 @@ class BreakfastOrder extends React.Component{
 			warningStockVisible:false,   // 售卖范围
 			shelfGoodsVisible:false,  // 上架商品
 			stock_id:'',
+			provide_id:'',  // 订货查看规格id
 			user_data:[],
 			checkedAry:[],     // 列表页选中的用户id组
 			paginationParams:{
@@ -107,7 +115,8 @@ class BreakfastOrder extends React.Component{
 				search:'',
 				channel:'BREAKFAST_CAR'
 			},
-			columns:columns
+			columns:columns,
+			recordSpecVisible:false
 		};
 	}
 	
@@ -171,6 +180,15 @@ class BreakfastOrder extends React.Component{
 		this.setState({user_data:list})
 	};
 	
+	// 有规格时设置警戒库存
+	closeRecordSpec = () =>{
+		this.setState({recordSpecVisible:false})
+	};
+	
+	setWarning = (record) => {
+		this.showWarningStock(record)
+	};
+	
 	
 	
 	// 下架商品
@@ -227,7 +245,7 @@ class BreakfastOrder extends React.Component{
 	// 警戒范围
 	showWarningStock = (record) =>{
 		if(record.open_specification){
-		
+			this.setState({recordSpecVisible:true,provide_id:record.provide_id})
 		} else {
 			this.setState({warningStockVisible:true,stock_id:record.stock_id})
 		}
@@ -294,6 +312,13 @@ class BreakfastOrder extends React.Component{
 					onCancel={this.closeHigherFilter}
 					onSubmit={this.onSubmit}
 					refresh={this.refresh}
+				/>
+				
+				<RecordSpec
+					visible={this.state.recordSpecVisible}
+					onCancel={this.closeRecordSpec}
+					onSubmit={this.setWarning}
+					provide_id={this.state.provide_id}
 				/>
 				
 				<WarningStock

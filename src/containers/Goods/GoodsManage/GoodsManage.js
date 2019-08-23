@@ -12,7 +12,7 @@ import CustomPagination from "../../../components/Layout/Pagination";
 import {products,offShelvesProducts} from "../../../api/goods/goods";
 import AddGroup from "./AddGroup";
 import {goodInGroup} from "../../../api/goods/groups";
-
+import RecordSpec from "./RecordSpec";
 class GoodsManage extends React.Component{
 	constructor(props){
 		const columns = [
@@ -30,6 +30,14 @@ class GoodsManage extends React.Component{
 			{
 				title: '规格',
 				dataIndex: 'spec',
+				render:(text,record) =>{
+					return record.open_specification?(<div
+						style={{'color':'#4F9863','cursor':'pointer'}}
+						onClick={()=>{this.recordSpec(record)}}
+					>
+						查看规格
+					</div>):('无')
+				}
 			},
 			{
 				title: '单位',
@@ -71,7 +79,9 @@ class GoodsManage extends React.Component{
 				search:''
 			},
 			columns:columns,
-			groupVisible:false
+			groupVisible:false,
+			recordSpecVisible:false,   // 查看规格
+			recordSpecId:'',   // 查看规格
 		};
 	}
 	
@@ -100,8 +110,18 @@ class GoodsManage extends React.Component{
 		this.props.history.push({pathname:"/goods/goodDetails",state:{id:record.product_id}})
 	};
 	
+	// 列表页查看规格
+	recordSpec = (record) =>{
+		this.setState({recordSpecId:record.product_id,recordSpecVisible:true})
+	};
+	closeRecordSpec = () =>{
+		this.setState({recordSpecVisible:false})
+	};
 	
-	
+	// 编辑商品
+	editShop = (record) =>{
+		this.props.history.push({pathname:`/goods/releaseGoods`,state:{id:record.product_id}})
+	};
 	
 	
 	// 头部搜索框
@@ -159,6 +179,7 @@ class GoodsManage extends React.Component{
 	
 	// 分页器改变值
 	paginationChange = (list) =>{
+		console.log(list);
 		this.setState({data:list})
 	};
 	
@@ -233,6 +254,12 @@ class GoodsManage extends React.Component{
 		};
 		return (
 			<div>
+				
+				<RecordSpec
+					visible={this.state.recordSpecVisible}
+					onCancel={this.closeRecordSpec}
+				/>
+				
 				<AdvancedFilterComponent
 					visible={this.state.filterVisible}
 					onCancel={this.closeHigherFilter}

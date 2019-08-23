@@ -3,13 +3,14 @@ import {Button, Input, Table, DatePicker, LocaleProvider} from "antd";
 import 'moment/locale/zh-cn';
 import './css/inStock.sass'
 import zh_CN from "antd/lib/locale-provider/zh_CN";
-
+import {inStockList} from "../../../api/goods/goods";
 
 const { RangePicker } = DatePicker;
 
 export default class InStock extends React.Component{
 	constructor(props) {
 		super(props);
+		this.channel = props.location.state.channel;
 		this.state = {
 			data:[]
 		}
@@ -20,9 +21,20 @@ export default class InStock extends React.Component{
 		
 	};
 	
+	componentDidMount() {
+		this.refresh()
+	}
+	
+	refresh = () =>{
+		inStockList({channel:this.channel}).then(r=>{
+			console.log(r);
+		})
+	};
+	
+	
 	
 	goInStockNew = () =>{
-		this.props.history.push({pathname:"/goods/inStockNew",state:{channel:this.props.location.state.channel}})
+		this.props.history.push({pathname:"/goods/inStockNew",state:{channel:this.channel}})
 	};
 	
 	render() {

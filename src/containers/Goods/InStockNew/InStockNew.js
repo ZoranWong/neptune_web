@@ -4,7 +4,6 @@ import 'moment/locale/zh-cn';
 import './css/inStockNew.sass'
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import SelectGoods from "./SelectGoods";
-import {setVirtualSales} from "../../../api/goods/goods";
 
 const { RangePicker } = DatePicker;
 
@@ -15,7 +14,8 @@ export default class InStockNew extends React.Component{
 			remark:'',   //备注
 			data:[],    // 已选入库商品
 			visible:false,
-		}
+		};
+		this.child = React.createRef();
 	}
 	
 	onDateChange = (date,dateString) =>{
@@ -31,8 +31,12 @@ export default class InStockNew extends React.Component{
 	};
 	selectedGoods = data =>{
 		this.hideSelectGoods();
-		console.log(data);
 		this.setState({data})
+	};
+	
+	// 确认入库
+	confirmInStock = () =>{
+		console.log(this.state.data);
 	};
 	
 	
@@ -40,11 +44,20 @@ export default class InStockNew extends React.Component{
 		const columns = [
 			{
 				title: '商品名称',
-				dataIndex: 'name',
+				render:(text,record) =>{
+					return <span>
+						{record.name?record.name:record.productEntity.data.name}
+					</span>
+				}
 			},
 			{
 				title: '规格',
 				dataIndex: 'keeper_name',
+				render:(text,record) =>{
+					return <span>
+						{record.spec?record.spec:'无'}
+					</span>
+				}
 			},
 			{
 				title: '单位',
@@ -94,6 +107,7 @@ export default class InStockNew extends React.Component{
 					onCancel={this.hideSelectGoods}
 					onSubmit={this.selectedGoods}
 					channel={this.props.location.state.channel}
+					ref={this.child}
 				/>
 				
 				
@@ -153,7 +167,7 @@ export default class InStockNew extends React.Component{
 							dataSource={this.state.data}
 						/>
 					</div>
-					<Button size="small" type="primary" >确认入库</Button>
+					<Button size="small" type="primary" onClick={this.confirmInStock}>确认入库</Button>
 				</div>
 			
 			</div>

@@ -50,3 +50,12 @@ export function createValues(params,specificationId) {
 		data: params
 	})
 }
+
+// 订货页面查看规格
+	export function stockSpec(params,provideId) {
+	return request({
+		url: `/api/backend/products/stock/provides/${provideId}/stocks`,
+		method: 'get',
+		params: params
+	})
+}

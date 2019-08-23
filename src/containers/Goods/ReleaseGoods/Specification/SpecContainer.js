@@ -1,9 +1,10 @@
 import React from "react";
 import './specification.sass'
-import {Button, Input, InputNumber, Table, Tag} from "antd";
+import  {Button, Input, InputNumber, Table, Tag} from "antd";
 import AddSpecName from "./AddSpecName";
 import IconFont from "../../../../utils/IconFont";
 import SpecItem from "./SpecItem";
+import Upload from '../../../../components/Upload/Upload'
 import {arrayMultiplication} from "../../../../utils/dataStorage";
 
 export default class Specification extends React.Component{
@@ -18,6 +19,7 @@ export default class Specification extends React.Component{
 		};
 		this.child = React.createRef();
 		this.specItemChild = React.createRef();
+		this.uploadChild = React.createRef();
 	}
 	
 	componentDidMount() {
@@ -76,12 +78,11 @@ export default class Specification extends React.Component{
 					newTableData.push(d);
 				} else {
 					let d = {};
-					d["id"] = [];
 					item.forEach(i=>{
 						let key = `value${i["parentKey"]}`;
+						let id = `id${i["id"]}`;
 						d[key] = i['value'];
-						d['id'].push(i['id']);
-						d['parentKey']=i["parentKey"];
+						d[id] = i['id'];
 					});
 					newTableData.push(d)
 				}
@@ -119,16 +120,18 @@ export default class Specification extends React.Component{
 			{
 				title: '规格图片',
 				className: 'column-money',
-				dataIndex: 'thumbnail',
-				align:'center'
+				align:'center',
+				render:(text,record) =>{
+					return <Upload ref={this.uploadChild} text=""/>
+				}
 			},
 			{
 				title: '商品条码',
-				dataIndex: 'bar_code',
+				dataIndex: 'barcode',
 				align:'center',
 				render:(text,record)=>{
 					return <Input placeholder='请输入条形码' onChange={(e)=>{
-						record.bar_code = e.target.value;
+						record.barcode = e.target.value;
 					}} />
 				}
 			},

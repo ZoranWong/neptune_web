@@ -8,6 +8,7 @@ export default class WarningStock extends React.Component{
 	};
 	
 	handleCancel = () =>{
+		this.setState({value:''});
 		this.props.onCancel()
 	};
 	

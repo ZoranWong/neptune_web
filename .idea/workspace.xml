@@ -2,14 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/containers/Goods/Components/RecordSpec.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Goods/GoodsManage/RecordSpec.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Goods/InStockNew/SelectSpec.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/goods/goods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/goods/goods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/goods/specification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/goods/specification.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Upload/Upload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Upload/Upload.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/UploadMany/Upload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UploadMany/Upload.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/BreakfastOrder/BreakfastOrder.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/BreakfastOrder/BreakfastOrder.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/Components/WarningStock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/Components/WarningStock.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/GoodsManage/GoodsManage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/GoodsManage/GoodsManage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/GoodsManage/ReleaseGoods.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/InStock/InStock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/InStock/InStock.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/InStockNew/InStockNew.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/InStockNew/InStockNew.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/InStockNew/SelectGoods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/InStockNew/SelectGoods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/InStockNew/css/selectGoods.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/InStockNew/css/selectGoods.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/ReleaseGoods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/ReleaseGoods.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/AddSpecName.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/AddSpecName.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/AddSpecValue.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/AddSpecValue.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecItem.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/specification.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/specification.sass" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -45,7 +54,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jsx.switch.disabled" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Funath" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/containers/Goods/BreakfastOrder" />
     <property name="list.type.of.created.stylesheet" value="Sass" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -54,19 +63,19 @@
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/components" />
-      <recent name="$PROJECT_DIR$/src/containers/Goods/ClientOrder" />
-      <recent name="$PROJECT_DIR$/src/containers/Goods/DistributionMall" />
-      <recent name="$PROJECT_DIR$/src/containers/Goods/Activities" />
-      <recent name="$PROJECT_DIR$/src/containers/Goods/ObtainedGoods" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/containers/Goods/Components" />
       <recent name="$PROJECT_DIR$/src/containers/Goods/OutStockNew" />
       <recent name="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification" />
       <recent name="$PROJECT_DIR$/src/containers/Goods/GoodsManage" />
       <recent name="$PROJECT_DIR$/src/api/shops" />
-      <recent name="$PROJECT_DIR$/src/containers/Shops/ShopManage/ShopAdd" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/containers/Goods/BreakfastOrder" />
+      <recent name="$PROJECT_DIR$/src/components" />
+      <recent name="$PROJECT_DIR$/src/containers/Goods/ClientOrder" />
+      <recent name="$PROJECT_DIR$/src/containers/Goods/DistributionMall" />
+      <recent name="$PROJECT_DIR$/src/containers/Goods/Activities" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -280,6 +289,8 @@
       <workItem from="1566456495225" duration="2930000" />
       <workItem from="1566460323812" duration="1029000" />
       <workItem from="1566462557448" duration="611000" />
+      <workItem from="1566522582245" duration="474000" />
+      <workItem from="1566523068588" duration="22466000" />
     </task>
     <servers />
   </component>

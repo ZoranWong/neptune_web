@@ -4,7 +4,7 @@ import Editor from "../../../components/Editor/Editor";
 import {Tabs, Button, Form, Input, Select, Radio, Switch, message} from 'antd';
 import {SonClassification} from "../../../api/goods/classification";
 import Specification from './Specification/SpecContainer'
-import {releaseProducts} from "../../../api/goods/goods";
+import {releaseProducts,beforeEditGood} from "../../../api/goods/goods";
 
 import Upload from '../../../components/Upload/Upload'
 import UploadMany from "../../../components/UploadMany/Upload";
@@ -13,6 +13,7 @@ const { TabPane } = Tabs;
 class ReleaseGoods extends React.Component{
 	constructor(props) {
 		super(props);
+		console.log(props);
 		this.state = {
 			activeKey :'1',
 			confirmDirty: false,
@@ -46,6 +47,14 @@ class ReleaseGoods extends React.Component{
 			});
 			this.setState({allClassification:classifications});
 		});
+		
+		if(this.props.location.state.id){
+			beforeEditGood({},this.props.location.state.id).then(r=>{
+				for (let key in r.data){
+					this.props.form.setFieldsValue({[key]:r.data[key]})
+				}
+			}).catch(_=>{})
+		}
 	}
 	
 	
@@ -54,25 +63,15 @@ class ReleaseGoods extends React.Component{
 	};
 	
 	devideIds = (item,all) =>{
-		console.log(item,'itme');
-		console.log(all,'all');
-		let ary = [];
-		let str = 'value';
+		let ary = {};
 		all.forEach(i=>{
 			i.spec_value.forEach(k=>{
-				if(k.id == item.id || item.id.indexOf(k.id) > -1){
-					for (let key in item){
-						let index = key.indexOf(str);
-						if(index > -1){
-							let d = {};
-							d[`${key.substring(index + 5)}`] = item["id"];
-							ary.push(d);
-						}
-					}
+				if(k.id == item[`id${k.id}`]){
+					ary[i.id] = k.id;
 				}
 			})
 		});
-		return ary
+		return ary;
 	};
 	
 	handleSubmit = e => {
@@ -85,10 +84,13 @@ class ReleaseGoods extends React.Component{
 			fileList.forEach(item=>{
 				values.banners.push(item.response.data.url)
 			});
-			
-			
 			if (!err) {
-				
+				let retail_price = values.retail_price;
+				let market_price = values.market_price;
+				if(retail_price > market_price){
+					message.error('零售价不可大于市场价');
+					return;
+				}
 				if(values.open_specification){
 					values.open_specification = 1;
 					// 规格
@@ -111,10 +113,10 @@ class ReleaseGoods extends React.Component{
 					let tableData = this.child.current.state.data;
 					tableData.forEach(item=>{
 						let spec = this.devideIds(item, childName);
+						console.log(spec);
 						item['name']=values.name;
-						item['image']='xxx';
-						item['spec'] = [];
-						item['spec'].push(spec[0])
+						item['image']=this.uploadChild.current.state.imgUrl;
+						item['spec'] = spec;
 					});
 					values.spec = specs;
 					values.entities = tableData;
@@ -125,7 +127,6 @@ class ReleaseGoods extends React.Component{
 					
 				} else {
 					values.open_specification = 0;
-					values.banners = ['1','2'];
 					values.desc = '111';
 					releaseProducts(values).then(r=>{
 						message.success('发布商品成功')
