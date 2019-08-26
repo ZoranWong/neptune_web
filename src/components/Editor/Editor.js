@@ -5,7 +5,7 @@ import './index.sass'
 export default class BasicDemo extends React.Component {
 	
 	state = {
-		editorState: BraftEditor.createEditorState('<p>Hello <b>World!</b></p>'), // 设置编辑器初始内容
+		editorState: BraftEditor.createEditorState(''), // 设置编辑器初始内容
 		outputHTML: '<p></p>'
 	};
 	
@@ -28,7 +28,7 @@ export default class BasicDemo extends React.Component {
 	
 	setEditorContentAsync = () => {
 		this.isLivinig && this.setState({
-			editorState: BraftEditor.createEditorState('<p>你好，<b>世界!</b><p>')
+			editorState: BraftEditor.createEditorState('')
 		})
 	};
 	
@@ -44,8 +44,6 @@ export default class BasicDemo extends React.Component {
 						onChange={this.handleChange}
 					/>
 				</div>
-				<h5>输出内容</h5>
-				<div className="output-content">{outputHTML}</div>
 			</div>
 		)
 		

@@ -181,3 +181,30 @@ export function arrayMultiplication(){
     return heads?heads:[];
 }
 
+
+// 数组去重
+export function unique(jsonArr,jsonArr2){     // 对象去重方法
+    let length1 = jsonArr.length;
+    let length2 = jsonArr2.length;
+    for (let i = 0; i < length1; i++) {
+        for (let j = 0; j < length2; j++)
+        {
+            //判断添加的数组是否为空了
+            if (jsonArr.length > 0) {
+                if (jsonArr[i]["stock_id"] === jsonArr2[j]["stock_id"]) {
+                    jsonArr.splice(i, 1); //利用splice函数删除元素，从第i个位置，截取长度为1的元素
+                    length1--;
+                    console.log(jsonArr2[j]);//重复元素
+                }
+            }
+        }
+        
+    }
+    
+    for (let n = 0; n < jsonArr2.length; n++) {
+        jsonArr.push(jsonArr2[n]);
+    }
+    
+    return jsonArr
+}
+

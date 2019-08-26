@@ -38,7 +38,7 @@ class GoodDetails extends React.Component{
 								<p>商品分类：{data.category_desc}</p>
 							</li>
 							<li>
-								<p>规格：{data.spec}</p>
+								{/*<p>规格：{data.spec}</p>*/}
 								<p>零售价：{data.retail_price}</p>
 								<p>市场价：{data.market_price}</p>
 								<p>成本价：{data.cost_price}</p>

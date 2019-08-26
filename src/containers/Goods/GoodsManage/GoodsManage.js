@@ -5,7 +5,7 @@ import IconFont from "../../../utils/IconFont";
 import './css/goodsManage.sass'
 import {searchJson} from "../../../utils/dataStorage";
 import {user_values} from "../../../utils/user_fields";
-import AdvancedFilterComponent from "../../Shops/ShopManage/AdvancedFilterComponent";
+import AdvancedFilterComponent from "./AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
@@ -76,7 +76,8 @@ class GoodsManage extends React.Component{
 			checkedAry:[],     // 列表页选中的用户id组
 			paginationParams:{
 				logic_conditions:[],
-				search:''
+				search:'',
+				searchJson:searchJson({status:true})
 			},
 			columns:columns,
 			groupVisible:false,
@@ -99,7 +100,8 @@ class GoodsManage extends React.Component{
 			filterVisible:false,
 			paginationParams:{
 				logic_conditions:[],
-				search:''
+				search:'',
+				searchJson:searchJson({status:true})
 			}
 		},()=>{
 			this.child.current.pagination(1)
@@ -129,7 +131,7 @@ class GoodsManage extends React.Component{
 		this.setState({
 			api:products,
 			paginationParams:{...this.state.paginationParams,
-				searchJson:searchJson({search:value})}
+				searchJson:searchJson({search:value,status:true})}
 		},()=>{
 			this.child.current.pagination(1)
 		});
@@ -142,7 +144,7 @@ class GoodsManage extends React.Component{
 		this.setState({filterVisible:false})
 	};
 	onSubmit = (data) =>{
-		this.setState({api:products,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
+		this.setState({api:products,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
 			this.child.current.pagination(1)
 		});
 	};
@@ -265,10 +267,6 @@ class GoodsManage extends React.Component{
 					onCancel={this.closeHigherFilter}
 					onSubmit={this.onSubmit}
 					refresh={this.refresh}
-					showAddGroup={this.showAddGroup}
-					closeAddGroup={this.closeAddGroup}
-					showAddTags={this.showAddTags}
-					closeAddTags={this.closeAddTags}
 				/>
 
 				<AddGroup

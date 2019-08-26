@@ -6,6 +6,7 @@ import CustomPagination from "../../../components/Layout/Pagination";
 import {specificationList,deleteSpecification} from "../../../api/goods/specification";
 import CreateSpecification from "./CreateSpecification";
 import CreateSpecificationValue from './CreateSpecificationValue'
+import EditSpecification from "./EditSpecification";
 export default class Specification extends React.Component{
 	constructor(props) {
 		
@@ -13,7 +14,9 @@ export default class Specification extends React.Component{
 		this.state = {
 			api:specificationList,
 			data:[],
+			id:'',  // 编辑规格id
 			createSpecification:false,
+			editSpecification:false,
 			createSpecificationValue:false,
 			specificationId:'',  // 新增规格值id
 		};
@@ -83,6 +86,13 @@ export default class Specification extends React.Component{
 		this.setState({createSpecificationValue:false})
 	};
 	
+	// 编辑规格
+	showEditSpecification = (id) =>{
+		this.setState({editSpecification:true,id})
+	};
+	hideEditSpecification = () =>{
+		this.setState({editSpecification:false})
+	};
 	
 	render() {
 		const columns = [
@@ -107,6 +117,7 @@ export default class Specification extends React.Component{
 						</span>
 						<span
 							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
+							onClick={()=>{this.showEditSpecification(record.id)}}
 						>
 							编辑
 						</span>
@@ -127,6 +138,12 @@ export default class Specification extends React.Component{
 					visible={this.state.createSpecification}
 					onCancel={this.hideCreateSpecification}
 					refresh={this.refresh}
+				/>
+				<EditSpecification
+					visible={this.state.editSpecification}
+					onCancel={this.hideEditSpecification}
+					refresh={this.refresh}
+					id={this.state.id}
 				/>
 				<CreateSpecificationValue
 					visible={this.state.createSpecificationValue}

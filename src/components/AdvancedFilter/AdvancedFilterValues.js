@@ -49,23 +49,23 @@ export default class AdvancedFilterValues extends React.Component{
 			this.setState({provinceData:r,cityData:cityAry,areaData:areaAry})
 		}).catch(_=>{});
 		
-		if(this.props.api.getStatic){
-			this.props.api.getStatic({}).then(r=>{
-				this.setState({selectedGroupItems:r.data})
-			});
-			this.props.api.tags({limit:10,page:1}).then(r=>{
-				this.setState({selectedTagItems:r.data})
-			});
-		} else if(this.props.api.getChannels){
-			this.props.api.getChannels({}).then(r=>{
-				this.setState({selectedChannelItems:r.data})
-			});
-			this.props.api.groups({}).then(r=>{
-				this.setState({selectedGroupItems:r.data})
-			});
+		if(this.props.api){
+			if(this.props.api.getStatic){
+				this.props.api.getStatic({}).then(r=>{
+					this.setState({selectedGroupItems:r.data})
+				});
+				this.props.api.tags({limit:10,page:1}).then(r=>{
+					this.setState({selectedTagItems:r.data})
+				});
+			} else if(this.props.api.getChannels){
+				this.props.api.getChannels({}).then(r=>{
+					this.setState({selectedChannelItems:r.data})
+				});
+				this.props.api.groups({}).then(r=>{
+					this.setState({selectedGroupItems:r.data})
+				});
+			}
 		}
-		
-
 	}
 
 	getTagList = (page) =>{

@@ -2,13 +2,12 @@ import React from 'react';
 import {withRouter} from 'react-router-dom'
 import {Button, Table, Modal, Input, message} from 'antd'
 import './css/breakfastOrder.sass'
-import {channelsGoods,onShelves,offShelves,setWarning} from "../../../api/goods/goods";
+import {putOnShelves,products,deleteGoods} from "../../../api/goods/goods";
 import {searchJson} from "../../../utils/dataStorage";
 import AdvancedFilterComponent from "../../Shops/ShopManage/AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomPagination from "../../../components/Layout/Pagination";
 import {user_values} from "../../../utils/user_fields";
-const channel = 'SHOP_KEEPER';
 class ObtainedGoods extends React.Component{
 	constructor(props){
 		const columns = [
@@ -17,15 +16,23 @@ class ObtainedGoods extends React.Component{
 				dataIndex: 'name',
 				render: (text,record) => <span
 					style={{'color':'#4F9863','cursor':'pointer'}}
-					>{text}</span>,
+					onClick={()=>this.jump(record)}>{text}</span>,
 			},
 			{
 				title: '分类',
-				dataIndex: 'keeper_name',
+				dataIndex: 'category_desc',
 			},
 			{
 				title: '规格',
-				dataIndex: 'code',
+				dataIndex: 'spec',
+				render:(text,record) =>{
+					return record.open_specification?(<div
+						style={{'color':'#4F9863','cursor':'pointer'}}
+						onClick={()=>{this.recordSpec(record)}}
+					>
+						查看规格
+					</div>):('无')
+				}
 			},
 			{
 				title: '单位',
@@ -33,11 +40,11 @@ class ObtainedGoods extends React.Component{
 			},
 			{
 				title: '零售价',
-				dataIndex: 'channel',
+				dataIndex: 'retail_price',
 			},
 			{
 				title: '总销量',
-				dataIndex: 'status',
+				dataIndex: 'total_sales',
 			},
 			{
 				title: '操作',
@@ -45,7 +52,7 @@ class ObtainedGoods extends React.Component{
 					<div>
 						<span
 							style={{'color':'#4F9863','cursor':'pointer'}}
-							onClick={this.showSaleRange}
+							onClick={()=>this.editShop(record)}
 						>编辑
 						</span>
 					</div>
@@ -56,7 +63,7 @@ class ObtainedGoods extends React.Component{
 		super(props);
 		this.child = React.createRef();
 		this.state = {
-			api:channelsGoods,
+			api:products,
 			filterVisible:false,  // 高级筛选
 			warningStockVisible:false,   // 售卖范围
 			shelfGoodsVisible:false,  // 上架商品
@@ -66,7 +73,7 @@ class ObtainedGoods extends React.Component{
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
-				channel:channel
+				searchJson:searchJson({status:false})
 			},
 			columns:columns
 		};
@@ -83,7 +90,7 @@ class ObtainedGoods extends React.Component{
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
-				channel:channel
+				searchJson:searchJson({status:false})
 			}
 		},()=>{
 			this.child.current.pagination(1)
@@ -91,12 +98,17 @@ class ObtainedGoods extends React.Component{
 	};
 	
 	
+	// 编辑商品
+	editShop = (record) =>{
+		this.props.history.push({pathname:`/goods/releaseGoods`,state:{id:record.product_id}})
+	};
+	
 	// 头部搜索框
 	search = (value) =>{
 		this.setState({
-			api:channelsGoods,
+			api:products,
 			paginationParams:{...this.state.paginationParams,
-				searchJson:searchJson({search:value})}
+				searchJson:searchJson({search:value,status:false})}
 		},()=>{
 			this.child.current.pagination(1)
 		});
@@ -109,7 +121,7 @@ class ObtainedGoods extends React.Component{
 		this.setState({filterVisible:false})
 	};
 	onSubmit = (data) =>{
-		this.setState({api:channelsGoods,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
+		this.setState({api:products,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:false})}},()=>{
 			this.child.current.pagination(1)
 		});
 	};
@@ -141,7 +153,7 @@ class ObtainedGoods extends React.Component{
 			centered:true,
 			content: (
 				<div className="U_confirm">
-					确定下架商品么？
+					确定上架商品么？
 				</div>
 			),
 			cancelText: '取消',
@@ -154,8 +166,49 @@ class ObtainedGoods extends React.Component{
 			},
 			onOk() {
 				// 确定按钮执行操作
-				offShelves({
-					channel:channel,
+				putOnShelves({
+					product_ids:checkedAry
+				}).then(r=>{
+					message.success(r.message);
+					refresh()
+				}).catch(_=>{})
+			}
+		});
+	};
+	
+	// 删除商品
+	delete = () =>{
+		let checkedAry = this.state.checkedAry;
+		let refresh = this.refresh;
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			content: (
+				<div className="U_confirm">
+					确定删除商品么？
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				// 确定按钮执行操作
+				deleteGoods({
 					product_ids:checkedAry
 				}).then(r=>{
 					message.success(r.message);
@@ -194,24 +247,6 @@ class ObtainedGoods extends React.Component{
 		this.setState({columns:ary})
 	};
 	
-	// 上架商品
-	showShelfGoods = () =>{
-		this.setState({shelfGoodsVisible:true})
-	};
-	hideShelfGoods = () =>{
-		this.setState({shelfGoodsVisible:false})
-	};
-	
-	onSubmitShelfGoods = (value) =>{
-		onShelves({
-			channel:channel,
-			product_ids:value
-		}).then(r=>{
-			message.success(r.message);
-			this.hideShelfGoods();
-			this.refresh()
-		}).catch(_=>{})
-	};
 	
 	
 	render(){
@@ -250,7 +285,7 @@ class ObtainedGoods extends React.Component{
 						<Button
 							size="small"
 							disabled={this.state.checkedAry.length == 0}
-							onClick={this.unSale}
+							onClick={this.delete}
 						>删除</Button>
 						<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 					</div>

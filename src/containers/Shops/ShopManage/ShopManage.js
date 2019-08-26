@@ -95,9 +95,9 @@ class ShopManage extends React.Component{
 		if(this.props.location.query&&this.props.location.query.groupId){
 			this.setState({id:this.props.location.query.groupId,api:shopListInGroup})
 		}
-		// applicationsCount({}).then(r=>{
-		// 	console.log(r);
-		// })
+		applicationsCount({}).then(r=>{
+			this.setState({applications_count:r.data.applications_count});
+		})
 	}
 	
 	

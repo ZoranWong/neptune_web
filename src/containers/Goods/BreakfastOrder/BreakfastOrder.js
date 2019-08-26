@@ -86,7 +86,7 @@ class BreakfastOrder extends React.Component{
 					<div>
 						<span
 							style={{'color':'#4F9863','cursor':'pointer'}}
-							onClick={this.showSaleRange}
+							onClick={()=>this.showSaleRange(record.provide_id)}
 						>售卖范围
 						</span>
 						<span
@@ -116,7 +116,8 @@ class BreakfastOrder extends React.Component{
 				channel:'BREAKFAST_CAR'
 			},
 			columns:columns,
-			recordSpecVisible:false
+			recordSpecVisible:false,
+			rangeId:'',// 设置范围
 		};
 	}
 	
@@ -144,8 +145,8 @@ class BreakfastOrder extends React.Component{
 	};
 	
 	// 售卖范围
-	showSaleRange = () =>{
-		this.setState({saleRange:true})
+	showSaleRange = (id) =>{
+		this.setState({saleRange:true,rangeId:id})
 	};
 	hideSaleRange = () =>{
 		this.setState({saleRange:false})
@@ -291,7 +292,7 @@ class BreakfastOrder extends React.Component{
 	
 	// 商品出库
 	outStock = () =>{
-		this.props.history.push({pathname:"/goods/inStock",state:{channel:'BREAKFAST_CAR'}})
+		this.props.history.push({pathname:"/goods/outStock",state:{channel:'BREAKFAST_CAR'}})
 	};
 	
 	render(){
@@ -337,6 +338,7 @@ class BreakfastOrder extends React.Component{
 				<SaleRange
 					visible={this.state.saleRange}
 					onCancel={this.hideSaleRange}
+					rangeId={this.state.rangeId}
 				/>
 				
 				

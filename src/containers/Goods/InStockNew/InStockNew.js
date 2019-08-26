@@ -1,5 +1,6 @@
 import React from "react";
-import {Button, Input, DatePicker, LocaleProvider, Table, message, InputNumber} from "antd";
+import {Button, Input, DatePicker, LocaleProvider, Table, message, Select} from "antd";
+import {inStock} from "../../../api/goods/goods";
 import 'moment/locale/zh-cn';
 import './css/inStockNew.sass'
 import zh_CN from "antd/lib/locale-provider/zh_CN";
@@ -10,10 +11,12 @@ const { RangePicker } = DatePicker;
 export default class InStockNew extends React.Component{
 	constructor(props) {
 		super(props);
+		this.channel = props.location.state.channel;
 		this.state = {
 			remark:'',   //备注
 			data:[],    // 已选入库商品
 			visible:false,
+			type:'',
 		};
 		this.child = React.createRef();
 	}
@@ -24,6 +27,10 @@ export default class InStockNew extends React.Component{
 	
 	// 选择入库商品
 	selectGoods = () =>{
+		if(!this.state.type){
+			message.error('请先选择入库类型');
+			return;
+		}
 		this.setState({visible:true})
 	};
 	hideSelectGoods = () =>{
@@ -31,12 +38,45 @@ export default class InStockNew extends React.Component{
 	};
 	selectedGoods = data =>{
 		this.hideSelectGoods();
+		data.forEach(item=>{
+			item.count = 0;
+		});
 		this.setState({data})
 	};
 	
 	// 确认入库
 	confirmInStock = () =>{
-		console.log(this.state.data);
+		let stockAry = [];
+		this.state.data.forEach(item=>{
+			let info = {};
+			info['barcode'] = item.productEntity.data.barcode;
+			if(!item.quantity){
+				return;
+			}
+			info['quantity'] = item.quantity;
+			stockAry.push(info)
+		});
+		if(stockAry.length < this.state.data.length){
+			message.error('请填写入库数量');
+			return;
+		}
+		let params = {
+			channel:this.channel,
+			stock_type:this.state.type,
+			stock_info:stockAry,
+			remark:this.state.remark
+		};
+		inStock(params).then(r=>{
+			message.success(r.message);
+			this.props.history.go(-1);
+		}).catch(_=>{})
+	};
+	
+	// 入库时删除某一项
+	deleteItems = record =>{
+		let data = this.state.data;
+		data = data.filter(item=>item.stock_id != record.stock_id);
+		this.setState({data})
 	};
 	
 	
@@ -45,6 +85,7 @@ export default class InStockNew extends React.Component{
 			{
 				title: '商品名称',
 				render:(text,record) =>{
+					console.log(record);
 					return <span>
 						{record.name?record.name:record.productEntity.data.name}
 					</span>
@@ -61,7 +102,7 @@ export default class InStockNew extends React.Component{
 			},
 			{
 				title: '单位',
-				dataIndex: 'code',
+				dataIndex: 'unit',
 			},
 			{
 				title: '入库数量',
@@ -73,6 +114,8 @@ export default class InStockNew extends React.Component{
 									e.target.value = e.target.value < 0? 0:e.target.value;
 									if(e.target.value <= 0) return;
 									record.quantity = e.target.value;
+									record.count = record.quantity * record.retail_price;
+								   console.log(record);
 							   }}
 						/>
 					</div>
@@ -84,7 +127,7 @@ export default class InStockNew extends React.Component{
 			},
 			{
 				title: '小计',
-				dataIndex: 'channel3',
+				dataIndex: 'count',
 			},
 			{
 				title: '操作',
@@ -92,6 +135,7 @@ export default class InStockNew extends React.Component{
 					<div>
 						<span
 							style={{'color':'#4F9863','cursor':'pointer'}}
+							onClick={()=>this.deleteItems(record)}
 						>
 							删除
 						</span>
@@ -120,7 +164,17 @@ export default class InStockNew extends React.Component{
 						<ul className="left">
 							<li className="needMargin">
 								入库类型：
-								<Input />
+								<Select
+									onChange={(e)=>{
+										this.setState({type:e})
+									}}
+									defaultActiveFirstOption={false}
+								>
+									<Select.Option  value="PRODUCE">生产入库</Select.Option>
+									<Select.Option  value="PURCHASE">购买入库</Select.Option>
+									<Select.Option  value="RETURN">退货入库</Select.Option>
+									<Select.Option  value="CHECK">盘点入库</Select.Option>
+								</Select>
 							</li>
 							<li className="needMargin">
 								入库时间：
@@ -157,7 +211,7 @@ export default class InStockNew extends React.Component{
 					<div className="chart u_chart">
 						<Table
 							columns={columns}
-							rowKey={record => record.id}
+							rowKey={record => record.stock_id}
 							pagination={false}
 							rowClassName={(record, index) => {
 								let className = '';

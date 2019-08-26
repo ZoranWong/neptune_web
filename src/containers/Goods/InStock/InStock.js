@@ -27,7 +27,7 @@ export default class InStock extends React.Component{
 	
 	refresh = () =>{
 		inStockList({channel:this.channel}).then(r=>{
-			console.log(r);
+			this.setState({data:r.data})
 		})
 	};
 	
@@ -41,19 +41,19 @@ export default class InStock extends React.Component{
 		const columns = [
 			{
 				title: '入库编号',
-				dataIndex: 'name',
+				dataIndex: 'batch_code',
 			},
 			{
 				title: '入库类型',
-				dataIndex: 'keeper_name',
+				dataIndex: 'stock_type',
 			},
 			{
 				title: '入库时间',
-				dataIndex: 'code',
+				dataIndex: 'batch_date',
 			},
 			{
 				title: '备注',
-				dataIndex: 'channel',
+				dataIndex: 'remark',
 			},
 			{
 				title: '操作',
@@ -65,7 +65,6 @@ export default class InStock extends React.Component{
 							详情
 						</span>
 					</div>
-				,
 			},
 		];
 		return (

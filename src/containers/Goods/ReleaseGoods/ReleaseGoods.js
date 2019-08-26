@@ -32,6 +32,7 @@ class ReleaseGoods extends React.Component{
 		this.child = React.createRef();
 		this.uploadChild = React.createRef();
 		this.bannerChild = React.createRef();
+		this.editor = React.createRef();
 	}
 	
 	componentDidMount() {
@@ -48,7 +49,7 @@ class ReleaseGoods extends React.Component{
 			this.setState({allClassification:classifications});
 		});
 		
-		if(this.props.location.state.id){
+		if(this.props.location.state&&this.props.location.state.id){
 			beforeEditGood({},this.props.location.state.id).then(r=>{
 				for (let key in r.data){
 					this.props.form.setFieldsValue({[key]:r.data[key]})
@@ -71,6 +72,7 @@ class ReleaseGoods extends React.Component{
 				}
 			})
 		});
+		console.log(ary);
 		return ary;
 	};
 	
@@ -120,14 +122,14 @@ class ReleaseGoods extends React.Component{
 					});
 					values.spec = specs;
 					values.entities = tableData;
-					values.desc = '111';
+					values.detail = this.editor.current.state.outputHTML;
 					releaseProducts(values).then(r=>{
 						message.success('发布商品成功')
 					}).catch(_=>{});
 					
 				} else {
 					values.open_specification = 0;
-					values.desc = '111';
+					values.detail = this.editor.current.state.outputHTML;
 					releaseProducts(values).then(r=>{
 						message.success('发布商品成功')
 					}).catch(_=>{});
@@ -251,7 +253,7 @@ class ReleaseGoods extends React.Component{
 									</Form.Item>
 									<Form.Item label="开启规格：" >
 										{getFieldDecorator('open_specification', {
-											initialValue:false
+											initialValue:''
 										})(<Switch  onChange={(e)=>{
 											this.props.form.setFieldsValue({
 												open_specification:e
@@ -340,7 +342,7 @@ class ReleaseGoods extends React.Component{
 							</div>
 						</TabPane>
 						<TabPane tab="2.编辑商品详情" key="2">
-							<Editor />
+							<Editor ref={this.editor} />
 						</TabPane>
 					</Tabs>
 				</div>

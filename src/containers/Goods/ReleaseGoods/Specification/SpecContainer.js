@@ -72,8 +72,9 @@ export default class Specification extends React.Component{
 				if(item.value){
 					let d = {};
 					let key = `value${item["parentKey"]}`;
+					let id = `id${item["id"]}`;
 					d[key] = item['value'];
-					d['id'] = item['id'];
+					d[id] = item['id'];
 					d['parentKey']=item["parentKey"];
 					newTableData.push(d);
 				} else {

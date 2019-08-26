@@ -114,8 +114,24 @@ export function editGood(params,productId) {
 }
 
 
-// 入库流水列表，按照入库创建时间倒序排序
+// 商品入库
+export function inStock(params) {
+	return request({
+		url: '/api/backend/products/stock/in_stock/add',
+		method: 'post',
+		data: params
+	})
+}
+// 商品出库
+export function outStock(params) {
+	return request({
+		url: '/api/backend/products/stock/out_stock/add',
+		method: 'post',
+		data: params
+	})
+}
 
+// 入库流水列表，按照入库创建时间倒序排序
 export function inStockList(params) {
 	return request({
 		url: '/api/backend/products/stock/in_stock/flows',
@@ -123,4 +139,42 @@ export function inStockList(params) {
 		params: params
 	})
 }
+
+// 出库流水列表
+export function outStockList(params) {
+	return request({
+		url: '/api/backend/products/stock/out_stock/flows',
+		method: 'get',
+		params: params
+	})
+}
+
+// 标准商品上架
+export function putOnShelves(params) {
+	return request({
+		url: '/api/backend/products/put_on_shelves',
+		method: 'post',
+		data: params
+	})
+}
+
+// 删除商品
+export function deleteGoods(params,groupId) {
+	return request({
+		url: '/api/backend/products/delete',
+		method: 'post',
+		data: params
+	})
+}
+
+///
+// 设置售卖范围
+export function setRange(params,productProvideId) {
+	return request({
+		url: `/api/backend/products/stock/${productProvideId}/set_sale_scope`,
+		method: 'put',
+		data: params
+	})
+}
+
 
