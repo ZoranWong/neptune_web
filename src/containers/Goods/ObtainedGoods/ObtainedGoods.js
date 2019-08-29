@@ -4,10 +4,11 @@ import {Button, Table, Modal, Input, message} from 'antd'
 import './css/breakfastOrder.sass'
 import {putOnShelves,products,deleteGoods} from "../../../api/goods/goods";
 import {searchJson} from "../../../utils/dataStorage";
-import AdvancedFilterComponent from "../../Shops/ShopManage/AdvancedFilterComponent";
+import AdvancedFilterComponent from "./AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomPagination from "../../../components/Layout/Pagination";
 import {user_values} from "../../../utils/user_fields";
+import RecordSpec from "../GoodsManage/RecordSpec";
 class ObtainedGoods extends React.Component{
 	constructor(props){
 		const columns = [
@@ -75,7 +76,9 @@ class ObtainedGoods extends React.Component{
 				search:'',
 				searchJson:searchJson({status:false})
 			},
-			columns:columns
+			columns:columns,
+			recordSpecVisible:false,   // 查看规格
+			recordSpecId:'',   // 查看规格
 		};
 	}
 	
@@ -131,7 +134,13 @@ class ObtainedGoods extends React.Component{
 	paginationChange = (list) =>{
 		this.setState({user_data:list})
 	};
-	
+	// 列表页查看规格
+	recordSpec = (record) =>{
+		this.setState({recordSpecId:record.product_id,recordSpecVisible:true})
+	};
+	closeRecordSpec = () =>{
+		this.setState({recordSpecVisible:false})
+	};
 	
 	
 	// 上架商品
@@ -269,6 +278,11 @@ class ObtainedGoods extends React.Component{
 					refresh={this.refresh}
 				/>
 				
+				<RecordSpec
+					visible={this.state.recordSpecVisible}
+					onCancel={this.closeRecordSpec}
+					recordSpecId={this.state.recordSpecId}
+				/>
 				
 				<div className="s_body">
 					<div className="headerLeft">

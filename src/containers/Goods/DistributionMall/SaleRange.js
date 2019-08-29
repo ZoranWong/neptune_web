@@ -1,15 +1,22 @@
 import React from "react";
-import { Modal, Select} from "antd";
-import './css/saleRange.sass'
-import {groups,shopListInGroup} from '../../../api/shops/groups'
+import {message, Modal, Select} from "antd";
+import '../BreakfastOrder/css/saleRange.sass'
+import {shops} from "../../../api/shops/shopManage";
+import {groups} from "../../../api/shops/groups";
+import {setRange} from "../../../api/goods/goods";
+
 export default class SaleRange extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
+			data:[],  // 备选
 			selectedItems:[],
 			selectedGroupItems:[],
 			selectedGroupShopsItems:[],
-			activeShopGroup:''
+			activeShopGroup:'',
+			type:'',
+			opt:'',
+			where:[]
 		}
 	}
 	
@@ -20,15 +27,20 @@ export default class SaleRange extends React.Component{
 	}
 	
 	onShopGroupChange = (e) =>{
-		shopListInGroup({},e).then(r=>{
-			this.setState({selectedGroupShopsItems:r.data})
+		this.setState({where:[]});
+		let api = '';
+		api = e == 'shop'?shops:groups;
+		api({}).then(r=>{
+			this.setState({type:e,data:r.data})
 		});
-		this.setState({activeShopGroup:e})
+		
 	};
 	
 	onShopChange = selectedItems =>{
-		this.setState({selectedItems})
-		
+		this.setState({where:selectedItems})
+	};
+	onTypeChange = opt =>{
+		this.setState({opt})
 	};
 	
 	handleCancel = () =>{
@@ -36,11 +48,25 @@ export default class SaleRange extends React.Component{
 	};
 	
 	handleSubmit = () =>{
-	
+		if(!this.state.where.length){
+			message.error('请选择店铺或店铺组');
+			return
+		}
+		if(!this.state.opt){
+			message.error('请选择类型');
+			return;
+		}
+		setRange({
+			type:this.state.type,
+			opt:this.state.opt,
+			where:this.state.where
+		},this.props.rangeId).then(r=>{
+			message.success(r.message)
+			this.handleCancel()
+		}).catch(_=>{})
 	};
 	
 	render() {
-		const {selectedItems} = this.state;
 		return (
 			<div className="saleRange">
 				<Modal
@@ -58,36 +84,34 @@ export default class SaleRange extends React.Component{
 							defaultActiveFirstOption={false}
 							style={{ width: 300 }}
 							onChange={this.onShopGroupChange}
-							value={this.state.activeShopGroup}
-							placeholder="Select a person"
+							value={this.state.type}
+							placeholder="请选择售卖范围"
 						>
-							{this.state.selectedGroupItems.map(item => (
-								<Select.Option key={item.id+""} label={item.name} value={item.id+''}>
-									{item.name}
-								</Select.Option>
-							))}
+							<Select.Option value="shop">店铺</Select.Option>
+							<Select.Option value="group">店铺组</Select.Option>
 						</Select>
 						<Select
 							defaultActiveFirstOption={false}
 							style={{ width: 82,marginLeft:5 }}
+							onChange={this.onTypeChange}
 						>
-							<Select.Option value={1}>只售于</Select.Option>
-							<Select.Option value={2}>不售于</Select.Option>
+							<Select.Option value="in">只售于</Select.Option>
+							<Select.Option value="not in">不售于</Select.Option>
 						</Select>
 						<Select
 							defaultActiveFirstOption={false}
 							mode="tags"
-							value={selectedItems}
+							value={this.state.where}
 							className='selectedBox tagBox'
 							onChange={this.onShopChange}
-							optionLabelProp="label"
 							allowClear
 							optionFilterProp="children"
+							optionLabelProp="label"
 							filterOption={(input, option) =>
 								option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 							}
 						>
-							{this.state.selectedGroupShopsItems.map(item => (
+							{this.state.data.map(item => (
 								<Select.Option key={item.id+""} label={item.name} value={item.id+''}>
 									{item.name}
 								</Select.Option>

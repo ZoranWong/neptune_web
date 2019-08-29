@@ -6,7 +6,6 @@ import NewSon from "./AddSpecValue";
 export default class SpecItem extends React.Component{
 	constructor(props) {
 		super(props);
-		console.log(props);
 		this.state = {
 			newSonVisible:false,
 			SelectedSpecification:[],
@@ -17,7 +16,17 @@ export default class SpecItem extends React.Component{
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(!nextProps.SelectedSpecification) return;
-		this.setState({SelectedSpecification:nextProps.SelectedSpecification})
+		
+	}
+	
+	componentDidMount() {
+		let data = {};
+		this.props.SelectedSpecification.forEach(item=>{
+			data[item.id] = item.values
+		});
+		this.setState({SelectedSpecification:this.props.SelectedSpecification,specItemData:data},()=>{
+			this.props.renderTable();
+		});
 	}
 	
 	// 新增规格值
@@ -60,6 +69,8 @@ export default class SpecItem extends React.Component{
 	};
 	
 	render() {
+		let spec = [];
+		spec = this.props.SelectedSpecification?this.props.SelectedSpecification:this.state.SelectedSpecification;
 		return (
 			<div>
 				<NewSon
@@ -69,7 +80,7 @@ export default class SpecItem extends React.Component{
 					parent={this.state.parent}
 				/>
 				<div className="s_tagBox">
-					{this.state.SelectedSpecification.length?this.state.SelectedSpecification.map(item=>{
+					{spec.length?spec.map(item=>{
 						return (
 							<div className="s_tags" key={item.id}>
 								<div className="top">

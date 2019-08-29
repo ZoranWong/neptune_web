@@ -177,4 +177,20 @@ export function setRange(params,productProvideId) {
 	})
 }
 
+// 编辑商品
+export function editGoods(params,productId) {
+	return request({
+		url: `/api/backend/products/${productId}`,
+		method: 'put',
+		data: params
+	})
+}
 
+// 出库流水列表
+export function StockListDetail(params,id) {
+	return request({
+		url: `/api/backend/products/stock/batch/${id}`,
+		method: 'get',
+		params: params
+	})
+}

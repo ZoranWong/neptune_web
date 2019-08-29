@@ -6,7 +6,7 @@ import './css/breakfastOrder.sass'
 import {channelsGoods,onShelves,offShelves,setWarning,setVirtualSales} from "../../../api/goods/goods";
 import {searchJson} from "../../../utils/dataStorage";
 import SaleRange from "./SaleRange";
-import AdvancedFilterComponent from "../../Shops/ShopManage/AdvancedFilterComponent";
+import AdvancedFilterComponent from "./AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomPagination from "../../../components/Layout/Pagination";
 import WarningStock from "../Components/WarningStock";
@@ -101,6 +101,7 @@ class BreakfastOrder extends React.Component{
 		
 		super(props);
 		this.child = React.createRef();
+		this.channel = 'BREAKFAST_CAR';
 		this.state = {
 			api:channelsGoods,
 			filterVisible:false,  // 高级筛选
@@ -113,7 +114,8 @@ class BreakfastOrder extends React.Component{
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
-				channel:'BREAKFAST_CAR'
+				channel:this.channel,
+				searchJson:searchJson({status:true})
 			},
 			columns:columns,
 			recordSpecVisible:false,
@@ -132,7 +134,7 @@ class BreakfastOrder extends React.Component{
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
-				channel:'BREAKFAST_CAR'
+				channel:this.channel
 			}
 		},()=>{
 			this.child.current.pagination(1)
@@ -232,7 +234,7 @@ class BreakfastOrder extends React.Component{
 			onOk() {
 				// 确定按钮执行操作
 				offShelves({
-					channel:'BREAKFAST_CAR',
+					channel:this.channel,
 					product_ids:products_ids
 				}).then(r=>{
 					message.success(r.message);
@@ -276,7 +278,7 @@ class BreakfastOrder extends React.Component{
 	
 	onSubmitShelfGoods = (value) =>{
 		onShelves({
-			channel:'BREAKFAST_CAR',
+			channel:this.channel,
 			product_ids:value
 		}).then(r=>{
 			message.success(r.message);
@@ -287,12 +289,12 @@ class BreakfastOrder extends React.Component{
 	
 	// 商品入库
 	inStock = () =>{
-		this.props.history.push({pathname:"/goods/inStock",state:{channel:'BREAKFAST_CAR'}})
+		this.props.history.push({pathname:"/goods/inStock",state:{channel:this.channel}})
 	};
 	
 	// 商品出库
 	outStock = () =>{
-		this.props.history.push({pathname:"/goods/outStock",state:{channel:'BREAKFAST_CAR'}})
+		this.props.history.push({pathname:"/goods/outStock",state:{channel:this.channel}})
 	};
 	
 	render(){

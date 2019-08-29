@@ -1,9 +1,8 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
 import './css/classification.sass'
-import {Button, Table, Modal, Popconfirm} from "antd";
-import CustomPagination from "../../../components/Layout/Pagination";
-import {FatherClassification,createNewFatherClassification,SonClassification,deleteClassification} from "../../../api/goods/classification";
+import {Button, Table, Popconfirm} from "antd";
+import {createNewFatherClassification,SonClassification,deleteClassification} from "../../../api/goods/classification";
 import AddNewClassification from "./AddNewClassification";
 import AddNewSonClassification from "./AddNewSonClassification";
 class Classification extends React.Component{
@@ -91,8 +90,12 @@ class Classification extends React.Component{
 		const _this = this;
 		function NestedTable() {
 			const expandedRowRender = (record) => {
-				const columns = [
-					{ title: 'cName', dataIndex: 'name', key: record.id },
+				const columnsSon = [
+					{
+						title: 'cName',
+						dataIndex: 'name',
+						key: 'id',
+					},
 					{
 						title: 'Status',
 						key: 'state',
@@ -118,12 +121,12 @@ class Classification extends React.Component{
 				];
 				//  Here to get ChildClassification , params :record.id
 				return <Table
-							className="innerTable"
-							columns={columns}
-							rowKey={record => record.id}
-							dataSource={record.children}
-							pagination={false}
-							showHeader={false}/>;
+					className="innerTable"
+					columns={columnsSon}
+					rowKey={record => record.id}
+					dataSource={record.children}
+					pagination={false}
+					showHeader={false}/>;
 			};
 			
 			const columns = [
@@ -200,13 +203,6 @@ class Classification extends React.Component{
 						新增分类</Button>
 					{NestedTable()}
 					
-				</div>
-				<div className="pagination">
-					<CustomPagination
-						api={this.state.api}
-						ref={this.child}
-						valChange={this.paginationChange}
-					/>
 				</div>
 			</div>
 		)

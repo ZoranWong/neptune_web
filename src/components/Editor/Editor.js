@@ -3,11 +3,15 @@ import React from 'react'
 import BraftEditor from 'braft-editor'
 import './index.sass'
 export default class BasicDemo extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			editorState: BraftEditor.createEditorState(''), // 设置编辑器初始内容
+			outputHTML: props.detail
+		};
+	}
 	
-	state = {
-		editorState: BraftEditor.createEditorState(''), // 设置编辑器初始内容
-		outputHTML: '<p></p>'
-	};
+	
 	
 	componentDidMount () {
 		this.isLivinig = true;

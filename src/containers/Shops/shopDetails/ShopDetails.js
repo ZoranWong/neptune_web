@@ -126,7 +126,7 @@ class ShopDetails extends React.Component{
 	render(){
 		const {data} = this.state;
 		return (
-			<div>
+			<div className="shopDetail">
 				
 				<ShopInformation
 					visible={this.state.shopInformationVisible}

@@ -30,7 +30,7 @@ class GoodDetails extends React.Component{
 					</div>
 					<div className="u_body_one">
 						<ul className="u_body_top">
-							<li className="firstChild"><h3></h3></li>
+							<li className="firstChild"><img src={data.thumbnail} alt=""/></li>
 							<li >
 								<p>商品名称：{data.name}</p>
 								<p>商品条码：{data.barcode}</p>

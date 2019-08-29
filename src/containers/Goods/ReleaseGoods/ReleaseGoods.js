@@ -4,7 +4,7 @@ import Editor from "../../../components/Editor/Editor";
 import {Tabs, Button, Form, Input, Select, Radio, Switch, message} from 'antd';
 import {SonClassification} from "../../../api/goods/classification";
 import Specification from './Specification/SpecContainer'
-import {releaseProducts,beforeEditGood} from "../../../api/goods/goods";
+import {releaseProducts,beforeEditGood,editGoods} from "../../../api/goods/goods";
 
 import Upload from '../../../components/Upload/Upload'
 import UploadMany from "../../../components/UploadMany/Upload";
@@ -13,7 +13,6 @@ const { TabPane } = Tabs;
 class ReleaseGoods extends React.Component{
 	constructor(props) {
 		super(props);
-		console.log(props);
 		this.state = {
 			activeKey :'1',
 			confirmDirty: false,
@@ -27,7 +26,10 @@ class ReleaseGoods extends React.Component{
 			share_desc:'',// 分享描述，
 			property:'', // 商品属性
 			category_ids:[],  // 商品分类id组
-			specificationIsOpen:false
+			specificationIsOpen:false,
+			spec:[],// 商品编辑回显
+			entities:[], // 数量回显
+			detail:'',  //富文本回显
 		};
 		this.child = React.createRef();
 		this.uploadChild = React.createRef();
@@ -51,9 +53,16 @@ class ReleaseGoods extends React.Component{
 		
 		if(this.props.location.state&&this.props.location.state.id){
 			beforeEditGood({},this.props.location.state.id).then(r=>{
+				console.log(r);
 				for (let key in r.data){
 					this.props.form.setFieldsValue({[key]:r.data[key]})
 				}
+				this.setState({
+					specificationIsOpen:r.data.open_specification,
+					spec:r.data.spec,
+					entities:r.data.entities.data,
+					detail:r.data.detail
+				})
 			}).catch(_=>{})
 		}
 	}
@@ -72,19 +81,22 @@ class ReleaseGoods extends React.Component{
 				}
 			})
 		});
-		console.log(ary);
 		return ary;
 	};
 	
 	handleSubmit = e => {
 		e.preventDefault();
-		this.props.form.setFieldsValue({'thumbnail':this.uploadChild.current.state.imgUrl}); // 缩略图
+		let api;
+		let text;
+		api =   this.props.location.state&&this.props.location.state.id ? editGoods:releaseProducts;
+		text =  this.props.location.state&&this.props.location.state.id ? '编辑商品成功':'发布商品成功';
+		let imgUrl = this.uploadChild.current.state.imgUrl|| this.uploadChild.current.state.imageUrl;
+		this.props.form.setFieldsValue({'thumbnail':imgUrl}); // 缩略图
 		this.props.form.validateFieldsAndScroll((err, values) => {
-			//console.log(this.child.current.state.SelectedSpecification);   // parent Id  name   values:[]
 			values.banners = [];  // banner图
 			let fileList =this.bannerChild.current.state.fileList;
 			fileList.forEach(item=>{
-				values.banners.push(item.response.data.url)
+				values.banners.push(item.url||item.response.data.url )
 			});
 			if (!err) {
 				let retail_price = values.retail_price;
@@ -113,25 +125,28 @@ class ReleaseGoods extends React.Component{
 					
 					// 数量
 					let tableData = this.child.current.state.data;
-					tableData.forEach(item=>{
-						let spec = this.devideIds(item, childName);
-						console.log(spec);
-						item['name']=values.name;
-						item['image']=this.uploadChild.current.state.imgUrl;
-						item['spec'] = spec;
-					});
+					
+					if(!this.props.location.state){
+						tableData.forEach(item=>{
+							let spec = this.devideIds(item, childName);
+							item['name']=values.name;
+							item['image']=this.uploadChild.current.state.imgUrl;
+							item['spec'] = spec;
+						});
+					}
+					
 					values.spec = specs;
 					values.entities = tableData;
-					values.detail = this.editor.current.state.outputHTML;
-					releaseProducts(values).then(r=>{
-						message.success('发布商品成功')
+					values.detail = this.editor.current?this.editor.current.state.outputHTML:'';
+					api(values,this.props.location.state&&this.props.location.state.id).then(r=>{
+						message.success(text)
 					}).catch(_=>{});
 					
 				} else {
 					values.open_specification = 0;
-					values.detail = this.editor.current.state.outputHTML;
-					releaseProducts(values).then(r=>{
-						message.success('发布商品成功')
+					values.detail = this.editor.current?this.editor.current.state.outputHTML:'';
+					api(values,this.props.location.state&&this.props.location.state.id).then(r=>{
+						message.success(text)
 					}).catch(_=>{});
 				}
 				
@@ -147,8 +162,10 @@ class ReleaseGoods extends React.Component{
 		return (
 			<div className="releaseGoods">
 				<div className="header">
-					发布商品
-					<Button size="small">返回上一页</Button>
+					{this.props.location.state&&this.props.location.state.id?'编辑商品':'发布商品'}
+					<Button size="small" onClick={()=>{
+						this.props.history.go(-1)
+					}}>返回上一页</Button>
 				</div>
 				<div className="mainReleaseGood">
 					<Tabs activeKey={this.state.activeKey} onChange={this.tabChange}>
@@ -184,14 +201,17 @@ class ReleaseGoods extends React.Component{
 													message: '请选择商品缩略图',
 												},
 											],
-										})(<Upload ref={this.uploadChild} text="上传"/>)}
+										})(<Upload
+											defaultImg={this.props.form.getFieldValue('thumbnail')}
+											ref={this.uploadChild}
+											text="上传"/>)}
 									</Form.Item>
-									<Form.Item label="商品banner图："  className="upload">
+									<Form.Item label="商品banner图："  className="upload banners" >
 										{getFieldDecorator('banners', {
 											initialValue:[],
 											rules: [{ required: true, message: '请选择商品banner图' }],
 										})(<div className="bannerImg">
-											<UploadMany ref={this.bannerChild} />
+											<UploadMany ref={this.bannerChild} defaultImg={this.props.form.getFieldValue('banners')} />
 											<span className="suggest">建议尺寸：640 * 640像素，最多上传10张；你可以拖拽图片调整图片顺序。</span>
 										</div>)}
 									</Form.Item>
@@ -229,6 +249,7 @@ class ReleaseGoods extends React.Component{
 											rules: [{ required: true, message: '请选择商品分类' }],
 										})(<Select
 												mode="multiple"
+												value={this.props.form.getFieldValue('category_ids')}
 												onChange={(e)=>{
 													this.props.form.setFieldsValue({
 														category_ids:e
@@ -253,8 +274,8 @@ class ReleaseGoods extends React.Component{
 									</Form.Item>
 									<Form.Item label="开启规格：" >
 										{getFieldDecorator('open_specification', {
-											initialValue:''
-										})(<Switch  onChange={(e)=>{
+											initialValue:false
+										})(<Switch checked={this.props.form.getFieldValue('open_specification')}  onChange={(e)=>{
 											this.props.form.setFieldsValue({
 												open_specification:e
 											});
@@ -262,7 +283,11 @@ class ReleaseGoods extends React.Component{
 										}}/>)}
 									</Form.Item>
 									{
-										this.state.specificationIsOpen?(<Specification ref={this.child} />):(
+										this.state.specificationIsOpen?(<Specification
+											ref={this.child}
+											spec={this.state.spec}
+											entities={this.state.entities}
+										/>):(
 											<div>
 												<Form.Item label="零售价：" >
 													{getFieldDecorator('retail_price', {
@@ -285,8 +310,6 @@ class ReleaseGoods extends React.Component{
 											</div>
 										)
 									}
-									
-									
 									<Form.Item label="PV值：" >
 										{getFieldDecorator('pv', {
 											initialValue:'',
@@ -342,7 +365,7 @@ class ReleaseGoods extends React.Component{
 							</div>
 						</TabPane>
 						<TabPane tab="2.编辑商品详情" key="2">
-							<Editor ref={this.editor} />
+							<Editor ref={this.editor} default={this.state.detail}  />
 						</TabPane>
 					</Tabs>
 				</div>

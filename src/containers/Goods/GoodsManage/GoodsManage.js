@@ -77,7 +77,6 @@ class GoodsManage extends React.Component{
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
-				searchJson:searchJson({status:true})
 			},
 			columns:columns,
 			groupVisible:false,
@@ -260,6 +259,7 @@ class GoodsManage extends React.Component{
 				<RecordSpec
 					visible={this.state.recordSpecVisible}
 					onCancel={this.closeRecordSpec}
+					recordSpecId={this.state.recordSpecId}
 				/>
 				
 				<AdvancedFilterComponent

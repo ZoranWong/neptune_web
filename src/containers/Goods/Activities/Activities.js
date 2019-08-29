@@ -1,17 +1,17 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
-import {Button, Table, Modal, Input, message} from 'antd'
+import {Button, Table, Modal, Input, message, InputNumber} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/breakfastOrder.sass'
-import {channelsGoods,onShelves,offShelves,setWarning} from "../../../api/goods/goods";
+import {channelsGoods,onShelves,offShelves,setWarning,setVirtualSales} from "../../../api/goods/goods";
 import {searchJson} from "../../../utils/dataStorage";
 import SaleRange from "./SaleRange";
-import AdvancedFilterComponent from "../../Shops/ShopManage/AdvancedFilterComponent";
+import AdvancedFilterComponent from "./AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomPagination from "../../../components/Layout/Pagination";
 import WarningStock from "../Components/WarningStock";
 import ShelfGoods from "../Components/ShelfGoods";
-const channel = 'BREAKFAST_PREORDER'
+import RecordSpec from "../Components/RecordSpec";
 class Activities extends React.Component{
 	constructor(props){
 		const columns = [
@@ -20,27 +20,40 @@ class Activities extends React.Component{
 				dataIndex: 'name',
 				render: (text,record) => <span
 					style={{'color':'#4F9863','cursor':'pointer'}}
-					>{text}</span>,
+					onClick={()=>this.jump(record)}
+				>{text}</span>,
 			},
 			{
 				title: '分类',
-				dataIndex: 'keeper_name',
+				dataIndex: 'category',
 			},
 			{
 				title: '规格',
-				dataIndex: 'code',
+				render:(text,record) =>{
+					if(record.open_specification){
+						return (<span
+							style={{'color':'#4F9863','cursor':'pointer'}}
+							onClick={()=>{
+								this.setState({recordSpecVisible:true,provide_id:record.provide_id})
+							}
+							}
+						>查看规格</span>)
+					} else {
+						return <span>无</span>
+					}
+				}
 			},
 			{
 				title: '零售价',
-				dataIndex: 'channel',
+				dataIndex: 'retail_price',
 			},
 			{
 				title: '库存',
-				dataIndex:'total_sale',
+				dataIndex:'stock',
 				render: (text,record) =>
-					<div className="warning">
+					<div className="warning" >
 						{text}
-						<span>
+						<span style={{display:record.stock_alert?'block':'none'}}>
 							<IconFont type="icon-info-circle-fill" />
 							警戒
 						</span>
@@ -49,13 +62,23 @@ class Activities extends React.Component{
 			},
 			{
 				title: '实际销量',
-				dataIndex: 'status',
+				dataIndex: 'total_sales',
 			},
 			{
 				title: '虚拟销量',
-				dataIndex: 'statusSale',
+				dataIndex: 'virtual_sales',
 				render: (text,record) =>
-					<Input className="virtualSales" />
+					<InputNumber
+						className="virtualSales"
+						defaultValue={text}
+						onBlur={(e)=>{
+							e.target.value = e.target.value < 0? 0:e.target.value;
+							if(e.target.value <= 0) return;
+							setVirtualSales({virtual_sales:e.target.value},record.provide_id).then(r=>{
+								message.success(r.message)
+							}).catch(_=>{})
+						}}
+					/>
 			},
 			{
 				title: '操作',
@@ -63,12 +86,12 @@ class Activities extends React.Component{
 					<div>
 						<span
 							style={{'color':'#4F9863','cursor':'pointer'}}
-							onClick={this.showSaleRange}
+							onClick={()=>this.showSaleRange(record.provide_id)}
 						>售卖范围
 						</span>
 						<span
 							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
-							onClick={()=>this.showWarningStock(record.stock_id)}
+							onClick={()=>this.showWarningStock(record)}
 						>警戒库存
 						</span>
 					</div>
@@ -78,20 +101,24 @@ class Activities extends React.Component{
 		
 		super(props);
 		this.child = React.createRef();
+		this.channel = 'BREAKFAST_PREORDER';
 		this.state = {
 			api:channelsGoods,
 			filterVisible:false,  // 高级筛选
 			warningStockVisible:false,   // 售卖范围
 			shelfGoodsVisible:false,  // 上架商品
-			product_id:'',
+			stock_id:'',
+			provide_id:'',  // 订货查看规格id
 			user_data:[],
 			checkedAry:[],     // 列表页选中的用户id组
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
-				channel:channel
+				channel:this.channel
 			},
-			columns:columns
+			columns:columns,
+			recordSpecVisible:false,
+			rangeId:'',// 设置范围
 		};
 	}
 	
@@ -106,16 +133,21 @@ class Activities extends React.Component{
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
-				channel:channel
+				channel:this.channel
 			}
 		},()=>{
 			this.child.current.pagination(1)
 		})
 	};
 	
+	// 商品详情
+	jump = (record) =>{
+		this.props.history.push({pathname:"/goods/goodDetails",state:{id:record.product_id}})
+	};
+	
 	// 售卖范围
-	showSaleRange = () =>{
-		this.setState({saleRange:true})
+	showSaleRange = (id) =>{
+		this.setState({saleRange:true,rangeId:id})
 	};
 	hideSaleRange = () =>{
 		this.setState({saleRange:false})
@@ -150,11 +182,27 @@ class Activities extends React.Component{
 		this.setState({user_data:list})
 	};
 	
+	// 有规格时设置警戒库存
+	closeRecordSpec = () =>{
+		this.setState({recordSpecVisible:false})
+	};
+	
+	setWarning = (record) => {
+		this.showWarningStock(record)
+	};
+	
 	
 	
 	// 下架商品
 	unSale = () =>{
-		let checkedAry = this.state.checkedAry;
+		let products_ids = [];
+		this.state.checkedAry.forEach(id=>{
+			this.state.user_data.forEach(item=>{
+				if(id == item.stock_id){
+					products_ids.push(item.product_id)
+				}
+			})
+		});
 		let refresh = this.refresh;
 		let confirmModal = Modal.confirm({
 			title: (
@@ -185,8 +233,8 @@ class Activities extends React.Component{
 			onOk() {
 				// 确定按钮执行操作
 				offShelves({
-					channel:channel,
-					product_ids:checkedAry
+					channel:this.channel,
+					product_ids:products_ids
 				}).then(r=>{
 					message.success(r.message);
 					refresh()
@@ -197,8 +245,13 @@ class Activities extends React.Component{
 	
 	
 	// 警戒范围
-	showWarningStock = (id) =>{
-		this.setState({warningStockVisible:true,product_id:id})
+	showWarningStock = (record) =>{
+		if(record.open_specification){
+			this.setState({recordSpecVisible:true,provide_id:record.provide_id})
+		} else {
+			this.setState({warningStockVisible:true,stock_id:record.stock_id})
+		}
+		
 	};
 	
 	hideWarningStock = () =>{
@@ -224,7 +277,7 @@ class Activities extends React.Component{
 	
 	onSubmitShelfGoods = (value) =>{
 		onShelves({
-			channel:channel,
+			channel:this.channel,
 			product_ids:value
 		}).then(r=>{
 			message.success(r.message);
@@ -235,12 +288,12 @@ class Activities extends React.Component{
 	
 	// 商品入库
 	inStock = () =>{
-		this.props.history.push({pathname:"/goods/inStock",state:{channel:channel}})
+		this.props.history.push({pathname:"/goods/inStock",state:{channel:this.channel}})
 	};
 	
 	// 商品出库
 	outStock = () =>{
-		this.props.history.push({pathname:"/goods/inStock",state:{channel:channel}})
+		this.props.history.push({pathname:"/goods/outStock",state:{channel:this.channel}})
 	};
 	
 	render(){
@@ -263,11 +316,18 @@ class Activities extends React.Component{
 					refresh={this.refresh}
 				/>
 				
+				<RecordSpec
+					visible={this.state.recordSpecVisible}
+					onCancel={this.closeRecordSpec}
+					onSubmit={this.setWarning}
+					provide_id={this.state.provide_id}
+				/>
+				
 				<WarningStock
 					visible={this.state.warningStockVisible}
 					onCancel={this.hideWarningStock}
 					onSubmit={this.onSubmitWarningStock}
-					id={this.state.product_id}
+					id={this.state.stock_id}
 				/>
 				
 				<ShelfGoods
@@ -279,6 +339,7 @@ class Activities extends React.Component{
 				<SaleRange
 					visible={this.state.saleRange}
 					onCancel={this.hideSaleRange}
+					rangeId={this.state.rangeId}
 				/>
 				
 				

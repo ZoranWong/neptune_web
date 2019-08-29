@@ -31,7 +31,10 @@ export default class OutStock extends React.Component{
 		})
 	};
 	
-	
+	listDetail = record =>{
+		// /goods/inStockDetail
+		this.props.history.push({pathname:'/goods/outStockDetail',state:{id:record.stock_batch_id}})
+	};
 	
 	goInStockNew = () =>{
 		this.props.history.push({pathname:"/goods/outStockNew",state:{channel:this.channel}})
@@ -61,6 +64,7 @@ export default class OutStock extends React.Component{
 					<div>
 						<span
 							style={{'color':'#4F9863','cursor':'pointer'}}
+							onClick={()=>{this.listDetail(record)}}
 						>
 							详情
 						</span>
@@ -71,7 +75,9 @@ export default class OutStock extends React.Component{
 			<div className="inStock">
 				<div className="header">
 					商品出库
-					<Button size="small">返回上一页</Button>
+					<Button size="small" onClick={()=>{
+						this.props.history.go(-1)
+					}}>返回上一页</Button>
 				</div>
 				<div className="body">
 					<Button size="small" type="primary" onClick={this.goInStockNew}>新建出库</Button>

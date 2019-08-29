@@ -2,7 +2,7 @@
 import React from "react";
 import {Select, Modal, Tag} from "antd";
 import './common.sass'
-import {createValues} from '../../../../api/goods/specification'
+import {allSpecification, createValues} from '../../../../api/goods/specification'
 const {Option} = Select;
 let sons = [];
 export default class NewSpecification extends React.Component{
@@ -11,12 +11,27 @@ export default class NewSpecification extends React.Component{
 		this.state = {
 			specValues:[],
 			allValues:[],
+			values:[], // 默认值
 		};
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(!nextProps.parent.id) return;
-		this.setState({allValues:nextProps.parent.spec_value})
+		if(nextProps.parent.spec_value){
+			this.setState({allValues:nextProps.parent.spec_value})
+		} else {
+			let all = [];
+			allSpecification({}).then(r=>{
+				all = r.filter(item=>item.id == nextProps.parent.id);
+				this.setState({allValues:all[0].spec_value})
+			}).catch(_=>{});
+			let values = [];
+			nextProps.parent.values.forEach(item=>{
+				values.push(item.value)
+			});
+			this.setState({values})
+		}
+		
 	}
 	
 	
@@ -91,7 +106,7 @@ export default class NewSpecification extends React.Component{
 							mode="tags"
 							onChange={this.handleChange}
 							allowClear={true}
-							
+							defaultValue={this.state.values}
 						>
 							{
 								this.state.allValues.length?this.state.allValues.map(item=>{

@@ -13,7 +13,7 @@ export default class Specification extends React.Component{
 		this.state = {
 			newSpecificationVisible:false,
 			tableChildren:[],
-			SelectedSpecification:[],
+			SelectedSpecification:props.spec,
 			sonData:[],
 			data:[],// 表格渲染规格值
 		};
@@ -23,6 +23,12 @@ export default class Specification extends React.Component{
 	}
 	
 	componentDidMount() {
+		this.setState({data:this.props.entities})
+	}
+	
+	componentWillReceiveProps(nextProps, nextContext) {
+		if(!nextProps.entities || !nextProps.entities.length) return;
+		this.setState({data:nextProps.entities})
 	}
 	
 	// 新增规格
@@ -49,7 +55,7 @@ export default class Specification extends React.Component{
 	
 	handleDeleteSpecification = (data) =>{
 		this.setState({SelectedSpecification:data})
-	}
+	};
 	
 	// 数据变更时渲染表格
 	renderTable = () =>{
@@ -58,16 +64,13 @@ export default class Specification extends React.Component{
 		if(this.specItemChild.current){
 			let specValue = this.specItemChild.current.state.specItemData;
 			let specValueArray = [];
-			console.log(specValue,'-----');
 			for ( let key in specValue){
 				specValue[key].forEach(item=>{
 					item["parentKey"] = key
 				});
 				specValueArray.push(specValue[key])
 			}
-			console.log(specValueArray);
 			data = arrayMultiplication.apply(this,specValueArray);
-			console.log(data,'data');
 			data.forEach(item=>{
 				if(item.value){
 					let d = {};
@@ -88,9 +91,24 @@ export default class Specification extends React.Component{
 					newTableData.push(d)
 				}
 				
-			})
+			});
+			console.log(newTableData,'lllllllllllll');
 		}
-		this.setState({data: newTableData})
+		if(this.props.entities.length){
+			let data = this.state.data;
+			let newData = [];
+			data.forEach((item,index)=>{
+				newTableData.forEach((r,i)=>{
+					if(index === i){
+						newData.push(Object.assign(item,r));
+					}
+				})
+			})
+			this.setState({data: newData})
+		} else {
+			this.setState({data: newTableData})
+		}
+		
 	};
 	
 	
@@ -123,7 +141,11 @@ export default class Specification extends React.Component{
 				className: 'column-money',
 				align:'center',
 				render:(text,record) =>{
-					return <Upload ref={this.uploadChild} text=""/>
+					if(record.name){
+						return <Upload ref={this.uploadChild} defaultImg={record.image} text=""/>
+					} else {
+						return <Upload ref={this.uploadChild} text=""/>
+					}
 				}
 			},
 			{
@@ -131,9 +153,15 @@ export default class Specification extends React.Component{
 				dataIndex: 'barcode',
 				align:'center',
 				render:(text,record)=>{
-					return <Input placeholder='请输入条形码' onChange={(e)=>{
-						record.barcode = e.target.value;
-					}} />
+					if(record.name){
+						return <Input placeholder='请输入条形码' value={record.barcode} onChange={(e)=>{
+							record.barcode = e.target.value;
+						}} />
+					} else {
+						return <Input placeholder='请输入条形码' onChange={(e)=>{
+							record.barcode = e.target.value;
+						}} />
+					}
 				}
 			},
 			{
@@ -141,9 +169,15 @@ export default class Specification extends React.Component{
 				dataIndex: 'retail_price',
 				align:'center',
 				render:(text,record)=>{
-					return <Input type="number" addonAfter="元" onChange={(e)=>{
-						record.retail_price = e.target.value;
-					}} />
+					if(record.name){
+						return <Input placeholder='请输入条形码' value={record.barcode} onChange={(e)=>{
+							record.barcode = e.target.value;
+						}} />
+					} else {
+						return <Input placeholder='请输入条形码' onChange={(e)=>{
+							record.barcode = e.target.value;
+						}} />
+					}
 				}
 			},
 			{
@@ -151,19 +185,33 @@ export default class Specification extends React.Component{
 				dataIndex: 'cost_price',
 				align:'center',
 				render:(text,record)=>{
-					return <Input  type="number" addonAfter="元" onChange={(e)=>{
-						record.cost_price = e.target.value;
-					}}/>
+					
+					if(record.name){
+						return <Input  type="number" value={record.cost_price} addonAfter="元" onChange={(e)=>{
+							record.cost_price = e.target.value;
+						}}/>
+					} else {
+						return <Input  type="number" addonAfter="元" onChange={(e)=>{
+							record.cost_price = e.target.value;
+						}}/>
+					}
 				}
 			},
 			{
 				title: '市场价'	,
-				dataIndex: 'marketPrice',
+				dataIndex: 'market_price',
 				align:'center',
 				render:(text,record)=>{
-					return <Input type="number"  addonAfter="元" onChange={(e)=>{
-						record.marketPrice = e.target.value;
-					}} />
+				
+					if(record.name){
+						return <Input type="number" value={record.market_price}  addonAfter="元" onChange={(e)=>{
+							record.market_price = e.target.value;
+						}} />
+					} else {
+						return <Input type="number"  addonAfter="元" onChange={(e)=>{
+							record.market_price = e.target.value;
+						}} />
+					}
 				}
 			},
 			{

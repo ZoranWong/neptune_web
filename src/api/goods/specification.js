@@ -51,6 +51,15 @@ export function createValues(params,specificationId) {
 	})
 }
 
+// 标准商品查看规格
+export function goodSpec(params,productId) {
+	return request({
+		url: `/api/backend/products/${productId}/entities`,
+		method: 'get',
+		params: params
+	})
+}
+
 // 订货页面查看规格
 export function stockSpec(params,provideId) {
 	return request({

@@ -53,7 +53,6 @@ export default class CustomUpload extends React.Component{
 	};
 	
 	handleChange = info => {
-		console.log(info);
 		if (info.file.status === 'uploading') {
 			this.setState({ loading: true });
 			return;

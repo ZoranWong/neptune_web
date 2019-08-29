@@ -3,6 +3,7 @@ import {Transfer, Table, Modal, message} from 'antd';
 import difference from 'lodash/difference';
 import './css/shelfGoods.sass'
 import {products} from "../../../api/goods/goods";
+import {searchJson} from "../../../utils/dataStorage";
 // Customize Table Transfer
 const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
 	<Transfer {...restProps} >
@@ -113,7 +114,7 @@ export default class ShelfGoods extends React.Component {
 	};
 	
 	componentDidMount() {
-		products({limit:100,page:1}).then(r=>{
+		products({limit:100,page:1,searchJson:searchJson({status:true})}).then(r=>{
 			this.setState({data:r.data})
 		}).catch(_=>{});
 	}

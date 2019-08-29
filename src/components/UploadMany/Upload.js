@@ -20,13 +20,23 @@ export default class UploadMany extends React.Component{
 			previewVisible: false,
 			previewImage: '',
 			fileList: [],
-			banners:[]
 		};
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
-		if(!nextProps.defaultImg) return;
-		this.setState({imageUrl:nextProps.defaultImg})
+		if(!nextProps.defaultImg.length) return;
+		let imgs = nextProps.defaultImg;
+		if(typeof imgs == 'object'){
+			let banners = [];
+			imgs.forEach((item,index)=>{
+				let data = {};
+				data['uid'] = index;
+				data.url = item;
+				banners.push(data)
+			});
+			this.setState({fileList:banners})
+		}
+		
 	}
 	
 	beforeUpload = file => {

@@ -16,8 +16,12 @@ import ClientOrder from "../containers/Goods/ClientOrder/ClientOrder";
 import Activities from "../containers/Goods/Activities/Activities";
 import DistributionMall from "../containers/Goods/DistributionMall/DistributionMall";
 import GoodDetails from "../containers/Goods/GoodDetails/GoodDetails";
+import InStockDetail from "../containers/Goods/InStockDetail/InStockDetail";
 
-import Order from "../containers/Order/Order";
+import Order from "../containers/Order/OrderManage/Order";
+import GoodsOrder from "../containers/Order/GoodsOrder/GoodsOrder";
+import Refund from "../containers/Order/Refund/Refund";
+import OrderDetail from "../containers/Order/OrderDetail/OrderDetail";
 
 import Marketing from "../containers/Marketing/Marketing";
 
@@ -32,6 +36,7 @@ import InStock from "../containers/Goods/InStock/InStock";
 import InStockNew from "../containers/Goods/InStockNew/InStockNew";
 import OutStock from "../containers/Goods/OutStock/OutStock";
 import OutStockNew from "../containers/Goods/OutStockNew/OutStockNew";
+import OutStockDetail from "../containers/Goods/OutStockDetail/OutStockDetail";
 
 import Staffing from "../containers/Setting/Staffing";
 import WarningSetting from '../containers/Setting/WarningSetting'
@@ -48,6 +53,7 @@ import UserDetails from '../containers/User/UserDetails/UserDetails'
 
 import LoginContainer from '../containers/Login/index'
 import ResetPassword from '../containers/Login/ResetPassword'
+
 
 
 
@@ -97,9 +103,14 @@ const Routes = () =>(
 		<Route exact={true} path="/goods/outStock" render={props => onEnter(OutStock, props)} />
 		<Route exact={true} path="/goods/inStockNew" render={props => onEnter(InStockNew, props)} />
 		<Route exact={true} path="/goods/outStockNew" render={props => onEnter(OutStockNew, props)} />
+		<Route exact={true} path="/goods/inStockDetail" render={props => onEnter(InStockDetail, props)} />
+		<Route exact={true} path="/goods/outStockDetail" render={props => onEnter(OutStockDetail, props)} />
 		
 		{/*订单*/}
 		<Route exact={true} path="/order" render={props => onEnter(Order, props)} />
+		<Route exact={true} path="/order/goodsOrder" render={props => onEnter(GoodsOrder, props)} />
+		<Route exact={true} path="/order/refund" render={props => onEnter(Refund, props)} />
+		<Route exact={true} path="/order/orderDetail" render={props => onEnter(OrderDetail, props)} />
 		
 		{/*营销*/}
 		<Route exact={true} path="/marketing" render={props => onEnter(Marketing, props)} />

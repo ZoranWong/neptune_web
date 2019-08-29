@@ -1,6 +1,6 @@
 import React from "react";
 import {message, Modal, Select} from "antd";
-import './css/saleRange.sass'
+import '../BreakfastOrder/css/saleRange.sass'
 import {shops} from "../../../api/shops/shopManage";
 import {groups} from "../../../api/shops/groups";
 import {setRange} from "../../../api/goods/goods";

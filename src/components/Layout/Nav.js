@@ -41,7 +41,7 @@ class Nav extends React.Component{
 			{
 				text:'订单',
 				path:'/order',
-				exact:true,
+				exact:false,
 				name:"nav-order"
 			},
 			{

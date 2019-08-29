@@ -1,6 +1,8 @@
 import React from "react";
 import { Modal, Table} from 'antd'
 import '../InStockNew/css/selectGoods.sass'
+import {goodSpec} from "../../../api/goods/specification";
+
 export default class RecordSpec extends React.Component{
 	constructor(props) {
 		super(props);
@@ -9,11 +11,13 @@ export default class RecordSpec extends React.Component{
 		}
 	}
 	
-	componentDidMount() {
-	
+	componentWillReceiveProps(nextProps, nextContext) {
+		if(!nextProps.recordSpecId) return;
+		goodSpec({},nextProps.recordSpecId).then(r=>{
+			this.setState({data:r.data})
+		})
+		
 	}
-	
-	
 	
 	
 	handleCancel = () =>{
@@ -26,15 +30,15 @@ export default class RecordSpec extends React.Component{
 		const columns = [
 			{
 				title: '规格',
-				dataIndex: 'name',
+				dataIndex: 'spec_desc',
 			},
 			{
 				title: '零售价',
-				dataIndex:''
+				dataIndex:'retail_price'
 			},
 			{
 				title: '销量',
-				dataIndex: 'category',
+				dataIndex: 'total_sales',
 			},
 			
 		];

@@ -1,10 +1,9 @@
 import React from "react";
-import {Button, Input, Table, DatePicker, LocaleProvider} from "antd";
+import {Button, Input, Table, DatePicker, LocaleProvider, Select} from "antd";
 import 'moment/locale/zh-cn';
 import './css/inStock.sass'
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import {inStockList} from "../../../api/goods/goods";
-
 const { RangePicker } = DatePicker;
 
 export default class InStock extends React.Component{
@@ -31,7 +30,11 @@ export default class InStock extends React.Component{
 		})
 	};
 	
-	
+	listDetail = record =>{
+		// /goods/inStockDetail
+		console.log(record);
+		this.props.history.push({pathname:'/goods/inStockDetail',state:{id:record.stock_batch_id}})
+	};
 	
 	goInStockNew = () =>{
 		this.props.history.push({pathname:"/goods/inStockNew",state:{channel:this.channel}})
@@ -61,6 +64,7 @@ export default class InStock extends React.Component{
 					<div>
 						<span
 							style={{'color':'#4F9863','cursor':'pointer'}}
+							onClick={()=>this.listDetail(record)}
 						>
 							详情
 						</span>
@@ -71,7 +75,9 @@ export default class InStock extends React.Component{
 			<div className="inStock">
 				<div className="header">
 					商品入库
-					<Button size="small">返回上一页</Button>
+					<Button size="small" onClick={()=>{
+						this.props.history.go(-1)
+					}}>返回上一页</Button>
 				</div>
 				<div className="body">
 					<Button size="small" type="primary" onClick={this.goInStockNew}>新建入库</Button>
@@ -96,7 +102,17 @@ export default class InStock extends React.Component{
 							</li>
 							<li>
 								入库类型：
-								<Input />
+								<Select
+									onChange={(e)=>{
+										this.setState({type:e})
+									}}
+									defaultActiveFirstOption={false}
+								>
+									<Select.Option  value="PRODUCE">生产入库</Select.Option>
+									<Select.Option  value="PURCHASE">购买入库</Select.Option>
+									<Select.Option  value="RETURN">退货入库</Select.Option>
+									<Select.Option  value="CHECK">盘点入库</Select.Option>
+								</Select>
 							</li>
 						</ul>
 						<div className="right">
