@@ -1,4 +1,4 @@
-import React from "react";
+import React,{Fragment} from "react";
 import './css/goods.sass'
 import {Modal} from "antd";
 export default class ReviewGoods extends React.Component{
@@ -14,7 +14,7 @@ export default class ReviewGoods extends React.Component{
 	
 	render() {
 		return (
-			<div className="reviewGood">
+			<Fragment>
 				<Modal
 					title="商品"
 					width={520}
@@ -24,9 +24,9 @@ export default class ReviewGoods extends React.Component{
 					footer={null}
 					maskClosable={false}
 				>
-				
+					
 				</Modal>
-			</div>
+			</Fragment>
 		)
 	}
 	

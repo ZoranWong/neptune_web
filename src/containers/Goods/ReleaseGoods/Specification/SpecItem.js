@@ -93,13 +93,13 @@ export default class SpecItem extends React.Component{
 								</div>
 								<div className="bottom" style={{'marginTop':this.state.specItemData[item.id]?'20px':'0'}}>
 									{
-										this.state.specItemData[item.id]?(
+										this.state.specItemData[item.id]&&(
 											this.state.specItemData[item.id].map(r=>{
 												return <Tag closable key={r.id} onClose={()=>this.closeValue(item.id,r.id)} >
 													{r.value}
 												</Tag>
 											})
-										):''
+										)
 									}
 								</div>
 							</div>
