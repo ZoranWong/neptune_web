@@ -23,8 +23,6 @@ import GoodsOrder from "../containers/Order/GoodsOrder/GoodsOrder";
 import Refund from "../containers/Order/Refund/Refund";
 import OrderDetail from "../containers/Order/OrderDetail/OrderDetail";
 
-import Marketing from "../containers/Marketing/Marketing";
-
 import ShopManage from "../containers/Shops/ShopManage/ShopManage";
 import ShopGroup from '../containers/Shops/ShopGroup/ShopGroup'
 import FrozenShop from '../containers/Shops/FrozenShop/FrozenShop'
@@ -54,6 +52,10 @@ import UserDetails from '../containers/User/UserDetails/UserDetails'
 import LoginContainer from '../containers/Login/index'
 import ResetPassword from '../containers/Login/ResetPassword'
 
+import Marketing from "../containers/Marketing/Coupon/Coupon";
+import IntegralMall from "../containers/Marketing/IntegralMall/IntegralMall";
+import Message from "../containers/Marketing/Message/Message";
+import UserStore from "../containers/Marketing/UserStore/UserStore";
 
 
 
@@ -114,6 +116,9 @@ const Routes = () =>(
 		
 		{/*营销*/}
 		<Route exact={true} path="/marketing" render={props => onEnter(Marketing, props)} />
+		<Route exact={true} path="/marketing/integralMall" render={props => onEnter(IntegralMall, props)} />
+		<Route exact={true} path="/marketing/message" render={props => onEnter(Message, props)} />
+		<Route exact={true} path="/marketing/userStore" render={props => onEnter(UserStore, props)} />
 		
 		{/*店铺*/}
 		<Route exact={true} path="/shops" render={props => onEnter(ShopManage, props)} />

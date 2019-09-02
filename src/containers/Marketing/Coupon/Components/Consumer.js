@@ -1,93 +1,109 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom'
-import {Button, Table} from 'antd'
-import IconFont from "../../../utils/IconFont";
-import './css/refund.sass'
-import {searchJson} from "../../../utils/dataStorage";
-import {user_values} from "../../../utils/user_fields";
-import AdvancedFilterComponent from "../Components/AdvancedFilterComponent";
-import SearchInput from "../../../components/SearchInput/SearchInput";
-import CustomItem from "../../../components/CustomItems/CustomItems";
-import CustomPagination from "../../../components/Layout/Pagination";
-import ReviewGoods from "../Components/ReviewGoods";
-import RefundMoney from "./Modal/RefundMoney";
-import RefuseRefund from "./Modal/RefuseRefund";
-class Refund extends React.Component{
-	constructor(props){
+import IconFont from "../../../../utils/IconFont";
+import SearchInput from "../../../../components/SearchInput/SearchInput";
+import {Button, Table} from "antd";
+import '../css/consumer.sass'
+import {user_values} from "../../../../utils/user_fields";
+import CustomPagination from "../../../../components/Layout/Pagination";
+import {searchJson} from "../../../../utils/dataStorage";
+import AdvancedFilterComponent from "../../../Order/Components/AdvancedFilterComponent";
+import CustomItem from "../../../../components/CustomItems/CustomItems";
+
+class Consumer extends Component {
+	constructor(props) {
+		super(props);
 		const columns = [
 			{
-				title: '订单号',
+				title: '优惠券名称',
 				dataIndex: 'name',
 				render: (text,record) => <span
-					style={{'color':'#4F9863','cursor':'pointer'}}>{text}</span>,
-			},
-			{
-				title: '商品',
-				dataIndex: 'category_desc',
-				render: (text,record) => <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}}>
-					<span className="orderGoods">{text}</span>
+					style={{'color':'#4F9863','cursor':'pointer'}}>
+					{text}
 					<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record)} />
 				</span>,
 			},
 			{
-				title: '实付款',
+				title: '领取方式',
+				dataIndex: 'ways',
+			},
+			{
+				title: '价值',
+				dataIndex: 'category_desc',
+			},
+			{
+				title: '使用条件',
 				dataIndex: 'spec',
 			},
 			{
-				title: '用户昵称',
+				title: '适用商品',
+				dataIndex: 'goods',
+			},
+			{
+				title: '有效期',
+				dataIndex: 'date',
+			},
+			{
+				title: '发放总量/剩余库存',
 				dataIndex: 'unit',
 			},
 			{
-				title: '退款类型',
-				dataIndex: 'retail_price',
+				title: '领取人数/张数',
+				dataIndex: 'number',
 			},
 			{
-				title: '申请时间',
-				dataIndex: 'total_sales',
+				title: '已使用',
+				dataIndex: 'used',
 			},
 			{
-				title: '退款状态',
-				dataIndex:'status'
+				title: '状态',
+				dataIndex: 'status',
+			},
+			{
+				title: '操作',
+				dataIndex: 'category_desc',
+			},
+			{
+				title: '操作',
+				render: (text,record) =>
+					<div>
+						<span
+							style={{'color':'#4F9863','cursor':'pointer'}}
+							onClick={()=>this.editShop(record)}
+						>领取详情
+						</span>
+						<span
+							style={{'color':'#4F9863','cursor':'pointer'}}
+							onClick={()=>this.editShop(record)}
+						>下架
+						</span>
+						<span
+							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
+						>二维码
+						</span>
+						<span
+							style={{'color':'#4F9863','cursor':'pointer'}}
+							onClick={()=>this.editShop(record)}
+						>删除
+						</span>
+					</div>
 			},
 		];
-		
-		const data = [
-			{
-				name:'1',
-				category_desc:'2',
-				spec:'3',
-				unit:'4',
-				retail_price:'5',
-				total_sales:'6',
-				status:'已退款'
-			}
-		];
-		
-		super(props);
-		this.child = React.createRef();
 		this.state = {
-			api:'',
 			filterVisible:false,
 			customVisible:false,
-			refundVisible:false, // 退款
-			refuseVisible:false, // 拒绝退款
-			data:data,
-			checkedAry:[],     // 列表页选中的用户id组
+			data:[],
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
 			},
-			activeTab:'全部',
 			columns:columns,
-			reviewGoodsVisible:false,
-			record:{},
 		};
 	}
 	
 	componentWillMount() {
 		document.addEventListener('click', this.closeCustom);
 	}
-	
 	
 	refresh = ()=>{
 		this.setState({
@@ -99,14 +115,6 @@ class Refund extends React.Component{
 		},()=>{
 			this.child.current.pagination(1)
 		})
-	};
-	
-	// 商品回显
-	reviewGoods = record =>{
-		this.setState({reviewGoodsVisible:true})
-	};
-	closeReviewGoods = () =>{
-		this.setState({reviewGoodsVisible:false})
 	};
 	
 	// 头部搜索框
@@ -167,30 +175,11 @@ class Refund extends React.Component{
 		this.setState({data:list})
 	};
 	
-	// 切换tab
-	onChangeTab = activeTab =>{
-		this.setState({activeTab})
-	};
 	
-	//   退款
-	hideRefund = () =>{
-		this.setState({refundVisible:false})
-	};
-	
-	// 拒绝退款
-	hideRefuse = () =>{
-		this.setState({refuseVisible:false})
-	};
-	
-	render(){
-		const rowSelection = {
-			onChange: (selectedRowKeys, selectedRows) => {
-				this.setState({checkedAry:selectedRowKeys})
-			}
-		};
-		const tabs =['全部','待处理','已退款','拒绝退款'];
+	render() {
+		
 		return (
-			<div className="refund">
+			<div className="couponTab">
 				
 				<AdvancedFilterComponent
 					visible={this.state.filterVisible}
@@ -198,54 +187,32 @@ class Refund extends React.Component{
 					onSubmit={this.onSubmit}
 					refresh={this.refresh}
 				/>
-				
-				<ReviewGoods
-					visible={this.state.reviewGoodsVisible}
-					onCancel={this.closeReviewGoods}
-				/>
-				
-				<RefundMoney
-					visible={this.state.refundVisible}
-					onCancel={this.hideRefund}
-				/>
-				<RefuseRefund
-					visible={this.state.refuseVisible}
-					onCancel={this.hideRefuse}
-				/>
-				
-				
-				<div className="s_body">
+				<div className="consumerHeader">
 					<div className="headerLeft">
 						<SearchInput
 							getDatas={this.search}
 							text='请输入姓名或手机号'
 						/>
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
+						
 					</div>
-				</div>
-				
-				<div className="tabs">
-					<ul className="left">
-						{
-							tabs.map((item,index)=>{
-								return <li
-									key={index}
-									className={this.state.activeTab == item?'active':''}
-									onClick={()=>this.onChangeTab(item)}
-								>{item}</li>
-							})
-						}
-					</ul>
 					<div className="right">
+						<Button
+							size="small"
+							className="addCoupon"
+						>
+							<IconFont type="icon-plus-circle-fill" />
+							新建优惠券
+						</Button>
 						<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 						<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
 							<CustomItem data={user_values}  handleCustom={this.handleCustom} />
 						</div>
 					</div>
 				</div>
+				
 				<div className="chart u_chart">
 					<Table
-						rowSelection={rowSelection}
 						columns={this.state.columns}
 						rowKey={record => record.product_id}
 						pagination={false}
@@ -267,7 +234,8 @@ class Refund extends React.Component{
 					/>
 				</div>
 			</div>
-		)
+		);
 	}
 }
-export default withRouter(Refund)
+
+export default withRouter(Consumer);

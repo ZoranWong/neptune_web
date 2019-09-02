@@ -2,9 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/Coupon/Components/Consumer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/Coupon/Components/Merchant.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/Coupon/css/consumer.sass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/Coupon/css/index.sass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/Coupon/css/marketing.sass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/IntegralMall/IntegralMall.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/Message/Message.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/UserStore/UserStore.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Order/GoodsOrder/Modal/RefundMoney.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Order/Refund/Modal/RefundMoney.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Order/Refund/Modal/RefuseRefund.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Order/Refund/css/modal.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/ReleaseGoods/Specification/SpecItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Order/Components/ReviewGoods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Order/Components/ReviewGoods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/SideMenu/Marketing.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SideMenu/Marketing.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Goods/GoodDetails/shopDetail.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/GoodDetails/shopDetail.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Marketing/Marketing.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Marketing/Coupon/Coupon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Marketing/MarketingOneOne.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Marketing/MarketingTwoTwo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Order/GoodsOrder/GoodsOrder.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Order/GoodsOrder/GoodsOrder.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Order/OrderManage/Order.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Order/OrderManage/Order.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Order/Refund/Refund.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Order/Refund/Refund.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,7 +58,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jsx.switch.disabled" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/containers/Order/GoodsOrder" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/containers/Order/GoodsOrder/Modal" />
     <property name="list.type.of.created.stylesheet" value="Sass" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -48,19 +67,19 @@
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/containers/Order/GoodsOrder" />
-      <recent name="$PROJECT_DIR$/src/containers/Order/Refund" />
-      <recent name="$PROJECT_DIR$/src/containers/Order/OrderManage/Components" />
-      <recent name="$PROJECT_DIR$/src/containers/Goods/Activities" />
-      <recent name="$PROJECT_DIR$/src/containers/Goods/DistributionMall" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/containers/Marketing/Marketing" />
       <recent name="$PROJECT_DIR$/src/containers/Order" />
       <recent name="$PROJECT_DIR$/src/containers/Order/OrderManage" />
       <recent name="$PROJECT_DIR$/src/containers/Goods/Activities" />
       <recent name="$PROJECT_DIR$/src/containers/Goods/Components" />
-      <recent name="$PROJECT_DIR$/src/containers/Goods/OutStockNew" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/containers/Order/GoodsOrder/Modal" />
+      <recent name="$PROJECT_DIR$/src/containers/Order/GoodsOrder" />
+      <recent name="$PROJECT_DIR$/src/containers/Order/Refund" />
+      <recent name="$PROJECT_DIR$/src/containers/Order/OrderManage/Components" />
+      <recent name="$PROJECT_DIR$/src/containers/Goods/Activities" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -278,7 +297,8 @@
       <workItem from="1566523068588" duration="23006000" />
       <workItem from="1566800097197" duration="21683000" />
       <workItem from="1566869809222" duration="26888000" />
-      <workItem from="1566974579983" duration="24314000" />
+      <workItem from="1566974579983" duration="25385000" />
+      <workItem from="1567387310820" duration="12115000" />
     </task>
     <servers />
   </component>

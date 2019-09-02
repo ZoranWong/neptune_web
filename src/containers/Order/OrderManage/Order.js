@@ -9,6 +9,7 @@ import AdvancedFilterComponent from "../Components/AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
+import ReviewGoods from "../Components/ReviewGoods";
 class Order extends React.Component{
 	constructor(props){
 		const columns = [
@@ -21,8 +22,10 @@ class Order extends React.Component{
 			{
 				title: '商品',
 				dataIndex: 'category_desc',
-				render: (text,record) => <span
-					style={{'color':'#4F9863','cursor':'pointer'}}>{text} <IconFont type="icon-eye-fill" /></span>,
+				render: (text,record) => <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}}>
+					<span className="orderGoods">{text}</span>
+					<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record)} />
+				</span>,
 			},
 			{
 				title: '实付款',
@@ -52,6 +55,7 @@ class Order extends React.Component{
 			api:'',
 			filterVisible:false,
 			customVisible:false,
+			reviewGoodsVisible:false,
 			data:[],
 			checkedAry:[],     // 列表页选中的用户id组
 			paginationParams:{
@@ -113,7 +117,6 @@ class Order extends React.Component{
 	closeCustom = () =>{
 		this.setState({customVisible:false})
 	};
-	
 	handleCustom = (e) =>{
 		let ary = [];
 		e.forEach(e=>{
@@ -145,8 +148,55 @@ class Order extends React.Component{
 		this.setState({activeTab})
 	};
 	
+	// 取消订单 / 确认订单
+	confirmPopover =(fn,keyWord) => {
+		let refresh = this.refresh;
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			maskClosable:true,
+			content: (
+				<div className="U_confirm">
+					确定{keyWord}该订单么？
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				// fn({}).then(r=>{
+				// 	console.log(r);
+				// })
+				console.log(fn);
+			},
+			onCancel() {
+			
+			},
+		});
+	};
 	
-	
+	// 商品回显
+	reviewGoods = record =>{
+		this.setState({reviewGoodsVisible:true})
+	};
+	closeReviewGoods = () =>{
+		this.setState({reviewGoodsVisible:false})
+	};
 	
 	render(){
 		const rowSelection = {
@@ -165,6 +215,11 @@ class Order extends React.Component{
 					refresh={this.refresh}
 				/>
 				
+				<ReviewGoods
+					visible={this.state.reviewGoodsVisible}
+					onCancel={this.closeReviewGoods}
+				/>
+				
 				<div className="s_body">
 					<div className="headerLeft">
 						<SearchInput
@@ -179,10 +234,12 @@ class Order extends React.Component{
 						<Button
 							size="small"
 							disabled={this.state.checkedAry.length == 0}
+							onClick={()=>this.confirmPopover('cancel','取消')}
 						>取消订单</Button>
 						<Button
 							size="small"
 							disabled={this.state.checkedAry.length == 0}
+							onClick={()=>this.confirmPopover('confirm','确认')}
 						>确认订单</Button>
 					</div>
 				</div>

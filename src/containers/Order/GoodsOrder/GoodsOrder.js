@@ -9,6 +9,7 @@ import AdvancedFilterComponent from "../Components/AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
+import RefundMoney from "./Modal/RefundMoney";
 class GoodsOrder extends React.Component{
 	constructor(props){
 		const columns = [
@@ -19,10 +20,14 @@ class GoodsOrder extends React.Component{
 					style={{'color':'#4F9863','cursor':'pointer'}}>{text}</span>,
 			},
 			{
-				title: '商品',
+				title: '缺少商品',
 				dataIndex: 'category_desc',
 				render: (text,record) => <span
 					style={{'color':'#4F9863','cursor':'pointer'}}>{text} <IconFont type="icon-eye-fill" /></span>,
+			},
+			{
+				title: '破损商品',
+				dataIndex: 'total_sales',
 			},
 			{
 				title: '商户名',
@@ -35,10 +40,6 @@ class GoodsOrder extends React.Component{
 			{
 				title: '送货批次',
 				dataIndex: 'retail_price',
-			},
-			{
-				title: '付款方式',
-				dataIndex: 'total_sales',
 			},
 			{
 				title: '状态',
@@ -54,6 +55,7 @@ class GoodsOrder extends React.Component{
 			customVisible:false,
 			data:[],
 			checkedAry:[],     // 列表页选中的用户id组
+			refundVisible:false, // 退款
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
@@ -80,8 +82,6 @@ class GoodsOrder extends React.Component{
 		})
 	};
 	
-	
-	
 	// 头部搜索框
 	search = (value) =>{
 		this.setState({
@@ -92,6 +92,7 @@ class GoodsOrder extends React.Component{
 			this.child.current.pagination(1)
 		});
 	};
+	
 	//高级筛选
 	higherFilter = () =>{
 		this.setState({filterVisible:true})
@@ -113,7 +114,6 @@ class GoodsOrder extends React.Component{
 	closeCustom = () =>{
 		this.setState({customVisible:false})
 	};
-	
 	handleCustom = (e) =>{
 		let ary = [];
 		e.forEach(e=>{
@@ -145,8 +145,10 @@ class GoodsOrder extends React.Component{
 		this.setState({activeTab})
 	};
 	
-	
-	
+	//   退款
+	hideRefund = () =>{
+		this.setState({refundVisible:false})
+	};
 	
 	render(){
 		const rowSelection = {
@@ -163,6 +165,11 @@ class GoodsOrder extends React.Component{
 					onCancel={this.closeHigherFilter}
 					onSubmit={this.onSubmit}
 					refresh={this.refresh}
+				/>
+				
+				<RefundMoney
+					visible={this.state.refundVisible}
+					onCancel={this.hideRefund}
 				/>
 				
 				<div className="s_body">
