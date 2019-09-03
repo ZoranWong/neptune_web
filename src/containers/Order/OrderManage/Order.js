@@ -10,38 +10,46 @@ import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
 import ReviewGoods from "../Components/ReviewGoods";
+import {userOrder} from "../../../api/order/orderManage";
+
 class Order extends React.Component{
 	constructor(props){
 		const columns = [
 			{
 				title: '订单号',
-				dataIndex: 'name',
+				dataIndex: 'trade_no',
 				render: (text,record) => <span
 					style={{'color':'#4F9863','cursor':'pointer'}}>{text}</span>,
 			},
 			{
 				title: '商品',
 				dataIndex: 'category_desc',
-				render: (text,record) => <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}}>
-					<span className="orderGoods">{text}</span>
-					<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record)} />
-				</span>,
+				render: (text,record) => {
+					if(record.items.data.length){
+						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+							<span className="orderGoods">{record.items.data[0].name+'......'}</span>
+							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items)} />
+						</span>
+					} else {
+						return <span>无</span>
+					}
+				},
 			},
 			{
 				title: '实付款',
-				dataIndex: 'spec',
+				dataIndex: 'settlement_total_fee',
 			},
 			{
 				title: '用户昵称',
-				dataIndex: 'unit',
+				dataIndex: 'nickname',
 			},
 			{
 				title: '订单类型',
-				dataIndex: 'retail_price',
+				dataIndex: 'order_type',
 			},
 			{
-				title: '自提时间',
-				dataIndex: 'total_sales',
+				title: '下单时间',
+				dataIndex: 'created_at',
 			},
 			{
 				title: '订单状态',
@@ -52,7 +60,7 @@ class Order extends React.Component{
 		super(props);
 		this.child = React.createRef();
 		this.state = {
-			api:'',
+			api:userOrder,
 			filterVisible:false,
 			customVisible:false,
 			reviewGoodsVisible:false,
@@ -64,6 +72,7 @@ class Order extends React.Component{
 			},
 			activeTab:'全部',
 			columns:columns,
+			items:[]  // 商品回显
 		};
 	}
 	
@@ -72,12 +81,13 @@ class Order extends React.Component{
 	}
 	
 	
-	refresh = ()=>{
+	refresh = (status='all')=>{
 		this.setState({
 			filterVisible:false,
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
+				searchJson:searchJson({order_state:status})
 			}
 		},()=>{
 			this.child.current.pagination(1)
@@ -89,9 +99,9 @@ class Order extends React.Component{
 	// 头部搜索框
 	search = (value) =>{
 		this.setState({
-			api:'',
+			api:userOrder,
 			paginationParams:{...this.state.paginationParams,
-				searchJson:searchJson({search:value,status:true})}
+				searchJson:searchJson({search:value})}
 		},()=>{
 			this.child.current.pagination(1)
 		});
@@ -104,7 +114,7 @@ class Order extends React.Component{
 		this.setState({filterVisible:false})
 	};
 	onSubmit = (data) =>{
-		this.setState({api:'',paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
+		this.setState({api:userOrder,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
 			this.child.current.pagination(1)
 		});
 	};
@@ -144,8 +154,9 @@ class Order extends React.Component{
 	};
 	
 	// 切换tab
-	onChangeTab = activeTab =>{
-		this.setState({activeTab})
+	onChangeTab = item =>{
+		this.setState({activeTab:item.name});
+		this.refresh(item.key)
 	};
 	
 	// 取消订单 / 确认订单
@@ -192,7 +203,7 @@ class Order extends React.Component{
 	
 	// 商品回显
 	reviewGoods = record =>{
-		this.setState({reviewGoodsVisible:true})
+		this.setState({reviewGoodsVisible:true,items:record})
 	};
 	closeReviewGoods = () =>{
 		this.setState({reviewGoodsVisible:false})
@@ -201,10 +212,23 @@ class Order extends React.Component{
 	render(){
 		const rowSelection = {
 			onChange: (selectedRowKeys, selectedRows) => {
+				if(this.state.activeTab !== '待确认') return;
 				this.setState({checkedAry:selectedRowKeys})
 			}
 		};
-		const tabs =['全部','待确认','待收货','待自提','已完成','已退款','用户取消','平台取消','订单异常','申请售后','拒绝退款'];
+		const tabs = [
+			{name:'全部',key:'all'},
+			{name:'待确认',key:'pay_wait'},
+			{name:'待收货',key:'wait_agent_verify'},
+			{name:'待自提',key:'wait_customer_verify'},
+			{name:'已完成',key:'completed'},
+			{name:'已退款',key:'refunded'},
+			{name:'用户取消',key:'cancel_manual'},
+			{name:'平台取消',key:'cancel_platform'},
+			{name:'订单异常',key:'exception'},
+			{name:'申请售后',key:'launch_after_sale'},
+			{name:'拒绝退款',key:'refuse_refund'},
+		];
 		return (
 			<div className="order">
 				
@@ -218,6 +242,7 @@ class Order extends React.Component{
 				<ReviewGoods
 					visible={this.state.reviewGoodsVisible}
 					onCancel={this.closeReviewGoods}
+					items={this.state.items}
 				/>
 				
 				<div className="s_body">
@@ -250,9 +275,9 @@ class Order extends React.Component{
 							tabs.map((item,index)=>{
 								return <li
 									key={index}
-									className={this.state.activeTab == item?'active':''}
+									className={this.state.activeTab == item.name?'active':''}
 									onClick={()=>this.onChangeTab(item)}
-								>{item}</li>
+								>{item.name}</li>
 							})
 						}
 					</ul>

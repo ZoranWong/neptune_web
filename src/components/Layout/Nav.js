@@ -47,7 +47,7 @@ class Nav extends React.Component{
 			{
 				text:'营销',
 				path:'/marketing',
-				exact:true,
+				exact:false,
 				name:"nav-market"
 			},
 			{

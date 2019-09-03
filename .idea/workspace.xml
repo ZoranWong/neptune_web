@@ -2,28 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c982ccbc-ee08-4789-ba19-cca0cdb25746" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/Coupon/Components/Consumer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/Coupon/Components/Merchant.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/Coupon/css/consumer.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/Coupon/css/index.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/Coupon/css/marketing.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/IntegralMall/IntegralMall.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/Message/Message.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/UserStore/UserStore.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Order/GoodsOrder/Modal/RefundMoney.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Order/Refund/Modal/RefundMoney.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Order/Refund/Modal/RefuseRefund.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Order/Refund/css/modal.sass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/order/orderManage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/IntegralMall/Components/RedemptionManage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/IntegralMall/Components/RedemptionRecord.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/IntegralMall/Modal/CreateNew.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/IntegralMall/css/createNew.sass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Marketing/IntegralMall/css/index.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SideMenu/Marketing.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SideMenu/Marketing.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Goods/GoodDetails/shopDetail.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Goods/GoodDetails/shopDetail.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Marketing/Marketing.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Marketing/Coupon/Coupon.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Marketing/MarketingOneOne.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Marketing/MarketingTwoTwo.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Order/GoodsOrder/GoodsOrder.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Order/GoodsOrder/GoodsOrder.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout/Nav.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout/Nav.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Marketing/IntegralMall/IntegralMall.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Marketing/IntegralMall/IntegralMall.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Order/Components/ReviewGoods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Order/Components/ReviewGoods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Order/Components/css/goods.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Order/Components/css/goods.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Order/OrderManage/Order.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Order/OrderManage/Order.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Order/Refund/Refund.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Order/Refund/Refund.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Order/Refund/css/refund.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Order/Refund/css/refund.sass" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,8 +30,8 @@
       <list>
         <option value="CSS File" />
         <option value="TypeScript File" />
-        <option value="JavaScript File" />
         <option value="Sass File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -68,11 +59,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/containers/Marketing/IntegralMall/Modal" />
       <recent name="$PROJECT_DIR$/src/containers/Marketing/Marketing" />
       <recent name="$PROJECT_DIR$/src/containers/Order" />
       <recent name="$PROJECT_DIR$/src/containers/Order/OrderManage" />
       <recent name="$PROJECT_DIR$/src/containers/Goods/Activities" />
-      <recent name="$PROJECT_DIR$/src/containers/Goods/Components" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/containers/Order/GoodsOrder/Modal" />
@@ -298,7 +289,7 @@
       <workItem from="1566800097197" duration="21683000" />
       <workItem from="1566869809222" duration="26888000" />
       <workItem from="1566974579983" duration="25385000" />
-      <workItem from="1567387310820" duration="12115000" />
+      <workItem from="1567387310820" duration="32347000" />
     </task>
     <servers />
   </component>
