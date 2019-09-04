@@ -10,47 +10,17 @@ import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
 import RefundMoney from "./Modal/RefundMoney";
+import {shopOrder} from "../../../api/order/orderManage";
+import ReviewGoods from "../Components/ReviewGoods";
+
 class GoodsOrder extends React.Component{
 	constructor(props){
-		const columns = [
-			{
-				title: '订单号',
-				dataIndex: 'name',
-				render: (text,record) => <span
-					style={{'color':'#4F9863','cursor':'pointer'}}>{text}</span>,
-			},
-			{
-				title: '缺少商品',
-				dataIndex: 'category_desc',
-				render: (text,record) => <span
-					style={{'color':'#4F9863','cursor':'pointer'}}>{text} <IconFont type="icon-eye-fill" /></span>,
-			},
-			{
-				title: '破损商品',
-				dataIndex: 'total_sales',
-			},
-			{
-				title: '商户名',
-				dataIndex: 'spec',
-			},
-			{
-				title: '下单时间',
-				dataIndex: 'unit',
-			},
-			{
-				title: '送货批次',
-				dataIndex: 'retail_price',
-			},
-			{
-				title: '状态',
-				dataIndex:'status'
-			},
-		];
+		
 		
 		super(props);
 		this.child = React.createRef();
 		this.state = {
-			api:'',
+			api:shopOrder,
 			filterVisible:false,
 			customVisible:false,
 			data:[],
@@ -61,7 +31,7 @@ class GoodsOrder extends React.Component{
 				search:'',
 			},
 			activeTab:'全部',
-			columns:columns,
+			refundItem:{}
 		};
 	}
 	
@@ -70,12 +40,13 @@ class GoodsOrder extends React.Component{
 	}
 	
 	
-	refresh = ()=>{
+	refresh = (key='all')=>{
 		this.setState({
 			filterVisible:false,
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
+				searchJson:searchJson({order_state:key})
 			}
 		},()=>{
 			this.child.current.pagination(1)
@@ -85,7 +56,7 @@ class GoodsOrder extends React.Component{
 	// 头部搜索框
 	search = (value) =>{
 		this.setState({
-			api:'',
+			api:shopOrder,
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value,status:true})}
 		},()=>{
@@ -101,7 +72,7 @@ class GoodsOrder extends React.Component{
 		this.setState({filterVisible:false})
 	};
 	onSubmit = (data) =>{
-		this.setState({api:'',paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
+		this.setState({api:shopOrder,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
 			this.child.current.pagination(1)
 		});
 	};
@@ -140,12 +111,24 @@ class GoodsOrder extends React.Component{
 		this.setState({data:list})
 	};
 	
+	// 商品回显
+	reviewGoods = record =>{
+		this.setState({reviewGoodsVisible:true,items:record})
+	};
+	closeReviewGoods = () =>{
+		this.setState({reviewGoodsVisible:false})
+	};
+	
 	// 切换tab
 	onChangeTab = activeTab =>{
-		this.setState({activeTab})
+		this.setState({activeTab:activeTab.name});
+		this.refresh(activeTab.key)
 	};
 	
 	//   退款
+	showRefund = (record) =>{
+		this.setState({refundVisible:true,refundItem:record})
+	};
 	hideRefund = () =>{
 		this.setState({refundVisible:false})
 	};
@@ -156,7 +139,73 @@ class GoodsOrder extends React.Component{
 				this.setState({checkedAry:selectedRowKeys})
 			}
 		};
-		const tabs =['全部','待收货','已完成','商品不齐'];
+		const tabs = [
+			{name:'全部',key:'all'},
+			{name:'待收货',key:'wait_agent_verify'},
+			{name:'已完成',key:'completed'},
+			{name:'商品异常',key:'goods_unqualified'},
+		];
+		const columns = [
+			{
+				title: '订单号',
+				dataIndex: 'trade_no',
+				render: (text,record) => <span
+					style={{'color':'#4F9863','cursor':'pointer'}}>{text}</span>,
+			},
+			{
+				title: '缺少商品',
+				render: (text,record) => {
+					if(record.damaged_items.data.length){
+						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+							<span className="orderGoods">{record.damaged_items.data[0].name+'......'}</span>
+							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.damaged_items)} />
+						</span>
+					} else {
+						return <span>无</span>
+					}
+				},
+			},
+			{
+				title: '破损商品',
+				render: (text,record) => {
+					if(record.deficient_items.data.length){
+						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+							<span className="orderGoods">{record.deficient_items.data[0].name+'......'}</span>
+							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.deficient_items)} />
+						</span>
+					} else {
+						return <span>无</span>
+					}
+				},
+			},
+			{
+				title: '商户名',
+				dataIndex: 'name',
+			},
+			{
+				title: '下单时间',
+				dataIndex: 'created_at',
+			},
+			{
+				title: '送货批次',
+				dataIndex: 'delivery_batch',
+			},
+			{
+				title: this.state.activeTab == '商品异常'?'操作':'状态',
+				dataIndex:'refund_state_desc',
+				render:(text,record) =>{
+					if(this.state.activeTab == '商品异常'){
+						return (
+							<div>
+								<span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.showRefund(record)}>退款</span>
+							</div>
+						)
+					} else {
+						return <span>{text}</span>
+					}
+				},
+			},
+		];
 		return (
 			<div className="goodsOrder">
 				
@@ -170,6 +219,13 @@ class GoodsOrder extends React.Component{
 				<RefundMoney
 					visible={this.state.refundVisible}
 					onCancel={this.hideRefund}
+					item={this.state.refundItem}
+				/>
+				
+				<ReviewGoods
+					visible={this.state.reviewGoodsVisible}
+					onCancel={this.closeReviewGoods}
+					items={this.state.items}
 				/>
 				
 				<div className="s_body">
@@ -188,9 +244,9 @@ class GoodsOrder extends React.Component{
 							tabs.map((item,index)=>{
 								return <li
 									key={index}
-									className={this.state.activeTab == item?'active':''}
+									className={this.state.activeTab == item.name?'active':''}
 									onClick={()=>this.onChangeTab(item)}
-								>{item}</li>
+								>{item.name}</li>
 							})
 						}
 					</ul>
@@ -204,7 +260,7 @@ class GoodsOrder extends React.Component{
 				<div className="chart u_chart">
 					<Table
 						rowSelection={rowSelection}
-						columns={this.state.columns}
+						columns={columns}
 						rowKey={record => record.product_id}
 						pagination={false}
 						rowClassName={(record, index) => {
@@ -219,6 +275,7 @@ class GoodsOrder extends React.Component{
 					<CustomPagination
 						api={this.state.api}
 						ref={this.child}
+						text="条订单"
 						params={this.state.paginationParams}
 						id={this.state.id}
 						valChange={this.paginationChange}

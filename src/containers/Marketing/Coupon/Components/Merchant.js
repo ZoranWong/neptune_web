@@ -175,6 +175,10 @@ class Merchant extends Component {
 		this.setState({data:list})
 	};
 	
+	// 新建优惠券
+	newCoupon = () =>{
+		this.props.history.push({pathname:"/marketing/newCoupon"})
+	};
 	
 	render() {
 		
@@ -200,6 +204,7 @@ class Merchant extends Component {
 						<Button
 							size="small"
 							className="addCoupon"
+							onClick={this.newCoupon}
 						>
 							<IconFont type="icon-plus-circle-fill" />
 							新建优惠券

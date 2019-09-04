@@ -12,75 +12,32 @@ import CustomPagination from "../../../components/Layout/Pagination";
 import ReviewGoods from "../Components/ReviewGoods";
 import RefundMoney from "./Modal/RefundMoney";
 import RefuseRefund from "./Modal/RefuseRefund";
+import {refundList} from "../../../api/order/orderManage";
+
 class Refund extends React.Component{
 	constructor(props){
-		const columns = [
-			{
-				title: '订单号',
-				dataIndex: 'name',
-				render: (text,record) => <span
-					style={{'color':'#4F9863','cursor':'pointer'}}>{text}</span>,
-			},
-			{
-				title: '商品',
-				dataIndex: 'category_desc',
-				render: (text,record) => <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}}>
-					<span className="orderGoods">{text}</span>
-					<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record)} />
-				</span>,
-			},
-			{
-				title: '实付款',
-				dataIndex: 'spec',
-			},
-			{
-				title: '用户昵称',
-				dataIndex: 'unit',
-			},
-			{
-				title: '退款类型',
-				dataIndex: 'retail_price',
-			},
-			{
-				title: '申请时间',
-				dataIndex: 'total_sales',
-			},
-			{
-				title: '退款状态',
-				dataIndex:'status'
-			},
-		];
 		
-		const data = [
-			{
-				name:'1',
-				category_desc:'2',
-				spec:'3',
-				unit:'4',
-				retail_price:'5',
-				total_sales:'6',
-				status:'已退款'
-			}
-		];
 		
 		super(props);
 		this.child = React.createRef();
 		this.state = {
-			api:'',
+			api:refundList,
 			filterVisible:false,
 			customVisible:false,
 			refundVisible:false, // 退款
 			refuseVisible:false, // 拒绝退款
-			data:data,
+			data:[],
 			checkedAry:[],     // 列表页选中的用户id组
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
 			},
 			activeTab:'全部',
-			columns:columns,
 			reviewGoodsVisible:false,
 			record:{},
+			items:[],
+			refundItem:{},
+			refuseItem:{}
 		};
 	}
 	
@@ -89,12 +46,13 @@ class Refund extends React.Component{
 	}
 	
 	
-	refresh = ()=>{
+	refresh = (status='-1')=>{
 		this.setState({
 			filterVisible:false,
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
+				searchJson:searchJson({refund_state:status})
 			}
 		},()=>{
 			this.child.current.pagination(1)
@@ -103,7 +61,7 @@ class Refund extends React.Component{
 	
 	// 商品回显
 	reviewGoods = record =>{
-		this.setState({reviewGoodsVisible:true})
+		this.setState({reviewGoodsVisible:true,items:record})
 	};
 	closeReviewGoods = () =>{
 		this.setState({reviewGoodsVisible:false})
@@ -112,7 +70,7 @@ class Refund extends React.Component{
 	// 头部搜索框
 	search = (value) =>{
 		this.setState({
-			api:'',
+			api:refundList,
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value,status:true})}
 		},()=>{
@@ -128,7 +86,7 @@ class Refund extends React.Component{
 		this.setState({filterVisible:false})
 	};
 	onSubmit = (data) =>{
-		this.setState({api:'',paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
+		this.setState({api:refundList,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
 			this.child.current.pagination(1)
 		});
 	};
@@ -168,16 +126,23 @@ class Refund extends React.Component{
 	};
 	
 	// 切换tab
-	onChangeTab = activeTab =>{
-		this.setState({activeTab})
+	onChangeTab = item =>{
+		this.setState({activeTab:item.name});
+		this.refresh(item.key)
 	};
 	
 	//   退款
+	showRefund = record =>{
+		this.setState({refundVisible:true,refundItem:record})
+	};
 	hideRefund = () =>{
 		this.setState({refundVisible:false})
 	};
 	
 	// 拒绝退款
+	showRefuse = record =>{
+		this.setState({refuseVisible:true,refuseItem:record})
+	};
 	hideRefuse = () =>{
 		this.setState({refuseVisible:false})
 	};
@@ -188,7 +153,78 @@ class Refund extends React.Component{
 				this.setState({checkedAry:selectedRowKeys})
 			}
 		};
-		const tabs =['全部','待处理','已退款','拒绝退款'];
+		const tabs = [
+			{name:'全部',key:'-1'},
+			{name:'待处理',key:'0'},
+			{name:'已退款',key:'1'},
+			{name:'拒绝退款',key:'2'},
+		];
+		const columns = [
+			{
+				title: '订单号',
+				dataIndex: 'trade_no',
+				render: (text,record) => <span
+					style={{'color':'#4F9863','cursor':'pointer'}}>{text}</span>,
+			},
+			{
+				title: '缺少商品',
+				render: (text,record) => {
+					if(record.damaged_items.data.length){
+						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+							<span className="orderGoods">{record.damaged_items.data[0].name+'......'}</span>
+							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.damaged_items)} />
+						</span>
+					} else {
+						return <span>无</span>
+					}
+				},
+			},
+			{
+				title: '破损商品',
+				render: (text,record) => {
+					if(record.deficient_items.data.length){
+						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+							<span className="orderGoods">{record.deficient_items.data[0].name+'......'}</span>
+							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.deficient_items)} />
+						</span>
+					} else {
+						return <span>无</span>
+					}
+				},
+			},
+			{
+				title: '实付款',
+				dataIndex: 'settlement_total_fee',
+			},
+			{
+				title: '用户昵称',
+				dataIndex: 'nickname',
+			},
+			{
+				title: '退款类型',
+				dataIndex: 'refund_type',
+			},
+			{
+				title: '申请时间',
+				dataIndex: 'applied_at',
+			},
+			{
+				title: this.state.activeTab == '待处理'?'操作':'退款状态',
+				dataIndex:'refund_state_desc',
+				render:(text,record) =>{
+					if(this.state.activeTab == '待处理'){
+						return (
+							<div>
+								<span style={{'color':'#4F9863','cursor':'pointer','marginRight':'20px'}} onClick={()=>this.showRefund(record)}>退款</span>
+								<span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.showRefuse(record)}>拒绝退款</span>
+							</div>
+						)
+					} else {
+						return <span>{text}</span>
+					}
+				},
+			},
+		];
 		return (
 			<div className="refund">
 				
@@ -202,15 +238,20 @@ class Refund extends React.Component{
 				<ReviewGoods
 					visible={this.state.reviewGoodsVisible}
 					onCancel={this.closeReviewGoods}
+					items={this.state.items}
 				/>
 				
 				<RefundMoney
 					visible={this.state.refundVisible}
 					onCancel={this.hideRefund}
+					item={this.state.refundItem}
+					refresh={()=>this.refresh('0')}
 				/>
 				<RefuseRefund
 					visible={this.state.refuseVisible}
 					onCancel={this.hideRefuse}
+					item={this.state.refuseItem}
+					refresh={()=>this.refresh('0')}
 				/>
 				
 				
@@ -230,9 +271,9 @@ class Refund extends React.Component{
 							tabs.map((item,index)=>{
 								return <li
 									key={index}
-									className={this.state.activeTab == item?'active':''}
+									className={this.state.activeTab == item.name?'active':''}
 									onClick={()=>this.onChangeTab(item)}
-								>{item}</li>
+								>{item.name}</li>
 							})
 						}
 					</ul>
@@ -246,7 +287,7 @@ class Refund extends React.Component{
 				<div className="chart u_chart">
 					<Table
 						rowSelection={rowSelection}
-						columns={this.state.columns}
+						columns={columns}
 						rowKey={record => record.product_id}
 						pagination={false}
 						rowClassName={(record, index) => {
@@ -261,6 +302,7 @@ class Refund extends React.Component{
 					<CustomPagination
 						api={this.state.api}
 						ref={this.child}
+						text="条记录"
 						params={this.state.paginationParams}
 						id={this.state.id}
 						valChange={this.paginationChange}

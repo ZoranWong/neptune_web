@@ -305,6 +305,7 @@ class Order extends React.Component{
 				<div className="pagination">
 					<CustomPagination
 						api={this.state.api}
+						text="条订单"
 						ref={this.child}
 						params={this.state.paginationParams}
 						id={this.state.id}

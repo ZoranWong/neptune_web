@@ -46,10 +46,14 @@ export default class InStockNew extends React.Component{
 	
 	// 确认入库
 	confirmInStock = () =>{
+		console.log(this.state.data);
+		console.log(1111,'------------------------------');
 		let stockAry = [];
 		this.state.data.forEach(item=>{
 			let info = {};
-			info['barcode'] = item.productEntity.data.barcode;
+			if(item.productEntity) {
+				info['barcode'] = item.productEntity.data.barcode;
+			}
 			if(!item.quantity){
 				return;
 			}

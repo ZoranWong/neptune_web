@@ -4,6 +4,15 @@ import '../../Refund/css/modal.sass'
 export default class RefundMoney extends React.Component{
 	
 	
+	state = {
+		item:{}
+	};
+	
+	componentWillReceiveProps(nextProps, nextContext) {
+		if(!nextProps.item) return;
+		this.setState({item:nextProps.item})
+	}
+	
 	handleCancel = () =>{
 		this.props.onCancel()
 	};

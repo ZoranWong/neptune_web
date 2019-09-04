@@ -8,6 +8,7 @@ class CustomPagination extends React.Component{
 		this.state = {
 			total: 0,
 			current:1,
+			text:props.text|| '个用户'
 		}
 	}
 	
@@ -41,7 +42,7 @@ class CustomPagination extends React.Component{
 	};
 	
 	showTotal = (total,range) =>{
-		return `共 ${total}个用户，第${range[0]}-${range[1]} 条数据`
+		return `共 ${total}${this.state.text}，第${range[0]}-${range[1]} 条数据`
 	};
 	
 	onChange = page => {
