@@ -1,6 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
-import {Button, Table,Modal} from 'antd'
+import {Button, Table, Modal, message} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/order.sass'
 import {searchJson} from "../../../utils/dataStorage";
@@ -10,7 +10,7 @@ import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
 import ReviewGoods from "../Components/ReviewGoods";
-import {userOrder} from "../../../api/order/orderManage";
+import {userOrder,batchCancel,batchConfirm} from "../../../api/order/orderManage";
 
 class Order extends React.Component{
 	constructor(props){
@@ -162,6 +162,7 @@ class Order extends React.Component{
 	// 取消订单 / 确认订单
 	confirmPopover =(fn,keyWord) => {
 		let refresh = this.refresh;
+		let checkedAry = this.state.checkedAry;
 		let confirmModal = Modal.confirm({
 			title: (
 				<div className= 'u_confirm_header'>
@@ -190,10 +191,11 @@ class Order extends React.Component{
 				size:'small'
 			},
 			onOk() {
-				// fn({}).then(r=>{
-				// 	console.log(r);
-				// })
-				console.log(fn);
+				fn({order_ids:checkedAry}).then(r=>{
+					message.success(`${keyWord}订单成功！`);
+					refresh('wait_platform_verify')
+				});
+				
 			},
 			onCancel() {
 			
@@ -218,7 +220,7 @@ class Order extends React.Component{
 		};
 		const tabs = [
 			{name:'全部',key:'all'},
-			{name:'待确认',key:'pay_wait'},
+			{name:'待确认',key:'wait_platform_verify'},
 			{name:'待收货',key:'wait_agent_verify'},
 			{name:'待自提',key:'wait_customer_verify'},
 			{name:'已完成',key:'completed'},
@@ -254,17 +256,16 @@ class Order extends React.Component{
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
 						<Button
 							size="small"
-							disabled={this.state.checkedAry.length == 0}
 						>打印订单</Button>
 						<Button
 							size="small"
 							disabled={this.state.checkedAry.length == 0}
-							onClick={()=>this.confirmPopover('cancel','取消')}
+							onClick={()=>this.confirmPopover(batchCancel,'取消')}
 						>取消订单</Button>
 						<Button
 							size="small"
 							disabled={this.state.checkedAry.length == 0}
-							onClick={()=>this.confirmPopover('confirm','确认')}
+							onClick={()=>this.confirmPopover(batchConfirm,'确认')}
 						>确认订单</Button>
 					</div>
 				</div>
@@ -292,7 +293,7 @@ class Order extends React.Component{
 					<Table
 						rowSelection={rowSelection}
 						columns={this.state.columns}
-						rowKey={record => record.product_id}
+						rowKey={record => record.order_id}
 						pagination={false}
 						rowClassName={(record, index) => {
 							let className = '';

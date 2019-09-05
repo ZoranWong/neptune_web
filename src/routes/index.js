@@ -57,6 +57,7 @@ import IntegralMall from "../containers/Marketing/IntegralMall/IntegralMall";
 import Message from "../containers/Marketing/Message/Message";
 import UserStore from "../containers/Marketing/UserStore/UserStore";
 import NewCoupon from "../containers/Marketing/NewCoupon/NewCoupon";
+import StoreRecord from "../containers/Marketing/StoreRecord/StoreRecord";
 
 
 
@@ -121,6 +122,7 @@ const Routes = () =>(
 		<Route exact={true} path="/marketing/message" render={props => onEnter(Message, props)} />
 		<Route exact={true} path="/marketing/userStore" render={props => onEnter(UserStore, props)} />
 		<Route exact={true} path="/marketing/newCoupon" render={props => onEnter(NewCoupon, props)} />
+		<Route exact={true} path="/marketing/storeRecord" render={props => onEnter(StoreRecord, props)} />
 		
 		{/*店铺*/}
 		<Route exact={true} path="/shops" render={props => onEnter(ShopManage, props)} />

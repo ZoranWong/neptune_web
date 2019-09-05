@@ -46,3 +46,22 @@ export function refuseRefund(params,refundId) {
 		data: params
 	})
 }
+
+
+//平台批量取消订单
+export function batchCancel(params) {
+	return request({
+		url: '/api/backend/orders/batch_cancel',
+		method: 'post',
+		data: params
+	})
+}
+
+//批量确认
+export function batchConfirm(params) {
+	return request({
+		url: '/api/backend/orders/batch_confirm',
+		method: 'post',
+		data: params
+	})
+}

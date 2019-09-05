@@ -1,16 +1,20 @@
 import React from "react";
-import {Modal, Input} from "antd";
+import {Modal, Input, message} from "antd";
 import '../../Refund/css/modal.sass'
+import {refund} from "../../../../api/order/orderManage";
+
 export default class RefundMoney extends React.Component{
 	
 	
 	state = {
-		item:{}
+		item:{},
+		value:''
 	};
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(!nextProps.item) return;
 		this.setState({item:nextProps.item})
+		console.log(nextProps.item);
 	}
 	
 	handleCancel = () =>{
@@ -18,7 +22,19 @@ export default class RefundMoney extends React.Component{
 	};
 	
 	handleSubmit = () =>{
-	
+		if(!this.state.value){
+			message.error('请输入退款金额');
+			return;
+		}
+		if(this.state.value > this.state.item.refund_need_amount){
+			message.error('退款金额不可大于异常商品总金额');
+			return;
+		}
+		refund({refund_amount:this.state.value},this.state.item.refund_id).then(r=>{
+			message.success(r.message);
+			this.handleCancel();
+			this.props.refresh()
+		}).catch(_=>{})
 	};
 	
 	render() {
@@ -36,11 +52,13 @@ export default class RefundMoney extends React.Component{
 					<ul className="mainUl">
 						<li>
 							<span>异常商品总金额：</span>
-							<h5>123</h5>
+							<h5>{this.state.item.refund_need_amount}</h5>
 						</li>
 						<li>
 							<span>退款金额</span>
-							<Input className="liInput"  />
+							<Input className="liInput" value={this.state.value} onChange={(e)=>{
+								this.setState({value:e.target.value})
+							}} />
 						</li>
 					</ul>
 				</Modal>

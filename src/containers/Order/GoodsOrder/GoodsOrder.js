@@ -220,6 +220,9 @@ class GoodsOrder extends React.Component{
 					visible={this.state.refundVisible}
 					onCancel={this.hideRefund}
 					item={this.state.refundItem}
+					refresh={()=>{
+						this.refresh('goods_unqualified')
+					}}
 				/>
 				
 				<ReviewGoods

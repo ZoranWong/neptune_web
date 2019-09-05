@@ -41,7 +41,6 @@ class NewCoupon extends Component {
 		const options = [
 			{label:'线上线下活动',value:'1'},
 			{label:'小程序首页',value:'2'},
-			{label:'商城商品列表',value:'3'},
 		];
 		return (
 			<Fragment>
@@ -53,6 +52,24 @@ class NewCoupon extends Component {
 				</div>
 				<div className="c_body">
 					<ul className="left">
+						<li>
+							<span>领取方式:</span>
+							<Radio.Group onChange={(e)=>this.onRadioChange('getWaysValue',e)} value={radioValue.getWaysValue}>
+								<Radio value={1}>
+									主动领取
+									<Checkbox.Group options={options}  onChange={this.onCheckBoxChange} />
+									<CustomUpload />
+								</Radio>
+								<Radio value={2}>
+									直接发送
+									<CustomUpload />
+								</Radio>
+								<Radio value={3}>
+									积分商城
+									<CustomUpload />
+								</Radio>
+							</Radio.Group>
+						</li>
 						<li className="normalLi">
 							<span>优惠券名称:</span>
 							<Input />
@@ -150,42 +167,47 @@ class NewCoupon extends Component {
 								</Radio>
 							</Radio.Group>
 						</li>
-						<li>
-							<span>发放范围:</span>
-							<Radio.Group onChange={(e)=>this.onRadioChange('issueRangeValue',e)} value={radioValue.issueRangeValue}>
-								<Radio value={1}>
-									暂不发放
-								</Radio>
-								<Radio value={2}>
-									所有用户
-								</Radio>
-								<Radio value={3}>
-									指定用户可用
-									<Input placeholder="请输入用户名称"  />
-								</Radio>
-								<Radio value={4}>
-									指定用户不可用
-									<Input placeholder="请输入用户名称"  />
-								</Radio>
-								<Radio value={5}>
-									指定群组可用
-									<Input placeholder="请输入群组名称"  />
-								</Radio>
-								<Radio value={6}>
-									指定群组不可用
-									<Input placeholder="请输入群组名称"  />
-								</Radio>
-							</Radio.Group>
-						</li>
-						<li>
-							<span>优惠形式:</span>
-							<div className="liRight">
-								<Input className="bigInput" />
-								<div>
-									每人	<Input className="smallInput" />天内，限领 <Input className="smallInput" />张
+						{
+							this.state.radioValue.getWaysValue != 3 && <li>
+								<span>发放范围:</span>
+								<Radio.Group onChange={(e)=>this.onRadioChange('issueRangeValue',e)} value={radioValue.issueRangeValue}>
+									<Radio value={1}>
+										所有用户
+									</Radio>
+									<Radio value={2}>
+										指定用户可用
+										<Input placeholder="请输入用户名称"  />
+									</Radio>
+									<Radio value={3}>
+										指定用户不可用
+										<Input placeholder="请输入用户名称"  />
+									</Radio>
+									<Radio value={4}>
+										指定群组可用
+										<Input placeholder="请输入群组名称"  />
+									</Radio>
+									<Radio value={5}>
+										指定群组不可用
+										<Input placeholder="请输入群组名称"  />
+									</Radio>
+								</Radio.Group>
+							</li>
+						}
+						{
+							(this.state.radioValue.getWaysValue != 2 )? <li>
+								<span>发放总量:</span>
+								<div className="liRight">
+									<Input className="bigInput" />
+									{
+										this.state.radioValue.getWaysValue != 3 &&<div>
+											每人	<Input className="smallInput" />天内，限领 <Input className="smallInput" />张
+										</div>
+									}
+									
 								</div>
-							</div>
-						</li>
+							</li> :''
+						}
+						
 						<li>
 							<span>优惠共享:</span>
 							<Radio.Group onChange={(e)=>this.onRadioChange('shareValue',e)} value={radioValue.shareValue}>
@@ -211,26 +233,7 @@ class NewCoupon extends Component {
 								</Radio>
 							</Radio.Group>
 						</li>
-						<li>
-							<span>领取方式:</span>
-							<Radio.Group onChange={(e)=>this.onRadioChange('getWaysValue',e)} value={radioValue.getWaysValue}>
-								<Radio value={1}>
-									主动领取
-									<Checkbox.Group options={options}  onChange={this.onCheckBoxChange} />
-									<CustomUpload />
-								</Radio>
-								<Radio value={2}>
-									直接发送
-									<Checkbox.Group options={[options[2]]}  onChange={this.onCheckBoxChange} />
-									<CustomUpload />
-								</Radio>
-								<Radio value={3}>
-									积分商城
-									<Checkbox.Group options={[options[2]]}  onChange={this.onCheckBoxChange} />
-									<CustomUpload />
-								</Radio>
-							</Radio.Group>
-						</li>
+						
 					</ul>
 					<div className="right">
 						<h4>优惠券展示</h4>

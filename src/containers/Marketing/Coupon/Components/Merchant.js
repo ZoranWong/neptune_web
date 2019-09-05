@@ -61,10 +61,6 @@ class Merchant extends Component {
 			},
 			{
 				title: '操作',
-				dataIndex: 'category_desc',
-			},
-			{
-				title: '操作',
 				render: (text,record) =>
 					<div>
 						<span
