@@ -1,8 +1,17 @@
 import request from '../utils/request.js'
 
+//获取public-key
+export function getPublic(params) {
+    return request({
+        url: '/api/backend/public_key',
+        method: 'get',
+        params: params
+    })
+}
+
 export function login(params) {
     return request({
-        url: '/api/auth/login',
+        url: '/api/backend/auth/login',
         method: 'post',
         data: params
     })
@@ -11,7 +20,7 @@ export function login(params) {
 //后台登出
 export function logout(params) {
     return request({
-        url: '/api/auth/logout',
+        url: '/api/backend/auth/logout',
         method: 'get',
         data: params
     })
@@ -19,7 +28,7 @@ export function logout(params) {
 
 export function resetPwd (params) {
     return request({
-        url: '/api/admins/resetPwd',
+        url: '/api/backend/admins/resetPwd',
         method: 'put',
         data: params
     })

@@ -44,7 +44,16 @@ class App extends React.Component{
 				return <Home match={{url:this.props.location.pathname}}/>;
 		}	
 	};
-	
+
+	// check container
+	routeClassName = () =>{
+		const routes = ['integralRules','tagManage','userDetails','shopDetails','goodDetails','releaseGoods','inStock','outStock','inStockNew','outStockNew','inStockDetail','outStockDetail','orderDetail','newCoupon','userStore','storeRecord'];
+		let routePath = this.props.location.pathname.split('/');
+		if(routePath[2] && (routes.indexOf(routePath[2])> -1)){
+			return true
+		}
+		return false
+	};
 	
 	
 	render() {
@@ -68,7 +77,7 @@ class App extends React.Component{
 						>
 							{this.handleSider()}
 						</Sider>
-						<Content className="container" ><Routes/></Content>
+						<Content className={this.routeClassName()?'container no-padding-container':'container'} ><Routes/></Content>
 					</div>
 				</Layout>
 			</Layout>

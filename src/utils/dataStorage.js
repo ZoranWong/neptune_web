@@ -93,9 +93,15 @@ export function  addMosaic(str) {
 
 /** 正则 手机号验证 **/
 export function  checkPhone(str) {
-    const rex = /^1[34578]\d{9}$/;
+    const rex = /^1[345789]\d{9}$/;
     return rex.test(str);
 }
+/*正则 身份证号验证*/
+export function checkIdCard(str) {
+    const rex = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+    return rex.test(str)
+}
+
 
 /** 正则 邮箱验证 **/
 export function checkEmail(str) {
@@ -128,7 +134,77 @@ export function unCompile(code) {
 }
 
 export function searchJson(data) {
-    let params = Base64.encode(encodeURIComponent(JSON.stringify(data)));
+    let params = encodeURIComponent(Base64.encode(JSON.stringify(data)));
     return params
+}
+
+/*
+* 生成随机整数
+*
+* */
+export function getRandom() {
+    return parseInt(Math.random()*10000000000)
+}
+
+/*
+* 将数组某一项始终置顶在第一位
+* */
+export function sortAry(ary,key) {
+    let index = ary.indexOf(key);
+    ary.splice(index,1);
+    ary.unshift(key);
+    return ary
+}
+
+/*
+* 数组相乘
+* */
+//接受可变长数组参数
+function addNewType(heads,choices){
+    var result=[];
+    for(var i=0,len=heads.length;i<len;i++){
+        for(var j=0,lenj=choices.length;j<lenj;j++){
+            let a = [];
+            a.push(heads[i],choices[j]);
+            result.push(a);
+        }
+    }
+    return result;
+}
+export function arrayMultiplication(){
+    let heads=arguments[0];
+    for(let i=1,len=arguments.length;i<len;i++){
+        if(arguments[i].length){
+            heads=addNewType(heads,arguments[i]);
+        }
+    }
+    return heads?heads:[];
+}
+
+
+// 数组去重
+export function unique(jsonArr,jsonArr2){     // 对象去重方法
+    let length1 = jsonArr.length;
+    let length2 = jsonArr2.length;
+    for (let i = 0; i < length1; i++) {
+        for (let j = 0; j < length2; j++)
+        {
+            //判断添加的数组是否为空了
+            if (jsonArr.length > 0) {
+                if (jsonArr[i]["stock_id"] === jsonArr2[j]["stock_id"]) {
+                    jsonArr.splice(i, 1); //利用splice函数删除元素，从第i个位置，截取长度为1的元素
+                    length1--;
+                    console.log(jsonArr2[j]);//重复元素
+                }
+            }
+        }
+        
+    }
+    
+    for (let n = 0; n < jsonArr2.length; n++) {
+        jsonArr.push(jsonArr2[n]);
+    }
+    
+    return jsonArr
 }
 

@@ -14,7 +14,6 @@ class ResetPassword extends React.Component {
 		};
 	}
 	componentDidMount() {
-		console.log(this.props.location);
 		if(this.state.countDown < 60){
 			this.sendSms()
 		}

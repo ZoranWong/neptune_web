@@ -86,7 +86,7 @@ export default class AddNewStaff extends React.Component{
 					okText="确定"
 					cancelText="取消"
 				>
-					<ul className="addNew">
+					<ul className="addNewAccount">
 						<li>
 							<span>姓名</span>
 							<Input type="text" value={this.state.info.name} onInput={(e)=>{

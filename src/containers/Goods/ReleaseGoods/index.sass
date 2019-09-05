@@ -1,0 +1,122 @@
+.releaseGoods
+	background: #fff
+	height: calc(100vh - 144px)
+	overflow: auto
+	.header
+		width: 100%
+		height: 60px
+		padding: 0 20px
+		margin: 0
+		display: flex
+		justify-content: space-between
+		align-items: center
+		border-bottom: 1px solid #E9E9E9
+	.mainReleaseGood
+		padding: 16px 20px
+		.ant-tabs-nav
+			width: 100%
+			>div
+				width: 100%
+				display: flex
+				justify-content: center
+				align-items: center
+				.ant-tabs-tab
+					flex: 1
+					display: flex
+					justify-content: center
+					align-items: center
+		.forms
+			width: 100%
+			.ant-switch
+				background: #BDBDBD!important
+			.ant-switch-checked
+				background: #4f8963!important
+			.ant-form-explain
+				font-size: 12px
+				margin-top: 5px
+			.ant-form-item-with-help
+				margin-bottom: 20px
+			.ant-form-item
+				width: 50%
+				padding-left: 10px
+				display: flex
+				justify-content: flex-start
+				align-items: center
+				position: relative
+				margin-bottom: 30px
+				.ant-form-item-label
+					label
+						font-size: 12px
+						color: #666
+						&:before
+							content: ""
+							display: inline-block
+							width: 4px
+							height: 4px
+							margin-right: 4px
+					.ant-form-item-required
+						&:before
+							display: inline-block
+							margin-right: 4px
+							color: #f5222d
+							font-size: 14px
+							font-family: SimSun, sans-serif
+							line-height: 1
+							content: '*'
+
+				.ant-form-item-control-wrapper
+					width: 320px
+					height: 30px
+					position: absolute
+					right: 90px
+					.ant-form-item-control
+						width: 100%
+						height: 100%
+						line-height: 30px
+						.ant-input
+							width: 320px
+							height: 30px
+						.ant-select-selection
+							height: 30px !important
+						.ant-select-selection__rendered
+							height: 30px !important
+	.upload
+		height: 100px
+		display: flex
+		justify-content: flex-start
+		align-items: flex-start
+		.ant-form-item-control
+			height: 100%
+			position: relative
+		.clearfix
+		
+			position: absolute
+			display: flex
+			justify-content: flex-start
+			overflow: auto
+	.bannerImg
+		position: relative
+		.suggest
+			position: absolute
+			top: 100px
+			left: 0
+			font-size: 12px
+			color: #999
+	.banners
+		width: 100% !important
+		justify-content: flex-start
+		
+		.ant-form-item-control-wrapper
+			width: 100% !important
+			left: 148px!important
+			flex-wrap: wrap
+		
+	.footer
+		width: 100%
+		height: 60px
+		padding: 0 20px
+		margin: 0
+		display: flex
+		justify-content: center
+		align-items: center
+		border-top: 1px solid #E9E9E9

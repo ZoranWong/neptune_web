@@ -21,7 +21,9 @@ class Home extends React.Component{
 		const filteredOptions = OPTIONS.filter(o => !selectedItems.includes(o));
 		return (
 			<Select
+				defaultActiveFirstOption={false}
 				mode="multiple"
+				className="home"
 				placeholder="Inserted are removed"
 				value={selectedItems}
 				onChange={this.handleChange}

@@ -1,5 +1,81 @@
 export const user_values = [
 	{
+		value:'base_attributes',
+		label:'基本属性',
+		children:[
+			{
+				label:'姓名',
+				value:'name',
+				type:'emptyCompare'
+			},
+			{
+				label:'手机号码',
+				value:'mobile',
+				type:'emptyCompare'
+			},
+			{
+				label:'微信昵称',
+				value:'wx_name',
+				type:'emptyCompare'
+			},
+			{
+				label:'openId',
+				value:'open_id',
+				type:'emptyCompare'
+			},
+			{
+				label:'unionId',
+				value:'union_id',
+				type:'emptyCompare'
+			},
+			{
+				label:'性别',
+				value:'gender',
+				type:'genderCompare'
+			},
+			{
+				label:'省',
+				value:'province',
+				type:'cityCompare'
+			},
+			{
+				label:'市',
+				value:'city',
+				type:'cityCompare'
+			},
+			{
+				label:'区',
+				value:'area',
+				type:'cityCompare'
+			},
+			{
+				label:'注册时间',
+				value:'created_at',
+				type:'timeCompare'
+			},
+			{
+				label:'会员等级',
+				value:'membership_level',
+				type:'equalCompare'
+			},
+			{
+				label:'上线',
+				value:'introducer',
+				type:'emptyCompare'
+			},
+			{
+				label:'成为此人下线的时间',
+				value:'introduced_at',
+				type:'timeCompare'
+			},
+			{
+				label:'成为下线的时间',
+				value:'first_introduced_at',
+				type:'timeCompare'
+			},
+		]
+	},
+	{
 		value:'purchase_information',
 		label:'购买信息',
 		children:[
@@ -89,77 +165,6 @@ export const user_values = [
 		]
 	},
 	{
-		value:'base_attributes',
-		label:'基本属性',
-		children:[
-			{
-				label:'姓名',
-				value:'label',
-				type:'emptyCompare'
-			},
-			{
-				label:'手机号码',
-				value:'mobile',
-				type:'emptyCompare'
-			},
-			{
-				label:'微信昵称',
-				value:'wx_label',
-				type:'emptyCompare'
-			},
-			{
-				label:'微信号',
-				value:'open_id',
-				type:'emptyCompare'
-			},
-			{
-				label:'性别',
-				value:'gender',
-				type:'genderCompare'
-			},
-			{
-				label:'省',
-				value:'province',
-				type:'cityCompare'
-			},
-			{
-				label:'市',
-				value:'city',
-				type:'cityCompare'
-			},
-			{
-				label:'区',
-				value:'area',
-				type:'cityCompare'
-			},
-			{
-				label:'注册时间',
-				value:'registered_at',
-				type:'timeCompare'
-			},
-			{
-				label:'会员等级',
-				value:'membership_level',
-				type:'equalCompare'
-			},
-			{
-				label:'上线',
-				value:'introducer',
-				type:'emptyCompare'
-			},
-			{
-				label:'成为此人下线的时间',
-				value:'introduced_at',
-				type:'timeCompare'
-			},
-			{
-				label:'成为下线的时间',
-				value:'first_introduced_at',
-				type:'timeCompare'
-			},
-		]
-	},
-	{
 		value:'account_information',
 		label:'账户信息',
 		children:[
@@ -232,27 +237,27 @@ export const operation = {
 		},
 		{
 			label:'不等于',
-			value:'!=',
+			value:'<>',
 			type:'timestamp'
 		},
 		{
 			label:'晚于',
-			value:'<',
-			type:'timestamp'
-		},
-		{
-			label:'晚于(含)',
-			value:'<=',
-			type:'timestamp'
-		},
-		{
-			label:'早于',
 			value:'>',
 			type:'timestamp'
 		},
 		{
-			label:'早于(含)',
+			label:'晚于(含)',
 			value:'>=',
+			type:'timestamp'
+		},
+		{
+			label:'早于',
+			value:'<',
+			type:'timestamp'
+		},
+		{
+			label:'早于(含)',
+			value:'<=',
 			type:'timestamp'
 		},
 		{
@@ -269,7 +274,7 @@ export const operation = {
 		},
 		{
 			label:'不等于',
-			value:'!=',
+			value:'<>',
 			type:'input'
 		},
 		{
@@ -302,17 +307,17 @@ export const operation = {
 		{
 			label:'包含以下任意',
 			value:'in',
-			type:'selectedBox'
+			type:'selectedTagBox'
 		},
 		{
 			label:'包含以下所有',
 			value:'all',
-			type:'selectedBox'
+			type:'selectedTagBox'
 		},
 		{
 			label:'不包含以下任意',
 			value:'not in',
-			type:'selectedBox'
+			type:'selectedTagBox'
 		},
 		{
 			label:'为空',
@@ -321,7 +326,7 @@ export const operation = {
 		},
 		{
 			label:'不为空',
-			value:'not null',
+			value:'is not null',
 			type:''
 		},
 	],
@@ -329,17 +334,17 @@ export const operation = {
 		{
 			label:'在以下任意群组中',
 			value:'in',
-			type:'selectedBox'
+			type:'selectedGroupBox'
 		},
 		{
 			label:'在以下所有群组中',
 			value:'all',
-			type:'selectedBox'
+			type:'selectedGroupBox'
 		},
 		{
 			label:'不在以下任意群组中',
 			value:'not in',
-			type:'selectedBox'
+			type:'selectedGroupBox'
 		},
 		{
 			label:'为空',
@@ -348,7 +353,7 @@ export const operation = {
 		},
 		{
 			label:'不为空',
-			value:'not null',
+			value:'is not null',
 			type:''
 		},
 	],
@@ -356,7 +361,7 @@ export const operation = {
 		{
 			label:'等于',
 			value:'=',
-			type:'selectedBox'
+			type:'selectedOneBox'
 		},
 		{
 			label:'等于其中之一',
@@ -382,7 +387,7 @@ export const operation = {
 		},
 		{
 			label:'不为空',
-			value:'not null',
+			value:'is not null',
 			type:''
 		},
 	],
@@ -394,7 +399,7 @@ export const operation = {
 		},
 		{
 			label:'不等于',
-			value:'!=',
+			value:'<>',
 			type:'selectedBoxGender'
 		},
 		{
@@ -404,7 +409,7 @@ export const operation = {
 		},
 		{
 			label:'不为空',
-			value:'not null',
+			value:'is not null',
 			type:''
 		},
 	],
@@ -412,17 +417,17 @@ export const operation = {
 		{
 			label:'等于',
 			value:'=',
-			type:'selectedBox'
+			type:'cityOneBox'
 		},
 		{
 			label:'等于其中之一',
 			value:'in',
-			type:'selectedBox'
+			type:'cityBox'
 		},
 		{
 			label:'不等于其中任意',
 			value:'not in',
-			type:'selectedBox'
+			type:'cityBox'
 		},
 		{
 			label:'为空',
@@ -431,7 +436,7 @@ export const operation = {
 		},
 		{
 			label:'不为空',
-			value:'not null',
+			value:'is not null',
 			type:''
 		},
 	],

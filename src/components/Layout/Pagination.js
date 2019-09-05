@@ -8,27 +8,41 @@ class CustomPagination extends React.Component{
 		this.state = {
 			total: 0,
 			current:1,
+			text:props.text|| '个用户'
 		}
 	}
 	
 	componentDidMount() {
 		this.pagination(1)
 	}
+
 	
 	pagination = (page) =>{
 		if(!this.props.api) return;
-		let params = this.props.params;
+		let params = this.props.params||{};
 		params.limit = 10;
 		params.page = page;
-		this.props.api(params).then(r=>{
-			this.setState({
-				total:r.meta.pagination.total
+		if(this.props.id){
+			this.props.api(params,this.props.id).then(r=>{
+				this.props.valChange(r.data);
+				this.setState({
+					total:r.meta.pagination.total
+				})
 			})
-		})
+		} else {
+			this.props.api(params).then(r=>{
+				this.props.valChange(r.data);
+				this.setState({
+					total:r.meta.pagination.total
+				})
+			})
+		}
+		
+		
 	};
 	
 	showTotal = (total,range) =>{
-		return `共 ${total}个用户，第${range[0]}-${range[1]} 条数据`
+		return `共 ${total}${this.state.text}，第${range[0]}-${range[1]} 条数据`
 	};
 	
 	onChange = page => {

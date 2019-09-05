@@ -29,25 +29,25 @@ class Nav extends React.Component{
 			{
 				text:'用户',
 				path:'/user',
-				exact:true,
+				exact:false,
 				name:"nav-user"
 			},
 			{
 				text:'店铺',
 				path:'/shops',
-				exact:true,
+				exact:false,
 				name:"nav-shops"
 			},
 			{
 				text:'订单',
 				path:'/order',
-				exact:true,
+				exact:false,
 				name:"nav-order"
 			},
 			{
 				text:'营销',
 				path:'/marketing',
-				exact:true,
+				exact:false,
 				name:"nav-market"
 			},
 			{
