@@ -47,7 +47,7 @@ class App extends React.Component{
 
 	// check container
 	routeClassName = () =>{
-		const routes = ['integralRules','tagManage','userDetails','shopDetails','goodDetails','releaseGoods','inStock','outStock','inStockNew','outStockNew','inStockDetail','outStockDetail','orderDetail','newCoupon','userStore','storeRecord'];
+		const routes = ['integralRules','tagManage','userDetails','shopDetails','goodDetails','releaseGoods','inStock','outStock','inStockNew','outStockNew','inStockDetail','outStockDetail','orderDetail','newCoupon','newCouponShop','userStore','storeRecord','message','sendOutRecord','balanceDetails'];
 		let routePath = this.props.location.pathname.split('/');
 		if(routePath[2] && (routes.indexOf(routePath[2])> -1)){
 			return true

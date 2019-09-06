@@ -65,7 +65,7 @@ class Nav extends React.Component{
 			{
 				text:'财务',
 				path:'/finance',
-				exact:true,
+				exact:false,
 				name:"nav-finance"
 			},
 			{

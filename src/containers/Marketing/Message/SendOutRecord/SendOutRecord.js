@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {Button, Input, LocaleProvider, Select, DatePicker, Table, Switch} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import './css/index.sass'
-import CustomPagination from "../../../components/Layout/Pagination";
+import CustomPagination from "../../../../components/Layout/Pagination";
 const {RangePicker} = DatePicker;
-class StoreRecord extends Component {
+class SendOutRecord extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -30,31 +30,31 @@ class StoreRecord extends Component {
 	render() {
 		const columns = [
 			{
-				title: '储值卡名称',
+				title: '发送时间',
 				dataIndex: 'name',
-				render: (text,record) => <span
-					style={{'color':'#4F9863','cursor':'pointer'}}>
-					{text}
-				</span>,
 			},
 			{
-				title: '储值金额',
+				title: '短信内容',
 				dataIndex: 'a',
 			},
 			{
-				title: '赠送金额',
+				title: '发送类型',
 				dataIndex: 'b',
 			},
 			{
-				title: '购买时间',
+				title: '发送方式',
 				dataIndex: 'c',
 			},
 			{
-				title:'昵称',
+				title:'接收手机',
 				dataIndex:'cName'
 			},
 			{
-				title:'手机号码',
+				title:'模板名称',
+				dataIndex:'mobile'
+			},
+			{
+				title:'发送结果',
 				dataIndex:'mobile'
 			},
 		];
@@ -63,35 +63,31 @@ class StoreRecord extends Component {
 		
 		
 		return (
-			<div className="storeRecord">
+			<div className="sendOutRecord">
 				<div className="header">
-					储值记录
+					发送记录
 					<Button size="small" onClick={()=>{
 						this.props.history.go(-1)
 					}}>返回上一页</Button>
 				</div>
 				<ul className="datas">
 					<li>
-						储值总额
+						发送总数
 						<span>1000</span>
 					</li>
 					<li>
-						购买次数
+						发送成功
 						<span>1000</span>
 					</li>
 					<li>
-						赠送总额
+						发送失败
 						<span>300</span>
-					</li>
-					<li>
-						购买人数
-						<span>400</span>
 					</li>
 				</ul>
 				<div className="chartContent">
 					<ul className="filter">
 						<li className="needMargin">
-							储值名称：
+							模板名称：
 							<Select
 								onChange={(e)=>{
 									this.setState({type:e})
@@ -105,7 +101,7 @@ class StoreRecord extends Component {
 							</Select>
 						</li>
 						<li className="needMargin">
-							购买时间：
+							发送时间：
 							<LocaleProvider locale={zh_CN}>
 								<RangePicker
 									onChange={this.onDateChange}
@@ -113,8 +109,20 @@ class StoreRecord extends Component {
 							</LocaleProvider>
 						
 						</li>
+						<li className="needMargin">
+							发送类型：
+							<Input />
+						</li>
+						<li className="needMargin">
+							接收手机：
+							<Input />
+						</li>
 						<li>
-							指定搜索：
+							发送方式：
+							<Input />
+						</li>
+						<li>
+							发送结果：
 							<Input />
 						</li>
 						<li className="button">
@@ -149,12 +157,12 @@ class StoreRecord extends Component {
 							valChange={this.paginationChange}
 						/>
 					</div>
-					
-				</div>
 				
+				</div>
+			
 			</div>
 		);
 	}
 }
 
-export default StoreRecord;
+export default SendOutRecord;

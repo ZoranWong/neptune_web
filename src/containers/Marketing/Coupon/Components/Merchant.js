@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom'
 import IconFont from "../../../../utils/IconFont";
 import SearchInput from "../../../../components/SearchInput/SearchInput";
-import {Button, Table} from "antd";
+import {Button, Table,Modal} from "antd";
 import '../css/consumer.sass'
 import {user_values} from "../../../../utils/user_fields";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import {searchJson} from "../../../../utils/dataStorage";
 import AdvancedFilterComponent from "../../../Order/Components/AdvancedFilterComponent";
 import CustomItem from "../../../../components/CustomItems/CustomItems";
+import PickUpDetails from "../Modal/PickUpDetails";
 
 class Merchant extends Component {
 	constructor(props) {
@@ -20,7 +21,6 @@ class Merchant extends Component {
 				render: (text,record) => <span
 					style={{'color':'#4F9863','cursor':'pointer'}}>
 					{text}
-					<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record)} />
 				</span>,
 			},
 			{
@@ -64,22 +64,18 @@ class Merchant extends Component {
 				render: (text,record) =>
 					<div>
 						<span
-							style={{'color':'#4F9863','cursor':'pointer'}}
-							onClick={()=>this.editShop(record)}
+							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
+							onClick={()=>this.showPickUpDetail(record)}
 						>领取详情
 						</span>
 						<span
-							style={{'color':'#4F9863','cursor':'pointer'}}
-							onClick={()=>this.editShop(record)}
+							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
+							onClick={()=>this.confirmPopover('','下架')}
 						>下架
 						</span>
 						<span
-							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
-						>二维码
-						</span>
-						<span
-							style={{'color':'#4F9863','cursor':'pointer'}}
-							onClick={()=>this.editShop(record)}
+							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
+							onClick={()=>this.deletePopover(record)}
 						>删除
 						</span>
 					</div>
@@ -88,12 +84,13 @@ class Merchant extends Component {
 		this.state = {
 			filterVisible:false,
 			customVisible:false,
-			data:[],
+			data:[{name:'1'}],
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
 			},
 			columns:columns,
+			pickUpDetailsVisible:false,   // 领取详情
 		};
 	}
 	
@@ -173,13 +170,111 @@ class Merchant extends Component {
 	
 	// 新建优惠券
 	newCoupon = () =>{
-		this.props.history.push({pathname:"/marketing/newCoupon"})
+		this.props.history.push({pathname:"/marketing/newCouponShop"})
+	};
+	
+	// 领取详情
+	showPickUpDetail = (record) =>{
+		this.setState({pickUpDetailsVisible:true})
+	};
+	hidePickUpDetail = () =>{
+		this.setState({pickUpDetailsVisible:false});
+	};
+	
+	// 上架/下架
+	confirmPopover =(fn,keyWord) => {
+		let refresh = this.refresh;
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			maskClosable:true,
+			content: (
+				<div className="U_confirm">
+					确定{keyWord}该优惠券么？
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				// fn({order_ids:checkedAry}).then(r=>{
+				// 	message.success(`${keyWord}订单成功！`);
+				// 	refresh('wait_platform_verify')
+				// });
+				
+			},
+			onCancel() {
+			
+			},
+		});
+	};
+	
+	// 删除
+	deletePopover =(record) => {
+		let refresh = this.refresh;
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			maskClosable:true,
+			content: (
+				<div className="U_confirm">
+					确定删除该优惠券么？
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				// fn({order_ids:checkedAry}).then(r=>{
+				// 	message.success(`${keyWord}订单成功！`);
+				// 	refresh('wait_platform_verify')
+				// });
+			},
+			onCancel() {
+			
+			},
+		});
 	};
 	
 	render() {
-		
+		const pickUpDetails = {
+			visible:this.state.pickUpDetailsVisible,
+			onCancel:this.hidePickUpDetail,
+		};
 		return (
 			<div className="couponTab">
+				
+				<PickUpDetails {...pickUpDetails} />
 				
 				<AdvancedFilterComponent
 					visible={this.state.filterVisible}

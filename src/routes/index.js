@@ -5,7 +5,6 @@ import Home from "../containers/Home/Home";
 
 import Data from "../containers/Data/Data";
 
-import Finance from "../containers/Finance/Finance";
 
 import Goods from "../containers/Goods/GoodsManage/GoodsManage";
 import ObtainedGoods from "../containers/Goods/ObtainedGoods/ObtainedGoods";
@@ -57,7 +56,18 @@ import IntegralMall from "../containers/Marketing/IntegralMall/IntegralMall";
 import Message from "../containers/Marketing/Message/Message";
 import UserStore from "../containers/Marketing/UserStore/UserStore";
 import NewCoupon from "../containers/Marketing/NewCoupon/NewCoupon";
+import NewCouponShop from "../containers/Marketing/NewCouponShop/NewCouponShop";
 import StoreRecord from "../containers/Marketing/StoreRecord/StoreRecord";
+import SendOutRecord from "../containers/Marketing/Message/SendOutRecord/SendOutRecord";
+
+
+import Finance from "../containers/Finance/Overview/Finance";
+import BalanceDetails from "../containers/Finance/BalanceDetails/BalanceDetails";
+import RefundDetails from "../containers/Finance/RefundDetail/RefundDetails";
+import WithdrawDetails from "../containers/Finance/WithdrawDetails/WithdrawDetails";
+import IncomeDetails from "../containers/Finance/IncomeDetails/IncomeDetails";
+import RefundApplication from "../containers/Finance/RefundDetail/RefundApplication/RefundApplication";
+import WithdrawApplication from "../containers/Finance/WithdrawDetails/WithdrawApplication/WithdrawApplication";
 
 
 
@@ -90,6 +100,12 @@ const Routes = () =>(
 		
 		{/*财务*/}
 		<Route exact={true} path="/finance" render={props => onEnter(Finance, props)} />
+		<Route exact={true} path="/finance/balanceDetails" render={props => onEnter(BalanceDetails, props)} />
+		<Route exact={true} path="/finance/refundDetails" render={props => onEnter(RefundDetails, props)} />
+		<Route exact={true} path="/finance/withdrawDetails" render={props => onEnter(WithdrawDetails, props)} />
+		<Route exact={true} path="/finance/incomeDetails" render={props => onEnter(IncomeDetails, props)} />
+		<Route exact={true} path="/finance/refundApplication" render={props => onEnter(RefundApplication, props)} />
+		<Route exact={true} path="/finance/withdrawApplication" render={props => onEnter(WithdrawApplication, props)} />
 		
 		{/*商品*/}
 		<Route exact={true} path="/goods" render={props => onEnter(Goods, props)} />
@@ -122,7 +138,9 @@ const Routes = () =>(
 		<Route exact={true} path="/marketing/message" render={props => onEnter(Message, props)} />
 		<Route exact={true} path="/marketing/userStore" render={props => onEnter(UserStore, props)} />
 		<Route exact={true} path="/marketing/newCoupon" render={props => onEnter(NewCoupon, props)} />
+		<Route exact={true} path="/marketing/newCouponShop" render={props => onEnter(NewCouponShop, props)} />
 		<Route exact={true} path="/marketing/storeRecord" render={props => onEnter(StoreRecord, props)} />
+		<Route exact={true} path="/marketing/sendOutRecord" render={props => onEnter(SendOutRecord, props)} />
 		
 		{/*店铺*/}
 		<Route exact={true} path="/shops" render={props => onEnter(ShopManage, props)} />
@@ -132,7 +150,6 @@ const Routes = () =>(
 		<Route exact={true} path="/shops/shopDetails" render={props => onEnter(ShopDetails, props)} />
 		
 		{/*用户*/}
-		
 		<Route exact={true} path="/user" render={props => onEnter(UserManage, props)} />
 		<Route exact={true} path="/user/integralRules" render={props => onEnter(IntegralRules, props)} />
 		<Route exact={true} path="/user/tagManage" render={props => onEnter(TagManage, props)} />

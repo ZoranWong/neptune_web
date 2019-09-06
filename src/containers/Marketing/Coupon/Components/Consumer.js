@@ -2,14 +2,15 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom'
 import IconFont from "../../../../utils/IconFont";
 import SearchInput from "../../../../components/SearchInput/SearchInput";
-import {Button, Table} from "antd";
+import {Button, message, Modal, Table} from "antd";
 import '../css/consumer.sass'
 import {user_values} from "../../../../utils/user_fields";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import {searchJson} from "../../../../utils/dataStorage";
 import AdvancedFilterComponent from "../../../Order/Components/AdvancedFilterComponent";
 import CustomItem from "../../../../components/CustomItems/CustomItems";
-
+import PickUpDetails from "../Modal/PickUpDetails";
+import PromotionCode from "../Modal/PromotionCode";
 class Consumer extends Component {
 	constructor(props) {
 		super(props);
@@ -20,7 +21,6 @@ class Consumer extends Component {
 				render: (text,record) => <span
 					style={{'color':'#4F9863','cursor':'pointer'}}>
 					{text}
-					<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record)} />
 				</span>,
 			},
 			{
@@ -29,7 +29,7 @@ class Consumer extends Component {
 			},
 			{
 				title: '价值',
-				dataIndex: 'category_desc',
+				dataIndex: 'value',
 			},
 			{
 				title: '使用条件',
@@ -64,22 +64,23 @@ class Consumer extends Component {
 				render: (text,record) =>
 					<div>
 						<span
-							style={{'color':'#4F9863','cursor':'pointer'}}
-							onClick={()=>this.editShop(record)}
+							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
+							onClick={()=>this.showPickUpDetail(record)}
 						>领取详情
 						</span>
 						<span
-							style={{'color':'#4F9863','cursor':'pointer'}}
-							onClick={()=>this.editShop(record)}
+							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
+							onClick={()=>this.confirmPopover('','下架')}
 						>下架
 						</span>
 						<span
-							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
+							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
+							onClick={()=>this.showPromotionCode(record)}
 						>二维码
 						</span>
 						<span
-							style={{'color':'#4F9863','cursor':'pointer'}}
-							onClick={()=>this.editShop(record)}
+							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
+							onClick={()=>this.deletePopover(record)}
 						>删除
 						</span>
 					</div>
@@ -88,12 +89,26 @@ class Consumer extends Component {
 		this.state = {
 			filterVisible:false,
 			customVisible:false,
-			data:[],
+			data:[
+				{
+					name:'11',
+					ways:'22',
+					value:'33',
+					spec:'44',
+					goods:'55',
+					date:'2019',
+					unit:'11/22',
+					number:'222',
+					used:'4132'
+				}
+			],
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
 			},
 			columns:columns,
+			pickUpDetailsVisible:false,   // 领取详情
+			promotionCodeVisible:false,  // 推广码
 		};
 	}
 	
@@ -176,11 +191,121 @@ class Consumer extends Component {
 		this.props.history.push({pathname:"/marketing/newCoupon"})
 	};
 	
+	// 领取详情
+	showPickUpDetail = (record) =>{
+		this.setState({pickUpDetailsVisible:true})
+	};
+	hidePickUpDetail = () =>{
+		this.setState({pickUpDetailsVisible:false});
+	};
+	
+	// 上架/下架
+	confirmPopover =(fn,keyWord) => {
+		let refresh = this.refresh;
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			maskClosable:true,
+			content: (
+				<div className="U_confirm">
+					确定{keyWord}该优惠券么？
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				// fn({order_ids:checkedAry}).then(r=>{
+				// 	message.success(`${keyWord}订单成功！`);
+				// 	refresh('wait_platform_verify')
+				// });
+				
+			},
+			onCancel() {
+			
+			},
+		});
+	};
+	
+	// 删除
+	deletePopover =(record) => {
+		let refresh = this.refresh;
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			maskClosable:true,
+			content: (
+				<div className="U_confirm">
+					确定删除该优惠券么？
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				// fn({order_ids:checkedAry}).then(r=>{
+				// 	message.success(`${keyWord}订单成功！`);
+				// 	refresh('wait_platform_verify')
+				// });
+			},
+			onCancel() {
+			
+			},
+		});
+	};
+	
+	// 二维码
+	showPromotionCode = () =>{
+		this.setState({promotionCodeVisible:true})
+	};
+	hidePromotionCode = () =>{
+		this.setState({promotionCodeVisible:false})
+	};
 	
 	render() {
-		
+		const pickUpDetails = {
+			visible:this.state.pickUpDetailsVisible,
+			onCancel:this.hidePickUpDetail,
+		};
+		const promotionCodeProps = {
+			visible:this.state.promotionCodeVisible,
+			onCancel: this.hidePromotionCode
+		};
 		return (
 			<div className="couponTab">
+				
+				<PickUpDetails {...pickUpDetails} />
+				<PromotionCode {...promotionCodeProps} />
 				
 				<AdvancedFilterComponent
 					visible={this.state.filterVisible}
@@ -188,6 +313,7 @@ class Consumer extends Component {
 					onSubmit={this.onSubmit}
 					refresh={this.refresh}
 				/>
+				
 				<div className="consumerHeader">
 					<div className="headerLeft">
 						<SearchInput
