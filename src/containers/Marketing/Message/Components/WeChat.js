@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
-import {Icon} from "antd";
+import React, {Component,Fragment} from 'react';
+import {Icon,Button,Switch} from "antd";
 import '../css/wechat.sass'
+import {withRouter} from 'react-router-dom'
 class WeChat extends Component {
 	constructor(props) {
 		super(props);
@@ -102,37 +103,47 @@ class WeChat extends Component {
 		};
 	}
 	
+	customMessage = () =>{
+		this.props.history.push({pathname:'/marketing/customWeChatMessage'})
+	};
 	
 	render() {
 		const {data} = this.state;
-		console.log(data);
 		return (
-			<ul className="m_wechat">
-				{
-					data.map(item=>(
-						<li key={item.id} className="m_wechat_li">
-							<h3>{item.title}</h3>
-							<div className="ulBody">
-								<h4>{item.inner_title}</h4>
-								<ul>
-									{
-										item.items.map(i=>(<li key={i.key}>
-											<span className="key">{i.key}</span>
-											<span className="value">{i.value}</span>
-										</li>))
-									}
-								</ul>
-								<p>
-									<span>查看详情</span>
-									<Icon type="right" />
-								</p>
-							</div>
-						</li>
-					))
-				}
-			</ul>
+			<Fragment>
+				<div className="wechatHeader">
+					<Button type="primary" size="small">同步小程序微信模板消息库</Button>
+				</div>
+				<ul className="m_wechat">
+					{
+						data.map(item=>(
+							<li key={item.id} className="m_wechat_li" onClick={this.customMessage}>
+								<div className="ul_header">
+									<h3>{item.title}</h3>
+									<Switch />
+								</div>
+								<div className="ulBody">
+									<h4>{item.inner_title}</h4>
+									<ul>
+										{
+											item.items.map(i=>(<li key={i.key}>
+												<span className="key">{i.key}</span>
+												<span className="value">{i.value}</span>
+											</li>))
+										}
+									</ul>
+									<p>
+										<span>查看详情</span>
+										<Icon type="right" />
+									</p>
+								</div>
+							</li>
+						))
+					}
+				</ul>
+			</Fragment>
 		);
 	}
 }
 
-export default WeChat;
+export default withRouter(WeChat);
