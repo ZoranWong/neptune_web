@@ -10,6 +10,7 @@ import {searchJson} from "../../../../utils/dataStorage";
 import AdvancedFilterComponent from "../../../Order/Components/AdvancedFilterComponent";
 import CustomItem from "../../../../components/CustomItems/CustomItems";
 import PickUpDetails from "../Modal/PickUpDetails";
+import {coupons} from "../../../../api/marketing/coupon";
 
 class Merchant extends Component {
 	constructor(props) {
@@ -84,10 +85,12 @@ class Merchant extends Component {
 		this.state = {
 			filterVisible:false,
 			customVisible:false,
-			data:[{name:'1'}],
+			api:coupons,
+			data:[],
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
+				obj_type:'MERCHANT'
 			},
 			columns:columns,
 			pickUpDetailsVisible:false,   // 领取详情
@@ -104,6 +107,7 @@ class Merchant extends Component {
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
+				obj_type:'MERCHANT'
 			}
 		},()=>{
 			this.child.current.pagination(1)
@@ -113,7 +117,7 @@ class Merchant extends Component {
 	// 头部搜索框
 	search = (value) =>{
 		this.setState({
-			api:'',
+			api:coupons,
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value,status:true})}
 		},()=>{
@@ -129,7 +133,7 @@ class Merchant extends Component {
 		this.setState({filterVisible:false})
 	};
 	onSubmit = (data) =>{
-		this.setState({api:'',paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
+		this.setState({api:coupons,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
 			this.child.current.pagination(1)
 		});
 	};

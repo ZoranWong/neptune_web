@@ -18,11 +18,11 @@ class Coupon extends React.Component{
 	render(){
 		return (
 			<div className="coupon">
-				<Tabs defaultActiveKey="1" onChange={this.callback}>
-					<TabPane tab="消费者" key="1">
+				<Tabs defaultActiveKey="USER" onChange={this.callback}>
+					<TabPane tab="消费者" key="USER">
 						<Consumer />
 					</TabPane>
-					<TabPane tab="商户" key="2">
+					<TabPane tab="商户" key="MERCHANT">
 						<Merchant />
 					</TabPane>
 				</Tabs>

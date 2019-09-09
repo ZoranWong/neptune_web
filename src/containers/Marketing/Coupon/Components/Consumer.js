@@ -11,6 +11,8 @@ import AdvancedFilterComponent from "../../../Order/Components/AdvancedFilterCom
 import CustomItem from "../../../../components/CustomItems/CustomItems";
 import PickUpDetails from "../Modal/PickUpDetails";
 import PromotionCode from "../Modal/PromotionCode";
+import {coupons} from "../../../../api/marketing/coupon";
+
 class Consumer extends Component {
 	constructor(props) {
 		super(props);
@@ -25,7 +27,7 @@ class Consumer extends Component {
 			},
 			{
 				title: '领取方式',
-				dataIndex: 'ways',
+				dataIndex: 'release_mode',
 			},
 			{
 				title: '价值',
@@ -33,7 +35,7 @@ class Consumer extends Component {
 			},
 			{
 				title: '使用条件',
-				dataIndex: 'spec',
+				dataIndex: 'floor',
 			},
 			{
 				title: '适用商品',
@@ -45,11 +47,11 @@ class Consumer extends Component {
 			},
 			{
 				title: '发放总量/剩余库存',
-				dataIndex: 'unit',
+				dataIndex: 'issue_count',
 			},
 			{
 				title: '领取人数/张数',
-				dataIndex: 'number',
+				dataIndex: 'received_count',
 			},
 			{
 				title: '已使用',
@@ -57,7 +59,7 @@ class Consumer extends Component {
 			},
 			{
 				title: '状态',
-				dataIndex: 'status',
+				dataIndex: 'state',
 			},
 			{
 				title: '操作',
@@ -89,6 +91,7 @@ class Consumer extends Component {
 		this.state = {
 			filterVisible:false,
 			customVisible:false,
+			api:coupons,
 			data:[
 				{
 					name:'11',
@@ -105,6 +108,7 @@ class Consumer extends Component {
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
+				obj_type:'USER'
 			},
 			columns:columns,
 			pickUpDetailsVisible:false,   // 领取详情
@@ -122,6 +126,7 @@ class Consumer extends Component {
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
+				obj_type:'USER'
 			}
 		},()=>{
 			this.child.current.pagination(1)
@@ -131,9 +136,9 @@ class Consumer extends Component {
 	// 头部搜索框
 	search = (value) =>{
 		this.setState({
-			api:'',
+			api:coupons,
 			paginationParams:{...this.state.paginationParams,
-				searchJson:searchJson({search:value,status:true})}
+				searchJson:searchJson({search:value})}
 		},()=>{
 			this.child.current.pagination(1)
 		});
@@ -147,7 +152,10 @@ class Consumer extends Component {
 		this.setState({filterVisible:false})
 	};
 	onSubmit = (data) =>{
-		this.setState({api:'',paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
+		this.setState({
+			api:coupons(),
+			paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}
+			},()=>{
 			this.child.current.pagination(1)
 		});
 	};
