@@ -1,25 +1,44 @@
 import React, {Component,Fragment} from 'react';
-import {Modal, Table} from "antd";
-import CustomPagination from "../../../../components/Layout/Pagination";
+import {LocaleProvider, Modal, Pagination, Table} from "antd";
+import '../../../../style/pagination.sass'
+import {receiveCoupons} from "../../../../api/marketing/coupon";
+import zhCN from "antd/lib/locale-provider/zh_CN";
 
 class PickUpDetails extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			data:[],
-			api:'',
-			paginationParams:{
-				logic_conditions:[],
-				search:'',
-			},
+			id:'',
+			total: 0,
+			current:1,
 		};
-		this.child = React.createRef();
 	}
 	
-	// 分页器改变值
-	paginationChange = (list) =>{
-		console.log(list);
-		this.setState({data:list})
+	componentWillReceiveProps(nextProps, nextContext) {
+		if(!nextProps.couponId) return;
+		this.setState({id:nextProps.couponId});
+		this.pagination(1,nextProps.couponId)
+	}
+	
+	pagination = (page,id) =>{
+		let params = {};
+		params.limit = 10;
+		params.page = page;
+		receiveCoupons({params},id).then(r=>{
+			this.setState({data:r.data,total:r.meta.pagination.total});
+		})
+	};
+	
+	showTotal = (total,range) =>{
+		return `共 ${total}条记录，第${range[0]}-${range[1]} 条数据`
+	};
+	
+	onChange = page => {
+		this.pagination(page,this.state.id);
+		this.setState({
+			current: page,
+		});
 	};
 	
 	handleCancel = () =>{
@@ -82,12 +101,16 @@ class PickUpDetails extends Component {
 						/>
 					</div>
 					<div className="pagination">
-						<CustomPagination
-							api={this.state.api}
-							ref={this.child}
-							valChange={this.paginationChange}
-							params={this.state.params}
-						/>
+						<LocaleProvider locale={zhCN}>
+							<Pagination
+								total={this.state.total}
+								showTotal={this.showTotal}
+								showQuickJumper
+								defaultCurrent={1}
+								pageSize={10}
+								onChange={this.onChange}
+							/>
+						</LocaleProvider>
 					</div>
 				</Modal>
 			</Fragment>

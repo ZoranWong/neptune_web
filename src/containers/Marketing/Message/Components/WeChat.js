@@ -1,128 +1,98 @@
 import React, {Component,Fragment} from 'react';
-import {Icon,Button,Switch} from "antd";
+import {Icon, Button, Switch, message} from "antd";
 import '../css/wechat.sass'
 import {withRouter} from 'react-router-dom'
+import {syncWeChat,checkSyncWeChat,weChatList,disableWeChat,enableWeChat} from "../../../../api/marketing/message";
+import CustomPagination from "../../../../components/Layout/Pagination";
+
 class WeChat extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data:[
-				{
-					title:'订单自提通知(模板样例)',
-					inner_title:'订单自提通知',
-					id:1,
-					items:[
-						{
-							key:'自提码',
-							value:'123456'
-						},
-						{
-							key:'自提地址',
-							value:'北京市'
-						},
-						{
-							key:'自提时间',
-							value:'8:00-17:00'
-						},
-						{
-							key:'订单金额',
-							value:'14.58元'
-						}
-					]
-				},
-				{
-					title:'订单自提通知(模板样例)',
-					inner_title:'订单自提通知',
-					id:2,
-					items:[
-						{
-							key:'自提码',
-							value:'123456'
-						},
-						{
-							key:'自提地址',
-							value:'北京市'
-						},
-						{
-							key:'自提时间',
-							value:'8:00-17:00'
-						},
-						{
-							key:'订单金额',
-							value:'14.58元'
-						}
-					]
-				},
-				{
-					title:'订单自提通知(模板样例)',
-					inner_title:'订单自提通知',
-					id:3,
-					items:[
-						{
-							key:'自提码',
-							value:'123456'
-						},
-						{
-							key:'自提地址',
-							value:'北京市'
-						},
-						{
-							key:'自提时间',
-							value:'8:00-17:00'
-						},
-						{
-							key:'订单金额',
-							value:'14.58元'
-						}
-					]
-				},
-				{
-					title:'订单自提通知(模板样例)',
-					inner_title:'订单自提通知',
-					id:4,
-					items:[
-						{
-							key:'自提码',
-							value:'123456'
-						},
-						{
-							key:'自提地址',
-							value:'北京市'
-						},
-						{
-							key:'自提时间',
-							value:'8:00-17:00'
-						},
-						{
-							key:'订单金额',
-							value:'14.58元'
-						}
-					]
-				},
-			]
+			data:[],
+			loading: false,
+			btnText:'同步小程序微信模板消息库',
+			api:'',
+			checked:false
 		};
+		this.child = React.createRef();
+		this.timer = null;
 	}
 	
 	customMessage = () =>{
 		this.props.history.push({pathname:'/marketing/customWeChatMessage'})
 	};
 	
+	// 分页器改变值
+	paginationChange = (list) =>{
+		this.setState({data:list})
+	};
+	
+	refresh = () =>{
+		this.child.current.pagination(1)
+	};
+	
+	checkSyncWeChat = () =>{
+		checkSyncWeChat({}).then(r=>{
+			if(r.sync_state === 'sync_end'){
+				window.clearInterval(this.timer);
+				this.setState({
+					btnText:r.message,
+					loading:false,
+					api:weChatList
+				});
+				this.refresh();
+				window.setTimeout(()=>{
+					this.setState({
+						btnText:'同步小程序微信模板消息库',
+					})
+				},2000)
+			}
+		}).catch(_=>{})
+	};
+	
+	syncWeChat = () =>{
+		syncWeChat({}).then(r=>{
+			if(r.sync_state === 'sync' || r.sync_state === 'accepted'){
+				this.setState({
+					loading:true,
+					btnText:r.message,
+				});
+				this.timer = window.setInterval(()=>{
+					this.checkSyncWeChat();
+				},1000)
+			}
+		}).catch(_=>{})
+	};
+	
+	// 开关
+	switchChange = (item,e) => {
+		let api = e? enableWeChat:disableWeChat;
+		api({},item.id).then(r=>{
+			message.success(r.message)
+		}).catch(_=>{})
+	};
+	
+	
 	render() {
 		const {data} = this.state;
 		return (
 			<Fragment>
+				
 				<div className="wechatHeader">
-					<Button type="primary" size="small">同步小程序微信模板消息库</Button>
+					<Button type="primary" size="small" onClick={this.syncWeChat} loading={this.state.loading} >
+						{this.state.btnText}
+					</Button>
 				</div>
 				<ul className="m_wechat">
 					{
 						data.map(item=>(
-							<li key={item.id} className="m_wechat_li" onClick={this.customMessage}>
+							<li key={item.id} className="m_wechat_li">
 								<div className="ul_header">
 									<h3>{item.title}</h3>
-									<Switch />
+									<Switch defaultChecked={item.is_open} onChange={(e)=>this.switchChange(item,e)} />
 								</div>
-								<div className="ulBody">
+								<div className="ulBody" onClick={this.customMessage}>
 									<h4>{item.inner_title}</h4>
 									<ul>
 										{
@@ -141,6 +111,13 @@ class WeChat extends Component {
 						))
 					}
 				</ul>
+				<div className="pagination" style={{visibility:data.length?"visible":"hidden"}}>
+					<CustomPagination
+						api={this.state.api}
+						ref={this.child}
+						valChange={this.paginationChange}
+					/>
+				</div>
 			</Fragment>
 		);
 	}

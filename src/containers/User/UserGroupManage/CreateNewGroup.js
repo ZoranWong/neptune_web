@@ -3,6 +3,7 @@ import {Input, Modal, message, Button} from "antd";
 import AdvancedFilter from "../../../components/AdvancedFilter/AdvancedFilter";
 import './css/createNewGroup.sass'
 import {addNewGroup} from '../../../api/user'
+import {operation, user_values} from "../../../utils/user_fields";
 export default class CreateNewGroup extends React.Component{
 	constructor(props){
 		super(props);
@@ -112,7 +113,7 @@ export default class CreateNewGroup extends React.Component{
 						<li style={{'display':this.state.type == 'dynamic'?'block':'none'}}>
 							<span className="left">筛选条件</span>
 							<div className="advanced">
-								<AdvancedFilter  ref={this.child} renderChild={this.renderChild} />
+								<AdvancedFilter value={user_values} operation={operation} ref={this.child} renderChild={this.renderChild} />
 							</div>
 						</li>
 					</ul>

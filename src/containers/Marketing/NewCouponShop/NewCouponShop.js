@@ -53,11 +53,11 @@ class NewCouponShop extends Component {
 				<div className="c_body">
 					<ul className="left">
 						<li className="normalLi">
-							<span>优惠券名称:</span>
+							<span className="c_left">优惠券名称:</span>
 							<Input />
 						</li>
 						<li>
-							<span>优惠形式:</span>
+							<span className="c_left">优惠形式:</span>
 							<Radio.Group onChange={(e)=>this.onRadioChange('typeValue',e)} value={radioValue.typeValue}>
 								<Radio value={1}>
 									面值
@@ -72,7 +72,7 @@ class NewCouponShop extends Component {
 							</Radio.Group>
 						</li>
 						<li>
-							<span>有效期:</span>
+							<span className="c_left">有效期:</span>
 							<Radio.Group onChange={(e)=>this.onRadioChange('formValue',e)} value={radioValue.formValue}>
 								<Radio value={1}>
 									固定日期
@@ -95,7 +95,7 @@ class NewCouponShop extends Component {
 							</Radio.Group>
 						</li>
 						<li>
-							<span>使用门槛:</span>
+							<span className="c_left">使用门槛:</span>
 							<Radio.Group onChange={(e)=>this.onRadioChange('outsetValue',e)} value={radioValue.outsetValue}>
 								<Radio value={1}>
 									无门槛
@@ -108,7 +108,7 @@ class NewCouponShop extends Component {
 							</Radio.Group>
 						</li>
 						<li>
-							<span>选择类别:</span>
+							<span className="c_left">选择类别:</span>
 							<Radio.Group onChange={(e)=>this.onRadioChange('typeValue',e)} value={radioValue.typeValue}>
 								<Radio value={1}>
 									商品券
@@ -119,11 +119,11 @@ class NewCouponShop extends Component {
 							</Radio.Group>
 						</li>
 						<li>
-							<span>使用说明:</span>
+							<span className="c_left">使用说明:</span>
 							<Input placeholder="具体详细说明" />
 						</li>
 						<li>
-							<span>发放店铺:</span>
+							<span className="c_left">发放店铺:</span>
 							<Radio.Group onChange={(e)=>this.onRadioChange('shopValue',e)} value={radioValue.shopValue}>
 								<Radio value={1}>
 									全部店铺
@@ -147,7 +147,7 @@ class NewCouponShop extends Component {
 							</Radio.Group>
 						</li>
 						<li>
-							<span>适用商品:</span>
+							<span className="c_left">适用商品:</span>
 							<Radio.Group onChange={(e)=>this.onRadioChange('applicableRangeValue',e)} value={radioValue.applicableRangeValue}>
 								<Radio value={1}>
 									全部商品
@@ -171,7 +171,7 @@ class NewCouponShop extends Component {
 							</Radio.Group>
 						</li>
 						<li>
-							<span>发放总量:</span>
+							<span className="c_left">发放总量:</span>
 							<div className="liRight">
 								<Input className="bigInput" />
 								{

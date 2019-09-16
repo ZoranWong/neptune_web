@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom'
 import IconFont from "../../../../utils/IconFont";
 import SearchInput from "../../../../components/SearchInput/SearchInput";
-import {Button, message, Modal, Table} from "antd";
+import {Button, Modal, Table , message} from "antd";
 import '../css/consumer.sass'
 import {user_values} from "../../../../utils/user_fields";
 import CustomPagination from "../../../../components/Layout/Pagination";
@@ -11,7 +11,7 @@ import AdvancedFilterComponent from "../../../Order/Components/AdvancedFilterCom
 import CustomItem from "../../../../components/CustomItems/CustomItems";
 import PickUpDetails from "../Modal/PickUpDetails";
 import PromotionCode from "../Modal/PromotionCode";
-import {coupons} from "../../../../api/marketing/coupon";
+import {coupons,deleteCoupons,offShelvesCoupons,onShelvesCoupons} from "../../../../api/marketing/coupon";
 
 class Consumer extends Component {
 	constructor(props) {
@@ -59,7 +59,24 @@ class Consumer extends Component {
 			},
 			{
 				title: '状态',
-				dataIndex: 'state',
+				dataIndex: 'state_desc',
+				render:(text,record)=>{
+					if(record.release_mode === '直接发放'){
+						switch (record.state) {
+							case 0:
+								text = '未发送';
+								break;
+							case 2:
+								text = '已发送';
+								break;
+							default:
+								text = ''
+						}
+						return text;
+					} else {
+						return text
+					}
+				}
 			},
 			{
 				title: '操作',
@@ -70,11 +87,9 @@ class Consumer extends Component {
 							onClick={()=>this.showPickUpDetail(record)}
 						>领取详情
 						</span>
-						<span
-							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
-							onClick={()=>this.confirmPopover('','下架')}
-						>下架
-						</span>
+						{
+							this.renderStatus(record)
+						}
 						<span
 							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
 							onClick={()=>this.showPromotionCode(record)}
@@ -92,19 +107,7 @@ class Consumer extends Component {
 			filterVisible:false,
 			customVisible:false,
 			api:coupons,
-			data:[
-				{
-					name:'11',
-					ways:'22',
-					value:'33',
-					spec:'44',
-					goods:'55',
-					date:'2019',
-					unit:'11/22',
-					number:'222',
-					used:'4132'
-				}
-			],
+			data:[],
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
@@ -113,7 +116,9 @@ class Consumer extends Component {
 			columns:columns,
 			pickUpDetailsVisible:false,   // 领取详情
 			promotionCodeVisible:false,  // 推广码
+			couponId:'',   // 优惠券id 用于领取详情
 		};
+		this.child = React.createRef();
 	}
 	
 	componentWillMount() {
@@ -129,8 +134,66 @@ class Consumer extends Component {
 				obj_type:'USER'
 			}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
+	};
+	
+	// 根据状态值来获取对应的按钮
+	renderStatus = (record) =>{
+		let confirmPopover = this.confirmPopover;
+		let state;
+		if(record.release_mode === '直接发放'){
+			switch (record.state) {
+				case 0 :
+					state = <span
+						style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
+						onClick={()=>confirmPopover(onShelvesCoupons,'发送',record.coupon_id)}
+					>
+					发送
+				</span>;
+					break;
+				// case 1:
+				// 	state = <span
+				// 		style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
+				// 		onClick={()=>confirmPopover('','删除')}
+				// 	>
+				// 	删除
+				// </span>;
+				// 	break;
+				default:
+					state = ''
+			}
+		} else {
+			switch (record.state) {
+				case 0 :
+					state = <span
+						style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
+						onClick={()=>confirmPopover(onShelvesCoupons,'上架',record.coupon_id)}
+					>
+					上架
+				</span>;
+					break;
+				case 1:
+					state = <span
+						style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
+						onClick={()=>confirmPopover(offShelvesCoupons,'下架',record.coupon_id)}
+					>
+					下架
+				</span>;
+					break;
+				// case 2:
+				// 	state = <span
+				// 		style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
+				// 		onClick={()=>confirmPopover('','删除')}
+				// 	>
+				// 	删除
+				// </span>;
+				// 	break;
+				default:
+					state = ''
+			}
+		}
+		return state;
 	};
 	
 	// 头部搜索框
@@ -190,7 +253,6 @@ class Consumer extends Component {
 	
 	// 分页器改变值
 	paginationChange = (list) =>{
-		console.log(list);
 		this.setState({data:list})
 	};
 	
@@ -201,14 +263,14 @@ class Consumer extends Component {
 	
 	// 领取详情
 	showPickUpDetail = (record) =>{
-		this.setState({pickUpDetailsVisible:true})
+		this.setState({pickUpDetailsVisible:true,couponId:record.coupon_id})
 	};
 	hidePickUpDetail = () =>{
 		this.setState({pickUpDetailsVisible:false});
 	};
 	
 	// 上架/下架
-	confirmPopover =(fn,keyWord) => {
+	confirmPopover =(fn,keyWord,id) => {
 		let refresh = this.refresh;
 		let confirmModal = Modal.confirm({
 			title: (
@@ -238,10 +300,10 @@ class Consumer extends Component {
 				size:'small'
 			},
 			onOk() {
-				// fn({order_ids:checkedAry}).then(r=>{
-				// 	message.success(`${keyWord}订单成功！`);
-				// 	refresh('wait_platform_verify')
-				// });
+				fn({},id).then(r=>{
+					message.success(`${keyWord}成功！`);
+					refresh()
+				});
 				
 			},
 			onCancel() {
@@ -250,9 +312,8 @@ class Consumer extends Component {
 		});
 	};
 	
-	// 删除
-	deletePopover =(record) => {
-		let refresh = this.refresh;
+	//  删除警告---警告不可删除
+	deleteWarning = () =>{
 		let confirmModal = Modal.confirm({
 			title: (
 				<div className= 'u_confirm_header'>
@@ -269,7 +330,7 @@ class Consumer extends Component {
 			maskClosable:true,
 			content: (
 				<div className="U_confirm">
-					确定删除该优惠券么？
+					该优惠券还未下架，请先下架
 				</div>
 			),
 			cancelText: '取消',
@@ -278,7 +339,8 @@ class Consumer extends Component {
 				size:'small'
 			},
 			cancelButtonProps:{
-				size:'small'
+				size:'small',
+				style:{display:'none'}
 			},
 			onOk() {
 				// fn({order_ids:checkedAry}).then(r=>{
@@ -290,6 +352,22 @@ class Consumer extends Component {
 			
 			},
 		});
+	};
+	
+	// 删除
+	deletePopover =(record) => {
+		let deleteWarning = this.deleteWarning;
+		let confirmPopover = this.confirmPopover;
+		if(record.release_mode === '直接发放'){
+			confirmPopover(deleteCoupons,'删除',record.coupon_id)
+		}  else {
+			if(record.state === 1){
+				deleteWarning()
+			} else {
+				confirmPopover(deleteCoupons,'删除',record.coupon_id)
+			}
+		}
+		
 	};
 	
 	// 二维码
@@ -304,6 +382,7 @@ class Consumer extends Component {
 		const pickUpDetails = {
 			visible:this.state.pickUpDetailsVisible,
 			onCancel:this.hidePickUpDetail,
+			couponId:this.state.couponId
 		};
 		const promotionCodeProps = {
 			visible:this.state.promotionCodeVisible,
@@ -365,7 +444,6 @@ class Consumer extends Component {
 						api={this.state.api}
 						ref={this.child}
 						params={this.state.paginationParams}
-						id={this.state.id}
 						valChange={this.paginationChange}
 					/>
 				</div>

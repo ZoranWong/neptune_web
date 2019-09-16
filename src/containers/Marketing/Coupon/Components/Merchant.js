@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom'
 import IconFont from "../../../../utils/IconFont";
 import SearchInput from "../../../../components/SearchInput/SearchInput";
-import {Button, Table,Modal} from "antd";
+import {Button, Table, Modal, message} from "antd";
 import '../css/consumer.sass'
 import {user_values} from "../../../../utils/user_fields";
 import CustomPagination from "../../../../components/Layout/Pagination";
@@ -10,7 +10,7 @@ import {searchJson} from "../../../../utils/dataStorage";
 import AdvancedFilterComponent from "../../../Order/Components/AdvancedFilterComponent";
 import CustomItem from "../../../../components/CustomItems/CustomItems";
 import PickUpDetails from "../Modal/PickUpDetails";
-import {coupons} from "../../../../api/marketing/coupon";
+import {coupons, deleteCoupons, onShelvesCoupons} from "../../../../api/marketing/coupon";
 
 class Merchant extends Component {
 	constructor(props) {
@@ -58,7 +58,20 @@ class Merchant extends Component {
 			},
 			{
 				title: '状态',
-				dataIndex: 'status',
+				dataIndex: 'state_desc',
+				render:(text,record)=>{
+					switch (record.state) {
+						case 0:
+							text = '未发送';
+							break;
+						case 2:
+							text = '已发送';
+							break;
+						default:
+							text = ''
+					}
+					return text;
+				}
 			},
 			{
 				title: '操作',
@@ -69,14 +82,12 @@ class Merchant extends Component {
 							onClick={()=>this.showPickUpDetail(record)}
 						>领取详情
 						</span>
+						{
+							this.renderStatus(record)
+						}
 						<span
 							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
-							onClick={()=>this.confirmPopover('','下架')}
-						>下架
-						</span>
-						<span
-							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
-							onClick={()=>this.deletePopover(record)}
+							onClick={()=>this.confirmPopover(deleteCoupons,'删除',record.coupon_id)}
 						>删除
 						</span>
 					</div>
@@ -95,6 +106,7 @@ class Merchant extends Component {
 			columns:columns,
 			pickUpDetailsVisible:false,   // 领取详情
 		};
+		this.child = React.createRef();
 	}
 	
 	componentWillMount() {
@@ -110,8 +122,36 @@ class Merchant extends Component {
 				obj_type:'MERCHANT'
 			}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
+	};
+	
+	// 根据状态值来获取对应的按钮
+	renderStatus = (record) =>{
+		let confirmPopover = this.confirmPopover;
+		let state;
+		switch (record.state) {
+			case 0 :
+				state = <span
+					style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
+					onClick={()=>confirmPopover(onShelvesCoupons,'发送',record.coupon_id)}
+				>
+				发送
+			</span>;
+				break;
+			// case 1:
+			// 	state = <span
+			// 		style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
+			// 		onClick={()=>confirmPopover('','删除')}
+			// 	>
+			// 	删除
+			// </span>;
+			// 	break;
+			default:
+				state = ''
+		}
+		
+		return state;
 	};
 	
 	// 头部搜索框
@@ -186,7 +226,7 @@ class Merchant extends Component {
 	};
 	
 	// 上架/下架
-	confirmPopover =(fn,keyWord) => {
+	confirmPopover =(fn,keyWord,id) => {
 		let refresh = this.refresh;
 		let confirmModal = Modal.confirm({
 			title: (
@@ -216,10 +256,10 @@ class Merchant extends Component {
 				size:'small'
 			},
 			onOk() {
-				// fn({order_ids:checkedAry}).then(r=>{
-				// 	message.success(`${keyWord}订单成功！`);
-				// 	refresh('wait_platform_verify')
-				// });
+				fn({},id).then(r=>{
+					message.success(`${keyWord}成功！`);
+					refresh()
+				});
 				
 			},
 			onCancel() {
@@ -228,47 +268,6 @@ class Merchant extends Component {
 		});
 	};
 	
-	// 删除
-	deletePopover =(record) => {
-		let refresh = this.refresh;
-		let confirmModal = Modal.confirm({
-			title: (
-				<div className= 'u_confirm_header'>
-					提示
-					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
-						confirmModal.destroy()
-					}}>&#xe82a;</i>
-				</div>
-			),
-			icon:null,
-			width:'280px',
-			closable:true,
-			centered:true,
-			maskClosable:true,
-			content: (
-				<div className="U_confirm">
-					确定删除该优惠券么？
-				</div>
-			),
-			cancelText: '取消',
-			okText:'确定',
-			okButtonProps: {
-				size:'small'
-			},
-			cancelButtonProps:{
-				size:'small'
-			},
-			onOk() {
-				// fn({order_ids:checkedAry}).then(r=>{
-				// 	message.success(`${keyWord}订单成功！`);
-				// 	refresh('wait_platform_verify')
-				// });
-			},
-			onCancel() {
-			
-			},
-		});
-	};
 	
 	render() {
 		const pickUpDetails = {

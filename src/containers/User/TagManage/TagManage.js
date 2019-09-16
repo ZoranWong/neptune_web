@@ -278,7 +278,6 @@ class TagManage extends React.Component{
 	showConfirm =(key) => {
 		let refresh = this.refresh;
 		let showError = this.showAjaxError;
-		console.log(confirm);
 		let confirmModal = confirm({
 			title: (
 				<div className= 'u_confirm_header'>
