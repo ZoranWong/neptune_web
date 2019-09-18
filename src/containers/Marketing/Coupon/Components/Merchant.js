@@ -208,7 +208,6 @@ class Merchant extends Component {
 	
 	// 分页器改变值
 	paginationChange = (list) =>{
-		console.log(list);
 		this.setState({data:list})
 	};
 	

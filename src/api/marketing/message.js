@@ -43,3 +43,39 @@ export function disableWeChat(params,templateId) {
 		data: params
 	})
 }
+
+// 新建小程序模板消息定制
+export function customWeChatMessage(params,templateId) {
+	return request({
+		url: `/api/backend/wechat/mp/template_messages/${templateId}/custom/create`,
+		method: 'post',
+		data: params
+	})
+}
+
+// 更新定制微信小程序模板，参数及内容同创建
+export function updateWeChatMessage(params,parentTemplateId,childTemplateId) {
+	return request({
+		url: `/api/backend/wechat/mp/template_messages/${parentTemplateId}/custom/${childTemplateId}`,
+		method: 'put',
+		data: params
+	})
+}
+
+//某一模板消息下的自定义模板消息列表
+export function weChatMessageList(params,templateId) {
+	return request({
+		url: `/api/backend/wechat/mp/template_messages/${templateId}/custom/list`,
+		method: 'get',
+		params: params
+	})
+}
+
+// 删除某一微信小程序自定义模版消息
+export function deleteChatMessageList(params,parentTemplateId,childTemplateId) {
+	return request({
+		url: `/api/backend/wechat/mp/template_messages/${parentTemplateId}/custom/${childTemplateId}`,
+		method: 'delete',
+		params: params
+	})
+}

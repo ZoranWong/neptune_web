@@ -1,19 +1,19 @@
 import React, {Component, Fragment} from 'react';
 import '../css/customMessage.sass'
-import {withRouter} from 'react-router-dom'
 import {Collapse, Icon, Input , Button ,message} from 'antd';
 import ReactColor from "../../../../components/ReactColor/ReactColor";
-import {customWeChatMessage,weChatMessageList,deleteChatMessageList} from "../../../../api/marketing/message";
+import {updateWeChatMessage,weChatMessageList,deleteChatMessageList} from "../../../../api/marketing/message";
 import IconFont from "../../../../utils/IconFont";
 
 const { Panel } = Collapse;
-class CustomWeChatMessage extends Component {
+class EditWeChatMessage extends Component {
 	constructor(props) {
 		super(props);
 		this.child = React.createRef();
 		this.state = {
 			item: props.location.state.item,
-			data:[],
+			id:props.location.state.listId,
+			data:[]
 		}
 	}
 	
@@ -22,7 +22,7 @@ class CustomWeChatMessage extends Component {
 	}
 	
 	refresh = () =>{
-		weChatMessageList({limit:10,page:1},this.props.location.state.item.id).then(r=>{
+		weChatMessageList({limit:10,page:1},this.state.id).then(r=>{
 			this.setState({data:r.data})
 		}).catch(_=>{})
 	};
@@ -36,9 +36,9 @@ class CustomWeChatMessage extends Component {
 			data.color = item.color || '#666';
 			content.push(data)
 		});
-		customWeChatMessage({content},this.state.item.id).then(r=>{
+		updateWeChatMessage({content},this.state.id,this.state.item.id).then(r=>{
 			message.success(r.message);
-			this.refresh()
+			this.refresh();
 		}).catch(_=>{})
 	};
 	
@@ -62,10 +62,6 @@ class CustomWeChatMessage extends Component {
 		this.setState({item})
 	};
 	
-	editMessage = (item) =>{
-		this.props.history.push({pathname:'/marketing/editWeChatMessage',state:{item,listId:this.props.location.state.item.id}})
-	};
-	
 	//鼠标移入 显示删除
 	show = (item) => {
 		item.showDelete = true;
@@ -80,7 +76,7 @@ class CustomWeChatMessage extends Component {
 	
 	// 删除消息
 	delete = (item) =>{
-		deleteChatMessageList({},this.props.location.state.item.id,item.id).then(r=>{
+		deleteChatMessageList({},this.state.id,item.id).then(r=>{
 			message.success(r.message);
 			this.refresh();
 		}).catch(_=>{})
@@ -97,7 +93,7 @@ class CustomWeChatMessage extends Component {
 							<h4>{item.title}</h4>
 							<ul>
 								{
-									item.items.map(i=>(<li key={i.key}>
+									item.items.map((i)=>(<li key={i.key}>
 										<span className="key">{i.key}</span>
 										<span className="value" style={{color:i.color || '#666'}}>{i.value}</span>
 									</li>))
@@ -113,15 +109,15 @@ class CustomWeChatMessage extends Component {
 						<h2>配置</h2>
 						<ul>
 							{
-								item.items.map(i=>(<li key={i.key}>
+								item.items.map((i)=>(<li key={i.key}>
 									<span>{i.key}</span>
 									<Input value={i.value} onChange={e=>this.valueChange(i,e)} />
-									<ReactColor ref={this.child} colorChange={(color)=>this.colorChange(i,color)} />
+									<ReactColor defaultColor={i.color} ref={this.child} colorChange={(color)=>this.colorChange(i,color)} />
 								</li>))
 							}
 						</ul>
 						<div className="btnBox">
-							<Button size="small" type="primary" onClick={this.submit}>立即创建</Button>
+							<Button size="small" type="primary" onClick={this.submit}>立即更新</Button>
 						</div>
 					
 					</div>
@@ -154,12 +150,10 @@ class CustomWeChatMessage extends Component {
 					{
 						data.map(item=>(
 							<div className="m_list_item">
-								<div className="m_ul"
-									 onMouseEnter={()=>this.show(item)}
-									 onMouseLeave={()=>this.hide(item)}
-								>
+								<div className="m_ul" onMouseEnter={()=>this.show(item)}
+									 onMouseLeave={()=>this.hide(item)}>
 									<h4>{item.title}</h4>
-									<ul onClick={()=>this.editMessage(item)}>
+									<ul>
 										{
 											item.items.map((i)=>(<li key={i.key}>
 												<span className="key">{i.key}</span>
@@ -167,7 +161,7 @@ class CustomWeChatMessage extends Component {
 											</li>))
 										}
 									</ul>
-									<p onClick={()=>this.editMessage(item)}>
+									<p>
 										<span>查看详情</span>
 										<Icon type="right" />
 									</p>
@@ -185,4 +179,4 @@ class CustomWeChatMessage extends Component {
 	}
 }
 
-export default withRouter(CustomWeChatMessage);
+export default EditWeChatMessage;

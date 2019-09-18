@@ -69,6 +69,7 @@ import IncomeDetails from "../containers/Finance/IncomeDetails/IncomeDetails";
 import RefundApplication from "../containers/Finance/RefundDetail/RefundApplication/RefundApplication";
 import WithdrawApplication from "../containers/Finance/WithdrawDetails/WithdrawApplication/WithdrawApplication";
 import CustomWeChatMessage from "../containers/Marketing/Message/CustomWeChatMessage/CustomWeChatMessage";
+import EditWeChatMessage from "../containers/Marketing/Message/EditWeChatMessage/EditWeChatMessage";
 
 
 
@@ -143,6 +144,7 @@ const Routes = () =>(
 		<Route exact={true} path="/marketing/storeRecord" render={props => onEnter(StoreRecord, props)} />
 		<Route exact={true} path="/marketing/sendOutRecord" render={props => onEnter(SendOutRecord, props)} />
 		<Route exact={true} path="/marketing/customWeChatMessage" render={props => onEnter(CustomWeChatMessage, props)} />
+		<Route exact={true} path="/marketing/editWeChatMessage" render={props => onEnter(EditWeChatMessage, props)} />
 		
 		{/*店铺*/}
 		<Route exact={true} path="/shops" render={props => onEnter(ShopManage, props)} />

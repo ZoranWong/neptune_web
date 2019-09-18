@@ -6,7 +6,7 @@ export default class ReactColor extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			color:'#000',
+			color: props.defaultColor || '#666',
 			displayColorPicker: "none",
 		};
 	}
@@ -30,8 +30,8 @@ export default class ReactColor extends React.Component {
 	};
 	handleChange = (value)=>{
 		let color = value.hex;
-		this.setState({color})
-		
+		this.setState({color});
+		this.props.colorChange(color);
 	};
 	render() {
 		let {color,displayColorPicker} = this.state;

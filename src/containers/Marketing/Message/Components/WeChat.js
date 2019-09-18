@@ -19,8 +19,8 @@ class WeChat extends Component {
 		this.timer = null;
 	}
 	
-	customMessage = () =>{
-		this.props.history.push({pathname:'/marketing/customWeChatMessage'})
+	customMessage = (item) =>{
+		this.props.history.push({pathname:'/marketing/customWeChatMessage',state:{item}})
 	};
 	
 	// 分页器改变值
@@ -92,7 +92,7 @@ class WeChat extends Component {
 									<h3>{item.title}</h3>
 									<Switch defaultChecked={item.is_open} onChange={(e)=>this.switchChange(item,e)} />
 								</div>
-								<div className="ulBody" onClick={this.customMessage}>
+								<div className="ulBody" onClick={()=>this.customMessage(item)}>
 									<h4>{item.inner_title}</h4>
 									<ul>
 										{
