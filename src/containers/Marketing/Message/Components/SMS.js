@@ -1,27 +1,22 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom'
-import {Button, Switch, Table} from "antd";
+import {Button, Switch, Table, message, Popover} from "antd";
 import IconFont from "../../../../utils/IconFont";
 import '../css/sms.sass'
 import CustomPagination from "../../../../components/Layout/Pagination";
 import NewModule from "../Modal/NewModule";
+import {SMSList,enableSMS,disableSMS} from "../../../../api/marketing/message";
+import {searchJson} from "../../../../utils/dataStorage";
+
 class Sms extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			role:'consumer',
-			data:[
-				{
-					name:'1',
-					content:'1111111111111111111111111111111111111111111111111111111111',
-					type:'2',
-					spec:'3'
-				}
-			],
-			api:'',
+			role:'USER',
+			data:[],
+			api:SMSList,
 			paginationParams:{
-				logic_conditions:[],
-				search:'',
+				searchJson:searchJson({obj_type:'USER'})
 			},
 			visible:false
 		};
@@ -34,11 +29,20 @@ class Sms extends Component {
 		this.setState({data:list})
 	};
 	
-	
-	changeRole = role =>{
-		this.setState({role})
+	refresh = () =>{
+		this.setState({paginationParams:{
+				searchJson:searchJson({obj_type:this.state.role})
+			}},()=>{
+			this.child.current.pagination(this.child.current.state.current)
+		})
 	};
 	
+	changeRole = role =>{
+		this.setState({role,paginationParams:{...this.state.paginationParams,obj_type: role}},()=>{
+			this.refresh()
+		})
+		
+	};
 	
 	goRecord = () =>{
 		this.props.history.push({pathname:"/marketing/sendOutRecord"})
@@ -50,6 +54,15 @@ class Sms extends Component {
 	};
 	hideVisible = () =>{
 		this.setState({visible:false})
+	};
+	
+	// 开启/关闭开关 // 开关
+	switchChange = (item,e) => {
+		let api = e? enableSMS:disableSMS;
+		api({},item.id).then(r=>{
+			message.success(r.message);
+			this.refresh()
+		}).catch(_=>{})
 	};
 	
 	render() {
@@ -65,13 +78,19 @@ class Sms extends Component {
 				render: (text, record) => (
 					<span className="m_message_box">
 						<span  className="m_content">{text}</span>
-						<IconFont type="icon-eye-fill"/>
+						<div className="popopver">
+							<Popover content={text} placement="bottom" trigger="hover">
+								<IconFont type="icon-eye-fill"/>
+							</Popover>
+						</div>
 					</span>
 				)
 			},
 			{
 				title: '发送方式',
-				dataIndex: 'type',
+				render:(text,record) =>{
+					return record.is_auto_send? '自动':'手动'
+				}
 			},
 			{
 				title: '发送规则',
@@ -79,13 +98,16 @@ class Sms extends Component {
 			},
 			{
 				title: '状态',
-				render: (text,record) =>
-					<Switch />
+				render: (text,record) =>{
+					return <Switch checked={record.is_open} onChange={(e)=>this.switchChange(record,e)} />
+				}
+				
 			},
 		];
 		const newModuleProps = {
 			visible:this.state.visible,
-			onCancel:this.hideVisible
+			onCancel:this.hideVisible,
+			refresh:this.refresh
 		};
 		
 		return (
@@ -96,8 +118,8 @@ class Sms extends Component {
 				<div className="header">
 					<div className="left">
 						<p>
-							<span className={role === 'consumer'?'active':''} onClick={()=>this.changeRole('consumer')}>用户短信魔板</span>
-							<span className={role === 'merchant'?'active':''} onClick={()=>this.changeRole('merchant')}>商家短信模板</span>
+							<span className={role === 'USER'?'active':''} onClick={()=>this.changeRole('USER')}>用户短信魔板</span>
+							<span className={role === 'MERCHANT'?'active':''} onClick={()=>this.changeRole('MERCHANT')}>商家短信模板</span>
 						</p>
 						<h5>短信剩余条数10000条</h5>
 					</div>

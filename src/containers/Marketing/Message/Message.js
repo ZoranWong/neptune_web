@@ -13,7 +13,7 @@ class Message extends Component {
 	render() {
 		return (
 			<div className="m_message">
-				<Tabs defaultActiveKey="1" onChange={this.callback}>
+				<Tabs defaultActiveKey="2" onChange={this.callback}>
 					<TabPane tab="微信消息" key="1">
 						<WeChat />
 					</TabPane>

@@ -1,4 +1,9 @@
 import request from '../../utils/request.js'
+
+/*
+* 微信消息模板
+* */
+
 // 触发小程序模版消息同步
 export function syncWeChat(params) {
 	return request({
@@ -79,3 +84,83 @@ export function deleteChatMessageList(params,parentTemplateId,childTemplateId) {
 		params: params
 	})
 }
+
+/*
+* 短信模板
+* */
+
+// 启用模板
+export function enableSMS(params,templateId) {
+	return request({
+		url: `/api/backend/sms/templates/${templateId}/enable`,
+		method: 'put',
+		data: params
+	})
+}
+
+// 禁用模板
+export function disableSMS(params,templateId) {
+	return request({
+		url: `/api/backend/sms/templates/${templateId}/disable`,
+		method: 'put',
+		data: params
+	})
+}
+
+// 删除模板
+export function deleteSMS(params,templateId) {
+	return request({
+		url: `/api/backend/sms/templates/${templateId}`,
+		method: 'delete',
+		params: params
+	})
+}
+
+// 查看短信内容
+export function SMSContent(params,templateId) {
+	return request({
+		url: `/api/backend/sms/templates/${templateId}`,
+		method: 'get',
+		params: params
+	})
+}
+
+// 新建模板
+export function createSMS(params,templateId) {
+	return request({
+		url: '/api/backend/sms/templates',
+		method: 'post',
+		data: params
+	})
+}
+
+// 短信模板列表/api/backend/sms/templates
+export function SMSList(params) {
+	return request({
+		url: '/api/backend/sms/templates',
+		method: 'get',
+		params: params
+	})
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

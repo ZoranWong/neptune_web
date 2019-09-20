@@ -12,11 +12,15 @@ class WeChat extends Component {
 			data:[],
 			loading: false,
 			btnText:'同步小程序微信模板消息库',
-			api:'',
+			api:weChatList,
 			checked:false
 		};
 		this.child = React.createRef();
 		this.timer = null;
+	}
+	
+	componentDidMount() {
+		this.refresh()
 	}
 	
 	customMessage = (item) =>{
@@ -39,7 +43,6 @@ class WeChat extends Component {
 				this.setState({
 					btnText:r.message,
 					loading:false,
-					api:weChatList
 				});
 				this.refresh();
 				window.setTimeout(()=>{

@@ -22,7 +22,7 @@ class CustomWeChatMessage extends Component {
 	}
 	
 	refresh = () =>{
-		weChatMessageList({limit:10,page:1},this.props.location.state.item.id).then(r=>{
+		weChatMessageList({limit:100,page:1},this.props.location.state.item.id).then(r=>{
 			this.setState({data:r.data})
 		}).catch(_=>{})
 	};
@@ -68,14 +68,24 @@ class CustomWeChatMessage extends Component {
 	
 	//鼠标移入 显示删除
 	show = (item) => {
-		item.showDelete = true;
-		this.setState({item})
+		let data = this.state.data;
+		data.forEach(i=>{
+			if(i.id === item.id){
+				i.showDelete = true
+			}
+		});
+		this.setState({data})
 	};
 	
 	// 鼠标划出 隐藏删除
 	hide = (item) => {
-		item.showDelete = false;
-		this.setState({item})
+		let data = this.state.data;
+		data.forEach(i=>{
+			if(i.id === item.id){
+				i.showDelete = false
+			}
+		});
+		this.setState({data})
 	};
 	
 	// 删除消息
