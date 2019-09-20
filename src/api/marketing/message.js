@@ -143,6 +143,15 @@ export function SMSList(params) {
 	})
 }
 
+// 短信发送记录
+export function SMSSendLog(params) {
+	return request({
+		url: '/api/backend/sms/send/logs',
+		method: 'get',
+		params: params
+	})
+}
+
 
 
 

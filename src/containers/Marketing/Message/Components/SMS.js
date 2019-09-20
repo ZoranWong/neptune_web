@@ -105,6 +105,12 @@ class Sms extends Component {
 				dataIndex: 'state',
 			},
 			{
+				title: '失败原因',
+				render:(text,record) =>{
+					return record.rejected_reason? record.rejected_reason:'无'
+				}
+			},
+			{
 				title: '操作',
 				render: (text,record) =>{
 					return <Switch checked={record.is_open} onChange={(e)=>this.switchChange(record,e)} />

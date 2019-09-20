@@ -1,41 +1,70 @@
 import React, {Component} from 'react';
-import {Button, Input, LocaleProvider, Select, DatePicker, Table, Switch} from "antd";
+import {Button, Input, LocaleProvider, Select, DatePicker, Table, Popover} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import './css/index.sass'
 import CustomPagination from "../../../../components/Layout/Pagination";
+import {SMSSendLog} from "../../../../api/marketing/message";
+import {searchJson} from "../../../../utils/dataStorage";
+import IconFont from "../../../../utils/IconFont";
+
 const {RangePicker} = DatePicker;
 class SendOutRecord extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data:[
-				{
-					name:'1',
-					a:'11',
-					b:'22',
-					c:'33',
-					cName:'111111',
-					mobile:'213'
-				}
-			]
+			data:[],
+			api:SMSSendLog,
+			paginationParams:{
+				search:''
+			},
 		}
 	}
+	
+	componentDidMount() {
+	
+	}
+	
 	
 	// 选择搜索日期
 	onDateChange = (date,dateString) =>{
 		console.log(date, dateString);
 	};
 	
+	// 分页器改变值
+	paginationChange = (list) =>{
+		this.setState({data:list})
+	};
+	
+	// 筛选
+	search = () =>{
+		this.setState({
+			api:SMSSendLog,
+			paginationParams:{...this.state.paginationParams,
+				searchJson:searchJson({search:''})}
+		},()=>{
+			this.child.current.pagination(1)
+		});
+	};
 	
 	render() {
 		const columns = [
 			{
 				title: '发送时间',
-				dataIndex: 'name',
+				dataIndex: 'send_at',
 			},
 			{
 				title: '短信内容',
-				dataIndex: 'a',
+				dataIndex: 'template_content',
+				render: (text, record) => (
+					<span className="m_message_box">
+						<span  className="m_content">{text}</span>
+						<div className="popopver">
+							<Popover content={text} placement="bottom" trigger="hover">
+								<IconFont type="icon-eye-fill"/>
+							</Popover>
+						</div>
+					</span>
+				)
 			},
 			{
 				title: '发送类型',
@@ -43,23 +72,29 @@ class SendOutRecord extends Component {
 			},
 			{
 				title: '发送方式',
-				dataIndex: 'c',
+				render:(text,record) =>{
+					return record.is_auto_send? '自动':'手动'
+				}
 			},
 			{
 				title:'接收手机',
-				dataIndex:'cName'
+				dataIndex:'phone_number'
 			},
 			{
 				title:'模板名称',
-				dataIndex:'mobile'
+				dataIndex:'template_name'
 			},
 			{
 				title:'发送结果',
-				dataIndex:'mobile'
+				dataIndex:'send_state'
+			},
+			{
+				title:'失败原因',
+				render:(text,record)=>{
+					return record.failed_reason || '无'
+				}
 			},
 		];
-		
-		
 		
 		
 		return (
@@ -129,6 +164,7 @@ class SendOutRecord extends Component {
 							<Button
 								size="small"
 								type="primary"
+								onClick={this.search}
 							>筛选
 							</Button>
 							<Button size="small">导出表格</Button>
@@ -153,7 +189,6 @@ class SendOutRecord extends Component {
 							api={this.state.api}
 							ref={this.child}
 							params={this.state.paginationParams}
-							id={this.state.id}
 							valChange={this.paginationChange}
 						/>
 					</div>
