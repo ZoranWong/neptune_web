@@ -73,6 +73,10 @@ class Sms extends Component {
 				dataIndex: 'name',
 			},
 			{
+				title: '模板类型',
+				dataIndex: 'biz_type',
+			},
+			{
 				title: '短信内容',
 				dataIndex: 'content',
 				render: (text, record) => (
@@ -98,6 +102,10 @@ class Sms extends Component {
 			},
 			{
 				title: '状态',
+				dataIndex: 'state',
+			},
+			{
+				title: '操作',
 				render: (text,record) =>{
 					return <Switch checked={record.is_open} onChange={(e)=>this.switchChange(record,e)} />
 				}
