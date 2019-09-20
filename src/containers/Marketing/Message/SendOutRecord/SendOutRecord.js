@@ -68,7 +68,9 @@ class SendOutRecord extends Component {
 			},
 			{
 				title: '发送类型',
-				dataIndex: 'b',
+				render:(text,record)=>{
+					return record.obj_type === 'USER'?'用户':'商家'
+				}
 			},
 			{
 				title: '发送方式',
