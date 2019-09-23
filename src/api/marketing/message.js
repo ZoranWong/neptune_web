@@ -152,6 +152,14 @@ export function SMSSendLog(params) {
 	})
 }
 
+// 短信发送数据
+export function SMSStatistics(params) {
+	return request({
+		url: '/api/backend/sms/send/statistics',
+		method: 'get',
+		params: params
+	})
+}
 
 
 

@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
-import {Button, Input, LocaleProvider, Select, DatePicker, Table, Popover} from "antd";
+import {Button, Input, LocaleProvider, Select, DatePicker, Table, Popover, message} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import './css/index.sass'
+import moment from 'moment';
 import CustomPagination from "../../../../components/Layout/Pagination";
-import {SMSSendLog} from "../../../../api/marketing/message";
+import {SMSSendLog,SMSStatistics} from "../../../../api/marketing/message";
 import {searchJson} from "../../../../utils/dataStorage";
 import IconFont from "../../../../utils/IconFont";
+import {getPreMonth,getCurrentMonth,getBeforeDate} from "../../../../utils/dataStorage";
 
 const {RangePicker} = DatePicker;
 class SendOutRecord extends Component {
@@ -17,13 +19,72 @@ class SendOutRecord extends Component {
 			paginationParams:{
 				search:''
 			},
+			time:'lastMonth',
+			total:0,
+			success:0,
+			failed:0,
+			startTime:'',
+			endTime:''
 		}
 	}
 	
 	componentDidMount() {
-	
+		this.getPreMonthData();
+		console.log(getBeforeDate(-30));
 	}
 	
+	//获取上月数据
+	getPreMonthData = () =>{
+		SMSStatistics({
+			start_date:getPreMonth()[0],
+			end_date:getPreMonth()[1]
+		}).then(r=>{
+			this.handleData(r.data)
+		}).catch(_=>{})
+	};
+	// 获取本月数据
+	getCurMonthData = () =>{
+		SMSStatistics({
+			start_date:getCurrentMonth()[0],
+			end_date:getCurrentMonth()[1]
+		}).then(r=>{
+			this.handleData(r.data)
+		}).catch(_=>{})
+	};
+	
+	// 自定义数据时间
+	getCustomMonthData = () =>{
+		let start = this.state.startTime;
+		let end = this.state.endTime;
+		if(!start){
+			message.error('请选择查询起始时间');
+			return;
+		}
+		if(!end){
+			message.error('请选择查询结束时间');
+			return;
+		}
+		SMSStatistics({
+			start_date:start,
+			end_date:end
+		}).then(r=>{
+			this.handleData(r.data)
+		}).catch(_=>{})
+	};
+	
+	// 处理获取的短信数据 转化为总数
+	handleData = ary =>{
+		if(!ary instanceof Array) return;
+		let total,success,failed ;
+		total = success = failed = 0;
+		ary.forEach(item=>{
+			console.log(item);
+			total += item.send_total;
+			success += item.send_total_success;
+			failed += item.send_total_fail;
+		});
+		this.setState({total,success,failed})
+	};
 	
 	// 选择搜索日期
 	onDateChange = (date,dateString) =>{
@@ -44,6 +105,36 @@ class SendOutRecord extends Component {
 		},()=>{
 			this.child.current.pagination(1)
 		});
+	};
+	
+	// 选择时间
+	selectTime = key =>{
+		this.setState({time:key});
+		switch (key) {
+			case 'custom':
+				break;
+			case 'thisMonth':
+				this.getCurMonthData();
+				break;
+			default :
+				this.getPreMonthData()
+		}
+	};
+	
+	// 选择起始时间
+	onStartChange = (date,dateString) =>{
+		this.setState({startTime:dateString});
+	};
+	onEndChange = (date,dateString) =>{
+		this.setState({endTime:dateString},()=>{
+			this.getCustomMonthData()
+		});
+	};
+	
+	// 限制结束时间选择
+	disableTime = current =>{
+		let start = this.state.startTime;
+		return  current < moment(start).subtract(30, 'days') || current > moment(start).add(30, 'days');
 	};
 	
 	render() {
@@ -98,6 +189,12 @@ class SendOutRecord extends Component {
 			},
 		];
 		
+		const times = [
+			{key:'lastMonth',value:'上月'},
+			{key:'thisMonth',value:'本月'},
+			{key:'custom',value:'自定义',showTime:true},
+		];
+		const {time} = this.state;
 		
 		return (
 			<div className="sendOutRecord">
@@ -107,20 +204,51 @@ class SendOutRecord extends Component {
 						this.props.history.go(-1)
 					}}>返回上一页</Button>
 				</div>
-				<ul className="datas">
-					<li>
-						发送总数
-						<span>1000</span>
-					</li>
-					<li>
-						发送成功
-						<span>1000</span>
-					</li>
-					<li>
-						发送失败
-						<span>300</span>
-					</li>
-				</ul>
+				<div className="body">
+					<ul className="body_top">
+						{
+							times.map(item=>(
+								<li
+									key={item.key}
+									className={item.key === time?'active':''}
+									onClick={()=>this.selectTime(item.key)}
+								>
+									{item.value}
+								</li>
+							))
+						}
+						<div style={{marginLeft:'20px'}}>
+							{
+								time === 'custom' && <LocaleProvider locale={zh_CN}>
+									<div>
+										<DatePicker onChange={this.onStartChange} />
+										---
+										<DatePicker
+											onChange={this.onEndChange}
+											disabledDate={this.disableTime}
+											onOpenChange={this.open}/>
+										<span className="notice">* 筛选仅支持筛选一个月范围以内哦</span>
+									</div>
+								</LocaleProvider>
+							}
+						</div>
+					</ul>
+					<ul className="datas">
+						<li>
+							发送总数
+							<span>{this.state.total}</span>
+						</li>
+						<li>
+							发送成功
+							<span>{this.state.success}</span>
+						</li>
+						<li>
+							发送失败
+							<span>{this.state.failed}</span>
+						</li>
+					</ul>
+				</div>
+				
 				<div className="chartContent">
 					<ul className="filter">
 						<li className="needMargin">

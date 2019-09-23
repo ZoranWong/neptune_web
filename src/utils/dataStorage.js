@@ -209,3 +209,61 @@ export function unique(jsonArr,jsonArr2){     // 对象去重方法
     return jsonArr
 }
 
+
+/*
+* 获取本月
+* */
+export function getBeforeDate(n){//n为你要传入的参数，当前为0，前一天为-1，后一天为1
+    let date = new Date() ;
+    let year,month,day ;
+    date.setDate(date.getDate()+n);
+    year = date.getFullYear();
+    month = date.getMonth()+1;
+    day = date.getDate();
+    let s = year + '-' + ( month < 10 ? ( '0' + month ) : month ) + '-' + ( day < 10 ? ( '0' + day ) : day);
+    return s
+}
+function getNowDate(){//n为你要传入的参数，当前为0，前一天为-1，后一天为1
+    let date = new Date() ;
+    let year,month,day ;
+    date.setDate(date.getDate());
+    year = date.getFullYear();
+    month = date.getMonth()+1;
+    day = date.getDate();
+    let s = year + '-' + ( month < 10 ? ( '0' + month ) : month ) + '-' + ( day < 10 ? ( '0' + day ) : day);
+    return s
+}
+
+/*
+* 获取上月
+* */
+
+export  function getPreMonth() {
+    var firstdate = new Date(new Date().getFullYear(), new Date().getMonth()-1, 1);
+    
+    var date = new Date();
+    var day = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
+    var enddate = new Date(new Date().getFullYear(), new Date().getMonth()-1, day);
+    
+    return [timeFormer(firstdate),timeFormer(enddate)]
+}
+
+// 处理日期数据
+function timeFormer(first) {
+    let year,month,day ;
+    first.setDate(first.getDate());
+    year = first.getFullYear();
+    month = first.getMonth()+1;
+    day = first.getDate();
+    let f = year + '-' + ( month < 10 ? ( '0' + month ) : month ) + '-' + ( day < 10 ? ( '0' + day ) : day);
+    return f
+}
+
+
+
+//获取当月
+export function getCurrentMonth() {
+    var day = new Date();
+    day.setDate(1);//本月第一天
+    return [timeFormer(day),getNowDate(0)]
+}
