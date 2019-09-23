@@ -53,6 +53,8 @@ export default class InStockNew extends React.Component{
 			let info = {};
 			if(item.productEntity) {
 				info['barcode'] = item.productEntity.data.barcode;
+			}else {
+				info['barcode'] = item.stocks.data[0].productEntity.data.barcode;
 			}
 			if(!item.quantity){
 				return;
@@ -60,6 +62,7 @@ export default class InStockNew extends React.Component{
 			info['quantity'] = item.quantity;
 			stockAry.push(info)
 		});
+		console.log(stockAry,'0000000');
 		if(stockAry.length < this.state.data.length){
 			message.error('请填写入库数量');
 			return;
