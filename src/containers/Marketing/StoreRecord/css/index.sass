@@ -11,6 +11,35 @@
 		border-bottom: 1px solid #e9e9e9
 		background: #fff
 		margin: 0
+	.body
+		background: #FFFFFF
+		margin-top: 10px
+	.body_top
+		width: 100%
+		height: 60px
+		padding: 0 20px
+		display: flex
+		justify-content: flex-start
+		align-items: center
+		border-bottom: 1px solid #e9e9e9
+		.ant-calendar-picker
+			margin: 0 10px
+		.notice
+			font-size: 12px
+			color: #999
+		li
+			height: 28px
+			padding: 0 14px
+			display: flex
+			justify-content: center
+			align-items: center
+			border: 1px solid #e9e9e9
+			cursor: pointer
+			margin-left: -1px
+		.active
+			color: #4f9863
+			border-color: #4f9863
+			z-index: 999
 	.datas
 		margin-top: 10px
 		width: 100%
@@ -45,6 +74,7 @@
 			flex-wrap: wrap
 			background: #F6F7FA
 			padding: 20px
+			position: relative
 			li
 				width: 360px
 				font-size: 12px
@@ -53,7 +83,7 @@
 				display: flex
 				justify-content: flex-end
 				align-items: center
-				position: relative
+				
 				.ant-input
 					width: 300px
 					height: 30px
@@ -64,6 +94,9 @@
 					font-size: 12px
 					color: #ccc
 			.button
+				position: absolute
+				right: -40px
+				bottom: 22px
 				justify-content: flex-start
 				.ant-btn
 					margin-right: 10px
@@ -73,10 +106,9 @@
 			.needMargin
 				height: 30px
 				margin-bottom: 20px
-				.ant-select
-					width: 300px
-					height: 30px
+			.ant-select
+				width: 300px
+				height: 30px
 			.ant-calendar-picker-input
 				height: 30px !important
 			
-				

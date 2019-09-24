@@ -5,28 +5,40 @@ import './css/index.sass'
 import CustomPagination from "../../../components/Layout/Pagination";
 import NewStoreCard from "./Modal/NewStoreCard";
 import PromotionCode from "./Modal/PromotionCode";
+import {storeList,disableStore,enableStore,deleteStore} from "../../../api/marketing/store";
+import {searchJson} from "../../../utils/dataStorage";
+
 class UserStore extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			role:'consumer',    // 角色切换
+			role:'USER',    // 角色切换
 			storeIsOpen:true,   // 是否开启储值功能
 			newVisible:false,   // 新建储值卡弹窗
 			promotionCodeVisible:false,   // 推广码弹窗
-			data:[
-				{
-					name:'1',
-					a:'11',
-					b:'22',
-					c:'33'
-				}
-			]
-		}
+			data:[],
+			api:storeList,
+			paginationParams:{
+				searchJson:searchJson({obj_type:'USER'})
+			},
+		};
+		this.child = React.createRef();
 	}
+	
+	refresh = () =>{
+		this.setState({paginationParams:{
+				searchJson:searchJson({obj_type:this.state.role})
+			}},()=>{
+			this.child.current.pagination(this.child.current.state.current)
+		})
+	};
 	
 	
 	changeRole = role => {
-		this.setState({role})
+		this.setState({role},()=>{
+			this.refresh()
+		});
+		
 	};
 	
 	storeIsOpen = storeIsOpen =>{
@@ -34,7 +46,12 @@ class UserStore extends Component {
 	};
 	
 	onSwitchChange = (record,checked) =>{
-		console.log(`switch to ${checked}`);
+		let api;
+		api = checked? enableStore : disableStore;
+		api({},record.id).then(r=>{
+			message.success(r.message);
+			this.refresh()
+		}).catch(_=>{})
 	};
 	
 	// 新建储值卡
@@ -58,10 +75,48 @@ class UserStore extends Component {
 		this.props.history.push({pathname:"/marketing/storeRecord"})
 	};
 	
+	// 不可删除
+	warningPopover = () => {
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			maskClosable:true,
+			content: (
+				<div className="U_confirm">
+					该储值卡处于开启状态，不可删除，请先禁用该储值卡。
+				</div>
+			),
+			okText:'知道了',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small',
+				style:{display:'none'}
+			},
+			onOk() {
+			
+			},
+			onCancel() {
+			
+			},
+		});
+	};
 	
 	// 删除
-	deletePopover =() => {
+	deletePopover = reocrd => {
 		let refresh = this.refresh;
+		let record = reocrd;
 		let confirmModal = Modal.confirm({
 			title: (
 				<div className= 'u_confirm_header'>
@@ -90,13 +145,21 @@ class UserStore extends Component {
 				size:'small'
 			},
 			onOk() {
-			
+				deleteStore({},record.id).then(r=>{
+					message.success(r.message);
+					refresh();
+				}).catch(_=>{})
 				
 			},
 			onCancel() {
 			
 			},
 		});
+	};
+	
+	// 分页器改变值
+	paginationChange = (list) =>{
+		this.setState({data:list})
 	};
 	
 	render() {
@@ -111,24 +174,26 @@ class UserStore extends Component {
 			},
 			{
 				title: '储值金额',
-				dataIndex: 'a',
+				dataIndex: 'price',
 			},
 			{
 				title: '赠送金额',
-				dataIndex: 'b',
+				dataIndex: 'gift_amount',
 			},
 			{
 				title: '新建时间',
-				dataIndex: 'c',
+				dataIndex: 'created_at',
 			},
 			{
 				title: '操作',
 				render: (text,record) =>
 					<div className="usOperation">
-						<Switch defaultChecked onChange={(e)=>this.onSwitchChange(record,e)} />
+						<Switch checked={record.is_open} onChange={(e)=>this.onSwitchChange(record,e)} />
 						<span
 							style={{'color':'#4F9863','cursor':'pointer'}}
-							onClick={this.deletePopover}
+							onClick={
+								record.is_open ?  this.warningPopover : ()=>this.deletePopover(record)
+							}
 						>删除
 						</span>
 						<span
@@ -142,7 +207,9 @@ class UserStore extends Component {
 		const {role,storeIsOpen} = this.state;
 		const newCardProps = {
 			visible:this.state.newVisible,
-			onCancel:this.hideNewStoreCard
+			onCancel:this.hideNewStoreCard,
+			role,
+			refresh:this.refresh
 		};
 		const promotionCodeProps = {
 			visible:this.state.promotionCodeVisible,
@@ -155,8 +222,8 @@ class UserStore extends Component {
 				<PromotionCode {...promotionCodeProps} />
 				
 				<div className="usHeader">
-					<span className={role === 'consumer'?'active':''} onClick={()=>this.changeRole('consumer')} >消费者</span>
-					<span className={role === 'merchant'?'active':''} onClick={()=>this.changeRole('merchant')}>商户</span>
+					<span className={role === 'USER'?'active':''} onClick={()=>this.changeRole('USER')} >消费者</span>
+					<span className={role === 'MERCHANT'?'active':''} onClick={()=>this.changeRole('MERCHANT')}>商户</span>
 				</div>
 				<div className="usBody">
 					<div className="top">
@@ -188,7 +255,6 @@ class UserStore extends Component {
 							api={this.state.api}
 							ref={this.child}
 							params={this.state.paginationParams}
-							id={this.state.id}
 							valChange={this.paginationChange}
 						/>
 					</div>

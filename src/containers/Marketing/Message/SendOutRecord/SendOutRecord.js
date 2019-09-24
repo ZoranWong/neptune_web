@@ -23,30 +23,45 @@ class SendOutRecord extends Component {
 			total:0,
 			success:0,
 			failed:0,
+			wait:0,
 			startTime:'',
-			endTime:''
-		}
+			endTime:'',
+			searchJson:{
+				template_name:'',
+				template_code:'',
+				obj_type:'',
+				is_auto_send:'',
+				send_at:'',
+				phone_number:'',
+				send_state:-1
+			}
+		};
+		this.child = React.createRef();
 	}
 	
 	componentDidMount() {
 		this.getPreMonthData();
-		console.log(getBeforeDate(-30));
 	}
 	
 	//获取上月数据
 	getPreMonthData = () =>{
 		SMSStatistics({
-			start_date:getPreMonth()[0],
-			end_date:getPreMonth()[1]
+			searchJson:searchJson({
+				start_date:getPreMonth()[0],
+				end_date:getPreMonth()[1]
+			})
 		}).then(r=>{
 			this.handleData(r.data)
 		}).catch(_=>{})
 	};
+	
 	// 获取本月数据
 	getCurMonthData = () =>{
 		SMSStatistics({
-			start_date:getCurrentMonth()[0],
-			end_date:getCurrentMonth()[1]
+			searchJson:searchJson({
+				start_date:getCurrentMonth()[0],
+				end_date:getCurrentMonth()[1]
+			})
 		}).then(r=>{
 			this.handleData(r.data)
 		}).catch(_=>{})
@@ -65,8 +80,10 @@ class SendOutRecord extends Component {
 			return;
 		}
 		SMSStatistics({
-			start_date:start,
-			end_date:end
+			searchJson:searchJson({
+				start_date:start,
+				end_date:end
+			})
 		}).then(r=>{
 			this.handleData(r.data)
 		}).catch(_=>{})
@@ -75,20 +92,20 @@ class SendOutRecord extends Component {
 	// 处理获取的短信数据 转化为总数
 	handleData = ary =>{
 		if(!ary instanceof Array) return;
-		let total,success,failed ;
-		total = success = failed = 0;
+		let total,success,failed,wait ;
+		total = success = failed = wait = 0;
 		ary.forEach(item=>{
-			console.log(item);
 			total += item.send_total;
 			success += item.send_total_success;
 			failed += item.send_total_fail;
+			wait += item.send_total_wait_report
 		});
-		this.setState({total,success,failed})
+		this.setState({total,success,failed,wait})
 	};
 	
 	// 选择搜索日期
 	onDateChange = (date,dateString) =>{
-		console.log(date, dateString);
+		this.setState({searchJson:{...this.state.searchJson,send_at:dateString}})
 	};
 	
 	// 分页器改变值
@@ -101,10 +118,26 @@ class SendOutRecord extends Component {
 		this.setState({
 			api:SMSSendLog,
 			paginationParams:{...this.state.paginationParams,
-				searchJson:searchJson({search:''})}
+				searchJson:searchJson(this.state.searchJson)}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
+	};
+	
+	// 清空筛选条件
+	clear = () =>{
+		let searchJson = {
+			template_name:'',
+			template_code:'',
+			obj_type:'',
+			is_auto_send:'',
+			send_at:'',
+			phone_number:'',
+			send_state:-1
+		};
+		this.setState({searchJson},()=>{
+			this.search()
+		})
 	};
 	
 	// 选择时间
@@ -246,6 +279,10 @@ class SendOutRecord extends Component {
 							发送失败
 							<span>{this.state.failed}</span>
 						</li>
+						<li>
+							等待回执
+							<span>{this.state.wait}</span>
+						</li>
 					</ul>
 				</div>
 				
@@ -253,42 +290,70 @@ class SendOutRecord extends Component {
 					<ul className="filter">
 						<li className="needMargin">
 							模板名称：
-							<Select
+							<Input
+								value={this.state.searchJson.template_name}
 								onChange={(e)=>{
-									this.setState({type:e})
+									this.setState({searchJson:{...this.state.searchJson,template_name:e.target.value}})
 								}}
-								defaultActiveFirstOption={false}
-							>
-								<Select.Option  value="PRODUCE">生产入库</Select.Option>
-								<Select.Option  value="PURCHASE">购买入库</Select.Option>
-								<Select.Option  value="RETURN">退货入库</Select.Option>
-								<Select.Option  value="CHECK">盘点入库</Select.Option>
-							</Select>
+							/>
 						</li>
 						<li className="needMargin">
 							发送时间：
 							<LocaleProvider locale={zh_CN}>
-								<RangePicker
-									onChange={this.onDateChange}
-								/>
+								<DatePicker onChange={this.onDateChange} />
 							</LocaleProvider>
 						
 						</li>
 						<li className="needMargin">
 							发送类型：
-							<Input />
+							<Select
+								value={this.state.searchJson.obj_type}
+								onChange={(e)=>{
+									this.setState({searchJson:{...this.state.searchJson,obj_type:e}})
+								}}
+								defaultActiveFirstOption={false}
+							>
+								<Select.Option  value="USER">用户</Select.Option>
+								<Select.Option  value="MERCHANT">商户</Select.Option>
+							</Select>
 						</li>
 						<li className="needMargin">
 							接收手机：
-							<Input />
+							<Input
+								value={this.state.searchJson.phone_number}
+								onChange={(e)=>{
+									this.setState({searchJson:{...this.state.searchJson,phone_number:e.target.value}})
+								}}
+							/>
 						</li>
 						<li>
 							发送方式：
-							<Input />
+							<Select
+								value={this.state.searchJson.is_auto_send}
+								onChange={(e)=>{
+									this.setState({searchJson:{...this.state.searchJson,is_auto_send:e}})
+								}}
+								defaultActiveFirstOption={false}
+							>
+								<Select.Option  value={true}>自动发送</Select.Option>
+								<Select.Option  value={false}>手动发送</Select.Option>
+							</Select>
 						</li>
 						<li>
 							发送结果：
-							<Input />
+							<Select
+								value={this.state.searchJson.send_state}
+								onChange={(e)=>{
+									this.setState({searchJson:{...this.state.searchJson,send_state:e}})
+								}}
+								defaultActiveFirstOption={false}
+							>
+								<Select.Option  value={-1}>全部</Select.Option>
+								<Select.Option  value={0}>未发送</Select.Option>
+								<Select.Option  value={1}>等待回执</Select.Option>
+								<Select.Option  value={2}>发送失败</Select.Option>
+								<Select.Option  value={3}>发送成功</Select.Option>
+							</Select>
 						</li>
 						<li className="button">
 							<Button
@@ -298,13 +363,13 @@ class SendOutRecord extends Component {
 							>筛选
 							</Button>
 							<Button size="small">导出表格</Button>
-							<span className="clear">清空筛选条件</span>
+							<span className="clear" onClick={this.clear}>清空筛选条件</span>
 						</li>
 					</ul>
 					<div className="chart u_chart">
 						<Table
 							columns={columns}
-							rowKey={record => record.product_id}
+							rowKey={record => record.id}
 							pagination={false}
 							rowClassName={(record, index) => {
 								let className = '';
