@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Tabs} from "antd";
+import {Tabs,Button} from "antd";
 import ConsumerApplications from "./Components/ConsumerApplications";
 import MerchantApplications from "./Components/MerchantApplications";
+import './css/index.sass'
 const {TabPane} = Tabs;
 class RefundApplication extends Component {
 	constructor(props) {
@@ -35,6 +36,11 @@ class RefundApplication extends Component {
 						<MerchantApplications />
 					</TabPane>
 				</Tabs>
+				<Button className="goBack" size="small" onClick={()=>{
+					this.props.history.go(-1)
+				}}>
+					返回上一页
+				</Button>
 			</div>
 		);
 	}

@@ -55,11 +55,11 @@ class ShopBalance extends Component {
 					<ul className="filter">
 						<li className="needMargin">
 							店铺名称：
-							<Input />
+							<Input placeholder="请输入店铺名称" />
 						</li>
 						<li className="needMargin">
 							手机号码：
-							<Input />
+							<Input placeholder="请输入手机号码" />
 						</li>
 						<li className="needMargin">
 							选择时间：
@@ -72,11 +72,11 @@ class ShopBalance extends Component {
 						</li>
 						<li >
 							选择类型：
-							<Input />
+							<Input placeholder='请选择类型（这里是下拉选择框）' />
 						</li>
 						<li>
 							店主姓名：
-							<Input />
+							<Input placeholder="请输入店主姓名" />
 						</li>
 						<li className="button">
 							<Button size="small" 	type="primary">搜索</Button>

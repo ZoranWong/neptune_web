@@ -264,6 +264,7 @@ class StoreRecord extends Component {
 						<li className="needMargin">
 							储值名称：
 							<Input
+								placeholder="请输入储值卡名称"
 								value={this.state.searchJson['depositCard.name']}
 								onChange={(e)=>{
 									this.setState({searchJson:{...this.state.searchJson,'depositCard.name':e.target.value}})
@@ -282,6 +283,7 @@ class StoreRecord extends Component {
 						<li>
 							指定搜索：
 							<Input
+								placeholder="请输入昵称或手机号"
 								value={this.state.searchJson.search}
 								onChange={(e)=>{
 									this.setState({searchJson:{...this.state.searchJson,search:e.target.value}})
@@ -297,6 +299,7 @@ class StoreRecord extends Component {
 								}}
 								defaultActiveFirstOption={false}
 							>
+								<Select.Option  value="">全部</Select.Option>
 								<Select.Option  value="USER">用户</Select.Option>
 								<Select.Option  value="MERCHANT">商户</Select.Option>
 							</Select>

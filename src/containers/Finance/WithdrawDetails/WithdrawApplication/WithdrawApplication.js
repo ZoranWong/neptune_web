@@ -30,20 +30,23 @@ class WithdrawApplication extends Component {
 			<div className="withdrawApp">
 				<div className="header">
 					<Button type="primary" size="small">确认提现</Button>
+					<Button size="small" onClick={()=>{
+						this.props.history.go(-1)
+					}}>返回上一页</Button>
 				</div>
 				<div className="wa_chartContent">
 					<ul className="filter">
 						<li className="needMargin">
 							店铺名称：
-							<Input />
+							<Input placeholder="请输入店铺名称" />
 						</li>
 						<li className="needMargin">
 							提现金额：
-							<Input />
+							<Input placeholder='请输入提现金额' />
 						</li>
 						<li >
 							选择渠道：
-							<Input/>
+							<Input placeholder='请选择渠道（下拉选择框）' />
 						</li>
 						<li>
 							确认时间：

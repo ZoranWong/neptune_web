@@ -130,7 +130,7 @@ class SendOutRecord extends Component {
 			template_name:'',
 			template_code:'',
 			obj_type:'',
-			is_auto_send:'',
+			is_auto_send:true,
 			send_at:'',
 			phone_number:'',
 			send_state:-1
@@ -291,6 +291,7 @@ class SendOutRecord extends Component {
 						<li className="needMargin">
 							模板名称：
 							<Input
+								placeholder="请输入模板名称"
 								value={this.state.searchJson.template_name}
 								onChange={(e)=>{
 									this.setState({searchJson:{...this.state.searchJson,template_name:e.target.value}})
@@ -313,6 +314,7 @@ class SendOutRecord extends Component {
 								}}
 								defaultActiveFirstOption={false}
 							>
+								<Select.Option  value="">全部</Select.Option>
 								<Select.Option  value="USER">用户</Select.Option>
 								<Select.Option  value="MERCHANT">商户</Select.Option>
 							</Select>
@@ -320,6 +322,7 @@ class SendOutRecord extends Component {
 						<li className="needMargin">
 							接收手机：
 							<Input
+								placeholder="请输入手机号码"
 								value={this.state.searchJson.phone_number}
 								onChange={(e)=>{
 									this.setState({searchJson:{...this.state.searchJson,phone_number:e.target.value}})
@@ -329,11 +332,11 @@ class SendOutRecord extends Component {
 						<li>
 							发送方式：
 							<Select
+								placeholder="请选择发送方式"
 								value={this.state.searchJson.is_auto_send}
 								onChange={(e)=>{
 									this.setState({searchJson:{...this.state.searchJson,is_auto_send:e}})
 								}}
-								defaultActiveFirstOption={false}
 							>
 								<Select.Option  value={true}>自动发送</Select.Option>
 								<Select.Option  value={false}>手动发送</Select.Option>

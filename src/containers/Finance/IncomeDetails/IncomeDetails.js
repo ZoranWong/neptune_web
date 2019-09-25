@@ -74,27 +74,27 @@ class IncomeDetails extends Component {
 					<ul className="filter">
 						<li className="needMargin">
 							订单编号：
-							<Input />
+							<Input placeholder='请输入订单编号' />
 						</li>
 						<li className="needMargin">
 							手机号码：
-							<Input />
+							<Input placeholder='请输入手机号码' />
 						</li>
 						<li className="needMargin">
 							流水号码：
-							<Input />
+							<Input placeholder='请输入流水号码' />
 						</li>
 						<li className="needMargin">
 							交易类型：
-							<Input/>
+							<Input placeholder='请选择交易类型（这里是下拉选择框）' />
 						</li>
 						<li className="needMargin">
 							支付方式：
-							<Input />
+							<Input placeholder='请选择支付方式（这里是下拉选择框）' />
 						</li>
-						<li>
+						<li className="needMargin">
 							订单类型：
-							<Input />
+							<Input placeholder='请选择订单类型（这里是下拉选择框）' />
 						</li>
 						<li>
 							下单时间：

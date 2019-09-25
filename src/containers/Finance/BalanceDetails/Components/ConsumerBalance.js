@@ -55,14 +55,14 @@ class ConsumerBalance extends Component {
 					<ul className="filter">
 						<li className="needMargin">
 							昵称/姓名：
-							<Input />
+							<Input placeholder='请输入昵称/姓名' />
 						</li>
 						<li className="needMargin">
-							手机号：
-							<Input />
+							手机号码：
+							<Input placeholder="请输入手机号" />
 						</li>
 						<li>
-							时间：
+							选择时间：
 							<LocaleProvider locale={zh_CN}>
 								<RangePicker
 									onChange={this.onDateChange}
@@ -71,8 +71,8 @@ class ConsumerBalance extends Component {
 						
 						</li>
 						<li >
-							类型：
-							<Input />
+							选择类型：
+							<Input placeholder='请选择类型（这里是下拉选择框）' />
 						</li>
 						<li className="button">
 							<Button size="small" type="primary">搜索</Button>

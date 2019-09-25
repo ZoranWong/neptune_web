@@ -59,22 +59,12 @@ class MerchantRefund extends Component {
 				<div className="cr_chartContent">
 					<ul className="filter">
 						<li className="needMargin">
-							手机号：
-							<Select
-								onChange={(e)=>{
-									this.setState({type:e})
-								}}
-								defaultActiveFirstOption={false}
-							>
-								<Select.Option  value="PRODUCE">生产入库</Select.Option>
-								<Select.Option  value="PURCHASE">购买入库</Select.Option>
-								<Select.Option  value="RETURN">退货入库</Select.Option>
-								<Select.Option  value="CHECK">盘点入库</Select.Option>
-							</Select>
+							手机号码：
+							<Input placeholder="请输入手机号码" />
 						</li>
 						<li className="needMargin">
 							订单编号：
-							<Input />
+							<Input placeholder="请输入订单编号" />
 						</li>
 						<li className="needMargin">
 							申请时间：
@@ -85,21 +75,22 @@ class MerchantRefund extends Component {
 							</LocaleProvider>
 						
 						</li>
-						<li className="needMargin">
+						<li >
 							退款类型：
-							<Input />
+							<Input placeholder='请选择退款类型（这里是下拉选择框）' />
 						</li>
-						<li>
+						<li >
 							退款状态：
-							<Input />
+							<Input placeholder='请选择退款状态（这里是下拉选择框）' />
 						</li>
 						<li className="button">
+							<Button size="small" type="primary">搜索</Button>
 							<Button
 								size="small"
-								type="primary"
+							
 							>导出筛选结果
 							</Button>
-							<Button size="small">搜索</Button>
+							
 							<span className="clear">清空筛选条件</span>
 						</li>
 					</ul>

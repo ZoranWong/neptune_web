@@ -70,11 +70,11 @@ export default class WithdrawDetails extends Component {
 					<ul className="filter">
 						<li className="needMargin">
 							店铺名称：
-							<Input />
+							<Input placeholder="请输入店铺名称" />
 						</li>
 						<li className="needMargin">
 							提现金额：
-							<Input />
+							<Input placeholder='请输入提现金额' />
 						</li>
 						<li>
 							确认时间：
@@ -86,7 +86,7 @@ export default class WithdrawDetails extends Component {
 						</li>
 						<li >
 							选择渠道：
-							<Input/>
+							<Input placeholder='请选择渠道（下拉选择框）' />
 						</li>
 						<li className="button">
 							<Button size="small" type="primary">搜索</Button>

@@ -66,11 +66,11 @@ class ConsumerRefund extends Component {
 						<li className="needMargin">
 							
 							手机号码：
-							<Input />
+							<Input placeholder="请输入手机号码" />
 						</li>
 						<li className="needMargin">
 							订单编号：
-							<Input />
+							<Input placeholder="请输入订单编号" />
 						</li>
 						<li className="needMargin">
 							申请时间：
@@ -83,11 +83,11 @@ class ConsumerRefund extends Component {
 						</li>
 						<li >
 							退款类型：
-							<Input/>
+							<Input placeholder='请选择退款类型（这里是下拉选择框）' />
 						</li>
 						<li>
 							退款状态：
-							<Input />
+							<Input placeholder='请选择退款状态（这里是下拉选择框）' />
 						</li>
 						<li className="button">
 							<Button size="small" type="primary">搜索</Button>
