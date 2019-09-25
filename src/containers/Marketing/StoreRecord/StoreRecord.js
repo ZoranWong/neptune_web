@@ -103,14 +103,33 @@ class StoreRecord extends Component {
 	
 	// 筛选
 	search = () =>{
-		console.log(this.state.searchJson,'-------');
+		let obj = {};
+		let searchJsons = this.state.searchJson;
+		for (let key in searchJsons){
+			if(searchJsons[key]){
+				obj[key] = searchJsons[key]
+			}
+		}
 		
 		this.setState({
 			paginationParams:{...this.state.paginationParams,
-				searchJson:searchJson(this.state.searchJson)}
+				searchJson:searchJson(obj)}
 		},()=>{
 			this.child.current.pagination(this.child.current.state.current)
 		});
+	};
+	
+	// 清空筛选条件
+	clear = () =>{
+		let searchJson = {
+			'depositCard.name':'',
+			created_at:'',
+			search:'',
+			member_type:''
+		};
+		this.setState({searchJson},()=>{
+			this.search()
+		})
 	};
 	
 	// 选择时间
@@ -142,7 +161,6 @@ class StoreRecord extends Component {
 		let start = this.state.startTime;
 		return  current < moment(start).subtract(30, 'days') || current > moment(start).add(30, 'days');
 	};
-	
 	
 	render() {
 		const columns = [
@@ -273,6 +291,7 @@ class StoreRecord extends Component {
 						<li>
 							用户类型：
 							<Select
+								value={this.state.searchJson.member_type}
 								onChange={(e)=>{
 									this.setState({searchJson:{...this.state.searchJson,member_type:e}})
 								}}
@@ -290,7 +309,7 @@ class StoreRecord extends Component {
 							>筛选
 							</Button>
 							<Button size="small">导出表格</Button>
-							<span className="clear">清空筛选条件</span>
+							<span className="clear" onClick={this.clear}>清空筛选条件</span>
 						</li>
 					</ul>
 					<div className="chart u_chart">

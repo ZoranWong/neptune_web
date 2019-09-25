@@ -240,7 +240,7 @@ class UserStore extends Component {
 					<div className="chart u_chart">
 						<Table
 							columns={columns}
-							rowKey={record => record.product_id}
+							rowKey={record => record.id}
 							pagination={false}
 							rowClassName={(record, index) => {
 								let className = '';
