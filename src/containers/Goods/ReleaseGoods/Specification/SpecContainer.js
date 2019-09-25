@@ -170,12 +170,12 @@ export default class Specification extends React.Component{
 				align:'center',
 				render:(text,record)=>{
 					if(record.name){
-						return <Input placeholder='请输入条形码' value={record.barcode} onChange={(e)=>{
-							record.barcode = e.target.value;
+						return <Input   type="number" addonAfter="元" value={record.retail_price} onChange={(e)=>{
+							record.retail_price = e.target.value;
 						}} />
 					} else {
-						return <Input placeholder='请输入条形码' onChange={(e)=>{
-							record.barcode = e.target.value;
+						return <Input  type="number" addonAfter="元"  onChange={(e)=>{
+							record.retail_price = e.target.value;
 						}} />
 					}
 				}

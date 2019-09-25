@@ -20,6 +20,12 @@ class StoreRecord extends Component {
 		this.setState({data:list})
 	};
 	
+	
+	// 搜索
+	search = () =>{
+	
+	};
+	
 	render() {
 		const columns = [
 			{
@@ -83,13 +89,11 @@ class StoreRecord extends Component {
 							<Input placeholder='请选择渠道（这里是下拉选择框）' />
 						</li>
 						<li className="button">
-							<Button size="small" type="primary">搜索</Button>
+							<Button size="small" type="primary" onClick={this.search}>搜索</Button>
 							<Button
 								size="small"
-								
 							>导出筛选结果
 							</Button>
-							
 							<span className="clear">清空筛选条件</span>
 						</li>
 					</ul>

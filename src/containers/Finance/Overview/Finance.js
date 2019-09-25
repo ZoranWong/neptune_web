@@ -1,5 +1,6 @@
 import React,{Fragment} from 'react';
 import {withRouter} from 'react-router-dom'
+import moment from "moment";
 import './css/overview.sass'
 import {Table,Select} from "antd";
 import CustomPagination from "../../../components/Layout/Pagination";
@@ -15,7 +16,37 @@ class Finance extends React.Component{
 	
 	// 切换头部选项卡
 	changeTab = activeTab =>{
-		this.setState({activeTab})
+		this.setState({activeTab});
+		switch (activeTab) {
+			case '近7天':
+				this.selectWeek();
+				break;
+			case '近30天':
+				this.selectMonth();
+				break;
+			default:
+				this.selectToday()
+		}
+	};
+	
+	//今日
+	selectToday = () =>{
+		let today = moment().format('YYYY-MM-DD' );
+		console.log(today,'---------TODAY---------');
+	};
+	
+	// 近7天
+	selectWeek = () =>{
+		let today = moment().format('YYYY-MM-DD' );
+		let last7 = moment().subtract('days', 6).format('YYYY-MM-DD');
+		console.log([today,last7],'---------LAST7---------');
+	};
+	
+	// 近30天
+	selectMonth = () =>{
+		let today = moment().format('YYYY-MM-DD' );
+		let last30 = moment().subtract('days', 30).format('YYYY-MM-DD');
+		console.log([today,last30],'---------LAST30---------');
 	};
 	
 	// 切换表格选项卡

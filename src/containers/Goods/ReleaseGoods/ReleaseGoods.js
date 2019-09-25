@@ -2,12 +2,12 @@ import React from "react";
 import './index.sass'
 import Editor from "../../../components/Editor/Editor";
 import {Tabs, Button, Form, Input, Select, Radio, Switch, message} from 'antd';
-import {SonClassification} from "../../../api/goods/classification";
 import Specification from './Specification/SpecContainer'
 import {releaseProducts,beforeEditGood,editGoods} from "../../../api/goods/goods";
 
 import Upload from '../../../components/Upload/Upload'
 import UploadMany from "../../../components/UploadMany/Upload";
+import Classification from "./Classification/Classification";
 const { TabPane } = Tabs;
 
 class ReleaseGoods extends React.Component{
@@ -35,21 +35,11 @@ class ReleaseGoods extends React.Component{
 		this.uploadChild = React.createRef();
 		this.bannerChild = React.createRef();
 		this.editor = React.createRef();
+		this.classification = React.createRef();
 	}
 	
 	componentDidMount() {
-		let classifications = [];
-		SonClassification({}).then(r=>{
-			r.forEach(item=>{
-				classifications.push(item);
-				if(item.children&&item.children.length){
-					item.children.forEach(i=>{
-						classifications.push(i)
-					})
-				}
-			});
-			this.setState({allClassification:classifications});
-		});
+		
 		
 		if(this.props.location.state&&this.props.location.state.id){
 			beforeEditGood({},this.props.location.state.id).then(r=>{
@@ -92,6 +82,10 @@ class ReleaseGoods extends React.Component{
 		text =  this.props.location.state&&this.props.location.state.id ? '编辑商品成功':'发布商品成功';
 		let imgUrl = this.uploadChild.current.state.imgUrl|| this.uploadChild.current.state.imageUrl;
 		this.props.form.setFieldsValue({'thumbnail':imgUrl}); // 缩略图
+		let category_ids = [];
+		let category_ids_child = this.classification.current.state.selectedItems;
+		category_ids_child.forEach(item=>category_ids.push(item.id));
+		this.props.form.setFieldsValue({'category_ids':category_ids}); // 商品分类
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			values.banners = [];  // banner图
 			let fileList =this.bannerChild.current.state.fileList;
@@ -153,8 +147,8 @@ class ReleaseGoods extends React.Component{
 			}
 		});
 	};
-
-
+	
+	
 	
 	
 	render() {
@@ -215,7 +209,7 @@ class ReleaseGoods extends React.Component{
 											<span className="suggest">建议尺寸：640 * 640像素，最多上传10张；你可以拖拽图片调整图片顺序。</span>
 										</div>)}
 									</Form.Item>
-									<Form.Item label="商品简介：" style={{marginTop:'60px'}}>
+									<Form.Item label="商品简介：" style={{marginTop:'90px'}}>
 										{getFieldDecorator('intro', {
 											initialValue:'',
 											rules: [{ required: true, message: '请输入商品简介' }],
@@ -244,27 +238,10 @@ class ReleaseGoods extends React.Component{
 											<Select.Option  value="CASHBACK">返利商品</Select.Option>
 										</Select>)}
 									</Form.Item>
-									<Form.Item label="商品分类：" >
+									<Form.Item label="商品分类：" className="classification" >
 										{getFieldDecorator('category_ids', {
 											rules: [{ required: true, message: '请选择商品分类' }],
-										})(<Select
-												mode="multiple"
-												value={this.props.form.getFieldValue('category_ids')}
-												onChange={(e)=>{
-													this.props.form.setFieldsValue({
-														category_ids:e
-													});
-												}}
-												defaultActiveFirstOption={false}
-										>
-											{
-												this.state.allClassification.map(item=>{
-													return (
-														<Select.Option  value={item.id} key={item.id}>{item.name}</Select.Option>
-													)
-												})
-											}
-										</Select>)}
+										})(<Classification ref={this.classification} />)}
 									</Form.Item>
 									<Form.Item label="商品单位：" >
 										{getFieldDecorator('unit', {

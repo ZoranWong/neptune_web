@@ -12,6 +12,17 @@ class GoodDetails extends React.Component{
 
 	componentDidMount() {
 		goodDetails({},this.props.location.state.id).then(r=>{
+			if(r.batch.length){
+				let batch = '';
+				r.batch.forEach((item,index)=>{
+					if(index !== r.batch.length - 1){
+						batch += `${item},`
+					} else {
+						batch += `${item}`
+					}
+				});
+				r.batch  = batch;
+			}
 			this.setState({data:r})
 		}).catch(_=>{})
 	}
