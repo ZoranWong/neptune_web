@@ -16,12 +16,13 @@ export default class OutStockNew extends React.Component{
 			data:[],    // 已选出库商品
 			visible:false,
 			type:'',
+			time:'', // 筛选时间
 		};
 		this.child = React.createRef();
 	}
 	
 	onDateChange = (date,dateString) =>{
-		console.log(date, dateString);
+		this.setState({time:dateString})
 	};
 	
 	// 选择出库商品

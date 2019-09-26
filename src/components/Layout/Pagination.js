@@ -15,7 +15,6 @@ class CustomPagination extends React.Component{
 	componentDidMount() {
 		this.pagination(1)
 	}
-
 	
 	pagination = (page) =>{
 		if(!this.props.api) return;
@@ -51,8 +50,6 @@ class CustomPagination extends React.Component{
 			current: page,
 		});
 	};
-	
-	
 	
 	render() {
 		return (

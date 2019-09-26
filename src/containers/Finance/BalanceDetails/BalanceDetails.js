@@ -14,14 +14,14 @@ class BalanceDetails extends Component {
 	render() {
 		return (
 			<div className="coupon bd_header">
-				<Tabs defaultActiveKey="1" onChange={this.callback}>
-					<TabPane tab="消费者退款" key="1">
+				<Tabs defaultActiveKey="3" onChange={this.callback}>
+					<TabPane tab="消费者余额" key="1">
 						<ConsumerBalance />
 					</TabPane>
-					<TabPane tab="商户退款" key="2">
+					<TabPane tab="商户余额" key="2">
 						<ShopBalance />
 					</TabPane>
-					<TabPane tab="商户退款" key="3">
+					<TabPane tab="储值记录" key="3">
 						<StoreRecord />
 					</TabPane>
 				</Tabs>

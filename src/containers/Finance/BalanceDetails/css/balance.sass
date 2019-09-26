@@ -1,9 +1,60 @@
 .overviewBalance
-	padding: 0 20px
-	margin-top: 16px
+	border-top: 1px solid #e9e9e9
+	font-size: 12px
+	.body
+		background: #FFFFFF
+	.body_top
+		width: 100%
+		height: 60px
+		padding: 0 20px
+		display: flex
+		justify-content: flex-start
+		align-items: center
+		border-bottom: 1px solid #e9e9e9
+		.ant-calendar-picker
+			margin: 0 10px
+		.notice
+			font-size: 12px
+			color: #999
+		li
+			height: 28px
+			padding: 0 14px
+			display: flex
+			justify-content: center
+			align-items: center
+			border: 1px solid #e9e9e9
+			cursor: pointer
+			margin-left: -1px
+		.active
+			color: #4f9863
+			border-color: #4f9863
+			z-index: 999
+	.datas
+		margin-top: 10px
+		width: 100%
+		height: 140px
+		padding: 30px 0
+		display: flex
+		justify-content: center
+		align-items: center
+		background: #fff
+		li
+			flex: 1
+			padding: 7px 0
+			display: flex
+			justify-content: center
+			align-items: center
+			flex-direction: column
+			border-right: 1px solid #E9E9E9
+			&:last-child
+				border-right: 0
+			span
+				font-size: 24px
+				color: #4f9863
 	.ob_chartContent
 		width: 100%
-		margin-top: 10px
+		border-top: 10px solid #F0F0F0
+		padding: 20px
 		background: #ffffff
 		.filter
 			display: flex
@@ -45,10 +96,9 @@
 			.needMargin
 				height: 30px
 				margin-bottom: 20px
-				.ant-select
-					width: 300px
-					height: 30px
+			.ant-select
+				width: 300px
+				height: 30px
 			.ant-calendar-picker-input
 				height: 30px !important
 
-	

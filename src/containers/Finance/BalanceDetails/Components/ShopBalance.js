@@ -3,6 +3,9 @@ import {Button, DatePicker, Input, LocaleProvider, Select, Table} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import '../css/shop.sass'
+import {merchantBalanceRecord} from "../../../../api/finance/balance";
+import {searchJson} from "../../../../utils/dataStorage";
+
 const {RangePicker} = DatePicker;
 
 class ShopBalance extends Component {
@@ -10,7 +13,14 @@ class ShopBalance extends Component {
 		super(props);
 		this.state = {
 			data:[],
-			api:''
+			api:merchantBalanceRecord,
+			searchJson:{
+				type:'',
+				'shop.nickname':'',
+				'shop.keeper_name':'',
+				'shop.mobile':'',
+				created_at:'',
+			}
 		};
 		this.child = React.createRef();
 	}
@@ -20,31 +30,100 @@ class ShopBalance extends Component {
 		this.setState({data:list})
 	};
 	
+	// 根据返回渲染类型
+	renderType = type =>{
+		let text ;
+		switch (type) {
+			case 'DEPOSIT':
+				text = '充值';
+				break;
+			case 'SELF_PICK_CASHBACK':
+				text = '自提返现';
+				break;
+			case 'SALE_CASHBACK':
+				text = '销售返现';
+				break;
+			case 'RECEIVE_RED_PACKET':
+				text = '领取红包';
+				break;
+			case 'REFUND':
+				text = '退款';
+				break;
+			case 'WITHDRAW':
+				text = '提现';
+				break;
+			case 'CONSUME':
+				text = '消费';
+				break;
+			default :
+				text = '其他'
+		}
+		return text;
+	};
+	
+	// 筛选
+	search = () =>{
+		let obj = {};
+		let searchJsons = this.state.searchJson;
+		for (let key in searchJsons){
+			if(searchJsons[key]){
+				obj[key] = searchJsons[key]
+			}
+		}
+		
+		this.setState({
+			paginationParams:{...this.state.paginationParams,
+				searchJson:searchJson(obj)}
+		},()=>{
+			this.child.current.pagination(this.child.current.state.current)
+		});
+	};
+	
+	//改变搜索值
+	changeSearchValue = (e,type) =>{
+		this.setState({searchJson:{...this.state.searchJson,[type]:e.target.value}})
+	};
+	
+	// 清空筛选条件
+	clear = () =>{
+		let searchJson = {
+			type:'',
+			'shop.name':'',
+			'shop.keeper_name':'',
+			'shop.keeper_mobile':'',
+			created_at:'',
+		};
+		this.setState({searchJson},()=>{
+			this.search()
+		})
+	};
+	
 	render() {
 		const columns = [
 			{
 				title: '店铺名称',
-				dataIndex: 'name',
+				dataIndex: 'shop_name',
 			},
 			{
 				title: '收入',
-				dataIndex: 'a',
+				dataIndex: 'income',
 			},
 			{
 				title: '支出',
-				dataIndex: 'b',
+				dataIndex: 'expense',
 			},
 			{
 				title: '时间',
-				dataIndex: 'c',
+				dataIndex: 'created_at',
 			},
 			{
 				title:'类型',
-				dataIndex:'cName'
+				dataIndex:'type',
+				render:(text,record) =>(this.renderType(text))
 			},
 			{
 				title:'备注',
-				dataIndex:'mobile'
+				dataIndex:'remark'
 			},
 		];
 		
@@ -55,11 +134,19 @@ class ShopBalance extends Component {
 					<ul className="filter">
 						<li className="needMargin">
 							店铺名称：
-							<Input placeholder="请输入店铺名称" />
+							<Input
+								placeholder="请输入店铺名称"
+								value={this.state.searchJson['shop.name']}
+								onChange={(e)=>{this.changeSearchValue(e,'shop.name')}}
+							/>
 						</li>
 						<li className="needMargin">
 							手机号码：
-							<Input placeholder="请输入手机号码" />
+							<Input
+								placeholder="请输入手机号码"
+								value={this.state.searchJson['shop.keeper_mobile']}
+								onChange={(e)=>{this.changeSearchValue(e,'shop.keeper_mobile')}}
+							/>
 						</li>
 						<li className="needMargin">
 							选择时间：
@@ -72,11 +159,31 @@ class ShopBalance extends Component {
 						</li>
 						<li >
 							选择类型：
-							<Input placeholder='请选择类型（这里是下拉选择框）' />
+							<Select
+								value={this.state.searchJson.type}
+								onChange={(e)=>{
+									this.setState({searchJson:{...this.state.searchJson,type:e}})
+								}}
+								defaultActiveFirstOption={false}
+							>
+								<Select.Option  value="">全部</Select.Option>
+								<Select.Option  value="DEPOSIT">充值</Select.Option>
+								<Select.Option  value="SELF_PICK_CASHBACK">自提返现</Select.Option>
+								<Select.Option  value="SALE_CASHBACK">销售返现</Select.Option>
+								<Select.Option  value="RECEIVE_RED_PACKET">领取红包</Select.Option>
+								<Select.Option  value="REFUND">退款</Select.Option>
+								<Select.Option  value="WITHDRAW">提现</Select.Option>
+								<Select.Option  value="CONSUME">消费</Select.Option>
+								<Select.Option  value="OTHER">其他</Select.Option>
+							</Select>
 						</li>
 						<li>
 							店主姓名：
-							<Input placeholder="请输入店主姓名" />
+							<Input
+								placeholder="请输入店主姓名"
+								value={this.state.searchJson['shop.keeper_name']}
+								onChange={(e)=>{this.changeSearchValue(e,'shop.keeper_name')}}
+							/>
 						</li>
 						<li className="button">
 							<Button size="small" 	type="primary">搜索</Button>
@@ -92,7 +199,7 @@ class ShopBalance extends Component {
 					<div className="chart u_chart">
 						<Table
 							columns={columns}
-							rowKey={record => record.product_id}
+							rowKey={record => record.id}
 							pagination={false}
 							rowClassName={(record, index) => {
 								let className = '';
@@ -106,6 +213,7 @@ class ShopBalance extends Component {
 						<CustomPagination
 							api={this.state.api}
 							ref={this.child}
+							params={this.state.paginationParams}
 							valChange={this.paginationChange}
 						/>
 					</div>
