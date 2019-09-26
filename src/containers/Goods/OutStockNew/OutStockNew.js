@@ -6,7 +6,6 @@ import './css/inStockNew.sass'
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import SelectGoods from "./SelectGoods";
 
-const { RangePicker } = DatePicker;
 
 export default class OutStockNew extends React.Component{
 	constructor(props) {
@@ -180,7 +179,7 @@ export default class OutStockNew extends React.Component{
 							<li className="needMargin">
 								出库时间：
 								<LocaleProvider locale={zh_CN}>
-									<RangePicker
+									<DatePicker
 										onChange={this.onDateChange}
 									/>
 								</LocaleProvider>

@@ -2,6 +2,7 @@ import React from "react";
 import { Modal, Table} from 'antd'
 import '../InStockNew/css/selectGoods.sass'
 import {stockSpec} from "../../../api/goods/specification";
+import IconFont from "../../../utils/IconFont";
 
 export default class RecordSpec extends React.Component{
 	constructor(props) {
@@ -37,7 +38,16 @@ export default class RecordSpec extends React.Component{
 			},
 			{
 				title: '库存',
-				dataIndex:'stock'
+				dataIndex:'stock',
+				render: (text,record) =>
+					<div className="warning" >
+						{text}
+						<span style={{display:record.stock_alert?'block':'none',marginLeft:'20px'}}>
+							<IconFont type="icon-info-circle-fill" />
+							警戒
+						</span>
+					</div>
+				,
 			},
 			{
 				title: '销量',

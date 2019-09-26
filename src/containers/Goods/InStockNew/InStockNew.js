@@ -6,8 +6,6 @@ import './css/inStockNew.sass'
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import SelectGoods from "./SelectGoods";
 
-const { RangePicker } = DatePicker;
-
 export default class InStockNew extends React.Component{
 	constructor(props) {
 		super(props);
@@ -46,8 +44,6 @@ export default class InStockNew extends React.Component{
 	
 	// 确认入库
 	confirmInStock = () =>{
-		console.log(this.state.data);
-		console.log(1111,'------------------------------');
 		let stockAry = [];
 		this.state.data.forEach(item=>{
 			let info = {};
@@ -186,7 +182,7 @@ export default class InStockNew extends React.Component{
 							<li className="needMargin">
 								入库时间：
 								<LocaleProvider locale={zh_CN}>
-									<RangePicker
+									<DatePicker
 										onChange={this.onDateChange}
 									/>
 								</LocaleProvider>

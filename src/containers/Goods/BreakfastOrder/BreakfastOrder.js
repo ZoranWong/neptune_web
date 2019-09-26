@@ -197,6 +197,7 @@ class BreakfastOrder extends React.Component{
 	// 下架商品
 	unSale = () =>{
 		let products_ids = [];
+		let channel = this.channel;
 		this.state.checkedAry.forEach(id=>{
 			this.state.user_data.forEach(item=>{
 				if(id == item.stock_id){
@@ -234,7 +235,7 @@ class BreakfastOrder extends React.Component{
 			onOk() {
 				// 确定按钮执行操作
 				offShelves({
-					channel:this.channel,
+					channel:channel,
 					product_ids:products_ids
 				}).then(r=>{
 					message.success(r.message);
