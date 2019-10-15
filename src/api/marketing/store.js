@@ -63,3 +63,22 @@ export function enableStore(params,cardId) {
 	})
 }
 
+// 开启储值功能
+export function enableStoreMode(params) {
+	return request({
+		url: `/api/backend/marketing/deposit_cards/mode/enable`,
+		method: 'put',
+		data: params
+	})
+}
+
+// 关闭储值功能
+export function disableStoreMode(params) {
+	return request({
+		url: `/api/backend/marketing/deposit_cards/mode/disable`,
+		method: 'put',
+		data: params
+	})
+}
+
+

@@ -53,6 +53,7 @@ export default class AdvancedFilterComponent extends React.Component{
 						ref={this.child}
 						value={good_values}
 						operation={operation}
+						slug="product"
 					/>
 				</Modal>
 			</div>

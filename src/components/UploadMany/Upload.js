@@ -45,12 +45,13 @@ export default class UploadMany extends React.Component{
 			message.error('仅支持上传JPG,PNG格式的图片!');
 			return ;
 		}
-		const isLt2M = file.size / 1024 / 1024 < 2;
-		if (!isLt2M) {
-			message.error('图片大小不能超过2MB!');
-			return ;
-		}
-		return isJPG && isLt2M;
+		// const isLt2M = file.size / 1024 / 1024 < 2;
+		// if (!isLt2M) {
+		// 	message.error('图片大小不能超过2MB!');
+		// 	return ;
+		// }
+		// return isJPG && isLt2M;
+		return isJPG
 	};
 	
 	

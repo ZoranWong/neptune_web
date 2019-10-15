@@ -7,8 +7,13 @@ class WithdrawApplication extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data:[]
-		}
+			data:[],
+			paginationParams:{},
+			searchJson:{},
+			api:'',
+			
+		};
+		this.child = React.createRef();
 	}
 	
 	render() {
@@ -85,7 +90,6 @@ class WithdrawApplication extends Component {
 							api={this.state.api}
 							ref={this.child}
 							params={this.state.paginationParams}
-							id={this.state.id}
 							valChange={this.paginationChange}
 						/>
 					</div>

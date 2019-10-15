@@ -13,21 +13,21 @@ export const user_values = [
 				value:'mobile',
 				type:'emptyCompare'
 			},
-			{
-				label:'微信昵称',
-				value:'wx_name',
-				type:'emptyCompare'
-			},
-			{
-				label:'openId',
-				value:'open_id',
-				type:'emptyCompare'
-			},
-			{
-				label:'unionId',
-				value:'union_id',
-				type:'emptyCompare'
-			},
+			// {
+			// 	label:'微信昵称',
+			// 	value:'wx_name',
+			// 	type:'emptyCompare'
+			// },
+			// {
+			// 	label:'openId',
+			// 	value:'open_id',
+			// 	type:'emptyCompare'
+			// },
+			// {
+			// 	label:'unionId',
+			// 	value:'union_id',
+			// 	type:'emptyCompare'
+			// },
 			{
 				label:'性别',
 				value:'gender',

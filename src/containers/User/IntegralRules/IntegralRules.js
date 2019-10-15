@@ -145,8 +145,7 @@ class IntegralRules extends React.Component{
 	render(){
 		return (
 			<div>
-				{
-					this.state.data.length?(
+				
 						<div>
 							<div className="r_top">
 								<div className="r_top_header">
@@ -155,7 +154,6 @@ class IntegralRules extends React.Component{
 								</div>
 								<div className="r_top_body">
 									<Switch
-										defaultChecked={this.state.data[0].status}
 										checkedChildren="启用"
 										unCheckedChildren="停用"
 										onChange={this.switchPurchaseChange}
@@ -168,12 +166,10 @@ class IntegralRules extends React.Component{
 											onChange={(e)=>{
 												this.setState({firstPreorder:e.target.checked})
 											}}
-											defaultChecked={this.state.data[0].children[0].status}
 
 										>
 											预定商城首次购物：增加
 											<Input
-												defaultValue={this.state.data[0].children[0].score_num}
 
 												onChange={(e)=>{
 													this.setState({preorderFirstValue:e.target.value})
@@ -185,7 +181,6 @@ class IntegralRules extends React.Component{
 									<li>
 										<Checkbox
 
-											defaultChecked={this.state.data[0].children[1].status}
 											onChange={(e)=>{
 												this.setState({code:e.target.checked})
 											}}
@@ -193,7 +188,6 @@ class IntegralRules extends React.Component{
 											扫码付：每消费
 											<Input
 
-												defaultValue={this.state.data[0].children[1].rule.amount}
 												onChange={(e)=>{
 													this.setState({codeAmount:e.target.value})
 												}}
@@ -201,7 +195,6 @@ class IntegralRules extends React.Component{
 											元，增加：
 											<Input
 
-												defaultValue={this.state.data[0].children[1].score_num}
 												onChange={(e)=>{
 													this.setState({codeValue:e.target.value})
 												}}
@@ -212,23 +205,18 @@ class IntegralRules extends React.Component{
 									<li>
 										<Checkbox
 
-											defaultChecked={this.state.data[0].children[2].status}
 											onChange={(e)=>{
 												this.setState({preorder:e.target.checked})
 											}}
 										>
 											预付商城：每消费
 											<Input
-
-												defaultValue={this.state.data[0].children[2].rule.amount}
 												onChange={(e)=>{
 													this.setState({preorderAmount:e.target.value})
 												}}
 											/>
 											元，增加：
 											<Input
-
-												defaultValue={this.state.data[0].children[2].score_num}
 												onChange={(e)=>{
 													this.setState({preorderValue:e.target.value})
 												}}
@@ -241,7 +229,6 @@ class IntegralRules extends React.Component{
 							<div className="r_top">
 								<div className="r_top_body">
 									<Switch
-										defaultChecked={this.state.data[1].status}
 										checkedChildren="启用"
 										unCheckedChildren="停用"
 										onChange={this.switchStoreChange}
@@ -251,14 +238,12 @@ class IntegralRules extends React.Component{
 								<ul className="r_top_footer">
 									<li>
 										<Checkbox
-											defaultChecked={this.state.data[1].children[0].status}
 											onChange={(e)=>{
 												this.setState({first_store:e.target.checked})
 											}}
 										>
 											首次储值：增加
 											<Input
-												defaultValue={this.state.data[1].children[0].score_num}
 												onChange={(e)=>{
 													this.setState({firstStore:e.target.value})
 												}}
@@ -268,21 +253,18 @@ class IntegralRules extends React.Component{
 									</li>
 									<li>
 										<Checkbox
-											defaultChecked={this.state.data[1].children[1].status}
 											onChange={(e)=>{
 												this.setState({store:e.target.checked})
 											}}
 										>
 											每储值
 											<Input
-												defaultValue={this.state.data[1].children[1].rule.amount}
 												onChange={(e)=>{
 													this.setState({storeAmount:e.target.value})
 												}}
 											/>
 											元，增加
 											<Input
-												defaultValue={this.state.data[1].children[1].score_num}
 												onChange={(e)=>{
 													this.setState({storeValue:e.target.value})
 												}}
@@ -295,7 +277,6 @@ class IntegralRules extends React.Component{
 							<div className="r_top">
 								<div className="r_top_body">
 									<Switch
-										defaultChecked={this.state.data[2].status}
 										checkedChildren="启用"
 										unCheckedChildren="停用"
 										onChange={this.switchOthersChange}
@@ -304,14 +285,12 @@ class IntegralRules extends React.Component{
 								</div>
 								<div className="r_top_footer">
 									<Checkbox
-										defaultChecked={this.state.data[2].children[0].status}
 										onChange={(e)=>{
 											this.setState({mobile:e.target.checked})
 										}}
 									>
 										绑定手机号：增加
 										<Input
-											defaultValue={this.state.data[2].children[0].score_num}
 											onChange={(e)=>{
 												this.setState({bindMobile:e.target.value})
 											}}
@@ -321,8 +300,6 @@ class IntegralRules extends React.Component{
 								</div>
 							</div>
 						</div>
-					):''
-				}
 			</div>
 		)
 	}

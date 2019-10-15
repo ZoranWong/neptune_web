@@ -13,6 +13,11 @@ const baseMenu = [
 		text:'订单管理',
 	},
 	{
+		path:'/order/setting',
+		icon:'icon-resource',
+		text:'订单设置',
+	},
+	{
 		path:'/order/refund',
 		icon:'icon-tuikuan',
 		text:'退款售后',

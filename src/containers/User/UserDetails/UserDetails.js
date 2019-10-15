@@ -3,6 +3,8 @@ import {Button,Tabs,Tag,Modal } from "antd";
 import {userDetails, deleteUserTag, deleteUserGroup, deleteTagGroup} from "../../../api/user";
 import './css/user_details.sass'
 import AdjustScore from './AdjustScore'
+import CouponRecords from "./Modals/CouponRecords";
+import IntegralRecords from "./Modals/IntegralRecords";
 const { TabPane } = Tabs;
 const {confirm} = Modal;
 class UserDetails extends React.Component{
@@ -11,7 +13,9 @@ class UserDetails extends React.Component{
 		this.state = {
 			data:{},
 			activeGroup:'dynamic',
-			adjustScoreVisible:false
+			adjustScoreVisible:false,
+			integralRecords: false,
+			couponRecords: false
 		}
 	}
 
@@ -42,6 +46,22 @@ class UserDetails extends React.Component{
 	};
 	hideAdjust = () =>{
 		this.setState({adjustScoreVisible:false})
+	};
+	
+	// 用户优惠券记录
+	showCouponRecords = () => {
+		this.setState({couponRecords: true})
+	};
+	hideCouponRecords = () => {
+		this.setState({couponRecords: false})
+	};
+	
+	// 用户积分记录
+	showIntegralRecords = () => {
+		this.setState({integralRecords: true})
+	};
+	hideIntegralRecords = () =>{
+		this.setState({integralRecords: false})
 	};
 	
 	// 删除确认框
@@ -91,6 +111,17 @@ class UserDetails extends React.Component{
 			},
 		});
 	};
+	
+	// 跳转到用户储值
+	jumpUserStore = () => {
+	
+	};
+	
+	// 跳转到用户订单
+	jumpOrder = () => {
+	
+	};
+	
 
 	render(){
 		const group = [
@@ -103,8 +134,18 @@ class UserDetails extends React.Component{
 				type:'static'
 			}
 		];
+		let couponRecords = {
+			visible: this.state.couponRecords,
+			onClose: this.hideCouponRecords
+		};
+		let integralRecords = {
+			visible: this.state.integralRecords,
+			onClose: this.hideIntegralRecords
+		};
 		return (
 			<div>
+				<CouponRecords {...couponRecords} />
+				<IntegralRecords {...integralRecords} />
 				<AdjustScore
 					visible={this.state.adjustScoreVisible}
 					onClose={this.hideAdjust}
@@ -116,7 +157,7 @@ class UserDetails extends React.Component{
 					<div className="u_header">
 						<span>用户详情</span>
 						<Button type="default" size="small" onClick={()=>{
-							this.props.history.go(-1)
+							this.props.history.goBack()
 						}}>返回用户列表</Button>
 					</div>
 					<div className="u_body">
@@ -150,7 +191,7 @@ class UserDetails extends React.Component{
 								优惠券
 								<h4>
 									5
-									<span>查看记录</span>
+									<span onClick={this.showCouponRecords} style={{cursor:'pointer'}}>查看记录</span>
 								</h4>
 							</li>
 							<li>
@@ -160,7 +201,7 @@ class UserDetails extends React.Component{
 									onClick={this.showAdjust}
 									style={{'cursor':'pointer'}}
 								>调整</span>
-								<span>查看记录</span>
+								<span onClick={this.showIntegralRecords} style={{cursor:'pointer'}}>查看记录</span>
 							</h4>
 							</li>
 							<li>
@@ -194,7 +235,10 @@ class UserDetails extends React.Component{
 							
 						</li>
 						<li>
-							<h3>总购买次数 10000</h3>
+							<h3>
+								总购买次数 10000
+								<span className="jump" onClick={this.jumpOrder}>详情</span>
+							</h3>
 							<div>
 								<span>
 								小程序购买金额
@@ -208,7 +252,10 @@ class UserDetails extends React.Component{
 							
 						</li>
 						<li>
-							<h3>总储值金额 10000</h3>
+							<h3>
+								总储值金额 10000
+								<span className="jump" onClick={this.jumpUserStore}>详情</span>
+							</h3>
 							<div>
 								<span>
 								储值次数

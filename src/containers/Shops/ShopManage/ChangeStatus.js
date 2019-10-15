@@ -7,13 +7,30 @@ class ShopApplication extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-			status:''
+			status:'',
+			isShow: true
 		};
+	}
+	
+	componentWillReceiveProps(nextProps, nextContext) {
+		if(!nextProps.selectedRows.length) return;
+		let isShow = nextProps.selectedRows.find(item=>{
+			return item.channel === '分销员'
+		});
+		this.setState({isShow: !isShow})
 	}
 	
 	
 	handleCancel = ()=>{
 		this.props.onClose()
+	};
+	
+	confirm = () => {
+		if (this.state.isShow) {
+			this.handleSubmit()
+		} else {
+			this.showNotice()
+		}
 	};
 	
 	showNotice = () =>{
@@ -61,10 +78,6 @@ class ShopApplication extends React.Component{
 		})
 	};
 	
-	
-	
-	
-	
 	render(){
 		return (
 			<div>
@@ -76,7 +89,7 @@ class ShopApplication extends React.Component{
 					maskClosable={false}
 					okText="确认"
 					cancelText="取消"
-					onOk={this.showNotice}
+					onOk={this.confirm}
 				>
 					<div className="s_channel">
 						<span className="left">选择店铺状态:</span>
@@ -86,7 +99,7 @@ class ShopApplication extends React.Component{
 							}
 						}>
 							<Radio value={100}>开业</Radio>
-							<Radio value={200}>打烊</Radio>
+							<Radio value={200} style={{display: this.state.isShow ? 'inline-block': 'none'}}>打烊</Radio>
 							<Radio value={0}>冻结</Radio>
 						</Radio.Group>
 					</div>

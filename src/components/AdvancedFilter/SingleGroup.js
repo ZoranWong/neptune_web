@@ -75,6 +75,7 @@ export default class SingleGroup extends React.Component{
 								value={this.props.value}
 								operation={this.props.operation}
 								api={this.props.api}
+								slug={this.props.slug}
 							/>
 						})
 					}

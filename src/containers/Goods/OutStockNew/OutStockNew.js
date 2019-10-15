@@ -41,6 +41,7 @@ export default class OutStockNew extends React.Component{
 		data.forEach(item=>{
 			item.count = 0;
 		});
+		console.log(data);
 		this.setState({data})
 	};
 	
@@ -126,8 +127,8 @@ export default class OutStockNew extends React.Component{
 				dataIndex: 'retail_price',
 			},
 			{
-				title: '小计',
-				dataIndex: 'count',
+				title: '剩余库存',
+				dataIndex: 'stock',
 			},
 			{
 				title: '操作',

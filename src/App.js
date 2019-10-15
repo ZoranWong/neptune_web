@@ -7,6 +7,7 @@ import Routes from './routes'
 import User from './components/SideMenu/User'
 import Finance from './components/SideMenu/Finance'
 import Goods from './components/SideMenu/Goods'
+import Distribution from "./components/SideMenu/Distribution";
 import Data from './components/SideMenu/Data'
 import Home from './components/SideMenu/Home'
 import Shops from './components/SideMenu/Shops'
@@ -40,15 +41,17 @@ class App extends React.Component{
 				return <Order match={{url:this.props.location.pathname}}/>;
 			case "setting":
 				return <Setting match={{url:this.props.location.pathname}}/>;
+			case "distribution":
+				return <Distribution match={{url:this.props.location.pathname}}  />
 			default:
-				return <Home match={{url:this.props.location.pathname}}/>;
+				return '';
 		}	
 	};
 
 	// check container
 	routeClassName = () =>{
-		const secondRoutes = ['integralRules','tagManage','userDetails','shopDetails','goodDetails','releaseGoods','inStock','outStock','inStockNew','outStockNew','inStockDetail','outStockDetail','orderDetail','newCoupon','newCouponShop','userStore','storeRecord','message','sendOutRecord','balanceDetails','overview','incomeDetails','withdrawDetails','withdrawApplication','customWeChatMessage','editWeChatMessage'];
-		const firstRoutes = ['finance'];
+		const secondRoutes = ['integralRules','tagManage','userDetails','shopDetails','goodDetails','releaseGoods','inStock','outStock','inStockNew','outStockNew','inStockDetail','outStockDetail','orderDetail','newCoupon','newCouponShop','userStore','storeRecord','message','sendOutRecord','balanceDetails','overview','incomeDetails','withdrawDetails','withdrawApplication','customWeChatMessage','editWeChatMessage','cashbackSetting','setUserMessage','setting'];
+		const firstRoutes = ['finance', 'home'];
 		let routePath = this.props.location.pathname.split('/');
 		if((!routePath[2]) && firstRoutes.indexOf(routePath[1]) > -1){
 			return true
@@ -68,18 +71,23 @@ class App extends React.Component{
 		return (
 			<Layout style={{minHeight:"100vh"}}>
 				<TopBar/>
-				<Header style={{background:"#fff",height:'80px'}}>
-					<Nav/>
-				</Header>
-				<Layout style={{display:"flex",justifyContent:"center"}}>
+				<div className="lay_out_header">
+					<Header style={{background:"#fff",height:'80px'}}>
+						<Nav/>
+					</Header>
+				</div>
+				<Layout style={{display:"flex",justifyContent:"center",width: '100%'}}>
 					<div className="main-content app">
-						<Sider
-							width={300}
-							style={{ background: '#fff' ,flex:1}}
-							className="fixed"
-						>
-							{this.handleSider()}
-						</Sider>
+						{
+							this.props.location.pathname !== '/home' && <Sider
+								width={300}
+								style={{ background: '#fff' ,flex:1}}
+								className="fixed"
+							>
+								{this.handleSider()}
+							</Sider>
+						}
+						
 						<Content className={this.routeClassName()?'container no-padding-container':'container'} ><Routes/></Content>
 					</div>
 				</Layout>

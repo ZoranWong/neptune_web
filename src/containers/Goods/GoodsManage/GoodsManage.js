@@ -77,6 +77,7 @@ class GoodsManage extends React.Component{
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
+				searchJson:searchJson({status:true})
 			},
 			columns:columns,
 			groupVisible:false,

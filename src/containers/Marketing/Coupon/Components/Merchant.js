@@ -218,7 +218,7 @@ class Merchant extends Component {
 	
 	// 领取详情
 	showPickUpDetail = (record) =>{
-		this.setState({pickUpDetailsVisible:true})
+		this.setState({pickUpDetailsVisible:true, couponId:record.coupon_id})
 	};
 	hidePickUpDetail = () =>{
 		this.setState({pickUpDetailsVisible:false});
@@ -267,6 +267,10 @@ class Merchant extends Component {
 		});
 	};
 	
+	// 设置默认模板消息
+	setMessage = () => {
+		this.props.history.push({pathname:"/order/setUserMessage",state:{mode:'couponMerchant'}})
+	};
 	
 	render() {
 		const pickUpDetails = {
@@ -290,7 +294,13 @@ class Merchant extends Component {
 							getDatas={this.search}
 							text='请输入姓名或手机号'
 						/>
-						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
+						{/*<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>*/}
+						<Button
+							size="small"
+							type='primary'
+							onClick={this.setMessage}
+							style={{marginLeft: '20px'}}
+						>设置默认模板消息</Button>
 						
 					</div>
 					<div className="right">
@@ -302,10 +312,10 @@ class Merchant extends Component {
 							<IconFont type="icon-plus-circle-fill" />
 							新建优惠券
 						</Button>
-						<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
-						<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
-							<CustomItem data={user_values}  handleCustom={this.handleCustom} />
-						</div>
+						{/*<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>*/}
+						{/*<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>*/}
+						{/*	<CustomItem data={user_values}  handleCustom={this.handleCustom} />*/}
+						{/*</div>*/}
 					</div>
 				</div>
 				

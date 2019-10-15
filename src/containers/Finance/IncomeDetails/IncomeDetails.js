@@ -3,15 +3,35 @@ import {Button, Input, LocaleProvider, DatePicker, Table} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import './css/incomeDetails.sass'
 import CustomPagination from "../../../components/Layout/Pagination";
+import SelectTimeRange from "../../../components/SelectTimeRange/SelectTimeRange";
+import {incomeOverview} from "../../../api/finance/income";
+
 const {RangePicker} = DatePicker;
 class IncomeDetails extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data:[]
+			data:[],
+			settlement_total_amount: 0,
+			settlement_wx_total_amount: 0,
+			settlement_alipay_total_amount: 0,
+			settlement_balance_total_amount: 0,
+			settlement_cmb_total_amount: 0
 		}
 	}
 	
+	componentDidMount() {
+		incomeOverview({}).then(r=>{
+			this.handleData(r.data)
+		})
+	}
+	
+	// 处理数据
+	handleData = data =>{
+		for(let key in data){
+			this.setState({[key]:data[key]})
+		}
+	};
 	
 	render() {
 		
@@ -48,26 +68,27 @@ class IncomeDetails extends Component {
 		
 		return (
 			<Fragment>
+				{/*<SelectTimeRange api={incomeOverview} handleData={this.handleData} />*/}
 				<ul className="data">
 						<li>
 							支付总额
-							<span>1000</span>
+							<span>{this.state.settlement_total_amount}</span>
 						</li>
 						<li>
 							微信支付
-							<span>1000</span>
+							<span>{this.state.settlement_wx_total_amount}</span>
 						</li>
 						<li>
 							支付宝支付
-							<span>300</span>
+							<span>{this.state.settlement_alipay_total_amount}</span>
 						</li>
 						<li>
 							余额支付
-							<span>300</span>
+							<span>{this.state.settlement_balance_total_amount}</span>
 						</li>
 						<li>
 							招行一网通
-							<span>300</span>
+							<span>{this.state.settlement_cmb_total_amount}</span>
 						</li>
 					</ul>
 				<div className="id_chartContent">

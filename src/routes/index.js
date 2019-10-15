@@ -21,6 +21,8 @@ import Order from "../containers/Order/OrderManage/Order";
 import GoodsOrder from "../containers/Order/GoodsOrder/GoodsOrder";
 import Refund from "../containers/Order/Refund/Refund";
 import OrderDetail from "../containers/Order/OrderDetail/OrderDetail";
+import SetUserMessage from "../containers/Order/SetUserMessage/SetUserMessage";
+import OrderSetting from "../containers/Order/OrderSetting/OrderSetting";
 
 import ShopManage from "../containers/Shops/ShopManage/ShopManage";
 import ShopGroup from '../containers/Shops/ShopGroup/ShopGroup'
@@ -71,6 +73,9 @@ import WithdrawApplication from "../containers/Finance/WithdrawDetails/WithdrawA
 import CustomWeChatMessage from "../containers/Marketing/Message/CustomWeChatMessage/CustomWeChatMessage";
 import EditWeChatMessage from "../containers/Marketing/Message/EditWeChatMessage/EditWeChatMessage";
 
+import DistributionStatistics from '../containers/Distribution/DistributionStatistics/DistributionStatistics'
+import CashbackRecords from "../containers/Distribution/CashbackRecords/CashbackRecords";
+import CashbackSetting from "../containers/Distribution/CashbackSetting/CashbackSetting";
 
 
 /** 跳转到某个路由之前触发 用于验证页面权限**/
@@ -133,6 +138,8 @@ const Routes = () =>(
 		<Route exact={true} path="/order/goodsOrder" render={props => onEnter(GoodsOrder, props)} />
 		<Route exact={true} path="/order/refund" render={props => onEnter(Refund, props)} />
 		<Route exact={true} path="/order/orderDetail" render={props => onEnter(OrderDetail, props)} />
+		<Route exact={true} path="/order/setUserMessage" render={props => onEnter(SetUserMessage, props)} />
+		<Route exact={true} path="/order/setting" render={props => onEnter(OrderSetting, props)} />
 		
 		{/*营销*/}
 		<Route exact={true} path="/marketing" render={props => onEnter(Marketing, props)} />
@@ -166,6 +173,11 @@ const Routes = () =>(
 		<Route exact={true} path="/setting" render={props => onEnter(Staffing, props)} />
 		<Route exact={true} path="/setting/warningSetting" render={props => onEnter(WarningSetting, props)} />
 		
+		
+		{/*分销*/}
+		{/*<Route exact={true} path="/distribution" render={props => onEnter(DistributionStatistics, props)} />*/}
+		<Route exact={true} path="/distribution" render={props => onEnter(CashbackRecords, props)} />
+		<Route exact={true} path="/distribution/cashbackSetting" render={props => onEnter(CashbackSetting, props)} />
 	
 		{/*重定向至首页*/}
 		<Redirect to={'/home'} />

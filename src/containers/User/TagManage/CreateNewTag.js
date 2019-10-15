@@ -3,6 +3,7 @@ import {Input, Modal, message, Select, Button} from "antd";
 import AdvancedFilter from "../../../components/AdvancedFilter/AdvancedFilter";
 import './css/createNewTag.sass'
 import {addTag} from '../../../api/user'
+import {operation, user_values} from "../../../utils/user_fields";
 export default class CreateNewTag extends React.Component{
 	constructor(props){
 		super(props);
@@ -135,7 +136,11 @@ export default class CreateNewTag extends React.Component{
 						<li style={{'display':this.state.automatic?'block':'none'}}>
 							<span className="left">筛选条件</span>
 							<div className="advanced">
-								<AdvancedFilter ref={this.child} renderChild={this.renderChild} />
+								<AdvancedFilter
+									ref={this.child}
+									value={user_values}
+									operation={operation}
+									renderChild={this.renderChild} />
 							</div>
 						</li>
 					</ul>

@@ -40,14 +40,14 @@ service.interceptors.response.use(
     	return response.data;
     },
     error => {
-
 		if (error === undefined || error.code === '502') {
 			message.error("服务器请求超时");
 			return Promise.reject(error)
 		}
-		const { response: { status, statusText, data: { msg = '服务器发生错误' } }} = error;
 		const { response } = error;
-		if(!response.status) return;
+		console.log(response, '========');
+		if(!response || !response.status) return;
+		message.error(response.data.message);
 		if(response.status === 422 && response.data.errors.introducer_code){
 			message.error('请输入正确的介绍人编号');
 			return Promise.reject(error);

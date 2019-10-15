@@ -5,32 +5,32 @@ export const good_values = [
 		children:[
 			{
 				label:'商品名称',
-				value:'product_name',
+				value:'name',
 				type:'absoluteCompare'
 			},
 			{
 				label:'商品条码',
-				value:'product_barcode',
+				value:'barcode',
 				type:'emptyCompare'
 			},
 			{
 				label:'PV值',
-				value:'product_pv',
+				value:'pv',
 				type:'numCompare'
 			},
 			{
 				label:'零售价',
-				value:'product_retail_price',
+				value:'retail_price',
 				type:'numCompare'
 			},
 			{
 				label:'市场价',
-				value:'product_market_price',
+				value:'market_price',
 				type:'numCompare'
 			},
 			{
 				label:'成本价',
-				value:'product_cost_price',
+				value:'cost_price',
 				type:'numCompare'
 			}
 		]
@@ -41,28 +41,28 @@ export const good_values = [
 		children:[
 			{
 				label:'配送批次',
-				value:'product_delivery_batch',
+				value:'delivery_batch',
 				type:'equalCompare'
 			},
 			{
 				label:'保存方式',
-				value:'product_keep_mode',
+				value:'keep_mode',
 				type:'equalCompare'
 				
 			},
 			{
 				label:'属性',
-				value:'product_property',
+				value:'property',
 				type:'absoluteCompare'
 			},
 			{
 				label:'商品分类',
-				value:'product_category',
+				value:'category',
 				type:'contain'
 			},
 			{
 				label:'商品组',
-				value:'product_group',
+				value:'group',
 				type:'group'
 			},
 		]
@@ -73,7 +73,7 @@ export const good_values = [
 		children:[
 			{
 				label:'总销量',
-				value:'product_total_sales',
+				value:'total_sales',
 				type:'numCompare'
 			},
 		]

@@ -4,7 +4,7 @@ import Editor from "../../../components/Editor/Editor";
 import {Tabs, Button, Form, Input, Select, Radio, Switch, message} from 'antd';
 import Specification from './Specification/SpecContainer'
 import {releaseProducts,beforeEditGood,editGoods} from "../../../api/goods/goods";
-
+import {getSettings} from "../../../api/distribution/setting";
 import Upload from '../../../components/Upload/Upload'
 import UploadMany from "../../../components/UploadMany/Upload";
 import Classification from "./Classification/Classification";
@@ -30,6 +30,7 @@ class ReleaseGoods extends React.Component{
 			spec:[],// 商品编辑回显
 			entities:[], // 数量回显
 			detail:'',  //富文本回显
+			PI: 0,
 		};
 		this.child = React.createRef();
 		this.uploadChild = React.createRef();
@@ -38,9 +39,7 @@ class ReleaseGoods extends React.Component{
 		this.classification = React.createRef();
 	}
 	
-	componentDidMount() {
-		
-		
+	componentWillMount() {
 		if(this.props.location.state&&this.props.location.state.id){
 			beforeEditGood({},this.props.location.state.id).then(r=>{
 				console.log(r);
@@ -51,10 +50,15 @@ class ReleaseGoods extends React.Component{
 					specificationIsOpen:r.data.open_specification,
 					spec:r.data.spec,
 					entities:r.data.entities.data,
-					detail:r.data.detail
+					detail:r.data.detail,
+					category_ids:r.data.category_ids
 				})
 			}).catch(_=>{})
 		}
+		
+		getSettings({}).then(r=>{
+			this.setState({PI:r.data[0]['value']})
+		})
 	}
 	
 	
@@ -63,9 +67,11 @@ class ReleaseGoods extends React.Component{
 	};
 	
 	devideIds = (item,all) =>{
+		// 此处修改
 		let ary = {};
 		all.forEach(i=>{
-			i.spec_value.forEach(k=>{
+			let v = i.spec_value || i.values;
+			v.forEach(k=>{
 				if(k.id == item[`id${k.id}`]){
 					ary[i.id] = k.id;
 				}
@@ -80,7 +86,7 @@ class ReleaseGoods extends React.Component{
 		let text;
 		api =   this.props.location.state&&this.props.location.state.id ? editGoods:releaseProducts;
 		text =  this.props.location.state&&this.props.location.state.id ? '编辑商品成功':'发布商品成功';
-		let imgUrl = this.uploadChild.current.state.imgUrl|| this.uploadChild.current.state.imageUrl;
+		let imgUrl = this.uploadChild.current.state.imgUrl || this.uploadChild.current.state.imageUrl;
 		this.props.form.setFieldsValue({'thumbnail':imgUrl}); // 缩略图
 		let category_ids = [];
 		let category_ids_child = this.classification.current.state.selectedItems;
@@ -119,37 +125,41 @@ class ReleaseGoods extends React.Component{
 					
 					// 数量
 					let tableData = this.child.current.state.data;
+					console.log(tableData);
 					
-					if(!this.props.location.state){
-						tableData.forEach(item=>{
-							let spec = this.devideIds(item, childName);
-							item['name']=values.name;
-							item['image']=this.uploadChild.current.state.imgUrl;
-							item['spec'] = spec;
-						});
-					}
+					// 此处修改
+					tableData.forEach(item=>{
+						let spec = this.devideIds(item, childName);
+						item['name'] = values.name;
+						item['image'] = this.uploadChild.current.state.imgUrl || this.uploadChild.current.state.imageUrl;
+						item['spec'] = spec;
+					});
+					
 					
 					values.spec = specs;
 					values.entities = tableData;
 					values.detail = this.editor.current?this.editor.current.state.outputHTML:'';
 					api(values,this.props.location.state&&this.props.location.state.id).then(r=>{
-						message.success(text)
+						message.success(text);
+						window.setTimeout(()=>{
+							this.props.history.push({pathname:"/goods"})
+						},2000);
 					}).catch(_=>{});
 					
 				} else {
 					values.open_specification = 0;
 					values.detail = this.editor.current?this.editor.current.state.outputHTML:'';
 					api(values,this.props.location.state&&this.props.location.state.id).then(r=>{
-						message.success(text)
+						message.success(text);
+						window.setTimeout(()=>{
+							this.props.history.push({pathname:"/goods"})
+						},2000);
 					}).catch(_=>{});
 				}
 				
 			}
 		});
 	};
-	
-	
-	
 	
 	render() {
 		const { getFieldDecorator } = this.props.form;
@@ -241,7 +251,7 @@ class ReleaseGoods extends React.Component{
 									<Form.Item label="商品分类：" className="classification" >
 										{getFieldDecorator('category_ids', {
 											rules: [{ required: true, message: '请选择商品分类' }],
-										})(<Classification ref={this.classification} />)}
+										})(<Classification ref={this.classification} def={this.props.form.getFieldValue('category_ids')}  />)}
 									</Form.Item>
 									<Form.Item label="商品单位：" >
 										{getFieldDecorator('unit', {
@@ -287,10 +297,10 @@ class ReleaseGoods extends React.Component{
 											</div>
 										)
 									}
-									<Form.Item label="PV值：" >
+									<Form.Item label="生产力指数：" >
 										{getFieldDecorator('pv', {
-											initialValue:'',
-											rules: [{ required: true, message: '请输入PV值' }],
+											initialValue: this.state.PI,
+											rules: [{ required: true, message: '请输入生产力指数' }],
 										})(<Input />)}
 									</Form.Item>
 									<Form.Item label="选择批次：" >

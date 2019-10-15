@@ -8,27 +8,27 @@ const { SubMenu } = Menu;
 const baseMenu = [
 	{
 		path:'/finance',
-		icon:'icon-dingdan',
+		icon:'icon-accountbook-fill',
 		text:'资产概览',
 	},
 	{
 		path:'/finance/incomeDetails',
-		icon:'icon-tuikuan',
+		icon:'icon-qianbao1',
 		text:'收入明细',
 	},
 	{
 		path:'/finance/balanceDetails',
-		icon:'icon-box-fill',
+		icon:'icon-YUAN-circle-fill',
 		text:'余额明细',
 	},
 	{
 		path:'/finance/refundDetails',
-		icon:'icon-box-fill',
+		icon:'icon-tuikuan',
 		text:'退款详情',
 	},
 	{
 		path:'/finance/withdrawDetails',
-		icon:'icon-box-fill',
+		icon:'icon-tixian1',
 		text:'提现详情',
 	},
 ];

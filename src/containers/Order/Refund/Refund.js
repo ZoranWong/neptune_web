@@ -32,7 +32,7 @@ class Refund extends React.Component{
 				logic_conditions:[],
 				search:'',
 			},
-			activeTab:'全部',
+			activeTab:'',
 			reviewGoodsVisible:false,
 			record:{},
 			items:[],
@@ -127,7 +127,7 @@ class Refund extends React.Component{
 	
 	// 切换tab
 	onChangeTab = item =>{
-		this.setState({activeTab:item.name});
+		this.setState({activeTab:item.key});
 		this.refresh(item.key)
 	};
 	
@@ -154,10 +154,11 @@ class Refund extends React.Component{
 			}
 		};
 		const tabs = [
-			{name:'全部',key:'-1'},
+			{name:'全部',key:''},
 			{name:'待处理',key:'0'},
-			{name:'已退款',key:'1'},
-			{name:'拒绝退款',key:'2'},
+			{name:'处理中',key:'1'},
+			{name:'已退款',key:'2'},
+			{name:'拒绝退款',key:'3'},
 		];
 		const columns = [
 			{
@@ -209,10 +210,10 @@ class Refund extends React.Component{
 				dataIndex: 'applied_at',
 			},
 			{
-				title: this.state.activeTab == '待处理'?'操作':'退款状态',
+				title: this.state.activeTab == '0'?'操作':'退款状态',
 				dataIndex:'refund_state_desc',
 				render:(text,record) =>{
-					if(this.state.activeTab == '待处理'){
+					if(this.state.activeTab == '0'){
 						return (
 							<div>
 								<span style={{'color':'#4F9863','cursor':'pointer','marginRight':'20px'}} onClick={()=>this.showRefund(record)}>退款</span>
@@ -271,7 +272,7 @@ class Refund extends React.Component{
 							tabs.map((item,index)=>{
 								return <li
 									key={index}
-									className={this.state.activeTab == item.name?'active':''}
+									className={this.state.activeTab == item.key?'active':''}
 									onClick={()=>this.onChangeTab(item)}
 								>{item.name}</li>
 							})

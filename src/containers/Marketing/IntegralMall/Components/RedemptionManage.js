@@ -1,9 +1,13 @@
 import React, {Component,Fragment} from 'react';
-import {Button, Input, Table} from "antd";
+import {Button, DatePicker, Input, LocaleProvider, Table} from "antd";
 import '../css/index.sass'
 import IconFont from "../../../../utils/IconFont";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import CreateNew from '../Modal/CreateNew'
+import {integralProducts} from "../../../../api/marketing/integral";
+import {searchJson} from "../../../../utils/dataStorage";
+import zh_CN from "antd/lib/locale-provider/zh_CN";
+const {RangePicker} = DatePicker;
 class RedemptionManage extends Component {
 	constructor(props) {
 		super(props);
@@ -14,19 +18,19 @@ class RedemptionManage extends Component {
 			},
 			{
 				title: '上架时间',
-				dataIndex: 'category_desc',
+				dataIndex: 'created_at',
 			},
 			{
 				title: '所需积分',
-				dataIndex: 'spec',
+				dataIndex: 'pv',
 			},
 			{
 				title: '可兑换/已兑换',
-				dataIndex: 'unit',
+				render: (text,record) => `${record.available_count}/${record.received_count}`
 			},
 			{
 				title: '状态',
-				dataIndex: 'retail_price',
+				dataIndex: 'state_desc',
 			},
 			{
 				title: '操作',
@@ -39,9 +43,17 @@ class RedemptionManage extends Component {
 		this.child = React.createRef();
 		this.state = {
 			data:[],
+			api:integralProducts,
 			activeTab:'全部',
 			columns:columns,
-			visible:false
+			visible:false,
+			paginationParams:{
+				searchJson: searchJson({type:'COUPON'})
+			},
+			searchJson: {
+				exchange_date:'',
+				product_name: ''
+			}
 		};
 	}
 	
@@ -67,7 +79,45 @@ class RedemptionManage extends Component {
 		this.setState({visible:false})
 	};
 	
+	// 选择搜索日期
+	onDateChange = (date,dateString) =>{
+		this.setState({searchJson:{...this.state.searchJson,exchange_date:dateString}})
+	};
 	
+	// 筛选
+	search = () =>{
+		let obj = {};
+		let searchJsons = this.state.searchJson;
+		for (let key in searchJsons){
+			if(searchJsons[key]){
+				obj[key] = searchJsons[key]
+			}
+		}
+		obj.type = 'COUPON';
+		
+		this.setState({
+			paginationParams:{...this.state.paginationParams,
+				searchJson:searchJson(obj)}
+		},()=>{
+			this.child.current.pagination(this.child.current.state.current)
+		});
+	};
+	
+	//改变搜索值
+	changeSearchValue = (e,type) =>{
+		this.setState({searchJson:{...this.state.searchJson,[type]:e.target.value}})
+	};
+	
+	// 清空筛选条件
+	clear = () =>{
+		let searchJson =  {
+			exchange_date:'',
+			product_name: ''
+		};
+		this.setState({searchJson},()=>{
+			this.search()
+		})
+	};
 	
 	
 	render() {
@@ -83,14 +133,23 @@ class RedemptionManage extends Component {
 				<div className="i_banner">
 					<div className="i_inputs">
 						<span>优惠券名称:</span>
-						<Input size="small" placeholder="请输入优惠券名称"  />
+						<Input
+							size="small"
+							placeholder="请输入优惠券名称"
+							value={this.state.searchJson['product_name']}
+							onChange={(e)=>{this.changeSearchValue(e,'product_name')}}
+						/>
 					</div>
 					<div className="i_inputs">
 						<span>兑换时间:</span>
-						<Input size="small" placeholder="请输入兑换时间称"  />
+						<LocaleProvider locale={zh_CN}>
+							<RangePicker
+								onChange={this.onDateChange}
+							/>
+						</LocaleProvider>
 					</div>
-					<Button size="small">搜索</Button>
-					<span className="i_filter">清空筛选条件</span>
+					<Button size="small" type="primary" onClick={this.search}>搜索</Button>
+					<span className="i_filter" onClick={this.clear}>清空筛选条件</span>
 				</div>
 				<ul className="i_tabs">
 					{
@@ -125,7 +184,6 @@ class RedemptionManage extends Component {
 						api={this.state.api}
 						ref={this.child}
 						params={this.state.paginationParams}
-						id={this.state.id}
 						valChange={this.paginationChange}
 					/>
 				</div>

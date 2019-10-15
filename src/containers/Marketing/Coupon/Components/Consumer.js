@@ -30,20 +30,8 @@ class Consumer extends Component {
 				dataIndex: 'release_mode',
 			},
 			{
-				title: '价值',
-				dataIndex: 'value',
-			},
-			{
-				title: '使用条件',
-				dataIndex: 'floor',
-			},
-			{
-				title: '适用商品',
-				dataIndex: 'goods',
-			},
-			{
 				title: '有效期',
-				dataIndex: 'date',
+				dataIndex: 'valid_term_desc',
 			},
 			{
 				title: '发放总量/剩余库存',
@@ -55,7 +43,7 @@ class Consumer extends Component {
 			},
 			{
 				title: '已使用',
-				dataIndex: 'used',
+				dataIndex: 'used_count',
 			},
 			{
 				title: '状态',
@@ -217,7 +205,7 @@ class Consumer extends Component {
 	onSubmit = (data) =>{
 		this.setState({
 			api:coupons(),
-			paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}
+			paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,obj_type:'USER'})}
 			},()=>{
 			this.child.current.pagination(1)
 		});
@@ -378,6 +366,11 @@ class Consumer extends Component {
 		this.setState({promotionCodeVisible:false})
 	};
 	
+	// 设置默认模板消息
+	setMessage = () => {
+		this.props.history.push({pathname:"/order/setUserMessage",state:{mode:'couponConsumer'}})
+	};
+	
 	render() {
 		const pickUpDetails = {
 			visible:this.state.pickUpDetailsVisible,
@@ -407,8 +400,13 @@ class Consumer extends Component {
 							getDatas={this.search}
 							text='请输入姓名或手机号'
 						/>
-						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
-						
+						{/*<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>*/}
+						<Button
+							size="small"
+							type='primary'
+							onClick={this.setMessage}
+							style={{marginLeft: '20px'}}
+						>设置默认模板消息</Button>
 					</div>
 					<div className="right">
 						<Button
@@ -419,10 +417,10 @@ class Consumer extends Component {
 							<IconFont type="icon-plus-circle-fill" />
 							新建优惠券
 						</Button>
-						<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
-						<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
-							<CustomItem data={user_values}  handleCustom={this.handleCustom} />
-						</div>
+						{/*<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>*/}
+						{/*<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>*/}
+						{/*	<CustomItem data={user_values}  handleCustom={this.handleCustom} />*/}
+						{/*</div>*/}
 					</div>
 				</div>
 				

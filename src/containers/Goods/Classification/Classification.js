@@ -27,6 +27,14 @@ class Classification extends React.Component{
 		// 	this.setState({data:r.data})
 		// }).catch(_=>{});
 		SonClassification({}).then(r=>{
+			// r.forEach(item=>{
+			// 	item.fName = item.name;
+			// 	if(item.children.length) {
+			// 		item.children.forEach(i=>{
+			// 			i.sName = i.name
+			// 		})
+			// 	}
+			// });
 			this.setState({data:r})
 		})
 	};
@@ -90,11 +98,14 @@ class Classification extends React.Component{
 		const _this = this;
 		function NestedTable() {
 			const expandedRowRender = (record) => {
+				console.log(record, '-------------------------');
+				console.log(data, '_______________');
 				const columnsSon = [
 					{
 						title: 'cName',
 						dataIndex: 'name',
 						key: 'id',
+						render: (text,record) => record.name
 					},
 					{
 						title: 'Status',
@@ -165,7 +176,6 @@ class Classification extends React.Component{
 					</div>
 				},
 			];
-			
 			return (
 				<Table
 					className="components-table-demo-nested"

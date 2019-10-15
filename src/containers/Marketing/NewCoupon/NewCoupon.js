@@ -21,12 +21,11 @@ class NewCoupon extends Component {
 				type:"CASH",   // 优惠形式
 				cash:"",   // 优惠形式
 				discount:'',   // 优惠力度
-				property:'UNIVERSAL',  // 选择类别
 				floor:0,  // 使用门槛
 				floorValue:'',//门槛值
 				productType:'ALL',  // 适用商品
 				userType:"ALL",  // 用户范围
-				simultaneous_use:true,    // 优惠共享
+				is_sharing_preferential:true,    // 优惠共享
 				is_code_scan_available:true,    // 支付可用
 				release_mode:'MANUAL_RECEIVE',  // 领取方式
 				name:'',   //优惠券名称
@@ -52,6 +51,7 @@ class NewCoupon extends Component {
 		this.disableGood = React.createRef();
 		this.ableGoodGroup = React.createRef();
 		this.ableGoodCate = React.createRef();
+		this.banner = React.createRef();
 	}
 	
 	componentDidMount() {
@@ -77,7 +77,12 @@ class NewCoupon extends Component {
 	
 	check = () =>{
 		let values = this.state.radioValue;
-		values.scopes = {};
+		
+		if(!this.banner.current.state.imgUrl) {
+			message.error('请选择优惠券图片');
+			return
+		}
+		values.banner = this.banner.current.state.imgUrl;
 		
 		// 验证名称
 		if(!values.name){
@@ -90,8 +95,8 @@ class NewCoupon extends Component {
 			message.error('请填写优惠力度');
 			return;
 		}
-		if(values.type === 'DISCOUNT' && values.discount > 100){
-			message.error('折扣不可大于100');
+		if(values.type === 'DISCOUNT' && values.discount > 100 && values.discount < 0){
+			message.error('折扣范围为0-100');
 			return
 		}
 		values.benefit = values.type === 'CASH'? values.cash : values.discount;
@@ -114,7 +119,7 @@ class NewCoupon extends Component {
 			message.error('请填写优惠券有效期天数');
 			return;
 		}
-		values.fixed_term = values.fixed_begin_term === 0?values.fixed_term_today:values.fixed_term_tomorrow;
+		values.fixed_term = values.fixed_begin_term === 0? parseInt(values.fixed_term_today):parseInt(values.fixed_term_tomorrow);
 		values.valid_date_type = values.valid_date_type === 'DATE_TYPE_FIX_TIME_RANGE' ? 'DATE_TYPE_FIX_TIME_RANGE' : 'DATE_TYPE_FIX_TERM';
 		
 		// 验证使用门槛
@@ -130,38 +135,40 @@ class NewCoupon extends Component {
 			return
 		}
 		
+		// 备注
+		if (!values.remark) {
+			message.error('请填写优惠券备注');
+			return
+		}
+		
 		// 验证可用范围(用户，商品)
 		let productType = this.state.radioValue.productType;
-		let products = {};
+		let use_conditions = {};
 		switch (productType) {
 			case 'ALL':
-				products.type = 'ALL';
+				use_conditions.strategy = 'COUPON_USE_IN_ALL_PRODUCT_SET';
 				break;
 			case 'PARTIAL_AVAILABLE_ID':
-				products.type = 'PARTIAL_AVAILABLE';
-				products['scope_type'] = 'id';
-				products['scope_values'] = this.ableGood.current.state.selectedItems;
+				use_conditions.strategy = 'COUPON_USE_IN_PRODUCT_SET';
+				use_conditions['value'] = this.ableGood.current.state.selectedItems;
 				break;
 			case 'PARTIAL_FORBIDDEN':
-				products.type = 'PARTIAL_FORBIDDEN';
-				products['scope_type'] = 'id';
-				products['scope_values'] = this.disableGood.current.state.selectedItems;
+				use_conditions.strategy = 'COUPON_USE_NOT_IN_PRODUCT_SET';
+				use_conditions['value'] = this.disableGood.current.state.selectedItems;
 				break;
 			case 'PARTIAL_AVAILABLE_CATE':
-				products.type = 'PARTIAL_AVAILABLE';
-				products['scope_type'] = 'category';
-				products['scope_values'] = this.ableGoodCate.current.state.selectedItems;
+				use_conditions.strategy = 'COUPON_USE_IN_PRODUCT_CATEGORY_SET';
+				use_conditions['value'] = this.ableGoodCate.current.state.selectedItems;
 				break;
 			case 'PARTIAL_AVAILABLE_GROUP':
-				products.type = 'PARTIAL_AVAILABLE';
-				products['scope_type'] = 'group';
-				products['scope_values'] = this.ableGoodGroup.current.state.selectedItems;
+				use_conditions.strategy = 'COUPON_USE_IN_PRODUCT_GROUP_SET';
+				use_conditions['value'] = this.ableGoodGroup.current.state.selectedItems;
 				break;
 			default:
 				break;
 		}
-		if(products.type !== 'ALL'){
-			if(!products['scope_values'] || !products['scope_values'].length){
+		if(use_conditions.strategy !== 'COUPON_USE_IN_ALL_PRODUCT_SET'){
+			if(!use_conditions['value'] || !use_conditions['value'].length){
 				message.error('请填写商品或商品组');
 				return;
 			}
@@ -169,44 +176,42 @@ class NewCoupon extends Component {
 		
 		// 验证用户
 		let userType = this.state.radioValue.userType;
-		let user = {};
+		let put_conditions = {};
 		switch (userType) {
 			case 'ALL':
-				user.type = 'ALL';
+				put_conditions.strategy = 'USER_PUT_IN_ALL_USER_SET';
 				break;
 			case 'PARTIAL_AVAILABLE_ID':
-				user.type = 'PARTIAL_AVAILABLE';
-				user['scope_type'] = 'id';
-				user['scope_values'] = this.ableUser.current.state.selectedItems;
+				put_conditions.strategy = 'USER_PUT_IN_USER_SET';
+				put_conditions['value'] = this.ableUser.current.state.selectedItems;
 				break;
 			case 'PARTIAL_FORBIDDEN':
-				user.type = 'PARTIAL_FORBIDDEN';
-				user['scope_type'] = 'id';
-				user['scope_values'] = this.disableUser.current.state.selectedItems;
+				put_conditions.strategy = 'USER_PUT_NOT_IN_USER_SET';
+				put_conditions['value'] = this.disableUser.current.state.selectedItems;
 				break;
 			case 'PARTIAL_AVAILABLE_GROUP':
-				user.type = 'PARTIAL_AVAILABLE';
-				user['scope_type'] = 'group';
-				user['scope_values'] = this.ableUserGroup.current.state.selectedItems;
+				put_conditions.strategy = 'USER_PUT_IN_USER_GROUP_SET';
+				put_conditions['value'] = this.ableUserGroup.current.state.selectedItems;
 				break;
 			case 'PARTIAL_FORBIDDEN_GROUP':
-				user.type = 'PARTIAL_FORBIDDEN';
-				user['scope_type'] = 'group';
-				user['scope_values'] = this.disableUserGroup.current.state.selectedItems;
+				put_conditions.strategy = 'USER_PUT_NOT_IN_USER_GROUP_SET';
+				put_conditions['value'] = this.disableUserGroup.current.state.selectedItems;
 				break;
 			default:
 				break;
 		}
 		if(values.release_mode !== 'INTEGRAL_EXCHANGE'){
-			if(user.type !== 'ALL'){
-				if(!user['scope_values'] || !user['scope_values'].length){
+			if(put_conditions.strategy !== 'USER_PUT_IN_ALL_USER_SET'){
+				if(!put_conditions['value'] || !put_conditions['value'].length){
 					message.error('请选择用户或用户组');
 					return;
 				}
 			}
 		}
-		values.scopes['user'] = user;
-		values.scopes['products'] = products;
+		values.use_conditions = [];
+		values.put_conditions = [];
+		values.use_conditions.push(use_conditions);
+		values.put_conditions.push(put_conditions);
 		
 		// 验证发放总量
 		if(values.release_mode !== 'PLATFORM_SEND'){
@@ -224,8 +229,50 @@ class NewCoupon extends Component {
 	
 	submit = values => {
 		newCoupons({...values}).then(r=>{
-			console.log(r);
+			message.success(r.message)
 		}).catch(_=>{})
+	};
+	
+	// 渲染右侧有效期
+	couponValidDate = () =>{
+		let values = this.state.radioValue;
+		let msg = '';
+		switch (values.valid_date_type) {
+			case "DATE_TYPE_FIX_TERM_TOMORROW":
+				msg = `从领到券次日开始${values.fixed_term_tomorrow || 0}天`;
+				break;
+			case 'DATE_TYPE_FIX_TERM_TODAY':
+				msg = `从领到券当日开始${values.fixed_term_today || 0}天`;
+				break;
+			case "DATE_TYPE_FIX_TIME_RANGE":
+				if (values.valid_at) {
+					msg =  `${values.valid_at}-${values.invalid_at}`;
+				} else {
+					msg = '暂无'
+				}
+				break;
+			default:
+				msg = '暂无'
+		}
+		return msg
+	};
+	
+	// 领取方式
+	releaseType = () => {
+		let msg = '';
+		let values = this.state.radioValue;
+		switch (values.release_mode) {
+			case "MANUAL_RECEIVE":
+				msg = '主动领取';
+				break;
+			case "PLATFORM_SEND":
+				msg = '直接发送';
+				break;
+			case "INTEGRAL_EXCHANGE":
+				msg = '积分商城';
+				break
+		}
+		return msg
 	};
 	
 	render() {
@@ -251,17 +298,18 @@ class NewCoupon extends Component {
 								<Radio value='MANUAL_RECEIVE'>
 									主动领取
 									<Checkbox.Group options={options}  onChange={this.onCheckBoxChange} />
-									<CustomUpload />
 								</Radio>
 								<Radio value='PLATFORM_SEND'>
 									直接发送
-									<CustomUpload />
 								</Radio>
 								<Radio value='INTEGRAL_EXCHANGE'>
 									积分商城
-									<CustomUpload />
 								</Radio>
 							</Radio.Group>
+						</li>
+						<li className="normalLi imgLi">
+							<span className="c_left">优惠券图片:</span>
+							<CustomUpload ref={this.banner} />
 						</li>
 						<li className="normalLi">
 							<span className="c_left">优惠券名称:</span>
@@ -273,7 +321,7 @@ class NewCoupon extends Component {
 							<span className="c_left">优惠形式:</span>
 							<Radio.Group onChange={(e)=>this.onRadioChange('type',e)} value={radioValue.type}>
 								<Radio value="CASH">
-									面值
+									现金券、抵用券、抵扣券
 									<Input type="number" value={radioValue.cash} onChange={(e)=>{
 										if(e.target.value <= 0) return;
 										this.setState({radioValue:{...this.state.radioValue,cash:e.target.value}})
@@ -281,7 +329,7 @@ class NewCoupon extends Component {
 									<span className="fixed">元</span>
 								</Radio>
 								<Radio value="DISCOUNT">
-									折扣
+									折扣券
 									<Input type="number" value={radioValue.discount} onChange={(e)=>{
 										if(e.target.value <= 0) return;
 										this.setState({radioValue:{...this.state.radioValue,discount:e.target.value}})
@@ -335,24 +383,16 @@ class NewCoupon extends Component {
 								</Radio>
 							</Radio.Group>
 						</li>
-						{/*<li>*/}
-						{/*	<span className="c_left">选择类别:</span>*/}
-						{/*	<Radio.Group onChange={(e)=>this.onRadioChange('property',e)} value={radioValue.property}>*/}
-						{/*		<Radio value='UNIVERSAL'>*/}
-						{/*			通用券*/}
-						{/*		</Radio>*/}
-						{/*		<Radio value='VOUCHER'>*/}
-						{/*			满减券*/}
-						{/*		</Radio>*/}
-						{/*		<Radio value='MERCHANDISE'>*/}
-						{/*			商品券*/}
-						{/*		</Radio>*/}
-						{/*	</Radio.Group>*/}
-						{/*</li>*/}
 						<li>
 							<span className="c_left">使用说明:</span>
 							<Input placeholder="具体详细说明" value={radioValue.description} onChange={(e)=>{
 								this.setState({radioValue:{...this.state.radioValue,description:e.target.value}})
+							}} />
+						</li>
+						<li>
+							<span className="c_left">备注:</span>
+							<Input placeholder="请输入备注" value={radioValue.remark} onChange={(e)=>{
+								this.setState({radioValue:{...this.state.radioValue,remark:e.target.value}})
 							}} />
 						</li>
 						<li>
@@ -436,7 +476,7 @@ class NewCoupon extends Component {
 						
 						<li>
 							<span className="c_left">优惠共享:</span>
-							<Radio.Group onChange={(e)=>this.onRadioChange('simultaneous_use',e)} value={radioValue.simultaneous_use}>
+							<Radio.Group onChange={(e)=>this.onRadioChange('is_sharing_preferential',e)} value={radioValue.is_sharing_preferential}>
 								<Radio value={true}>
 									是
 								</Radio>
@@ -462,17 +502,16 @@ class NewCoupon extends Component {
 						<div className="c_container">
 							<div className="c_container_header">
 								<h3>{radioValue.name || '优惠券名称'}</h3>
-								<i>{radioValue.property || '通用券'}</i>
 							</div>
 							<div className="c_container_body">
-								<i>{radioValue.floor? '无门槛':'有门槛'}</i>
-								<i>有效期：2019-09-01至2019-09-02</i>
+								<i>{radioValue.floor? '有门槛':'无门槛'}</i>
+								<i>有效期：{this.couponValidDate()}</i>
 							</div>
 						</div>
-						<p>主动领取</p>
+						<p>{this.releaseType()}</p>
 						<span>适用商品：全部商品</span>
 						<span>发放范围：暂不发放</span>
-						<span>使用说明：暂无</span>
+						<span>使用说明：{this.state.radioValue.description || '暂无'}</span>
 					</div>
 				</div>
 				<div className="c_bottom">

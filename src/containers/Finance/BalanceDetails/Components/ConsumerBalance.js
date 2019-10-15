@@ -4,7 +4,7 @@ import zh_CN from "antd/lib/locale-provider/zh_CN";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import {userBalanceRecord} from "../../../../api/finance/balance";
 import {searchJson} from "../../../../utils/dataStorage";
-import '../css/balance.sass'
+import '../css/shop.sass'
 const {RangePicker} = DatePicker;
 
 class ConsumerBalance extends Component {
@@ -19,10 +19,13 @@ class ConsumerBalance extends Component {
 				'user.real_name':'',
 				'user.mobile':'',
 				created_at:'',
-			}
+			},
+			paginationParams:{
+			},
 		};
 		this.child = React.createRef();
 	};
+	
 	
 	// 筛选
 	search = () =>{
@@ -33,13 +36,17 @@ class ConsumerBalance extends Component {
 				obj[key] = searchJsons[key]
 			}
 		}
-		
 		this.setState({
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson(obj)}
 		},()=>{
 			this.child.current.pagination(this.child.current.state.current)
 		});
+	};
+	
+	// 选择搜索日期
+	onDateChange = (date,dateString) =>{
+		this.setState({searchJson:{...this.state.searchJson,created_at:dateString}})
 	};
 	
 	
@@ -122,7 +129,7 @@ class ConsumerBalance extends Component {
 		];
 		
 		return (
-			<div className="overviewBalance">
+			<div className="overviewShopBalance">
 				<p>剩余余额总额:待定（此处需要接口）</p>
 				<div className="ob_chartContent">
 					<ul className="filter">
@@ -142,7 +149,7 @@ class ConsumerBalance extends Component {
 								onChange={(e)=>{this.changeSearchValue(e,'user.mobile')}}
 							/>
 						</li>
-						<li>
+						<li className="needMargin">
 							选择时间：
 							<LocaleProvider locale={zh_CN}>
 								<RangePicker

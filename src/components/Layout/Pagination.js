@@ -17,6 +17,7 @@ class CustomPagination extends React.Component{
 	}
 	
 	pagination = (page) =>{
+		console.log(this.props, '+++++++++');
 		if(!this.props.api) return;
 		let params = this.props.params||{};
 		params.limit = 10;

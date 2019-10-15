@@ -1,12 +1,24 @@
 import React, {Component,Fragment} from 'react';
-import {DatePicker, Input, LocaleProvider, Modal,Radio,Button} from "antd";
+import {DatePicker, Input, LocaleProvider, Modal, Radio, Button, Select} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import 'moment/locale/zh-cn';
 import '../css/createNew.sass'
+import {coupons} from "../../../../api/marketing/coupon";
+
 class CreateNew extends Component {
 	state = {
 		value: 1,
+		selectedItems:[],
+		coupons: [],
+		scrollPage:1,
 	};
+	
+	componentDidMount() {
+		coupons({limit: 10, page:1,obj_type:'USER'}).then(r=>{
+			this.setState({coupons: r.data})
+		})
+	}
+	
 	
 	onRadioChange = e => {
 		console.log('radio checked', e.target.value);
@@ -19,7 +31,32 @@ class CreateNew extends Component {
 		this.props.onCancel();
 	};
 	
+	handleChange = selectedItems => {
+		this.setState({ selectedItems });
+	};
+	
+	// 下拉框分页加载
+	tagScroll = e => {
+		e.persist();
+		const { target } = e;
+		if (target.scrollTop + target.offsetHeight === target.scrollHeight) {
+			const { scrollPage } = this.state;
+			const nextScrollPage = scrollPage + 1;
+			this.setState({ scrollPage: nextScrollPage });
+			console.log(nextScrollPage, '---------');
+			this.getCoupons(nextScrollPage); // 调用api方法
+		}
+	};
+	
+	getCoupons = (page) =>{
+		coupons({limit:10,page:page,obj_type:'USER'}).then(r=>{
+			if(!r.data.length) return;
+			this.setState({coupons:this.state.coupons.concat(r.data)})
+		})
+	};
+	
 	render() {
+		let {selectedItems} = this.state;
 		return (
 			<Fragment>
 				<Modal
@@ -34,9 +71,26 @@ class CreateNew extends Component {
 					<ul className="mainUl">
 						<li>
 							<span className="left">选择优惠券:</span>
-							<Input
-								className="liInput"
-							/>
+							<Select
+								defaultActiveFirstOption={false}
+								mode="tags"
+								value={selectedItems}
+								className='couponSelect'
+								onChange={this.handleChange}
+								onPopupScroll={this.tagScroll}
+								allowClear
+								optionLabelProp="label"
+								optionFilterProp="children"
+								filterOption={(input, option) =>
+									option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+								}
+							>
+								{this.state.coupons.map(item => (
+									<Select.Option key={item.coupon_id+''} label={item.name} value={item.coupon_id+''}>
+										{item.name}
+									</Select.Option>
+								))}
+							</Select>
 						</li>
 						<li className="moreLineLi">
 							<div className="moreLine">

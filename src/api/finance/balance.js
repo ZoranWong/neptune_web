@@ -4,7 +4,7 @@ export function storeRecords(params) {
 	return request({
 		url: '/api/backend/finance/deposit/bought/records',
 		method: 'get',
-		data: params
+		params: params
 	})
 }
 
@@ -13,7 +13,7 @@ export function storeStatistics(params) {
 	return request({
 		url: '/api/backend/finance/deposit/bought/statistics',
 		method: 'get',
-		data: params
+		params: params
 	})
 }
 
@@ -22,7 +22,7 @@ export function merchantBalanceRecord(params) {
 	return request({
 		url: '/api/backend/finance/merchant/balance/change/logs',
 		method: 'get',
-		data: params
+		params: params
 	})
 }
 
@@ -31,7 +31,7 @@ export function userBalanceRecord(params) {
 	return request({
 		url: '/api/backend/finance/user/balance/change/logs',
 		method: 'get',
-		data: params
+		params: params,
 	})
 }
 

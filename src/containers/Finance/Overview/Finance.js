@@ -3,16 +3,41 @@ import {withRouter} from 'react-router-dom'
 import moment from "moment";
 import './css/overview.sass'
 import {Table,Select} from "antd";
-import CustomPagination from "../../../components/Layout/Pagination";
+import {searchJson} from "../../../utils/dataStorage";
+import {overviewStatistics, overviewStatisticsList} from "../../../api/finance/overview";
+
 class Finance extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
+			data:[],
 			activeTab:'今日',
-			activeChartTab:'月汇总'
-		}
+			activeChartTab:'日汇总',
+			income_total_amount: 0,
+			refund_total_amount: 0,
+			settlement_total_amount: 0,
+			withdraw_total_amount: 0,
+			searchJson: searchJson({
+				summary_type: 'DAY',
+				year: '2019',
+				month: '1'
+			})
+		};
+		this.child = React.createRef();
 	}
 	
+	componentDidMount() {
+		this.selectToday();
+		this.getOverView(this.state.searchJson)
+		
+	}
+	
+	// 获取列表数据
+	getOverView = params => {
+		overviewStatisticsList({searchJson: params}).then(r=>{
+			this.setState({data: r.data})
+		}).catch(_=>{})
+	};
 	
 	// 切换头部选项卡
 	changeTab = activeTab =>{
@@ -32,22 +57,40 @@ class Finance extends React.Component{
 	//今日
 	selectToday = () =>{
 		let today = moment().format('YYYY-MM-DD' );
-		console.log(today,'---------TODAY---------');
+		this.searchDate([today,today])
 	};
 	
 	// 近7天
 	selectWeek = () =>{
 		let today = moment().format('YYYY-MM-DD' );
 		let last7 = moment().subtract('days', 6).format('YYYY-MM-DD');
-		console.log([today,last7],'---------LAST7---------');
+		this.searchDate([last7,today]);
 	};
 	
 	// 近30天
 	selectMonth = () =>{
 		let today = moment().format('YYYY-MM-DD' );
 		let last30 = moment().subtract('days', 30).format('YYYY-MM-DD');
-		console.log([today,last30],'---------LAST30---------');
+		this.searchDate([last30,today]);
 	};
+	
+	// 切换日期筛选数据
+	searchDate = (date) => {
+		overviewStatistics({
+			searchJson: searchJson({
+				start_date: date[0],
+				end_date: date[1]
+			})
+		}).then(r=>{
+			this.handleData(r.data)
+		})
+	};
+	
+	handleData = data =>{
+		for (let k in data) {
+			this.setState({[k]: data[k]})
+		}
+	}
 	
 	// 切换表格选项卡
 	changeChartTab = activeChartTab =>{
@@ -56,39 +99,60 @@ class Finance extends React.Component{
 	
 	// 切换select
 	handleChange = (value) => {
-		
+		let params = {};
+		if (this.state.activeChartTab === '日汇总') {
+			params['summary_type'] = "DAY";
+			params['year'] = "2019";
+			params['month'] = value
+		} else {
+			params['summary_type'] = "MONTH";
+			params['year'] = "2019";
+		}
+		this.getOverView(searchJson(params))
 		//此处改变表格数据
-		console.log(`selected ${value}`);
 	};
+	
 	
 	render(){
 		const headerTabs = ['今日','近7天','近30天'];
 		const columns = [
 			{
 				title: '日期',
-				dataIndex: 'name',
+				dataIndex: 'date',
 			},
 			{
 				title: '收入',
-				dataIndex: 'a',
+				dataIndex: 'income_total_amount',
 			},
 			{
 				title: '退款',
-				dataIndex: 'b',
+				dataIndex: 'refund_total_amount',
 			},
 			{
 				title: '提现',
-				dataIndex: 'c',
+				dataIndex: 'withdraw_total_amount',
 			}
 		];
-		const chartTabs = ['月汇总','年汇总'];
-		const month = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
-		const year = ['2019','2018','2017','2016','2015'];
+		const chartTabs = ['日汇总','月汇总'];
+		const days = [
+			{name: '一月', key: 1},
+			{name: '二月', key: 2},
+			{name: '三月', key: 3},
+			{name: '四月', key: 4},
+			{name: '五月', key: 5},
+			{name: '六月', key: 6},
+			{name: '七月', key: 7},
+			{name: '八月', key: 8},
+			{name: '九月', key: 9},
+			{name: '十月', key: 10},
+			{name: '十一月', key: 11},
+			{name: '十二月', key: 12}];
+		const month = [{name:'2019', key: 2019}];
 		const {activeChartTab} = this.state;
 		let selectAry = [];
 		let placeholder;
-		selectAry = activeChartTab === '月汇总'?month:year;
-		placeholder = activeChartTab === '月汇总'?'请选择月份':'请选择年份';
+		selectAry = activeChartTab === '日汇总'?days:month;
+		placeholder = activeChartTab === '日汇总'?'请选择月份':'请选择年份';
 		return (
 			<Fragment>
 				<ul className="ov_header">
@@ -105,19 +169,19 @@ class Finance extends React.Component{
 				<ul className="data">
 					<li>
 						订单总额
-						<span>1000</span>
+						<span>{this.state.settlement_total_amount}</span>
 					</li>
 					<li>
 						收入金额
-						<span>1000</span>
+						<span>{this.state.income_total_amount}</span>
 					</li>
 					<li>
 						退款金额
-						<span>300</span>
+						<span>{this.state.refund_total_amount}</span>
 					</li>
 					<li>
 						提现金额
-						<span>300</span>
+						<span>{this.state.withdraw_total_amount}</span>
 					</li>
 				</ul>
 				<div className="ovChart">
@@ -141,8 +205,8 @@ class Finance extends React.Component{
 							>
 								{
 									selectAry.map(item=>(
-										<Select.Option value={item}>
-											{item}
+										<Select.Option value={item.key}>
+											{item.name}
 										</Select.Option>
 									))
 								}
@@ -152,7 +216,7 @@ class Finance extends React.Component{
 					<div className="chart u_chart">
 						<Table
 							columns={columns}
-							rowKey={record => record.product_id}
+							rowKey={record => record.id}
 							pagination={false}
 							rowClassName={(record, index) => {
 								let className = '';
@@ -160,15 +224,6 @@ class Finance extends React.Component{
 								return className;
 							}}
 							dataSource={this.state.data}
-						/>
-					</div>
-					<div className="pagination">
-						<CustomPagination
-							api={this.state.api}
-							ref={this.child}
-							params={this.state.paginationParams}
-							id={this.state.id}
-							valChange={this.paginationChange}
 						/>
 					</div>
 				</div>

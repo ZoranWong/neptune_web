@@ -2,7 +2,19 @@ import React from 'react'
 import {Transfer,message} from 'antd';
 import './customItem.sass'
 import {sortAry} from "../../utils/dataStorage";
-
+function handleCode(item) {
+	switch (item.value) {
+		case "province_code":
+			item.value = 'province';
+			break;
+		case "city_code":
+			item.value = 'city';
+			break;
+		case "area_code":
+			item.value = 'area';
+			break;
+	}
+}
 export default class CustomItem extends React.Component{
 	
 	constructor(props){
@@ -10,6 +22,7 @@ export default class CustomItem extends React.Component{
 		let ary = [];
 		props.data.forEach(item=>{
 			item.children.forEach(i=>{
+				handleCode(i);
 				ary.push(i)
 			})
 		});

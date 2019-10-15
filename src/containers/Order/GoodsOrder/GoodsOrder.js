@@ -30,7 +30,7 @@ class GoodsOrder extends React.Component{
 				logic_conditions:[],
 				search:'',
 			},
-			activeTab:'全部',
+			activeTab:'ALL',
 			refundItem:{}
 		};
 	}
@@ -40,13 +40,15 @@ class GoodsOrder extends React.Component{
 	}
 	
 	
-	refresh = (key='all')=>{
+	refresh = (key='ALL')=>{
 		this.setState({
 			filterVisible:false,
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
-				searchJson:searchJson({order_state:key})
+				searchJson:searchJson({
+					state_constant:key
+				})
 			}
 		},()=>{
 			this.child.current.pagination(1)
@@ -58,7 +60,10 @@ class GoodsOrder extends React.Component{
 		this.setState({
 			api:shopOrder,
 			paginationParams:{...this.state.paginationParams,
-				searchJson:searchJson({search:value,status:true})}
+				searchJson:searchJson({
+					search:value,
+					state_constant:this.state.activeTab
+				})}
 		},()=>{
 			this.child.current.pagination(1)
 		});
@@ -121,7 +126,7 @@ class GoodsOrder extends React.Component{
 	
 	// 切换tab
 	onChangeTab = activeTab =>{
-		this.setState({activeTab:activeTab.name});
+		this.setState({activeTab:activeTab.key});
 		this.refresh(activeTab.key)
 	};
 	
@@ -133,6 +138,11 @@ class GoodsOrder extends React.Component{
 		this.setState({refundVisible:false})
 	};
 	
+	// 设置默认模板消息
+	setMessage = () => {
+		this.props.history.push({pathname:"/order/setUserMessage",state:{mode:'goods'}})
+	};
+	
 	render(){
 		const rowSelection = {
 			onChange: (selectedRowKeys, selectedRows) => {
@@ -140,10 +150,12 @@ class GoodsOrder extends React.Component{
 			}
 		};
 		const tabs = [
-			{name:'全部',key:'all'},
-			{name:'待收货',key:'wait_agent_verify'},
-			{name:'已完成',key:'completed'},
-			{name:'商品异常',key:'goods_unqualified'},
+			{name:'全部',key:'ALL'},
+			{name:'待收货',key:'WAIT_AGENT_VERIFY'},
+			{name:'已完成',key:'COMPLETED'},
+			{name:'商品异常',key:'GOODS_UNQUALIFIED_WAIT_PROCESS'},
+			{name:'处理中',key:'GOODS_UNQUALIFIED_WAIT_VERIFY'},
+			{name:'已退款',key:'GOODS_UNQUALIFIED_REFUNDED'},
 		];
 		const columns = [
 			{
@@ -191,10 +203,10 @@ class GoodsOrder extends React.Component{
 				dataIndex: 'delivery_batch',
 			},
 			{
-				title: this.state.activeTab == '商品异常'?'操作':'状态',
-				dataIndex:'refund_state_desc',
+				title: this.state.activeTab == 'GOODS_UNQUALIFIED_WAIT_PROCESS'?'操作':'状态',
+				dataIndex:'state_desc',
 				render:(text,record) =>{
-					if(this.state.activeTab == '商品异常'){
+					if(this.state.activeTab == 'GOODS_UNQUALIFIED_WAIT_PROCESS'){
 						return (
 							<div>
 								<span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.showRefund(record)}>退款</span>
@@ -221,7 +233,7 @@ class GoodsOrder extends React.Component{
 					onCancel={this.hideRefund}
 					item={this.state.refundItem}
 					refresh={()=>{
-						this.refresh('goods_unqualified')
+						this.refresh('GOODS_UNQUALIFIED_WAIT_PROCESS')
 					}}
 				/>
 				
@@ -238,6 +250,11 @@ class GoodsOrder extends React.Component{
 							text='请输入姓名或手机号'
 						/>
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
+						<Button
+							size="small"
+							type='primary'
+							onClick={this.setMessage}
+						>设置默认模板消息</Button>
 					</div>
 				</div>
 				
@@ -247,7 +264,7 @@ class GoodsOrder extends React.Component{
 							tabs.map((item,index)=>{
 								return <li
 									key={index}
-									className={this.state.activeTab == item.name?'active':''}
+									className={this.state.activeTab == item.key?'active':''}
 									onClick={()=>this.onChangeTab(item)}
 								>{item.name}</li>
 							})

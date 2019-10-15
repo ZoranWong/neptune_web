@@ -155,29 +155,6 @@ export const shop_values = [
 				value:'current_month_sale_allowance',
 				type:'numCompare'
 			},
-			{
-				label:'罚款总额',
-				value:'total_penalty',
-				type:'numCompare'
-			},
-			{
-				label:'上月罚款额',
-				value:'last_month_penalty',
-				type:'numCompare'
-			},
-			{
-				label:'奖金总额',
-				value:'total_bonus',
-				type:'numCompare'
-			},
-			{
-				label:'上月奖金额',
-				value:'last_month_bonus',
-				type:'numCompare'
-			},
-			
-			
-			
 		]
 	},
 	{
@@ -228,41 +205,6 @@ export const shop_values = [
 			{
 				label:'本月被点击人数',
 				value:'current_month_click_users',
-				type:'numCompare'
-			},
-			{
-				label:'总分销额',
-				value:'total_distribute_amount',
-				type:'numCompare'
-			},
-			{
-				label:'本月分销额',
-				value:'current_month_distribute_amount',
-				type:'numCompare'
-			},
-			{
-				label:'分销总订单数',
-				value:'total_distribute_order_count',
-				type:'numCompare'
-			},
-			{
-				label:'本月分销订单数',
-				value:'current_month_distribute_order_count',
-				type:'numCompare'
-			},
-			{
-				label:'总购买人数',
-				value:'total_buyers',
-				type:'numCompare'
-			},
-			{
-				label:'本月购买人数',
-				value:'current_month_buyers',
-				type:'numCompare'
-			},
-			{
-				label:'下线人数',
-				value:'subordinates',
 				type:'numCompare'
 			}
 		]

@@ -422,7 +422,10 @@ class TagManage extends React.Component{
 								{
 									this.state.tagGroups.map(item=>{
 										return (
-											<TabPane tab={item.name} key={item.id} >
+											<TabPane tab={<span>
+												{item.name}
+												{item.auto_tag? '(自动)': '(手动)'}
+											</span>} key={item.id} >
 												<div className="chart chart_tag">
 													<DndProvider backend={HTML5Backend}>
 														<Table

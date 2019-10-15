@@ -56,7 +56,7 @@ export default class SingleLine extends React.Component{
 		this.setState({activeOptions:value},()=>{
 			if(this.state.activeValue){
 				let data = {
-					key:this.state.activeKey.value,
+					key: `${this.props.slug}_${this.state.activeKey.value}`,
 					operation:value,
 					value:this.state.activeValue,
 					cid:this.cid
@@ -65,8 +65,9 @@ export default class SingleLine extends React.Component{
 					this.props.onData(data);
 				});
 			} else if(value == 'is null' || value == 'is not null'){
+				let key = this.state.activeKey.value ? this.state.activeKey.value : this.props.value[0].children[0].key;
 				let data = {
-					key:this.state.activeKey.value || this.props.value[0].children[0].value,
+					key:`${this.props.slug}_${key}` || `${this.props.slug}_${key}`,
 					operation:value,
 					value:'',
 					cid:this.cid
@@ -80,13 +81,13 @@ export default class SingleLine extends React.Component{
 	
 	
 	valueChange = (value) =>{
+		let key = this.state.activeKey.value ? this.state.activeKey.value : this.props.value[0].children[0].value;
 		let data = {
-			key:this.state.activeKey.value || this.props.value[0].children[0].value,
+			key:`${this.props.slug}_${key}` || `${this.props.slug}_${key}`,
 			operation:this.state.activeOptions,
 			value:value,
 			cid:this.cid
 		};
-		console.log(this.props.value[0].children[0].value);
 		this.setState({singleLineData:data,activeValue:value});
 		this.props.onData(data);
 	};

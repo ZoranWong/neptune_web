@@ -57,14 +57,14 @@ class ShopManage extends React.Component{
 							onClick={()=>this.editShop(record)}
 							>编辑
 						</span>
-						<span
-							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
-						>门店码
-						</span>
+						{/*<span*/}
+						{/*	style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}*/}
+						{/*>门店码*/}
+						{/*</span>*/}
 					</div>
 			},
 		];
-		
+		const defaultItem = ['name','keeper_name',"code",'total_code_scan_amount','channel','status','id'];
 		super(props);
 		this.child = React.createRef();
 		this.state = {
@@ -83,10 +83,13 @@ class ShopManage extends React.Component{
 			checkedAry:[],     // 列表页选中的用户id组
 			paginationParams:{
 				logic_conditions:[],
-				search:''
+				search:'',
+				only: defaultItem.join(',')
 			},
 			recordId:'',
-			columns:columns
+			columns:columns,
+			defaultItem:defaultItem,
+			selectedRows:[]
 		};
 	}
 	
@@ -222,24 +225,58 @@ class ShopManage extends React.Component{
 		this.setState({statusVisible:false})
 	};
 	
+	handleCode = (e,ex,i) =>{
+		switch (ex) {
+			case "province_code":
+				e.splice(i,1,'province');
+				break;
+			case "city_code":
+				e.splice(i,1,'city');
+				break;
+			case "area_code":
+				e.splice(i,1,'area');
+				break;
+		}
+	};
+	
+	handleCodeIndex = (ex) => {
+		let desc = '';
+		switch (ex) {
+			case "province_code":
+				desc = 'province';
+				break;
+			case "city_code":
+				desc = 'city';
+				break;
+			case "area_code":
+				desc = 'area';
+				break;
+			default:
+				desc = ex
+		}
+		return desc
+	};
 	
 	handleCustom = (e) =>{
 		let ary = [];
-		e.forEach(e=>{
+		console.log(e, '================');
+		e.forEach((ex,i)=>{
+			this.handleCode(e,ex,i);
 			shop_values.forEach(u=>{
 				u.children.forEach(c=>{
-					if(e == c.value){
+					if(ex == c.value){
 						let obj = {};
 						obj.title = c.label;
-						obj.dataIndex = e;
+						obj.dataIndex = this.handleCodeIndex(ex);
 						ary.push(obj)
 					}
 				})
 			})
 		});
+		e.push('id');
 		ary[0].render = (text,record) => <span
 			style={{'color':'#4F9863','cursor':'pointer'}}
-			onClick={()=>this.jump(record)}>{text}</span>
+			onClick={()=>this.jump(record)}>{text}</span>;
 		
 		ary.push({
 			title: '操作',
@@ -250,13 +287,18 @@ class ShopManage extends React.Component{
 							onClick={()=>this.editShop(record)}
 						>编辑
 						</span>
-					<span
-						style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
-					>门店码
-						</span>
+					{/*<span*/}
+					{/*	style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}*/}
+					{/*>门店码*/}
+					{/*	</span>*/}
 				</div>
 		});
-		this.setState({columns:ary})
+		this.setState({
+			columns:ary,
+			paginationParams:{...this.state.paginationParams, only:  e.join(',')}
+		},()=>{
+			this.child.current.pagination(1)
+		})
 	};
 	
 	// 分页器改变值
@@ -269,7 +311,7 @@ class ShopManage extends React.Component{
 	render(){
 		const rowSelection = {
 			onChange: (selectedRowKeys, selectedRows) => {
-				this.setState({checkedAry:selectedRowKeys})
+				this.setState({checkedAry:selectedRowKeys, selectedRows:selectedRows})
 			},
 			getCheckboxProps: record => ({
 				disabled: record.name === 'Disabled User', // Column configuration not to be checked
@@ -331,6 +373,7 @@ class ShopManage extends React.Component{
 					onClose={this.closeChangeStatus}
 					checkedAry={this.state.checkedAry}
 					refresh={this.refresh}
+					selectedRows={this.state.selectedRows}
 				/>
 				
 				
@@ -361,7 +404,7 @@ class ShopManage extends React.Component{
 				<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
 					<CustomItem
 						data={shop_values}
-						targetKeys={['name','keeper_name',"introducer_code",'total_code_scan_amount','channel','status']}
+						targetKeys={this.state.defaultItem}
 						handleCustom={this.handleCustom} />
 				</div>
 				

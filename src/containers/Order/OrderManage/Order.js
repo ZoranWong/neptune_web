@@ -53,7 +53,7 @@ class Order extends React.Component{
 			},
 			{
 				title: '订单状态',
-				dataIndex:'status'
+				dataIndex:'state_desc'
 			},
 		];
 		
@@ -70,7 +70,7 @@ class Order extends React.Component{
 				logic_conditions:[],
 				search:'',
 			},
-			activeTab:'全部',
+			activeTab:'ALL',
 			columns:columns,
 			items:[]  // 商品回显
 		};
@@ -81,13 +81,14 @@ class Order extends React.Component{
 	}
 	
 	
-	refresh = (status='all')=>{
+	refresh = (status='ALL')=>{
 		this.setState({
 			filterVisible:false,
 			paginationParams:{
 				logic_conditions:[],
-				search:'',
-				searchJson:searchJson({order_state:status})
+				searchJson:searchJson({
+					state_constant: status
+				})
 			}
 		},()=>{
 			this.child.current.pagination(1)
@@ -101,7 +102,10 @@ class Order extends React.Component{
 		this.setState({
 			api:userOrder,
 			paginationParams:{...this.state.paginationParams,
-				searchJson:searchJson({search:value})}
+				searchJson:searchJson({
+					search:value,
+					state_constant: this.state.activeTab
+				})}
 		},()=>{
 			this.child.current.pagination(1)
 		});
@@ -149,13 +153,12 @@ class Order extends React.Component{
 	
 	// 分页器改变值
 	paginationChange = (list) =>{
-		console.log(list);
 		this.setState({data:list})
 	};
 	
 	// 切换tab
 	onChangeTab = item =>{
-		this.setState({activeTab:item.name});
+		this.setState({activeTab:item.key});
 		this.refresh(item.key)
 	};
 	
@@ -193,7 +196,7 @@ class Order extends React.Component{
 			onOk() {
 				fn({order_ids:checkedAry}).then(r=>{
 					message.success(`${keyWord}订单成功！`);
-					refresh('wait_platform_verify')
+					refresh('WAIT_PLATFORM_VERIFY')
 				});
 				
 			},
@@ -211,25 +214,30 @@ class Order extends React.Component{
 		this.setState({reviewGoodsVisible:false})
 	};
 	
+	// 设置默认模板消息
+	setMessage = () => {
+		this.props.history.push({pathname:"/order/setUserMessage",state:{mode:'user'}})
+	};
+	
 	render(){
 		const rowSelection = {
 			onChange: (selectedRowKeys, selectedRows) => {
-				if(this.state.activeTab !== '待确认') return;
+				if(this.state.activeTab !== 'WAIT_PLATFORM_VERIFY') return;
 				this.setState({checkedAry:selectedRowKeys})
 			}
 		};
 		const tabs = [
-			{name:'全部',key:'all'},
-			{name:'待确认',key:'wait_platform_verify'},
-			{name:'待收货',key:'wait_agent_verify'},
-			{name:'待自提',key:'wait_customer_verify'},
-			{name:'已完成',key:'completed'},
-			{name:'已退款',key:'refunded'},
-			{name:'用户取消',key:'cancel_manual'},
-			{name:'平台取消',key:'cancel_platform'},
-			{name:'订单异常',key:'exception'},
-			{name:'申请售后',key:'launch_after_sale'},
-			{name:'拒绝退款',key:'refuse_refund'},
+			{name:'全部',key:'ALL'},
+			{name:'待确认',key:'WAIT_PLATFORM_VERIFY'},
+			{name:'待收货',key:'WAIT_AGENT_VERIFY'},
+			{name:'待自提',key:'WAIT_CUSTOMER_VERIFY'},
+			{name:'已完成',key:'COMPLETED'},
+			{name:'已退款',key:'REFUNDED'},
+			{name:'用户取消',key:'CANCEL_MANUAL'},
+			{name:'平台取消',key:'CANCEL_PLATFORM'},
+			{name:'订单异常',key:'EXCEPTION'},
+			{name:'申请售后',key:'AFTER_SALE'},
+			{name:'拒绝退款',key:'REFUSE_REFUND'},
 		];
 		return (
 			<div className="order">
@@ -256,6 +264,11 @@ class Order extends React.Component{
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
 						<Button
 							size="small"
+							type='primary'
+							onClick={this.setMessage}
+						>设置默认模板消息</Button>
+						<Button
+							size="small"
 						>打印订单</Button>
 						<Button
 							size="small"
@@ -267,6 +280,10 @@ class Order extends React.Component{
 							disabled={this.state.checkedAry.length == 0}
 							onClick={()=>this.confirmPopover(batchConfirm,'确认')}
 						>确认订单</Button>
+						<Button
+							size="small"
+							disabled={this.state.checkedAry.length == 0}
+						>导出</Button>
 					</div>
 				</div>
 				
@@ -276,7 +293,7 @@ class Order extends React.Component{
 							tabs.map((item,index)=>{
 								return <li
 									key={index}
-									className={this.state.activeTab == item.name?'active':''}
+									className={this.state.activeTab == item.key?'active':''}
 									onClick={()=>this.onChangeTab(item)}
 								>{item.name}</li>
 							})

@@ -9,12 +9,12 @@ const { SubMenu } = Menu;
 const baseMenu = [
 	{
 		path:'/marketing',
-		icon:'icon-dingdan',
+		icon:'icon-coupon',
 		text:'优惠券',
 	},
 	{
 		path:'/marketing/integralMall',
-		icon:'icon-tuikuan',
+		icon:'icon-YUAN-circle-fill',
 		text:'积分商城',
 	},
 	{
@@ -24,7 +24,7 @@ const baseMenu = [
 	},
 	{
 		path:'/marketing/message',
-		icon:'icon-box-fill',
+		icon:'icon-commentdots-fill',
 		text:'模板消息',
 	},
 ];

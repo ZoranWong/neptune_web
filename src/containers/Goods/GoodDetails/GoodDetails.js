@@ -55,7 +55,7 @@ class GoodDetails extends React.Component{
 								<p>成本价：{data.cost_price}</p>
 							</li>
 							<li>
-								<p>PV值：{data.pv}</p>
+								<p>生产力指数：{data.pv}</p>
 								<p>配送批次：{data.batch}</p>
 								<p>保存方式：{data.keep_mode_desc}</p>
 								<p>商品状态：111</p>

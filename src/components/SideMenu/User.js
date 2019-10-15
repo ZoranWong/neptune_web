@@ -30,12 +30,12 @@ const baseMenu = [
 		text:'积分规则',
 		name:'nav-user-integralRules'
 	},
-	{
-		path:'/user/membership',
-		icon:'icon-crown-fill',
-		text:'会员等级',
-		name:'nav-user-membership'
-	}
+	// {
+	// 	path:'/user/membership',
+	// 	icon:'icon-crown-fill',
+	// 	text:'会员等级',
+	// 	name:'nav-user-membership'
+	// }
 ];
 const User = ({ match }) => (
 	<div style={{ paddingBottom: '120px' ,width:'216px'}}>

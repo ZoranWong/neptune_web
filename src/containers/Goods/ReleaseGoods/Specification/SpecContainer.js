@@ -24,6 +24,7 @@ export default class Specification extends React.Component{
 	
 	componentDidMount() {
 		this.setState({data:this.props.entities})
+		console.log(this.props.entities);
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
@@ -71,6 +72,7 @@ export default class Specification extends React.Component{
 				specValueArray.push(specValue[key])
 			}
 			data = arrayMultiplication.apply(this,specValueArray);
+			console.log(data,'9090090');
 			data.forEach(item=>{
 				if(item.value){
 					let d = {};
@@ -94,21 +96,25 @@ export default class Specification extends React.Component{
 			});
 			console.log(newTableData,'lllllllllllll');
 		}
-		if(this.props.entities.length){
-			let data = this.state.data;
-			let newData = [];
-			data.forEach((item,index)=>{
-				newTableData.forEach((r,i)=>{
-					if(index === i){
-						newData.push(Object.assign(item,r));
-					}
-				})
-			})
-			this.setState({data: newData})
-		} else {
-			this.setState({data: newTableData})
-		}
+		// if(this.props.entities.length){
+		// 	let data = this.state.data;
+		// 	console.log(data,'ggggggggggggggggg');
+		// 	let newData = [];
+		// 	data.forEach((item,index)=>{
+		// 		newTableData.forEach((r,i)=>{
+		// 			if(index === i){
+		// 				newData.push(Object.assign(item,r));
+		// 			} else {
+		//
+		// 			}
+		// 		})
+		// 	});
+		// 	this.setState({data: newData})
+		// } else {
+		//
+		// }
 		
+		this.setState({data: newTableData})
 	};
 	
 	

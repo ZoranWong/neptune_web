@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {Button, DatePicker, Input, LocaleProvider, message, Select, Table} from "antd";
+import {Button, DatePicker, Input, LocaleProvider, Select, Table} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import '../css/balance.sass'
-import {storeStatistics} from "../../../../api/marketing/store";
-import {getCurrentMonth, getPreMonth, searchJson} from "../../../../utils/dataStorage";
-import moment from "moment";
+import {storeStatistics, storeRecords} from "../../../../api/finance/balance";
+import { searchJson} from "../../../../utils/dataStorage";
+import SelectTimeRange from "../../../../components/SelectTimeRange/SelectTimeRange";
+import {getChannels} from "../../../../api/shops/channel";
 const {RangePicker} = DatePicker;
 
 class StoreRecord extends Component {
@@ -13,7 +14,7 @@ class StoreRecord extends Component {
 		super(props);
 		this.state = {
 			data:[],
-			api:'',
+			api:storeRecords,
 			paginationParams:{
 				searchJson:{}
 			},
@@ -23,6 +24,7 @@ class StoreRecord extends Component {
 			gift_total_amount:0,
 			bought_user_total:0,
 			startTime:'',
+			channels:[],
 			endTime:'',
 			searchJson:{
 				'depositCard.name':'',
@@ -34,23 +36,22 @@ class StoreRecord extends Component {
 		};
 		this.child = React.createRef();
 	}
+	componentDidMount() {
+		getChannels({}).then(r=>{
+			this.setState({channels: r.data})
+		})
+	}
+	
+	// 分页器改变值
+	paginationChange = (list) =>{
+		this.setState({data:list})
+	};
 	
 	// 选择搜索日期
 	onDateChange = (date,dateString) =>{
 		this.setState({searchJson:{...this.state.searchJson,created_at:dateString}})
 	};
 	
-	//获取上月数据
-	getPreMonthData = () =>{
-		storeStatistics({
-			searchJson:searchJson({
-				start_date:getPreMonth()[0],
-				end_date:getPreMonth()[1]
-			})
-		}).then(r=>{
-			this.handleData(r.data)
-		}).catch(_=>{})
-	};
 	
 	// 处理数据
 	handleData = data =>{
@@ -58,50 +59,6 @@ class StoreRecord extends Component {
 			this.setState({[key]:data[key]})
 		}
 	};
-	
-	// 获取本月数据
-	getCurMonthData = () =>{
-		storeStatistics({
-			searchJson:searchJson({
-				start_date:getCurrentMonth()[0],
-				end_date:getCurrentMonth()[1]
-			})
-		}).then(r=>{
-			this.handleData(r.data)
-		}).catch(_=>{})
-	};
-	
-	// 自定义数据时间
-	getCustomMonthData = () =>{
-		let start = this.state.startTime;
-		let end = this.state.endTime;
-		if(!start){
-			message.error('请选择查询起始时间');
-			return;
-		}
-		if(!end){
-			message.error('请选择查询结束时间');
-			return;
-		}
-		storeStatistics({
-			searchJson:searchJson({
-				start_date:start,
-				end_date:end
-			})
-		}).then(r=>{
-			this.handleData(r.data)
-		}).catch(_=>{})
-	};
-	
-	// 分页器改变值
-	paginationChange = (list) =>{
-		this.setState({data:list})
-	};
-	
-	componentDidMount() {
-		this.getPreMonthData();
-	}
-	
 	
 	// 筛选
 	search = () =>{
@@ -112,7 +69,6 @@ class StoreRecord extends Component {
 				obj[key] = searchJsons[key]
 			}
 		}
-		
 		this.setState({
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson(obj)}
@@ -134,108 +90,43 @@ class StoreRecord extends Component {
 		})
 	};
 	
-	// 选择时间
-	selectTime = key =>{
-		this.setState({time:key});
-		switch (key) {
-			case 'custom':
-				break;
-			case 'thisMonth':
-				this.getCurMonthData();
-				break;
-			default :
-				this.getPreMonthData()
-		}
-	};
-	
-	// 选择起始时间
-	onStartChange = (date,dateString) =>{
-		this.setState({startTime:dateString});
-	};
-	onEndChange = (date,dateString) =>{
-		this.setState({endTime:dateString},()=>{
-			this.getCustomMonthData()
-		});
-	};
-	
-	// 限制结束时间选择
-	disableTime = current =>{
-		let start = this.state.startTime;
-		return  current < moment(start).subtract(30, 'days') || current > moment(start).add(30, 'days');
-	};
-	
 	
 	render() {
 		const columns = [
 			{
 				title: '昵称',
-				dataIndex: 'name',
+				dataIndex: 'nickname',
 			},
 			{
 				title: '手机号码',
-				dataIndex: 'a',
+				dataIndex: 'mobile',
 			},
 			{
 				title: '渠道',
-				dataIndex: 'b',
+				dataIndex: 'channel',
 			},
 			{
 				title: '储值名称',
-				dataIndex: 'c',
+				dataIndex: 'card_name',
 			},
 			{
 				title:'储值金额',
-				dataIndex:'cName'
+				dataIndex:'card_price',
+				render: (text,record) => `${text}元`
 			},
 			{
 				title:'赠送金额',
-				dataIndex:'cName'
-			},
-			{
-				title:'备注',
-				dataIndex:'mobile'
-			},
+				dataIndex:'card_gift_amount',
+				render: (text,record) => `${text}元`
+			}
 		];
 		
-		const times = [
-			{key:'lastMonth',value:'上月'},
-			{key:'thisMonth',value:'本月'},
-			{key:'custom',value:'自定义',showTime:true},
-		];
 		
-		const {time} = this.state;
 		
 		return (
 			<div className="overviewBalance">
 				<div className="body">
-					<ul className="body_top">
-						{
-							times.map(item=>(
-								<li
-									key={item.key}
-									className={item.key === time?'active':''}
-									onClick={()=>this.selectTime(item.key)}
-								>
-									{item.value}
-								</li>
-							))
-						}
-						<div style={{marginLeft:'20px'}}>
-							{
-								time === 'custom' && <LocaleProvider locale={zh_CN}>
-									<div>
-										<DatePicker onChange={this.onStartChange} />
-										---
-										<DatePicker
-											onChange={this.onEndChange}
-											disabledDate={this.disableTime}
-											onOpenChange={this.open}/>
-										<span className="notice">* 筛选仅支持筛选一个月范围以内哦</span>
-									</div>
-								</LocaleProvider>
-							}
-						</div>
-					</ul>
+					<SelectTimeRange api={storeStatistics} handleData={this.handleData} />
 					<ul className="datas">
 						<li>
 							储值总额
@@ -299,10 +190,11 @@ class StoreRecord extends Component {
 								}}
 								defaultActiveFirstOption={false}
 							>
-								<Select.Option  value="">全部</Select.Option>
-								<Select.Option  value="0">消费者</Select.Option>
-								<Select.Option  value="1">分销员</Select.Option>
-								<Select.Option  value="2">商户</Select.Option>
+								{
+									this.state.channels.map(item=>(
+										<Select.Option  value={item.id}>{item.name}</Select.Option>
+									))
+								}
 							</Select>
 						</li>
 						<li className="button">
@@ -311,7 +203,7 @@ class StoreRecord extends Component {
 								size="small"
 							>导出筛选结果
 							</Button>
-							<span className="clear">清空筛选条件</span>
+							<span className="clear" onClick={this.clear}>清空筛选条件</span>
 						</li>
 					</ul>
 					<div className="chart u_chart">

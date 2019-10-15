@@ -54,6 +54,11 @@ export default class AdvancedFilterComponent extends React.Component{
 								size="small"
 								type="default"
 								className="e_btn"
+							>发消息</Button>
+							<Button
+								size="small"
+								type="default"
+								className="e_btn"
 								onClick={this.showAddGroup}
 							>加群组</Button>
 							<Button
@@ -62,6 +67,16 @@ export default class AdvancedFilterComponent extends React.Component{
 								className="e_btn"
 								onClick={this.showAddTags}
 							>加标签</Button>
+							<Button
+								size="small"
+								type="default"
+								className="e_btn"
+							>赠送</Button>
+							<Button
+								size="small"
+								type="default"
+								className="e_btn"
+							>导出</Button>
 							<Button
 								size="small"
 								className="e_btn"
@@ -79,6 +94,7 @@ export default class AdvancedFilterComponent extends React.Component{
 						value={user_values}
 						operation={operation}
 						api={{getStatic,tags}}
+						slug="user"
 					/>
 				</Modal>
 			</div>

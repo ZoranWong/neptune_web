@@ -10,8 +10,16 @@ export default class ReviewGoods extends React.Component{
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
-		if(!nextProps.items) return;
-		this.setState({items:nextProps.items.data})
+		if(!nextProps.items ||!nextProps.items.data || !nextProps.items.data.length) return;
+		let items = nextProps.items.data;
+		items.forEach(item=>{
+			let ary = [];
+			for ( let k in item['spec_value']){
+				ary.push(item['spec_value'][k])
+			}
+			item.spec_desc = ary.join(',')
+		});
+		this.setState({items:items})
 	}
 	
 	handleCancel = () => {
@@ -35,11 +43,11 @@ export default class ReviewGoods extends React.Component{
 					<ul className="reviews">
 						{
 							(items&&items.length)&&items.map(item=>(
-								<li>
+								<li key={item.item_id}>
 									<img src={item.thumbnail} alt="" className="left"/>
 									<div className="right">
 										<span>商品名:{item.name}</span>
-										<span>规格:{item.spec_value || '无'}</span>
+										<span>规格:{item.spec_desc || '无'}</span>
 										<span>数量:{item.quantity}</span>
 										<span>零售价:{item.price + '元'}</span>
 									</div>

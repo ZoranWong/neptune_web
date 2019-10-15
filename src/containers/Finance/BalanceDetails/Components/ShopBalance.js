@@ -30,6 +30,12 @@ class ShopBalance extends Component {
 		this.setState({data:list})
 	};
 	
+	// 选择搜索日期
+	onDateChange = (date,dateString) =>{
+		this.setState({searchJson:{...this.state.searchJson,created_at:dateString}})
+	};
+	
+	
 	// 根据返回渲染类型
 	renderType = type =>{
 		let text ;
@@ -186,14 +192,14 @@ class ShopBalance extends Component {
 							/>
 						</li>
 						<li className="button">
-							<Button size="small" 	type="primary">搜索</Button>
+							<Button size="small"  type="primary" onClick={this.search}>搜索</Button>
 							<Button
 								size="small"
 							
 							>导出筛选结果
 							</Button>
 							
-							<span className="clear">清空筛选条件</span>
+							<span className="clear" onClick={this.clear}>清空筛选条件</span>
 						</li>
 					</ul>
 					<div className="chart u_chart">

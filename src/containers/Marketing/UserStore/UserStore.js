@@ -5,7 +5,7 @@ import './css/index.sass'
 import CustomPagination from "../../../components/Layout/Pagination";
 import NewStoreCard from "./Modal/NewStoreCard";
 import PromotionCode from "./Modal/PromotionCode";
-import {storeList,disableStore,enableStore,deleteStore} from "../../../api/marketing/store";
+import {storeList,disableStore,enableStore,deleteStore,enableStoreMode,disableStoreMode} from "../../../api/marketing/store";
 import {searchJson} from "../../../utils/dataStorage";
 
 class UserStore extends Component {
@@ -42,7 +42,11 @@ class UserStore extends Component {
 	};
 	
 	storeIsOpen = storeIsOpen =>{
-		this.setState({storeIsOpen})
+		this.setState({storeIsOpen});
+		let api = storeIsOpen ? enableStoreMode: disableStoreMode;
+		api({}).then(r=> {
+			message.success(`储值功能${r.message}`)
+		}).catch(_=>{})
 	};
 	
 	onSwitchChange = (record,checked) =>{

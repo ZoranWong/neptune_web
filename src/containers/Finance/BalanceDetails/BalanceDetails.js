@@ -14,7 +14,7 @@ class BalanceDetails extends Component {
 	render() {
 		return (
 			<div className="coupon bd_header">
-				<Tabs defaultActiveKey="3" onChange={this.callback}>
+				<Tabs defaultActiveKey="1" onChange={this.callback}>
 					<TabPane tab="消费者余额" key="1">
 						<ConsumerBalance />
 					</TabPane>

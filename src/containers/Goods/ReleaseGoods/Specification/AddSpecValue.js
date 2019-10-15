@@ -18,7 +18,7 @@ export default class NewSpecification extends React.Component{
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(!nextProps.parent.id) return;
 		if(nextProps.parent.spec_value){
-			this.setState({allValues:nextProps.parent.spec_value})
+			this.setState({allValues:nextProps.parent.spec_value,values:[]})
 		} else {
 			let all = [];
 			allSpecification({}).then(r=>{

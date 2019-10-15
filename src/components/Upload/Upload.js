@@ -45,11 +45,12 @@ export default class CustomUpload extends React.Component{
 		if (!isJPG) {
 			message.error('仅支持上传JPG,PNG格式的图片!');
 		}
-		const isLt2M = file.size / 1024 / 1024 < 2;
-		if (!isLt2M) {
-			message.error('图片大小不能超过2MB!');
-		}
-		return isJPG && isLt2M;
+		// const isLt2M = file.size / 1024 / 1024 < 2;
+		// if (!isLt2M) {
+		// 	message.error('图片大小不能超过2MB!');
+		// }
+		// return isJPG && isLt2M;
+		return isJPG;
 	};
 	
 	handleChange = info => {

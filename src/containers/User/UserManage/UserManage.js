@@ -23,8 +23,8 @@ class UserManage extends React.Component{
 		
 		const columns = [
 			{
-				title: '昵称',
-				dataIndex: 'nickname',
+				title: '姓名',
+				dataIndex: 'name',
 				render: (text,record) => <span
 					style={{'color':'#4F9863','cursor':'pointer'}}
 					onClick={()=>this.jump(record)}>{text}</span>,
@@ -51,10 +51,10 @@ class UserManage extends React.Component{
 			},
 			{
 				title: '账户余额',
-				dataIndex: 'balance',
+				dataIndex: 'account_balance',
 			},
 		];
-		
+		let defaultItem =  ['name','mobile',"created_at",'charge_amount','total_purchase_amount','purchased_count','account_balance','id'];
 		super(props);
 		this.child = React.createRef();
 		this.state = {
@@ -65,10 +65,12 @@ class UserManage extends React.Component{
 			tagVisible:false,
 			groupVisible:false,
 			user_data:[],
+			defaultItem: defaultItem,
 			checkedAry:[],     // 列表页选中的用户id组
 			paginationParams:{
 				logic_conditions:[],
-				search:''
+				search:'',
+				only: defaultItem.join(',')
 			},
 			columns:columns
 		};
@@ -169,10 +171,16 @@ class UserManage extends React.Component{
 				})
 			})
 		});
+		e.push('id');
 		ary[0].render = (text,record) => <span
 			style={{'color':'#4F9863','cursor':'pointer'}}
-			onClick={()=>this.jump(record)}>{text}</span>
-		this.setState({columns:ary})
+			onClick={()=>this.jump(record)}>{text}</span>;
+		this.setState({
+			columns:ary,
+			paginationParams:{...this.state.paginationParams, only:  e.join(',')}
+		},()=>{
+			this.child.current.pagination(1)
+		})
 	};
 	
 	// 分页器改变值
@@ -225,7 +233,7 @@ class UserManage extends React.Component{
 							text='请输入昵称或手机号码'
 						/>
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
-						<Button size="small" disabled={this.state.checkedAry.length == 0}>发消息</Button>
+						{/*<Button size="small" disabled={this.state.checkedAry.length == 0}>发消息</Button>*/}
 						<Button
 							size="small"
 							disabled={this.state.checkedAry.length == 0}
@@ -245,7 +253,7 @@ class UserManage extends React.Component{
 				<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
 					<CustomItem
 						data={user_values}
-						targetKeys={['name','mobile',"created_at",'charge_amount','total_purchase_amount','purchased_count','account_balance']}
+						targetKeys={this.state.defaultItem}
 						handleCustom={this.handleCustom} />
 				</div>
 				

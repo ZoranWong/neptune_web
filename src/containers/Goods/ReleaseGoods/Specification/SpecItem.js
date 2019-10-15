@@ -32,9 +32,9 @@ export default class SpecItem extends React.Component{
 	// 新增规格值
 	createNewSon = (specId, values) =>{
 		let copySpecItemData = this.state.specItemData;
-		if(!copySpecItemData[specId]){
-			copySpecItemData[specId] = []
-		}
+		
+		copySpecItemData[specId] = [];
+		
 		values.forEach(item=>{
 			copySpecItemData[specId].push(item);
 		});
@@ -43,6 +43,7 @@ export default class SpecItem extends React.Component{
 		this.hideNewSon()
 	};
 	showNewSon = (item) =>{
+		console.log(item);
 		this.setState({newSonVisible:true,parent:item})
 	};
 	hideNewSon = () =>{
