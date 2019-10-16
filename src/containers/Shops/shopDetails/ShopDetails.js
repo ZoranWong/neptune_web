@@ -24,7 +24,7 @@ class ShopDetails extends React.Component{
 
 	refresh = () =>{
 		shopDetails({},this.id).then(r=>{
-			this.setState({data:r})
+			this.setState({data:r.data})
 		}).catch(_=>{})
 	};
 
@@ -152,32 +152,6 @@ class ShopDetails extends React.Component{
 					 position={this.state.position}
 					 disabled={true}
 				/>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 				
 				
 				<div className="u_top">

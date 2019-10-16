@@ -18,12 +18,12 @@ export default class SingleLineDisabled extends React.Component{
 	};
 	componentDidMount() {
 		let key_p =[];
+		console.log(this.state.item, '=============');
 		let stateItem = this.state.item;
-		console.log(stateItem, '______');
+		let index = stateItem.key.indexOf('_');
+		stateItem.key = stateItem.key.substring(index + 1,stateItem.key.length);
 		user_values.forEach(item=>{
 			item.children.forEach(i=>{
-				stateItem.key = stateItem.key.split('_')[1];
-				console.log(stateItem.key, '_________________________________________');
 				if(i.value == stateItem.key){
 					key_p.push(item.value);
 					this.setState({type:i.type});

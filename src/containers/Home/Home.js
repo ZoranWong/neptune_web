@@ -10,6 +10,12 @@ import moment from "moment";
 class Home extends React.Component{
 	state = {
 		allData:[],
+		cards: {
+			order_count: 0,
+			order_total_fee: 0,
+			shop_count: 0,
+			user_count: 0
+		},
 		channels: []
 	};
 	componentDidMount() {
@@ -17,12 +23,11 @@ class Home extends React.Component{
 	}
 	
 	handleData = (date) => {
-		console.log(date);
 		home({
 			start: date[0],
 			end: date[1]
 		}).then(r=>{
-			this.setState({channels: r.data.channels})
+			this.setState({channels: r.data.channels,cards: r.data[0].cards})
 		}).catch(_=>{})
 	};
 	
@@ -31,6 +36,7 @@ class Home extends React.Component{
 		let selectTimeProps = {
 			handleData: this.handleData
 		};
+		const {cards} = this.state;
 		return (
 			<div className="home_index">
 				<div className="home_index_header">
@@ -42,7 +48,7 @@ class Home extends React.Component{
 							<IconFont type='icon-ziyuan' />
 						</div>
 						<div className="right">
-							<h3  style={{color: '#4f9863'}}>1800</h3>
+							<h3  style={{color: '#4f9863'}}>{cards.shop_count || 0}</h3>
 							<span  style={{color: '#4f9863'}}>店铺数</span>
 						</div>
 					</li>
@@ -51,7 +57,7 @@ class Home extends React.Component{
 							<IconFont type='icon-kehuguanli'/>
 						</div>
 						<div className="right" >
-							<h3 style={{color: '#F3B083'}}>8900</h3>
+							<h3 style={{color: '#F3B083'}}>{cards.user_count || 0}</h3>
 							<span style={{color: '#F3B083'}}>客户数</span>
 						</div>
 					</li>
@@ -60,7 +66,7 @@ class Home extends React.Component{
 							<IconFont type='icon-dingdan'/>
 						</div>
 						<div className="right"  >
-							<h3 style={{color: '#5FBED6'}}>2300</h3>
+							<h3 style={{color: '#5FBED6'}}>{cards.order_count || 0}</h3>
 							<span style={{color: '#5FBED6'}}>订单数</span>
 						</div>
 					</li>
@@ -69,7 +75,7 @@ class Home extends React.Component{
 							<IconFont type='icon-kehuguanli'/>
 						</div>
 						<div className="right"  >
-							<h3 style={{color: '#F1BD55'}}>9600</h3>
+							<h3 style={{color: '#F1BD55'}}>{cards.order_total_fee || 0}</h3>
 							<span style={{color: '#F1BD55'}}>销售额</span>
 						</div>
 					</li>

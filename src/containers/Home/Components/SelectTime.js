@@ -17,11 +17,11 @@ class SelectTime extends Component {
 	
 	// 选择起始时间
 	onStartChange = (date,dateString) =>{
-		this.setState({startTime:date[0]});
+		this.setState({startTime:date});
 	};
 	
 	onEndChange = (date,dateString) =>{
-		this.setState({endTime:date[1]},()=>{
+		this.setState({endTime:date},()=>{
 			this.getCustomMonthData()
 		});
 	};
@@ -56,6 +56,7 @@ class SelectTime extends Component {
 	getCustomMonthData = () =>{
 		let start = this.state.startTime;
 		let end = this.state.endTime;
+		console.log(start, '====');
 		if(!start){
 			message.error('请选择查询起始时间');
 			return;
@@ -89,7 +90,7 @@ class SelectTime extends Component {
 	
 	// 获取全部数据
 	getAllData = () =>{
-	
+		this.props.handleData(['1970-01-01 00:00:00', moment().format('YYYY-MM-DD HH:mm:ss')])
 	};
 	
 	// 切换日期筛选数据

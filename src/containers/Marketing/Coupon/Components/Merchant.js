@@ -26,35 +26,24 @@ class Merchant extends Component {
 			},
 			{
 				title: '价值',
-				dataIndex: 'category_desc',
-			},
-			{
-				title: '使用条件',
-				dataIndex: 'spec',
-			},
-			{
-				title: '发放门店',
-				dataIndex: 'shops',
-			},
-			{
-				title: '适用商品',
-				dataIndex: 'goods',
+				dataIndex: 'benefit',
+				render: (text,record) => `${text}元`
 			},
 			{
 				title: '有效期',
-				dataIndex: 'date',
+				dataIndex: 'valid_term_desc',
 			},
 			{
 				title: '发放总量/剩余库存',
-				dataIndex: 'unit',
+				dataIndex: 'issue_count',
 			},
 			{
 				title: '领取人数/张数',
-				dataIndex: 'number',
+				dataIndex: 'received_count',
 			},
 			{
 				title: '已使用',
-				dataIndex: 'used',
+				dataIndex: 'used_count',
 			},
 			{
 				title: '状态',

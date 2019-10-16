@@ -13,8 +13,8 @@ class OrderSetting extends Component {
 				</div>
 				<div className="setting_body">
 					<div className="setting_item">
-						<span>订单支付完成后 <Input /> 小时之内</span>
-						<span>每天 <Input /> 时 <Input /> 分之前</span>
+						<span>订单支付完成后 <Input value="0.5" /> 小时之内</span>
+						<span>每天 <Input value="18" /> 时 <Input value="00" /> 分之前</span>
 						
 					</div>
 				</div>
@@ -23,8 +23,8 @@ class OrderSetting extends Component {
 				</div>
 				<div className="setting_body">
 					<div className="setting_item">
-						<span>订单支付完成后 <Input /> 小时之内</span>
-						<span>每天 <Input /> 时 <Input /> 分之前</span>
+						<span>订单支付完成后 <Input value="12" /> 小时之内</span>
+						{/*<span>每天 <Input value="" /> 时 <Input value="" /> 分之前</span>*/}
 					</div>
 				</div>
 				<div className="setting_header">
@@ -32,7 +32,7 @@ class OrderSetting extends Component {
 				</div>
 				<div className="setting_body">
 					<div className="setting_item">
-						生成订单后 <Input /> 分时之内
+						生成订单后 <Input value="0.5" /> 小时之内
 					</div>
 				</div>
 			</div>

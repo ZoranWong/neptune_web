@@ -229,7 +229,10 @@ class NewCoupon extends Component {
 	
 	submit = values => {
 		newCoupons({...values}).then(r=>{
-			message.success(r.message)
+			message.success(r.message);
+			window.setTimeout(()=>{
+				this.props.history.push({pathname:"/marketing"})
+			},2000)
 		}).catch(_=>{})
 	};
 	
@@ -321,7 +324,7 @@ class NewCoupon extends Component {
 							<span className="c_left">优惠形式:</span>
 							<Radio.Group onChange={(e)=>this.onRadioChange('type',e)} value={radioValue.type}>
 								<Radio value="CASH">
-									现金券、抵用券、抵扣券
+									现金券
 									<Input type="number" value={radioValue.cash} onChange={(e)=>{
 										if(e.target.value <= 0) return;
 										this.setState({radioValue:{...this.state.radioValue,cash:e.target.value}})

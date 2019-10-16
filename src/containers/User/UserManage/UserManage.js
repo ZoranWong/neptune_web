@@ -244,7 +244,7 @@ class UserManage extends React.Component{
 							disabled={this.state.checkedAry.length == 0}
 							onClick={this.showAddTags}
 						>加标签</Button>
-						<Button size="small" disabled={this.state.checkedAry.length == 0}>赠送</Button>
+						{/*<Button size="small" disabled={this.state.checkedAry.length == 0}>赠送</Button>*/}
 						<Button size="small" disabled={this.state.checkedAry.length == 0}>导出</Button>
 					</div>
 					<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
