@@ -1,90 +1,125 @@
-export const good_values = [
+export const order_values = [
 	{
-		value:'base_attributes',
-		label:'基本属性',
+		value:'money_attributes',
+		label:'金额属性',
 		children:[
 			{
-				label:'商品名称',
-				value:'name',
+				label:'实付款',
+				value:'settlement_total_fee',
 				type:'absoluteCompare'
 			},
 			{
-				label:'商品条码',
-				value:'barcode',
+				label:'应付款',
+				value:'total_fee',
 				type:'emptyCompare'
 			},
 			{
-				label:'PV值',
-				value:'pv',
+				label:'优惠金额',
+				value:'total_preferential_fee',
 				type:'numCompare'
 			},
 			{
-				label:'零售价',
-				value:'retail_price',
+				label:'退款金额',
+				value:'refund_fee',
 				type:'numCompare'
 			},
 			{
-				label:'市场价',
-				value:'market_price',
-				type:'numCompare'
-			},
-			{
-				label:'成本价',
-				value:'cost_price',
+				label:'付款方式',
+				value:'payment_type',
 				type:'numCompare'
 			}
 		]
 	},
 	{
-		value:'good_attributes',
-		label:'商品属性',
+		value:'base_attributes',
+		label:'商户订单',
 		children:[
 			{
-				label:'配送批次',
-				value:'delivery_batch',
-				type:'equalCompare'
-			},
-			{
-				label:'保存方式',
-				value:'keep_mode',
-				type:'equalCompare'
-				
-			},
-			{
-				label:'属性',
-				value:'property',
+				label:'订单号',
+				value:'trade_no',
 				type:'absoluteCompare'
 			},
 			{
-				label:'商品分类',
-				value:'category',
-				type:'contain'
+				label:'店铺名称',
+				value:'shop_name',
+				type:'absoluteCompare'
+				
 			},
 			{
-				label:'商品组',
-				value:'group',
-				type:'group'
-			},
+				label:'支付流水号',
+				value:'transaction_id',
+				type:'absoluteCompare'
+			}
 		]
 	},
 	{
-		value:'sale',
-		label:'销售数据',
+		value:'order_attribution',
+		label:'订单属性',
 		children:[
 			{
-				label:'总销量',
-				value:'total_sales',
+				label:'支付状态',
+				value:'state',
+				type:'group'
+			},
+			{
+				label:'订单状态',
+				value:'order_type',
+				type:'group'
+			},
+			{
+				label:'下单时间',
+				value:'created_at',
 				type:'numCompare'
 			},
 			{
-				label:'订货总量',
-				value:'total_order_product_sales',
-				type:'numCompare'
+				label:'商品',
+				value:'product_name',
+				type:'group'
 			},
 			{
-				label:'预定总量',
-				value:'total_preorder_sales',
-				type:'numCompare'
+				label:'破损商品',
+				value:'damaged',
+				type:'group'
+			},
+			{
+				label:'缺少商品',
+				value:'deficient',
+				type:'group'
+			},
+			{
+				label:'退款状态',
+				value:'refund_state',
+				type:'group'
+			},
+			{
+				label:'退款类型',
+				value:'refund_type',
+				type:'group'
+			},
+			{
+				label:'退款申请时间',
+				value:'refund_apply_at',
+				type:'emptyCompare'
+			},
+			{
+				label:'到账时间',
+				value:'refund_handled_at',
+				type:'emptyCompare'
+			},
+			{
+				label:'用户手机号',
+				value:'user_mobile',
+				type:'emptyCompare'
+			},
+			{
+				label:'用户昵称',
+				value:'user_nickname',
+				type:'emptyCompare'
+			},
+			{
+				label:'退款单号',
+				value:'refund_no',
+				type:'emptyCompare'
 			},
 		]
 	},

@@ -1,0 +1,38 @@
+name	店铺名称	shop	field	=	name
+code    店铺名称  shop   field    =   code
+keeper_name 商户主姓名 shop field = keeper_name
+keeper_mobile 商户主手机号 shop field = keeper_mobile
+keeper_id_card_no 商户主身份证号码 shop field = keeper_id_card_no
+province_code 省份 shop field =|<>|in province_code
+city_code 省份 shop field =|<>|in city_code
+area_code 省份 shop field =|<>|in area_code
+created_at 开业时间 shop field =|<>|>|>=|<|<=|between created_at
+introducer_code 介绍人编号 shop field = introducer_code
+introducer_name 介绍人姓名 shop field = keeper_name introducer
+introduce_shop_count 发展的店铺数量 shop field =|>|>=|<|<=|between count(\'*\') introducedShops
+total_code_scan_amount 扫码付总额 shop field =|>|>=|<|<=|between total_code_scan_amount
+
+total_wx_amount 微信支付总额 shop field =|>|>=|<|<=|between total_wx_amount
+total_ali_amount 支付宝支付总额 shop field =|>|>=|<|<=|between total_ali_amount
+total_balance_amount 余额支付总额 shop field =|>|>=|<|<=|between total_balance_amount
+total_cmb_amount 招行一网通支付总额 shop field =|>|>=|<|<=|between total_cmb_amount
+total_order_product_amount 订货总额 shop field =|>|>=|<|<=|between  total_order_product_amount
+status 店铺状态 shop field = status
+channel_id 渠道 shop field =|not_in|in channel_id
+groups 商户组 shop field 	in|all|not_in|is_null|is_not_null	id	groups - 0
+total_self_pick_orders_count 自提订单总数 shop field =|>|>=|<|<=|between total_self_pick_orders_count
+total_self_pick_amount 自提订单总额  shop field =|>|>=|<|<=|between total_self_pick_amount
+
+balance 余额  shop  field =|>|>=|<|<=|between balance
+total_recharge 充值总额  shop  field =|>|>=|<|<=|between total_recharge
+total_withdrawal 提现总额   shop  field =|>|>=|<|<=|between total_withdrawal
+total_cashback 总返现金额  shop  field =|<|<=|>=|>|between total_cashback
+total_self_pick_cashback 自提返现总额   shop  field  =|<|<=|>=|>|between  total_self_pick_cashback
+total_self_pick_commission 自提佣金总额   shop  field  =|<|<=|>=|>|between  total_self_pick_commission
+total_self_pick_allowance 自提补贴总额   shop  field  =|<|<=|>=|>|between  total_self_pick_allowance
+total_sale_cashback 销售返现总额   shop  field   =|<|<=|>=|>|between   total_sale_cashback
+total_sale_commission 销售佣金总额  shop  field   =|<|<=|>=|>|between    total_sale_commission
+total_sale_allowance 销售补贴总额  shop  field   =|<|<=|>=|>|between     total_sale_allowance
+
+
+

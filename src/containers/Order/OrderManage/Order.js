@@ -171,7 +171,6 @@ class Order extends React.Component{
 		let refresh = this.refresh;
 		let self = this;
 		let checkedAry = this.state.checkedAry;
-		console.log(checkedAry, '{}{}{}{}{}{}}{{}}{}{}{}{}{}{');
 		let confirmModal = Modal.confirm({
 			title: (
 				<div className= 'u_confirm_header'>

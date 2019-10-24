@@ -4,88 +4,60 @@ export const good_values = [
 		label:'基本属性',
 		children:[
 			{
-				label:'商品名称',
-				value:'name',
+				label:'店铺名称',
+				value:'shop_name',
 				type:'absoluteCompare'
 			},
 			{
-				label:'商品条码',
-				value:'barcode',
+				label:'店铺编号',
+				value:'shop_no',
 				type:'emptyCompare'
 			},
 			{
-				label:'PV值',
-				value:'pv',
+				label:'店主名称',
+				value:'shop_keeper_name',
 				type:'numCompare'
 			},
 			{
-				label:'零售价',
-				value:'retail_price',
+				label:'店主手机',
+				value:'shop_keeper_mobile',
 				type:'numCompare'
 			},
 			{
-				label:'市场价',
-				value:'market_price',
+				label:'返现时间',
+				value:'commission_at',
 				type:'numCompare'
 			},
 			{
-				label:'成本价',
-				value:'cost_price',
+				label:'实付款',
+				value:'order_total_fee',
+				type:'numCompare'
+			},
+			{
+				label:'返佣款',
+				value:'commission_fee',
+				type:'numCompare'
+			},
+			{
+				label:'订单号',
+				value:'order_no',
+				type:'numCompare'
+			},
+			{
+				label:'商品',
+				value:'product_name',
+				type:'numCompare'
+			},
+			{
+				label:'消费者昵称',
+				value:'user_nickname',
+				type:'numCompare'
+			},
+			{
+				label:'消费者手机号',
+				value:'user_mobile',
 				type:'numCompare'
 			}
-		]
-	},
-	{
-		value:'good_attributes',
-		label:'商品属性',
-		children:[
-			{
-				label:'配送批次',
-				value:'delivery_batch',
-				type:'equalCompare'
-			},
-			{
-				label:'保存方式',
-				value:'keep_mode',
-				type:'equalCompare'
-				
-			},
-			{
-				label:'属性',
-				value:'property',
-				type:'absoluteCompare'
-			},
-			{
-				label:'商品分类',
-				value:'category',
-				type:'contain'
-			},
-			{
-				label:'商品组',
-				value:'group',
-				type:'group'
-			},
-		]
-	},
-	{
-		value:'sale',
-		label:'销售数据',
-		children:[
-			{
-				label:'总销量',
-				value:'total_sales',
-				type:'numCompare'
-			},
-			{
-				label:'订货总量',
-				value:'total_order_product_sales',
-				type:'numCompare'
-			},
-			{
-				label:'预定总量',
-				value:'total_preorder_sales',
-				type:'numCompare'
-			},
 		]
 	},
 ];

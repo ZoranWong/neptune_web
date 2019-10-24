@@ -1,0 +1,14 @@
+name	商品名称	product	field	=	name	-	-
+barcode	商品条码	product	field	=|is_null|is_not null	barcode	-	-
+pv	PV值	product	field	=|<>|<|<=|>|>=|between	pv	-	-
+retail_price	零售价	product	field	=|<>|<|<=|>|>=|between	retail_price	entities	-
+market_price	市场价	product	field	=|<>|<|<=|>|>=|between	market_price	entities	-
+cost_price	成本价	product	field	=|<>|<|<=|>|>=|between	cost_price	entities	-
+delivery_batch	配送批次	product	field	=|in|not_in	delivery_time	batch	-
+keep_mode	保存方式	product	field	=|in|not_in	keep_mode	-	-
+property	属性	product	field	=	property	-	-
+category	商品分类	product	field	in|not_in|all	id	categories	-
+group	商品组	product	field	in|all|not_in|is_null|is_not_null	id	groups	-	0
+total_sales	总销量	product	field	=|<>|<|<=|>|>=|between	total_sales	-	-
+total_order_product_sales  订货总量 product	field	  =|<>|<|<=|>|>=|between	total_order_product_sales
+total_preorder_sales	预订总量  product	field	  =|<>|<|<=|>|>=|between  total_preorder_sales

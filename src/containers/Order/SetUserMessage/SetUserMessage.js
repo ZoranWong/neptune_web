@@ -63,7 +63,7 @@ class SetUserMessage extends Component {
 							case "USER_ORDER_EXCEPTION":
 								this.setState({order_wrong_m: item.template});
 								break;
-							case "USER_ORDER_MANUAL_CANCEL":
+							case "USER_ORDER_PLATFORM_CANCEL":
 								this.setState({order_cancel_m: item.template});
 								break;
 							case "USER_ORDER_EXCEPTION_REFUND":
@@ -84,7 +84,7 @@ class SetUserMessage extends Component {
 							case "USER_ORDER_EXCEPTION":
 								this.setState({order_wrong_w: item.template});
 								break;
-							case "USER_ORDER_MANUAL_CANCEL":
+							case "USER_ORDER_PLATFORM_CANCEL":
 								this.setState({order_cancel_w: item.template});
 								break;
 							case "USER_ORDER_EXCEPTION_REFUND":

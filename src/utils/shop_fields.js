@@ -60,7 +60,7 @@ export const shop_values = [
 			},
 			{
 				label:'他介绍的店铺数量',
-				value:'introduced_shops_count',
+				value:'introduce_shop_count',
 				type:'numCompare'
 			}
 		]
@@ -120,41 +120,7 @@ export const shop_values = [
 				label:'销售补贴总额',
 				value:'total_sale_allowance',
 				type:'numCompare'
-			},{
-				label:'本月返现',
-				value:'month_cashback',
-				type:'numCompare'
-			},
-			{
-				label:'本月自提返现',
-				value:'current_month_self_pick_cashback',
-				type:'numCompare'
-			},
-			{
-				label:'本月自提佣金',
-				value:'current_month_self_pick_commission',
-				type:'numCompare'
-			},
-			{
-				label:'本月自提补贴',
-				value:'current_month_self_pick_allowance',
-				type:'numCompare'
-			},
-			{
-				label:'本月销售返现',
-				value:'current_month_sale_cashback',
-				type:'numCompare'
-			},
-			{
-				label:'本月销售佣金',
-				value:'current_month_sale_commission',
-				type:'numCompare'
-			},
-			{
-				label:'本月销售补贴',
-				value:'current_month_sale_allowance',
-				type:'numCompare'
-			},
+			}
 		]
 	},
 	{
@@ -179,37 +145,6 @@ export const shop_values = [
 		]
 	},
 	{
-		value:'distribution_data',
-		label:'数据',
-		children:[
-			{
-				label:'分享次数',
-				value:'total_sharing',
-				type:'numCompare'
-			},
-			{
-				label:'被点击总次数',
-				value:'total_click',
-				type:'numCompare'
-			},
-			{
-				label:'被点击总人数',
-				value:'total_click_users',
-				type:'numCompare'
-			},
-			{
-				label:'本月被点击次数',
-				value:'current_month_click',
-				type:'numCompare'
-			},
-			{
-				label:'本月被点击人数',
-				value:'current_month_click_users',
-				type:'numCompare'
-			}
-		]
-	},
-	{
 		value:'sell_data',
 		label:'销售数据',
 		children:[
@@ -220,70 +155,31 @@ export const shop_values = [
 			},
 			{
 				label:'支付宝总额',
-				value:'total_code_scan_alipay',
+				value:'total_ali_amount',
 				type:'numCompare'
 				
 			},
 			{
 				label:'微信支付总额',
-				value:'total_code_scan_wx',
+				value:'total_wx_amount',
 				type:'timeCompare'
 			},
 			{
 				label:'余额支付总额',
-				value:'total_code_scan_balance',
+				value:'total_balance_amount',
 				type:'numCompare'
 				
 			},
 			{
 				label:'招行一网通支付总额',
-				value:'total_code_scan_cmb',
+				value:'total_cmb_amount',
 				type:'numCompare'
 			},
 			{
-				label:'本月扫码付金额',
-				value:'current_month_code_scan_amount',
-				type:'numCompare'
-			},
-			{
-				label:'本月支付宝支付',
-				value:'current_month_code_scan_alipay',
-				type:'numCompare'
-			},
-			{
-				label:'本月微信支付',
-				value:'current_month_code_scan_wx',
-				type:'numCompare'
-			},
-			{
-				label:'本月余额支付',
-				value:'current_month_code_scan_balance',
-				type:'numCompare'
-			},
-			{
-				label:'本月招行一网通',
-				value:'current_month_code_scan_cmb',
-				type:'numCompare'
-			},{
 				label:'订货总额',
 				value:'total_order_product_amount',
 				type:'numCompare'
 			},
-			{
-				label:'本月订货额',
-				value:'current_month_order_product_amount',
-				type:'numCompare'
-			},
-			{
-				label:'扫码付订单总数',
-				value:'total_code_scan_orders_count',
-				type:'numCompare'
-			},
-			{
-				label:'本月扫码付订单数',
-				value:'current_month_code_scan_orders_count',
-				type:'numCompare'
-			}
 		]
 	},
 	{
@@ -296,30 +192,8 @@ export const shop_values = [
 				type:'numCompare'
 			},
 			{
-				label:'本月预订单订单数',
-				value:'current_month_self_pick_orders_count',
-				type:'numCompare'
-				
-			},
-			{
-				label:'预订单总人数',
-				value:'total_self_pick_users_count',
-				type:'timeCompare'
-			},
-			{
-				label:'本月预订单人数',
-				value:'current_month_self_pick_users_count',
-				type:'numCompare'
-				
-			},
-			{
 				label:'预订单总额',
 				value:'total_self_pick_amount',
-				type:'numCompare'
-			},
-			{
-				label:'本月预订单金额',
-				value:'current_month_self_pick_amount',
 				type:'numCompare'
 			}
 		]
