@@ -196,15 +196,15 @@ class BreakfastOrder extends React.Component{
 	
 	// 下架商品
 	unSale = () =>{
-		let products_ids = [];
+		let products_ids = this.state.checkedAry;
 		let channel = this.channel;
-		this.state.checkedAry.forEach(id=>{
-			this.state.user_data.forEach(item=>{
-				if(id == item.stock_id){
-					products_ids.push(item.product_id)
-				}
-			})
-		});
+		// this.state.checkedAry.forEach(id=>{
+		// 	this.state.user_data.forEach(item=>{
+		// 		if(id == item.stock_id){
+		// 			products_ids.push(item.product_id)
+		// 		}
+		// 	})
+		// });
 		let refresh = this.refresh;
 		let confirmModal = Modal.confirm({
 			title: (
@@ -376,7 +376,7 @@ class BreakfastOrder extends React.Component{
 					<Table
 						rowSelection={rowSelection}
 						columns={this.state.columns}
-						rowKey={record => record.stock_id}
+						rowKey={record => record.product_id}
 						pagination={false}
 						rowClassName={(record, index) => {
 							let className = '';

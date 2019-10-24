@@ -5,7 +5,7 @@ export const user_values = [
 		children:[
 			{
 				label:'姓名',
-				value:'name',
+				value:'wx_name',
 				type:'emptyCompare'
 			},
 			{

@@ -51,3 +51,12 @@ export function editImg(params,resourceId) {
         data: params
     })
 }
+
+// 系统设置 
+export function systemSetting(params) {
+    return request({
+        url: '/api/backend/system/setting/set',
+        method: 'post',
+        data: params
+    })
+}

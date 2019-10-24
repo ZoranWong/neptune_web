@@ -24,7 +24,7 @@ class UserManage extends React.Component{
 		const columns = [
 			{
 				title: '姓名',
-				dataIndex: 'name',
+				dataIndex: 'wx_name',
 				render: (text,record) => <span
 					style={{'color':'#4F9863','cursor':'pointer'}}
 					onClick={()=>this.jump(record)}>{text}</span>,
@@ -54,7 +54,7 @@ class UserManage extends React.Component{
 				dataIndex: 'account_balance',
 			},
 		];
-		let defaultItem =  ['name','mobile',"created_at",'charge_amount','total_purchase_amount','purchased_count','account_balance','id'];
+		let defaultItem =  ['wx_name','mobile',"created_at",'charge_amount','total_purchase_amount','purchased_count','account_balance','id'];
 		super(props);
 		this.child = React.createRef();
 		this.state = {

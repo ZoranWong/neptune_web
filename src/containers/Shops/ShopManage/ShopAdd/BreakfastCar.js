@@ -4,7 +4,7 @@ import Map from '../../../../components/Map/Map'
 import '../css/common.sass'
 import Address from "../../../../components/Address/Address";
 import {checkIdCard, checkPhone} from "../../../../utils/dataStorage";
-import {applicationsDetail, breakfastCar, editShop, shopKeeper} from "../../../../api/shops/shopManage";
+import {shopDetails, breakfastCar, editShop, shopKeeper} from "../../../../api/shops/shopManage";
 import CustomUpload from "../../../../components/Upload/Upload";
 class BreakfastCar extends React.Component{
 	constructor(props) {
@@ -18,11 +18,17 @@ class BreakfastCar extends React.Component{
 		};
 		this.childMap = React.createRef();
 		this.childAdd = React.createRef();
+		this.front = React.createRef();
+		this.backend = React.createRef();
+		this.holding = React.createRef();
+		this.cashier = React.createRef();
+		this.doorway = React.createRef();
+		this.environment = React.createRef();
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(!(this.props.recordId ==  nextProps.recordId)){
-			applicationsDetail({},nextProps.recordId).then(r=>{
+			shopDetails({},nextProps.recordId).then(r=>{
 				this.setState({listData:r.data})
 			});
 		}
@@ -57,6 +63,30 @@ class BreakfastCar extends React.Component{
 			message.error('请填写正确格式的身份证号');
 			return
 		}
+		
+		let id_card_images = {
+			front: this.front.current.state.imgUrl,
+			backend: this.backend.current.state.imgUrl,
+			holding: this.holding.current.state.imgUrl,
+		};
+		for (let key in id_card_images) {
+			if(!id_card_images[key]){
+				message.error('请上传身份证相关照片');
+				return
+			}
+		}
+		let shop_images = {
+			cashier: this.cashier.current.state.imgUrl,
+			doorway: this.doorway.current.state.imgUrl,
+			environment: this.environment.current.state.imgUrl,
+		};
+		for (let key in shop_images) {
+			if(!shop_images[key]){
+				message.error('请上传店铺相关照片');
+				return
+			}
+		}
+		
 		let data = {
 			application_id:listData.id || '',
 			channel_id:this.props.id ,
@@ -72,7 +102,9 @@ class BreakfastCar extends React.Component{
 			breakfast_car_code:listData.breakfast_car_code,
 			name:listData.name,
 			lat:this.childMap.current.state.markerPosition.latitude,
-			lng:this.childMap.current.state.markerPosition.longitude
+			lng:this.childMap.current.state.markerPosition.longitude,
+			id_card_images: id_card_images,
+			shop_images:shop_images
 		};
 		if(this.props.recordId){
 			editShop(data,this.props.recordId).then(r=>{
@@ -82,7 +114,7 @@ class BreakfastCar extends React.Component{
 		} else {
 			breakfastCar(data).then(r=>{
 				message.success('新增店铺成功');
-				this.handleCancel()
+				this.handleCancel();
 			})
 		}
 	};
@@ -130,7 +162,7 @@ class BreakfastCar extends React.Component{
 							<span className="left">店铺渠道</span>
 							{
 								this.props.recordId?(
-									<span>{listData.channel_name}</span>
+									<span>{this.props.channelDesc}</span>
 								):<span>早餐车</span>
 							}
 							
@@ -140,7 +172,7 @@ class BreakfastCar extends React.Component{
 							
 							{
 								this.props.recordId?(
-									<span>{listData.introducer_no}</span>
+									<span>{listData.code}</span>
 								):(
 									<Input
 										className="liInput"
@@ -223,18 +255,18 @@ class BreakfastCar extends React.Component{
 						<li className="li">
 							<span className="left">上传身份证照片：</span>
 							<div className="imgs">
-								<CustomUpload text="正面" defaultImg={listData.id_card_images?listData.id_card_images[0]:''} />
-								<CustomUpload text="反面" defaultImg={listData.id_card_images?listData.id_card_images[1]:''}/>
-								<CustomUpload text="手持" defaultImg={listData.id_card_images?listData.id_card_images[2]:''} />
+								<CustomUpload ref={this.front} text="正面" defaultImg={listData.id_card_images?listData.id_card_images['front']:''} />
+								<CustomUpload ref={this.backend} text="反面" defaultImg={listData.id_card_images?listData.id_card_images['backend']:''}/>
+								<CustomUpload ref={this.holding} text="手持" defaultImg={listData.id_card_images?listData.id_card_images['holding']:''} />
 							</div>
 							
 						</li>
 						<li className="li">
 							<span className="left">上传店铺照片：</span>
 							<div className="imgs">
-								<CustomUpload text="上传" defaultImg={listData.shop_images?listData.shop_images[0]:''}/>
-								<CustomUpload text="上传" defaultImg={listData.shop_images?listData.shop_images[0]:''}/>
-								<CustomUpload text="上传" defaultImg={listData.shop_images?listData.shop_images[0]:''}/>
+								<CustomUpload ref={this.cashier}  text="上传" defaultImg={listData.shop_images?listData.shop_images['cashier']:''}/>
+								<CustomUpload ref={this.doorway} text="上传" defaultImg={listData.shop_images?listData.shop_images['doorway']:''}/>
+								<CustomUpload ref={this.environment} text="上传" defaultImg={listData.shop_images?listData.shop_images['environment']:''}/>
 							</div>
 							
 						</li>

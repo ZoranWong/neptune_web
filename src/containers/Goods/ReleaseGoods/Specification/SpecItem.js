@@ -85,10 +85,10 @@ export default class SpecItem extends React.Component{
 						return (
 							<div className="s_tags" key={item.id}>
 								<div className="top">
-									<Tag closable onClose={()=>this.closeName(item.id)}>
+									<Tag closable={!this.props.isEdit} onClose={()=>this.closeName(item.id)}>
 										{item.name}
 									</Tag>
-									<div className="addNewSon" onClick={()=>this.showNewSon(item)} >
+									<div className="addNewSon" onClick={()=>this.showNewSon(item)} style={{display: this.props.isEdit? 'none': 'block'}} >
 										<IconFont type="icon-plus-circle-fill" />新增规格值
 									</div>
 								</div>
@@ -96,7 +96,7 @@ export default class SpecItem extends React.Component{
 									{
 										this.state.specItemData[item.id]&&(
 											this.state.specItemData[item.id].map(r=>{
-												return <Tag closable key={r.id} onClose={()=>this.closeValue(item.id,r.id)} >
+												return <Tag closable={!this.props.isEdit} key={r.id} onClose={()=>this.closeValue(item.id,r.id)} >
 													{r.value}
 												</Tag>
 											})

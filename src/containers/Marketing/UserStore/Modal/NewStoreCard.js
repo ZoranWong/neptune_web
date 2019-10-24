@@ -38,6 +38,11 @@ class NewStoreCard extends Component {
 			message.success(r.message);
 			this.props.onCancel();
 			this.props.refresh();
+			this.setState({
+				name:'',
+				price:'',
+				gift_amount:''
+			})
 		}).catch(_=>{})
 	};
 	

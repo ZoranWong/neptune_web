@@ -1,9 +1,10 @@
 import React, {Component,Fragment} from 'react';
-import {DatePicker, Input, LocaleProvider, Modal, Radio, Button, Select} from "antd";
+import {DatePicker, Input, LocaleProvider, Modal, Radio, Button, Select, message} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import 'moment/locale/zh-cn';
 import '../css/createNew.sass'
-import {coupons} from "../../../../api/marketing/coupon";
+import {availableIntegralProducts,createIntegralProduct} from "../../../../api/marketing/integral";
+import {searchJson} from "../../../../utils/dataStorage";
 
 class CreateNew extends Component {
 	state = {
@@ -11,10 +12,18 @@ class CreateNew extends Component {
 		selectedItems:[],
 		coupons: [],
 		scrollPage:1,
+		remainCount: '',
+		amount: '',
+		score: '',
+		limitDate:'',
+		limit: '',
+		remain: {
+			remain_count :0
+		}
 	};
 	
 	componentDidMount() {
-		coupons({limit: 10, page:1,obj_type:'USER'}).then(r=>{
+		availableIntegralProducts({limit: 10, page:1,searchJson: searchJson({type:'COUPON'})}).then(r=>{
 			this.setState({coupons: r.data})
 		})
 	}
@@ -32,7 +41,10 @@ class CreateNew extends Component {
 	};
 	
 	handleChange = selectedItems => {
-		this.setState({ selectedItems });
+		let remainCount = 0;
+		let remain = this.state.coupons.filter(item=>item['id'] == selectedItems)[0];
+		remainCount = remain['remain_count'];
+		this.setState({ selectedItems,remainCount: remainCount,remain });
 	};
 	
 	// 下拉框分页加载
@@ -49,10 +61,65 @@ class CreateNew extends Component {
 	};
 	
 	getCoupons = (page) =>{
-		coupons({limit:10,page:page,obj_type:'USER'}).then(r=>{
+		availableIntegralProducts({limit:10,page:page,searchJson: searchJson({type:'COUPON'})}).then(r=>{
 			if(!r.data.length) return;
 			this.setState({coupons:this.state.coupons.concat(r.data)})
 		})
+	};
+	
+	onDateChange = (date,dateString) =>{
+		console.log(date);
+		console.log(dateString);
+		this.setState({limitDate: dateString})
+	};
+	
+	checkParams = () =>{
+		const {state} = this;
+		if (!state.selectedItems) {
+			message.error('请先选择优惠券');
+			return;
+		}
+		if (state.amount > state.remain['remain_count']) {
+			message.error('发放总量不可大于优惠券总量');
+			return;
+		}
+		if (!state.score) {
+			message.error('请填写兑换所需积分');
+			return;
+		}
+		if (state.value == 2) {
+			if (!state.limit) {
+				message.error('请填写每人限领张数');
+				return;
+			}
+		}
+		let is_auto = state.limitDate ? true: false;
+		let receive_limit = state.value == 1? 10000:state.limit;
+		let params1 = {
+			product_id: this.state.selectedItems,
+			product_type: 'COUPON',
+			issue_count: this.state.amount,
+			pv: this.state.score,
+			is_auto_expire: is_auto,
+			expire_date: state.limitDate,
+			receive_limit
+		};
+		let params2 = {
+			product_id: this.state.selectedItems,
+			product_type: 'COUPON',
+			issue_count: this.state.amount,
+			pv: this.state.score,
+			is_auto_expire: is_auto,
+			receive_limit
+		};
+		let params = is_auto ? params1 : params2;
+		this.submit(params)
+	};
+	
+	submit = params => {
+		createIntegralProduct(params).then(r=>{
+			console.log(r);
+		}).catch(_=>{})
 	};
 	
 	render() {
@@ -73,12 +140,10 @@ class CreateNew extends Component {
 							<span className="left">选择优惠券:</span>
 							<Select
 								defaultActiveFirstOption={false}
-								mode="tags"
 								value={selectedItems}
 								className='couponSelect'
 								onChange={this.handleChange}
 								onPopupScroll={this.tagScroll}
-								allowClear
 								optionLabelProp="label"
 								optionFilterProp="children"
 								filterOption={(input, option) =>
@@ -86,7 +151,7 @@ class CreateNew extends Component {
 								}
 							>
 								{this.state.coupons.map(item => (
-									<Select.Option key={item.coupon_id+''} label={item.name} value={item.coupon_id+''}>
+									<Select.Option key={item.id} label={item.name} value={item.id}>
 										{item.name}
 									</Select.Option>
 								))}
@@ -97,14 +162,36 @@ class CreateNew extends Component {
 								<span className="left">发放总量:</span>
 								<Input
 									className="liInput"
+									value={this.state.amount}
+									type='number'
+									onChange={(e)=>{
+										if(e.target.value < 0) return;
+										this.setState({amount: e.target.value})
+									}}
+									onBlur={(e)=>{
+										if (e.target.value > this.state.remainCount) {
+											message.error('发放总量不可大于优惠券总量');
+											return
+										};
+										this.setState({remainCount:this.state.remainCount -  e.target.value  })
+									}}
 								/>
 							</div>
-							<span className="extra">优惠券总量1000</span>
+							{
+								this.state.remainCount ? <span className="extra">优惠券总量{this.state.remainCount}张</span>
+									: <span className="extra">优惠券总量0张</span>
+									
+							}
 						</li>
 						<li>
 							<span className="left">兑换所需积分:</span>
 							<Input
 								className="liInput"
+								value={this.state.score}
+								type='number'
+								onChange={(e)=>{
+									this.setState({score: e.target.value})
+								}}
 							/>
 						</li>
 						<li className="i_li moreLineLi">
@@ -113,7 +200,6 @@ class CreateNew extends Component {
 								<LocaleProvider locale={zh_CN}>
 									<DatePicker
 										onChange={this.onDateChange}
-										showTime
 									/>
 								</LocaleProvider>
 							</div>
@@ -124,13 +210,20 @@ class CreateNew extends Component {
 							<Radio.Group onChange={this.onRadioChange} value={this.state.value}>
 								<Radio value={1}>无限制</Radio>
 								<Radio value={2}>
-									每人限兑<Input type="number" disabled={this.state.value != 2} />张
+									每人限兑<Input
+									type="number"
+									disabled={this.state.value != 2}
+									value={this.state.limit}
+									onChange={(e)=>{
+										this.setState({limit: e.target.value})
+									}}
+								/>张
 								</Radio>
 							</Radio.Group>
 						</li>
 					</ul>
 					<div className="i_save_btn">
-						<Button size="small" type="primary" >保存</Button>
+						<Button size="small" type="primary" onClick={this.checkParams}>保存</Button>
 					</div>
 				</Modal>
 			</Fragment>

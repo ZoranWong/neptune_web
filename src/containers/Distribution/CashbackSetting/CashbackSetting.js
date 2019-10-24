@@ -3,6 +3,7 @@ import {Button, Input, message, Modal, Table} from "antd";
 import './css/index.sass'
 import OperationRatio from "./Modals/OperationRatio";
 import {getSettings, getLevels,deleteLevels} from "../../../api/distribution/setting";
+import {systemSetting} from "../../../api/common";
 
 class CashbackSetting extends Component {
 	constructor(props) {
@@ -78,11 +79,28 @@ class CashbackSetting extends Component {
 	};
 	
 	valueChange = (type,value) => {
+		if (type === 'PI') {
+			value = parseFloat(value)
+		} else {
+			value = parseInt(value);
+		}
 		this.setState({[type]: value})
 	};
 	
 	edit = (record) => {
 		this.setState({record,visible: true})
+	};
+	
+	submitSetting = (key) =>{
+		let value = this.state[key];
+		
+		systemSetting({
+			type: 'DISTRIBUTION',
+			key,
+			value
+		}).then(r=>{
+			message.success(r.message);
+		})
 	};
 	
 	render() {
@@ -135,14 +153,18 @@ class CashbackSetting extends Component {
 							<span>
 								<h5>生产力指数:</h5>
 								<Input
+									type='number'
 									value={state['PI']}
 									onChange={(e)=>this.valueChange('PI',e.target.value)}
+									onBlur={(e)=>this.submitSetting('PI')}
 								/>
 							</span>
 							<span>
 								<h5>净营业额换算比率(%)：</h5>
 								<Input
+									type='number'
 									value={state['NET_SALES_CONVERSION_RATIO']}
+									onBlur={(e)=>this.submitSetting('NET_SALES_CONVERSION_RATIO')}
 									onChange={(e)=>this.valueChange('NET_SALES_CONVERSION_RATIO',e.target.value)}
 								/>
 							</span>
@@ -154,6 +176,8 @@ class CashbackSetting extends Component {
 							<span>
 								<h5>自提补贴比例(%):</h5>
 								<Input
+									type='number'
+									onBlur={(e)=>this.submitSetting('SELF_PICK_SUBSIDY_RATIO')}
 									value={state['SELF_PICK_SUBSIDY_RATIO']}
 									onChange={(e)=>this.valueChange('SELF_PICK_SUBSIDY_RATIO',e.target.value)}
 								/>
@@ -161,6 +185,8 @@ class CashbackSetting extends Component {
 							<span>
 								<h5>自提佣金比例(%)：</h5>
 								<Input
+									type='number'
+									onBlur={(e)=>this.submitSetting('SELF_PICK_COMMISSION_RATIO')}
 									value={state['SELF_PICK_COMMISSION_RATIO']}
 									onChange={(e)=>this.valueChange('SELF_PICK_COMMISSION_RATIO',e.target.value)}
 								/>
@@ -173,6 +199,8 @@ class CashbackSetting extends Component {
 							<span>
 								<h5>销售补贴比例(%):</h5>
 								<Input
+									type='number'
+									onBlur={(e)=>this.submitSetting('SALES_SUBSIDY_RATIO')}
 									value={state['SALES_SUBSIDY_RATIO']}
 									onChange={(e)=>this.valueChange('SALES_SUBSIDY_RATIO',e.target.value)}
 								/>

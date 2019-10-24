@@ -19,7 +19,7 @@ class Order extends React.Component{
 				title: '订单号',
 				dataIndex: 'trade_no',
 				render: (text,record) => <span
-					style={{'color':'#4F9863','cursor':'pointer'}}>{text}</span>,
+					style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.jump(record)}>{text}</span>,
 			},
 			{
 				title: '商品',
@@ -84,6 +84,7 @@ class Order extends React.Component{
 	refresh = (status='ALL')=>{
 		this.setState({
 			filterVisible:false,
+			checkedAry: [],
 			paginationParams:{
 				logic_conditions:[],
 				searchJson:searchJson({
@@ -95,6 +96,9 @@ class Order extends React.Component{
 		})
 	};
 	
+	jump = record => {
+		this.props.history.push({pathname:"/order/orderDetails",state:{id:record.product_id}})
+	};
 	
 	
 	// 头部搜索框
@@ -165,7 +169,9 @@ class Order extends React.Component{
 	// 取消订单 / 确认订单
 	confirmPopover =(fn,keyWord) => {
 		let refresh = this.refresh;
+		let self = this;
 		let checkedAry = this.state.checkedAry;
+		console.log(checkedAry, '{}{}{}{}{}{}}{{}}{}{}{}{}{}{');
 		let confirmModal = Modal.confirm({
 			title: (
 				<div className= 'u_confirm_header'>
@@ -196,6 +202,7 @@ class Order extends React.Component{
 			onOk() {
 				fn({order_ids:checkedAry}).then(r=>{
 					message.success(`${keyWord}订单成功！`);
+					self.setState({checkedAry: []});
 					refresh('WAIT_PLATFORM_VERIFY')
 				});
 				
@@ -222,8 +229,12 @@ class Order extends React.Component{
 	render(){
 		const rowSelection = {
 			onChange: (selectedRowKeys, selectedRows) => {
+				let ary = [];
+				selectedRows.forEach(item=>{
+					ary.push(item['order_id'])
+				});
 				if(this.state.activeTab !== 'WAIT_PLATFORM_VERIFY') return;
-				this.setState({checkedAry:selectedRowKeys})
+				this.setState({checkedAry:ary})
 			}
 		};
 		const tabs = [

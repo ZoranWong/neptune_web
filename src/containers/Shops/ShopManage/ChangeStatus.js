@@ -75,6 +75,7 @@ class ShopApplication extends React.Component{
 			message.success('修改店铺状态成功');
 			this.props.refresh();
 			this.handleCancel();
+			this.setState({status: ''})
 		})
 	};
 	
@@ -98,7 +99,7 @@ class ShopApplication extends React.Component{
 								this.setState({status:e.target.value})
 							}
 						}>
-							<Radio value={100}>开业</Radio>
+							<Radio value={100} style={{display: this.state.isShow ? 'inline-block': 'none'}}>开业</Radio>
 							<Radio value={200} style={{display: this.state.isShow ? 'inline-block': 'none'}}>打烊</Radio>
 							<Radio value={0}>冻结</Radio>
 						</Radio.Group>

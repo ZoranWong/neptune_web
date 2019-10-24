@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Table,Modal} from 'antd'
+import {Button, Table, Modal, message} from 'antd'
 import '../ShopManage/css/shopManage.sass'
 import {withRouter} from 'react-router-dom'
 import SearchInput from "../../../components/SearchInput/SearchInput";
@@ -139,6 +139,7 @@ class FrozenShop extends React.Component{
 			},
 			onOk() {
 				fn({},id).then(r=>{
+					message.success(`${msg}成功!`);
 					refresh()
 				})
 			}

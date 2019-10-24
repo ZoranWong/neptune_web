@@ -278,6 +278,54 @@ class NewCoupon extends Component {
 		return msg
 	};
 	
+	// 适用商品
+	renderGoods = () =>{
+		let msg = '';
+		let values = this.state.radioValue;
+		switch (values.productType) {
+			case "ALL":
+				msg = '全部商品';
+				break;
+			case "PARTIAL_AVAILABLE_ID":
+				msg = '指定商品可用';
+				break;
+			case "PARTIAL_FORBIDDEN":
+				msg = '指定商品不可用';
+				break;
+			case "PARTIAL_AVAILABLE_CATE":
+				msg = '选择商品分类';
+				break;
+			case "PARTIAL_AVAILABLE_GROUP":
+				msg = '选择商品组';
+				break
+		}
+		return msg
+	};
+	
+	// 发放范围
+	renderReleaseRange = () =>{
+		let msg = '';
+		let values = this.state.radioValue;
+		switch (values.userType) {
+			case "ALL":
+				msg = '所有用户';
+				break;
+			case "PARTIAL_AVAILABLE_ID":
+				msg = '指定用户可用';
+				break;
+			case "PARTIAL_FORBIDDEN_ID":
+				msg = '指定用户不可用';
+				break;
+			case "PARTIAL_AVAILABLE_GROUP":
+				msg = '指定群组可用';
+				break;
+			case "PARTIAL_FORBIDDEN_GROUP":
+				msg = '指定群组不可用';
+				break
+		}
+		return msg
+	};
+	
 	render() {
 		let {radioValue} = this.state;
 		const options = [
@@ -507,13 +555,13 @@ class NewCoupon extends Component {
 								<h3>{radioValue.name || '优惠券名称'}</h3>
 							</div>
 							<div className="c_container_body">
-								<i>{radioValue.floor? '有门槛':'无门槛'}</i>
+								<i>{radioValue.floor? `满足${radioValue.floorValue || 0}元`:'无门槛'}</i>
 								<i>有效期：{this.couponValidDate()}</i>
 							</div>
 						</div>
 						<p>{this.releaseType()}</p>
-						<span>适用商品：全部商品</span>
-						<span>发放范围：暂不发放</span>
+						<span>适用商品：{this.renderGoods()}</span>
+						<span>发放范围：{this.renderReleaseRange()}</span>
 						<span>使用说明：{this.state.radioValue.description || '暂无'}</span>
 					</div>
 				</div>

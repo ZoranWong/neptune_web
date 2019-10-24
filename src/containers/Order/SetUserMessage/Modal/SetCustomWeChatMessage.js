@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {Icon, message, Modal, Switch} from "antd";
-import '../css/setWechatMessage.sass'
-class SetWeChatMessage extends Component {
+import {Icon, message, Modal} from "antd";
+import '../css/setWechatMessage.sass';
+import {weChatMessageList} from "../../../../api/marketing/message";
+
+class SetCustomWeChatMessage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -13,26 +15,28 @@ class SetWeChatMessage extends Component {
 	
 	handleCancel = () => {
 		this.props.onClose();
+		this.props.showWeChat(this.props.type)
 	};
 	
 	componentWillReceiveProps(nextProps, nextContext) {
-		if(!nextProps.list || !nextProps.list.length) return;
-		this.setState({list: nextProps.list})
+		if(!nextProps.templateId) return;
+		weChatMessageList({},nextProps.templateId).then(r=>{
+			this.setState({list: r.data})
+		})
 	}
 	
 	
 	submit = () =>{
-		if(!this.state.activeItem['template_id']){
+		if(!this.state.activeItem['id']){
 			message.error('请先选择模板消息');
 			return;
 		}
 		this.props.save(this.state.activeItem, this.props.type);
-		this.handleCancel();
+		this.props.onClose();
 	};
 	
 	setActiveItem = activeItem =>{
-		this.props.save(activeItem, this.props.type);
-		this.handleCancel();
+		this.setState({activeItem});
 	};
 	
 	render() {
@@ -43,13 +47,15 @@ class SetWeChatMessage extends Component {
 				centered={true}
 				visible={this.props.visible}
 				onCancel={this.handleCancel}
-				footer={null}
+				okText='确认'
+				cancelText='取消'
+				onOk={this.submit}
 				maskClosable={false}
 			>
 				<ul className="set_m_wechat">
 					{
 						this.state.list.length ? this.state.list.map(item=>(
-							<li key={item.template_id} className={this.state.activeItem['template_id'] === item['template_id']? 'm_wechat_li active': 'm_wechat_li'} onClick={()=>this.setActiveItem(item)}>
+							<li key={item.template_id} className={this.state.activeItem['id'] === item['id']? 'm_wechat_li active': 'm_wechat_li'} onClick={()=>this.setActiveItem(item)}>
 								<div className="ul_header">
 									<h3>{item.title}</h3>
 								</div>
@@ -69,7 +75,7 @@ class SetWeChatMessage extends Component {
 									</p>
 								</div>
 							</li>
-						)): '暂无模板，先去设置模板吧～'
+						)): '该模板下暂无自定义模板哦，先去设置模板吧～'
 					}
 				</ul>
 			</Modal>
@@ -77,4 +83,4 @@ class SetWeChatMessage extends Component {
 	}
 }
 
-export default SetWeChatMessage;
+export default SetCustomWeChatMessage;

@@ -26,7 +26,7 @@ export default class NewSpecification extends React.Component{
 				this.setState({allValues:all[0].spec_value})
 			}).catch(_=>{});
 			let values = [];
-			nextProps.parent.values.forEach(item=>{
+			nextProps.parent.values && nextProps.parent.values.forEach(item=>{
 				values.push(item.value)
 			});
 			this.setState({values})

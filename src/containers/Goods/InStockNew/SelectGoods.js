@@ -3,7 +3,8 @@ import {Input, Modal, Select, Button, Table,Checkbox} from 'antd'
 import './css/selectGoods.sass'
 import {stockable} from "../../../api/goods/goods";
 import SelectSpec from "./SelectSpec";
-import {unique} from "../../../utils/dataStorage";
+import {searchJson, unique} from "../../../utils/dataStorage";
+import {FatherClassification} from "../../../api/goods/classification";
 
 export default class SelectGoods extends React.Component{
 	constructor(props) {
@@ -15,18 +16,25 @@ export default class SelectGoods extends React.Component{
 			specVisible:false,
 			recordStocks:{},  // 用于渲染选择规格
 			record:{},
-			count:0
+			count:0,
+			goodName: '',
+			cates: [],
+			cateId: ''
 		}
 	}
 	
 	componentDidMount() {
-		this.getGoods()
+		this.getGoods();
+		FatherClassification({limit: 100,page:1}).then(r=>{
+			this.setState({cates: r.data})
+		})
 	}
 	// 获取列表数据
 	getGoods = (page) =>{
 		stockable({
 			channel:this.props.channel,
 			limit:10,
+			is_in_stock: true,
 			page:page
 		}).then(r=>{
 			if(!r.data.length) return;
@@ -94,6 +102,39 @@ export default class SelectGoods extends React.Component{
 		this.setState({data:all,count:num,checkedAry:unique(this.state.checkedAry,ary)	})
 	};
 	
+	cateChange = (id) =>{
+		this.setState({cateId: id})
+	};
+	
+	inputChange = (e) =>{
+		this.setState({goodName: e.target.value});
+	};
+	
+	search = () =>{
+		let p = {
+			channel:this.props.channel,
+			limit:100,
+			is_in_stock: true,
+			page:1,
+			searchJson: searchJson({
+				'product.name':  this.state.goodName,
+				'product.categories.id': this.state.cateId
+			})
+		};
+		stockable(p).then(r=>{
+			this.setState({data:r.data})
+		}).catch(_=>{})
+	};
+	
+	clear = () =>{
+		this.setState({
+			goodName: '',
+			cateId: ''
+		},() =>{
+			this.getGoods(1)
+		})
+	};
+	
 	render() {
 		const columns = [
 			{
@@ -152,18 +193,30 @@ export default class SelectGoods extends React.Component{
 					<div className="selectGoodsHeader">
 						<span>商品分类：</span>
 						<Select
-							placeholder="请选择"
-						></Select>
+							placeholder="请选择商品分类"
+							onChange={this.cateChange}
+							value={this.state.cateId}
+						>
+							{
+								this.state.cates.map(item=>(
+									<Select.Option key={item.id}>{item.name}</Select.Option>
+								))
+							}
+						</Select>
 						<Input
 							placeholder="请输入商品名称"
+							value={this.state.goodName}
+							onChange={this.inputChange}
 						/>
 						<Button
 							type="primary"
 							size="small"
+							onClick={this.search}
 						>搜索</Button>
 						<Button
 							size="small"
 							className="button"
+							onClick={this.clear}
 						>刷新</Button>
 					</div>
 					<div className="selectGoodsChart" onScrollCapture={this.handleScroll}>

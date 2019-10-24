@@ -1,9 +1,14 @@
 import React, {Component,Fragment} from 'react';
-import {Button, Icon} from "antd";
-import {weChatList,SMSList} from "../../../api/marketing/message";
+import {Button, Icon, message} from "antd";
+import {weChatList, SMSList, bindTemplates} from "../../../api/marketing/message";
+import {templates} from "../../../api/marketing/message";
 import './css/index.sass'
 import SetSmsMessage from "./Modal/SetSMSMessage";
 import SetWeChatMessage from "./Modal/SetWeChatMessage";
+import {searchJson} from "../../../utils/dataStorage";
+import {templateTrigger} from "./utils/transformer";
+import SetCustomWeChatMessage from "./Modal/SetCustomWeChatMessage";
+
 class SetUserMessage extends Component {
 	constructor(props) {
 		super(props);
@@ -12,7 +17,9 @@ class SetUserMessage extends Component {
 			messageList: [],
 			weChatVisible: false,
 			messageVisible: false,
+			customMessageVisible: false,
 			type: '',
+			templateId:'',
 			order_success_w: {},
 			order_success_m:{},
 			order_got_w: {},
@@ -35,12 +42,60 @@ class SetUserMessage extends Component {
 	
 	componentDidMount() {
 		let mode = this.props.location.state.mode;
+		let type = mode === 'user'? 'ORDER': 'COUPON';
 		weChatList({}).then(r=>{
 			this.setState({weChatList: r.data})
 		}).catch(_=>{});
 		SMSList({}).then(r=>{
 			this.setState({messageList: r.data})
-		}).catch(_=>{})
+		}).catch(_=>{});
+		templates({searchJson: searchJson({type})}).then(r=>{
+			r.data.forEach(item=>{
+				switch (item['template_type']) {
+					case "SMS":
+						switch (item.trigger) {
+							case "USER_ORDER_PAY_SUCCESS":
+								this.setState({order_success_m: item.template});
+							break;
+							case "USER_ORDER_WAIT_PICK_UP":
+								this.setState({order_got_m: item.template});
+								break;
+							case "USER_ORDER_EXCEPTION":
+								this.setState({order_wrong_m: item.template});
+								break;
+							case "USER_ORDER_MANUAL_CANCEL":
+								this.setState({order_cancel_m: item.template});
+								break;
+							case "USER_ORDER_EXCEPTION_REFUND":
+								this.setState({order_refund_m: item.template});
+								break;
+						}
+					break;
+					default:
+						switch (item.trigger) {
+							case "USER_ORDER_PAY_SUCCESS":
+								this.setState({order_success_w: item.template},()=>{
+									console.log(this.state.order_success_w, '{}{}}{}');
+								});
+								break;
+							case "USER_ORDER_WAIT_PICK_UP":
+								this.setState({order_got_w: item.template});
+								break;
+							case "USER_ORDER_EXCEPTION":
+								this.setState({order_wrong_w: item.template});
+								break;
+							case "USER_ORDER_MANUAL_CANCEL":
+								this.setState({order_cancel_w: item.template});
+								break;
+							case "USER_ORDER_EXCEPTION_REFUND":
+								this.setState({order_refund_w: item.template});
+								break;
+						}
+				}
+			});
+			console.log(this.state, '++++++++++|||||||||||||||||||||||');
+		})
+		
 	}
 	
 	showWeChat = (type) =>{
@@ -57,20 +112,53 @@ class SetUserMessage extends Component {
 		this.setState({messageVisible: false})
 	};
 	
-	// 保存选中的微信消息
-	saveWechat = (activeItem,type) =>{
+	showCustomMessage = (templateId) =>{
+		this.setState({customMessageVisible: true,templateId})
+	};
+	hideCustomMessage = () =>{
+		this.setState({customMessageVisible: false})
+	};
+	
+	// 选择微信模板消息子模板
+	saveParentWechat = (activeItem,type) =>{
 		this.setState({
 			[type]: activeItem
+		},()=>{
+			this.showCustomMessage(activeItem['id'])
 		})
+	};
+	
+	// 保存选中的微信模板消息
+	saveWeChat = (activeItem,type) =>{
+		let tType = this.props.location.state.mode === 'user'? 'ORDER': 'COUPON';
+		bindTemplates({
+			type: tType,
+			template_type: 'WX_TEMPLATE_MESSAGE',
+			template_id: activeItem.id,
+			trigger: templateTrigger[type]
+		}).then(r=>{
+			message.success(r.message);
+			this.setState({
+				[type]: activeItem
+			})
+		});
 	};
 	
 	// 保存选中的短信消息
 	saveSMS = (activeItem,type) => {
-		console.log(activeItem);
-		console.log(type);
-		this.setState({
-			[type]: activeItem
-		})
+		let tType = this.props.location.state.mode === 'user'? 'ORDER': 'COUPON';
+		bindTemplates({
+			type: tType,
+			template_type: 'SMS',
+			template_id: activeItem.id,
+			trigger: templateTrigger[type]
+		}).then(r=>{
+			message.success(r.message);
+			this.setState({
+				[type]: activeItem
+			})
+		});
+		
 	};
 	
 	render() {
@@ -86,13 +174,22 @@ class SetUserMessage extends Component {
 			visible: this.state.weChatVisible,
 			list: this.state.weChatList,
 			onClose: this.hideWeChat,
-			save: this.saveWechat,
+			save: this.saveParentWechat,
 			type: this.state.type
+		};
+		const customProps = {
+			visible: this.state.customMessageVisible,
+			onClose: this.hideCustomMessage,
+			type: this.state.type,
+			templateId: this.state.templateId,
+			showWeChat: this.showWeChat,
+			save: this.saveWeChat
 		};
 		return (
 			<Fragment>
 				<SetSmsMessage {...smsProps} />
 				<SetWeChatMessage {...weChatProps} />
+				<SetCustomWeChatMessage {...customProps} />
 				{
 					mode === 'user' && <div className="set_m">
 						<h3>下单成功</h3>
@@ -100,10 +197,10 @@ class SetUserMessage extends Component {
 							<li className='set_m_li'>
 								<Button size='small' type='primary' onClick={()=>this.showWeChat('order_success_w')}>设置微信模板</Button>
 								{
-									this.state.order_success_w['template_id'] && (
-										<div  className='m_wechat_li'>
+									this.state.order_success_w['id'] && (
+										<div  className='m_wechat_li' onClick={()=>this.showWeChat('order_success_w')}>
 											<div className="ul_header">
-												<h3>{this.state.order_success_w.title}</h3>
+												<h3>{this.state.order_success_w.name}</h3>
 											</div>
 											<div className="ulBody">
 												<h4>{this.state.order_success_w.inner_title}</h4>
@@ -128,7 +225,7 @@ class SetUserMessage extends Component {
 								<Button size='small' type='primary' onClick={()=>this.showSmsMessage('order_success_m')}>设置短信模板</Button>
 								{
 									this.state.order_success_m['id'] && (
-										<div className='m_message_li' >
+										<div className='m_message_li' onClick={()=>this.showSmsMessage('order_success_m')} >
 											<p>	模板名称： {this.state.order_success_m.name}</p>
 											<p>	短信内容： {this.state.order_success_m.content}</p>
 											<p>	模板类型： {this.state.order_success_m.biz_type}</p>
@@ -142,10 +239,10 @@ class SetUserMessage extends Component {
 							<li className='set_m_li'>
 								<Button size='small' type='primary' onClick={()=>this.showWeChat('order_got_w')}>设置微信模板</Button>
 								{
-									this.state.order_got_w['template_id'] && (
-										<div  className='m_wechat_li'>
+									this.state.order_got_w['id'] && (
+										<div  className='m_wechat_li' onClick={()=>this.showWeChat('order_got_w')}>
 											<div className="ul_header">
-												<h3>{this.state.order_got_w.title}</h3>
+												<h3>{this.state.order_got_w.name}</h3>
 											</div>
 											<div className="ulBody">
 												<h4>{this.state.order_got_w.inner_title}</h4>
@@ -170,7 +267,7 @@ class SetUserMessage extends Component {
 								<Button size='small' type='primary' onClick={()=>this.showSmsMessage('order_got_m')}>设置短信模板</Button>
 								{
 									this.state.order_got_m['id'] && (
-										<div className='m_message_li' >
+										<div className='m_message_li' onClick={()=>this.showSmsMessage('order_got_m')}>
 											<p>	模板名称： {this.state.order_got_m.name}</p>
 											<p>	短信内容： {this.state.order_got_m.content}</p>
 											<p>	模板类型： {this.state.order_got_m.biz_type}</p>
@@ -184,10 +281,10 @@ class SetUserMessage extends Component {
 							<li className='set_m_li'>
 								<Button size='small' type='primary' onClick={()=>this.showWeChat('order_wrong_w')}>设置微信模板</Button>
 								{
-									this.state.order_wrong_w['template_id'] && (
-										<div  className='m_wechat_li'>
+									this.state.order_wrong_w['id'] && (
+										<div  className='m_wechat_li' onClick={()=>this.showWeChat('order_wrong_w')}>
 											<div className="ul_header">
-												<h3>{this.state.order_wrong_w.title}</h3>
+												<h3>{this.state.order_wrong_w.name}</h3>
 											</div>
 											<div className="ulBody">
 												<h4>{this.state.order_wrong_w.inner_title}</h4>
@@ -212,7 +309,7 @@ class SetUserMessage extends Component {
 								<Button size='small' type='primary' onClick={()=>this.showSmsMessage('order_wrong_m')}>设置短信模板</Button>
 								{
 									this.state.order_wrong_m['id'] && (
-										<div className='m_message_li' >
+										<div className='m_message_li' onClick={()=>this.showSmsMessage('order_wrong_m')} >
 											<p>	模板名称： {this.state.order_wrong_m.name}</p>
 											<p>	短信内容： {this.state.order_wrong_m.content}</p>
 											<p>	模板类型： {this.state.order_wrong_m.biz_type}</p>
@@ -226,10 +323,10 @@ class SetUserMessage extends Component {
 							<li className='set_m_li'>
 								<Button size='small' type='primary' onClick={()=>this.showWeChat('order_cancel_w')}>设置微信模板</Button>
 								{
-									this.state.order_cancel_w['template_id'] && (
-										<div  className='m_wechat_li'>
+									this.state.order_cancel_w['id'] && (
+										<div  className='m_wechat_li'  onClick={()=>this.showWeChat('order_cancel_w')}>
 											<div className="ul_header">
-												<h3>{this.state.order_cancel_w.title}</h3>
+												<h3>{this.state.order_cancel_w.name}</h3>
 											</div>
 											<div className="ulBody">
 												<h4>{this.state.order_cancel_w.inner_title}</h4>
@@ -254,7 +351,7 @@ class SetUserMessage extends Component {
 								<Button size='small' type='primary' onClick={()=>this.showSmsMessage('order_cancel_m')}>设置短信模板</Button>
 								{
 									this.state.order_cancel_m['id'] && (
-										<div className='m_message_li' >
+										<div className='m_message_li' onClick={()=>this.showSmsMessage('order_cancel_m')} >
 											<p>	模板名称： {this.state.order_cancel_m.name}</p>
 											<p>	短信内容： {this.state.order_cancel_m.content}</p>
 											<p>	模板类型： {this.state.order_cancel_m.biz_type}</p>
@@ -268,10 +365,10 @@ class SetUserMessage extends Component {
 							<li className='set_m_li'>
 								<Button size='small' type='primary' onClick={()=>this.showWeChat('order_refund_w')}>设置微信模板</Button>
 								{
-									this.state.order_refund_w['template_id'] && (
-										<div  className='m_wechat_li'>
+									this.state.order_refund_w['id'] && (
+										<div  className='m_wechat_li' onClick={()=>this.showWeChat('order_refund_w')}>
 											<div className="ul_header">
-												<h3>{this.state.order_refund_w.title}</h3>
+												<h3>{this.state.order_refund_w.name}</h3>
 											</div>
 											<div className="ulBody">
 												<h4>{this.state.order_refund_w.inner_title}</h4>
@@ -296,7 +393,7 @@ class SetUserMessage extends Component {
 								<Button size='small' type='primary' onClick={()=>this.showSmsMessage('order_refund_m')}>设置短信模板</Button>
 								{
 									this.state.order_refund_m['id'] && (
-										<div className='m_message_li' >
+										<div className='m_message_li' onClick={()=>this.showSmsMessage('order_refund_m')} >
 											<p>	模板名称： {this.state.order_refund_m.name}</p>
 											<p>	短信内容： {this.state.order_refund_m.content}</p>
 											<p>	模板类型： {this.state.order_refund_m.biz_type}</p>
@@ -315,7 +412,7 @@ class SetUserMessage extends Component {
 								<Button size='small' type='primary' onClick={()=>this.showSmsMessage('goods_wrong_m')}>设置短信模板</Button>
 								{
 									this.state.goods_wrong_m['id'] && (
-										<div className='m_message_li' >
+										<div className='m_message_li'  onClick={()=>this.showSmsMessage('goods_wrong_m')} >
 											<p>	模板名称： {this.state.goods_wrong_m.name}</p>
 											<p>	短信内容： {this.state.goods_wrong_m.content}</p>
 											<p>	模板类型： {this.state.goods_wrong_m.biz_type}</p>
@@ -333,10 +430,10 @@ class SetUserMessage extends Component {
 							<li className='set_m_li'>
 								<Button size='small' type='primary' onClick={()=>this.showWeChat('coupon_fade_w')}>设置微信模板</Button>
 								{
-									this.state.coupon_fade_w['template_id'] && (
-										<div  className='m_wechat_li'>
+									this.state.coupon_fade_w['id'] && (
+										<div  className='m_wechat_li' onClick={()=>this.showWeChat('coupon_fade_w')}>
 											<div className="ul_header">
-												<h3>{this.state.coupon_fade_w.title}</h3>
+												<h3>{this.state.coupon_fade_w.name}</h3>
 											</div>
 											<div className="ulBody">
 												<h4>{this.state.coupon_fade_w.inner_title}</h4>
@@ -361,7 +458,7 @@ class SetUserMessage extends Component {
 								<Button size='small' type='primary' onClick={()=>this.showSmsMessage('coupon_fade_m')}>设置短信模板</Button>
 								{
 									this.state.coupon_fade_m['id'] && (
-										<div className='m_message_li' >
+										<div className='m_message_li' onClick={()=>this.showSmsMessage('coupon_fade_m')} >
 											<p>	模板名称： {this.state.coupon_fade_m.name}</p>
 											<p>	短信内容： {this.state.coupon_fade_m.content}</p>
 											<p>	模板类型： {this.state.coupon_fade_m.biz_type}</p>
@@ -375,10 +472,10 @@ class SetUserMessage extends Component {
 							<li className='set_m_li'>
 								<Button size='small' type='primary' onClick={()=>this.showWeChat('coupon_got_w')}>设置微信模板</Button>
 								{
-									this.state.coupon_got_w['template_id'] && (
-										<div  className='m_wechat_li'>
+									this.state.coupon_got_w['id'] && (
+										<div  className='m_wechat_li' onClick={()=>this.showWeChat('coupon_got_w')}>
 											<div className="ul_header">
-												<h3>{this.state.coupon_got_w.title}</h3>
+												<h3>{this.state.coupon_got_w.name}</h3>
 											</div>
 											<div className="ulBody">
 												<h4>{this.state.coupon_got_w.inner_title}</h4>
@@ -403,7 +500,7 @@ class SetUserMessage extends Component {
 								<Button size='small' type='primary' onClick={()=>this.showSmsMessage('coupon_got_m')}>设置短信模板</Button>
 								{
 									this.state.coupon_got_m['id'] && (
-										<div className='m_message_li' >
+										<div className='m_message_li' onClick={()=>this.showSmsMessage('coupon_got_m')} >
 											<p>	模板名称： {this.state.coupon_got_m.name}</p>
 											<p>	短信内容： {this.state.coupon_got_m.content}</p>
 											<p>	模板类型： {this.state.coupon_got_m.biz_type}</p>
@@ -422,7 +519,7 @@ class SetUserMessage extends Component {
 								<Button size='small' type='primary' onClick={()=>this.showSmsMessage('merchant_fade_m')}>设置短信模板</Button>
 								{
 									this.state.merchant_fade_m['id'] && (
-										<div className='m_message_li' >
+										<div className='m_message_li' onClick={()=>this.showSmsMessage('merchant_fade_m')} >
 											<p>	模板名称： {this.state.merchant_fade_m.name}</p>
 											<p>	短信内容： {this.state.merchant_fade_m.content}</p>
 											<p>	模板类型： {this.state.merchant_fade_m.biz_type}</p>
@@ -437,7 +534,7 @@ class SetUserMessage extends Component {
 								<Button size='small' type='primary' onClick={()=>this.showSmsMessage('merchant_got_m')}>设置短信模板</Button>
 								{
 									this.state.merchant_got_m['id'] && (
-										<div className='m_message_li' >
+										<div className='m_message_li' onClick={()=>this.showSmsMessage('merchant_got_m')}>
 											<p>	模板名称： {this.state.merchant_got_m.name}</p>
 											<p>	短信内容： {this.state.merchant_got_m.content}</p>
 											<p>	模板类型： {this.state.merchant_got_m.biz_type}</p>

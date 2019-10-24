@@ -68,7 +68,9 @@ class ReleaseGoods extends React.Component{
 	
 	devideIds = (item,all) =>{
 		// 此处修改
+		console.log(all, '___________________________-');
 		let ary = {};
+		
 		all.forEach(i=>{
 			let v = i.spec_value || i.values;
 			v.forEach(k=>{
@@ -193,7 +195,7 @@ class ReleaseGoods extends React.Component{
 											initialValue:'',
 											rules: [
 											],
-										})(<Input
+										})(<Input disabled={this.props.location.state&&this.props.location.state.id}
 										/>)}
 									</Form.Item>
 									<Form.Item label="商品缩略图：" className="upload">
@@ -237,6 +239,7 @@ class ReleaseGoods extends React.Component{
 											initialValue:'',
 											rules: [{ required: true, message: '请选择商品属性' }],
 										})(<Select
+												disabled={this.props.location.state&&this.props.location.state.id}
 												onChange={(e)=>{
 													this.props.form.setFieldsValue({
 														property:e
@@ -262,7 +265,9 @@ class ReleaseGoods extends React.Component{
 									<Form.Item label="开启规格：" >
 										{getFieldDecorator('open_specification', {
 											initialValue:false
-										})(<Switch checked={this.props.form.getFieldValue('open_specification')}  onChange={(e)=>{
+										})(<Switch
+											disabled={this.props.location.state&&this.props.location.state.id}
+											checked={this.props.form.getFieldValue('open_specification')}  onChange={(e)=>{
 											this.props.form.setFieldsValue({
 												open_specification:e
 											});
@@ -274,13 +279,14 @@ class ReleaseGoods extends React.Component{
 											ref={this.child}
 											spec={this.state.spec}
 											entities={this.state.entities}
+											isEdit={this.props.location.state&&this.props.location.state.id}
 										/>):(
 											<div>
 												<Form.Item label="零售价：" >
 													{getFieldDecorator('retail_price', {
 														initialValue:'',
 														rules: [{ required: true, message: '请输入零售价' }],
-													})(<Input />)}
+													})(<Input disabled={this.props.location.state&&this.props.location.state.id} />)}
 												</Form.Item>
 												<Form.Item label="市场价：" >
 													{getFieldDecorator('market_price', {

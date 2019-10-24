@@ -162,6 +162,23 @@ export function SMSStatistics(params) {
 }
 
 
+// 模板列表
+export function templates(params) {
+	return request({
+		url: '/api/backend/template/bindings',
+		method: 'get',
+		params: params
+	})
+}
+
+// 绑定模板
+export function bindTemplates(params) {
+	return request({
+		url: '/api/backend/template/bindings/bind',
+		method: 'post',
+		data: params
+	})
+}
 
 
 

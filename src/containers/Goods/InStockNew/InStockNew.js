@@ -44,13 +44,18 @@ export default class InStockNew extends React.Component{
 	
 	// 确认入库
 	confirmInStock = () =>{
+		if (!this.state.remark) {
+			message.error('请先填写备注');
+			return
+		}
 		let stockAry = [];
 		this.state.data.forEach(item=>{
 			let info = {};
+			console.log(item);
 			if(item.productEntity) {
-				info['barcode'] = item.productEntity.data.barcode;
+				info['entity_id'] = item.productEntity.data.id;
 			}else {
-				info['barcode'] = item.stocks.data[0].productEntity.data.barcode;
+				info['entity_id'] = item.stocks.data[0].productEntity.data.id;
 			}
 			if(!item.quantity){
 				return;
@@ -105,7 +110,7 @@ export default class InStockNew extends React.Component{
 			},
 			{
 				title: '单位',
-				dataIndex: 'unit',
+				dataIndex: 'stocks.data[0].unit',
 			},
 			{
 				title: '入库数量',

@@ -4,7 +4,7 @@ import {checkPhone,checkIdCard} from "../../../../utils/dataStorage";
 import '../css/common.sass'
 import Address from "../../../../components/Address/Address";
 import CustomUpload from "../../../../components/Upload/Upload";
-import {distributor, applicationsDetail, editShop, shopKeeper} from "../../../../api/shops/shopManage";
+import {distributor, shopDetails, editShop, shopKeeper} from "../../../../api/shops/shopManage";
 class Distributor extends React.Component{
 	constructor(props) {
 		super(props);
@@ -15,6 +15,9 @@ class Distributor extends React.Component{
 			value:''
 		};
 		this.child = React.createRef();
+		this.front = React.createRef();
+		this.backend = React.createRef();
+		this.holding = React.createRef();
 	}
 	
 	
@@ -23,7 +26,7 @@ class Distributor extends React.Component{
 			this.setState({listData:nextProps.data})
 		}
 		if(!(this.props.recordId ==  nextProps.recordId)){
-			applicationsDetail({},nextProps.recordId).then(r=>{
+			shopDetails({},nextProps.recordId).then(r=>{
 				this.setState({listData:r.data})
 			});
 		}
@@ -40,17 +43,32 @@ class Distributor extends React.Component{
 			message.error('请填写地址');
 			return
 		}
-		if(!listData.applicant_name) {
+		if(!listData.introducer_code) {
+			message.error('请填写介绍人编号');
+			return
+		}
+		if(!listData.keeper_name) {
 			message.error('请填写姓名');
 			return
 		}
-		if(!checkPhone(listData.mobile)) {
+		if(!checkPhone(listData.keeper_mobile)) {
 			message.error('请填写正确格式的手机号');
 			return
 		}
-		if(!checkIdCard(listData.id_card_no)) {
+		if(!checkIdCard(listData.keeper_id_card_no)) {
 			message.error('请填写正确格式的身份证号');
 			return
+		};
+		let id_card_images = {
+			front: this.front.current.state.imgUrl,
+			backend: this.backend.current.state.imgUrl,
+			holding: this.holding.current.state.imgUrl,
+		};
+		for (let key in id_card_images) {
+			if(!id_card_images[key]){
+				message.error('请上传身份证相关照片');
+				return
+			}
 		}
 		let data = {
 			application_id:listData.id || '',
@@ -60,17 +78,18 @@ class Distributor extends React.Component{
 			city_code:this.child.current.state.activeCity+'',
 			area_code:this.child.current.state.activeArea+'',
 			address:listData.address,
-			keeper_name:listData.applicant_name,
-			keeper_mobile:listData.mobile,
-			keeper_id_card_no:listData.id_card_no,
+			keeper_name:listData.keeper_name,
+			keeper_mobile:listData.keeper_mobile,
+			keeper_id_card_no:listData.keeper_id_card_no,
 			status:this.state.status,
-			introducer_code:listData.introducer_no,
-			id_card_images:[]
+			introducer_code:listData.introducer_code,
+			id_card_images:id_card_images
 		};
 		if(this.props.recordId){
 			editShop(data,this.props.recordId).then(r=>{
 				message.success('编辑店铺成功');
 				this.handleCancel()
+				
 			}).catch(_=>{})
 		} else {
 			distributor(data).then(r=>{
@@ -102,7 +121,7 @@ class Distributor extends React.Component{
 							<span className="left">店铺渠道：</span>
 							{
 								this.props.recordId?(
-									<span>{listData.channel_name}</span>
+									<span>{this.props.channelDesc}</span>
 								):<span>分销员</span>
 							}
 						</li>
@@ -110,13 +129,13 @@ class Distributor extends React.Component{
 							<span className="left">介绍人编号</span>
 							{
 								this.props.recordId?(
-									<span>{listData.introducer_no}</span>
+									<span>{listData.introducer_code || '暂无'}</span>
 								):(
 									<Input
 										className="liInput"
-										value={listData.introducer_no}
+										value={listData.introducer_code}
 										onChange={(e)=>{
-											this.setState({listData:{...listData,introducer_no:e.target.value}})
+											this.setState({listData:{...listData,introducer_code:e.target.value}})
 										}}
 									/>
 								)
@@ -141,9 +160,9 @@ class Distributor extends React.Component{
 							<span className="left">分销员姓名</span>
 							<Input
 								className="liInput"
-								value={listData.applicant_name}
+								value={listData.keeper_name}
 								onChange={(e)=>{
-									this.setState({listData:{...listData,applicant_name:e.target.value}})
+									this.setState({listData:{...listData,keeper_name:e.target.value}})
 								}}
 							/>
 						</li>
@@ -151,23 +170,23 @@ class Distributor extends React.Component{
 							<span className="left">分销员电话</span>
 							<Input
 								className="liInput"
-								value={listData.mobile}
+								value={listData.keeper_mobile}
 								onChange={(e)=>{
-									this.setState({listData:{...listData,mobile:e.target.value}})
+									this.setState({listData:{...listData,keeper_mobile:e.target.value}})
 								}}
 							/>
 						</li>
 						<li>
-							<span className="left">车主身份证号码</span>
+							<span className="left">分销员身份证号码</span>
 							{
 								this.props.recordId?(
-									<span>{listData.id_card_no}</span>
+									<span>{listData.keeper_id_card_no}</span>
 								):(
 									<Input
 										className="liInput"
-										value={listData.id_card_no}
+										value={listData.keeper_id_card_no}
 										onChange={(e)=>{
-											this.setState({listData:{...listData,id_card_no:e.target.value}})
+											this.setState({listData:{...listData,keeper_id_card_no:e.target.value}})
 										}}
 									/>
 								)
@@ -176,9 +195,9 @@ class Distributor extends React.Component{
 						<li  className="li">
 							<span className="left">上传身份证照片</span>
 							<div className="imgs">
-								<CustomUpload defaultImg={listData.id_card_images?listData.id_card_images[0]:''} text="正面" />
-								<CustomUpload defaultImg={listData.id_card_images?listData.id_card_images[1]:''} text="反面"/>
-								<CustomUpload defaultImg={listData.id_card_images?listData.id_card_images[2]:''} text="手持"/>
+								<CustomUpload ref={this.front} defaultImg={listData.id_card_images?listData.id_card_images['front']:''} text="正面" />
+								<CustomUpload ref={this.backend} defaultImg={listData.id_card_images?listData.id_card_images['backend']:''} text="反面"/>
+								<CustomUpload ref={this.holding} defaultImg={listData.id_card_images?listData.id_card_images['holding']:''} text="手持"/>
 							</div>
 							
 						</li>

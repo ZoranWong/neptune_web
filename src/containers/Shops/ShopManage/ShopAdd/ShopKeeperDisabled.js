@@ -165,15 +165,15 @@ class ShopKeeperDisabled extends React.Component{
 							</span>
 						</li>
 						<li>
-							<span className="left">车主姓名</span>
+							<span className="left">商户姓名</span>
 							<span>{data.applicant_name}</span>
 						</li>
 						<li>
-							<span className="left">车主电话</span>
+							<span className="left">商户电话</span>
 							<span>{data.mobile}</span>
 						</li>
 						<li>
-							<span className="left">车主身份证号码</span>
+							<span className="left">商户身份证号码</span>
 							<span>{data.id_card_no}</span>
 						</li>
 						<li className="li">

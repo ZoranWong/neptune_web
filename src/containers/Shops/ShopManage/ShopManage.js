@@ -38,7 +38,7 @@ class ShopManage extends React.Component{
 			},
 			{
 				title: '销售总额',
-				dataIndex: 'total_sale',
+				dataIndex: 'total_code_scan_amount'
 			},
 			{
 				title: '店铺渠道',
@@ -89,7 +89,8 @@ class ShopManage extends React.Component{
 			recordId:'',
 			columns:columns,
 			defaultItem:defaultItem,
-			selectedRows:[]
+			selectedRows:[],
+			channel_desc:''
 		};
 	}
 	
@@ -105,7 +106,7 @@ class ShopManage extends React.Component{
 	
 	
 	editShop = (record) =>{
-		this.setState({recordId:record.id});
+		this.setState({recordId:record.id,channel_desc: record.channel});
 		switch (record.channel) {
 			case "早餐车":
 				this.showBreakfast();
@@ -122,8 +123,10 @@ class ShopManage extends React.Component{
 			filterVisible:false,
 			paginationParams:{
 				logic_conditions:[],
-				search:''
-			}
+				search:'',
+				only: this.state.defaultItem.join(',')
+			},
+			checkedAry: []
 		},()=>{
 			this.child.current.pagination(1)
 		})
@@ -188,7 +191,9 @@ class ShopManage extends React.Component{
 		this.setState({breakfast:true})
 	};
 	hideBreakfast = () =>{
-		this.setState({breakfast:false})
+		this.setState({breakfast:false},()=>{
+			this.refresh()
+		})
 	};
 	
 	// 分销员
@@ -196,7 +201,9 @@ class ShopManage extends React.Component{
 		this.setState({distributor:true})
 	};
 	hideDistributor = () =>{
-		this.setState({distributor:false})
+		this.setState({distributor:false},()=>{
+			this.refresh()
+		})
 	};
 	
 	// 商户
@@ -204,7 +211,9 @@ class ShopManage extends React.Component{
 		this.setState({shopKeeper:true})
 	};
 	hideShopKeeper = () =>{
-		this.setState({shopKeeper:false})
+		this.setState({shopKeeper:false},()=>{
+			this.refresh()
+		})
 	};
 	
 	
@@ -343,18 +352,21 @@ class ShopManage extends React.Component{
 					onClose={this.hideBreakfast}
 					onShow={this.showBreakfast}
 					recordId={this.state.recordId}
+					channelDesc={this.state.channel_desc}
 				/>
 				<Distributor
 					visible={this.state.distributor}
 					onClose={this.hideDistributor}
 					onShow={this.showDistributor}
 					recordId={this.state.recordId}
+					channelDesc={this.state.channel_desc}
 				/>
 				<ShopKeeper
 					visible={this.state.shopKeeper}
 					onClose={this.hideShopKeeper}
 					onShow={this.showShopKeeper}
 					recordId={this.state.recordId}
+					channelDesc={this.state.channel_desc}
 				/>
 				
 				

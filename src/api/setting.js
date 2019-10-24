@@ -2,7 +2,7 @@ import request from '../utils/request.js'
 // 管理员列表
 export function admins(params) {
 	return request({
-		url: '/api/admins',
+		url: '/api/backend/admins',
 		method: 'get',
 		params: params
 	})
@@ -10,7 +10,7 @@ export function admins(params) {
 //新增管理员
 export function addAdmins(params) {
 	return request({
-		url: '/api/admins',
+		url: '/api/backend/admins',
 		method: 'post',
 		data: params
 	})

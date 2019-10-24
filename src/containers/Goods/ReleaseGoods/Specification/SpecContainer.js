@@ -60,6 +60,8 @@ export default class Specification extends React.Component{
 	
 	// 数据变更时渲染表格
 	renderTable = () =>{
+		console.log('------------ start render -------------');
+		console.log(this.props.entities, '------------props-----------------');
 		let data = [];
 		let newTableData = [];
 		if(this.specItemChild.current){
@@ -75,21 +77,26 @@ export default class Specification extends React.Component{
 			console.log(data,'9090090');
 			data.forEach(item=>{
 				if(item.value){
+					console.log(item, '________________item___________________');
 					let d = {};
 					let key = `value${item["parentKey"]}`;
 					let id = `id${item["id"]}`;
 					d[key] = item['value'];
 					d[id] = item['id'];
 					d['parentKey']=item["parentKey"];
+					d['id'] = item['id'];
 					newTableData.push(d);
 				} else {
+					console.log(item, '_______________ go _item___________________');
 					let d = {};
 					item.forEach(i=>{
 						let key = `value${i["parentKey"]}`;
 						let id = `id${i["id"]}`;
 						d[key] = i['value'];
 						d[id] = i['id'];
+						d['id'] = i['id']
 					});
+					console.log(d);
 					newTableData.push(d)
 				}
 				
@@ -135,7 +142,8 @@ export default class Specification extends React.Component{
 		SelectedSpecification.forEach(item=>{
 			tableChild.push({'title':item.name,dataIndex:`value${item.id}`,align:'center',})
 		});
-		const columns = [
+		console.log(this.state.data, ')))))))))))))))))))))');
+		let columns = [
 			{
 				title: '商品规格',
 				dataIndex: '111',
@@ -147,10 +155,11 @@ export default class Specification extends React.Component{
 				className: 'column-money',
 				align:'center',
 				render:(text,record) =>{
+					console.log(record, '^^^^^^^^^^^^^^^^6');
 					if(record.name){
 						return <Upload ref={this.uploadChild} defaultImg={record.image} text=""/>
 					} else {
-						return <Upload ref={this.uploadChild} text=""/>
+						return <Upload ref={this.uploadChild} defaultImg={record.image} text=""/>
 					}
 				}
 			},
@@ -159,12 +168,13 @@ export default class Specification extends React.Component{
 				dataIndex: 'barcode',
 				align:'center',
 				render:(text,record)=>{
+					console.log(record, '^^^^^^^^^^^^7777777777');
 					if(record.name){
-						return <Input placeholder='请输入条形码' value={record.barcode} onChange={(e)=>{
+						return <Input placeholder='请输入条形码' disabled={true} value={record.barcode} onChange={(e)=>{
 							record.barcode = e.target.value;
 						}} />
 					} else {
-						return <Input placeholder='请输入条形码' onChange={(e)=>{
+						return <Input placeholder='请输入条形码' disabled={this.props.entities && this.props.entities.length} onChange={(e)=>{
 							record.barcode = e.target.value;
 						}} />
 					}
@@ -176,11 +186,12 @@ export default class Specification extends React.Component{
 				align:'center',
 				render:(text,record)=>{
 					if(record.name){
-						return <Input   type="number" addonAfter="元" value={record.retail_price} onChange={(e)=>{
+						return <Input   type="number" addonAfter="元" disabled={true} value={record.retail_price} onChange={(e)=>{
+							console.log(e.target.value, '****************');
 							record.retail_price = e.target.value;
 						}} />
 					} else {
-						return <Input  type="number" addonAfter="元"  onChange={(e)=>{
+						return <Input  type="number" disabled={this.props.entities && this.props.entities.length} addonAfter="元"  onChange={(e)=>{
 							record.retail_price = e.target.value;
 						}} />
 					}
@@ -225,11 +236,13 @@ export default class Specification extends React.Component{
 				render: (text,record)=>(
 					<IconFont type="icon-delete-fill" onClick={()=>this.deleteTableLine(record)}/>
 				),
-				align:'center'
-			},
-			
-			
+				align:'center',
+			}
 		];
+		
+		if (this.props.entities && this.props.entities.length){
+			columns.pop()
+		}
 		
 		
 		
@@ -248,9 +261,10 @@ export default class Specification extends React.Component{
 					ref={this.specItemChild}
 					renderTable={this.renderTable}
 					onSubmit={this.handleDeleteSpecification}
+					isEdit={this.props.isEdit}
 				/>
 				<div className="specification_header">
-					<Button type="primary" size="small" onClick={this.showNewSpecification}>新增规格</Button>
+					<Button type="primary" size="small" onClick={this.showNewSpecification} disabled={this.props.entities && this.props.entities.length}>新增规格</Button>
 				</div>
 				<div className="specification_body">
 					<Table

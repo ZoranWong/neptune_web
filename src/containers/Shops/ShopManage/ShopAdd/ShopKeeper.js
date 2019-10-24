@@ -5,7 +5,7 @@ import '../css/common.sass'
 import CustomUpload from '../../../../components/Upload/Upload'
 import Address from "../../../../components/Address/Address";
 import {checkIdCard, checkPhone} from "../../../../utils/dataStorage";
-import {applicationsDetail, shopKeeper,editShop} from "../../../../api/shops/shopManage";
+import {shopDetails, shopKeeper,editShop} from "../../../../api/shops/shopManage";
 import {getChildChannels} from "../../../../api/shops/channel";
 class ShopKeeper extends React.Component{
 	constructor(props) {
@@ -21,6 +21,13 @@ class ShopKeeper extends React.Component{
 		};
 		this.childMap = React.createRef();
 		this.childAdd = React.createRef();
+		this.front = React.createRef();
+		this.backend = React.createRef();
+		this.holding = React.createRef();
+		this.bFront = React.createRef();
+		this.cashier = React.createRef();
+		this.doorway = React.createRef();
+		this.environment = React.createRef();
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
@@ -28,7 +35,7 @@ class ShopKeeper extends React.Component{
 			this.setState({listData:nextProps.data});
 		}
 		if(!(this.props.recordId ==  nextProps.recordId)){
-			applicationsDetail({},nextProps.recordId).then(r=>{
+			shopDetails({},nextProps.recordId).then(r=>{
 				this.setState({listData:r.data})
 			});
 		}
@@ -50,19 +57,19 @@ class ShopKeeper extends React.Component{
 			message.error('请填写地址');
 			return
 		}
-		if(!listData.applicant_name) {
-			message.error('请填写车主姓名');
+		if(!listData.keeper_name) {
+			message.error('请填写商户姓名');
 			return
 		}
-		if(!listData.introducer_no) {
+		if(!listData.introducer_code) {
 			message.error('请填写介绍人编号');
 			return
 		}
-		if(!listData.shop_name) {
+		if(!listData.name) {
 			message.error('请填写店铺名');
 			return
 		}
-		if(!checkPhone(listData.mobile)) {
+		if(!checkPhone(listData.keeper_mobile)) {
 			message.error('请填写正确格式的手机号');
 			return
 		}
@@ -76,6 +83,37 @@ class ShopKeeper extends React.Component{
 				return
 			}
 		}
+		let id_card_images = {
+			front: this.front.current.state.imgUrl,
+			backend: this.backend.current.state.imgUrl,
+			holding: this.holding.current.state.imgUrl,
+		};
+		for (let key in id_card_images) {
+			if(!id_card_images[key]){
+				message.error('请上传身份证相关照片');
+				return
+			}
+		}
+		let business_license_images = {
+			front: this.bFront.current.state.imgUrl
+		};
+		for (let key in business_license_images) {
+			if(!business_license_images[key]){
+				message.error('请上传营业执照');
+				return
+			}
+		}
+		let shop_images = {
+			cashier: this.cashier.current.state.imgUrl,
+			doorway: this.doorway.current.state.imgUrl,
+			environment: this.environment.current.state.imgUrl,
+		};
+		for (let key in shop_images) {
+			if(!shop_images[key]){
+				message.error('请上传店铺相关照片');
+				return
+			}
+		}
 		let data = {
 			application_id:listData.id || '',
 			channel_id:this.state.activeChannel,
@@ -84,17 +122,17 @@ class ShopKeeper extends React.Component{
 			city_code:this.childAdd.current.state.activeCity,
 			area_code:this.childAdd.current.state.activeArea,
 			address:listData.address,
-			keeper_name:listData.applicant_name,
-			keeper_mobile:listData.mobile,
+			keeper_name:listData.keeper_name,
+			keeper_mobile:listData.keeper_mobile,
 			keeper_id_card_no:listData.id_card_no,
 			status:this.state.status,
-			introducer_code:listData.introducer_no,
-			name:listData.shop_name,
+			introducer_code:listData.introducer_code,
+			name:listData.name,
 			lat:this.childMap.current.state.markerPosition.latitude,
 			lng:this.childMap.current.state.markerPosition.longitude,
-			id_card_images:[],
-			business_license_images:[],
-			shop_images:[]
+			id_card_images: id_card_images,
+			business_license_images:business_license_images,
+			shop_images:shop_images
 		};
 		if(this.props.recordId){
 			editShop(data,this.props.recordId).then(r=>{
@@ -157,7 +195,7 @@ class ShopKeeper extends React.Component{
 							<span className="left">店铺渠道：</span>
 							{
 								this.props.recordId?(
-									<span>{listData.channel_name}</span>
+									<span>{this.props.channelDesc}</span>
 								):<span>商户</span>
 							}
 						</li>
@@ -165,7 +203,7 @@ class ShopKeeper extends React.Component{
 							<span className="left">子渠道</span>
 							{
 								this.props.recordId?(
-									<span>{listData.channel_name}</span>
+									<span>{listData.channel_name || '暂无'}</span>
 								):(
 									<Select
 										value={this.state.activeChannel}
@@ -185,13 +223,13 @@ class ShopKeeper extends React.Component{
 							<span className="left">介绍人编号</span>
 							{
 								this.props.recordId?(
-									<span>{listData.introducer_no}</span>
+									<span>{listData.introducer_code || '暂无'}</span>
 								):(
 									<Input
 										className="liInput"
-										value={listData.introducer_no}
+										value={listData.introducer_code}
 										onChange={(e)=>{
-											this.setState({listData:{...listData,introducer_no:e.target.value}})
+											this.setState({listData:{...listData,introducer_code:e.target.value}})
 										}}
 									/>
 								)
@@ -202,9 +240,9 @@ class ShopKeeper extends React.Component{
 							<span className="left">店铺名称</span>
 							<Input
 								className="liInput"
-								value={listData.shop_name}
+								value={listData.name}
 								onChange={(e)=>{
-									this.setState({listData:{...listData,shop_name:e.target.value}})
+									this.setState({listData:{...listData,name:e.target.value}})
 								}}
 							/>
 						</li>
@@ -230,27 +268,28 @@ class ShopKeeper extends React.Component{
 							</span>
 						</li>
 						<li>
-							<span className="left">车主姓名</span>
+							<span className="left">商户姓名</span>
 							<Input
 								className="liInput"
-								value={listData.applicant_name}
+								value={listData.keeper_name}
 								onChange={(e)=>{
-									this.setState({listData:{...listData,applicant_name:e.target.value}})
+									this.setState({listData:{...listData,keeper_name:e.target.value}})
 								}}
 							/>
 						</li>
 						<li>
-							<span className="left">车主电话</span>
+							<span className="left">商户电话</span>
 							<Input
 								className="liInput"
-								value={listData.mobile}
+								value={listData.keeper_mobile}
 								onChange={(e)=>{
-									this.setState({listData:{...listData,mobile:e.target.value}})
+									this.setState({listData:{...listData,keeper_mobile:e.target.value}})
+									this.setState({listData:{...listData,keeper_mobile:e.target.value}})
 								}}
 							/>
 						</li>
 						<li>
-							<span className="left">车主身份证号码</span>
+							<span className="left">商户身份证号码</span>
 							
 							{
 								this.props.recordId?(
@@ -269,25 +308,25 @@ class ShopKeeper extends React.Component{
 						<li className="li">
 							<span className="left">上传身份证照片：</span>
 							<div className="imgs">
-								<CustomUpload text="正面" defaultImg={listData.id_card_images?listData.id_card_images[0]:''} />
-								<CustomUpload text="反面" defaultImg={listData.id_card_images?listData.id_card_images[1]:''}/>
-								<CustomUpload text="手持" defaultImg={listData.id_card_images?listData.id_card_images[2]:''}/>
+								<CustomUpload ref={this.front} text="正面" defaultImg={listData.id_card_images?listData.id_card_images['front']:''} />
+								<CustomUpload ref={this.backend} text="反面" defaultImg={listData.id_card_images?listData.id_card_images['backend']:''}/>
+								<CustomUpload ref={this.holding} text="手持" defaultImg={listData.id_card_images?listData.id_card_images['holding']:''}/>
 							</div>
 							
 						</li>
 						<li className="li">
 							<span className="left">上传营业执照：</span>
 							<div className="imgs">
-								<CustomUpload text="上传" defaultImg={listData.business_license_images?listData.business_license_images[0]:''}/>
+								<CustomUpload ref={this.bFront} text="上传" defaultImg={listData.business_license_images?listData.business_license_images['front']:''}/>
 							</div>
 							
 						</li>
 						<li className="li">
 							<span className="left">上传店铺照片：</span>
 							<div className="imgs">
-								<CustomUpload text="上传" defaultImg={listData.shop_images?listData.shop_images[0]:''}/>
-								<CustomUpload text="上传" defaultImg={listData.shop_images?listData.shop_images[0]:''}/>
-								<CustomUpload text="上传" defaultImg={listData.shop_images?listData.shop_images[0]:''}/>
+								<CustomUpload ref={this.cashier} text="上传" defaultImg={listData.shop_images?listData.shop_images['cashier']:''}/>
+								<CustomUpload ref={this.doorway} text="上传" defaultImg={listData.shop_images?listData.shop_images['doorway']:''}/>
+								<CustomUpload ref={this.environment} text="上传" defaultImg={listData.shop_images?listData.shop_images['environment']:''}/>
 							</div>
 							
 						</li>

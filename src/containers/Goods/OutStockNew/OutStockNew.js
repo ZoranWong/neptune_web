@@ -6,7 +6,6 @@ import './css/inStockNew.sass'
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import SelectGoods from "./SelectGoods";
 
-
 export default class OutStockNew extends React.Component{
 	constructor(props) {
 		super(props);
@@ -47,10 +46,18 @@ export default class OutStockNew extends React.Component{
 	
 	// 确认出库
 	confirmInStock = () =>{
+		if (!this.state.remark) {
+			message.error('请先填写备注');
+			return
+		}
 		let stockAry = [];
 		this.state.data.forEach(item=>{
 			let info = {};
-			info['barcode'] = item.productEntity.data.barcode;
+			if(item.productEntity) {
+				info['entity_id'] = item.productEntity.data.id;
+			}else {
+				info['entity_id'] = item.stocks.data[0].productEntity.data.id;
+			}
 			if(!item.quantity){
 				return;
 			}
@@ -103,7 +110,7 @@ export default class OutStockNew extends React.Component{
 			},
 			{
 				title: '单位',
-				dataIndex: 'unit',
+				dataIndex: 'stocks.data[0].unit',
 			},
 			{
 				title: '出库数量',
