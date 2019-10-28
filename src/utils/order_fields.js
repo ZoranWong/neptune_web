@@ -6,12 +6,12 @@ export const order_values = [
 			{
 				label:'实付款',
 				value:'settlement_total_fee',
-				type:'absoluteCompare'
+				type:'numCompare'
 			},
 			{
 				label:'应付款',
 				value:'total_fee',
-				type:'emptyCompare'
+				type:'numCompare'
 			},
 			{
 				label:'优惠金额',
@@ -26,7 +26,7 @@ export const order_values = [
 			{
 				label:'付款方式',
 				value:'payment_type',
-				type:'numCompare'
+				type:'equalCompare'
 			}
 		]
 	},
@@ -64,47 +64,47 @@ export const order_values = [
 			{
 				label:'订单状态',
 				value:'order_type',
-				type:'group'
+				type:'equalCompare'
 			},
 			{
 				label:'下单时间',
 				value:'created_at',
-				type:'numCompare'
+				type:'timeCompare'
 			},
 			{
 				label:'商品',
 				value:'product_name',
-				type:'group'
+				type:'equalCompare'
 			},
 			{
 				label:'破损商品',
 				value:'damaged',
-				type:'group'
+				type:'equalCompare'
 			},
 			{
 				label:'缺少商品',
 				value:'deficient',
-				type:'group'
+				type:'equalCompare'
 			},
 			{
 				label:'退款状态',
 				value:'refund_state',
-				type:'group'
+				type:'equalCompare'
 			},
 			{
 				label:'退款类型',
 				value:'refund_type',
-				type:'group'
+				type:'equalCompare'
 			},
 			{
 				label:'退款申请时间',
 				value:'refund_apply_at',
-				type:'emptyCompare'
+				type:'timeCompare'
 			},
 			{
 				label:'到账时间',
 				value:'refund_handled_at',
-				type:'emptyCompare'
+				type:'timeCompare'
 			},
 			{
 				label:'用户手机号',
@@ -221,6 +221,43 @@ export const operation = {
 			value:'not in',
 			type:'selectedBox'
 		},
+	],
+	'timeCompare':[
+		{
+			label:'等于',
+			value:'=',
+			type:'timestamp'
+		},
+		{
+			label:'不等于',
+			value:'<>',
+			type:'timestamp'
+		},
+		{
+			label:'晚于',
+			value:'>',
+			type:'timestamp'
+		},
+		{
+			label:'晚于(含)',
+			value:'>=',
+			type:'timestamp'
+		},
+		{
+			label:'早于',
+			value:'<',
+			type:'timestamp'
+		},
+		{
+			label:'早于(含)',
+			value:'<=',
+			type:'timestamp'
+		},
+		{
+			label:'区间',
+			value:'between',
+			type:'period'
+		}
 	],
 	'emptyCompare':[
 		{

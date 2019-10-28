@@ -6,12 +6,12 @@ export const good_values = [
 			{
 				label:'商品名称',
 				value:'name',
-				type:'absoluteCompare'
+				type:'input'
 			},
 			{
 				label:'商品条码',
 				value:'barcode',
-				type:'emptyCompare'
+				type:'input'
 			},
 			{
 				label:'PV值',

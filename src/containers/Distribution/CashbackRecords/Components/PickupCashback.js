@@ -4,6 +4,8 @@ import {Button, Table} from "antd";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import {searchJson} from "../../../../utils/dataStorage";
 import {pickupCashback} from "../../../../api/distribution/records";
+import AdvancedFilterComponent from "./AdvancedFilterComponent";
+import {self_pick_fields,operation} from "../../../../utils/self_pick_fields";
 
 class PickupCashback extends Component {
 	constructor(props) {
@@ -111,6 +113,15 @@ class PickupCashback extends Component {
 	render() {
 		return (
 			<div className="basic_statistics">
+				
+				<AdvancedFilterComponent
+					visible={this.state.filterVisible}
+					onCancel={this.closeHigherFilter}
+					onSubmit={this.onSubmit}
+					refresh={this.refresh}
+					value={self_pick_fields}
+					operation={operation}
+				/>
 				<div className="basic_statistics_header">
 					<ul className="header_left">
 						<li>

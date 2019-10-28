@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Button, Input, message, Modal} from "antd";
 import '../css/operationRatio.sass';
 import {addNewLevels,updateLevels} from "../../../../api/distribution/setting";
+import {min} from "moment";
 
 class OperationRatio extends Component {
 	constructor(props) {
@@ -15,7 +16,8 @@ class OperationRatio extends Component {
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
-		if (!nextProps.record.id) return;
+		console.log(nextProps);
+		console.log(nextProps);
 		for (let k in nextProps.record) {
 			this.setState({
 				[k]: nextProps.record[k]
@@ -33,7 +35,8 @@ class OperationRatio extends Component {
 			message.error('请填写名称');
 			return
 		}
-		if (!min_pv) {
+		console.log(min_pv);
+		if (typeof min_pv === 'undefined' || min_pv === null || min_pv === '') {
 			message.error('请填写区间最小值');
 			return
 		}
@@ -45,7 +48,7 @@ class OperationRatio extends Component {
 			message.error('请填写分佣比例');
 			return
 		}
-		if (min_pv > max_pv) {
+		if (min_pv - max_pv > 0) {
 			message.error('分区最小值不可大于分区最大值');
 			return
 		}
@@ -53,6 +56,9 @@ class OperationRatio extends Component {
 	};
 	
 	submit = (title, min , max, ratio) => {
+		min = parseInt(min);
+		max = parseInt(max);
+		ratio = parseInt(ratio);
 		let api = this.state.id ? updateLevels : addNewLevels;
 		api({
 			title,
@@ -60,9 +66,16 @@ class OperationRatio extends Component {
 			max_pv: max,
 			ratio
 		},this.state.id).then(r=>{
-			message.success(r.message);
-			this.handleCancel();
-			this.props.refresh();
+			this.setState({
+				ratio: '',
+				title: '',
+				min_pv: '',
+				max_pv: ''
+			},()=>{
+				message.success(r.message);
+				this.handleCancel();
+				this.props.refresh();
+			});
 		}).catch(_=>{});
 	};
 	

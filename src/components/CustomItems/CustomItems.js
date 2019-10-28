@@ -20,6 +20,8 @@ export default class CustomItem extends React.Component{
 	constructor(props){
 		super(props);
 		let ary = [];
+		let bry = [];
+		bry.push(props.forstItem);
 		props.data.forEach(item=>{
 			item.children.forEach(i=>{
 				handleCode(i);
@@ -29,7 +31,7 @@ export default class CustomItem extends React.Component{
 		this.state = {
 			dataList: ary,
 			targetKeys: props.targetKeys,
-			selectedKeys:['name']
+			selectedKeys:bry
 		};
 	}
 	
@@ -44,22 +46,22 @@ export default class CustomItem extends React.Component{
 	
 	handleChange = targetKeys => {
 		let ary = targetKeys;
-		if(ary.indexOf('name') === -1){
-			ary.unshift('name')
+		if(ary.indexOf(this.props.firstItem) === -1){
+			ary.unshift(this.props.firstItem)
 		}
 		console.log(ary);
-		if(ary.length > 7){
+		if(ary.length > 8){
 			message.error('最多选择七列');
 			return;
 		}
-		sortAry(ary,'name');
+		sortAry(ary,this.props.firstItem);
 		this.setState({ targetKeys:ary });
 		this.props.handleCustom(ary)
 	};
 	
 	onSelectChange = (sourceSelectedKeys, targetSelectedKeys)=>{
-		if(targetSelectedKeys.indexOf('name') === -1){
-			targetSelectedKeys.push('name')
+		if(targetSelectedKeys.indexOf(this.props.firstItem) === -1){
+			targetSelectedKeys.push(this.props.firstItem)
 		}
 		let ary = [];
 		ary = ary.concat(sourceSelectedKeys).concat(targetSelectedKeys);

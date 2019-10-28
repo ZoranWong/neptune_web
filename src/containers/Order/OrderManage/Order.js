@@ -4,13 +4,15 @@ import {Button, Table, Modal, message} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/order.sass'
 import {searchJson} from "../../../utils/dataStorage";
-import {user_values} from "../../../utils/user_fields";
 import AdvancedFilterComponent from "../Components/AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
 import ReviewGoods from "../Components/ReviewGoods";
 import {userOrder,batchCancel,batchConfirm} from "../../../api/order/orderManage";
+import {order_values} from "../../../utils/order_fields";
+import Export from "../Components/Export";
+import {dataExport} from "../../../api/common";
 
 class Order extends React.Component{
 	constructor(props){
@@ -56,7 +58,7 @@ class Order extends React.Component{
 				dataIndex:'state_desc'
 			},
 		];
-		
+		const defaultItem = ['nickname','trade_no', 'product_name', 'settlement_total_fee', 'order_type', 'created_at','state_desc'];
 		super(props);
 		this.child = React.createRef();
 		this.state = {
@@ -64,6 +66,8 @@ class Order extends React.Component{
 			filterVisible:false,
 			customVisible:false,
 			reviewGoodsVisible:false,
+			exportVisible: false,
+			defaultItem: defaultItem,
 			data:[],
 			checkedAry:[],     // 列表页选中的用户id组
 			paginationParams:{
@@ -138,7 +142,7 @@ class Order extends React.Component{
 	handleCustom = (e) =>{
 		let ary = [];
 		e.forEach(e=>{
-			user_values.forEach(u=>{
+			order_values.forEach(u=>{
 				u.children.forEach(c=>{
 					if(e == c.value){
 						let obj = {};
@@ -149,10 +153,19 @@ class Order extends React.Component{
 				})
 			})
 		});
+		let index = e.indexOf('id');
+		if (index < 0) {
+			e.push('id');
+		}
 		ary[0].render = (text,record) => <span
 			style={{'color':'#4F9863','cursor':'pointer'}}
 			onClick={()=>this.jump(record)}>{text}</span>
-		this.setState({columns:ary})
+		this.setState({
+			columns:ary,
+			paginationParams:{...this.state.paginationParams, only:  e.join(',')}
+		},()=>{
+			this.child.current.pagination(1)
+		})
 	};
 	
 	// 分页器改变值
@@ -225,6 +238,23 @@ class Order extends React.Component{
 		this.props.history.push({pathname:"/order/setUserMessage",state:{mode:'user'}})
 	};
 	
+	// 导出
+	showExport = () =>{
+		this.setState({exportVisible: true})
+	};
+	hideExport = () =>{
+		this.setState({exportVisible: false})
+	};
+	
+	// 确定导出
+	export = (type, items) =>{
+		console.log(items);
+		window.location.href = `http://neptune.klsfood.cn/api/backend/export?searchJson[strategy]=${type}&searchJson[customize_columns]=${items}`;
+		// dataExport({searchJson: searchJson(params)}).then(r=>{
+		// 	console.log(r);
+		// }).catch(_=>{})
+	};
+	
 	render(){
 		const rowSelection = {
 			onChange: (selectedRowKeys, selectedRows) => {
@@ -249,8 +279,15 @@ class Order extends React.Component{
 			{name:'申请售后',key:'AFTER_SALE'},
 			{name:'拒绝退款',key:'REFUSE_REFUND'},
 		];
+		
+		const exportProps = {
+			visible : this.state.exportVisible,
+			onCancel : this.hideExport,
+			export: this.export
+		};
 		return (
 			<div className="order">
+				<Export {...exportProps} />
 				
 				<AdvancedFilterComponent
 					visible={this.state.filterVisible}
@@ -293,6 +330,7 @@ class Order extends React.Component{
 						<Button
 							size="small"
 							disabled={this.state.checkedAry.length == 0}
+							onClick={this.showExport}
 						>导出</Button>
 					</div>
 				</div>
@@ -312,7 +350,12 @@ class Order extends React.Component{
 					<div className="right">
 						<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 						<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
-							<CustomItem data={user_values}  handleCustom={this.handleCustom} />
+							<CustomItem
+								data={order_values}
+								handleCustom={this.handleCustom}
+								targetKeys={this.state.defaultItem}
+								firstItem={'nickname'}
+							/>
 						</div>
 					</div>
 				</div>

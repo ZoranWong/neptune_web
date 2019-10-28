@@ -103,7 +103,7 @@ class ReleaseGoods extends React.Component{
 			if (!err) {
 				let retail_price = values.retail_price;
 				let market_price = values.market_price;
-				if(retail_price > market_price){
+				if(retail_price - market_price > 0){
 					message.error('零售价不可大于市场价');
 					return;
 				}

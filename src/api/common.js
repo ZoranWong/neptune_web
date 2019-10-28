@@ -60,3 +60,21 @@ export function systemSetting(params) {
         data: params
     })
 }
+
+// 获取系统设置
+export function getSystemSetting(params) {
+    return request({
+        url: '/api/backend/system/setting/collection',
+        method: 'get',
+        params: params
+    })
+}
+
+// 导出
+export function dataExport(params) {
+    return request({
+        url: '/api/backend/export\n',
+        method: 'get',
+        params: params
+    })
+}

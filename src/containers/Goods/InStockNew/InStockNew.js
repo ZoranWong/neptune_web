@@ -152,7 +152,7 @@ export default class InStockNew extends React.Component{
 			},
 		];
 		return (
-			<div className="inStockNew">
+			<div className="inStockNewNew">
 				
 				<SelectGoods
 					visible={this.state.visible}
@@ -170,7 +170,7 @@ export default class InStockNew extends React.Component{
 				<div className="body">
 					<div className="filter">
 						<ul className="left">
-							<li className="needMargin">
+							<li>
 								入库类型：
 								<Select
 									onChange={(e)=>{
@@ -183,15 +183,6 @@ export default class InStockNew extends React.Component{
 									<Select.Option  value="RETURN">退货入库</Select.Option>
 									<Select.Option  value="CHECK">盘点入库</Select.Option>
 								</Select>
-							</li>
-							<li className="needMargin">
-								入库时间：
-								<LocaleProvider locale={zh_CN}>
-									<DatePicker
-										onChange={this.onDateChange}
-									/>
-								</LocaleProvider>
-							
 							</li>
 							<li>
 								备注：

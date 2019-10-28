@@ -293,13 +293,13 @@ class ShopKeeper extends React.Component{
 							
 							{
 								this.props.recordId?(
-									<span>{listData.id_card_no}</span>
+									<span>{listData.keeper_id_card_no}</span>
 								):(
 									<Input
 										className="liInput"
-										value={listData.id_card_no}
+										value={listData.keeper_id_card_no}
 										onChange={(e)=>{
-											this.setState({listData:{...listData,id_card_no:e.target.value}})
+											this.setState({listData:{...listData,keeper_id_card_no:e.target.value}})
 										}}
 									/>
 								)

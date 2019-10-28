@@ -13,6 +13,7 @@ import {products,offShelvesProducts} from "../../../api/goods/goods";
 import AddGroup from "./AddGroup";
 import {goodInGroup} from "../../../api/goods/groups";
 import RecordSpec from "./RecordSpec";
+import {good_values} from "../../../utils/good_fields";
 class GoodsManage extends React.Component{
 	constructor(props){
 		const columns = [
@@ -64,7 +65,7 @@ class GoodsManage extends React.Component{
 				,
 			},
 		];
-		
+		const defaultItem = ['name','category_desc',"spec",'unit','retail_price','total_sales','product_id'];
 		super(props);
 		this.child = React.createRef();
 		this.state = {
@@ -83,6 +84,7 @@ class GoodsManage extends React.Component{
 			groupVisible:false,
 			recordSpecVisible:false,   // 查看规格
 			recordSpecId:'',   // 查看规格
+			defaultItem:defaultItem
 		};
 	}
 	
@@ -162,7 +164,7 @@ class GoodsManage extends React.Component{
 	handleCustom = (e) =>{
 		let ary = [];
 		e.forEach(e=>{
-			user_values.forEach(u=>{
+			good_values.forEach(u=>{
 				u.children.forEach(c=>{
 					if(e == c.value){
 						let obj = {};
@@ -173,10 +175,18 @@ class GoodsManage extends React.Component{
 				})
 			})
 		});
+		let index = e.indexOf('product_id');
+		if (index < 0) {
+			e.push('product_id');
+		}
 		ary[0].render = (text,record) => <span
 			style={{'color':'#4F9863','cursor':'pointer'}}
-			onClick={()=>this.jump(record)}>{text}</span>
-		this.setState({columns:ary})
+			onClick={()=>this.jump(record)}>{text}</span>;
+		this.setState({columns:ary,
+			paginationParams:{...this.state.paginationParams, only:  e.join(',')}
+		},()=>{
+			this.child.current.pagination(1)
+		})
 	};
 	
 	// 分页器改变值
@@ -307,7 +317,12 @@ class GoodsManage extends React.Component{
 				</div>
 				
 				<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
-					<CustomItem data={user_values}  handleCustom={this.handleCustom} />
+					<CustomItem
+						data={good_values}
+						firstItem={'name'}
+						targetKeys={this.state.defaultItem}
+						handleCustom={this.handleCustom}
+					/>
 				</div>
 				
 				<div className="chart u_chart">

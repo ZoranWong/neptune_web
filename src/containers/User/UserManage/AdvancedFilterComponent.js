@@ -31,8 +31,7 @@ export default class AdvancedFilterComponent extends React.Component{
 		this.props.closeAddGroup();
 		this.props.closeAddTags()
 	};
-
-
+	
 	showAddTags = () =>{
 		this.props.showAddTags(this.child.current.state.data)
 	};

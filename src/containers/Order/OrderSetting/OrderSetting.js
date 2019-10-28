@@ -1,13 +1,21 @@
 import React, {Component} from 'react';
 import {Input, message} from 'antd'
 import './css/index.sass'
-import {systemSetting} from "../../../api/common";
+import {systemSetting,getSystemSetting} from "../../../api/common";
+import {searchJson} from "../../../utils/dataStorage";
 class OrderSetting extends Component {
 	state = {
 	
 	};
 	
 	
+	componentDidMount() {
+		getSystemSetting({searchJson: searchJson({type: 'ORDER'})}).then(r=>{
+			r.data.forEach(item=>{
+				this.setState({[item.key]: item.value})
+			})
+		}).catch(_=>{})
+	}
 	
 	
 	valueChange = (type,value) => {

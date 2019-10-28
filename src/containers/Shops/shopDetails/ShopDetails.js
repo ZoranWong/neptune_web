@@ -19,12 +19,17 @@ class ShopDetails extends React.Component{
 			mapVisible:false,
 			data:{},  // 店铺详情数据
 			position:{},
+			images:{}
 		}
 	}
 
 	refresh = () =>{
 		shopDetails({},this.id).then(r=>{
-			this.setState({data:r.data})
+			let images = {};
+			images['id_card_images'] = r.data['id_card_images'];
+			images['shop_images'] = r.data['shop_images'];
+			images['business_license_images'] = r.data['business_license_images'];
+			this.setState({data:r.data,images})
 		}).catch(_=>{})
 	};
 
@@ -131,7 +136,7 @@ class ShopDetails extends React.Component{
 				<ShopInformation
 					visible={this.state.shopInformationVisible}
 					onClose={this.hideShopInformation}
-					shopInfo={this.state.data.keeper_info}
+					images={this.state.images}
 				/>
 				<Introduction
 					visible={this.state.introductionVisible}
@@ -180,11 +185,11 @@ class ShopDetails extends React.Component{
 							<li>
 								<p>店铺名称：{data.name}</p>
 								<p>店铺主姓名：{data.keeper_name}</p>
-								<p>店铺主电话：{data.mobile}</p>
+								<p>店铺主电话：{data.keeper_mobile}</p>
 							</li>
 							<li>
 								<p>开业时间：{data.created_at}</p>
-								<p>介绍人：{data.introducer || '无'}</p>
+								<p>介绍人：{data.introducer_code || '无'}</p>
 							</li>
 							<li className="btns">
 								<Button size="small" onClick={this.showShopInformation}>店铺资料</Button>

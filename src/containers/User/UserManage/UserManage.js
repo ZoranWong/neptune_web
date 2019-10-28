@@ -9,6 +9,7 @@ import CustomItem from '../../../components/CustomItems/CustomItems'
 import AdvancedFilterComponent from './AdvancedFilterComponent'
 import AddTags from './AddTags'
 import AddGroup from './AddGroup'
+import _ from 'lodash'
 import {user_values} from "../../../utils/user_fields";
 // 测试
 import { Table } from 'antd';
@@ -171,7 +172,10 @@ class UserManage extends React.Component{
 				})
 			})
 		});
-		e.push('id');
+		let index = e.indexOf('id');
+		if (index < 0) {
+			e.push('id');
+		}
 		ary[0].render = (text,record) => <span
 			style={{'color':'#4F9863','cursor':'pointer'}}
 			onClick={()=>this.jump(record)}>{text}</span>;
@@ -254,7 +258,9 @@ class UserManage extends React.Component{
 					<CustomItem
 						data={user_values}
 						targetKeys={this.state.defaultItem}
-						handleCustom={this.handleCustom} />
+						handleCustom={this.handleCustom}
+						firstItem={'wx_name'}
+					/>
 				</div>
 				
 				<div className="chart u_chart">

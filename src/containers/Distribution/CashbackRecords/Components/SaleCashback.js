@@ -4,6 +4,9 @@ import {Button, Table} from "antd";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import {searchJson} from "../../../../utils/dataStorage";
 import {salesCashback} from '../../../../api/distribution/records'
+import AdvancedFilterComponent from "./AdvancedFilterComponent";
+import {sales_fields,operation} from "../../../../utils/sales_fields";
+
 class SaleCashback extends Component {
 	constructor(props) {
 		super(props);
@@ -99,6 +102,14 @@ class SaleCashback extends Component {
 	render() {
 		return (
 			<div className="basic_statistics">
+				<AdvancedFilterComponent
+					visible={this.state.filterVisible}
+					onCancel={this.closeHigherFilter}
+					onSubmit={this.onSubmit}
+					refresh={this.refresh}
+					value={sales_fields}
+					operation={operation}
+				/>
 				<div className="basic_statistics_header">
 					<ul className="header_left">
 						<li>

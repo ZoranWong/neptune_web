@@ -268,7 +268,6 @@ class ShopManage extends React.Component{
 	
 	handleCustom = (e) =>{
 		let ary = [];
-		console.log(e, '================');
 		e.forEach((ex,i)=>{
 			this.handleCode(e,ex,i);
 			shop_values.forEach(u=>{
@@ -282,7 +281,10 @@ class ShopManage extends React.Component{
 				})
 			})
 		});
-		e.push('id');
+		let index = e.indexOf('id');
+		if (index < 0) {
+			e.push('id');
+		}
 		ary[0].render = (text,record) => <span
 			style={{'color':'#4F9863','cursor':'pointer'}}
 			onClick={()=>this.jump(record)}>{text}</span>;
@@ -417,6 +419,7 @@ class ShopManage extends React.Component{
 					<CustomItem
 						data={shop_values}
 						targetKeys={this.state.defaultItem}
+						firstItem={'name'}
 						handleCustom={this.handleCustom} />
 				</div>
 				

@@ -72,7 +72,12 @@ class CashbackSetting extends Component {
 	};
 	
 	createNew = () =>{
-		this.setState({visible: true})
+		this.setState({visible: true, record: {
+			ratio: '',
+			title: '',
+			min_pv: '',
+			max_pv: ''
+		}})
 	};
 	close = () =>{
 		this.setState({visible: false})
