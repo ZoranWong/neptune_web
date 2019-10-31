@@ -4,9 +4,12 @@ import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
 import {regions} from "../../api/common";
 import './index.sass'
+import {consumerOrder, merchantOrder, refundOrder} from "./orderType";
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 const OPTIONS = ['Apples', 'Nails', 'Bananas', 'Helicopters'];
+
+
 export default class AdvancedFilterValues extends React.Component{
 	constructor(props) {
 		super(props);
@@ -128,6 +131,46 @@ export default class AdvancedFilterValues extends React.Component{
 	renderTree = () =>{
 		const { selectedItems } = this.state;
 		switch (this.state.type) {
+			case 'consumerOrder':
+				return <Select
+					defaultActiveFirstOption={false}
+					mode="tags"
+					value={selectedItems}
+					className='selectedBox'
+					onChange={this.handleChange}
+					optionLabelProp="label"
+					optionFilterProp="children"
+					filterOption={(input, option) =>
+						option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+					}
+				>
+					{consumerOrder.map(item => (
+						<Select.Option key={item.key} label={item.name} value={item.key}>
+							{item.name}
+						</Select.Option>
+					))}
+				</Select>;
+			break;
+			case 'merchantOrder':
+				return <Select
+					defaultActiveFirstOption={false}
+					mode="tags"
+					value={selectedItems}
+					className='selectedBox'
+					onChange={this.handleChange}
+					optionLabelProp="label"
+					optionFilterProp="children"
+					filterOption={(input, option) =>
+						option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+					}
+				>
+					{merchantOrder.map(item => (
+						<Select.Option key={item.key} label={item.name} value={item.key}>
+							{item.name}
+						</Select.Option>
+					))}
+				</Select>;
+			break;
 			case 'timestamp':
 				return <span>
 					<LocaleProvider locale={zh_CN}>

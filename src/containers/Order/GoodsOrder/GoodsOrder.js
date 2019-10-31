@@ -4,7 +4,7 @@ import {Button, Table} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/goodsOrder.sass'
 import {searchJson} from "../../../utils/dataStorage";
-import {user_values} from "../../../utils/user_fields";
+import {merchant_order_values} from "../../../utils/merchant_order_fields";
 import AdvancedFilterComponent from "../Components/AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
@@ -12,10 +12,10 @@ import CustomPagination from "../../../components/Layout/Pagination";
 import RefundMoney from "./Modal/RefundMoney";
 import {shopOrder} from "../../../api/order/orderManage";
 import ReviewGoods from "../Components/ReviewGoods";
-
+import Export from "../Components/Export";
 class GoodsOrder extends React.Component{
 	constructor(props){
-		
+		const defaultItem = ['shop_name','trade_no', 'deficient', 'damaged', 'created_at','state_desc'];
 		
 		super(props);
 		this.child = React.createRef();
@@ -23,6 +23,7 @@ class GoodsOrder extends React.Component{
 			api:shopOrder,
 			filterVisible:false,
 			customVisible:false,
+			exportVisible: false,
 			data:[],
 			checkedAry:[],     // 列表页选中的用户id组
 			refundVisible:false, // 退款
@@ -31,7 +32,8 @@ class GoodsOrder extends React.Component{
 				search:'',
 			},
 			activeTab:'ALL',
-			refundItem:{}
+			refundItem:{},
+			defaultItem: defaultItem
 		};
 	}
 	
@@ -93,7 +95,7 @@ class GoodsOrder extends React.Component{
 	handleCustom = (e) =>{
 		let ary = [];
 		e.forEach(e=>{
-			user_values.forEach(u=>{
+			merchant_order_values.forEach(u=>{
 				u.children.forEach(c=>{
 					if(e == c.value){
 						let obj = {};
@@ -104,10 +106,19 @@ class GoodsOrder extends React.Component{
 				})
 			})
 		});
+		let index = e.indexOf('id');
+		if (index < 0) {
+			e.push('id');
+		}
 		ary[0].render = (text,record) => <span
 			style={{'color':'#4F9863','cursor':'pointer'}}
 			onClick={()=>this.jump(record)}>{text}</span>
-		this.setState({columns:ary})
+		this.setState({
+			columns:ary,
+			paginationParams:{...this.state.paginationParams, only:  e.join(',')}
+		},()=>{
+			this.child.current.pagination(1)
+		})
 	};
 	
 	// 分页器改变值
@@ -141,6 +152,24 @@ class GoodsOrder extends React.Component{
 	// 设置默认模板消息
 	setMessage = () => {
 		this.props.history.push({pathname:"/order/setUserMessage",state:{mode:'goods'}})
+	};
+	
+	// 导出
+	showExport = (conditions) =>{
+		this.setState({conditions, exportVisible: true}, ()=>{
+			this.closeHigherFilter()
+		})
+	};
+	hideExport = () =>{
+		this.setState({exportVisible: false})
+	};
+	
+	// 确定导出
+	export = (type, items) =>{
+		window.location.href = `http://neptune.klsfood.cn/api/backend/export?searchJson[strategy]=${type}&searchJson[customize_columns]=${items}&searchJson[logic_conditions]=${this.state.conditions}`;
+		// dataExport({searchJson: searchJson(params)}).then(r=>{
+		// 	console.log(r);
+		// }).catch(_=>{})
 	};
 	
 	render(){
@@ -218,14 +247,28 @@ class GoodsOrder extends React.Component{
 				},
 			},
 		];
+		const strategy = [
+			{key: 'MERCHANT_ORDER_PRODUCT_ORDER_CUSTOMIZE', value: '自定义显示项',},
+			{key: 'MERCHANT_ORDER_PRODUCT_ORDER_PRODUCT', value: '商品维度',},
+			{key: 'MERCHANT_ORDER_PRODUCT_ORDER_SHOP', value: '店铺维度',},
+		];
+		
+		const exportProps = {
+			visible : this.state.exportVisible,
+			onCancel : this.hideExport,
+			export: this.export,
+			strategy
+		};
 		return (
 			<div className="goodsOrder">
-				
+				<Export {...exportProps} />
 				<AdvancedFilterComponent
 					visible={this.state.filterVisible}
 					onCancel={this.closeHigherFilter}
 					onSubmit={this.onSubmit}
 					refresh={this.refresh}
+					data={merchant_order_values}
+					export={this.showExport}
 				/>
 				
 				<RefundMoney
@@ -273,7 +316,11 @@ class GoodsOrder extends React.Component{
 					<div className="right">
 						<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 						<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
-							<CustomItem data={user_values}  handleCustom={this.handleCustom} />
+							<CustomItem
+								data={merchant_order_values}
+								targetKeys={this.state.defaultItem}
+								firstItem={'trade_no'}
+								handleCustom={this.handleCustom} />
 						</div>
 					</div>
 				</div>

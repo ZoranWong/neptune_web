@@ -1,26 +1,35 @@
 import React, {Component} from 'react';
 import {message, Modal, Radio, Select, Checkbox} from "antd";
-import {order_values} from "../../../utils/order_fields";
+import {consumer_order_values} from "../../../utils/consumer_order_fields";
 import _ from 'lodash'
 import './css/export.sass'
+let order_item = [];
+
+
 class Export extends Component {
 	
 	constructor(props) {
-		let order_item = [];
-		_.map(order_values, (item)=>{
-			_.map(item.children, (i)=>{
-				i['value'] = 'order_'+i.value;
-				order_item.push(i)
-			})
-		});
+		
 		super(props);
 		this.state = {
 			value: 'USER_ORDER_CUSTOMIZE',
 			selectedItems: [],
-			orderItems: order_item
+			orderItems: []
 		}
 	}
 	
+	componentDidMount() {
+		let clone_consumer_order_values = consumer_order_values.concat();
+		_.map(clone_consumer_order_values, (item)=>{
+			_.map(item.children, (i)=>{
+				order_item.push(i)
+			})
+		});
+		// _.map(order_item,(i)=>{
+		// 	i['value'] = 'order_' + i['value']
+		// });
+		this.setState({orderItems: order_item})
+	}
 	
 	handleCancel = () =>{
 		this.props.onCancel();
@@ -49,7 +58,7 @@ class Export extends Component {
 		let checked = e.target.checked;
 		let items = [];
 		_.map(this.state.orderItems, (item)=>{
-			items.push(item.value)
+			items.push('order_' + item.value)
 		});
 		if (checked) {
 			this.setState({selectedItems: items})
@@ -72,9 +81,11 @@ class Export extends Component {
 					maskClosable={false}
 				>
 					<Radio.Group className='exportContent' onChange={this.onRadioChange} value={this.state.value}>
-						<Radio value='USER_ORDER_CUSTOMIZE'>自定义显示项</Radio>
-						<Radio value='USER_ORDER_PRODUCT'>商品纬度</Radio>
-						<Radio value='USER_ORDER_SHOP'>店铺纬度</Radio>
+						{
+							this.props.strategy.map(item=>(
+								<Radio value={item.key}>{item.value}</Radio>
+							))
+						}
 					</Radio.Group>
 					<div className="selectItems">
 						<span>选择显示项</span>
@@ -92,7 +103,7 @@ class Export extends Component {
 							}
 						>
 							{this.state.orderItems.map(item => (
-								<Select.Option key={item.value} label={item.label} value={item.value}>
+								<Select.Option key={'order_'+item.value} label={item.label} value={'order_'+item.value}>
 									{item.label}
 								</Select.Option>
 							))}

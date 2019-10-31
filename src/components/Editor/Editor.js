@@ -11,8 +11,6 @@ export default class BasicDemo extends React.Component {
 		};
 	}
 	
-	
-	
 	componentDidMount () {
 		console.log(this.props,"kkkk");
 		console.log(this.props.default);

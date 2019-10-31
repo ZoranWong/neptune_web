@@ -47,7 +47,7 @@ class BreakfastCar extends React.Component{
 			message.error('请填写车主姓名');
 			return
 		}
-		if(!listData.breakfast_car_code) {
+		if(!this.props.recordId && !listData.breakfast_car_code) {
 			message.error('请填写店铺编号');
 			return
 		}
@@ -59,15 +59,15 @@ class BreakfastCar extends React.Component{
 			message.error('请填写正确格式的手机号');
 			return
 		}
-		if(!checkIdCard(listData.keeper_id_card_no)) {
+		if(!this.props.recordId && !checkIdCard(listData.keeper_id_card_no)) {
 			message.error('请填写正确格式的身份证号');
 			return
 		}
 		
 		let id_card_images = {
-			front: this.front.current.state.imgUrl,
-			backend: this.backend.current.state.imgUrl,
-			holding: this.holding.current.state.imgUrl,
+			front: this.front.current.state.imgUrl || this.front.current.state.imageUrl,
+			backend: this.backend.current.state.imgUrl || this.backend.current.state.imageUrl,
+			holding: this.holding.current.state.imgUrl || this.holding.current.state.imageUrl,
 		};
 		for (let key in id_card_images) {
 			if(!id_card_images[key]){
@@ -76,9 +76,9 @@ class BreakfastCar extends React.Component{
 			}
 		}
 		let shop_images = {
-			cashier: this.cashier.current.state.imgUrl,
-			doorway: this.doorway.current.state.imgUrl,
-			environment: this.environment.current.state.imgUrl,
+			cashier: this.cashier.current.state.imgUrl || this.cashier.current.state.imageUrl,
+			doorway: this.doorway.current.state.imgUrl || this.doorway.current.state.imageUrl,
+			environment: this.environment.current.state.imgUrl || this.environment.current.state.imageUrl,
 		};
 		for (let key in shop_images) {
 			if(!shop_images[key]){
@@ -99,13 +99,15 @@ class BreakfastCar extends React.Component{
 			keeper_mobile:listData.keeper_mobile,
 			keeper_id_card_no:listData.keeper_id_card_no,
 			status:this.state.status,
-			breakfast_car_code:listData.breakfast_car_code,
+			breakfast_car_code:listData.breakfast_car_code || listData.breakfast_code,
 			name:listData.name,
 			lat:this.childMap.current.state.markerPosition.latitude,
 			lng:this.childMap.current.state.markerPosition.longitude,
 			id_card_images: id_card_images,
 			shop_images:shop_images
 		};
+		console.log(listData);
+		console.log(data);
 		if(this.props.recordId){
 			editShop(data,this.props.recordId).then(r=>{
 				message.success('编辑店铺成功');

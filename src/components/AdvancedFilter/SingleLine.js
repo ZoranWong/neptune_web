@@ -27,6 +27,7 @@ export default class SingleLine extends React.Component{
 		let child = parent[0].children.filter(item=>{
 			return item.value == value[value.length -1]
 		});
+		console.log(child, '=============');
 		let type = this.props.operation[child[0].type][0].type;
 		this.setState({
 			activeKey:child[0],

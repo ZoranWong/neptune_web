@@ -4,7 +4,7 @@ import {Button, Table} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/refund.sass'
 import {searchJson} from "../../../utils/dataStorage";
-import {user_values} from "../../../utils/user_fields";
+import {refund_order_values} from "../../../utils/refund_order_fields";
 import AdvancedFilterComponent from "../Components/AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
@@ -13,17 +13,19 @@ import ReviewGoods from "../Components/ReviewGoods";
 import RefundMoney from "./Modal/RefundMoney";
 import RefuseRefund from "./Modal/RefuseRefund";
 import {refundList} from "../../../api/order/orderManage";
-
+import {merchant_order_values} from "../../../utils/merchant_order_fields";
+import Export from "../Components/Export";
 class Refund extends React.Component{
 	constructor(props){
 		
-		
+		const defaultItem = ['nickname','trade_no', 'product_name', 'settlement_total_fee', 'order_type', 'created_at','state_desc'];
 		super(props);
 		this.child = React.createRef();
 		this.state = {
 			api:refundList,
 			filterVisible:false,
 			customVisible:false,
+			exportVisible: false,
 			refundVisible:false, // 退款
 			refuseVisible:false, // 拒绝退款
 			data:[],
@@ -37,7 +39,8 @@ class Refund extends React.Component{
 			record:{},
 			items:[],
 			refundItem:{},
-			refuseItem:{}
+			refuseItem:{},
+			defaultItem: defaultItem
 		};
 	}
 	
@@ -102,7 +105,7 @@ class Refund extends React.Component{
 	handleCustom = (e) =>{
 		let ary = [];
 		e.forEach(e=>{
-			user_values.forEach(u=>{
+			merchant_order_values.forEach(u=>{
 				u.children.forEach(c=>{
 					if(e == c.value){
 						let obj = {};
@@ -113,10 +116,19 @@ class Refund extends React.Component{
 				})
 			})
 		});
+		let index = e.indexOf('id');
+		if (index < 0) {
+			e.push('id');
+		}
 		ary[0].render = (text,record) => <span
 			style={{'color':'#4F9863','cursor':'pointer'}}
 			onClick={()=>this.jump(record)}>{text}</span>
-		this.setState({columns:ary})
+		this.setState({
+			columns:ary,
+			paginationParams:{...this.state.paginationParams, only:  e.join(',')}
+		},()=>{
+			this.child.current.pagination(1)
+		})
 	};
 	
 	// 分页器改变值
@@ -145,6 +157,24 @@ class Refund extends React.Component{
 	};
 	hideRefuse = () =>{
 		this.setState({refuseVisible:false})
+	};
+	
+	// 导出
+	showExport = (conditions) =>{
+		this.setState({conditions, exportVisible: true}, ()=>{
+			this.closeHigherFilter()
+		})
+	};
+	hideExport = () =>{
+		this.setState({exportVisible: false})
+	};
+	
+	// 确定导出
+	export = (type, items) =>{
+		window.location.href = `http://neptune.klsfood.cn/api/backend/export?searchJson[strategy]=${type}&searchJson[customize_columns]=${items}&searchJson[logic_conditions]=${this.state.conditions}`;
+		// dataExport({searchJson: searchJson(params)}).then(r=>{
+		// 	console.log(r);
+		// }).catch(_=>{})
 	};
 	
 	render(){
@@ -226,14 +256,28 @@ class Refund extends React.Component{
 				},
 			},
 		];
+		const strategy = [
+			{key: 'USER_ORDER_CUSTOMIZE', value: '自定义显示项',},
+			{key: 'USER_ORDER_PRODUCT', value: '商品维度',},
+			{key: 'USER_ORDER_SHOP', value: '店铺维度',},
+		];
+		const exportProps = {
+			visible : this.state.exportVisible,
+			onCancel : this.hideExport,
+			export: this.export,
+			strategy
+		};
 		return (
 			<div className="refund">
+				<Export {...exportProps} />
 				
 				<AdvancedFilterComponent
 					visible={this.state.filterVisible}
 					onCancel={this.closeHigherFilter}
 					onSubmit={this.onSubmit}
 					refresh={this.refresh}
+					data={refund_order_values}
+					export={this.showExport}
 				/>
 				
 				<ReviewGoods
@@ -281,7 +325,12 @@ class Refund extends React.Component{
 					<div className="right">
 						<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 						<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
-							<CustomItem data={user_values}  handleCustom={this.handleCustom} />
+							<CustomItem
+								data={refund_order_values}
+								targetKeys={this.state.defaultItem}
+								firstItem={'trade_no'}
+								handleCustom={this.handleCustom}
+							/>
 						</div>
 					</div>
 				</div>

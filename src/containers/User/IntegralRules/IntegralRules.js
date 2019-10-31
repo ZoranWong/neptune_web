@@ -2,304 +2,241 @@ import React from 'react';
 import './index.sass'
 import {Button,Checkbox,Input,Switch,message  } from 'antd'
 import {editRules, rules} from '../../../api/user'
+import _ from 'lodash'
 class IntegralRules extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			type:1,
+			source: [],
 			data:[],
-			switchPurchase:true,
-			switchStore:true,
-			switchOthers:true,
-			preorderValue:'',
-			codeAmount:'',
-			preorderAmount:'',
-			codeValue:'',
-			preorderFirstValue:'',
-			firstStore:'',
-			storeAmount:'',
-			storeValue:'',
-			bindMobile:'',
-			firstPreorder:false,
-			preorder:false,
-			code:false,
-			store:false,
-			first_store:false,
-			mobile:false,
-
 		}
 	}
 	
 	componentDidMount() {
 		rules({}).then(r=>{
-			this.setState({data:r})
+			let ary = [];
+			_.map(r, (item)=>{
+				ary.push(item);
+				_.map(item.children, (i)=>{
+					ary.push(i)
+				})
+			});
+			this.setState({data: ary,source: r})
 		})
 	}
 	
+	handleChange = (slug, e, type) =>{
+		let data = this.state.data;
+		_.map(data, (item)=>{
+			if (item.slug === slug) {
+				if (type === 'rule.amount') {
+					item.rule = {amount: e};
+				} else {
+					item[type] = e;
+				}
+			}
+		});
+		this.setState({data})
+	};
 	
-	switchPurchaseChange = (checked) =>{
-		if(checked){
-			this.setState({switchPurchase:true})
-		} else {
-			this.setState({switchPurchase:false})
-		}
-	};
-	switchStoreChange = (checked) =>{
-		if(checked){
-			this.setState({switchStore:true})
-		} else {
-			this.setState({switchStore:false})
-		}
-	};
-	switchOthersChange = (checked) =>{
-		if(checked){
-			this.setState({switchOthers:true})
-		} else {
-			this.setState({switchOthers:false})
-		}
+	setData = (slug) =>{
+		return this.state.data.filter(item=>item.slug === slug)[0]
 	};
 	
 	saveData = () =>{
-		let dataOne = {
-			id:1,
-			rule:null,
-			score_num:null,
-			slug:"PAYMENT",
-			status:this.state.switchPurchase,
-			children:[
-				{
-					id:2,
-					rule:null,
-					score_num: this.state.preorderFirstValue,
-					slug:"PAYMENT_PREORDER_FIRST",
-					status:this.state.firstPreorder
-				},
-				{
-					id:3,
-					score_num: this.state.codeValue,
-					slug:"PAYMENT_SCAN_CODE",
-					status:this.state.code,
-					rule:{
-						amount:this.state.codeAmount
-					}
-				},
-				{
-					id:4,
-					score_num: this.state.preorderValue,
-					slug:"PAYMENT_PREORDER",
-					status:this.state.preorder,
-					rule:{
-						amount:this.state.preorderAmount
-					}
+		let data = this.state.data;
+		let source = this.state.source;
+		_.map(data, (item)=>{
+			_.map(source, (i)=>{
+				if (item.slug === i.slug ) {
+					i = item;
+				} else {
+					_.map(i.children, (child) =>{
+						if (child.slug === item.slug) {
+							child = item
+						}
+					})
 				}
-			]
-		};
-		let dataTwo = {
-			id:5,
-			rule:null,
-			score_num:null,
-			slug:"CHARGE",
-			status:this.state.switchStore,
-			children:[
-				{
-					id:6,
-					rule:null,
-					score_num: this.state.firstStore,
-					slug:"CHARGE_FIRST",
-					status:this.state.first_store
-				},
-				{
-					id:7,
-					score_num: this.state.storeValue,
-					slug:"CHARGE",
-					status:this.state.store,
-					rule:{
-						amount:this.state.storeAmount
-					}
-				},
-			]
-		};
-		let dataThree = {
-			id:8,
-			rule:null,
-			score_num:null,
-			slug:"BIND_MOBILE",
-			status:this.state.switchOthers,
-			children:[
-				{
-					id:9,
-					rule:null,
-					score_num: this.state.bindMobile,
-					slug:"BIND_MOBILE",
-					status:this.state.mobile
-				}
-			]
-		};
-		let ary = [dataOne,dataTwo,dataThree];
-		editRules({rules:ary}).then(r=>{
+			})
+		});
+		editRules({rules:source}).then(r=>{
 			message.success('保存成功')
 		})
 	};
 	
-	
 	render(){
+		let {data} = this.state;
 		return (
 			<div>
-				
-						<div>
-							<div className="r_top">
-								<div className="r_top_header">
-									<span>积分设置</span>
-									<Button type="primary" size="small" onClick={this.saveData}>保存</Button>
-								</div>
-								<div className="r_top_body">
-									<Switch
-										checkedChildren="启用"
-										unCheckedChildren="停用"
-										onChange={this.switchPurchaseChange}
-									/>
-									购买产生积分
-								</div>
-								<ul className="r_top_footer">
-									<li slug="PAYMENT_PREORDER_FIRST">
-										<Checkbox
-											onChange={(e)=>{
-												this.setState({firstPreorder:e.target.checked})
-											}}
-
-										>
-											预定商城首次购物：增加
-											<Input
-
-												onChange={(e)=>{
-													this.setState({preorderFirstValue:e.target.value})
-												}}
-											/>
-											积分
-										</Checkbox>
-									</li>
-									<li>
-										<Checkbox
-
-											onChange={(e)=>{
-												this.setState({code:e.target.checked})
-											}}
-										>
-											扫码付：每消费
-											<Input
-
-												onChange={(e)=>{
-													this.setState({codeAmount:e.target.value})
-												}}
-											/>
-											元，增加：
-											<Input
-
-												onChange={(e)=>{
-													this.setState({codeValue:e.target.value})
-												}}
-											/>
-											积分
-										</Checkbox>
-									</li>
-									<li>
-										<Checkbox
-
-											onChange={(e)=>{
-												this.setState({preorder:e.target.checked})
-											}}
-										>
-											预付商城：每消费
-											<Input
-												onChange={(e)=>{
-													this.setState({preorderAmount:e.target.value})
-												}}
-											/>
-											元，增加：
-											<Input
-												onChange={(e)=>{
-													this.setState({preorderValue:e.target.value})
-												}}
-											/>
-											积分
-										</Checkbox>
-									</li>
-								</ul>
+				{
+					data.length && <div>
+						<div className="r_top">
+							<div className="r_top_header">
+								<span>积分设置</span>
+								<Button type="primary" size="small" onClick={this.saveData}>保存</Button>
 							</div>
-							<div className="r_top">
-								<div className="r_top_body">
-									<Switch
-										checkedChildren="启用"
-										unCheckedChildren="停用"
-										onChange={this.switchStoreChange}
-									/>
-									储值产生积分
-								</div>
-								<ul className="r_top_footer">
-									<li>
-										<Checkbox
-											onChange={(e)=>{
-												this.setState({first_store:e.target.checked})
-											}}
-										>
-											首次储值：增加
-											<Input
-												onChange={(e)=>{
-													this.setState({firstStore:e.target.value})
-												}}
-											/>
-											积分
-										</Checkbox>
-									</li>
-									<li>
-										<Checkbox
-											onChange={(e)=>{
-												this.setState({store:e.target.checked})
-											}}
-										>
-											每储值
-											<Input
-												onChange={(e)=>{
-													this.setState({storeAmount:e.target.value})
-												}}
-											/>
-											元，增加
-											<Input
-												onChange={(e)=>{
-													this.setState({storeValue:e.target.value})
-												}}
-											/>
-											积分
-										</Checkbox>
-									</li>
-								</ul>
+							<div className="r_top_body">
+								<Switch
+									checkedChildren="启用"
+									unCheckedChildren="停用"
+									checked={this.setData('PAYMENT').status}
+									onChange={(e)=>this.handleChange('PAYMENT',e, 'status')}
+								/>
+								购买产生积分
 							</div>
-							<div className="r_top">
-								<div className="r_top_body">
-									<Switch
-										checkedChildren="启用"
-										unCheckedChildren="停用"
-										onChange={this.switchOthersChange}
-									/>
-									其他方式产生积分
-								</div>
-								<div className="r_top_footer">
+							<ul className="r_top_footer">
+								<li slug="PAYMENT_PREORDER_FIRST">
 									<Checkbox
+										checked={this.setData('PAYMENT_PREORDER_FIRST').status}
 										onChange={(e)=>{
-											this.setState({mobile:e.target.checked})
+											this.handleChange('PAYMENT_PREORDER_FIRST',e.target.checked, 'status')
 										}}
 									>
-										绑定手机号：增加
+										预定商城首次购物：增加
 										<Input
+											value={this.setData('PAYMENT_PREORDER_FIRST')['score_num']}
 											onChange={(e)=>{
-												this.setState({bindMobile:e.target.value})
+												this.handleChange('PAYMENT_PREORDER_FIRST',e.target.value, 'score_num')
 											}}
 										/>
 										积分
 									</Checkbox>
-								</div>
+								</li>
+								<li>
+									<Checkbox
+										checked={this.setData('PAYMENT_SCAN_CODE').status}
+										onChange={(e)=>{
+											this.handleChange('PAYMENT_SCAN_CODE',e.target.checked, 'status')
+										}}
+									>
+										扫码付：每消费
+										<Input
+											value={this.setData('PAYMENT_SCAN_CODE').rule.amount}
+											onChange={(e)=>{
+												this.handleChange('PAYMENT_SCAN_CODE',e.target.value, 'rule.amount')
+											}}
+										/>
+										元，增加：
+										<Input
+											value={this.setData('PAYMENT_SCAN_CODE')['score_num']}
+											onChange={(e)=>{
+												this.handleChange('PAYMENT_SCAN_CODE',e.target.value, 'score_num')
+											}}
+										/>
+										积分
+									</Checkbox>
+								</li>
+								<li>
+									<Checkbox
+										checked={this.setData('PAYMENT_PREORDER').status}
+										onChange={(e)=>{
+											this.handleChange('PAYMENT_PREORDER',e.target.checked, 'status')
+										}}
+									>
+										预付商城：每消费
+										<Input
+											value={this.setData('PAYMENT_PREORDER').rule.amount}
+											onChange={(e)=>{
+												this.handleChange('PAYMENT_PREORDER',e.target.value, 'rule.amount')
+											}}
+										/>
+										元，增加：
+										<Input
+											value={this.setData('PAYMENT_PREORDER')['score_num']}
+											onChange={(e)=>{
+												this.handleChange('PAYMENT_PREORDER',e.target.value, 'score_num')
+											}}
+										/>
+										积分
+									</Checkbox>
+								</li>
+							</ul>
+						</div>
+						<div className="r_top">
+							<div className="r_top_body">
+								<Switch
+									checkedChildren="启用"
+									unCheckedChildren="停用"
+									checked={this.setData('CHARGE').status}
+									onChange={(e)=>this.handleChange('CHARGE',e, 'status')}
+								/>
+								储值产生积分
+							</div>
+							<ul className="r_top_footer">
+								<li>
+									<Checkbox
+										checked={this.setData('CHARGE_FIRST').status}
+										onChange={(e)=>{
+											this.handleChange('CHARGE_FIRST',e.target.checked, 'status')
+										}}
+									>
+										首次储值：增加
+										<Input
+											value={this.setData('CHARGE_FIRST')['score_num']}
+											onChange={(e)=>{
+												this.handleChange('CHARGE_FIRST',e.target.value, 'score_num')
+											}}
+										/>
+										积分
+									</Checkbox>
+								</li>
+								<li>
+									<Checkbox
+										checked={this.setData('CHARGE_EVERY_TIME').status}
+										onChange={(e)=>{
+											this.handleChange('CHARGE_EVERY_TIME',e.target.checked, 'status')
+										}}
+									>
+										每储值
+										<Input
+											value={(this.setData('CHARGE_EVERY_TIME').rule && this.setData('CHARGE_EVERY_TIME').rule.amount) || 0}
+											onChange={(e)=>{
+												this.handleChange('CHARGE_EVERY_TIME',e.target.value, 'rule.amount')
+											}}
+										/>
+										元，增加
+										<Input
+											value={this.setData('CHARGE')['score_num']}
+											onChange={(e)=>{
+												this.handleChange('CHARGE',e.target.value, 'score_num')
+											}}
+										/>
+										积分
+									</Checkbox>
+								</li>
+							</ul>
+						</div>
+						<div className="r_top">
+							<div className="r_top_body">
+								<Switch
+									checkedChildren="启用"
+									unCheckedChildren="停用"
+									checked={this.setData('OTHER').status}
+									onChange={(e)=>this.handleChange('OTHER',e, 'status')}
+								/>
+								其他方式产生积分
+							</div>
+							<div className="r_top_footer">
+								<Checkbox
+									checked={this.setData('BIND_MOBILE').status}
+									onChange={(e)=>{
+										this.handleChange('BIND_MOBILE',e.target.checked, 'status')
+									}}
+								>
+									绑定手机号：增加
+									<Input
+										value={this.setData('BIND_MOBILE')['score_num']}
+										onChange={(e)=>{
+											this.handleChange('BIND_MOBILE',e.target.value, 'score_num')
+										}}
+									/>
+									积分
+								</Checkbox>
 							</div>
 						</div>
+					</div>
+				}
+				
 			</div>
 		)
 	}

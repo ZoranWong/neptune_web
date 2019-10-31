@@ -42,7 +42,6 @@ class ReleaseGoods extends React.Component{
 	componentWillMount() {
 		if(this.props.location.state&&this.props.location.state.id){
 			beforeEditGood({},this.props.location.state.id).then(r=>{
-				console.log(r);
 				for (let key in r.data){
 					this.props.form.setFieldsValue({[key]:r.data[key]})
 				}
@@ -68,7 +67,6 @@ class ReleaseGoods extends React.Component{
 	
 	devideIds = (item,all) =>{
 		// 此处修改
-		console.log(all, '___________________________-');
 		let ary = {};
 		
 		all.forEach(i=>{
@@ -124,11 +122,11 @@ class ReleaseGoods extends React.Component{
 						});
 						specs.push(nameData)
 					});
-					
+
 					// 数量
 					let tableData = this.child.current.state.data;
 					console.log(tableData);
-					
+
 					// 此处修改
 					tableData.forEach(item=>{
 						let spec = this.devideIds(item, childName);
@@ -136,21 +134,21 @@ class ReleaseGoods extends React.Component{
 						item['image'] = this.uploadChild.current.state.imgUrl || this.uploadChild.current.state.imageUrl;
 						item['spec'] = spec;
 					});
-					
-					
+
+
 					values.spec = specs;
 					values.entities = tableData;
-					values.detail = this.editor.current?this.editor.current.state.outputHTML:'';
+					values.detail = this.editor.current?this.editor.current.state.outputHTML:values.detail;
 					api(values,this.props.location.state&&this.props.location.state.id).then(r=>{
 						message.success(text);
 						window.setTimeout(()=>{
 							this.props.history.push({pathname:"/goods"})
 						},2000);
 					}).catch(_=>{});
-					
+
 				} else {
 					values.open_specification = 0;
-					values.detail = this.editor.current?this.editor.current.state.outputHTML:'';
+					values.detail = this.editor.current?this.editor.current.state.outputHTML:values.detail;
 					api(values,this.props.location.state&&this.props.location.state.id).then(r=>{
 						message.success(text);
 						window.setTimeout(()=>{
@@ -158,7 +156,7 @@ class ReleaseGoods extends React.Component{
 						},2000);
 					}).catch(_=>{});
 				}
-				
+
 			}
 		});
 	};
@@ -175,11 +173,23 @@ class ReleaseGoods extends React.Component{
 				</div>
 				<div className="mainReleaseGood">
 					<Tabs activeKey={this.state.activeKey} onChange={this.tabChange}>
-						<TabPane tab="1.编辑基本信息" key="1">
+						<TabPane tab="1.编辑基本信息" key="1" forceRender={true}>
 							<div className="forms">
 								<Form  onSubmit={this.handleSubmit} labelAlign="left">
 									<Form.Item label="商品名称：">
 										{getFieldDecorator('name', {
+											initialValue:'',
+											rules: [
+												{
+													required: true,
+													message: '请输入商品名称',
+												},
+											],
+										})(<Input
+										/>)}
+									</Form.Item>
+									<Form.Item label="无：" style={{display: 'none'}}>
+										{getFieldDecorator('detail', {
 											initialValue:'',
 											rules: [
 												{

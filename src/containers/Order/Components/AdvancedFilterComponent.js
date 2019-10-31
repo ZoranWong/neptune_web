@@ -1,7 +1,7 @@
 import React from 'react';
 import {Modal,Button} from "antd";
 import AdvancedFilter from '../../../components/AdvancedFilter/AdvancedFilter'
-import {order_values,operation} from "../../../utils/order_fields";
+import {operation} from "../../../utils/consumer_order_fields";
 
 export default class AdvancedFilterComponent extends React.Component{
 	constructor(props){
@@ -22,6 +22,10 @@ export default class AdvancedFilterComponent extends React.Component{
 
 	clearFilter = ()=>{
 		this.child.current.clearFilter();
+	};
+	
+	export = () =>{
+		this.props.export(this.child.current.state.data)
 	};
 	
 	
@@ -47,6 +51,7 @@ export default class AdvancedFilterComponent extends React.Component{
 								size="small"
 								type="default"
 								className="e_btn"
+								onClick={this.export}
 							>导出</Button>
 							<Button
 								size="small"
@@ -62,7 +67,7 @@ export default class AdvancedFilterComponent extends React.Component{
 				>
 					<AdvancedFilter
 						ref={this.child}
-						value={order_values}
+						value={this.props.data}
 						operation={operation}
 						slug="order"
 					/>

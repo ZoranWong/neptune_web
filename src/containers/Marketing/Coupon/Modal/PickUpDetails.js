@@ -17,6 +17,7 @@ class PickUpDetails extends Component {
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(!nextProps.couponId) return;
+		if (nextProps.couponId === this.props.couponId) return;
 		this.setState({id:nextProps.couponId});
 		this.pagination(1,nextProps.couponId)
 	}
@@ -50,35 +51,35 @@ class PickUpDetails extends Component {
 		const columns = [
 			{
 				title: '优惠券名称',
-				dataIndex: 'name',
+				dataIndex: 'coupon_name',
 			},
 			{
 				title: '价值',
-				dataIndex: 'value',
+				dataIndex: 'benefit',
 			},
-			{
-				title: '使用条件',
-				dataIndex: 'spec',
-			},
+			// {
+			// 	title: '使用条件',
+			// 	dataIndex: 'spec' || '无',
+			// },
 			{
 				title: '领取日期',
-				dataIndex: 'goods',
+				dataIndex: 'received_at',
 			},
 			{
 				title: '使用日期',
-				dataIndex: 'date',
+				dataIndex: 'used_at',
 			},
 			{
 				title: '领取人',
-				dataIndex: 'unit',
+				dataIndex: 'receiver_name',
 			},
 			{
 				title: '订单号',
-				dataIndex: 'number',
+				dataIndex: 'trade_no' || '无',
 			},
 			{
 				title: '状态',
-				dataIndex: 'status',
+				dataIndex: 'state_desc',
 			},
 		];
 		

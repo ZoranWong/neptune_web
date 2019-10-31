@@ -10,9 +10,10 @@ import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
 import ReviewGoods from "../Components/ReviewGoods";
 import {userOrder,batchCancel,batchConfirm} from "../../../api/order/orderManage";
-import {order_values} from "../../../utils/order_fields";
+import {consumer_order_values} from "../../../utils/consumer_order_fields";
 import Export from "../Components/Export";
-import {dataExport} from "../../../api/common";
+
+
 
 class Order extends React.Component{
 	constructor(props){
@@ -76,7 +77,9 @@ class Order extends React.Component{
 			},
 			activeTab:'ALL',
 			columns:columns,
-			items:[]  // 商品回显
+			items:[],  // 商品回显,
+			conditions: {}
+			
 		};
 	}
 	
@@ -142,7 +145,7 @@ class Order extends React.Component{
 	handleCustom = (e) =>{
 		let ary = [];
 		e.forEach(e=>{
-			order_values.forEach(u=>{
+			consumer_order_values.forEach(u=>{
 				u.children.forEach(c=>{
 					if(e == c.value){
 						let obj = {};
@@ -239,8 +242,10 @@ class Order extends React.Component{
 	};
 	
 	// 导出
-	showExport = () =>{
-		this.setState({exportVisible: true})
+	showExport = (conditions) =>{
+		this.setState({conditions, exportVisible: true}, ()=>{
+			this.closeHigherFilter()
+		})
 	};
 	hideExport = () =>{
 		this.setState({exportVisible: false})
@@ -248,14 +253,14 @@ class Order extends React.Component{
 	
 	// 确定导出
 	export = (type, items) =>{
-		console.log(items);
-		window.location.href = `http://neptune.klsfood.cn/api/backend/export?searchJson[strategy]=${type}&searchJson[customize_columns]=${items}`;
+		window.location.href = `http://neptune.klsfood.cn/api/backend/export?searchJson[strategy]=${type}&searchJson[customize_columns]=${items}&searchJson[logic_conditions]=${this.state.conditions}`;
 		// dataExport({searchJson: searchJson(params)}).then(r=>{
 		// 	console.log(r);
 		// }).catch(_=>{})
 	};
 	
 	render(){
+		
 		const rowSelection = {
 			onChange: (selectedRowKeys, selectedRows) => {
 				let ary = [];
@@ -279,12 +284,20 @@ class Order extends React.Component{
 			{name:'申请售后',key:'AFTER_SALE'},
 			{name:'拒绝退款',key:'REFUSE_REFUND'},
 		];
+		const strategy = [
+			{key: 'USER_ORDER_CUSTOMIZE', value: '自定义显示项',},
+			{key: 'USER_ORDER_PRODUCT', value: '商品维度',},
+			{key: 'USER_ORDER_SHOP', value: '店铺维度',},
+		];
 		
 		const exportProps = {
 			visible : this.state.exportVisible,
 			onCancel : this.hideExport,
-			export: this.export
+			export: this.export,
+			strategy
 		};
+		
+		
 		return (
 			<div className="order">
 				<Export {...exportProps} />
@@ -294,6 +307,8 @@ class Order extends React.Component{
 					onCancel={this.closeHigherFilter}
 					onSubmit={this.onSubmit}
 					refresh={this.refresh}
+					export={this.showExport}
+					data={consumer_order_values}
 				/>
 				
 				<ReviewGoods
@@ -327,11 +342,6 @@ class Order extends React.Component{
 							disabled={this.state.checkedAry.length == 0}
 							onClick={()=>this.confirmPopover(batchConfirm,'确认')}
 						>确认订单</Button>
-						<Button
-							size="small"
-							disabled={this.state.checkedAry.length == 0}
-							onClick={this.showExport}
-						>导出</Button>
 					</div>
 				</div>
 				
@@ -351,7 +361,7 @@ class Order extends React.Component{
 						<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 						<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
 							<CustomItem
-								data={order_values}
+								data={consumer_order_values}
 								handleCustom={this.handleCustom}
 								targetKeys={this.state.defaultItem}
 								firstItem={'nickname'}

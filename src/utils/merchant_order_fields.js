@@ -1,4 +1,4 @@
-export const order_values = [
+export const merchant_order_values = [
 	{
 		value:'money_attributes',
 		label:'金额属性',
@@ -19,11 +19,6 @@ export const order_values = [
 				type:'numCompare'
 			},
 			{
-				label:'退款金额',
-				value:'refund_fee',
-				type:'numCompare'
-			},
-			{
 				label:'付款方式',
 				value:'payment_type',
 				type:'equalCompare'
@@ -32,7 +27,7 @@ export const order_values = [
 	},
 	{
 		value:'base_attributes',
-		label:'商户订单',
+		label:'基本属性',
 		children:[
 			{
 				label:'订单号',
@@ -64,7 +59,7 @@ export const order_values = [
 			{
 				label:'订单状态',
 				value:'order_type',
-				type:'equalCompare'
+				type:'merchantOrder'
 			},
 			{
 				label:'下单时间',
@@ -86,54 +81,12 @@ export const order_values = [
 				value:'deficient',
 				type:'equalCompare'
 			},
-			{
-				label:'退款状态',
-				value:'refund_state',
-				type:'equalCompare'
-			},
-			{
-				label:'退款类型',
-				value:'refund_type',
-				type:'equalCompare'
-			},
-			{
-				label:'退款申请时间',
-				value:'refund_apply_at',
-				type:'timeCompare'
-			},
-			{
-				label:'到账时间',
-				value:'refund_handled_at',
-				type:'timeCompare'
-			},
-			{
-				label:'用户手机号',
-				value:'user_mobile',
-				type:'emptyCompare'
-			},
-			{
-				label:'用户昵称',
-				value:'user_nickname',
-				type:'emptyCompare'
-			},
-			{
-				label:'退款单号',
-				value:'refund_no',
-				type:'emptyCompare'
-			},
 		]
 	},
 ];
 
 
 export const operation = {
-	'absoluteCompare':[
-		{
-			label:'等于',
-			value:'=',
-			type:'input'
-		}
-	],
 	'numCompare':[
 		{
 			label:'等于',
@@ -171,6 +124,31 @@ export const operation = {
 			type:'inputRange'
 		}
 	],
+	'absoluteCompare':[
+		{
+			label:'等于',
+			value:'=',
+			type:'input'
+		}
+	],
+	'merchantOrder': [
+		{
+			label:'等于',
+			value:'in',
+			type:'merchantOrder'
+		},
+		{
+			label:'等于其中之一',
+			value:'all',
+			type:'merchantOrder'
+		},
+		{
+			label:'不等于以下任意',
+			value:'not in',
+			type:'merchantOrder'
+		},
+	],
+	
 	'contain':[
 		{
 			label:'包含以下任意',

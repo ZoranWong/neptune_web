@@ -60,9 +60,9 @@ class Distributor extends React.Component{
 			return
 		};
 		let id_card_images = {
-			front: this.front.current.state.imgUrl,
-			backend: this.backend.current.state.imgUrl,
-			holding: this.holding.current.state.imgUrl,
+			front: this.front.current.state.imgUrl || this.front.current.state.imageUrl,
+			backend: this.backend.current.state.imgUrl || this.backend.current.state.imageUrl,
+			holding: this.holding.current.state.imgUrl || this.holding.current.state.imageUrl,
 		};
 		for (let key in id_card_images) {
 			if(!id_card_images[key]){

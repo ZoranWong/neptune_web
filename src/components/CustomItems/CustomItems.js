@@ -18,10 +18,11 @@ function handleCode(item) {
 export default class CustomItem extends React.Component{
 	
 	constructor(props){
+		console.log(props, '+++++==============');
 		super(props);
 		let ary = [];
 		let bry = [];
-		bry.push(props.forstItem);
+		bry.push(props.firstItem);
 		props.data.forEach(item=>{
 			item.children.forEach(i=>{
 				handleCode(i);

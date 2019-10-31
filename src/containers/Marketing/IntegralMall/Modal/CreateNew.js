@@ -55,7 +55,6 @@ class CreateNew extends Component {
 			const { scrollPage } = this.state;
 			const nextScrollPage = scrollPage + 1;
 			this.setState({ scrollPage: nextScrollPage });
-			console.log(nextScrollPage, '---------');
 			this.getCoupons(nextScrollPage); // 调用api方法
 		}
 	};
@@ -68,8 +67,6 @@ class CreateNew extends Component {
 	};
 	
 	onDateChange = (date,dateString) =>{
-		console.log(date);
-		console.log(dateString);
 		this.setState({limitDate: dateString})
 	};
 	
@@ -179,7 +176,7 @@ class CreateNew extends Component {
 							</div>
 							{
 								this.state.remainCount ? <span className="extra">优惠券总量{this.state.remainCount}张</span>
-									: <span className="extra">优惠券总量0张</span>
+									: <span className="extra">优惠券总量{this.state.remain['issue_count'] || 0}张</span>
 									
 							}
 						</li>

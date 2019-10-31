@@ -73,7 +73,7 @@ class ShopKeeper extends React.Component{
 			message.error('请填写正确格式的手机号');
 			return
 		}
-		if(!checkIdCard(listData.id_card_no)) {
+		if( !this.props.recordId && !checkIdCard(listData.id_card_no)) {
 			message.error('请填写正确格式的身份证号');
 			return
 		}
@@ -84,9 +84,9 @@ class ShopKeeper extends React.Component{
 			}
 		}
 		let id_card_images = {
-			front: this.front.current.state.imgUrl,
-			backend: this.backend.current.state.imgUrl,
-			holding: this.holding.current.state.imgUrl,
+			front: this.front.current.state.imgUrl || this.front.current.state.imageUrl,
+			backend: this.backend.current.state.imgUrl || this.backend.current.state.imageUrl,
+			holding: this.holding.current.state.imgUrl || this.holding.current.state.imageUrl,
 		};
 		for (let key in id_card_images) {
 			if(!id_card_images[key]){
@@ -95,7 +95,7 @@ class ShopKeeper extends React.Component{
 			}
 		}
 		let business_license_images = {
-			front: this.bFront.current.state.imgUrl
+			front: this.bFront.current.state.imgUrl || this.bFront.current.state.imageUrl
 		};
 		for (let key in business_license_images) {
 			if(!business_license_images[key]){
@@ -104,9 +104,9 @@ class ShopKeeper extends React.Component{
 			}
 		}
 		let shop_images = {
-			cashier: this.cashier.current.state.imgUrl,
-			doorway: this.doorway.current.state.imgUrl,
-			environment: this.environment.current.state.imgUrl,
+			cashier: this.cashier.current.state.imgUrl || this.cashier.current.state.imageUrl,
+			doorway: this.doorway.current.state.imgUrl || this.doorway.current.state.imageUrl,
+			environment: this.environment.current.state.imgUrl || this.environment.current.state.imageUrl,
 		};
 		for (let key in shop_images) {
 			if(!shop_images[key]){

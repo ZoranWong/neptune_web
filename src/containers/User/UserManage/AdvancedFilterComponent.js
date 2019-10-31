@@ -36,6 +36,10 @@ export default class AdvancedFilterComponent extends React.Component{
 		this.props.showAddTags(this.child.current.state.data)
 	};
 	
+	showGive = () =>{
+	
+	};
+	
 	render(){
 		return (
 			<div>
@@ -70,6 +74,7 @@ export default class AdvancedFilterComponent extends React.Component{
 								size="small"
 								type="default"
 								className="e_btn"
+								onClick={this.showGive}
 							>赠送</Button>
 							<Button
 								size="small"
