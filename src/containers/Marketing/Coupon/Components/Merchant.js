@@ -11,6 +11,7 @@ import AdvancedFilterComponent from "../../../Order/Components/AdvancedFilterCom
 import CustomItem from "../../../../components/CustomItems/CustomItems";
 import PickUpDetails from "../Modal/PickUpDetails";
 import {coupons, deleteCoupons, onShelvesCoupons} from "../../../../api/marketing/coupon";
+import CouponDetails from "../Modal/CouponDetails";
 
 class Merchant extends Component {
 	constructor(props) {
@@ -20,6 +21,7 @@ class Merchant extends Component {
 				title: '优惠券名称',
 				dataIndex: 'name',
 				render: (text,record) => <span
+					onClick={()=>this.showCouponDetails(record)}
 					style={{'color':'#4F9863','cursor':'pointer'}}>
 					{text}
 				</span>,
@@ -36,10 +38,16 @@ class Merchant extends Component {
 			{
 				title: '发放总量/剩余库存',
 				dataIndex: 'issue_count',
+				render: (text, record) => <span>
+					{record['issue_count']}/{record['remain_count']}
+				</span>
 			},
 			{
 				title: '领取人数/张数',
 				dataIndex: 'received_count',
+				render: (text, record) => <span>
+					{record['received_member_count']}/{text}
+				</span>
 			},
 			{
 				title: '已使用',
@@ -94,6 +102,8 @@ class Merchant extends Component {
 			},
 			columns:columns,
 			pickUpDetailsVisible:false,   // 领取详情
+			detailsVisible: false,
+			detailsId: ''
 		};
 		this.child = React.createRef();
 	}
@@ -261,14 +271,28 @@ class Merchant extends Component {
 		this.props.history.push({pathname:"/order/setUserMessage",state:{mode:'couponMerchant'}})
 	};
 	
+	// 优惠券详情
+	showCouponDetails = (record) =>{
+		this.setState({detailsVisible: true, detailsId: record['coupon_id']})
+	};
+	hideCouponDetails = () =>{
+		this.setState({detailsVisible: false})
+	};
+	
 	render() {
 		const pickUpDetails = {
 			visible:this.state.pickUpDetailsVisible,
 			onCancel:this.hidePickUpDetail,
 		};
+		const couponDetails = {
+			visible: this.state.detailsVisible,
+			onCancel: this.hideCouponDetails,
+			id: this.state.detailsId
+		};
 		return (
 			<div className="couponTab">
 				
+				<CouponDetails {...couponDetails} />
 				<PickUpDetails {...pickUpDetails} />
 				
 				<AdvancedFilterComponent

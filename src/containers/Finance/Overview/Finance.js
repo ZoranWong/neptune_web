@@ -172,7 +172,7 @@ class Finance extends React.Component{
 						<span>{this.state.settlement_total_amount}</span>
 					</li>
 					<li>
-						收入金额
+						入账总额
 						<span>{this.state.income_total_amount}</span>
 					</li>
 					<li>

@@ -52,3 +52,12 @@ export function onShelvesCoupons(params,couponId) {
 		data: params
 	})
 }
+
+// 优惠券详情
+export function couponDetails(params,couponId) {
+	return request({
+		url: `/api/backend/marketing/coupons/${couponId}`,
+		method: 'get',
+		params: params
+	})
+}

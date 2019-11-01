@@ -11,6 +11,7 @@ import AdvancedFilterComponent from "../../../Order/Components/AdvancedFilterCom
 import CustomItem from "../../../../components/CustomItems/CustomItems";
 import PickUpDetails from "../Modal/PickUpDetails";
 import PromotionCode from "../Modal/PromotionCode";
+import CouponDetails from "../Modal/CouponDetails";
 import {coupons,deleteCoupons,offShelvesCoupons,onShelvesCoupons} from "../../../../api/marketing/coupon";
 
 class Consumer extends Component {
@@ -21,6 +22,7 @@ class Consumer extends Component {
 				title: '优惠券名称',
 				dataIndex: 'name',
 				render: (text,record) => <span
+					onClick={()=>this.showCouponDetails(record)}
 					style={{'color':'#4F9863','cursor':'pointer'}}>
 					{text}
 				</span>,
@@ -36,10 +38,16 @@ class Consumer extends Component {
 			{
 				title: '发放总量/剩余库存',
 				dataIndex: 'issue_count',
+				render: (text, record) => <span>
+					{record['issue_count']}/{record['remain_count']}
+				</span>
 			},
 			{
 				title: '领取人数/张数',
 				dataIndex: 'received_count',
+				render: (text, record) => <span>
+					{record['received_member_count']}/{text}
+				</span>
 			},
 			{
 				title: '已使用',
@@ -105,6 +113,8 @@ class Consumer extends Component {
 			pickUpDetailsVisible:false,   // 领取详情
 			promotionCodeVisible:false,  // 推广码
 			couponId:'',   // 优惠券id 用于领取详情
+			detailsVisible: false,
+			detailsId: ''
 		};
 		this.child = React.createRef();
 	}
@@ -371,6 +381,14 @@ class Consumer extends Component {
 		this.props.history.push({pathname:"/order/setUserMessage",state:{mode:'couponConsumer'}})
 	};
 	
+	// 优惠券详情
+	showCouponDetails = (record) =>{
+		this.setState({detailsVisible: true, detailsId: record['coupon_id']})
+	};
+	hideCouponDetails = () =>{
+		this.setState({detailsVisible: false})
+	};
+	
 	render() {
 		const pickUpDetails = {
 			visible:this.state.pickUpDetailsVisible,
@@ -381,9 +399,14 @@ class Consumer extends Component {
 			visible:this.state.promotionCodeVisible,
 			onCancel: this.hidePromotionCode
 		};
+		const couponDetails = {
+			visible: this.state.detailsVisible,
+			onCancel: this.hideCouponDetails,
+			id: this.state.detailsId
+		};
 		return (
 			<div className="couponTab">
-				
+				<CouponDetails {...couponDetails} />
 				<PickUpDetails {...pickUpDetails} />
 				<PromotionCode {...promotionCodeProps} />
 				

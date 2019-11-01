@@ -92,19 +92,20 @@ class ReleaseGoods extends React.Component{
 		let category_ids_child = this.classification.current.state.selectedItems;
 		category_ids_child.forEach(item=>category_ids.push(item.id));
 		this.props.form.setFieldsValue({'category_ids':category_ids}); // 商品分类
+		console.log(api, '_+_+_+_+_+_+_+_+_+_+_+_+__');
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			values.banners = [];  // banner图
 			let fileList =this.bannerChild.current.state.fileList;
 			fileList.forEach(item=>{
 				values.banners.push(item.url||item.response.data.url )
 			});
+			let retail_price = values.retail_price || 0;
+			let market_price = values.market_price || 0;
+			if(retail_price - market_price > 0){
+				message.error('零售价不可大于市场价');
+				return;
+			}
 			if (!err) {
-				let retail_price = values.retail_price;
-				let market_price = values.market_price;
-				if(retail_price - market_price > 0){
-					message.error('零售价不可大于市场价');
-					return;
-				}
 				if(values.open_specification){
 					values.open_specification = 1;
 					// 规格
@@ -125,7 +126,6 @@ class ReleaseGoods extends React.Component{
 
 					// 数量
 					let tableData = this.child.current.state.data;
-					console.log(tableData);
 
 					// 此处修改
 					tableData.forEach(item=>{
@@ -139,6 +139,8 @@ class ReleaseGoods extends React.Component{
 					values.spec = specs;
 					values.entities = tableData;
 					values.detail = this.editor.current?this.editor.current.state.outputHTML:values.detail;
+					
+					
 					api(values,this.props.location.state&&this.props.location.state.id).then(r=>{
 						message.success(text);
 						window.setTimeout(()=>{
@@ -193,7 +195,6 @@ class ReleaseGoods extends React.Component{
 											initialValue:'',
 											rules: [
 												{
-													required: true,
 													message: '请输入商品名称',
 												},
 											],
