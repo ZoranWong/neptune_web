@@ -2,29 +2,28 @@ import './Address.sass'
 import React from "react";
 import { Select } from 'antd';
 import {regions} from '../../api/common'
+import _ from 'lodash'
 const { Option } = Select;
 export default class Address extends React.Component{
 	constructor(props) {
 		super(props);
-		this.p = [];
-		this.s = [];
-		if(props.defaultData){
-			Object.keys(props.defaultData).forEach(key=>{
-				this.p.push(parseInt(key));
-				this.s.push(props.defaultData[key]);
-			});
-		}
 		this.state = {
 			province:[],
-			activeProvince:'',
+			activeProvince: '',
 			cities: [],
-			activeCity:'',
+			activeCity: '',
 			area: [],
-			activeArea:''
+			activeArea: '',
 		};
 	}
 	
 	componentWillMount() {
+		let data = this.props.defaultData;
+		let isEmpty = _.isEmpty(data);
+		let p = [];
+		_.map(data, (item)=>{
+			p.push(parseInt(item))
+		});
 		regions({}).then(r=>{
 			this.setState({
 				province:r,
@@ -34,10 +33,10 @@ export default class Address extends React.Component{
 				activeCity:r[0].children[0].region_code,
 				activeArea:r[0].children[0].children[0].region_code
 			});
-			if(this.props.defaultData){
-				this.handleProvinceChange(this.p[0]);
-				this.onSecondCityChange(this.p[1]);
-				this.onAreaChange(this.p[2])
+			if(!isEmpty){
+				this.handleProvinceChange(p[0]);
+				this.onSecondCityChange(p[1]);
+				this.onAreaChange(p[2])
 			}
 		}).catch(_=>{})
 	}
@@ -64,7 +63,6 @@ export default class Address extends React.Component{
 		});
 		
 	};
-	
 	onSecondCityChange = value => {
 		const {cities} = this.state;
 		let areas = cities.filter(item=>{

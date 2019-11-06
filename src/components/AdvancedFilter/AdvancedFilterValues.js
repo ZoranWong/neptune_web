@@ -151,6 +151,25 @@ export default class AdvancedFilterValues extends React.Component{
 					))}
 				</Select>;
 			break;
+			case 'consumerOrderEqual':
+				return <Select
+					defaultActiveFirstOption={false}
+					value={selectedItems}
+					className='selectedBox'
+					onChange={this.handleChange}
+					optionLabelProp="label"
+					optionFilterProp="children"
+					filterOption={(input, option) =>
+						option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+					}
+				>
+					{consumerOrder.map(item => (
+						<Select.Option key={item.key} label={item.name} value={item.key}>
+							{item.name}
+						</Select.Option>
+					))}
+				</Select>;
+				break;
 			case 'merchantOrder':
 				return <Select
 					defaultActiveFirstOption={false}
@@ -171,6 +190,25 @@ export default class AdvancedFilterValues extends React.Component{
 					))}
 				</Select>;
 			break;
+			case 'merchantOrderEqual':
+				return <Select
+					defaultActiveFirstOption={false}
+					value={selectedItems}
+					className='selectedBox'
+					onChange={this.handleChange}
+					optionLabelProp="label"
+					optionFilterProp="children"
+					filterOption={(input, option) =>
+						option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+					}
+				>
+					{merchantOrder.map(item => (
+						<Select.Option key={item.key} label={item.name} value={item.key}>
+							{item.name}
+						</Select.Option>
+					))}
+				</Select>;
+				break;
 			case 'timestamp':
 				return <span>
 					<LocaleProvider locale={zh_CN}>

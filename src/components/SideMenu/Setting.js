@@ -23,7 +23,7 @@ const Setting = ({ match }) => (
 			<Menu.Item key="/setting/warningSetting">
 				<Link to="/setting/warningSetting">
 					<IconFont type="icon-calendar-alt" />
-					<span>预警设置</span>
+					<span>APP版本设置</span>
 				</Link>
 			</Menu.Item>
 		</Menu>

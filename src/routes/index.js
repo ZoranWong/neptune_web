@@ -38,7 +38,7 @@ import OutStockNew from "../containers/Goods/OutStockNew/OutStockNew";
 import OutStockDetail from "../containers/Goods/OutStockDetail/OutStockDetail";
 
 import Staffing from "../containers/Setting/Staffing";
-import WarningSetting from '../containers/Setting/WarningSetting'
+import WarningSetting from '../containers/Setting/AppVersionSetting/AppVersionSetting'
 
 
 import IntegralRules from "../containers/User/IntegralRules/IntegralRules";
@@ -61,6 +61,7 @@ import NewCoupon from "../containers/Marketing/NewCoupon/NewCoupon";
 import NewCouponShop from "../containers/Marketing/NewCouponShop/NewCouponShop";
 import StoreRecord from "../containers/Marketing/StoreRecord/StoreRecord";
 import SendOutRecord from "../containers/Marketing/Message/SendOutRecord/SendOutRecord";
+import SetMarketingMessage from "../containers/Marketing/SetMarketingMessage/SetUserMessage";
 
 
 import Finance from "../containers/Finance/Overview/Finance";
@@ -152,6 +153,7 @@ const Routes = () =>(
 		<Route exact={true} path="/marketing/sendOutRecord" render={props => onEnter(SendOutRecord, props)} />
 		<Route exact={true} path="/marketing/customWeChatMessage" render={props => onEnter(CustomWeChatMessage, props)} />
 		<Route exact={true} path="/marketing/editWeChatMessage" render={props => onEnter(EditWeChatMessage, props)} />
+		<Route exact={true} path="/marketing/setMarketingMessage" render={props => onEnter(SetMarketingMessage, props)} />
 		
 		{/*店铺*/}
 		<Route exact={true} path="/shops" render={props => onEnter(ShopManage, props)} />

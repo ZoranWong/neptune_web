@@ -29,7 +29,6 @@ const baseMenu = [
 	},
 ];
 
-
 const Order = ({ match }) => (
 	<div style={{ paddingBottom: '120px',width:'216px' }}>
 		<Menu

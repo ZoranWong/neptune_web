@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom'
 import {Button, Table} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/refund.sass'
-import {searchJson} from "../../../utils/dataStorage";
+import {searchJson,getToken} from "../../../utils/dataStorage";
 import {refund_order_values} from "../../../utils/refund_order_fields";
 import AdvancedFilterComponent from "../Components/AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
@@ -40,7 +40,8 @@ class Refund extends React.Component{
 			items:[],
 			refundItem:{},
 			refuseItem:{},
-			defaultItem: defaultItem
+			defaultItem: defaultItem,
+			conditions: {}
 		};
 	}
 	
@@ -170,8 +171,13 @@ class Refund extends React.Component{
 	};
 	
 	// 确定导出
-	export = (type, items) =>{
-		window.location.href = `http://neptune.klsfood.cn/api/backend/export?searchJson[strategy]=${type}&searchJson[customize_columns]=${items}&searchJson[logic_conditions]=${this.state.conditions}`;
+	export = (type, items, conditions) =>{
+		let json = searchJson({
+			strategy: type,
+			customize_columns: items,
+			logic_conditions: conditions
+		});
+		window.location.href = `http://neptune.klsfood.cn/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
 		// dataExport({searchJson: searchJson(params)}).then(r=>{
 		// 	console.log(r);
 		// }).catch(_=>{})
@@ -265,7 +271,8 @@ class Refund extends React.Component{
 			visible : this.state.exportVisible,
 			onCancel : this.hideExport,
 			export: this.export,
-			strategy
+			strategy,
+			conditions: this.state.conditions
 		};
 		return (
 			<div className="refund">

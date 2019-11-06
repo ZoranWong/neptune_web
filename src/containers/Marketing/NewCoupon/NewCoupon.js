@@ -26,7 +26,7 @@ class NewCoupon extends Component {
 				productType:'ALL',  // 适用商品
 				userType:"ALL",  // 用户范围
 				is_sharing_preferential:true,    // 优惠共享
-				is_code_scan_available:true,    // 支付可用
+				is_code_scan_available:false,    // 支付可用
 				release_mode:'MANUAL_RECEIVE',  // 领取方式
 				name:'',   //优惠券名称
 				valid_at:'',
@@ -231,7 +231,7 @@ class NewCoupon extends Component {
 		newCoupons({...values}).then(r=>{
 			message.success(r.message);
 			window.setTimeout(()=>{
-				this.props.history.push({pathname:"/marketing"})
+				this.props.history.push({pathname:"/marketing", state: {key: 'USER'}})
 			},2000)
 		}).catch(_=>{})
 	};
@@ -536,7 +536,7 @@ class NewCoupon extends Component {
 								</Radio>
 							</Radio.Group>
 						</li>
-						<li>
+						<li style={{display: 'none'}}>
 							<span className="c_left">支付可用:</span>
 							<Radio.Group onChange={(e)=>this.onRadioChange('is_code_scan_available',e)} value={radioValue.is_code_scan_available}>
 								<Radio value={true}>

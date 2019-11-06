@@ -1,0 +1,36 @@
+export const secondRoutes = [
+	'integralRules',
+	'tagManage',
+	'userDetails',
+	'shopDetails',
+	'goodDetails',
+	'releaseGoods',
+	'inStock',
+	'outStock',
+	'inStockNew',
+	'outStockNew',
+	'inStockDetail',
+	'outStockDetail',
+	'orderDetail',
+	'newCoupon',
+	'newCouponShop',
+	'userStore',
+	'storeRecord',
+	'message',
+	'sendOutRecord',
+	'balanceDetails',
+	'overview',
+	'incomeDetails',
+	'withdrawDetails',
+	'withdrawApplication',
+	'customWeChatMessage',
+	'editWeChatMessage',
+	'cashbackSetting',
+	'setUserMessage',
+	'setting',
+	'setMarketingMessage',
+	'warningSetting'
+];
+
+
+export const firstRoutes = ['finance', 'home'];

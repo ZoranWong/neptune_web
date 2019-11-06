@@ -8,17 +8,28 @@ import './css/index.sass'
 const { TabPane } = Tabs;
 
 class Coupon extends React.Component{
+	state = {
+		key: 'USER'
+	};
 	
+	
+	componentDidMount() {
+		let key = (this.props.location.state && this.props.location.state.key) || 'USER';
+		console.log(key);
+		this.setState({key},()=>{
+			console.log(this.state);
+		})
+	}
 	
 	callback = key => {
-		console.log(key);
+		this.setState({key})
 	};
 	
 	
 	render(){
 		return (
 			<div className="coupon">
-				<Tabs defaultActiveKey="USER" onChange={this.callback}>
+				<Tabs activeKey={this.state.key} onChange={this.callback}>
 					<TabPane tab="消费者" key="USER">
 						<Consumer />
 					</TabPane>

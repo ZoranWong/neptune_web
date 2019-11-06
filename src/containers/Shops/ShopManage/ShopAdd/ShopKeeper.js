@@ -7,12 +7,17 @@ import Address from "../../../../components/Address/Address";
 import {checkIdCard, checkPhone} from "../../../../utils/dataStorage";
 import {shopDetails, shopKeeper,editShop} from "../../../../api/shops/shopManage";
 import {getChildChannels} from "../../../../api/shops/channel";
+import _ from 'lodash'
 class ShopKeeper extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
 			visible:false,
-			positionData : {},
+			positionData : {
+				province_code: '340000',
+				city_code: '340100',
+				area_code: '340102',
+			},
 			address:'设置地图坐标',
 			listData:{},
 			status:100,
@@ -36,7 +41,11 @@ class ShopKeeper extends React.Component{
 		}
 		if(!(this.props.recordId ==  nextProps.recordId)){
 			shopDetails({},nextProps.recordId).then(r=>{
-				this.setState({listData:r.data})
+				let positionData = {};
+				positionData['province_code'] = r.data.province_code;
+				positionData['city_code'] = r.data.city_code;
+				positionData['area_code'] = r.data.area_code;
+				this.setState({listData:r.data,positionData})
 			});
 		}
 	}
@@ -166,11 +175,8 @@ class ShopKeeper extends React.Component{
 	
 	
 	render(){
-		const {listData} = this.state;
-		let positionData = {};
-		positionData[listData.province_code] = listData.province;
-		positionData[listData.city_code] = listData.city;
-		positionData[listData.area_code] = listData.area;
+		const {listData, positionData} = this.state;
+		
 		return (
 			<div>
 				<Map visible={this.state.visible}
@@ -246,10 +252,13 @@ class ShopKeeper extends React.Component{
 								}}
 							/>
 						</li>
-						<li>
-							<span className="left">店铺地址</span>
-							<Address ref={this.childAdd} defaultData={positionData} />
-						</li>
+						{
+							!_.isEmpty(positionData) && 	<li>
+								<span className="left">店铺地址</span>
+								<Address ref={this.childAdd} defaultData={positionData} />
+							</li>
+						}
+					
 						<li>
 							<span className="left">详细地址</span>
 							<Input

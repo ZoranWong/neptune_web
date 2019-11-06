@@ -12,7 +12,7 @@ class Export extends Component {
 		
 		super(props);
 		this.state = {
-			value: 'USER_ORDER_CUSTOMIZE',
+			value: props['strategy'][0].key,
 			selectedItems: [],
 			orderItems: []
 		}
@@ -51,7 +51,7 @@ class Export extends Component {
 			message.error('请先选择自定义显示项');
 			return
 		}
-		this.props.export(this.state.value, this.state.selectedItems)
+		this.props.export(this.state.value, this.state.selectedItems, this.props.conditions)
 	};
 	
 	onCheckboxChange = (e) => {

@@ -172,7 +172,7 @@ export default class ShelfGoods extends React.Component {
 						rightColumns={rightTableColumns}
 						titles={[(this.handleTabs()),'已选商品']}
 						filterOption={(inputValue, item) =>
-							item.title.indexOf(inputValue) !== -1
+							item.name.indexOf(inputValue) !== -1
 						}
 					/>
 				</Modal>

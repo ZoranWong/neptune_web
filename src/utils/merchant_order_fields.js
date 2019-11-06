@@ -52,13 +52,8 @@ export const merchant_order_values = [
 		label:'订单属性',
 		children:[
 			{
-				label:'支付状态',
-				value:'state',
-				type:'group'
-			},
-			{
 				label:'订单状态',
-				value:'order_type',
+				value:'state',
 				type:'merchantOrder'
 			},
 			{
@@ -134,12 +129,17 @@ export const operation = {
 	'merchantOrder': [
 		{
 			label:'等于',
-			value:'in',
+			value:'=',
 			type:'merchantOrder'
 		},
 		{
+			label: '在以下所有中',
+			value: 'all',
+			type: 'consumerOrderEqual'
+		},
+		{
 			label:'等于其中之一',
-			value:'all',
+			value:'in',
 			type:'merchantOrder'
 		},
 		{

@@ -61,13 +61,8 @@ export const consumer_order_values = [
 		label:'订单属性',
 		children:[
 			{
-				label:'支付状态',
-				value:'state',
-				type:'group'
-			},
-			{
 				label:'订单状态',
-				value:'order_type',
+				value:'state',
 				type:'consumerOrder'
 			},
 			{
@@ -149,12 +144,17 @@ export const operation = {
 	'consumerOrder': [
 		{
 			label:'等于',
-			value:'in',
-			type:'consumerOrder'
+			value:'=',
+			type:'consumerOrderEqual'
+		},
+		{
+			label: '在以下所有中',
+			value: 'all',
+			type: 'consumerOrder'
 		},
 		{
 			label:'等于其中之一',
-			value:'all',
+			value:'in',
 			type:'consumerOrder'
 		},
 		{

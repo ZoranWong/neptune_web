@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom'
 import {Button, Table, Modal, message} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/order.sass'
-import {searchJson} from "../../../utils/dataStorage";
+import {getToken, searchJson} from "../../../utils/dataStorage";
 import AdvancedFilterComponent from "../Components/AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
@@ -252,8 +252,13 @@ class Order extends React.Component{
 	};
 	
 	// 确定导出
-	export = (type, items) =>{
-		window.location.href = `http://neptune.klsfood.cn/api/backend/export?searchJson[strategy]=${type}&searchJson[customize_columns]=${items}&searchJson[logic_conditions]=${this.state.conditions}`;
+	export = (type, items,conditions) =>{
+		let json = searchJson({
+			strategy: type,
+			customize_columns: items,
+			logic_conditions: conditions
+		});
+		window.location.href = `http://neptune.klsfood.cn/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
 		// dataExport({searchJson: searchJson(params)}).then(r=>{
 		// 	console.log(r);
 		// }).catch(_=>{})
@@ -294,7 +299,8 @@ class Order extends React.Component{
 			visible : this.state.exportVisible,
 			onCancel : this.hideExport,
 			export: this.export,
-			strategy
+			strategy,
+			conditions: this.state.conditions
 		};
 		
 		

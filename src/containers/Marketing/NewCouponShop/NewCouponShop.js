@@ -4,11 +4,12 @@ import {Button, Input, LocaleProvider, Radio, DatePicker, Checkbox, message} fro
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import 'moment/locale/zh-cn';
 import CustomUpload from "../../../components/Upload/Upload";
-import SelectUser from "../NewCoupon/Components/SelectUser";
-import SelectUserGroup from "../NewCoupon/Components/SelectUserGroup";
+import SelectShop from "../NewCoupon/Components/SelectShop";
+import SelectShopGroup from "../NewCoupon/Components/SelectShopGroup";
 import SelectGoods from '../NewCoupon/Components/SelectGoods';
 import SelectGoodsCate from '../NewCoupon/Components/SelectGoodsCate'
 import SelectGoodsGroup from "../NewCoupon/Components/SelectGoodsGroup";
+import SelectChannel from "../NewCoupon/Components/SelectChannel";
 import {newCoupons} from "../../../api/marketing/coupon";
 
 const {RangePicker} = DatePicker;
@@ -26,7 +27,6 @@ class NewCouponShop extends Component {
 				productType:'ALL',  // 适用商品
 				userType:"ALL",  // 用户范围
 				is_sharing_preferential:true,    // 优惠共享
-				is_code_scan_available:true,    // 支付可用
 				release_mode:'MANUAL_RECEIVE',  // 领取方式
 				name:'',   //优惠券名称
 				valid_at:'',
@@ -52,6 +52,7 @@ class NewCouponShop extends Component {
 		this.ableGoodGroup = React.createRef();
 		this.ableGoodCate = React.createRef();
 		this.banner = React.createRef();
+		this.ableChannel = React.createRef();
 	}
 	
 	componentDidMount() {
@@ -174,28 +175,28 @@ class NewCouponShop extends Component {
 			}
 		}
 		
-		// 验证用户
+		// 验证商户
 		let userType = this.state.radioValue.userType;
 		let put_conditions = {};
 		switch (userType) {
 			case 'ALL':
-				put_conditions.strategy = 'USER_PUT_IN_ALL_USER_SET';
+				put_conditions.strategy = 'SHOP_PUT_IN_ALL_SHOP_SET';
 				break;
 			case 'PARTIAL_AVAILABLE_ID':
-				put_conditions.strategy = 'USER_PUT_IN_USER_SET';
+				put_conditions.strategy = 'SHOP_PUT_IN_SHOP_SET';
 				put_conditions['value'] = this.ableUser.current.state.selectedItems;
 				break;
 			case 'PARTIAL_FORBIDDEN':
-				put_conditions.strategy = 'USER_PUT_NOT_IN_USER_SET';
+				put_conditions.strategy = 'SHOP_PUT_NOT_IN_SHOP_SET';
 				put_conditions['value'] = this.disableUser.current.state.selectedItems;
 				break;
 			case 'PARTIAL_AVAILABLE_GROUP':
-				put_conditions.strategy = 'USER_PUT_IN_USER_GROUP_SET';
+				put_conditions.strategy = 'SHOP_PUT_IN_SHOP_GROUP_SET';
 				put_conditions['value'] = this.ableUserGroup.current.state.selectedItems;
 				break;
 			case 'PARTIAL_FORBIDDEN_GROUP':
-				put_conditions.strategy = 'USER_PUT_NOT_IN_USER_GROUP_SET';
-				put_conditions['value'] = this.disableUserGroup.current.state.selectedItems;
+				put_conditions.strategy = 'SHOP_PUT_IN_SHOP_CHANNEL_SET';
+				put_conditions['value'] = this.ableChannel.current.state.selectedItems;
 				break;
 			default:
 				break;
@@ -230,6 +231,7 @@ class NewCouponShop extends Component {
 	submit = values => {
 		newCoupons({...values}).then(r=>{
 			message.success(r.message)
+			this.props.history.push({pathname:"/marketing", state: {key: 'MERCHANT'}})
 		}).catch(_=>{})
 	};
 	
@@ -275,6 +277,54 @@ class NewCouponShop extends Component {
 		return msg
 	};
 	
+	// 适用商品
+	renderGoods = () =>{
+		let msg = '';
+		let values = this.state.radioValue;
+		switch (values.productType) {
+			case "ALL":
+				msg = '全部商品';
+				break;
+			case "PARTIAL_AVAILABLE_ID":
+				msg = '指定商品可用';
+				break;
+			case "PARTIAL_FORBIDDEN":
+				msg = '指定商品不可用';
+				break;
+			case "PARTIAL_AVAILABLE_CATE":
+				msg = '选择商品分类';
+				break;
+			case "PARTIAL_AVAILABLE_GROUP":
+				msg = '选择商品组';
+				break
+		}
+		return msg
+	};
+	
+	// 发放范围
+	renderReleaseRange = () =>{
+		let msg = '';
+		let values = this.state.radioValue;
+		switch (values.userType) {
+			case "ALL":
+				msg = '所有商户';
+				break;
+			case "PARTIAL_AVAILABLE_ID":
+				msg = '指定商户可用';
+				break;
+			case "PARTIAL_FORBIDDEN_ID":
+				msg = '指定商户不可用';
+				break;
+			case "PARTIAL_AVAILABLE_GROUP":
+				msg = '指定群组可用';
+				break;
+			case "PARTIAL_FORBIDDEN_GROUP":
+				msg = '指定渠道可用';
+				break
+		}
+		return msg
+	};
+	
 	render() {
 		let {radioValue} = this.state;
 		const options = [
@@ -306,7 +356,7 @@ class NewCouponShop extends Component {
 							<span className="c_left">优惠形式:</span>
 							<Radio.Group onChange={(e)=>this.onRadioChange('type',e)} value={radioValue.type}>
 								<Radio value="CASH">
-									现金券、抵用券、抵扣券
+									现金券
 									<Input type="number" value={radioValue.cash} onChange={(e)=>{
 										if(e.target.value <= 0) return;
 										this.setState({radioValue:{...this.state.radioValue,cash:e.target.value}})
@@ -409,24 +459,24 @@ class NewCouponShop extends Component {
 								<span className="c_left">发放范围:</span>
 								<Radio.Group onChange={(e)=>this.onRadioChange('userType',e)} value={radioValue.userType}>
 									<Radio value="ALL">
-										所有用户
+										所有商户
 									</Radio>
 									<Radio value="PARTIAL_AVAILABLE_ID">
-										指定用户可用
+										指定商户可用
 									</Radio>
-									<SelectUser ref={this.ableUser} />
+									<SelectShop ref={this.ableUser} />
 									<Radio value="PARTIAL_FORBIDDEN_ID">
-										指定用户不可用
+										指定商户不可用
 									</Radio>
-									<SelectUser ref={this.disableUser} />
+									<SelectShop ref={this.disableUser} />
 									<Radio value="PARTIAL_AVAILABLE_GROUP">
 										指定群组可用
 									</Radio>
-									<SelectUserGroup ref={this.ableUserGroup} />
+									<SelectShopGroup ref={this.ableUserGroup} />
 									<Radio value="PARTIAL_FORBIDDEN_GROUP">
-										指定群组不可用
+										指定渠道可用
 									</Radio>
-									<SelectUserGroup ref={this.disableUserGroup} />
+									<SelectChannel ref={this.ableChannel} />
 								</Radio.Group>
 							</li>
 						}
@@ -471,8 +521,8 @@ class NewCouponShop extends Component {
 							</div>
 						</div>
 						<p>{this.releaseType()}</p>
-						<span>适用商品：全部商品</span>
-						<span>发放范围：暂不发放</span>
+						<span>适用商品：{this.renderGoods()}</span>
+						<span>发放范围：{this.renderReleaseRange()}</span>
 						<span>使用说明：{this.state.radioValue.description || '暂无'}</span>
 					</div>
 				</div>

@@ -9,7 +9,7 @@ import {searchJson} from "../../../utils/dataStorage";
 import {templateTrigger} from "./utils/transformer";
 import SetCustomWeChatMessage from "./Modal/SetCustomWeChatMessage";
 
-class SetUserMessage extends Component {
+class SetMarketingMessage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -53,42 +53,30 @@ class SetUserMessage extends Component {
 			r.data.forEach(item=>{
 				switch (item['template_type']) {
 					case "SMS":
+						console.log('sms');
 						switch (item.trigger) {
-							case "USER_ORDER_PAY_SUCCESS":
-								this.setState({order_success_m: item.template});
+							case "USER_COUPON_RECEIVED":
+								this.setState({coupon_got_m: item.template});
 							break;
-							case "USER_ORDER_WAIT_PICK_UP":
-								this.setState({order_got_m: item.template});
+							case "USER_COUPON_SOON_TO_EXPIRE":
+								this.setState({coupon_fade_m: item.template});
 								break;
-							case "USER_ORDER_EXCEPTION":
-								this.setState({order_wrong_m: item.template});
+							case "MERCHANT_COUPON_RECEIVED":
+								this.setState({merchant_got_m: item.template});
 								break;
-							case "USER_ORDER_PLATFORM_CANCEL":
-								this.setState({order_cancel_m: item.template});
-								break;
-							case "USER_ORDER_EXCEPTION_REFUND":
-								this.setState({order_refund_m: item.template});
+							case "MERCHANT_COUPON_SOON_TO_EXPIRE":
+								this.setState({merchant_fade_m: item.template});
 								break;
 						}
 					break;
 					default:
+						console.log('other');
 						switch (item.trigger) {
-							case "USER_ORDER_PAY_SUCCESS":
-								this.setState({order_success_w: item.template},()=>{
-									console.log(this.state.order_success_w, '{}{}}{}');
-								});
+							case "USER_COUPON_RECEIVED":
+								this.setState({coupon_got_w: item.template});
 								break;
-							case "USER_ORDER_WAIT_PICK_UP":
-								this.setState({order_got_w: item.template});
-								break;
-							case "USER_ORDER_EXCEPTION":
-								this.setState({order_wrong_w: item.template});
-								break;
-							case "USER_ORDER_PLATFORM_CANCEL":
-								this.setState({order_cancel_w: item.template});
-								break;
-							case "USER_ORDER_EXCEPTION_REFUND":
-								this.setState({order_refund_w: item.template});
+							case "USER_COUPON_SOON_TO_EXPIRE":
+								this.setState({coupon_fade_w: item.template});
 								break;
 						}
 				}
@@ -552,4 +540,4 @@ class SetUserMessage extends Component {
 	}
 }
 
-export default SetUserMessage;
+export default SetMarketingMessage;

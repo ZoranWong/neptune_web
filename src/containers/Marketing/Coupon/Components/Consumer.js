@@ -378,7 +378,7 @@ class Consumer extends Component {
 	
 	// 设置默认模板消息
 	setMessage = () => {
-		this.props.history.push({pathname:"/order/setUserMessage",state:{mode:'couponConsumer'}})
+		this.props.history.push({pathname:"/marketing/setMarketingMessage",state:{mode:'couponConsumer'}})
 	};
 	
 	// 优惠券详情

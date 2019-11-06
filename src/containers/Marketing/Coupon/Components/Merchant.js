@@ -268,7 +268,7 @@ class Merchant extends Component {
 	
 	// 设置默认模板消息
 	setMessage = () => {
-		this.props.history.push({pathname:"/order/setUserMessage",state:{mode:'couponMerchant'}})
+		this.props.history.push({pathname:"/marketing/setMarketingMessage",state:{mode:'couponMerchant'}})
 	};
 	
 	// 优惠券详情

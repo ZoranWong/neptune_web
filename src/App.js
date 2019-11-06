@@ -19,6 +19,8 @@ import LoginContainer from "./containers/Login";
 import './style/iconFont.css'
 import TopBar from './components/Layout/TopBar'
 import ResetPassword from "./containers/Login/ResetPassword";
+import {firstRoutes, secondRoutes} from "./utils/RouteFields";
+
 const { Header, Sider, Content } = Layout;
 class App extends React.Component{
 	
@@ -50,8 +52,6 @@ class App extends React.Component{
 
 	// check container
 	routeClassName = () =>{
-		const secondRoutes = ['integralRules','tagManage','userDetails','shopDetails','goodDetails','releaseGoods','inStock','outStock','inStockNew','outStockNew','inStockDetail','outStockDetail','orderDetail','newCoupon','newCouponShop','userStore','storeRecord','message','sendOutRecord','balanceDetails','overview','incomeDetails','withdrawDetails','withdrawApplication','customWeChatMessage','editWeChatMessage','cashbackSetting','setUserMessage','setting'];
-		const firstRoutes = ['finance', 'home'];
 		let routePath = this.props.location.pathname.split('/');
 		if((!routePath[2]) && firstRoutes.indexOf(routePath[1]) > -1){
 			return true
