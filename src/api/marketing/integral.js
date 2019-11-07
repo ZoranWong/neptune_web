@@ -34,3 +34,21 @@ export function availableIntegralProducts(params) {
 		params: params
 	})
 }
+
+// 下架积分商品
+export function offShelvesIntegralProduct(params,integralProductid) {
+	return request({
+		url: `/api/backend/marketing/integral_mall/${integralProductid}/get_off_shelves`,
+		method: 'put',
+		data: params
+	})
+}
+
+// 删除积分商品
+export function deleteIntegralProduct(params,integralProductId) {
+	return request({
+		url: `/api/backend/marketing/integral_mall/${integralProductId}`,
+		method: 'delete',
+		params: params
+	})
+}

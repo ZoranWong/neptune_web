@@ -1,10 +1,10 @@
 import React, {Component,Fragment} from 'react';
-import {Button, DatePicker, Input, LocaleProvider, Table} from "antd";
+import {Button, DatePicker, Input, LocaleProvider, message, Modal, Table} from "antd";
 import '../css/index.sass'
 import IconFont from "../../../../utils/IconFont";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import CreateNew from '../Modal/CreateNew'
-import {integralProducts} from "../../../../api/marketing/integral";
+import {integralProducts,deleteIntegralProduct,offShelvesIntegralProduct} from "../../../../api/marketing/integral";
 import {searchJson} from "../../../../utils/dataStorage";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 const {RangePicker} = DatePicker;
@@ -36,7 +36,11 @@ class RedemptionManage extends Component {
 				title: '操作',
 				dataIndex: 'status',
 				render: (text, record) => (
-					<div className="1">1111</div>
+					<div className="1">
+						{
+							this.renderStatus(record)
+						}
+					</div>
 				)
 			},
 		];
@@ -44,11 +48,13 @@ class RedemptionManage extends Component {
 		this.state = {
 			data:[],
 			api:integralProducts,
-			activeTab:'全部',
+			activeTab: '1',
 			columns:columns,
 			visible:false,
 			paginationParams:{
-				searchJson: searchJson({type:'COUPON'})
+				searchJson: searchJson({
+					type:'COUPON'
+				})
 			},
 			searchJson: {
 				exchange_date:'',
@@ -57,10 +63,76 @@ class RedemptionManage extends Component {
 		};
 	}
 	
-	
 	// 切换tab
 	onChangeTab = activeTab =>{
-		this.setState({activeTab})
+		this.setState({activeTab},()=>{
+			this.refresh(activeTab)
+		})
+	};
+	
+	// 根据状态值来获取对应的按钮
+	renderStatus = (record) =>{
+		let state;
+		if(record['state_desc'] === '已上架'){
+			state = <span
+				style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
+				onClick={()=>this.operation(record.id,'off_shelves')}
+			>
+				下架
+			</span>
+		} else {
+			state = <span
+				style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
+				onClick={()=>this.operation(record.id,'delete')}
+			>
+				删除
+			</span>
+		}
+		return state;
+	};
+	
+	operation = (id, type) =>{
+		let keyword = type === 'delete' ? '删除' : '下架';
+		let {activeTab} = this.state;
+		let refresh = this.refresh;
+		let api = type === 'delete' ? deleteIntegralProduct : offShelvesIntegralProduct;
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			maskClosable:true,
+			content: (
+				<div className="U_confirm">
+					确定{keyword}该积分商品么？
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				api({},id).then(r=>{
+					message.success(`${keyword}成功！`);
+					refresh(activeTab)
+				});
+			},
+			onCancel() {
+			
+			},
+		});
 	};
 	
 	// 分页器改变值
@@ -68,8 +140,14 @@ class RedemptionManage extends Component {
 		this.setState({data:list})
 	};
 	
-	refresh = ()=>{
-		this.child.current.pagination(1)
+	refresh = (key)=>{
+		this.setState({paginationParams:{...this.state.paginationParams, searchJson: searchJson({
+					type:'COUPON',
+					state: key
+				})}},()=>{
+			this.child.current.pagination(1)
+		});
+		
 	};
 	
 	showCreate = () =>{
@@ -94,7 +172,7 @@ class RedemptionManage extends Component {
 			}
 		}
 		obj.type = 'COUPON';
-		
+		obj.state = this.state.activeTab;
 		this.setState({
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson(obj)}
@@ -121,7 +199,11 @@ class RedemptionManage extends Component {
 	
 	
 	render() {
-		const tabs =['全部','已上架','已下架','过期下架'];
+		const tabs =[
+			{name:'已上架', key: 1},
+			{name:'已下架', key: 2},
+			{name:'过期下架', key: 3}
+		];
 		let props = {
 			visible:this.state.visible,
 			onCancel:this.hideCreate
@@ -155,10 +237,10 @@ class RedemptionManage extends Component {
 					{
 						tabs.map((item,index)=>{
 							return <li
-								key={index}
-								className={this.state.activeTab == item?'active':''}
-								onClick={()=>this.onChangeTab(item)}
-							>{item}</li>
+								key={item.key}
+								className={this.state.activeTab == item.key?'active':''}
+								onClick={()=>this.onChangeTab(item.key)}
+							>{item.name}</li>
 						})
 					}
 					<Button size="small" onClick={this.showCreate}>
@@ -185,6 +267,7 @@ class RedemptionManage extends Component {
 						ref={this.child}
 						params={this.state.paginationParams}
 						valChange={this.paginationChange}
+						text={'条数据'}
 					/>
 				</div>
 			</Fragment>

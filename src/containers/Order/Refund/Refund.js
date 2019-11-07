@@ -34,7 +34,7 @@ class Refund extends React.Component{
 				logic_conditions:[],
 				search:'',
 			},
-			activeTab:'',
+			activeTab:'-1',
 			reviewGoodsVisible:false,
 			record:{},
 			items:[],
@@ -190,7 +190,7 @@ class Refund extends React.Component{
 			}
 		};
 		const tabs = [
-			{name:'全部',key:''},
+			{name:'全部',key:'-1'},
 			{name:'待处理',key:'0'},
 			{name:'处理中',key:'1'},
 			{name:'已退款',key:'2'},

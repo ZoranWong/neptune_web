@@ -161,7 +161,7 @@ class Consumer extends Component {
 				default:
 					state = ''
 			}
-		} else {
+		} else if (record.release_mode === '主动领取') {
 			switch (record.state) {
 				case 0 :
 					state = <span

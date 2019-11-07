@@ -25,13 +25,13 @@ class UploadApp extends Component {
 	};
 	
 	handleChange = info => {
+		if (info.file.status === 'uploading') {
+			this.setState({ loading: true });
+			return;
+		}
 		console.log(info, '+++++++++++++++++++++++++++++++++++++++++++++++++');
 		if (info.file.status === 'error') {
 			message.error(info.file.response.message);
-			return;
-		}
-		if (info.file.status === 'uploading') {
-			this.setState({ loading: true });
 			return;
 		}
 		if (info.file.status === 'done') {
