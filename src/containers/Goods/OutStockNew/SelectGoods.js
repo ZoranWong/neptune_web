@@ -37,7 +37,8 @@ export default class SelectGoods extends React.Component{
 			page:page
 		}).then(r=>{
 			if(!r.data.length) return;
-			this.setState({data:r.data})
+			let {data} = this.state;
+			this.setState({data:data.concat(r.data)})
 		}).catch(_=>{})
 	};
 	
@@ -113,7 +114,7 @@ export default class SelectGoods extends React.Component{
 		let p = {
 			channel:this.props.channel,
 			limit:100,
-			is_in_stock: true,
+			is_in_stock: false,
 			page:1,
 			searchJson: searchJson({
 				'product.name':  this.state.goodName,
@@ -183,12 +184,16 @@ export default class SelectGoods extends React.Component{
 					record={this.state.record}
 				/>
 				<Modal
-					title="选择入库商品"
+					title="选择出库商品"
 					width={1000}
 					visible={this.props.visible}
 					onCancel={this.handleCancel}
 					maskClosable={false}
 					footer={false}
+					className='stockModal'
+					bodyStyle={
+						{'height': '795px !important'}
+					}
 				>
 					<div className="selectGoodsHeader">
 						<span>商品分类：</span>

@@ -51,10 +51,19 @@ export default class CustomItem extends React.Component{
 			ary.unshift(this.props.firstItem)
 		}
 		console.log(ary);
-		if(ary.length > 8){
-			message.error('最多选择七列');
-			return;
+		if (ary.indexOf('promotion_qr_code') < 0) {
+			if(ary.length > 8){
+				message.error('最多选择七列');
+				return;
+			}
+		} else {
+			if(ary.length > 10){
+				message.error('最多选择七列');
+				return;
+			}
 		}
+		
+		
 		sortAry(ary,this.props.firstItem);
 		this.setState({ targetKeys:ary });
 		this.props.handleCustom(ary)

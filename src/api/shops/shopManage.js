@@ -106,3 +106,22 @@ export function introducedShops(params,id) {
 		params: params
 	})
 }
+
+// 推广码
+export function promotionCode(params,shopId) {
+	return request({
+		url: `/api/backend/shops/${shopId}/promotion_qr_code`,
+		method: 'get',
+		params: params
+	})
+}
+
+
+// 门店码
+export function paymentCode(params,shopId) {
+	return request({
+		url: `/api/backend/shops/${shopId}/payment_qr_code`,
+		method: 'get',
+		params: params
+	})
+}

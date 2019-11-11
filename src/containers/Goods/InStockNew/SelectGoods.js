@@ -38,7 +38,8 @@ export default class SelectGoods extends React.Component{
 			page:page
 		}).then(r=>{
 			if(!r.data.length) return;
-			this.setState({data:r.data})
+			let {data} = this.state;
+			this.setState({data: data.concat(r.data)})
 		}).catch(_=>{})
 	};
 	
@@ -189,6 +190,7 @@ export default class SelectGoods extends React.Component{
 					onCancel={this.handleCancel}
 					maskClosable={false}
 					footer={false}
+					className='stockModal'
 				>
 					<div className="selectGoodsHeader">
 						<span>商品分类：</span>

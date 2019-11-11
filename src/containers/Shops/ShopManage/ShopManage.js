@@ -16,6 +16,7 @@ import ChangeStatus from './ChangeStatus'
 import BreakfastCar from "./ShopAdd/BreakfastCar";
 import Distributor from "./ShopAdd/Distributor";
 import ShopKeeper from "./ShopAdd/ShopKeeper";
+import ShopCode from "./ShopCode";
 import {shopListInGroup} from "../../../api/shops/groups";
 
 class ShopManage extends React.Component{
@@ -57,14 +58,15 @@ class ShopManage extends React.Component{
 							onClick={()=>this.editShop(record)}
 							>编辑
 						</span>
-						{/*<span*/}
-						{/*	style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}*/}
-						{/*>门店码*/}
-						{/*</span>*/}
+						<span
+							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
+							onClick={()=>this.showCode(record)}
+						>门店码
+						</span>
 					</div>
 			},
 		];
-		const defaultItem = ['name','keeper_name',"code",'total_code_scan_amount','channel','status','id'];
+		const defaultItem = ['name','keeper_name',"code",'total_code_scan_amount','channel','status','id','promotion_qr_code', 'payment_qr_code'];
 		super(props);
 		this.child = React.createRef();
 		this.state = {
@@ -73,6 +75,7 @@ class ShopManage extends React.Component{
 			filterVisible:false,
 			customVisible:false,
 			applicationVisible:false,
+			codeVisible: false,
 			groupVisible:false,
 			statusVisible:false,
 			distributor:false,
@@ -90,7 +93,8 @@ class ShopManage extends React.Component{
 			columns:columns,
 			defaultItem:defaultItem,
 			selectedRows:[],
-			channel_desc:''
+			channel_desc:'',
+			shopCodeId: ''
 		};
 	}
 	
@@ -281,10 +285,13 @@ class ShopManage extends React.Component{
 				})
 			})
 		});
-		let index = e.indexOf('id');
-		if (index < 0) {
-			e.push('id');
-		}
+		let indexId = e.indexOf('id');
+		let indexCodeOne = e.indexOf('promotion_qr_code');
+		let indexCodeTwo = e.indexOf('payment_qr_code');
+		if (indexId < 0) e.push('id');
+		if (indexCodeOne < 0) e.push('promotion_qr_code');
+		if (indexCodeTwo < 0) e.push('payment_qr_code');
+		
 		ary[0].render = (text,record) => <span
 			style={{'color':'#4F9863','cursor':'pointer'}}
 			onClick={()=>this.jump(record)}>{text}</span>;
@@ -298,10 +305,11 @@ class ShopManage extends React.Component{
 							onClick={()=>this.editShop(record)}
 						>编辑
 						</span>
-					{/*<span*/}
-					{/*	style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}*/}
-					{/*>门店码*/}
-					{/*	</span>*/}
+					<span
+						style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
+						onClick={()=>this.showCode(record)}
+					>门店码
+					</span>
 				</div>
 		});
 		this.setState({
@@ -317,6 +325,13 @@ class ShopManage extends React.Component{
 		this.setState({user_data:list})
 	};
 	
+	showCode = (record) => {
+		this.setState({codeVisible: true, shopCodeId: record})
+	};
+	hideCode = () =>{
+		this.setState({codeVisible: false})
+	};
+	
 	
 	
 	render(){
@@ -330,6 +345,12 @@ class ShopManage extends React.Component{
 			})
 		};
 		
+		const codeProps = {
+			visible: this.state.codeVisible,
+			onCancel: this.hideCode,
+			item: this.state.shopCodeId
+		};
+		
 		return (
 			<div>
 				<AdvancedFilterComponent
@@ -340,6 +361,8 @@ class ShopManage extends React.Component{
 					showAddGroup={this.showAddGroup}
 					closeAddGroup={this.closeAddGroup}
 				/>
+				
+				<ShopCode {...codeProps} />
 				
 				<AddGroup
 					visible={this.state.groupVisible}

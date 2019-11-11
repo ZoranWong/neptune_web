@@ -206,7 +206,8 @@ class RedemptionManage extends Component {
 		];
 		let props = {
 			visible:this.state.visible,
-			onCancel:this.hideCreate
+			onCancel:this.hideCreate,
+			refresh: this.refresh
 		};
 		return (
 			<Fragment>

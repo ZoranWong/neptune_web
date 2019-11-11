@@ -165,7 +165,9 @@ export default class InStockNew extends React.Component{
 				
 				<div className="header">
 					新建入库
-					<Button size="small">返回上一页</Button>
+					<Button size="small" onClick={()=>{
+						this.props.history.go(-1)
+					}}>返回上一页</Button>
 				</div>
 				<div className="body">
 					<div className="filter">

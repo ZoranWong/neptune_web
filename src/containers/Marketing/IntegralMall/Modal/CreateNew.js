@@ -12,6 +12,7 @@ class CreateNew extends Component {
 		selectedItems:[],
 		coupons: [],
 		scrollPage:1,
+		totalCount: '',
 		remainCount: '',
 		amount: '',
 		score: '',
@@ -41,10 +42,10 @@ class CreateNew extends Component {
 	};
 	
 	handleChange = selectedItems => {
-		let remainCount = 0;
+		let totalCount = 0;
 		let remain = this.state.coupons.filter(item=>item['id'] == selectedItems)[0];
-		remainCount = remain['remain_count'];
-		this.setState({ selectedItems,remainCount: remainCount,remain });
+		totalCount = remain['issue_count'];
+		this.setState({ selectedItems,totalCount: totalCount, remainCount: totalCount,remain });
 	};
 	
 	// 下拉框分页加载
@@ -115,7 +116,9 @@ class CreateNew extends Component {
 	
 	submit = params => {
 		createIntegralProduct(params).then(r=>{
-			console.log(r);
+			message.success(r.message);
+			this.handleCancel();
+			this.props.refresh('1')
 		}).catch(_=>{})
 	};
 	
@@ -166,11 +169,12 @@ class CreateNew extends Component {
 										this.setState({amount: e.target.value})
 									}}
 									onBlur={(e)=>{
-										if (e.target.value > this.state.remainCount) {
+										console.log(e.target.value);
+										if (e.target.value > this.state.totalCount) {
 											message.error('发放总量不可大于优惠券总量');
 											return
 										};
-										this.setState({remainCount:this.state.remainCount -  e.target.value  })
+										this.setState({remainCount:this.state.totalCount -  e.target.value  })
 									}}
 								/>
 							</div>

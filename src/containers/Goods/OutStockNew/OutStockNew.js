@@ -111,6 +111,9 @@ export default class OutStockNew extends React.Component{
 			{
 				title: '单位',
 				dataIndex: 'stocks.data[0].unit',
+				render: (text,record) => (
+					<span>{text || record.unit }</span>
+				)
 			},
 			{
 				title: '出库数量',
@@ -135,7 +138,10 @@ export default class OutStockNew extends React.Component{
 			},
 			{
 				title: '剩余库存',
-				dataIndex: 'stock',
+				dataIndex: 'stocks[data][0][in_stock]',
+				render: (text,record) =>(
+					<span>{(text || record.in_stock) || 0}</span>
+				)
 			},
 			{
 				title: '操作',
@@ -152,7 +158,7 @@ export default class OutStockNew extends React.Component{
 			},
 		];
 		return (
-			<div className="inStockNew">
+			<div className="inStockNewNew">
 				
 				<SelectGoods
 					visible={this.state.visible}
@@ -165,12 +171,14 @@ export default class OutStockNew extends React.Component{
 				
 				<div className="header">
 					新建出库
-					<Button size="small">返回上一页</Button>
+					<Button size="small" onClick={()=>{
+						this.props.history.go(-1)
+					}}>返回上一页</Button>
 				</div>
 				<div className="body">
 					<div className="filter">
 						<ul className="left">
-							<li className="needMargin">
+							<li>
 								出库类型：
 								<Select
 									onChange={(e)=>{
@@ -184,15 +192,6 @@ export default class OutStockNew extends React.Component{
 									<Select.Option  value="SALE">销售出库</Select.Option>
 									<Select.Option  value="CHECK">盘点出库</Select.Option>
 								</Select>
-							</li>
-							<li className="needMargin">
-								出库时间：
-								<LocaleProvider locale={zh_CN}>
-									<DatePicker
-										onChange={this.onDateChange}
-									/>
-								</LocaleProvider>
-							
 							</li>
 							<li>
 								备注：
