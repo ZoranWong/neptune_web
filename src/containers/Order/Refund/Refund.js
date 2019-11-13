@@ -13,7 +13,6 @@ import ReviewGoods from "../Components/ReviewGoods";
 import RefundMoney from "./Modal/RefundMoney";
 import RefuseRefund from "./Modal/RefuseRefund";
 import {refundList} from "../../../api/order/orderManage";
-import {merchant_order_values} from "../../../utils/merchant_order_fields";
 import Export from "../Components/Export";
 class Refund extends React.Component{
 	constructor(props){
@@ -106,7 +105,7 @@ class Refund extends React.Component{
 	handleCustom = (e) =>{
 		let ary = [];
 		e.forEach(e=>{
-			merchant_order_values.forEach(u=>{
+			refund_order_values.forEach(u=>{
 				u.children.forEach(c=>{
 					if(e == c.value){
 						let obj = {};
@@ -272,6 +271,7 @@ class Refund extends React.Component{
 			onCancel : this.hideExport,
 			export: this.export,
 			strategy,
+			values: refund_order_values,
 			conditions: this.state.conditions
 		};
 		return (

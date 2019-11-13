@@ -2,7 +2,7 @@ import React from 'react';
 import {Table, Button, Popconfirm} from 'antd';
 import './css/shopGroup.sass'
 import {withRouter} from "react-router-dom";
-import {getChannels} from "../../../api/shops/channel";
+import {getChannels,deleteChannel} from "../../../api/shops/channel";
 import CreateNewChannel from './CreateNewChannel'
 import CustomPagination from '../../../components/Layout/Pagination'
 const { Column } = Table;
@@ -35,7 +35,35 @@ class ShopGroup extends React.Component{
 		this.setState({createVisible:false})
 	};
 	
+	deleteChannel = (record) => {
+		console.log(record, '++++=');
+		// deleteChannel({channel_id: record.id}).then(r => {
+		// 	console.log(r);
+		// }).catch(_ => {})
+	}
+	
 	render(){
+		const columns = [
+			{
+				title: '渠道',
+				dataIndex: 'name',
+			},
+			{
+				title: '店铺数量',
+				dataIndex: 'model_count',
+			},
+			{
+				title: '操作',
+				render: (text,record) =>
+					<div>
+						<span
+							style={{'color':'#4F9863','cursor':'pointer'}}
+							onClick={()=>this.deleteChannel(record)}
+						>删除
+						</span>
+					</div>
+			},
+		];
 		return (
 			<div>
 				<CreateNewChannel
@@ -51,23 +79,14 @@ class ShopGroup extends React.Component{
 						dataSource={this.state.data}
 						rowKey={record => record.id}
 						pagination={false}
+						columns={columns}
 						rowClassName={(record, index) => {
 							let className = '';
 							if (index % 2 ) className = 'dark-row';
 							return className;
 						}}
 					>
-						<Column
-							className="column_group"
-							title="渠道"
-							dataIndex="name"
-							key="name"
-						/>
-						<Column
-							className="column_group primary"
-							title="店铺数量"
-							dataIndex="model_count"
-							key="model_count" />
+					
 					</Table>
 				</div>
 				<div className="pagination">

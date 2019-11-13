@@ -8,7 +8,7 @@ import SetWeChatMessage from "./Modal/SetWeChatMessage";
 import {searchJson} from "../../../utils/dataStorage";
 import {templateTrigger} from "./utils/transformer";
 import SetCustomWeChatMessage from "./Modal/SetCustomWeChatMessage";
-
+import DeleteMessage from "../Components/DeleteMessage";
 class SetUserMessage extends Component {
 	constructor(props) {
 		super(props);
@@ -43,10 +43,15 @@ class SetUserMessage extends Component {
 	componentDidMount() {
 		let mode = this.props.location.state.mode;
 		let type = mode === 'user'? 'ORDER': 'COUPON';
+		let obj_type = mode === 'user' ? 'USER': 'MERCHANT';
 		weChatList({}).then(r=>{
 			this.setState({weChatList: r.data})
 		}).catch(_=>{});
-		SMSList({}).then(r=>{
+		SMSList({
+			searchJson: searchJson({
+				obj_type: obj_type
+			})
+		}).then(r=>{
 			this.setState({messageList: r.data})
 		}).catch(_=>{});
 		templates({searchJson: searchJson({type})}).then(r=>{
@@ -56,7 +61,7 @@ class SetUserMessage extends Component {
 						switch (item.trigger) {
 							case "USER_ORDER_PAY_SUCCESS":
 								this.setState({order_success_m: item.template});
-							break;
+								break;
 							case "USER_ORDER_WAIT_PICK_UP":
 								this.setState({order_got_m: item.template});
 								break;
@@ -70,7 +75,7 @@ class SetUserMessage extends Component {
 								this.setState({order_refund_m: item.template});
 								break;
 						}
-					break;
+						break;
 					default:
 						switch (item.trigger) {
 							case "USER_ORDER_PAY_SUCCESS":
@@ -93,10 +98,15 @@ class SetUserMessage extends Component {
 						}
 				}
 			});
-			console.log(this.state, '++++++++++|||||||||||||||||||||||');
 		})
-		
 	}
+	
+	init = () =>{
+		setTimeout(()=>{
+			window.location.reload()
+		},1500)
+		
+	};
 	
 	showWeChat = (type) =>{
 		this.setState({weChatVisible: true,type})
@@ -203,6 +213,7 @@ class SetUserMessage extends Component {
 										<div  className='m_wechat_li' onClick={()=>this.showWeChat('order_success_w')}>
 											<div className="ul_header">
 												<h3>{this.state.order_success_w.name}</h3>
+												<DeleteMessage refresh={this.init} type={templateTrigger['order_success_w']} id={this.state.order_success_w.id} />
 											</div>
 											<div className="ulBody">
 												<h4>{this.state.order_success_w.inner_title}</h4>
@@ -228,6 +239,7 @@ class SetUserMessage extends Component {
 								{
 									this.state.order_success_m['id'] && (
 										<div className='m_message_li' onClick={()=>this.showSmsMessage('order_success_m')} >
+											<DeleteMessage refresh={this.init} type={templateTrigger['order_success_m']} id={this.state.order_success_m.id} />
 											<p>	模板名称： {this.state.order_success_m.name}</p>
 											<p>	短信内容： {this.state.order_success_m.content}</p>
 											<p>	模板类型： {this.state.order_success_m.biz_type}</p>
@@ -245,6 +257,7 @@ class SetUserMessage extends Component {
 										<div  className='m_wechat_li' onClick={()=>this.showWeChat('order_got_w')}>
 											<div className="ul_header">
 												<h3>{this.state.order_got_w.name}</h3>
+												<DeleteMessage refresh={this.init} type={templateTrigger['order_got_w']} id={this.state.order_got_w.id} />
 											</div>
 											<div className="ulBody">
 												<h4>{this.state.order_got_w.inner_title}</h4>
@@ -270,6 +283,7 @@ class SetUserMessage extends Component {
 								{
 									this.state.order_got_m['id'] && (
 										<div className='m_message_li' onClick={()=>this.showSmsMessage('order_got_m')}>
+											<DeleteMessage refresh={this.init} type={templateTrigger['order_got_m']} id={this.state.order_got_m.id} />
 											<p>	模板名称： {this.state.order_got_m.name}</p>
 											<p>	短信内容： {this.state.order_got_m.content}</p>
 											<p>	模板类型： {this.state.order_got_m.biz_type}</p>
@@ -287,6 +301,7 @@ class SetUserMessage extends Component {
 										<div  className='m_wechat_li' onClick={()=>this.showWeChat('order_wrong_w')}>
 											<div className="ul_header">
 												<h3>{this.state.order_wrong_w.name}</h3>
+												<DeleteMessage refresh={this.init} type={templateTrigger['order_wrong_w']} id={this.state.order_wrong_w.id} />
 											</div>
 											<div className="ulBody">
 												<h4>{this.state.order_wrong_w.inner_title}</h4>
@@ -312,6 +327,7 @@ class SetUserMessage extends Component {
 								{
 									this.state.order_wrong_m['id'] && (
 										<div className='m_message_li' onClick={()=>this.showSmsMessage('order_wrong_m')} >
+											<DeleteMessage refresh={this.init} type={templateTrigger['order_wrong_m']} id={this.state.order_wrong_m.id} />
 											<p>	模板名称： {this.state.order_wrong_m.name}</p>
 											<p>	短信内容： {this.state.order_wrong_m.content}</p>
 											<p>	模板类型： {this.state.order_wrong_m.biz_type}</p>
@@ -329,6 +345,7 @@ class SetUserMessage extends Component {
 										<div  className='m_wechat_li'  onClick={()=>this.showWeChat('order_cancel_w')}>
 											<div className="ul_header">
 												<h3>{this.state.order_cancel_w.name}</h3>
+												<DeleteMessage refresh={this.init} type={templateTrigger['order_cancel_w']} id={this.state.order_cancel_w.id} />
 											</div>
 											<div className="ulBody">
 												<h4>{this.state.order_cancel_w.inner_title}</h4>
@@ -354,6 +371,7 @@ class SetUserMessage extends Component {
 								{
 									this.state.order_cancel_m['id'] && (
 										<div className='m_message_li' onClick={()=>this.showSmsMessage('order_cancel_m')} >
+											<DeleteMessage refresh={this.init} type={templateTrigger['order_cancel_m']} id={this.state.order_cancel_m.id} />
 											<p>	模板名称： {this.state.order_cancel_m.name}</p>
 											<p>	短信内容： {this.state.order_cancel_m.content}</p>
 											<p>	模板类型： {this.state.order_cancel_m.biz_type}</p>
@@ -371,6 +389,7 @@ class SetUserMessage extends Component {
 										<div  className='m_wechat_li' onClick={()=>this.showWeChat('order_refund_w')}>
 											<div className="ul_header">
 												<h3>{this.state.order_refund_w.name}</h3>
+												<DeleteMessage refresh={this.init} type={templateTrigger['order_refund_w']} id={this.state.order_refund_w.id} />
 											</div>
 											<div className="ulBody">
 												<h4>{this.state.order_refund_w.inner_title}</h4>
@@ -396,6 +415,7 @@ class SetUserMessage extends Component {
 								{
 									this.state.order_refund_m['id'] && (
 										<div className='m_message_li' onClick={()=>this.showSmsMessage('order_refund_m')} >
+											<DeleteMessage refresh={this.init} type={templateTrigger['order_refund_m']} id={this.state.order_refund_m.id} />
 											<p>	模板名称： {this.state.order_refund_m.name}</p>
 											<p>	短信内容： {this.state.order_refund_m.content}</p>
 											<p>	模板类型： {this.state.order_refund_m.biz_type}</p>
@@ -415,6 +435,7 @@ class SetUserMessage extends Component {
 								{
 									this.state.goods_wrong_m['id'] && (
 										<div className='m_message_li'  onClick={()=>this.showSmsMessage('goods_wrong_m')} >
+											<DeleteMessage refresh={this.init} type={templateTrigger['goods_wrong_m']} id={this.state.goods_wrong_m.id} />
 											<p>	模板名称： {this.state.goods_wrong_m.name}</p>
 											<p>	短信内容： {this.state.goods_wrong_m.content}</p>
 											<p>	模板类型： {this.state.goods_wrong_m.biz_type}</p>
@@ -436,6 +457,7 @@ class SetUserMessage extends Component {
 										<div  className='m_wechat_li' onClick={()=>this.showWeChat('coupon_fade_w')}>
 											<div className="ul_header">
 												<h3>{this.state.coupon_fade_w.name}</h3>
+												<DeleteMessage refresh={this.init} type={templateTrigger['coupon_fade_w']} id={this.state.coupon_fade_w.id} />
 											</div>
 											<div className="ulBody">
 												<h4>{this.state.coupon_fade_w.inner_title}</h4>
@@ -461,6 +483,7 @@ class SetUserMessage extends Component {
 								{
 									this.state.coupon_fade_m['id'] && (
 										<div className='m_message_li' onClick={()=>this.showSmsMessage('coupon_fade_m')} >
+											<DeleteMessage refresh={this.init} type={templateTrigger['coupon_fade_m']} id={this.state.coupon_fade_m.id} />
 											<p>	模板名称： {this.state.coupon_fade_m.name}</p>
 											<p>	短信内容： {this.state.coupon_fade_m.content}</p>
 											<p>	模板类型： {this.state.coupon_fade_m.biz_type}</p>
@@ -478,6 +501,7 @@ class SetUserMessage extends Component {
 										<div  className='m_wechat_li' onClick={()=>this.showWeChat('coupon_got_w')}>
 											<div className="ul_header">
 												<h3>{this.state.coupon_got_w.name}</h3>
+												<DeleteMessage refresh={this.init} type={templateTrigger['coupon_got_w']} id={this.state.coupon_got_w.id} />
 											</div>
 											<div className="ulBody">
 												<h4>{this.state.coupon_got_w.inner_title}</h4>
@@ -503,6 +527,7 @@ class SetUserMessage extends Component {
 								{
 									this.state.coupon_got_m['id'] && (
 										<div className='m_message_li' onClick={()=>this.showSmsMessage('coupon_got_m')} >
+											<DeleteMessage refresh={this.init} type={templateTrigger['coupon_got_m']} id={this.state.coupon_got_m.id} />
 											<p>	模板名称： {this.state.coupon_got_m.name}</p>
 											<p>	短信内容： {this.state.coupon_got_m.content}</p>
 											<p>	模板类型： {this.state.coupon_got_m.biz_type}</p>
@@ -522,6 +547,7 @@ class SetUserMessage extends Component {
 								{
 									this.state.merchant_fade_m['id'] && (
 										<div className='m_message_li' onClick={()=>this.showSmsMessage('merchant_fade_m')} >
+											<DeleteMessage refresh={this.init} type={templateTrigger['merchant_fade_m']} id={this.state.merchant_fade_m.id} />
 											<p>	模板名称： {this.state.merchant_fade_m.name}</p>
 											<p>	短信内容： {this.state.merchant_fade_m.content}</p>
 											<p>	模板类型： {this.state.merchant_fade_m.biz_type}</p>
@@ -537,6 +563,7 @@ class SetUserMessage extends Component {
 								{
 									this.state.merchant_got_m['id'] && (
 										<div className='m_message_li' onClick={()=>this.showSmsMessage('merchant_got_m')}>
+											<DeleteMessage refresh={this.init} type={templateTrigger['merchant_got_m']} id={this.state.merchant_got_m.id} />
 											<p>	模板名称： {this.state.merchant_got_m.name}</p>
 											<p>	短信内容： {this.state.merchant_got_m.content}</p>
 											<p>	模板类型： {this.state.merchant_got_m.biz_type}</p>

@@ -1,7 +1,7 @@
 .set_m_wechat
 	width: 100%
 	display: flex
-	justify-content: center
+	justify-content: space-between
 	align-items: center
 	flex-wrap: wrap
 	padding: 0 20px
@@ -100,7 +100,15 @@
 		margin-bottom: 30px
 		cursor: pointer
 		transition: all 0.3s
+		position: relative
 		&:hover
 			box-shadow: 0 2px 12px 0 rgba(0,0,0,.1)
 	.active
 		border: 1px solid #4f9863
+.deleteMessage
+	position: absolute
+	right: 20px
+	top: 20px
+	.anticon
+		&:hover
+			color: red

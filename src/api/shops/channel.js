@@ -33,3 +33,12 @@ export function getFatherChannels(params) {
 		params: params
 	})
 }
+
+// 删除渠道
+export function deleteChannel(params) {
+	return request({
+		url: '/api/backend/shops/channels/delete',
+		method: 'delete',
+		params: params
+	})
+}

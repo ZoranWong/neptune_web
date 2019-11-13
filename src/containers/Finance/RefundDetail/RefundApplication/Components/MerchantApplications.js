@@ -18,6 +18,9 @@ class MerchantApplications extends Component {
 		this.child = React.createRef();
 	}
 	
+	refresh = () => {
+		this.child.current.pagination(this.child.current.state.current)
+	};
 	
 	// 分页器改变值
 	paginationChange = (list) =>{
@@ -59,7 +62,7 @@ class MerchantApplications extends Component {
 					refund_ids: id,
 					is_pass: isPass
 				}).then(r=>{
-					message.success(`${keyword}成功！`);
+					message.success(`${keyword}该申请成功！`);
 					refresh()
 				});
 			},

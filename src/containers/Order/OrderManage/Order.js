@@ -59,7 +59,7 @@ class Order extends React.Component{
 				dataIndex:'state_desc'
 			},
 		];
-		const defaultItem = ['nickname','trade_no', 'product_name', 'settlement_total_fee', 'order_type', 'created_at','state_desc'];
+		const defaultItem = ['user_nickname','trade_no', 'product_name', 'settlement_total_fee', 'order_type', 'created_at','state_desc'];
 		super(props);
 		this.child = React.createRef();
 		this.state = {
@@ -104,7 +104,7 @@ class Order extends React.Component{
 	};
 	
 	jump = record => {
-		this.props.history.push({pathname:"/order/orderDetails",state:{id:record.product_id}})
+		// this.props.history.push({pathname:"/order/orderDetails",state:{id:record.product_id}})
 	};
 	
 	
@@ -253,6 +253,7 @@ class Order extends React.Component{
 	
 	// 确定导出
 	export = (type, items,conditions) =>{
+		console.log(type, '--- type---');
 		let json = searchJson({
 			strategy: type,
 			customize_columns: items,
@@ -300,6 +301,7 @@ class Order extends React.Component{
 			onCancel : this.hideExport,
 			export: this.export,
 			strategy,
+			values: consumer_order_values,
 			conditions: this.state.conditions
 		};
 		

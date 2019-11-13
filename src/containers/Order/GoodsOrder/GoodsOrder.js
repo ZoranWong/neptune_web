@@ -128,8 +128,8 @@ class GoodsOrder extends React.Component{
 	};
 	
 	// 商品回显
-	reviewGoods = record =>{
-		this.setState({reviewGoodsVisible:true,items:record})
+	reviewGoods = (record,text) =>{
+		this.setState({reviewGoodsVisible:true,items:record,text: text})
 	};
 	closeReviewGoods = () =>{
 		this.setState({reviewGoodsVisible:false})
@@ -166,6 +166,7 @@ class GoodsOrder extends React.Component{
 	
 	// 确定导出
 	export = (type, items, conditions) =>{
+		console.log(type, 'strategy');
 		let json = searchJson({
 			strategy: type,
 			customize_columns: items,
@@ -194,18 +195,29 @@ class GoodsOrder extends React.Component{
 		];
 		const columns = [
 			{
-				title: '订单号',
-				dataIndex: 'trade_no',
-				render: (text,record) => <span
-					style={{'color':'#4F9863','cursor':'pointer'}}>{text}</span>,
+				title: '商户名',
+				dataIndex: 'name',
+			},
+			{
+				title: '商品',
+				render: (text,record) => {
+					if(record.items.data.length){
+						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+							<span className="orderGoods">{record.items.data[0].name+'......'}</span>
+							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items, '商品')} />
+						</span>
+					} else {
+						return <span>无</span>
+					}
+				},
 			},
 			{
 				title: '缺少商品',
 				render: (text,record) => {
-					if(record.damaged_items.data.length){
+					if(record.deficient_items.data.length){
 						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-							<span className="orderGoods">{record.damaged_items.data[0].name+'......'}</span>
-							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.damaged_items)} />
+							<span className="orderGoods">{record.deficient_items.data[0].name+'......'}</span>
+							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.deficient_items, '缺少商品')} />
 						</span>
 					} else {
 						return <span>无</span>
@@ -215,20 +227,17 @@ class GoodsOrder extends React.Component{
 			{
 				title: '破损商品',
 				render: (text,record) => {
-					if(record.deficient_items.data.length){
+					if(record.damaged_items.data.length){
 						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-							<span className="orderGoods">{record.deficient_items.data[0].name+'......'}</span>
-							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.deficient_items)} />
+							<span className="orderGoods">{record.damaged_items.data[0].name+'......'}</span>
+							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.damaged_items, '破损商品')} />
 						</span>
 					} else {
 						return <span>无</span>
 					}
 				},
 			},
-			{
-				title: '商户名',
-				dataIndex: 'name',
-			},
+			
 			{
 				title: '下单时间',
 				dataIndex: 'created_at',
@@ -264,6 +273,7 @@ class GoodsOrder extends React.Component{
 			onCancel : this.hideExport,
 			export: this.export,
 			strategy,
+			values: merchant_order_values,
 			conditions: this.state.conditions
 		};
 		return (
@@ -291,6 +301,7 @@ class GoodsOrder extends React.Component{
 					visible={this.state.reviewGoodsVisible}
 					onCancel={this.closeReviewGoods}
 					items={this.state.items}
+					text={this.state.text}
 				/>
 				
 				<div className="s_body">

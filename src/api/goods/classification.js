@@ -33,3 +33,12 @@ export function deleteClassification(params,id) {
 		params: params
 	})
 }
+
+// 编辑分类
+export function editClassification(params,categoryId) {
+	return request({
+		url: `/api/backend/categories/${categoryId}`,
+		method: 'put',
+		data: params
+	})
+}

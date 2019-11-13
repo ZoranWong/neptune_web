@@ -180,6 +180,15 @@ export function bindTemplates(params) {
 	})
 }
 
+// 解除绑定
+export function unbindTemplates(params,id) {
+	return request({
+		url: `/api/backend/template/bindings/${id}`,
+		method: 'delete',
+		params: params
+	})
+}
+
 
 
 

@@ -137,7 +137,7 @@ class ConsumerRefund extends Component {
 		return (
 			<Fragment>
 				<div className="cr_header">
-					<Button size="small" type="primary" onClick={this.goRefundApplication}>退款申请</Button>
+					<Button size="small" type="primary" onClick={this.goRefundApplication}>退款申请({this.props.total || 0})</Button>
 				</div>
 				<div className="cr_chartContent">
 					<ul className="filter">

@@ -45,7 +45,7 @@ class ShopCode extends Component {
 					<div className="item_box">
 						<div className="item">
 							<span>推广码</span>
-							<img src={this.state.payment} alt=""/>
+							<img src={this.state.promotion } alt=""/>
 							{/*<span className='download'>*/}
 							{/*	<IconFont type='icon-download' />*/}
 							{/*	下载*/}
@@ -53,7 +53,7 @@ class ShopCode extends Component {
 						</div>
 						<div className="item">
 							<span>付款码</span>
-							<img src={this.state.promotion} alt=""/>
+							<img src={this.state.payment} alt=""/>
 							{/*<span className='download'>*/}
 							{/*	<IconFont type='icon-download' />*/}
 							{/*	下载*/}

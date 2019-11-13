@@ -2,7 +2,7 @@ import React from 'react';
 import {withRouter} from 'react-router-dom'
 import './css/classification.sass'
 import {Button, Table, Popconfirm} from "antd";
-import {createNewFatherClassification,SonClassification,deleteClassification} from "../../../api/goods/classification";
+import {createNewFatherClassification,SonClassification,deleteClassification, editClassification} from "../../../api/goods/classification";
 import AddNewClassification from "./AddNewClassification";
 import AddNewSonClassification from "./AddNewSonClassification";
 class Classification extends React.Component{
@@ -14,8 +14,10 @@ class Classification extends React.Component{
 			addNewSonVisible:false,
 			classificationName:'',
 			sonClassificationName:'',
-			parentId:''
-		}
+			parentId:'',
+			classificationId:''
+		};
+		this.child = React.createRef();
 	}
 	
 	componentDidMount() {
@@ -40,7 +42,9 @@ class Classification extends React.Component{
 	};
 	
 	addNew = () =>{
-		this.showAddNewClassification()
+		this.setState({classificationId: ''}, ()=>{
+			this.showAddNewClassification()
+		})
 	};
 	
 	addNewSon = (id) =>{
@@ -55,7 +59,8 @@ class Classification extends React.Component{
 		this.setState({addNewVisible:false,classificationName:''})
 	};
 	submitAddNewClassification = (value) =>{
-		createNewFatherClassification({name:value}).then(r=>{
+		let api = this.child.current.state.classificationId ? editClassification : createNewFatherClassification;
+		api({name:value},this.child.current.state.classificationId).then(r=>{
 			this.hideAddNewClassification();
 			this.refresh()
 		})
@@ -77,7 +82,7 @@ class Classification extends React.Component{
 	
 	// 查看分类详情
 	showDetail = (record) =>{
-		this.setState({classificationName:record.name},()=>{
+		this.setState({classificationName:record.name, classificationId: record.id},()=>{
 			this.showAddNewClassification();
 		})
 	};
@@ -98,8 +103,6 @@ class Classification extends React.Component{
 		const _this = this;
 		function NestedTable() {
 			const expandedRowRender = (record) => {
-				console.log(record, '-------------------------');
-				console.log(data, '_______________');
 				const columnsSon = [
 					{
 						title: 'cName',
@@ -196,6 +199,8 @@ class Classification extends React.Component{
 					onCancel={this.hideAddNewClassification}
 					onSubmit={this.submitAddNewClassification}
 					name={this.state.classificationName}
+					classificationId={this.state.classificationId}
+					ref={this.child}
 				/>
 				<AddNewSonClassification
 					visible={this.state.addNewSonVisible}

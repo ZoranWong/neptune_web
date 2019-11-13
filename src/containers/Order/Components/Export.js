@@ -3,8 +3,6 @@ import {message, Modal, Radio, Select, Checkbox} from "antd";
 import {consumer_order_values} from "../../../utils/consumer_order_fields";
 import _ from 'lodash'
 import './css/export.sass'
-let order_item = [];
-
 
 class Export extends Component {
 	
@@ -19,17 +17,19 @@ class Export extends Component {
 	}
 	
 	componentDidMount() {
-		let clone_consumer_order_values = consumer_order_values.concat();
+		this.setOrderItems();
+	}
+	
+	setOrderItems = () => {
+		let order_item = [];
+		let clone_consumer_order_values = this.props.values.concat();
 		_.map(clone_consumer_order_values, (item)=>{
 			_.map(item.children, (i)=>{
 				order_item.push(i)
 			})
 		});
-		// _.map(order_item,(i)=>{
-		// 	i['value'] = 'order_' + i['value']
-		// });
 		this.setState({orderItems: order_item})
-	}
+	};
 	
 	handleCancel = () =>{
 		this.props.onCancel();
@@ -39,6 +39,8 @@ class Export extends Component {
 		console.log('radio checked', e.target.value);
 		this.setState({
 			value: e.target.value,
+		},() => {
+			console.log(this.state.value, '+++++++++++++++');
 		});
 	};
 	

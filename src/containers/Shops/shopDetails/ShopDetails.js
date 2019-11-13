@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button,Tag,Modal } from "antd";
-import {shopDetails,deleteGroup} from "../../../api/shops/shopManage";
+import {shopRealDetails,deleteGroup} from "../../../api/shops/shopManage";
 import './css/shop_details.sass'
 import ShopInformation from "./ShopInformation";
 import Introduction from './Introduction'
@@ -24,12 +24,8 @@ class ShopDetails extends React.Component{
 	}
 
 	refresh = () =>{
-		shopDetails({},this.id).then(r=>{
-			let images = {};
-			images['id_card_images'] = r.data['id_card_images'];
-			images['shop_images'] = r.data['shop_images'];
-			images['business_license_images'] = r.data['business_license_images'];
-			this.setState({data:r.data,images})
+		shopRealDetails({},this.id).then(r=>{
+			this.setState({data:r})
 		}).catch(_=>{})
 	};
 
@@ -130,6 +126,7 @@ class ShopDetails extends React.Component{
 	
 	render(){
 		const {data} = this.state;
+		
 		return (
 			<div className="shopDetail">
 				
@@ -146,6 +143,7 @@ class ShopDetails extends React.Component{
 				<IntroductionPerson
 					visible={this.state.introductionPersonVisible}
 					onClose={this.hideIntroductionPerson}
+					shopId={this.state.data.id}
 				/>
 				<CodePayment
 					visible={this.state.codePaymentVisible}
@@ -168,7 +166,11 @@ class ShopDetails extends React.Component{
 					</div>
 					<div className="u_body_one">
 						<ul className="u_body_top">
-							<li className="firstChild"><h3></h3></li>
+							{
+								data['keeper_info'] && <li className="firstChild">
+									<img src={data['keeper_info']['shop_images']['doorway']} alt=""/>
+								</li>
+							}
 							<li >
 								<p>店铺渠道：{data.channel}</p>
 								<p>早餐编号：{data.breakfast_car_code || '无'}</p>
@@ -194,7 +196,7 @@ class ShopDetails extends React.Component{
 							<li className="btns">
 								<Button size="small" onClick={this.showShopInformation}>店铺资料</Button>
 								<Button size="small" onClick={this.showIntroduction}>他介绍的店</Button>
-								<Button size="small" onClick={this.showIntroductionPerson}>下线</Button>
+								<Button size="small" onClick={this.showIntroductionPerson}>客户</Button>
 							</li>
 						</ul>
 					</div>
@@ -226,7 +228,7 @@ class ShopDetails extends React.Component{
 						<li>
 							<h3>返现总额</h3>
 							<div>
-								{data.total_commission}
+								{data.total_cashback}
 							</div>
 						</li>
 					</ul>
@@ -363,69 +365,75 @@ class ShopDetails extends React.Component{
 					</ul>
 				</div>
 				<ul className="u_body_four">
-					<li>
-						<div className="u_body_four_header">
-							分享
-						</div>
-						<ul className="u_body_four_body">
-							<li>
-								<span>分享总次数</span>
-								<h4>300</h4>
-								<span>本月：120</span>
-							</li>
-							<li>
-								<span>被点击总次数</span>
-								<h4>3000</h4>
-								<span>本月：260</span>
-							</li>
-							<li>
-								<span>被点击总人数</span>
-								<h4>3500</h4>
-								<span>本月：2060</span>
-							</li>
-						</ul>
-					</li>
-					<li>
-						<div className="u_body_four_header">
-							分销
-						</div>
-						<ul className="u_body_four_body">
-							<li>
-								<span>分销总额</span>
-								<h4>300</h4>
-								<span>本月：120</span>
-							</li>
-							<li>
-								<span>分销总订单数</span>
-								<h4>3000</h4>
-								<span>本月：260</span>
-							</li>
-							<li>
-								<span>总购买人数</span>
-								<h4>3500</h4>
-								<span>本月：2060</span>
-							</li>
-						</ul>
-					</li>
-					<li>
-						<div className="u_body_four_header">
-							返现
-						</div>
-						<ul className="u_body_four_body">
-							<li className="u_body_four_body_s">
-								<span>返现总额</span>
-								<h4>30000</h4>
-								<span style={{marginBottom:'10px'}}>自提返现总额：800</span>
-								<span>销售返现总额：1000</span>
-							</li>
-							<li className="u_body_four_body_s">
-								<span>本月返现额</span>
-								<h4>5620</h4>
-								<span style={{marginBottom:'10px'}}>本月自提返现：200</span>
-								<span>本月销售返现：500</span>
-							</li>
-						</ul>
-					</li>
+					{
+						data['share_click'] && <li>
+							<div className="u_body_four_header">
+								分享
+							</div>
+							<ul className="u_body_four_body">
+								<li>
+									<span>分享总次数</span>
+									<h4>{data['share_click']['total_sharing']}</h4>
+									<span>本月：{data['share_click']['monthly_sharing']}</span>
+								</li>
+								<li>
+									<span>被点击总次数</span>
+									<h4>{data['share_click']['total_click']}</h4>
+									<span>本月：{data['share_click']['monthly_click']}</span>
+								</li>
+								<li>
+									<span>被点击总人数</span>
+									<h4>{data['share_click']['total_click_users']}</h4>
+									<span>本月：{data['share_click']['monthly_click_users']}</span>
+								</li>
+							</ul>
+						</li>
+					}
+					{
+						data['distribute'] && <li>
+							<div className="u_body_four_header">
+								分销
+							</div>
+							<ul className="u_body_four_body">
+								<li>
+									<span>分销总额</span>
+									<h4>{data['distribute']['total_amount']}</h4>
+									<span>本月：{data['distribute']['monthly_amount']}</span>
+								</li>
+								<li>
+									<span>分销总订单数</span>
+									<h4>{data['distribute']['total_orders']}</h4>
+									<span>本月：{data['distribute']['monthly_amount']}</span>
+								</li>
+								<li>
+									<span>总购买人数</span>
+									<h4>{data['distribute']['total_users']}</h4>
+									<span>本月：{data['distribute']['monthly_amount']}</span>
+								</li>
+							</ul>
+						</li>
+					}
+					{
+						data['cashback'] && <li>
+							<div className="u_body_four_header">
+								返现
+							</div>
+							<ul className="u_body_four_body">
+								<li className="u_body_four_body_s">
+									<span>返现总额</span>
+									<h4>{data['cashback']['total_amount']}</h4>
+									<span style={{marginBottom:'10px'}}>自提返现总额：{data['cashback']['self_pick_amount']}</span>
+									<span>销售返现总额：{data['cashback']['sale_amount']}</span>
+								</li>
+								<li className="u_body_four_body_s">
+									<span>本月返现额</span>
+									<h4>{data['cashback']['monthly_amount']}</h4>
+									<span style={{marginBottom:'10px'}}>本月自提返现：{data['cashback']['monthly_self_pick_amount']}</span>
+									<span>本月销售返现：{data['cashback']['monthly_sale_amount']}</span>
+								</li>
+							</ul>
+						</li>
+					}
 				</ul>
 				<div className="u_body_groups">
 					<div className="group_header">

@@ -202,9 +202,9 @@ class NewCouponShop extends Component {
 				break;
 		}
 		if(values.release_mode !== 'INTEGRAL_EXCHANGE'){
-			if(put_conditions.strategy !== 'USER_PUT_IN_ALL_USER_SET'){
+			if(put_conditions.strategy !== 'SHOP_PUT_IN_ALL_SHOP_SET'){
 				if(!put_conditions['value'] || !put_conditions['value'].length){
-					message.error('请选择用户或用户组');
+					message.error('请选择商户或商户组');
 					return;
 				}
 			}

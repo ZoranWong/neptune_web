@@ -19,7 +19,7 @@ export default class ReviewGoods extends React.Component{
 			}
 			item.spec_desc = ary.join(',')
 		});
-		this.setState({items:items})
+		this.setState({items:items,text: nextProps.text})
 	}
 	
 	handleCancel = () => {
@@ -32,7 +32,7 @@ export default class ReviewGoods extends React.Component{
 		return (
 			<Fragment>
 				<Modal
-					title="商品"
+					title={this.state.text}
 					width={520}
 					centered={true}
 					visible={this.props.visible}

@@ -78,3 +78,22 @@ export function dataExport(params) {
         params: params
     })
 }
+
+// 启用系统设置
+export function enable(params) {
+    return request({
+        url: '/api/backend/system/setting/enable',
+        method: 'put',
+        data: params
+    })
+}
+
+
+// 禁用系统设置
+export function disableSetting(params) {
+    return request({
+        url: '/api/backend/system/setting/disable',
+        method: 'put',
+        data: params
+    })
+}

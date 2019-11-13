@@ -125,3 +125,22 @@ export function paymentCode(params,shopId) {
 		params: params
 	})
 }
+
+// 店铺详情
+export function shopRealDetails(params,shopId) {
+	return request({
+		url: `/api/backend/shops/${shopId}/show`,
+		method: 'get',
+		params: params
+	})
+}
+
+// 下线 客户
+export function subordinates(params,shopId) {
+	return request({
+		url: `/api/backend/shops/${shopId}/subordinates`,
+		method: 'get',
+		params: params
+	})
+}
+

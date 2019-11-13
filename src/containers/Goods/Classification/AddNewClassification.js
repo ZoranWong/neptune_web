@@ -11,8 +11,11 @@ export default class AddNewClassification extends React.Component{
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
-		if(!nextProps.name) return;
-		this.setState({value:nextProps.name,disabled:true})
+		if(!nextProps.name) {
+			this.setState({classificationId: nextProps.classificationId});
+			return
+		};
+		this.setState({value:nextProps.name,disabled:true, classificationId: nextProps.classificationId})
 	}
 	
 	handleCancel = () =>{

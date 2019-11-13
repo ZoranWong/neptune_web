@@ -53,11 +53,11 @@ class Introduction extends React.Component{
 			},
 			{
 				title: '总分销额',
-				dataIndex: 'total_sale',
+				dataIndex: 'total_distribute_amount',
 			},
 			{
 				title: '本月分销额',
-				dataIndex: 'status',
+				dataIndex: 'monthly_distribute_amount',
 			},
 		];
 		return (
@@ -82,8 +82,9 @@ class Introduction extends React.Component{
 						<CustomPagination
 							api={this.state.api}
 							ref={this.child}
-							params={this.state.paginationParams}
 							id={this.state.id}
+							text={'条数据'}
+							params={this.state.paginationParams}
 							valChange={this.paginationChange}
 						/>
 					</div>
