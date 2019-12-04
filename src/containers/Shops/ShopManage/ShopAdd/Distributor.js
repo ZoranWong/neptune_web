@@ -48,6 +48,7 @@ class Distributor extends React.Component{
 	};
 	handleSubmit = () =>{
 		const {listData} = this.state;
+		console.log(listData);
 		if(!listData.address) {
 			message.error('请填写地址');
 			return

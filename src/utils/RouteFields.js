@@ -29,7 +29,8 @@ export const secondRoutes = [
 	'setUserMessage',
 	'setting',
 	'setMarketingMessage',
-	'warningSetting'
+	'warningSetting',
+	'logs'
 ];
 
 

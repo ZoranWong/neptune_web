@@ -43,16 +43,22 @@ class FrozenShop extends React.Component{
 				title: '操作',
 				render: (text,record) =>
 					<div>
-						<span
-							style={{'color':'#4F9863','cursor':'pointer'}}
-							onClick={()=>this.unfreeze(record)}
-						>解冻
+						{
+							window.hasPermission("shop_frozen_unfreeze") && <span
+								style={{'color':'#4F9863','cursor':'pointer'}}
+								onClick={()=>this.unfreeze(record)}
+							>解冻
 						</span>
-						<span
-							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
-							onClick={()=>this.deleteShop(record)}
-						>删除
+						}
+						
+						{
+							window.hasPermission("shop_frozen_delete") && <span
+								style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
+								onClick={()=>this.deleteShop(record)}
+							>删除
 						</span>
+						}
+						
 						<span
 							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
 						>门店码
@@ -96,7 +102,12 @@ class FrozenShop extends React.Component{
 	};
 	
 	jump = (record) =>{
-		this.props.history.push({pathname:"/shops/shopDetails",state:{id:record.id}})
+		if (window.hasPermission("shop_frozen_display")) {
+			this.props.history.push({pathname:"/shops/shopDetails",state:{id:record.id}})
+		} else {
+			message.error('暂无权限，请联系管理员')
+		}
+		
 	};
 	
 	//解冻
@@ -243,7 +254,9 @@ class FrozenShop extends React.Component{
 							text='请输入关键词'
 						/>
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
-						<Button size="small" disabled={this.state.checkedAry.length == 0}>导出</Button>
+						{
+							window.hasPermission("shop_frozen_export") && <Button size="small" disabled={this.state.checkedAry.length == 0}>导出</Button>
+						}
 					</div>
 					<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 				</div>

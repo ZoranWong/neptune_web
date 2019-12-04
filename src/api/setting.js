@@ -98,3 +98,12 @@ export function getRoles(params,id) {
 		params: params
 	})
 }
+
+// 获取用户操作日志
+export function getOperateLog(params,id) {
+	return request({
+		url: '/api/backend/operate_logs',
+		method: 'get',
+		params: params
+	})
+}

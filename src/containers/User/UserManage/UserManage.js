@@ -65,6 +65,7 @@ class UserManage extends React.Component{
 			customVisible:false,
 			tagVisible:false,
 			groupVisible:false,
+			balanceVisible: false,
 			user_data:[],
 			defaultItem: defaultItem,
 			checkedAry:[],     // 列表页选中的用户id组
@@ -192,6 +193,8 @@ class UserManage extends React.Component{
 		this.setState({user_data:list})
 	};
 	
+
+	
 	render(){
 		const rowSelection = {
 			onChange: (selectedRowKeys, selectedRows) => {
@@ -203,8 +206,12 @@ class UserManage extends React.Component{
 			})
 		};
 		
+		
+		
 		return (
 			<div>
+				
+				
 				<AdvancedFilterComponent
 					visible={this.state.filterVisible}
 					onCancel={this.closeHigherFilter}
@@ -248,7 +255,11 @@ class UserManage extends React.Component{
 							disabled={this.state.checkedAry.length == 0}
 							onClick={this.showAddTags}
 						>加标签</Button>
-						{/*<Button size="small" disabled={this.state.checkedAry.length == 0}>赠送</Button>*/}
+						<Button
+							size="small"
+							disabled={this.state.checkedAry.length == 0}
+							onClick={this.showBalance}
+						>赠送</Button>
 						<Button size="small" disabled={this.state.checkedAry.length == 0}>导出</Button>
 					</div>
 					<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>

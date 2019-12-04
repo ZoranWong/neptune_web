@@ -18,7 +18,6 @@ function handleCode(item) {
 export default class CustomItem extends React.Component{
 	
 	constructor(props){
-		console.log(props, '+++++==============');
 		super(props);
 		let ary = [];
 		let bry = [];
@@ -50,7 +49,6 @@ export default class CustomItem extends React.Component{
 		if(ary.indexOf(this.props.firstItem) === -1){
 			ary.unshift(this.props.firstItem)
 		}
-		console.log(ary);
 		if (ary.indexOf('promotion_qr_code') < 0) {
 			if(ary.length > 8){
 				message.error('最多选择七列');

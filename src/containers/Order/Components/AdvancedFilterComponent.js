@@ -47,12 +47,15 @@ export default class AdvancedFilterComponent extends React.Component{
 								type="default"
 								className="e_btn"
 							>打印订单</Button>
-							<Button
-								size="small"
-								type="default"
-								className="e_btn"
-								onClick={this.export}
-							>导出</Button>
+							{
+								window.hasPermission("order_management_export") &&	<Button
+									size="small"
+									type="default"
+									className="e_btn"
+									onClick={this.export}
+								>导出</Button>
+							}
+						
 							<Button
 								size="small"
 								className="e_btn"

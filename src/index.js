@@ -7,6 +7,11 @@ import {Provider} from 'react-redux';
 import store from './store'
 import './style/style.scss'
 import {BrowserRouter as Router} from "react-router-dom";
+import {hasPermission} from "./utils/hasPermissions";
+
+// 全局注入函数
+window.hasPermission = hasPermission;
+
 ReactDOM.render(
 		<Router>
 			<Provider store={store}>

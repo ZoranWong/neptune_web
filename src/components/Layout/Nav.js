@@ -36,7 +36,7 @@ class Nav extends React.Component{
 				text:'店铺',
 				path:'/shops',
 				exact:false,
-				name:"nav-shops"
+				name:"nav-shop"
 			},
 			{
 				text:'订单',
@@ -48,19 +48,19 @@ class Nav extends React.Component{
 				text:'营销',
 				path:'/marketing',
 				exact:false,
-				name:"nav-market"
+				name:"nav-marketing"
 			},
 			{
 				text:'商品',
 				path:'/goods',
-				exact:true,
-				name:"nav-goods"
+				exact:false,
+				name:"nav-product"
 			},
 			{
 				text:'分销',
 				path:'/distribution',
 				exact:false,
-				name:"nav-data"
+				name:"nav-distribution"
 			},
 			{
 				text:'财务',

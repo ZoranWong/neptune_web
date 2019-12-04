@@ -160,7 +160,7 @@ export function tagUsers(params,tagId) {
 // 积分规则列表
 export function rules(params) {
 	return request({
-		url: '/api/backend/scores',
+		url: '/api/backend/score_rules',
 		method: 'get',
 		params: params
 	})
@@ -168,11 +168,57 @@ export function rules(params) {
 // 修改积分规则
 export function editRules(params) {
 	return request({
-		url: '/api/backend/scores',
+		url: '/api/backend/score_rules',
 		method: 'put',
 		data: params
 	})
 }
+
+// 初始化积分规则
+export function initRules(params) {
+	return request({
+		url: `/api/backend/score_rules/init/member_grade_rules`,
+		method: 'post',
+		data: params
+	})
+}
+
+// 获取会员等级列表
+export function vipList(params) {
+	return request({
+		url: '/api/backend/users/member_grades',
+		method: 'get',
+		params: params
+	})
+}
+
+// 修改会员等级
+export function editVip(params, gradeId) {
+	return request({
+		url: `/api/backend/users/member_grades/${gradeId}`,
+		method: 'put',
+		data: params
+	})
+}
+
+// 创建会员等级
+export function createVip(params, gradeId) {
+	return request({
+		url: '/api/backend/users/member_grades',
+		method: 'post',
+		data: params
+	})
+}
+
+// 删除会员等级
+export function deleteVip(params, gradeId) {
+	return request({
+		url: `/api/backend/users/member_grades/${gradeId}`,
+		method: 'delete',
+		params: params
+	})
+}
+
 
 // 用户详情
 export function userDetails(params,id) {
@@ -202,6 +248,15 @@ export function deleteUserTag(params,id) {
 export function addScore(params,id) {
 	return request({
 		url: `/api/backend/users/${id}/add/score`,
+		method: 'put',
+		data: params
+	})
+}
+
+// 调整用户余额
+export function adjustUserBalance(params) {
+	return request({
+		url: '/api/backend/users/balance/operate',
 		method: 'put',
 		data: params
 	})

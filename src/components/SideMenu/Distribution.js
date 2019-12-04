@@ -4,8 +4,9 @@ import { Menu, Icon } from 'antd'
 import { Link } from 'react-router-dom'
 import '../../style/sider.sass'
 import IconFont from "../../utils/IconFont";
+import {hasPermission} from "../../utils/hasPermissions";
 const { SubMenu } = Menu;
-const baseMenu = [
+let baseMenu = [
 	// {
 	// 	path:'/distribution',
 	// 	icon:'icon-dingdan',
@@ -15,13 +16,16 @@ const baseMenu = [
 		path:'/distribution',
 		icon:'icon-dingdanjilu-kongbaiye',
 		text:'返现记录',
+		slug: 'menu_cashback_record'
 	},
 	{
 		path:'/distribution/cashbackSetting',
 		icon:'icon-tubiaozhizuomoban',
 		text:'返现设置',
+		slug: 'menu_cashback_setting'
 	}
 ];
+baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
 const Distribution = ({ match }) => (
 	<div style={{ paddingBottom: '120px',width:'216px'}}>
 		<Menu

@@ -1,13 +1,14 @@
 export const slugs = [
 	'nav-index',
 	'nav-user',
-	'nav-shops',
+	'nav-shop',
 	'nav-order',
-	'nav-market',
-	'nav-goods',
+	'nav-marketing',
+	'nav-product',
 	'nav-data',
 	'nav-finance',
 	'nav-setting',
+	'nav-distribution'
 ];
 
 export const a = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Table, Button, Popconfirm} from 'antd';
+import {Table, Button, Popconfirm, message} from 'antd';
 import './css/shopGroup.sass'
 import {withRouter} from "react-router-dom";
 import {getChannels,deleteChannel} from "../../../api/shops/channel";
@@ -36,11 +36,11 @@ class ShopGroup extends React.Component{
 	};
 	
 	deleteChannel = (record) => {
-		console.log(record, '++++=');
-		// deleteChannel({channel_id: record.id}).then(r => {
-		// 	console.log(r);
-		// }).catch(_ => {})
-	}
+		deleteChannel({channel_id: record.id}).then(r => {
+			message.success(r.message);
+			this.refresh()
+		}).catch(_ => {})
+	};
 	
 	render(){
 		const columns = [

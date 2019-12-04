@@ -5,6 +5,7 @@ import './css/user_details.sass'
 import AdjustScore from './AdjustScore'
 import CouponRecords from "./Modals/CouponRecords";
 import IntegralRecords from "./Modals/IntegralRecords";
+import OperateBalance from "../../../components/OperateBalance/OperateBalance";
 const { TabPane } = Tabs;
 const {confirm} = Modal;
 class UserDetails extends React.Component{
@@ -122,6 +123,14 @@ class UserDetails extends React.Component{
 	
 	};
 	
+	// 赠送
+	showBalance = () =>{
+		this.setState({balanceVisible: true})
+	};
+	hideBalance = () => {
+		this.setState({balanceVisible: false})
+	};
+	
 
 	render(){
 		const group = [
@@ -142,8 +151,18 @@ class UserDetails extends React.Component{
 			visible: this.state.integralRecords,
 			onClose: this.hideIntegralRecords
 		};
+		const balanceProps = {
+			visible: this.state.balanceVisible,
+			onCancel: this.hideBalance,
+			refresh: this.refresh,
+			type: 'user',
+			id: this.state.data.id
+		};
+		
 		return (
 			<div>
+				
+				<OperateBalance {...balanceProps} />
 				<CouponRecords {...couponRecords} />
 				<IntegralRecords {...integralRecords} />
 				<AdjustScore
@@ -185,7 +204,14 @@ class UserDetails extends React.Component{
 						</ul>
 						<ul className="u_body_bottom">
 							<li>
-								账户余额 <h4>{this.state.data.balance}</h4>
+								账户余额
+								<h4>
+									{this.state.data.balance}
+									<span
+										onClick={this.showBalance}
+										style={{'cursor':'pointer'}}
+									>调整</span>
+								</h4>
 							</li>
 							<li>
 								优惠券

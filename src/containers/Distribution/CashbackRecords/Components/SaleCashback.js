@@ -72,7 +72,7 @@ class SaleCashback extends Component {
 	};
 	onSubmit = (data) =>{
 		this.setState({
-			api:'这里需要填写新的api',
+			api:salesCashback,
 			paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}
 		},()=>{
 			this.child.current.pagination(1)
@@ -118,9 +118,6 @@ class SaleCashback extends Component {
 								getDatas={this.search}
 								text='请输入店铺名称/店铺编号/店铺主姓名/手机号码'
 							/>
-						</li>
-						<li>
-							<Button type='primary' size="small">筛选</Button>
 						</li>
 						<li>
 							<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>

@@ -72,8 +72,13 @@ export const consumer_order_values = [
 			},
 			{
 				label:'商品',
-				value:'product_name',
+				value:'products',
 				type:'equalCompare'
+			},
+			{
+				label:'订单类型',
+				value:'order_type',
+				type:'consumerOrder'
 			}
 		]
 	},

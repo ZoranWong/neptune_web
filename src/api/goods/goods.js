@@ -177,6 +177,15 @@ export function setRange(params,productProvideId) {
 	})
 }
 
+// 清空售卖范围
+export function clearRange(params,productProvideId) {
+	return request({
+		url: `/api/backend/products/stock/${productProvideId}/reset_sale_scope`,
+		method: 'put',
+		data: params
+	})
+}
+
 // 编辑商品
 export function editGoods(params,productId) {
 	return request({

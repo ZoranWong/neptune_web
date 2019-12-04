@@ -30,6 +30,7 @@ class CustomPagination extends React.Component{
 			})
 		} else {
 			this.props.api(params).then(r=>{
+				console.log(r, '+++++++++');
 				this.props.valChange(r.data);
 				this.setState({
 					total:r.meta.pagination.total

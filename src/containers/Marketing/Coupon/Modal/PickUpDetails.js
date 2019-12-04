@@ -16,6 +16,7 @@ class PickUpDetails extends Component {
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
+		console.log(nextProps);
 		if(!nextProps.couponId) return;
 		if (nextProps.couponId === this.props.couponId) return;
 		this.setState({id:nextProps.couponId});

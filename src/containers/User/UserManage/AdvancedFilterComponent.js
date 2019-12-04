@@ -36,9 +36,6 @@ export default class AdvancedFilterComponent extends React.Component{
 		this.props.showAddTags(this.child.current.state.data)
 	};
 	
-	showGive = () =>{
-	
-	};
 	
 	render(){
 		return (
@@ -58,29 +55,30 @@ export default class AdvancedFilterComponent extends React.Component{
 								type="default"
 								className="e_btn"
 							>发消息</Button>
-							<Button
-								size="small"
-								type="default"
-								className="e_btn"
-								onClick={this.showAddGroup}
-							>加群组</Button>
-							<Button
-								size="small"
-								type="default"
-								className="e_btn"
-								onClick={this.showAddTags}
-							>加标签</Button>
-							<Button
-								size="small"
-								type="default"
-								className="e_btn"
-								onClick={this.showGive}
-							>赠送</Button>
-							<Button
-								size="small"
-								type="default"
-								className="e_btn"
-							>导出</Button>
+							{
+								window.hasPermission("user_management_add_group") &&<Button
+									size="small"
+									type="default"
+									className="e_btn"
+									onClick={this.showAddGroup}
+								>加群组</Button>
+							}
+							{
+								window.hasPermission("user_management_add_tag") && <Button
+									size="small"
+									type="default"
+									className="e_btn"
+									onClick={this.showAddTags}
+								>加标签</Button>
+							}
+							{
+								window.hasPermission("user_management_export") && <Button
+									size="small"
+									type="default"
+									className="e_btn"
+								>导出</Button>
+							}
+							
 							<Button
 								size="small"
 								className="e_btn"

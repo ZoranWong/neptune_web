@@ -1,7 +1,7 @@
 // 员工列表
 
 import React from 'react'
-import {Modal, Button,Popconfirm} from 'antd';
+import {Modal, Button, Popconfirm, message} from 'antd';
 import './css/common.sass'
 import './css/authoritySetting.sass'
 import {deleteRole,getPermissions,setRolePermissions} from "../../api/setting";
@@ -41,16 +41,17 @@ class AuthoritySetting  extends React.Component{
 	submit = () =>{
 		let ary = this.child.current.state.defaultKeys;
 		let id = this.child.current.state.parent_id || this.state.permissions[0].id;
-		if( this.child.current.state.defaultKeys&& this.child.current.state.defaultKeys.length){
-			ary.push(id+'')
-		}
+		// if( this.child.current.state.defaultKeys&& this.child.current.state.defaultKeys.length){
+		// 	ary.push(id+'')
+		// }
 		let newAry = [];
 		ary.forEach(item=>{
 			if(newAry.indexOf(item) == -1){
 				newAry.push(item)
 			}
-		})
+		});
 		setRolePermissions({permission_ids:newAry},this.state.role.id).then(r=>{
+			message.success('设置权限成功');
 			this.handleCancel();
 			this.props.refresh()
 		})

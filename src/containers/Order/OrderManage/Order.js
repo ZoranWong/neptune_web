@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom'
 import {Button, Table, Modal, message} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/order.sass'
-import {getToken, searchJson} from "../../../utils/dataStorage";
+import {getToken, orderInputTransformer, orderOutputTransformer, searchJson} from "../../../utils/dataStorage";
 import AdvancedFilterComponent from "../Components/AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
@@ -12,7 +12,6 @@ import ReviewGoods from "../Components/ReviewGoods";
 import {userOrder,batchCancel,batchConfirm} from "../../../api/order/orderManage";
 import {consumer_order_values} from "../../../utils/consumer_order_fields";
 import Export from "../Components/Export";
-
 
 
 class Order extends React.Component{
@@ -44,7 +43,7 @@ class Order extends React.Component{
 			},
 			{
 				title: '用户昵称',
-				dataIndex: 'nickname',
+				dataIndex: 'user_nickname',
 			},
 			{
 				title: '订单类型',
@@ -59,7 +58,7 @@ class Order extends React.Component{
 				dataIndex:'state_desc'
 			},
 		];
-		const defaultItem = ['user_nickname','trade_no', 'product_name', 'settlement_total_fee', 'order_type', 'created_at','state_desc'];
+		const defaultItem = ['user_nickname','trade_no', 'products', 'settlement_total_fee', 'order_type', 'created_at','state_desc'];
 		super(props);
 		this.child = React.createRef();
 		this.state = {
@@ -87,7 +86,6 @@ class Order extends React.Component{
 		document.addEventListener('click', this.closeCustom);
 	}
 	
-	
 	refresh = (status='ALL')=>{
 		this.setState({
 			filterVisible:false,
@@ -106,7 +104,6 @@ class Order extends React.Component{
 	jump = record => {
 		// this.props.history.push({pathname:"/order/orderDetails",state:{id:record.product_id}})
 	};
-	
 	
 	// 头部搜索框
 	search = (value) =>{
@@ -144,14 +141,28 @@ class Order extends React.Component{
 	};
 	handleCustom = (e) =>{
 		let ary = [];
+		console.log(e);
 		e.forEach(e=>{
 			consumer_order_values.forEach(u=>{
 				u.children.forEach(c=>{
 					if(e == c.value){
 						let obj = {};
 						obj.title = c.label;
-						obj.dataIndex = e;
-						ary.push(obj)
+						obj.dataIndex = orderOutputTransformer(e);
+						if (obj.dataIndex === 'items') {
+							obj.render = (text,record) => {
+								if(record.items.data.length){
+									return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+										<span className="orderGoods">{record.items.data[0].name+'......'}</span>
+										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items)} />
+									</span>
+								} else {
+									return <span>无</span>
+								}
+							}
+						}
+						ary.push(obj);
+						console.log(obj, '+++s');
 					}
 				})
 			})
@@ -332,24 +343,34 @@ class Order extends React.Component{
 							text='请输入姓名或手机号'
 						/>
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
-						<Button
-							size="small"
-							type='primary'
-							onClick={this.setMessage}
-						>设置默认模板消息</Button>
-						<Button
-							size="small"
-						>打印订单</Button>
-						<Button
-							size="small"
-							disabled={this.state.checkedAry.length == 0}
-							onClick={()=>this.confirmPopover(batchCancel,'取消')}
-						>取消订单</Button>
-						<Button
-							size="small"
-							disabled={this.state.checkedAry.length == 0}
-							onClick={()=>this.confirmPopover(batchConfirm,'确认')}
-						>确认订单</Button>
+						{
+							window.hasPermission("order_management_bind_template") && <Button
+								size="small"
+								type='primary'
+								onClick={this.setMessage}
+							>设置默认模板消息</Button>
+						}
+						{
+							window.hasPermission("order_management_printing") && <Button
+								size="small"
+							>打印订单</Button>
+						}
+						
+						{
+							window.hasPermission("order_management_platform_cancel") &&<Button
+								size="small"
+								disabled={this.state.checkedAry.length == 0}
+								onClick={()=>this.confirmPopover(batchCancel,'取消')}
+							>取消订单</Button>
+						}
+						{
+							window.hasPermission("order_management_platform_verify") &&<Button
+								size="small"
+								disabled={this.state.checkedAry.length == 0}
+								onClick={()=>this.confirmPopover(batchConfirm,'确认')}
+							>确认订单</Button>
+						}
+						
 					</div>
 				</div>
 				
@@ -365,17 +386,20 @@ class Order extends React.Component{
 							})
 						}
 					</ul>
-					<div className="right">
-						<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
-						<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
-							<CustomItem
-								data={consumer_order_values}
-								handleCustom={this.handleCustom}
-								targetKeys={this.state.defaultItem}
-								firstItem={'nickname'}
-							/>
+					{
+						this.state.data.length && <div className="right">
+							<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
+							<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
+								<CustomItem
+									data={consumer_order_values}
+									handleCustom={this.handleCustom}
+									targetKeys={orderInputTransformer(this.state.defaultItem)}
+									firstItem={'user_nickname'}
+								/>
+							</div>
 						</div>
-					</div>
+					}
+					
 				</div>
 				<div className="chart u_chart">
 					<Table

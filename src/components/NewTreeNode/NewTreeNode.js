@@ -16,12 +16,11 @@ export default class NewTreeNode extends React.Component{
 		let ary = [];
 		if(!nextProps.permissions) return ;
 		if(!nextProps.activedList) return ;
-	
+		console.log(nextProps, '++++++');
 		nextProps.activedList.forEach(item=>{
-			if(slugs.indexOf(item.slug) > -1){
-				ary.push(item.id+'')
-			}
+			ary.push(item.id+'')
 		});
+		console.log(ary, '???????');
 		this.setState({
 			permissions:nextProps.permissions,
 			defaultKeys:ary

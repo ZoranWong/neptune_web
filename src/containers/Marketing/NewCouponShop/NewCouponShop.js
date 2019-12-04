@@ -27,16 +27,13 @@ class NewCouponShop extends Component {
 				productType:'ALL',  // 适用商品
 				userType:"ALL",  // 用户范围
 				is_sharing_preferential:true,    // 优惠共享
-				release_mode:'MANUAL_RECEIVE',  // 领取方式
+				release_mode:'PLATFORM_SEND',  // 领取方式
 				name:'',   //优惠券名称
 				valid_at:'',
 				invalid_at:'',
 				fixed_term_today:'',
 				fixed_term_tomorrow:'',
 				description:'',  // 优惠券说明
-				issue_count:'',   // 发放总理
-				get_limit_days:'',  // 限制张数
-				get_limit:'',  // 限制天数
 			},
 			userGroup:[],
 			goods:[],
@@ -214,13 +211,6 @@ class NewCouponShop extends Component {
 		values.use_conditions.push(use_conditions);
 		values.put_conditions.push(put_conditions);
 		
-		// 验证发放总量
-		if(values.release_mode !== 'PLATFORM_SEND'){
-			if(!values.issue_count) {
-				message.error('请输入发放总量');
-				return;
-			}
-		}
 		
 		values.obj_type = "MERCHANT";
 		
@@ -479,34 +469,6 @@ class NewCouponShop extends Component {
 									<SelectChannel ref={this.ableChannel} />
 								</Radio.Group>
 							</li>
-						}
-						{
-							(this.state.radioValue.release_mode !== 'PLATFORM_SEND' )? <li>
-								<span className="c_left">发放总量:</span>
-								<div className="liRight">
-									<Input className="bigInput" value={radioValue.issue_count} onChange={(e)=>{
-										this.setState({radioValue:{...this.state.radioValue,issue_count:e.target.value}})
-									}} />
-									{
-										this.state.radioValue.release_mode !== 'INTEGRAL_EXCHANGE' &&<div>
-											每人	<Input
-											className="smallInput"
-											value={radioValue.get_limit_days}
-											onChange={(e)=>{
-												this.setState({radioValue:{...this.state.radioValue,get_limit_days:e.target.value}})
-											}}
-										/>天内，限领 <Input
-											className="smallInput"
-											value={radioValue.get_limit}
-											onChange={(e)=>{
-												this.setState({radioValue:{...this.state.radioValue,get_limit:e.target.value}})
-											}}
-										/>张
-										</div>
-									}
-								
-								</div>
-							</li> :''
 						}
 					</ul>
 					<div className="right">

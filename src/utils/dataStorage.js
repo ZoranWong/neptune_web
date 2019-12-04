@@ -2,7 +2,8 @@ import Storage from 'good-storage'
 import Cookies from 'js-cookie'
 import Config from '../config/app.js'
 import {Base64} from "./beSecret";
-
+import {order_transformer} from "./transformers";
+import _ from 'lodash'
 /**
  *
  * @param key
@@ -267,3 +268,26 @@ export function getCurrentMonth() {
     day.setDate(1);//本月第一天
     return [timeFormer(day),getNowDate(0)]
 }
+
+// 自定义显示项转化字段
+export function orderInputTransformer(keys) {
+    
+    _.map(keys, (key,index) => {
+        _.map(order_transformer, (item) => {
+            if (key === item.prevVal) {
+                keys.splice(index, 1, item.curVal)
+            }
+        })
+    });
+    return keys
+}
+
+export function orderOutputTransformer(keys) {
+    _.map(order_transformer, (item) => {
+        if (keys === item.curVal) {
+            keys = item.prevVal
+        }
+    });
+    return keys
+}
+

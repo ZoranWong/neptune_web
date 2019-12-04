@@ -4,31 +4,36 @@ import { Menu, Icon } from 'antd'
 import { Link } from 'react-router-dom'
 import '../../style/sider.sass'
 import IconFont from "../../utils/IconFont";
+import {hasPermission} from "../../utils/hasPermissions";
 const { SubMenu } = Menu;
 
-const baseMenu = [
+let baseMenu = [
 	{
 		path:'/marketing',
 		icon:'icon-coupon',
 		text:'优惠券',
+		slug: 'menu_marketing_coupon'
 	},
 	{
 		path:'/marketing/integralMall',
 		icon:'icon-YUAN-circle-fill',
 		text:'积分商城',
+		slug: 'menu_marketing_integral_mall'
 	},
 	{
 		path:'/marketing/userStore',
 		icon:'icon-box-fill',
 		text:'用户储值',
+		slug: 'menu_marketing_deposit'
 	},
 	{
 		path:'/marketing/message',
 		icon:'icon-commentdots-fill',
 		text:'模板消息',
+		slug: 'menu_marketing_msg_template'
 	},
 ];
-
+baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
 const Marketing = ({ match }) => (
 	<div style={{ paddingBottom: '120px',width:'216px' }}>
 		<Menu

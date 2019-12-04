@@ -77,6 +77,7 @@ import EditWeChatMessage from "../containers/Marketing/Message/EditWeChatMessage
 import DistributionStatistics from '../containers/Distribution/DistributionStatistics/DistributionStatistics'
 import CashbackRecords from "../containers/Distribution/CashbackRecords/CashbackRecords";
 import CashbackSetting from "../containers/Distribution/CashbackSetting/CashbackSetting";
+import OperationLogs from "../containers/Setting/OperationLogs/OperationLogs";
 
 
 /** 跳转到某个路由之前触发 用于验证页面权限**/
@@ -174,6 +175,7 @@ const Routes = () =>(
 		{/*设置*/}
 		<Route exact={true} path="/setting" render={props => onEnter(Staffing, props)} />
 		<Route exact={true} path="/setting/warningSetting" render={props => onEnter(WarningSetting, props)} />
+		<Route exact={true} path="/setting/logs" render={props => onEnter(OperationLogs, props)} />
 		
 		
 		{/*分销*/}

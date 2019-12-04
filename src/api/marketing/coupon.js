@@ -61,3 +61,12 @@ export function couponDetails(params,couponId) {
 		params: params
 	})
 }
+
+// 优惠券发送
+export function sendCoupons(params,couponId) {
+	return request({
+		url: `/api/backend/marketing/coupons/${couponId}/platform_send`,
+		method: 'put',
+		data: params
+	})
+}

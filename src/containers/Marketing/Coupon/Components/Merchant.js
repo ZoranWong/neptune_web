@@ -10,7 +10,7 @@ import {searchJson} from "../../../../utils/dataStorage";
 import AdvancedFilterComponent from "../../../Order/Components/AdvancedFilterComponent";
 import CustomItem from "../../../../components/CustomItems/CustomItems";
 import PickUpDetails from "../Modal/PickUpDetails";
-import {coupons, deleteCoupons, onShelvesCoupons} from "../../../../api/marketing/coupon";
+import {coupons, deleteCoupons, sendCoupons} from "../../../../api/marketing/coupon";
 import CouponDetails from "../Modal/CouponDetails";
 
 class Merchant extends Component {
@@ -133,7 +133,7 @@ class Merchant extends Component {
 			case 0 :
 				state = <span
 					style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
-					onClick={()=>confirmPopover(onShelvesCoupons,'发送',record.coupon_id)}
+					onClick={()=>confirmPopover( sendCoupons,'发送',record.coupon_id)}
 				>
 				发送
 			</span>;
@@ -283,6 +283,7 @@ class Merchant extends Component {
 		const pickUpDetails = {
 			visible:this.state.pickUpDetailsVisible,
 			onCancel:this.hidePickUpDetail,
+			couponId:this.state.couponId
 		};
 		const couponDetails = {
 			visible: this.state.detailsVisible,
@@ -305,7 +306,7 @@ class Merchant extends Component {
 					<div className="headerLeft">
 						<SearchInput
 							getDatas={this.search}
-							text='请输入姓名或手机号'
+							text='请输入优惠券名称'
 						/>
 						{/*<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>*/}
 						<Button

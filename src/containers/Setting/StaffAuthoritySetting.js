@@ -1,7 +1,7 @@
 // 员工列表
 
 import React from 'react'
-import {Modal, Button, Tabs, Tree} from 'antd';
+import {Modal, Button, Tabs, Tree, message} from 'antd';
 import './css/common.sass'
 import './css/staffAuthoritySetting.sass'
 import NewTreeNode from "../../components/NewTreeNode/NewTreeNode";
@@ -98,6 +98,7 @@ class StaffAuthoritySetting  extends React.Component{
 	
 	submit = ()=>{
 		setPermissions({role_permissions:this.state.selectedObj},this.state.id).then(r=>{
+			message.success('设置权限成功');
 			 this.handleCancel();
 			 this.props.refresh()
 		}).catch(_=>{})

@@ -56,11 +56,13 @@ class GoodsManage extends React.Component{
 				title: '操作',
 				render: (text,record) =>
 					<div>
-						<span
-							style={{'color':'#4F9863','cursor':'pointer'}}
-							onClick={()=>this.editShop(record)}
-						>编辑
+						{
+							window.hasPermission("product_management_edit") &&  <span
+								style={{'color':'#4F9863','cursor':'pointer'}}
+								onClick={()=>this.editShop(record)}
+							>编辑
 						</span>
+						}
 					</div>
 				,
 			},
@@ -288,7 +290,10 @@ class GoodsManage extends React.Component{
 				/>
 				
 				<div className="goods_manage_header">
-					<Button type="primary" size="small" onClick={this.showRelease}>发布商品</Button>
+					{
+						window.hasPermission("product_management_create") && <Button type="primary" size="small" onClick={this.showRelease}>发布商品</Button>
+					}
+					
 					<Button size="small">
 						<IconFont type="icon-download" />
 						批量导入
@@ -302,16 +307,22 @@ class GoodsManage extends React.Component{
 							text='请输入关键词'
 						/>
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
-						<Button
-							size="small"
-							disabled={this.state.checkedAry.length == 0}
-							onClick={this.showAddGroup}
-						>加入商品组</Button>
-						<Button
-							size="small"
-							disabled={this.state.checkedAry.length == 0}
-							onClick={this.unSale}
-						>下架</Button>
+						{
+							window.hasPermission("product_management_add_group") &&<Button
+								size="small"
+								disabled={this.state.checkedAry.length == 0}
+								onClick={this.showAddGroup}
+							>加入商品组</Button>
+						}
+						
+						{
+							window.hasPermission("product_management_get_off_shelves") && <Button
+								size="small"
+								disabled={this.state.checkedAry.length == 0}
+								onClick={this.unSale}
+							>下架</Button>
+						}
+						
 					</div>
 					<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 				</div>

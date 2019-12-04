@@ -135,7 +135,10 @@ class MerchantRefund extends Component {
 		return (
 			<Fragment>
 				<div className="cr_header">
-					<Button size="small" type="primary" onClick={this.goRefundApplication}>退款申请({this.props.total || 0})</Button>
+					{
+						window.hasPermission("refund_detailed_application") && <Button size="small" type="primary" onClick={this.goRefundApplication}>退款申请({this.props.total || 0})</Button>
+					}
+					
 				</div>
 				<div className="cr_chartContent">
 					<ul className="filter">
@@ -198,10 +201,13 @@ class MerchantRefund extends Component {
 						</li>
 						<li className="button">
 							<Button size="small" type="primary" onClick={this.search}>搜索</Button>
-							<Button
-								size="small"
-							>导出筛选结果
-							</Button>
+							{
+								window.hasPermission("refund_detailed_export") && <Button
+									size="small"
+								
+								>导出筛选结果
+								</Button>
+							}
 							<span className="clear" onClick={this.clear}>清空筛选条件</span>
 						</li>
 					</ul>

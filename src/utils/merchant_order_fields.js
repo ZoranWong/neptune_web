@@ -63,17 +63,17 @@ export const merchant_order_values = [
 			},
 			{
 				label:'商品',
-				value:'product_name',
+				value:'products',
 				type:'equalCompare'
 			},
 			{
 				label:'破损商品',
-				value:'damaged',
+				value:'damagedProducts',
 				type:'equalCompare'
 			},
 			{
 				label:'缺少商品',
-				value:'deficient',
+				value:'deficientProducts',
 				type:'equalCompare'
 			},
 		]

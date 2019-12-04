@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Table} from 'antd'
+import {Button, message, Table} from 'antd'
 import './css/shopManage.sass'
 import {withRouter} from 'react-router-dom'
 import SearchInput from "../../../components/SearchInput/SearchInput";
@@ -53,11 +53,13 @@ class ShopManage extends React.Component{
 				title: '操作',
 				render: (text,record) =>
 					<div>
-						<span
-							style={{'color':'#4F9863','cursor':'pointer'}}
-							onClick={()=>this.editShop(record)}
+						{
+							window.hasPermission("shop_management_edit") && <span
+								style={{'color':'#4F9863','cursor':'pointer'}}
+								onClick={()=>this.editShop(record)}
 							>编辑
 						</span>
+						}
 						<span
 							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
 							onClick={()=>this.showCode(record)}
@@ -137,7 +139,12 @@ class ShopManage extends React.Component{
 	};
 	
 	jump = (record) =>{
-		this.props.history.push({pathname:"/shops/shopDetails",state:{id:record.id}})
+		if (window.hasPermission("shop_management_display")) {
+			this.props.history.push({pathname:"/shops/shopDetails",state:{id:record.id}})
+		} else {
+			message.error('暂无权限，请联系管理员')
+		}
+		
 	};
 	
 	// 店铺申请
@@ -300,11 +307,13 @@ class ShopManage extends React.Component{
 			title: '操作',
 			render: (text,record) =>
 				<div>
-						<span
+					{
+						window.hasPermission("shop_management_edit") && <span
 							style={{'color':'#4F9863','cursor':'pointer'}}
 							onClick={()=>this.editShop(record)}
 						>编辑
 						</span>
+					}
 					<span
 						style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
 						onClick={()=>this.showCode(record)}
@@ -415,8 +424,12 @@ class ShopManage extends React.Component{
 				
 				
 				<div className="s_header">
-					<Button size="small" type="primary" onClick={this.showApplication}>店铺申请({this.state.applications_count})</Button>
-					<Button size="small" onClick={this.showAdd}>新增店铺</Button>
+					{
+						window.hasPermission("shop_management_application") && <Button size="small" type="primary" onClick={this.showApplication}>店铺申请({this.state.applications_count})</Button>
+					}
+					{
+						window.hasPermission("shop_management_add_shop") && <Button size="small" onClick={this.showAdd}>新增店铺</Button>
+					}
 				</div>
 				
 				
@@ -427,13 +440,19 @@ class ShopManage extends React.Component{
 							text='请输入关键词'
 						/>
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
-						<Button size="small" disabled={this.state.checkedAry.length == 0} onClick={this.showChangeStatus}>修改店铺状态</Button>
-						<Button
-							size="small"
-							disabled={this.state.checkedAry.length == 0}
-							onClick={this.showAddGroup}
-						>加入群组</Button>
-						<Button size="small" disabled={this.state.checkedAry.length == 0}>导出</Button>
+						{
+							window.hasPermission("shop_management_switch_state") && 	<Button size="small" disabled={this.state.checkedAry.length == 0} onClick={this.showChangeStatus}>修改店铺状态</Button>
+						}
+						{
+							window.hasPermission("shop_management_add_group") && <Button
+								size="small"
+								disabled={this.state.checkedAry.length == 0}
+								onClick={this.showAddGroup}
+							>加入群组</Button>
+						}
+						{
+							window.hasPermission("shop_management_export") && <Button size="small" disabled={this.state.checkedAry.length == 0}>导出</Button>
+						}
 					</div>
 					<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 				</div>

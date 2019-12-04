@@ -1,10 +1,10 @@
 import React from "react";
-import {message, Modal, Select} from "antd";
+import {Button, message, Modal, Select} from "antd";
 import '../BreakfastOrder/css/saleRange.sass'
 import {shops} from "../../../api/shops/shopManage";
 import {groups} from "../../../api/shops/groups";
-import {setRange} from "../../../api/goods/goods";
-
+import {setRange,clearRange} from "../../../api/goods/goods";
+import _ from 'lodash'
 export default class SaleRange extends React.Component{
 	constructor(props) {
 		super(props);
@@ -14,10 +14,34 @@ export default class SaleRange extends React.Component{
 			selectedGroupItems:[],
 			selectedGroupShopsItems:[],
 			activeShopGroup:'',
-			type:'',
-			opt:'',
-			where:[]
+			type:undefined,
+			opt:undefined,
+			where:undefined
 		}
+	}
+	
+	componentWillReceiveProps(nextProps, nextContext) {
+		this.setState({
+			type: undefined,
+			opt: undefined,
+			where: undefined
+		})
+		if (_.isEmpty(nextProps.scope)) return ;
+		let shop = nextProps.scope.hasOwnProperty('shop');
+		let group = nextProps.scope.hasOwnProperty('group');
+		let type = null;
+		if (shop) type = 'shop';
+		if (group) type = 'group';
+		let api = '';
+		api = type == 'shop'?shops:groups;
+		api({}).then(r=>{
+			this.setState({type:type,data:r.data})
+		});
+		this.setState({
+			type: type,
+			opt: nextProps.scope[type].opt,
+			where: nextProps.scope[type].where
+		})
 	}
 	
 	componentDidMount() {
@@ -44,7 +68,14 @@ export default class SaleRange extends React.Component{
 	};
 	
 	handleCancel = () =>{
-		this.props.onCancel();
+		this.setState({
+			type: undefined,
+			opt: undefined,
+			where: undefined
+		},()=>{
+			this.props.onCancel();
+		});
+		
 	};
 	
 	handleSubmit = () =>{
@@ -61,9 +92,17 @@ export default class SaleRange extends React.Component{
 			opt:this.state.opt,
 			where:this.state.where
 		},this.props.rangeId).then(r=>{
-			message.success(r.message)
+			message.success(r.message);
+			this.props.refresh();
 			this.handleCancel()
 		}).catch(_=>{})
+	};
+	
+	clearRange = () => {
+		clearRange({},this.props.rangeId).then(r=>{
+			message.success(r.message);
+			this.handleCancel();
+		})
 	};
 	
 	render() {
@@ -79,6 +118,9 @@ export default class SaleRange extends React.Component{
 					cancelText="取消"
 					onOk={this.handleSubmit}
 				>
+					<div className='clearRangeBox'>
+						<Button size='small' className='clearRange' onClick={this.clearRange}> 清空售卖范围</Button>
+					</div>
 					<div className="saleRangeBox">
 						<Select
 							defaultActiveFirstOption={false}
@@ -94,6 +136,8 @@ export default class SaleRange extends React.Component{
 							defaultActiveFirstOption={false}
 							style={{ width: 82,marginLeft:5 }}
 							onChange={this.onTypeChange}
+							placeholder= '请选择售卖方式'
+							value={this.state.opt}
 						>
 							<Select.Option value="in">只售于</Select.Option>
 							<Select.Option value="not in">不售于</Select.Option>
@@ -102,6 +146,7 @@ export default class SaleRange extends React.Component{
 							defaultActiveFirstOption={false}
 							mode="tags"
 							value={this.state.where}
+							placeholder='请选择范围'
 							className='selectedBox tagBox'
 							onChange={this.onShopChange}
 							allowClear

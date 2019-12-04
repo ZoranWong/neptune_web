@@ -144,3 +144,11 @@ export function subordinates(params,shopId) {
 	})
 }
 
+// 调整店铺余额
+export function adjustShopBalance(params) {
+	return request({
+		url: '/api/backend/shops/balance/operate',
+		method: 'put',
+		data: params
+	})
+}

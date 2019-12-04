@@ -69,6 +69,7 @@ export default class AdvancedFilterComponent extends React.Component{
 						value={shop_values}
 						operation={operation}
 						api={{groups,getChannels}}
+						slug="shop"
 					/>
 				</Modal>
 			</div>

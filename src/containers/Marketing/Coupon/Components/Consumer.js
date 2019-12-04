@@ -12,7 +12,7 @@ import CustomItem from "../../../../components/CustomItems/CustomItems";
 import PickUpDetails from "../Modal/PickUpDetails";
 import PromotionCode from "../Modal/PromotionCode";
 import CouponDetails from "../Modal/CouponDetails";
-import {coupons,deleteCoupons,offShelvesCoupons,onShelvesCoupons} from "../../../../api/marketing/coupon";
+import {coupons,deleteCoupons,offShelvesCoupons,onShelvesCoupons,sendCoupons} from "../../../../api/marketing/coupon";
 
 class Consumer extends Component {
 	constructor(props) {
@@ -145,7 +145,7 @@ class Consumer extends Component {
 				case 0 :
 					state = <span
 						style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
-						onClick={()=>confirmPopover(onShelvesCoupons,'发送',record.coupon_id)}
+						onClick={()=>confirmPopover(sendCoupons,'发送',record.coupon_id)}
 					>
 					发送
 				</span>;
@@ -421,7 +421,7 @@ class Consumer extends Component {
 					<div className="headerLeft">
 						<SearchInput
 							getDatas={this.search}
-							text='请输入姓名或手机号'
+							text='请输入优惠券名称'
 						/>
 						{/*<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>*/}
 						<Button

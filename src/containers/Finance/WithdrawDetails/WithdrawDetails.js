@@ -18,8 +18,8 @@ export default class WithdrawDetails extends Component {
 			searchJson:{
 				shop_info:'',
 				shop_channel_id:'',
-				handled_at:[],
-				amount: []
+				handled_at:'',
+				amount: ''
 			},
 			data:[],
 			channels:[],
@@ -118,7 +118,9 @@ export default class WithdrawDetails extends Component {
 		return (
 			<div className="withdrawDetails">
 				<div className="wd_header">
-					<Button type="primary" size="small" onClick={this.goApplication}>提现申请</Button>
+					{
+						window.hasPermission("withdraw_detailed_application") && 					<Button type="primary" size="small" onClick={this.goApplication}>提现申请</Button>
+					}
 				</div>
 				<SelectTimeRange api={withdrawOverview} handleData={this.handleData} />
 				<ul className="data">
@@ -179,14 +181,17 @@ export default class WithdrawDetails extends Component {
 						</li>
 						<li className="button">
 							<Button size="small" type="primary"  onClick={this.search}>搜索</Button>
-							<Button
-								size="small"
-							
-							>导出筛选结果
-							</Button>
+							{
+								window.hasPermission("withdraw_detailed_export") && 	<Button
+									size="small"
+								
+								>导出筛选结果
+								</Button>
+							}
+						
 							
 							<span className="clear" onClick={this.clear}>清空筛选条件</span>
-						</li>
+						</li>withdraw_detailed_application
 					</ul>
 					<div className="chart u_chart">
 						<Table

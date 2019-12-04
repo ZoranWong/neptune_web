@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
-import {Button, DatePicker, Input, LocaleProvider, Table} from "antd";
+import {Button, DatePicker, Input, LocaleProvider, Select, Table} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
+import {withdrawApplications} from "../../../../api/finance/withdraw";
 import CustomPagination from "../../../../components/Layout/Pagination";
+import {getChannels} from "../../../../api/shops/channel";
+import {searchJson} from "../../../../utils/dataStorage";
+
 const {RangePicker} = DatePicker;
 class WithdrawApplication extends Component {
 	constructor(props) {
@@ -9,32 +13,104 @@ class WithdrawApplication extends Component {
 		this.state = {
 			data:[],
 			paginationParams:{},
-			searchJson:{},
-			api:'',
-			
+			api:withdrawApplications,
+			checkedAry: [],
+			searchJson:{
+				shop_info:'',
+				shop_channel_id:'',
+				created_at:'',
+				amount: ''
+			},
+			channels:[],
 		};
 		this.child = React.createRef();
 	}
+	
+	componentDidMount() {
+		getChannels({}).then(r=>{
+			this.setState({channels: r.data})
+		})
+	}
+	
+	// 分页器改变值
+	paginationChange = (list) =>{
+		this.setState({data:list})
+	};
+	
+	withdraw = () => {
+		// 规划
+	};
+	
+	// 筛选
+	search = () =>{
+		let obj = {};
+		let searchJsons = this.state.searchJson;
+		for (let key in searchJsons){
+			if(searchJsons[key]){
+				obj[key] = searchJsons[key]
+			}
+		}
+		this.setState({
+			paginationParams:{...this.state.paginationParams,
+				searchJson: searchJson(obj)}
+		},()=>{
+			this.child.current.pagination(this.child.current.state.current)
+		});
+	};
+	
+	// 选择搜索日期
+	onDateChange = (date,dateString) =>{
+		this.setState({searchJson:{...this.state.searchJson,created_at:dateString}})
+	};
+	
+	//改变搜索值
+	changeSearchValue = (e,type) =>{
+		this.setState({searchJson:{...this.state.searchJson,[type]:e.target.value}})
+	};
+	
+	// 清空筛选条件
+	clear = () =>{
+		let searchJson = {
+			member_info:'',
+			trade_no:'',
+			type:'',
+			state:'',
+			created_at:'',
+		};
+		this.setState({searchJson},()=>{
+			this.search()
+		})
+	};
 	
 	render() {
 		const columns = [
 			{
 				title: '店铺名称/姓名/手机号',
-				dataIndex: 'name',
+				dataIndex: 'shop_name',
+				render: (text, record) => `${text}/${record['user_name']}/${record['mobile']}`
 			},
 			{
 				title: '渠道',
-				dataIndex: 'a',
+				dataIndex: 'channel_desc',
 			},
 			{
 				title: '金额',
-				dataIndex: 'b',
+				dataIndex: 'amount',
 			}
 		];
+		const rowSelection = {
+			onChange: (selectedRowKeys, selectedRows) => {
+				this.setState({checkedAry:selectedRowKeys})
+			},
+			getCheckboxProps: record => ({
+				disabled: record.name === 'Disabled User', // Column configuration not to be checked
+				name: record.name,
+			})
+		};
 		return (
 			<div className="withdrawApp">
 				<div className="header">
-					<Button type="primary" size="small">确认提现</Button>
+					<Button disabled={this.state.checkedAry.length == 0} size="small" onClick={this.withdraw}>确认提现</Button>
 					<Button size="small" onClick={()=>{
 						this.props.history.go(-1)
 					}}>返回上一页</Button>
@@ -43,15 +119,34 @@ class WithdrawApplication extends Component {
 					<ul className="filter">
 						<li className="needMargin">
 							店铺名称：
-							<Input placeholder="请输入店铺名称" />
+							<Input
+								placeholder="请输入店铺名称"
+								value={this.state.searchJson['shop_info']}
+								onChange={(e)=>{this.changeSearchValue(e,'shop_info')}}
+							/>
 						</li>
 						<li className="needMargin">
 							提现金额：
-							<Input placeholder='请输入提现金额' />
+							<Input placeholder='请输入提现金额'
+								   value={this.state.searchJson['amount']}
+								   onChange={(e)=>{this.changeSearchValue(e,'amount')}}
+							/>
 						</li>
 						<li >
 							选择渠道：
-							<Input placeholder='请选择渠道（下拉选择框）' />
+							<Select
+								value={this.state.searchJson.shop_channel_id}
+								onChange={(e)=>{
+									this.setState({searchJson:{...this.state.searchJson,shop_channel_id:e}})
+								}}
+								defaultActiveFirstOption={false}
+							>
+								{
+									this.state.channels.map(item=>(
+										<Select.Option  value={item.id}>{item.name}</Select.Option>
+									))
+								}
+							</Select>
 						</li>
 						<li>
 							确认时间：
@@ -62,20 +157,21 @@ class WithdrawApplication extends Component {
 							</LocaleProvider>
 						</li>
 						<li className="button">
-							<Button size="small" type="primary">搜索</Button>
+							<Button size="small" type="primary" onClick={this.search}>搜索</Button>
 							<Button
 								size="small"
 							
 							>导出筛选结果
 							</Button>
 							
-							<span className="clear">清空筛选条件</span>
+							<span className="clear" onClick={this.clear}>清空筛选条件</span>
 						</li>
 					</ul>
 					<div className="chart u_chart">
 						<Table
 							columns={columns}
-							rowKey={record => record.product_id}
+							rowSelection={rowSelection}
+							rowKey={record => record.log_id}
 							pagination={false}
 							rowClassName={(record, index) => {
 								let className = '';

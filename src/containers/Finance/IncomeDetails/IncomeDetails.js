@@ -127,12 +127,13 @@ class IncomeDetails extends Component {
 						</li>
 						<li className="button">
 							<Button size="small" type="primary">搜索</Button>
-							<Button
-								size="small"
-							
-							>导出筛选结果
-							</Button>
-							
+							{
+								window.hasPermission("income_detailed_export") && <Button
+									size="small"
+								
+								>导出筛选结果
+								</Button>
+							}
 							<span className="clear">清空筛选条件</span>
 						</li>
 					</ul>

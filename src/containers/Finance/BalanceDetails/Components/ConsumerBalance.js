@@ -176,10 +176,13 @@ class ConsumerBalance extends Component {
 						</li>
 						<li className="button">
 							<Button size="small" type="primary" onClick={this.search}>搜索</Button>
-							<Button
-								size="small"
-							>导出筛选结果
-							</Button>
+							{
+								window.hasPermission("balance_detailed_export") && <Button
+									size="small"
+								
+								>导出筛选结果
+								</Button>
+							}
 						
 							<span className="clear" onClick={this.clear}>清空筛选条件</span>
 						</li>

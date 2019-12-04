@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom'
 import {Button, Table} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/goodsOrder.sass'
-import {getToken, searchJson} from "../../../utils/dataStorage";
+import {getToken, orderInputTransformer, orderOutputTransformer, searchJson} from "../../../utils/dataStorage";
 import {merchant_order_values} from "../../../utils/merchant_order_fields";
 import AdvancedFilterComponent from "../Components/AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
@@ -15,7 +15,7 @@ import ReviewGoods from "../Components/ReviewGoods";
 import Export from "../Components/Export";
 class GoodsOrder extends React.Component{
 	constructor(props){
-		const defaultItem = ['shop_name','trade_no', 'deficient', 'damaged', 'created_at','state_desc'];
+		const defaultItem = ['shop_name','trade_no','products', 'deficientProducts', 'damagedProducts', 'created_at','state_desc'];
 		
 		super(props);
 		this.child = React.createRef();
@@ -35,6 +35,77 @@ class GoodsOrder extends React.Component{
 			refundItem:{},
 			defaultItem: defaultItem
 		};
+		this.merchantColumns = [
+			{
+				title: '商户名',
+				dataIndex: 'name',
+			},
+			{
+				title: '商品',
+				render: (text,record) => {
+					if(record.items.data.length){
+						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+							<span className="orderGoods">{record.items.data[0].name+'......'}</span>
+							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items, '商品')} />
+						</span>
+					} else {
+						return <span>无</span>
+					}
+				},
+			},
+			{
+				title: '缺少商品',
+				render: (text,record) => {
+					if(record.deficient_items.data.length){
+						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+							<span className="orderGoods">{record.deficient_items.data[0].name+'......'}</span>
+							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.deficient_items, '缺少商品')} />
+						</span>
+					} else {
+						return <span>无</span>
+					}
+				},
+			},
+			{
+				title: '破损商品',
+				render: (text,record) => {
+					if(record.damaged_items.data.length){
+						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+							<span className="orderGoods">{record.damaged_items.data[0].name+'......'}</span>
+							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.damaged_items, '破损商品')} />
+						</span>
+					} else {
+						return <span>无</span>
+					}
+				},
+			},
+			
+			{
+				title: '下单时间',
+				dataIndex: 'created_at',
+			},
+			{
+				title: '送货批次',
+				dataIndex: 'delivery_batch',
+			},
+			{
+				title: this.state.activeTab == 'GOODS_UNQUALIFIED_WAIT_PROCESS'?'操作':'状态',
+				dataIndex:'state_desc',
+				render:(text,record) =>{
+					if(this.state.activeTab == 'GOODS_UNQUALIFIED_WAIT_PROCESS'){
+						return (
+							<div>
+								{
+									window.hasPermission("order_agent_confirm_refund") && <span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.showRefund(record)}>退款</span>
+								}
+							</div>
+						)
+					} else {
+						return <span>{text}</span>
+					}
+				},
+			},
+		];
 	}
 	
 	componentWillMount() {
@@ -100,7 +171,43 @@ class GoodsOrder extends React.Component{
 					if(e == c.value){
 						let obj = {};
 						obj.title = c.label;
-						obj.dataIndex = e;
+						obj.dataIndex = orderOutputTransformer(e);
+						if (obj.dataIndex === 'damaged_items') {
+							obj.render = (text,record) => {
+								if(record.damaged_items.data.length){
+									return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+										<span className="orderGoods">{record.damaged_items.data[0].name+'......'}</span>
+										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.damaged_items, '破损商品')} />
+									</span>
+								} else {
+									return <span>无</span>
+								}
+							}
+						};
+						if (obj.dataIndex === 'items') {
+							obj.render = (text,record) => {
+								if(record.items.data.length){
+									return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+										<span className="orderGoods">{record.items.data[0].name+'......'}</span>
+										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items)} />
+									</span>
+								} else {
+									return <span>无</span>
+								}
+							}
+						}
+						if (obj.dataIndex === 'deficient_items') {
+							obj.render =(text,record) => {
+								if(record.deficient_items.data.length){
+									return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+										<span className="orderGoods">{record.deficient_items.data[0].name+'......'}</span>
+										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.deficient_items, '缺少商品')} />
+									</span>
+								} else {
+									return <span>无</span>
+								}
+							}
+						}
 						ary.push(obj)
 					}
 				})
@@ -112,7 +219,8 @@ class GoodsOrder extends React.Component{
 		}
 		ary[0].render = (text,record) => <span
 			style={{'color':'#4F9863','cursor':'pointer'}}
-			onClick={()=>this.jump(record)}>{text}</span>
+			onClick={()=>this.jump(record)}>{text}</span>;
+		this.merchantColumns = ary;
 		this.setState({
 			columns:ary,
 			paginationParams:{...this.state.paginationParams, only:  e.join(',')}
@@ -151,7 +259,7 @@ class GoodsOrder extends React.Component{
 	
 	// 设置默认模板消息
 	setMessage = () => {
-		this.props.history.push({pathname:"/order/setUserMessage",state:{mode:'goods'}})
+		this.props.history.push({pathname:"/order/setUserMessage",state:{mode:'user'}})
 	};
 	
 	// 导出
@@ -193,75 +301,7 @@ class GoodsOrder extends React.Component{
 			{name:'处理中',key:'GOODS_UNQUALIFIED_WAIT_VERIFY'},
 			{name:'已退款',key:'GOODS_UNQUALIFIED_REFUNDED'},
 		];
-		const columns = [
-			{
-				title: '商户名',
-				dataIndex: 'name',
-			},
-			{
-				title: '商品',
-				render: (text,record) => {
-					if(record.items.data.length){
-						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-							<span className="orderGoods">{record.items.data[0].name+'......'}</span>
-							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items, '商品')} />
-						</span>
-					} else {
-						return <span>无</span>
-					}
-				},
-			},
-			{
-				title: '缺少商品',
-				render: (text,record) => {
-					if(record.deficient_items.data.length){
-						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-							<span className="orderGoods">{record.deficient_items.data[0].name+'......'}</span>
-							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.deficient_items, '缺少商品')} />
-						</span>
-					} else {
-						return <span>无</span>
-					}
-				},
-			},
-			{
-				title: '破损商品',
-				render: (text,record) => {
-					if(record.damaged_items.data.length){
-						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-							<span className="orderGoods">{record.damaged_items.data[0].name+'......'}</span>
-							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.damaged_items, '破损商品')} />
-						</span>
-					} else {
-						return <span>无</span>
-					}
-				},
-			},
-			
-			{
-				title: '下单时间',
-				dataIndex: 'created_at',
-			},
-			{
-				title: '送货批次',
-				dataIndex: 'delivery_batch',
-			},
-			{
-				title: this.state.activeTab == 'GOODS_UNQUALIFIED_WAIT_PROCESS'?'操作':'状态',
-				dataIndex:'state_desc',
-				render:(text,record) =>{
-					if(this.state.activeTab == 'GOODS_UNQUALIFIED_WAIT_PROCESS'){
-						return (
-							<div>
-								<span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.showRefund(record)}>退款</span>
-							</div>
-						)
-					} else {
-						return <span>{text}</span>
-					}
-				},
-			},
-		];
+		
 		const strategy = [
 			{key: 'MERCHANT_ORDER_PRODUCT_ORDER_CUSTOMIZE', value: '自定义显示项',},
 			{key: 'MERCHANT_ORDER_PRODUCT_ORDER_PRODUCT', value: '商品维度',},
@@ -311,11 +351,13 @@ class GoodsOrder extends React.Component{
 							text='请输入姓名或手机号'
 						/>
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
-						<Button
-							size="small"
-							type='primary'
-							onClick={this.setMessage}
-						>设置默认模板消息</Button>
+						{
+							window.hasPermission("order_agent_bind_template") && <Button
+								size="small"
+								type='primary'
+								onClick={this.setMessage}
+							>设置默认模板消息</Button>
+						}
 					</div>
 				</div>
 				
@@ -336,8 +378,8 @@ class GoodsOrder extends React.Component{
 						<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
 							<CustomItem
 								data={merchant_order_values}
-								targetKeys={this.state.defaultItem}
-								firstItem={'trade_no'}
+								targetKeys={orderInputTransformer(this.state.defaultItem)}
+								firstItem={'shop_name'}
 								handleCustom={this.handleCustom} />
 						</div>
 					</div>
@@ -345,7 +387,7 @@ class GoodsOrder extends React.Component{
 				<div className="chart u_chart">
 					<Table
 						rowSelection={rowSelection}
-						columns={columns}
+						columns={this.merchantColumns}
 						rowKey={record => record.product_id}
 						pagination={false}
 						rowClassName={(record, index) => {

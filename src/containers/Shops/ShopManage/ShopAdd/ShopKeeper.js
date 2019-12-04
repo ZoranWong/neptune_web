@@ -82,7 +82,7 @@ class ShopKeeper extends React.Component{
 			message.error('请填写正确格式的手机号');
 			return
 		}
-		if( !this.props.recordId && !checkIdCard(listData.id_card_no)) {
+		if( !this.props.recordId && !checkIdCard(listData.keeper_id_card_no)) {
 			message.error('请填写正确格式的身份证号');
 			return
 		}
@@ -133,7 +133,7 @@ class ShopKeeper extends React.Component{
 			address:listData.address,
 			keeper_name:listData.keeper_name,
 			keeper_mobile:listData.keeper_mobile,
-			keeper_id_card_no:listData.id_card_no,
+			keeper_id_card_no:listData.keeper_id_card_no,
 			status:this.state.status,
 			introducer_code:listData.introducer_code,
 			name:listData.name,

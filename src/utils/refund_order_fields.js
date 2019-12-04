@@ -82,7 +82,7 @@ export const refund_order_values = [
 			},
 			{
 				label:'商品',
-				value:'product_name',
+				value:'products',
 				type:'equalCompare'
 			},
 		]

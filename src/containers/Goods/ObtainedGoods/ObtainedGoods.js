@@ -51,11 +51,14 @@ class ObtainedGoods extends React.Component{
 				title: '操作',
 				render: (text,record) =>
 					<div>
-						<span
-							style={{'color':'#4F9863','cursor':'pointer'}}
-							onClick={()=>this.editShop(record)}
-						>编辑
+						{
+							window.hasPermission("product_off_shelves_edit") && <span
+								style={{'color':'#4F9863','cursor':'pointer'}}
+								onClick={()=>this.editShop(record)}
+							>编辑
 						</span>
+						}
+						
 					</div>
 				,
 			},
@@ -291,16 +294,21 @@ class ObtainedGoods extends React.Component{
 							text='请输入商品名称'
 						/>
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
-						<Button
-							size="small"
-							disabled={this.state.checkedAry.length == 0}
-							onClick={this.unSale}
-						>上架</Button>
-						<Button
-							size="small"
-							disabled={this.state.checkedAry.length == 0}
-							onClick={this.delete}
-						>删除</Button>
+						{
+							window.hasPermission("product_off_shelves_put_on") && <Button
+								size="small"
+								disabled={this.state.checkedAry.length == 0}
+								onClick={this.unSale}
+							>上架</Button>
+						}
+						{
+							window.hasPermission("product_off_shelves_delete") && <Button
+								size="small"
+								disabled={this.state.checkedAry.length == 0}
+								onClick={this.delete}
+							>删除</Button>
+						}
+						
 						<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 					</div>
 				</div>

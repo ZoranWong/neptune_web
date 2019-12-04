@@ -67,33 +67,43 @@ class Activities extends React.Component{
 			{
 				title: '虚拟销量',
 				dataIndex: 'virtual_sales',
-				render: (text,record) =>
-					<InputNumber
-						className="virtualSales"
-						defaultValue={text}
-						onBlur={(e)=>{
-							e.target.value = e.target.value < 0? 0:e.target.value;
-							if(e.target.value <= 0) return;
-							setVirtualSales({virtual_sales:e.target.value},record.provide_id).then(r=>{
-								message.success(r.message)
-							}).catch(_=>{})
-						}}
-					/>
+				render: (text,record) =>{
+					if (window.hasPermission("product_activity_book_set_virtual_sale")) {
+						return <InputNumber
+							className="virtualSales"
+							defaultValue={text}
+							onBlur={(e)=>{
+								e.target.value = e.target.value < 0? 0:e.target.value;
+								if(e.target.value <= 0) return;
+								setVirtualSales({virtual_sales:e.target.value},record.provide_id).then(r=>{
+									message.success(r.message)
+								}).catch(_=>{})
+							}}
+						/>
+					} else {
+						return <span>{text}</span>
+					}
+				}
 			},
 			{
 				title: '操作',
 				render: (text,record) =>
 					<div>
-						<span
-							style={{'color':'#4F9863','cursor':'pointer'}}
-							onClick={()=>this.showSaleRange(record.provide_id)}
-						>售卖范围
+						{
+							window.hasPermission("product_activity_book_set_sale_scope") && <span
+								style={{'color':'#4F9863','cursor':'pointer'}}
+								onClick={()=>this.showSaleRange(record.provide_id)}
+							>售卖范围
 						</span>
-						<span
-							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
-							onClick={()=>this.showWarningStock(record)}
-						>警戒库存
+						}
+						
+						{
+							window.hasPermission("product_activity_book_set_stock_alert") && <span
+								style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
+								onClick={()=>this.showWarningStock(record)}
+							>警戒库存
 						</span>
+						}
 					</div>
 				,
 			},
@@ -345,15 +355,21 @@ class Activities extends React.Component{
 				
 				
 				<div className="breakfast_header">
-					<Button type="primary" size="small" onClick={this.showShelfGoods}>上架商品</Button>
-					<Button size="small" onClick={this.inStock}>
-						<IconFont type="icon-download" />
-						商品入库
-					</Button>
-					<Button size="small" onClick={this.outStock}>
-						<IconFont type="icon-upload" />
-						商品出库
-					</Button>
+					{
+						window.hasPermission("product_activity_book_put_on") && <Button type="primary" size="small" onClick={this.showShelfGoods}>上架商品</Button>
+					}
+					{
+						window.hasPermission("product_activity_book_add_stock") && <Button size="small" onClick={this.inStock}>
+							<IconFont type="icon-download" />
+							商品入库
+						</Button>
+					}
+					{
+						window.hasPermission("product_activity_book_out_stock") && <Button size="small" onClick={this.outStock}>
+							<IconFont type="icon-upload" />
+							商品出库
+						</Button>
+					}
 				</div>
 				
 				<div className="s_body">
@@ -363,11 +379,13 @@ class Activities extends React.Component{
 							text='请输入商品名称'
 						/>
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
-						<Button
-							size="small"
-							disabled={this.state.checkedAry.length == 0}
-							onClick={this.unSale}
-						>下架</Button>
+						{
+							window.hasPermission("product_activity_book_get_off") && <Button
+								size="small"
+								disabled={this.state.checkedAry.length == 0}
+								onClick={this.unSale}
+							>下架</Button>
+						}
 					</div>
 				</div>
 				

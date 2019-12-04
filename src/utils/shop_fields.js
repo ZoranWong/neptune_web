@@ -31,7 +31,7 @@ export const shop_values = [
 			{
 				label:'省',
 				value:'province_code',
-				type:'genderCompare'
+				type:'cityCompare'
 			},
 			{
 				label:'市',

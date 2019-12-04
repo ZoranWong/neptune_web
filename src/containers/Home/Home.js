@@ -7,6 +7,7 @@ import EChartsRight from "./Components/EChartsRight";
 import IconFont from "../../utils/IconFont";
 import {home} from '../../api/home'
 import moment from "moment";
+
 class Home extends React.Component{
 	state = {
 		allData:[],

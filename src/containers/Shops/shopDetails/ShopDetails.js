@@ -7,6 +7,7 @@ import Introduction from './Introduction'
 import IntroductionPerson from './IntroductionPerson'
 import CodePayment from "./CodePayment";
 import Map from "../../../components/Map/Map";
+import OperateBalance from "../../../components/OperateBalance/OperateBalance";
 class ShopDetails extends React.Component{
 	constructor(props){
 		super(props);
@@ -123,13 +124,25 @@ class ShopDetails extends React.Component{
 	
 	};
 	
-	
+	// 赠送
+	showBalance = () =>{
+		this.setState({balanceVisible: true})
+	};
+	hideBalance = () => {
+		this.setState({balanceVisible: false})
+	};
 	render(){
 		const {data} = this.state;
-		
+		const balanceProps = {
+			visible: this.state.balanceVisible,
+			onCancel: this.hideBalance,
+			refresh: this.refresh,
+			type: 'shop',
+			id: this.state.data.id
+		};
 		return (
 			<div className="shopDetail">
-				
+				<OperateBalance {...balanceProps} />
 				<ShopInformation
 					visible={this.state.shopInformationVisible}
 					onClose={this.hideShopInformation}
@@ -166,11 +179,7 @@ class ShopDetails extends React.Component{
 					</div>
 					<div className="u_body_one">
 						<ul className="u_body_top">
-							{
-								data['keeper_info'] && <li className="firstChild">
-									<img src={data['keeper_info']['shop_images']['doorway']} alt=""/>
-								</li>
-							}
+						 
 							<li >
 								<p>店铺渠道：{data.channel}</p>
 								<p>早餐编号：{data.breakfast_car_code || '无'}</p>
@@ -191,7 +200,9 @@ class ShopDetails extends React.Component{
 							</li>
 							<li>
 								<p>开业时间：{data.created_at}</p>
-								<p>介绍人：{data.introducer_code || '无'}</p>
+								{
+									data.introducer && <p>介绍人：{data.introducer.name || '无'}</p>
+								}
 							</li>
 							<li className="btns">
 								<Button size="small" onClick={this.showShopInformation}>店铺资料</Button>
@@ -209,8 +220,15 @@ class ShopDetails extends React.Component{
 					<ul>
 						<li>
 							<h3>余额</h3>
-							<div>
+							<div className='adjust'>
 								{data.balance}
+								{
+									window.hasPermission("shop_management_display_balance_operate") && <span
+										className='adjustBalance'
+										onClick={this.showBalance}
+										style={{'cursor':'pointer'}}
+									>调整</span>
+								}
 							</div>
 						</li>
 						<li>
@@ -439,16 +457,18 @@ class ShopDetails extends React.Component{
 					<div className="group_header">
 						店铺组
 					</div>
-					<div className="group_tags">
-						{
-							data.groups&&data.groups.length?(
-								data.groups.map(item=>{
-									return <Tag closable={true} key={item.id} onClose={()=>this.removeTag(item.id)}>
-										{item.name}
-									</Tag>
-								})):''
-						}
-					</div>
+					{
+						window.hasPermission("menu_shop_group") && <div className="group_tags">
+							{
+								data.groups&&data.groups.length?(
+									data.groups.map(item=>{
+										return <Tag closable={true} key={item.id} onClose={()=>this.removeTag(item.id)}>
+											{item.name}
+										</Tag>
+									})):''
+							}
+						</div>
+					}
 				</div>
 			</div>
 		)

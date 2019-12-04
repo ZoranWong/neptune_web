@@ -14,9 +14,9 @@ export default class SaleRange extends React.Component{
 			selectedGroupItems:[],
 			selectedGroupShopsItems:[],
 			activeShopGroup:'',
-			type:'',
-			opt:'',
-			where:[]
+			type:undefined,
+			opt:undefined,
+			where:undefined
 		}
 	}
 	
@@ -94,6 +94,7 @@ export default class SaleRange extends React.Component{
 							defaultActiveFirstOption={false}
 							style={{ width: 82,marginLeft:5 }}
 							onChange={this.onTypeChange}
+							placeholder= '请选择售卖方式'
 						>
 							<Select.Option value="in">只售于</Select.Option>
 							<Select.Option value="not in">不售于</Select.Option>
@@ -102,6 +103,7 @@ export default class SaleRange extends React.Component{
 							defaultActiveFirstOption={false}
 							mode="tags"
 							value={this.state.where}
+							placeholder='请选择范围'
 							className='selectedBox tagBox'
 							onChange={this.onShopChange}
 							allowClear
