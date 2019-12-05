@@ -2,6 +2,9 @@ import React from 'react';
 import {Modal,Button} from "antd";
 import AdvancedFilter from '../../../components/AdvancedFilter/AdvancedFilter'
 import {good_values,operation} from "../../../utils/good_fields";
+import {groups} from "../../../api/goods/groups";
+import {SonClassification} from "../../../api/goods/classification";
+
 export default class AdvancedFilterComponent extends React.Component{
 	constructor(props){
 		super(props);
@@ -53,6 +56,7 @@ export default class AdvancedFilterComponent extends React.Component{
 						ref={this.child}
 						value={good_values}
 						operation={operation}
+						api={{SonClassification, groups}}
 						slug="product"
 					/>
 				</Modal>

@@ -42,12 +42,12 @@ export const good_values = [
 			{
 				label:'配送批次',
 				value:'delivery_batch',
-				type:'equalCompare'
+				type:'batch'
 			},
 			{
 				label:'保存方式',
 				value:'keep_mode',
-				type:'equalCompare'
+				type:'saveType'
 				
 			},
 			{
@@ -97,6 +97,20 @@ export const operation = {
 			label:'等于',
 			value:'=',
 			type:'input'
+		}
+	],
+	'saveType': [
+		{
+			label:'等于',
+			value:'=',
+			type:'saveTypeBox'
+		}
+	],
+	'batch': [
+		{
+			label:'等于',
+			value:'=',
+			type:'batchBox'
 		}
 	],
 	'numCompare':[

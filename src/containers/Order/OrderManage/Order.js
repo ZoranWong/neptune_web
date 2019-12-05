@@ -334,6 +334,7 @@ class Order extends React.Component{
 					visible={this.state.reviewGoodsVisible}
 					onCancel={this.closeReviewGoods}
 					items={this.state.items}
+					text={'商品'}
 				/>
 				
 				<div className="s_body">

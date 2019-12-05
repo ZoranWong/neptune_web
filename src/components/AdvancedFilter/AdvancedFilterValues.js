@@ -5,6 +5,7 @@ import 'moment/locale/zh-cn';
 import {regions} from "../../api/common";
 import './index.sass'
 import {consumerOrder, merchantOrder, refundOrder} from "./orderType";
+import {SonClassification} from "../../api/goods/classification";
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 const OPTIONS = ['Apples', 'Nails', 'Bananas', 'Helicopters'];
@@ -30,7 +31,9 @@ export default class AdvancedFilterValues extends React.Component{
 			selectedTagItems:[],
 			selectedGroupItems:[],
 			scrollPage:1,
-			selectedChannelItems:[]
+			selectedChannelItems:[],
+			delivery_batch: '',
+			keep_mode: ''
 		}
 	}
 	
@@ -51,8 +54,9 @@ export default class AdvancedFilterValues extends React.Component{
 			});
 			this.setState({provinceData:r,cityData:cityAry,areaData:areaAry})
 		}).catch(_=>{});
-		
+		console.log(this.props.api.SonClassification, '???');
 		if(this.props.api){
+			console.log('start');
 			if(this.props.api.getStatic){
 				this.props.api.getStatic({}).then(r=>{
 					this.setState({selectedGroupItems:r.data})
@@ -66,6 +70,14 @@ export default class AdvancedFilterValues extends React.Component{
 				});
 				this.props.api.groups({}).then(r=>{
 					this.setState({selectedGroupItems:r.data})
+				});
+			} else if (this.props.api.SonClassification) {
+				console.log('11111');
+				this.props.api.groups({}).then(r=>{
+					this.setState({selectedGroupItems:r.data})
+				});
+				this.props.api.SonClassification({limit:10,page:1}).then(r=>{
+					this.setState({selectedTagItems:r})
 				});
 			}
 		}
@@ -110,6 +122,12 @@ export default class AdvancedFilterValues extends React.Component{
 	//性别选择框发生变化
 	handleGenderChange = (value) =>{
 		this.setState({gender:value});
+		this.props.onValueChange(value)
+	};
+	
+	// 商品高级筛选发生变化
+	handleGoodFilterChange = (type,value) => {
+		this.setState({[type]: value});
 		this.props.onValueChange(value)
 	};
 	
@@ -471,6 +489,33 @@ export default class AdvancedFilterValues extends React.Component{
 								<Option value="1">男</Option>
 								<Option value="2">女</Option>
 								<Option value="0">无</Option>
+							</Select>
+					</span>;
+				break;
+			case 'batchBox':
+				return  <span>
+							<Select
+								defaultActiveFirstOption={false}
+								placeholder="请选择配送批次"
+								style={{ width: 120 }}
+								onChange={(e)=>this.handleGoodFilterChange('delivery_batch',e)}>
+								<Option value="5:30">5:30</Option>
+								<Option value="11:30">11:30</Option>
+								<Option value="16:30">16:30</Option>
+							</Select>
+					</span>;
+				break;
+			case 'saveTypeBox':
+				return  <span>
+							<Select
+								defaultActiveFirstOption={false}
+								placeholder="请选择保存方式"
+								style={{ width: 120 }}
+								onChange={(e)=>this.handleGoodFilterChange('keep_mode',e)}>
+								<Option value="FROZEN">冷冻</Option>
+								<Option value="HOMOIOTHERMY">常温</Option>
+								<Option value="REFRIGERATION">冷藏</Option>
+								<Option value="HEATING">热食</Option>
 							</Select>
 					</span>;
 				break;
