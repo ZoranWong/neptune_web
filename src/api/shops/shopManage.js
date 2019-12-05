@@ -152,3 +152,12 @@ export function adjustShopBalance(params) {
 		data: params
 	})
 }
+
+// 设置/修改透支额度
+export function setOverdraft(params) {
+	return request({
+		url: '/api/backend/shops/set_overdraft',
+		method: 'put',
+		data: params
+	})
+}

@@ -7,6 +7,7 @@ import Introduction from './Introduction'
 import IntroductionPerson from './IntroductionPerson'
 import CodePayment from "./CodePayment";
 import Map from "../../../components/Map/Map";
+import SetOverdraft from "./SetOverdraft";
 import OperateBalance from "../../../components/OperateBalance/OperateBalance";
 class ShopDetails extends React.Component{
 	constructor(props){
@@ -20,7 +21,8 @@ class ShopDetails extends React.Component{
 			mapVisible:false,
 			data:{},  // 店铺详情数据
 			position:{},
-			images:{}
+			images:{},
+			overdraft: false
 		}
 	}
 
@@ -131,6 +133,14 @@ class ShopDetails extends React.Component{
 	hideBalance = () => {
 		this.setState({balanceVisible: false})
 	};
+	
+	// 调整透支额度
+	showOverdraft = () =>{
+		this.setState({overdraft: true})
+	};
+	hideOverdraft = () => {
+		this.setState({overdraft: false})
+	};
 	render(){
 		const {data} = this.state;
 		const balanceProps = {
@@ -140,8 +150,16 @@ class ShopDetails extends React.Component{
 			type: 'shop',
 			id: this.state.data.id
 		};
+		const overdraftProps = {
+			visible : this.state.overdraft,
+			onCancel: this.hideOverdraft,
+			refresh: this.refresh,
+			id: this.state.data.id,
+			overdraft: this.state.data.overdraft || 0
+		};
 		return (
 			<div className="shopDetail">
+				<SetOverdraft {...overdraftProps} />
 				<OperateBalance {...balanceProps} />
 				<ShopInformation
 					visible={this.state.shopInformationVisible}
@@ -221,7 +239,7 @@ class ShopDetails extends React.Component{
 						<li>
 							<h3>余额</h3>
 							<div className='adjust'>
-								{data.balance}
+								{data['balance_with_overdraft']}
 								{
 									window.hasPermission("shop_management_display_balance_operate") && <span
 										className='adjustBalance'
@@ -229,6 +247,13 @@ class ShopDetails extends React.Component{
 										style={{'cursor':'pointer'}}
 									>调整</span>
 								}
+								{
+									window.hasPermission('shop_management_display_set_overdraft') && <div className="overdraft">
+										透支额度： {data.overdraft}元
+										<span className='adjustOverdraft' onClick={this.showOverdraft} >调整</span>
+									</div>
+								}
+								
 							</div>
 						</li>
 						<li>

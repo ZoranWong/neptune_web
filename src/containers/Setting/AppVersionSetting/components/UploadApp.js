@@ -13,9 +13,10 @@ class UploadApp extends Component {
 		super(props);
 		this.state = {
 			text: '点击上传App',
-			resource_id: ''
+			resource_id: '',
+			iconLoading: false
 		}
-	}
+	}chitang
 	
 	remove = () =>{
 		this.setState({
@@ -25,11 +26,11 @@ class UploadApp extends Component {
 	};
 	
 	handleChange = info => {
+		
 		if (info.file.status === 'uploading') {
-			this.setState({ loading: true });
+			this.setState({ iconLoading: true, text: '上传App中' });
 			return;
 		}
-		console.log(info, '+++++++++++++++++++++++++++++++++++++++++++++++++');
 		if (info.file.status === 'error') {
 			message.error(info.file.response.message);
 			return;
@@ -37,12 +38,12 @@ class UploadApp extends Component {
 		if (info.file.status === 'done') {
 			message.success('上传成功');
 			this.setState({
+				iconLoading: false,
 				text:info.file.response.data.name,
 				resource_id: info.file.response.data.resource_id
 			});
 		}
 	};
-	
 	
 	render() {
 		const {text} = this.state;
@@ -53,10 +54,11 @@ class UploadApp extends Component {
 					showUploadList={false}
 					headers={{'Authorization': `${getToken()}`}}
 					onChange={this.handleChange}
+					disabled={this.state.iconLoading}
 					action={`http://neptune.klsfood.cn/api/backend/merchant/app/packages/upload`}
 				>
-					<Button>
-						<Icon type="upload" />  {text}
+					<Button  loading={this.state.iconLoading} icon='vertical-align-top'>
+						 {text}
 					</Button>
 				</Upload>
 			</div>
