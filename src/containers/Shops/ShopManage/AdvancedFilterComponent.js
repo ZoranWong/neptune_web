@@ -1,7 +1,7 @@
 import React from 'react';
 import {Modal,Button} from "antd";
 import AdvancedFilter from '../../../components/AdvancedFilter/AdvancedFilter'
-import {shop_values,operation} from "../../../utils/shop_fields";
+import {shop_values,operation} from "./shop_fields";
 import {getChannels} from "../../../api/shops/channel";
 import {groups} from "../../../api/shops/groups";
 

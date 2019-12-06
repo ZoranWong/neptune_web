@@ -37,3 +37,28 @@ integral_exchanged_count	积分兑换次数	user	field	=|<>|<|<=|>|>=|between	-	
 current_coupon_count	现有优惠券数	user	field	=|<>|<|<=|>|>=|between	-	current_coupons
 invaild_coupon_count	失效优惠券数	user	field	=|<>|<|<=|>|>=|between	-	invalid_coupons
 used_coupon_count	使用优惠券数	user	field	=|<>|<|<=|>|>=|between	-	used_coupons
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

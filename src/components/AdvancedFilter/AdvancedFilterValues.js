@@ -519,6 +519,18 @@ export default class AdvancedFilterValues extends React.Component{
 							</Select>
 					</span>;
 				break;
+			case 'statusBox':
+				return  <span>
+							<Select
+								defaultActiveFirstOption={false}
+								placeholder="请选择店铺状态"
+								style={{ width: 120 }}
+								onChange={(e)=>this.handleGoodFilterChange('status',e)}>
+								<Option value={200}>打烊</Option>
+								<Option value={100}>开业</Option>
+							</Select>
+					</span>;
+				break;
 			default:
 				return null
 		}

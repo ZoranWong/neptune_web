@@ -34,6 +34,7 @@ let baseMenu = [
 	}
 ];
 baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
+console.log(hasPermission('menu_shop_management'));
 const Shops = ({ match }) => (
 	<div style={{ paddingBottom: '120px',width:'216px' }}>
 		<Menu
