@@ -54,7 +54,6 @@ export default class AdvancedFilterValues extends React.Component{
 			});
 			this.setState({provinceData:r,cityData:cityAry,areaData:areaAry})
 		}).catch(_=>{});
-		console.log(this.props.api.SonClassification, '???');
 		if(this.props.api){
 			console.log('start');
 			if(this.props.api.getStatic){

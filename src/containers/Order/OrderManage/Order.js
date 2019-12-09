@@ -282,7 +282,7 @@ class Order extends React.Component{
 			onChange: (selectedRowKeys, selectedRows) => {
 				let ary = [];
 				selectedRows.forEach(item=>{
-					ary.push(item['order_id'])
+					ary.push(item['id'])
 				});
 				if(this.state.activeTab !== 'WAIT_PLATFORM_VERIFY') return;
 				this.setState({checkedAry:ary})
@@ -406,7 +406,7 @@ class Order extends React.Component{
 					<Table
 						rowSelection={rowSelection}
 						columns={this.state.columns}
-						rowKey={record => record.order_id}
+						rowKey={record => record.id}
 						pagination={false}
 						rowClassName={(record, index) => {
 							let className = '';
