@@ -290,13 +290,13 @@ class Order extends React.Component{
 		};
 		const tabs = [
 			{name:'全部',key:'ALL'},
-			{name:'待确认',key:'WAIT_PLATFORM_VERIFY'},
+			// {name:'待确认',key:'WAIT_PLATFORM_VERIFY'},
 			{name:'待收货',key:'WAIT_AGENT_VERIFY'},
 			{name:'待自提',key:'WAIT_CUSTOMER_VERIFY'},
 			{name:'已完成',key:'COMPLETED'},
 			{name:'已退款',key:'REFUNDED'},
 			{name:'用户取消',key:'CANCEL_MANUAL'},
-			{name:'平台取消',key:'CANCEL_PLATFORM'},
+			// {name:'平台取消',key:'CANCEL_PLATFORM'},
 			{name:'订单异常',key:'EXCEPTION'},
 			{name:'申请售后',key:'AFTER_SALE'},
 			{name:'拒绝退款',key:'REFUSE_REFUND'},
@@ -357,20 +357,20 @@ class Order extends React.Component{
 							>打印订单</Button>
 						}
 						
-						{
-							window.hasPermission("order_management_platform_cancel") &&<Button
-								size="small"
-								disabled={this.state.checkedAry.length == 0}
-								onClick={()=>this.confirmPopover(batchCancel,'取消')}
-							>取消订单</Button>
-						}
-						{
-							window.hasPermission("order_management_platform_verify") &&<Button
-								size="small"
-								disabled={this.state.checkedAry.length == 0}
-								onClick={()=>this.confirmPopover(batchConfirm,'确认')}
-							>确认订单</Button>
-						}
+						{/*{*/}
+						{/*	window.hasPermission("order_management_platform_cancel") &&<Button*/}
+						{/*		size="small"*/}
+						{/*		disabled={this.state.checkedAry.length == 0}*/}
+						{/*		onClick={()=>this.confirmPopover(batchCancel,'取消')}*/}
+						{/*	>取消订单</Button>*/}
+						{/*}*/}
+						{/*{*/}
+						{/*	window.hasPermission("order_management_platform_verify") &&<Button*/}
+						{/*		size="small"*/}
+						{/*		disabled={this.state.checkedAry.length == 0}*/}
+						{/*		onClick={()=>this.confirmPopover(batchConfirm,'确认')}*/}
+						{/*	>确认订单</Button>*/}
+						{/*}*/}
 						
 					</div>
 				</div>

@@ -2,6 +2,7 @@ import React from 'react';
 import {Modal,Button} from "antd";
 import AdvancedFilter from '../../../components/AdvancedFilter/AdvancedFilter'
 import {operation} from "../../../utils/consumer_order_fields";
+import {groups} from "../../../api/shops/groups";
 
 export default class AdvancedFilterComponent extends React.Component{
 	constructor(props){
@@ -73,6 +74,7 @@ export default class AdvancedFilterComponent extends React.Component{
 						value={this.props.data}
 						operation={operation}
 						slug="order"
+						api={{groups, goodsOrder: true}}
 					/>
 				</Modal>
 			</div>

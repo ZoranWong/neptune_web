@@ -38,7 +38,11 @@ export const merchant_order_values = [
 				label:'店铺名称',
 				value:'shop_name',
 				type:'absoluteCompare'
-				
+			},
+			{
+				label:'店铺组',
+				value:'groups',
+				type:'group'
 			},
 			{
 				label:'支付流水号',

@@ -55,7 +55,6 @@ export default class AdvancedFilterValues extends React.Component{
 			this.setState({provinceData:r,cityData:cityAry,areaData:areaAry})
 		}).catch(_=>{});
 		if(this.props.api){
-			console.log('start');
 			if(this.props.api.getStatic){
 				this.props.api.getStatic({}).then(r=>{
 					this.setState({selectedGroupItems:r.data})
@@ -71,12 +70,15 @@ export default class AdvancedFilterValues extends React.Component{
 					this.setState({selectedGroupItems:r.data})
 				});
 			} else if (this.props.api.SonClassification) {
-				console.log('11111');
 				this.props.api.groups({}).then(r=>{
 					this.setState({selectedGroupItems:r.data})
 				});
 				this.props.api.SonClassification({limit:10,page:1}).then(r=>{
 					this.setState({selectedTagItems:r})
+				});
+			} else if (this.props.api.goodsOrder) {
+				this.props.api.groups({}).then(r=>{
+					this.setState({selectedGroupItems:r.data})
 				});
 			}
 		}
