@@ -83,7 +83,7 @@ class GoodsOrder extends React.Component{
 			
 			{
 				title: '下单时间',
-				dataIndex: 'created_at',
+				dataIndex: 'paid_at',
 			},
 			{
 				title: '送货批次',

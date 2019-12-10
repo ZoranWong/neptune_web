@@ -336,50 +336,50 @@ class SetUserMessage extends Component {
 								}
 							</li>
 						</ul>
-						<h3>平台取消订单</h3>
-						<ul className='set_m_ul'>
-							<li className='set_m_li'>
-								<Button size='small' type='primary' onClick={()=>this.showWeChat('order_cancel_w')}>设置微信模板</Button>
-								{
-									this.state.order_cancel_w['id'] && (
-										<div  className='m_wechat_li'  onClick={()=>this.showWeChat('order_cancel_w')}>
-											<div className="ul_header">
-												<h3>{this.state.order_cancel_w.name}</h3>
-												<DeleteMessage refresh={this.init} type={templateTrigger['order_cancel_w']} id={this.state.order_cancel_w.id} />
-											</div>
-											<div className="ulBody">
-												<h4>{this.state.order_cancel_w.inner_title}</h4>
-												<ul>
-													{
-														this.state.order_cancel_w.items.map(i=>(<li key={i.key}>
-															<span className="key">{i.key}</span>
-															<span className="value">{i.value}</span>
-														</li>))
-													}
-												</ul>
-												<p>
-													<span>查看详情</span>
-													<Icon type="right" />
-												</p>
-											</div>
-										</div>
-									)
-								}
-							</li>
-							<li className='set_w_li'>
-								<Button size='small' type='primary' onClick={()=>this.showSmsMessage('order_cancel_m')}>设置短信模板</Button>
-								{
-									this.state.order_cancel_m['id'] && (
-										<div className='m_message_li' onClick={()=>this.showSmsMessage('order_cancel_m')} >
-											<DeleteMessage refresh={this.init} type={templateTrigger['order_cancel_m']} id={this.state.order_cancel_m.id} />
-											<p>	模板名称： {this.state.order_cancel_m.name}</p>
-											<p>	短信内容： {this.state.order_cancel_m.content}</p>
-											<p>	模板类型： {this.state.order_cancel_m.biz_type}</p>
-										</div>
-									)
-								}
-							</li>
-						</ul>
+						{/*<h3>平台取消订单</h3>*/}
+						{/*<ul className='set_m_ul'>*/}
+						{/*	<li className='set_m_li'>*/}
+						{/*		<Button size='small' type='primary' onClick={()=>this.showWeChat('order_cancel_w')}>设置微信模板</Button>*/}
+						{/*		{*/}
+						{/*			this.state.order_cancel_w['id'] && (*/}
+						{/*				<div  className='m_wechat_li'  onClick={()=>this.showWeChat('order_cancel_w')}>*/}
+						{/*					<div className="ul_header">*/}
+						{/*						<h3>{this.state.order_cancel_w.name}</h3>*/}
+						{/*						<DeleteMessage refresh={this.init} type={templateTrigger['order_cancel_w']} id={this.state.order_cancel_w.id} />*/}
+						{/*					</div>*/}
+						{/*					<div className="ulBody">*/}
+						{/*						<h4>{this.state.order_cancel_w.inner_title}</h4>*/}
+						{/*						<ul>*/}
+						{/*							{*/}
+						{/*								this.state.order_cancel_w.items.map(i=>(<li key={i.key}>*/}
+						{/*									<span className="key">{i.key}</span>*/}
+						{/*									<span className="value">{i.value}</span>*/}
+						{/*								</li>))*/}
+						{/*							}*/}
+						{/*						</ul>*/}
+						{/*						<p>*/}
+						{/*							<span>查看详情</span>*/}
+						{/*							<Icon type="right" />*/}
+						{/*						</p>*/}
+						{/*					</div>*/}
+						{/*				</div>*/}
+						{/*			)*/}
+						{/*		}*/}
+						{/*	</li>*/}
+						{/*	<li className='set_w_li'>*/}
+						{/*		<Button size='small' type='primary' onClick={()=>this.showSmsMessage('order_cancel_m')}>设置短信模板</Button>*/}
+						{/*		{*/}
+						{/*			this.state.order_cancel_m['id'] && (*/}
+						{/*				<div className='m_message_li' onClick={()=>this.showSmsMessage('order_cancel_m')} >*/}
+						{/*					<DeleteMessage refresh={this.init} type={templateTrigger['order_cancel_m']} id={this.state.order_cancel_m.id} />*/}
+						{/*					<p>	模板名称： {this.state.order_cancel_m.name}</p>*/}
+						{/*					<p>	短信内容： {this.state.order_cancel_m.content}</p>*/}
+						{/*					<p>	模板类型： {this.state.order_cancel_m.biz_type}</p>*/}
+						{/*				</div>*/}
+						{/*			)*/}
+						{/*		}*/}
+						{/*	</li>*/}
+						{/*</ul>*/}
 						<h3>预定单商品不齐退款</h3>
 						<ul className='set_m_ul'>
 							<li className='set_m_li'>
