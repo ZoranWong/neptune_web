@@ -22,8 +22,10 @@ export default class CustomItem extends React.Component{
 		let ary = [];
 		let bry = [];
 		bry.push(props.firstItem);
+		console.log(props, '))))))()()()');
 		props.data.forEach(item=>{
 			item.children.forEach(i=>{
+				if(i.value === 'groups') return;
 				handleCode(i);
 				ary.push(i)
 			})

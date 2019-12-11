@@ -25,8 +25,8 @@ export default class RefundMoney extends React.Component{
 			message.error('请输入退款金额');
 			return;
 		}
-		if(this.state.refund > this.state.item.refund_need_amount){
-			message.error('退款金额不可大于异常商品总金额');
+		if(this.state.refund - this.state.item.refund_need_amount * 2 > 0){
+			message.error('退款金额最多为商品金额的两倍');
 			return;
 		}
 		refund({refund_amount:this.state.refund},this.props.item.refund_id).then(r=>{

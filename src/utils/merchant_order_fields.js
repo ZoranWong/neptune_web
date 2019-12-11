@@ -19,6 +19,11 @@ export const merchant_order_values = [
 				type:'numCompare'
 			},
 			{
+				label:'成本总额',
+				value:'cost_amount',
+				type:'numCompare'
+			},
+			{
 				label:'付款方式',
 				value:'payment_type',
 				type:'equalCompare'

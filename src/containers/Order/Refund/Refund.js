@@ -49,6 +49,7 @@ class Refund extends React.Component{
 				title: '订单号',
 				dataIndex: 'trade_no',
 				render: (text,record) => <span
+					onClick={()=>this.jump(record)}
 					style={{'color':'#4F9863','cursor':'pointer'}}>{text}</span>,
 			},
 			{
@@ -125,6 +126,10 @@ class Refund extends React.Component{
 	};
 	closeReviewGoods = () =>{
 		this.setState({reviewGoodsVisible:false})
+	};
+	
+	jump = record => {
+		this.props.history.push({pathname:"/order/orderDetail",state:{id:record.id}})
 	};
 	
 	// 头部搜索框
@@ -432,7 +437,7 @@ class Refund extends React.Component{
 							<CustomItem
 								data={refund_order_values}
 								targetKeys={orderInputTransformer(this.state.defaultItem)}
-								firstItem={'user_nickname'}
+								firstItem={'trade_no'}
 								handleCustom={this.handleCustom}
 							/>
 						</div>

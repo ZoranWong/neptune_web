@@ -29,9 +29,7 @@ class ConsumerRefund extends Component {
 		this.child = React.createRef();
 	};
 	
-	goRefundApplication = () =>{
-		this.props.history.push({pathname:"/finance/refundApplication",state:{type:'consumer'}})
-	};
+	
 	
 	// 分页器改变值
 	paginationChange = (list) =>{
@@ -136,11 +134,7 @@ class ConsumerRefund extends Component {
 		
 		return (
 			<Fragment>
-				<div className="cr_header">
-					{
-						window.hasPermission("refund_detailed_application") && 					<Button size="small" type="primary" onClick={this.goRefundApplication}>退款申请({this.props.total || 0})</Button>
-					}
-				</div>
+				
 				<div className="cr_chartContent">
 					<ul className="filter">
 						<li className="needMargin">

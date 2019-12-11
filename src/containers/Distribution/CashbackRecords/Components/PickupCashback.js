@@ -6,7 +6,9 @@ import {searchJson} from "../../../../utils/dataStorage";
 import {pickupCashback} from "../../../../api/distribution/records";
 import AdvancedFilterComponent from "./AdvancedFilterComponent";
 import {self_pick_fields,operation} from "../../../../utils/self_pick_fields";
-
+import IconFont from "../../../../utils/IconFont";
+import Reviews from "../Modals/Reviews";
+import ReviewGoods from "../../../Order/Components/ReviewGoods";
 class PickupCashback extends Component {
 	constructor(props) {
 		super(props);
@@ -29,13 +31,16 @@ class PickupCashback extends Component {
 			},
 			{
 				title: '商品',
-				render : (text,record) =>{
-					let ary = [];
-					record.products.forEach(item=>{
-						ary.push(item.name)
-					});
-					return ary.join(',')
-				}
+				render: (text,record) => {
+					if(record.products.length){
+						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+							<span className="orderGoods">{record.products[0].name+'......'}</span>
+							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.products)} />
+						</span>
+					} else {
+						return <span>无</span>
+					}
+				},
 			},
 			{
 				title: '用户',
@@ -57,6 +62,8 @@ class PickupCashback extends Component {
 				search:'',
 			},
 			columns:columns,
+			reviewGoodsVisible: false,
+			items:[]
 		};
 		this.child = React.createRef();
 	}
@@ -100,6 +107,13 @@ class PickupCashback extends Component {
 		});
 	};
 	
+	// 商品回显
+	reviewGoods = record =>{
+		this.setState({reviewGoodsVisible:true,items:record})
+	};
+	closeReviewGoods = () =>{
+		this.setState({reviewGoodsVisible:false})
+	};
 	
 	// 分页器改变值
 	paginationChange = (list) =>{
@@ -113,7 +127,12 @@ class PickupCashback extends Component {
 	render() {
 		return (
 			<div className="basic_statistics">
-				
+				<Reviews
+					visible={this.state.reviewGoodsVisible}
+					onCancel={this.closeReviewGoods}
+					items={this.state.items}
+					text={'商品'}
+				/>
 				<AdvancedFilterComponent
 					visible={this.state.filterVisible}
 					onCancel={this.closeHigherFilter}

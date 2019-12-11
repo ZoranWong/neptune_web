@@ -16,7 +16,7 @@ import ReviewGoods from "../Components/ReviewGoods";
 import Export from "../Components/Export";
 class GoodsOrder extends React.Component{
 	constructor(props){
-		const defaultItem = ['shop_name','trade_no','products', 'deficientProducts', 'damagedProducts', 'created_at','state_desc'];
+		const defaultItem = ['shop_name','trade_no','products', 'deficientProducts', 'damagedProducts', 'created_at','state_desc','settlement_total_fee'];
 		
 		super(props);
 		this.child = React.createRef();
@@ -86,8 +86,8 @@ class GoodsOrder extends React.Component{
 				dataIndex: 'paid_at',
 			},
 			{
-				title: '送货批次',
-				dataIndex: 'delivery_batch',
+				title: '实付款',
+				dataIndex: 'settlement_total_fee',
 			},
 			{
 				title: this.state.activeTab == 'GOODS_UNQUALIFIED_WAIT_PROCESS'?'操作':'状态',
@@ -220,7 +220,7 @@ class GoodsOrder extends React.Component{
 		}
 		ary[0].render = (text,record) => <span
 			style={{'color':'#4F9863','cursor':'pointer'}}
-			onClick={()=>this.jump(record)}>{text}</span>;
+			>{text}</span>;
 		this.merchantColumns = ary;
 		this.setState({
 			columns:ary,
@@ -260,7 +260,7 @@ class GoodsOrder extends React.Component{
 	
 	// 设置默认模板消息
 	setMessage = () => {
-		this.props.history.push({pathname:"/order/setUserMessage",state:{mode:'user'}})
+		this.props.history.push({pathname:"/order/setUserMessage",state:{mode:'goods'}})
 	};
 	
 	// 导出

@@ -1,18 +1,25 @@
 import React from "react";
-import {Button,Steps} from "antd";
+import {Button} from "antd";
 import './css/orderDetail.sass'
+import {orderDetail} from "../../../api/order/orderManage";
 
-const { Step } = Steps;
 export default class OrderDetail extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-		
+			details: {}
 		}
 	}
 	
+	componentDidMount() {
+		let id = this.props.location.state.id;
+		orderDetail({},id).then(r=>{
+			this.setState({details: r.data})
+		}).catch(_=>{})
+	}
 	
 	render() {
+		const {details} = this.state;
 		return (
 			<div className="orderDetail">
 				<div className="u_top">
@@ -25,21 +32,20 @@ export default class OrderDetail extends React.Component{
 					<div className="u_body_one">
 						<ul className="u_body_top">
 							<li >
-								<p>订单号：123456789</p>
-								<p>支付流水：12345678910</p>
-								<p>订单类型：预定单</p>
+								<p>订单号：{details['trade_no']}</p>
+								<p>支付流水：{details['transaction_id']}</p>
+								<p>订单类型：{details['order_type']}</p>
 							</li>
 							<li>
-								<p>自提商户：早餐车-新华优阁</p>
-								<p>是否参与分佣：</p>
-								<p>上线编号：</p>
+								<p>自提商户：{details['self_pick_shop_name']}</p>
+								<p>上线编号：{details['introducer_code']}</p>
 							</li>
-							<li className="steps">
-								<Steps size="small" current={1} labelPlacement="vertical">
-									<Step title="买家下单" description="2019-5-20 10:00"  />
-									<Step title="交易完成" description="2019-5-20 10:00"  />
-								</Steps>
-							</li>
+							{/*<li className="steps">*/}
+							{/*	<Steps size="small" current={1} labelPlacement="vertical">*/}
+							{/*		<Step title="买家下单" description="2019-5-20 10:00"  />*/}
+							{/*		<Step title="交易完成" description="2019-5-20 10:00"  />*/}
+							{/*	</Steps>*/}
+							{/*</li>*/}
 						</ul>
 					</div>
 				</div>
@@ -50,10 +56,10 @@ export default class OrderDetail extends React.Component{
 						</div>
 						<ul className="u_body_four_body">
 							<li>
-								用户昵称：一哈
+								用户昵称：{details['user_name']}
 							</li>
 							<li>
-								用户手机：12345678912
+								用户手机：{details['user_mobile']}
 							</li>
 						</ul>
 					</li>
@@ -63,19 +69,22 @@ export default class OrderDetail extends React.Component{
 						</div>
 						<ul className="u_body_four_body center_order ">
 							<li>
-								付款方式：微信
+								付款方式：{details['payment_type']}
 							</li>
 							<li>
-								实付款：10000000000000000000000000000000
+								实付款：{details['settlement_total_fee']+ '元'}
 							</li>
 							<li>
-								优惠金额：0
+								优惠金额：{details['preferential_total_fee']+ '元'}
 							</li>
 							<li>
-								退款金额：0
+								退款金额：{details['refund_fee'] + '元'}
 							</li>
 							<li>
-								退款类型：
+								退款类型：{details['refund_type']}
+							</li>
+							<li>
+								成本总额: {details['cost_amount'] + '元'}
 							</li>
 						</ul>
 					</li>
@@ -83,14 +92,17 @@ export default class OrderDetail extends React.Component{
 						<div className="u_body_four_header">
 							商品
 						</div>
-						<ul className="u_body_four_body">
-							<li>
-								奥尔良三明治 X1
-							</li>
-							<li>
-								乳酪厚烧 X1
-							</li>
-						</ul>
+						{
+							details.items && details.items.length ? <ul className="u_body_four_body">
+								{
+									details.items.map(item=>(
+										<li>
+											{item.name} X {item.quantity}
+										</li>
+									))
+								}
+							</ul>: '无'
+						}
 					</li>
 				</ul>
 			</div>

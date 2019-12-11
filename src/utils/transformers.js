@@ -4,6 +4,10 @@ export const order_transformer = [
 		prevVal: 'state_desc'
 	},
 	{
+		curVal: 'state_desc',
+		prevVal: 'state_desc'
+	},
+	{
 		curVal: 'products',
 		prevVal: 'items'
 	},

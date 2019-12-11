@@ -102,7 +102,7 @@ class Order extends React.Component{
 	};
 	
 	jump = record => {
-		// this.props.history.push({pathname:"/order/orderDetails",state:{id:record.product_id}})
+		this.props.history.push({pathname:"/order/orderDetail",state:{id:record.id}})
 	};
 	
 	// 头部搜索框
@@ -395,7 +395,7 @@ class Order extends React.Component{
 									data={consumer_order_values}
 									handleCustom={this.handleCustom}
 									targetKeys={orderInputTransformer(this.state.defaultItem)}
-									firstItem={'user_nickname'}
+									firstItem={'trade_no'}
 								/>
 							</div>
 						</div>

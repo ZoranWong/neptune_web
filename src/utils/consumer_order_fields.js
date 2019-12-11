@@ -14,6 +14,11 @@ export const consumer_order_values = [
 				type:'numCompare'
 			},
 			{
+				label:'成本总额',
+				value:'cost_amount',
+				type:'numCompare'
+			},
+			{
 				label:'优惠金额',
 				value:'total_preferential_fee',
 				type:'numCompare'

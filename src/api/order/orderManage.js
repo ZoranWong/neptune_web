@@ -65,3 +65,12 @@ export function batchConfirm(params) {
 		data: params
 	})
 }
+
+// 订单详情
+export function orderDetail(params,orderId) {
+	return request({
+		url: `/api/backend/orders/${orderId}/show`,
+		method: 'get',
+		params: params
+	})
+}

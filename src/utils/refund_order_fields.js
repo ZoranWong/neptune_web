@@ -19,6 +19,11 @@ export const refund_order_values = [
 				type:'numCompare'
 			},
 			{
+				label:'成本总额',
+				value:'cost_amount',
+				type:'numCompare'
+			},
+			{
 				label:'退款状态',
 				value:'refund_state',
 				type:'equalCompare'
@@ -72,7 +77,7 @@ export const refund_order_values = [
 		children:[
 			{
 				label:'支付状态',
-				value:'state',
+				value:'payment_state',
 				type:'group'
 			},
 			{
