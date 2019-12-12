@@ -141,6 +141,10 @@ class ShopDetails extends React.Component{
 	hideOverdraft = () => {
 		this.setState({overdraft: false})
 	};
+	
+	goBack = () => {
+		this.props.history.push({pathname: this.props.location.state.path,state:{current: this.props.location.state.current}})
+	};
 	render(){
 		const {data} = this.state;
 		const balanceProps = {
@@ -191,9 +195,7 @@ class ShopDetails extends React.Component{
 				<div className="u_top">
 					<div className="u_header">
 						<span>店铺详情</span>
-						<Button type="default" size="small" onClick={()=>{
-							this.props.history.go(-1)
-						}}>返回店铺列表</Button>
+						<Button type="default" size="small" onClick={this.goBack}>返回店铺列表</Button>
 					</div>
 					<div className="u_body_one">
 						<ul className="u_body_top">

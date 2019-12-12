@@ -22,7 +22,6 @@ export default class CustomItem extends React.Component{
 		let ary = [];
 		let bry = [];
 		bry.push(props.firstItem);
-		console.log(props, '))))))()()()');
 		props.data.forEach(item=>{
 			item.children.forEach(i=>{
 				if(i.value === 'groups') return;
@@ -51,11 +50,20 @@ export default class CustomItem extends React.Component{
 		if(ary.indexOf(this.props.firstItem) === -1){
 			ary.unshift(this.props.firstItem)
 		}
+		console.log(ary);
 		if (ary.indexOf('promotion_qr_code') < 0) {
-			if(ary.length > 8){
-				message.error('最多选择七列');
-				return;
+			if (ary.indexOf('state_desc') < 0) {
+				if(ary.length > 8){
+					message.error('最多选择七列');
+					return;
+				}
+			} else {
+				if(ary.length > 9){
+					message.error('最多选择七列');
+					return;
+				}
 			}
+			
 		} else {
 			if(ary.length > 10){
 				message.error('最多选择七列');

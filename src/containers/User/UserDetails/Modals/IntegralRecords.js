@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {Modal, Table} from "antd";
 import CustomPagination from "../../../../components/Layout/Pagination";
+import {userIntegralRecords} from "../../../../api/user";
 
 class IntegralRecords extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			api:'',
+			api:userIntegralRecords,
 			params:{
 				status:0
 			},
@@ -28,15 +29,15 @@ class IntegralRecords extends Component {
 		const columns = [
 			{
 				title: '时间',
-				dataIndex: 'applicant_name'
+				dataIndex: 'happen_at'
 			},
 			{
 				title: '动作',
-				dataIndex: 'channel_name',
+				dataIndex: 'desc',
 			},
 			{
 				title: '积分变动',
-				dataIndex: 'balance'
+				dataIndex: 'value'
 			},
 		];
 		return (
@@ -62,6 +63,8 @@ class IntegralRecords extends Component {
 						<CustomPagination
 							api={this.state.api}
 							ref={this.child}
+							id={this.props.userId}
+							text={'条数据'}
 							valChange={this.paginationChange}
 							params={this.state.params}
 						/>

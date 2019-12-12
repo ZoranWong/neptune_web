@@ -77,12 +77,16 @@ class Order extends React.Component{
 			activeTab:'ALL',
 			columns:columns,
 			items:[],  // 商品回显,
-			conditions: {}
+			conditions: {},
+			current: 1
 			
 		};
 	}
 	
 	componentWillMount() {
+		if (this.props.location.state && this.props.location.state.current) {
+			this.setState({current: this.props.location.state.current})
+		}
 		document.addEventListener('click', this.closeCustom);
 	}
 	
@@ -97,12 +101,12 @@ class Order extends React.Component{
 				})
 			}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
 	
 	jump = record => {
-		this.props.history.push({pathname:"/order/orderDetail",state:{id:record.id}})
+		this.props.history.push({pathname:"/order/orderDetail",state:{id:record.id,path:'/order', current: this.child.current.state.current}})
 	};
 	
 	// 头部搜索框
@@ -162,7 +166,6 @@ class Order extends React.Component{
 							}
 						}
 						ary.push(obj);
-						console.log(obj, '+++s');
 					}
 				})
 			})
@@ -423,6 +426,7 @@ class Order extends React.Component{
 						ref={this.child}
 						params={this.state.paginationParams}
 						id={this.state.id}
+						current={this.state.current}
 						valChange={this.paginationChange}
 					/>
 				</div>

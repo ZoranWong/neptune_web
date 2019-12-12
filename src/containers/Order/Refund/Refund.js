@@ -42,7 +42,8 @@ class Refund extends React.Component{
 			refundItem:{},
 			refuseItem:{},
 			defaultItem: defaultItem,
-			conditions: {}
+			conditions: {},
+			current: 1
 		};
 		this.refundColumns = [
 			{
@@ -101,6 +102,9 @@ class Refund extends React.Component{
 	}
 	
 	componentWillMount() {
+		if (this.props.location.state && this.props.location.state.current) {
+			this.setState({current: this.props.location.state.current})
+		}
 		document.addEventListener('click', this.closeCustom);
 	}
 	
@@ -129,7 +133,7 @@ class Refund extends React.Component{
 	};
 	
 	jump = record => {
-		this.props.history.push({pathname:"/order/orderDetail",state:{id:record.id}})
+		this.props.history.push({pathname:"/order/orderDetail",state:{id:record['order_id'],path:'/order/refund', current: this.child.current.state.current}})
 	};
 	
 	// 头部搜索框
@@ -465,6 +469,7 @@ class Refund extends React.Component{
 						params={this.state.paginationParams}
 						id={this.state.id}
 						valChange={this.paginationChange}
+						current={this.state.current}
 					/>
 				</div>
 			</div>

@@ -96,11 +96,15 @@ class ShopManage extends React.Component{
 			defaultItem:defaultItem,
 			selectedRows:[],
 			channel_desc:'',
-			shopCodeId: ''
+			shopCodeId: '',
+			current: 1
 		};
 	}
 	
 	componentWillMount() {
+		if (this.props.location.state && this.props.location.state.current) {
+			this.setState({current: this.props.location.state.current})
+		}
 		document.addEventListener('click', this.closeCustom);
 		if(this.props.location.query&&this.props.location.query.groupId){
 			this.setState({id:this.props.location.query.groupId,api:shopListInGroup})
@@ -140,7 +144,7 @@ class ShopManage extends React.Component{
 	
 	jump = (record) =>{
 		if (window.hasPermission("shop_management_display")) {
-			this.props.history.push({pathname:"/shops/shopDetails",state:{id:record.id}})
+			this.props.history.push({pathname:"/shops/shopDetails",state:{id:record.id,path:'/shops', current: this.child.current.state.current}})
 		} else {
 			message.error('暂无权限，请联系管理员')
 		}
@@ -486,6 +490,7 @@ class ShopManage extends React.Component{
 						params={this.state.paginationParams}
 						id={this.state.id}
 						valChange={this.paginationChange}
+						current={this.state.current}
 					/>
 				</div>
 			

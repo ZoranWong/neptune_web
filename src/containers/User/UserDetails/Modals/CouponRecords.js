@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {Modal, Table} from "antd";
 import CustomPagination from "../../../../components/Layout/Pagination";
+import {userCouponRecords} from "../../../../api/user";
 
 class CouponRecords extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			api:'',
+			api:userCouponRecords,
 			params:{
 				status:0
 			},
@@ -14,6 +15,8 @@ class CouponRecords extends Component {
 		};
 		this.child = React.createRef()
 	}
+	
+	
 	
 	handleCancel = () => {
 		this.props.onClose()
@@ -28,23 +31,31 @@ class CouponRecords extends Component {
 		const columns = [
 			{
 				title: '名称',
-				dataIndex: 'applicant_name'
+				dataIndex: 'coupon_name'
 			},
 			{
 				title: '价值',
-				dataIndex: 'channel_name',
+				dataIndex: 'benefit',
+				render: (text,record) => (
+					<span>{text}元</span>
+				)
 			},
 			{
 				title: '使用条件',
 				dataIndex: 'balance',
+				render: (text,record) => {
+					for (let key in record['deliverable_desc']) {
+						return record['deliverable_desc'][key]
+					}
+				}
 			},
 			{
 				title: '领取时间',
-				dataIndex: 'balance',
+				dataIndex: 'received_at',
 			},
 			{
 				title: '失效时间',
-				dataIndex: 'balance',
+				dataIndex: 'invalid_at',
 			},
 		];
 		return (
@@ -69,7 +80,9 @@ class CouponRecords extends Component {
 					<div className="pagination">
 						<CustomPagination
 							api={this.state.api}
+							id={this.props.userId}
 							ref={this.child}
+							text={'条数据'}
 							valChange={this.paginationChange}
 							params={this.state.params}
 						/>

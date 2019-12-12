@@ -131,11 +131,14 @@ class BreakfastOrder extends React.Component{
 			columns:columns,
 			recordSpecVisible:false,
 			rangeId:'',// 设置范围
+			current: 1
 		};
 	}
 	
 	componentWillMount() {
-	
+		if (this.props.location.state && this.props.location.state.current) {
+			this.setState({current: this.props.location.state.current})
+		}
 	}
 	
 	
@@ -154,7 +157,7 @@ class BreakfastOrder extends React.Component{
 	
 	// 商品详情
 	jump = (record) =>{
-		this.props.history.push({pathname:"/goods/goodDetails",state:{id:record.product_id}})
+		this.props.history.push({pathname:"/goods/goodDetails",state:{id:record.product_id,path:'/goods/breakfastOrder', current: this.child.current.state.current}})
 	};
 	
 	// 售卖范围
@@ -415,6 +418,7 @@ class BreakfastOrder extends React.Component{
 						params={this.state.paginationParams}
 						id={this.state.id}
 						valChange={this.paginationChange}
+						current={this.state.current}
 					/>
 				</div>
 			</div>

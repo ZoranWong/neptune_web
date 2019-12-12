@@ -18,6 +18,10 @@ export default class OrderDetail extends React.Component{
 		}).catch(_=>{})
 	}
 	
+	goBack = () => {
+		this.props.history.push({pathname: this.props.location.state.path,state:{current: this.props.location.state.current}})
+	};
+	
 	render() {
 		const {details} = this.state;
 		return (
@@ -25,9 +29,7 @@ export default class OrderDetail extends React.Component{
 				<div className="u_top">
 					<div className="u_header">
 						<span>订单详情</span>
-						<Button type="default" size="small" onClick={()=>{
-							this.props.history.go(-1)
-						}}>返回订单列表</Button>
+						<Button type="default" size="small" onClick={this.goBack}>返回订单列表</Button>
 					</div>
 					<div className="u_body_one">
 						<ul className="u_body_top">

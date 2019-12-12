@@ -131,6 +131,10 @@ class UserDetails extends React.Component{
 		this.setState({balanceVisible: false})
 	};
 	
+	goBack = () => {
+		this.props.history.push({pathname: this.props.location.state.path,state:{current: this.props.location.state.current}})
+	};
+	
 
 	render(){
 		const group = [
@@ -145,11 +149,13 @@ class UserDetails extends React.Component{
 		];
 		let couponRecords = {
 			visible: this.state.couponRecords,
-			onClose: this.hideCouponRecords
+			onClose: this.hideCouponRecords,
+			userId: this.props.location.state.id
 		};
 		let integralRecords = {
 			visible: this.state.integralRecords,
-			onClose: this.hideIntegralRecords
+			onClose: this.hideIntegralRecords,
+			userId: this.props.location.state.id
 		};
 		const balanceProps = {
 			visible: this.state.balanceVisible,
@@ -175,9 +181,7 @@ class UserDetails extends React.Component{
 				<div className="u_top">
 					<div className="u_header">
 						<span>用户详情</span>
-						<Button type="default" size="small" onClick={()=>{
-							this.props.history.goBack()
-						}}>返回用户列表</Button>
+						<Button type="default" size="small" onClick={this.goBack}>返回用户列表</Button>
 					</div>
 					<div className="u_body">
 						<ul className="u_body_top">

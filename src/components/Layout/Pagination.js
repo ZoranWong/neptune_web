@@ -13,7 +13,12 @@ class CustomPagination extends React.Component{
 	}
 	
 	componentDidMount() {
-		this.pagination(1)
+		let current = this.props.current || 1;
+		console.log(current);
+		this.setState({current}, ()=>{
+			this.pagination(current)
+		});
+		
 	}
 	
 	pagination = (page) =>{
@@ -60,6 +65,7 @@ class CustomPagination extends React.Component{
 						total={this.state.total}
 						showTotal={this.showTotal}
 						showQuickJumper
+						current={this.state.current}
 						defaultCurrent={1}
 						pageSize={10}
 						onChange={this.onChange}

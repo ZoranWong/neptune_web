@@ -261,3 +261,22 @@ export function adjustUserBalance(params) {
 		data: params
 	})
 }
+
+// 用户详情优惠券记录
+export function userCouponRecords(params,userId) {
+	return request({
+		url: `/api/backend/users/${userId}/coupon_owned_records`,
+		method: 'get',
+		params: params
+	})
+}
+
+
+// 用户余额变动记录
+export function userIntegralRecords(params,userId) {
+	return request({
+		url: `/api/backend/users/${userId}/integral_update_logs`,
+		method: 'get',
+		params: params
+	})
+}

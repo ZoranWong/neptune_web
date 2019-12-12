@@ -34,7 +34,7 @@ class GoodsOrder extends React.Component{
 			},
 			activeTab:'ALL',
 			refundItem:{},
-			defaultItem: defaultItem
+			defaultItem: defaultItem,
 		};
 		this.merchantColumns = [
 			{

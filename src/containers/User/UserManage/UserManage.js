@@ -74,13 +74,17 @@ class UserManage extends React.Component{
 				search:'',
 				only: defaultItem.join(',')
 			},
-			columns:columns
+			columns:columns,
+			current: 1
 		};
 	}
 	
 	
 	
 	componentWillMount() {
+		if (this.props.location.state && this.props.location.state.current) {
+			this.setState({current: this.props.location.state.current})
+		}
 		document.addEventListener('click', this.closeCustom);
 		if(this.props.location.query&&this.props.location.query.groupId){
 			this.setState({id:this.props.location.query.groupId,api:groupUsers})
@@ -127,7 +131,7 @@ class UserManage extends React.Component{
 	};
 	// 占位符 用于跳转至用户详情
 	jump = (record) =>{
-		this.props.history.push({pathname:"/user/userDetails",state:{id:record.id}})
+		this.props.history.push({pathname:"/user/userDetails",state:{id:record.id,path:'/user', current: this.child.current.state.current}})
 	};
 	// 头部搜索框
 	search = (value) =>{
@@ -295,6 +299,7 @@ class UserManage extends React.Component{
 						params={this.state.paginationParams}
 						id={this.state.id}
 						valChange={this.paginationChange}
+						current={this.state.current}
 					/>
 				</div>
 				
