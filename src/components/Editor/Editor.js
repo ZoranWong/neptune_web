@@ -1,6 +1,7 @@
 import 'braft-editor/dist/index.css'
 import React from 'react'
 import BraftEditor from 'braft-editor'
+import Config from '../../config/app'
 import './index.sass'
 export default class BasicDemo extends React.Component {
 	constructor(props) {
@@ -40,7 +41,7 @@ export default class BasicDemo extends React.Component {
 	
 	myUploadFn = (param) => {
 		
-		const serverURL = 'http://neptune.klsfood.cn/api/common/image/upload';
+		const serverURL = `${Config.apiUrl}/api/common/image/upload`;
 		const xhr = new XMLHttpRequest;
 		const fd = new FormData();
 		

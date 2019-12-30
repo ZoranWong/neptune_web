@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Button, Input, message, Modal, Select} from "antd";
 import 'moment/locale/zh-cn';
 import '../css/newSmsModule.sass'
-import {createSMS} from "../../../../api/marketing/message";
+import {createSMS,exportSmsTemplates} from "../../../../api/marketing/message";
 
 const {Option} = Select;
 const {TextArea} = Input;
@@ -13,7 +13,8 @@ class NewModule extends Component {
 		name:'',
 		content:'',
 		remark:'',
-		is_auto_send:0
+		is_auto_send:0,
+		code: ''
 	};
 	
 	handleCancel = () =>{
@@ -21,7 +22,14 @@ class NewModule extends Component {
 	};
 	
 	submit = () =>{
+		console.log(this.props.mode);
 		let data = this.state;
+		if (this.props.mode === 'export') {
+			if(!data.code){
+				message.error('请填写短信模板code');
+				return
+			}
+		}
 		if(!data.name){
 			message.error('请填写短信模板名称');
 			return
@@ -38,7 +46,8 @@ class NewModule extends Component {
 	};
 	
 	create = data =>{
-		createSMS({...data}).then(r=>{
+		let api = this.props.mode === 'export' ? exportSmsTemplates : createSMS;
+		api({...data}).then(r=>{
 			message.success(r.message);
 			this.handleCancel();
 			this.props.refresh();
@@ -105,6 +114,19 @@ class NewModule extends Component {
 							placeholder="变量格式:${code};&#13;&#10;示例:您的验证码为:${code},该验证码5分钟内有效，请勿泄露与他人。"
 						/>
 					</li>
+					{
+						this.props.mode === 'export' && <li>
+							<span className="left">模板code:</span>
+							<Input
+								className="liTextArea"
+								value={this.state.code}
+								onChange={(e)=>{
+									this.setState({code:e.target.value})
+								}}
+								placeholder="请输入已有短信模板code"
+							/>
+						</li>
+					}
 					<li>
 						<span className="left">申请说明:</span>
 						<TextArea

@@ -63,7 +63,7 @@ export function releaseProducts(params) {
 // 商品详情
 export function goodDetails(params,productId) {
 	return request({
-		url: `/api/backend/products/${productId}/show`,
+		url: `/api/backend/products/show`,
 		method: 'get',
 		params: params
 	})

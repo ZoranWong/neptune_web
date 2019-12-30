@@ -18,7 +18,8 @@ class Sms extends Component {
 			paginationParams:{
 				searchJson:searchJson({obj_type:'USER'})
 			},
-			visible:false
+			visible:false,
+			mode: ''
 		};
 		this.child = React.createRef();
 	}
@@ -49,8 +50,8 @@ class Sms extends Component {
 	};
 	
 	// 新建模板
-	showNew = () =>{
-		this.setState({visible:true})
+	showNew = (mode) =>{
+		this.setState({visible:true, mode: mode})
 	};
 	hideVisible = () =>{
 		this.setState({visible:false})
@@ -121,7 +122,8 @@ class Sms extends Component {
 		const newModuleProps = {
 			visible:this.state.visible,
 			onCancel:this.hideVisible,
-			refresh:this.refresh
+			refresh:this.refresh,
+			mode: this.state.mode
 		};
 		
 		return (
@@ -138,7 +140,11 @@ class Sms extends Component {
 						<h5>短信剩余条数10000条</h5>
 					</div>
 					<div className="right">
-						<Button size="small" onClick={this.showNew}>
+						<Button size="small" onClick={()=>this.showNew('export')} style={{marginRight: '10px'}}>
+							<IconFont type="icon-plus-circle-fill" />
+							导入已有模板
+						</Button>
+						<Button size="small" onClick={()=>this.showNew('create')}>
 							<IconFont type="icon-plus-circle-fill" />
 							新建模板
 						</Button>

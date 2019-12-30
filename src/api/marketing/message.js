@@ -189,6 +189,16 @@ export function unbindTemplates(params,id) {
 	})
 }
 
+// 新建已有模板
+// 绑定模板
+export function exportSmsTemplates(params) {
+	return request({
+		url: '/api/backend/sms/templates/exist',
+		method: 'post',
+		data: params
+	})
+}
+
 
 
 

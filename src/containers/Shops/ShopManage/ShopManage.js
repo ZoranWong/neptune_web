@@ -5,7 +5,7 @@ import {withRouter} from 'react-router-dom'
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import {shop_values} from "../../../utils/shop_fields";
-import {searchJson} from "../../../utils/dataStorage";
+import {getToken, searchJson} from "../../../utils/dataStorage";
 import {shops,applicationsCount} from "../../../api/shops/shopManage";
 import CustomPagination from "../../../components/Layout/Pagination";
 import AdvancedFilterComponent from "./AdvancedFilterComponent";
@@ -18,6 +18,8 @@ import Distributor from "./ShopAdd/Distributor";
 import ShopKeeper from "./ShopAdd/ShopKeeper";
 import ShopCode from "./ShopCode";
 import {shopListInGroup} from "../../../api/shops/groups";
+import Export from "../../Order/Components/Export";
+import Config from '../../../config/app'
 
 class ShopManage extends React.Component{
 	constructor(props){
@@ -97,7 +99,8 @@ class ShopManage extends React.Component{
 			selectedRows:[],
 			channel_desc:'',
 			shopCodeId: '',
-			current: 1
+			current: 1,
+			exportVisible: false
 		};
 	}
 	
@@ -345,7 +348,29 @@ class ShopManage extends React.Component{
 		this.setState({codeVisible: false})
 	};
 	
+	// 导出
+	showExport = (conditions) =>{
+		this.setState({conditions, exportVisible: true}, ()=>{
+			this.closeHigherFilter()
+		})
+	};
+	hideExport = () =>{
+		this.setState({exportVisible: false})
+	};
 	
+	// 确定导出
+	export = (type, items,conditions) =>{
+		console.log(type, '--- type---');
+		let json = searchJson({
+			strategy: type,
+			customize_columns: items,
+			logic_conditions: conditions
+		});
+		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+		// dataExport({searchJson: searchJson(params)}).then(r=>{
+		// 	console.log(r);
+		// }).catch(_=>{})
+	};
 	
 	render(){
 		const rowSelection = {
@@ -364,14 +389,27 @@ class ShopManage extends React.Component{
 			item: this.state.shopCodeId
 		};
 		
+		const strategy = [
+			{key: 'SHOP_CUSTOMIZE', value: '自定义显示项',},
+		];
+		const exportProps = {
+			visible : this.state.exportVisible,
+			onCancel : this.hideExport,
+			export: this.export,
+			strategy,
+			values: shop_values,
+			conditions: this.state.conditions
+		};
 		return (
 			<div>
+				<Export {...exportProps} />
 				<AdvancedFilterComponent
 					visible={this.state.filterVisible}
 					onCancel={this.closeHigherFilter}
 					onSubmit={this.onSubmit}
 					refresh={this.refresh}
 					showAddGroup={this.showAddGroup}
+					export={this.showExport}
 					closeAddGroup={this.closeAddGroup}
 				/>
 				
@@ -454,9 +492,9 @@ class ShopManage extends React.Component{
 								onClick={this.showAddGroup}
 							>加入群组</Button>
 						}
-						{
-							window.hasPermission("shop_management_export") && <Button size="small" disabled={this.state.checkedAry.length == 0}>导出</Button>
-						}
+						{/*{*/}
+						{/*	window.hasPermission("shop_management_export") && <Button size="small" disabled={this.state.checkedAry.length == 0}>导出</Button>*/}
+						{/*}*/}
 					</div>
 					<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 				</div>

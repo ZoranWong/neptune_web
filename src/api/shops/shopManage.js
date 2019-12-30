@@ -15,6 +15,14 @@ export function applications(params) {
 		params: params
 	})
 }
+// 全部物流线路
+export function allDeliveryRoutes(params) {
+	return request({
+		url: '/api/backend/shops/delivery_routes/all',
+		method: 'get',
+		params: params
+	})
+}
 // 申请店铺详情（商户、分销员）
 export function applicationsDetail(params,id) {
 	return request({

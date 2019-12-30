@@ -14,6 +14,7 @@ import {shopOrder} from "../../../api/order/orderManage";
 import {groups} from "../../../api/shops/groups";
 import ReviewGoods from "../Components/ReviewGoods";
 import Export from "../Components/Export";
+import Config from '../../../config/app'
 class GoodsOrder extends React.Component{
 	constructor(props){
 		const defaultItem = ['shop_name','trade_no','products', 'deficientProducts', 'damagedProducts', 'created_at','state_desc','settlement_total_fee'];
@@ -282,7 +283,7 @@ class GoodsOrder extends React.Component{
 			logic_conditions: conditions
 		});
 		console.log(json);
-		window.location.href = `http://neptune.klsfood.cn/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
 		// dataExport({searchJson: searchJson(params)}).then(r=>{
 		// 	console.log(r);
 		// }).catch(_=>{})

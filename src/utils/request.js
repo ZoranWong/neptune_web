@@ -47,7 +47,7 @@ service.interceptors.response.use(
 		const { response } = error;
 		console.log(response, '========');
 		if(!response || !response.status) return;
-		message.error(response.data.message);
+		
 		if(response.status === 422 && response.data.errors.introducer_code){
 			message.error('请输入正确的介绍人编号');
 			return Promise.reject(error);
@@ -55,11 +55,12 @@ service.interceptors.response.use(
 		message.error(response.data.message);// 弹出后端返回的错误
 		setTimeout(()=>{
 			if(response.status === 401){
+				message.error("登录失效，即将跳转至登录页");
 				removeToken();
 				window.location.href = './login'
 			}
 		},2000);
-
+		message.error(response.data.message);
         return Promise.reject(error)//千万不能去掉，，，否则请求超时会进入到then方法，导致逻辑错误。
 	}
 );

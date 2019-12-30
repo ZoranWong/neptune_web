@@ -1,10 +1,10 @@
 import React from 'react';
-import {Input, message, Modal, Radio} from "antd";
+import {Input, message, Modal, Radio, Select} from "antd";
 import Map from '../../../../components/Map/Map'
 import '../css/common.sass'
 import Address from "../../../../components/Address/Address";
 import {checkIdCard, checkPhone} from "../../../../utils/dataStorage";
-import {shopDetails, breakfastCar, editShop, shopKeeper} from "../../../../api/shops/shopManage";
+import {shopDetails, breakfastCar, editShop, shopKeeper, allDeliveryRoutes} from "../../../../api/shops/shopManage";
 import CustomUpload from "../../../../components/Upload/Upload";
 import _ from "lodash";
 class BreakfastCar extends React.Component{
@@ -20,6 +20,8 @@ class BreakfastCar extends React.Component{
 			address:'设置地图坐标',
 			listData:{},
 			status:100,
+			activeRoute: '',
+			routes:[]
 		};
 		this.childMap = React.createRef();
 		this.childAdd = React.createRef();
@@ -38,9 +40,15 @@ class BreakfastCar extends React.Component{
 				positionData['province_code'] = r.data.province_code;
 				positionData['city_code'] = r.data.city_code;
 				positionData['area_code'] = r.data.area_code;
-				this.setState({listData:r.data,positionData})
+				this.setState({listData:r.data,positionData,activeRoute: r.data.delivery_route_id})
 			});
 		}
+	}
+	
+	componentDidMount() {
+		allDeliveryRoutes({}).then(r=>{
+			this.setState({routes:r.data})
+		})
 	}
 	
 	handleCancel = ()=>{
@@ -56,7 +64,11 @@ class BreakfastCar extends React.Component{
 			message.error('请填写车主姓名');
 			return
 		}
-		if(!this.props.recordId && !listData.breakfast_car_code) {
+		// if(!this.props.recordId && !listData.breakfast_car_code) {
+		// 	message.error('请填写店铺编号');
+		// 	return
+		// }
+		if(!this.props.recordId && !listData.uni_code) {
 			message.error('请填写店铺编号');
 			return
 		}
@@ -72,7 +84,12 @@ class BreakfastCar extends React.Component{
 			message.error('请填写正确格式的身份证号');
 			return
 		}
-		
+		if(!this.props.recordId){
+			if(!this.state.activeRoute) {
+				message.error('请先选择物流路线');
+				return
+			}
+		}
 		let id_card_images = {
 			front: this.front.current.state.imgUrl || this.front.current.state.imageUrl,
 			backend: this.backend.current.state.imgUrl || this.backend.current.state.imageUrl,
@@ -107,6 +124,8 @@ class BreakfastCar extends React.Component{
 			keeper_name:listData.keeper_name,
 			keeper_mobile:listData.keeper_mobile,
 			keeper_id_card_no:listData.keeper_id_card_no,
+			uni_code: listData.uni_code,
+			delivery_route_id: this.state.activeRoute,
 			status:this.state.status,
 			breakfast_car_code:listData.breakfast_car_code || listData.breakfast_code,
 			name:listData.name,
@@ -120,7 +139,7 @@ class BreakfastCar extends React.Component{
 		if(this.props.recordId){
 			editShop(data,this.props.recordId).then(r=>{
 				message.success('编辑店铺成功');
-				this.handleCancel()
+				this.handleCancel();
 			}).catch(_=>{})
 		} else {
 			breakfastCar(data).then(r=>{
@@ -142,7 +161,9 @@ class BreakfastCar extends React.Component{
 	handleLocation = (position,lng) =>{
 		this.setState({address:position})
 	};
-	
+	handleRouteChange = value =>{
+		this.setState({activeRoute:value})
+	};
 	
 	render(){
 		const {listData,positionData} = this.state;
@@ -175,22 +196,33 @@ class BreakfastCar extends React.Component{
 							}
 							
 						</li>
+						{/*<li>*/}
+						{/*	<span className="left">店铺编号</span>*/}
+						{/*	*/}
+						{/*	{*/}
+						{/*		this.props.recordId?(*/}
+						{/*			<span>{listData.code}</span>*/}
+						{/*		):(*/}
+						{/*			<Input*/}
+						{/*				className="liInput"*/}
+						{/*				value={listData.breakfast_car_code}*/}
+						{/*				onChange={(e)=>{*/}
+						{/*					this.setState({listData:{...listData,breakfast_car_code:e.target.value}})*/}
+						{/*				}}*/}
+						{/*			/>*/}
+						{/*		)*/}
+						{/*	}*/}
+						{/*</li>*/}
 						<li>
 							<span className="left">店铺编号</span>
 							
-							{
-								this.props.recordId?(
-									<span>{listData.code}</span>
-								):(
-									<Input
-										className="liInput"
-										value={listData.breakfast_car_code}
-										onChange={(e)=>{
-											this.setState({listData:{...listData,breakfast_car_code:e.target.value}})
-										}}
-									/>
-								)
-							}
+							<Input
+								className="liInput"
+								value={listData.uni_code}
+								onChange={(e)=>{
+									this.setState({listData:{...listData,uni_code:e.target.value}})
+								}}
+							/>
 						</li>
 						<li>
 							<span className="left">店铺名称</span>
@@ -201,6 +233,19 @@ class BreakfastCar extends React.Component{
 									this.setState({listData:{...listData,name:e.target.value}})
 								}}
 							/>
+						</li>
+						<li className="extraHeight">
+							<span className="left">物流路线</span>
+							<Select
+								value={ this.state.activeRoute}
+								style={{width:'320px'}}
+								onChange={this.handleRouteChange}
+								defaultActiveFirstOption={false}
+							>
+								{this.state.routes.map(item => (
+									<Select.Option key={item.id } value={item.id}>{item.name}</Select.Option>
+								))}
+							</Select>
 						</li>
 						{
 							!_.isEmpty(positionData) && 	<li>
@@ -221,7 +266,7 @@ class BreakfastCar extends React.Component{
 						</li>
 						<li>
 							<span className="left" >地图位置</span>
-							<span onClick={this.showMap} style={{'cursor':'pointer'}}>
+							<span onClick={this.showMap} style={{'cursor':'pointer','width': '320px'}}>
 								<i className="iconfont" style={{'fontSize':'14px','color':'#4F9863','marginRight':'3px'}}>&#xe7b0;</i>
 								{this.state.address}
 							</span>

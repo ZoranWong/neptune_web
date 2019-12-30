@@ -5,7 +5,7 @@ import '../css/common.sass'
 import CustomUpload from '../../../../components/Upload/Upload'
 import Address from "../../../../components/Address/Address";
 import {checkIdCard, checkPhone} from "../../../../utils/dataStorage";
-import {shopDetails, shopKeeper,editShop} from "../../../../api/shops/shopManage";
+import {shopDetails, shopKeeper,editShop,allDeliveryRoutes} from "../../../../api/shops/shopManage";
 import {getChildChannels} from "../../../../api/shops/channel";
 import _ from 'lodash'
 class ShopKeeper extends React.Component{
@@ -22,7 +22,9 @@ class ShopKeeper extends React.Component{
 			listData:{},
 			status:100,
 			channels:[],
-			activeChannel:''
+			routes: [],
+			activeChannel:'',
+			activeRoute: ''
 		};
 		this.childMap = React.createRef();
 		this.childAdd = React.createRef();
@@ -45,7 +47,7 @@ class ShopKeeper extends React.Component{
 				positionData['province_code'] = r.data.province_code;
 				positionData['city_code'] = r.data.city_code;
 				positionData['area_code'] = r.data.area_code;
-				this.setState({listData:r.data,positionData})
+				this.setState({listData:r.data,positionData,activeRoute: r.data['delivery_route_id']})
 			});
 		}
 	}
@@ -53,6 +55,9 @@ class ShopKeeper extends React.Component{
 	componentDidMount() {
 		getChildChannels({slug:"SHOP_KEEPER"}).then(r=>{
 			this.setState({channels:r.data})
+		});
+		allDeliveryRoutes({}).then(r=>{
+			this.setState({routes:r.data})
 		})
 	}
 	
@@ -74,6 +79,10 @@ class ShopKeeper extends React.Component{
 			message.error('请填写介绍人编号');
 			return
 		}
+		if(!listData.uni_code) {
+			message.error('请填写店铺编号');
+			return
+		}
 		if(!listData.name) {
 			message.error('请填写店铺名');
 			return
@@ -89,6 +98,12 @@ class ShopKeeper extends React.Component{
 		if(!this.props.recordId){
 			if(!this.state.activeChannel) {
 				message.error('请先选择子渠道');
+				return
+			}
+		}
+		if(!this.props.recordId){
+			if(!this.state.activeRoute) {
+				message.error('请先选择物流路线');
 				return
 			}
 		}
@@ -131,6 +146,8 @@ class ShopKeeper extends React.Component{
 			city_code:this.childAdd.current.state.activeCity,
 			area_code:this.childAdd.current.state.activeArea,
 			address:listData.address,
+			uni_code: listData.uni_code,
+			delivery_route_id: this.state.activeRoute,
 			keeper_name:listData.keeper_name,
 			keeper_mobile:listData.keeper_mobile,
 			keeper_id_card_no:listData.keeper_id_card_no,
@@ -172,7 +189,9 @@ class ShopKeeper extends React.Component{
 	handleChannelChange = value =>{
 		this.setState({activeChannel:value})
 	};
-	
+	handleRouteChange = value =>{
+		this.setState({activeRoute:value})
+	};
 	
 	render(){
 		const {listData, positionData} = this.state;
@@ -225,6 +244,7 @@ class ShopKeeper extends React.Component{
 							}
 							
 						</li>
+						
 						<li>
 							<span className="left">介绍人编号</span>
 							{
@@ -243,6 +263,17 @@ class ShopKeeper extends React.Component{
 						
 						</li>
 						<li>
+							<span className="left">店铺编号</span>
+							<Input
+								className="liInput"
+								value={listData.uni_code}
+								onChange={(e)=>{
+									this.setState({listData:{...listData,uni_code:e.target.value}})
+								}}
+							/>
+						
+						</li>
+						<li>
 							<span className="left">店铺名称</span>
 							<Input
 								className="liInput"
@@ -251,6 +282,19 @@ class ShopKeeper extends React.Component{
 									this.setState({listData:{...listData,name:e.target.value}})
 								}}
 							/>
+						</li>
+						<li className="extraHeight">
+							<span className="left">物流路线</span>
+							<Select
+								value={ this.state.activeRoute}
+								style={{width:'320px'}}
+								onChange={this.handleRouteChange}
+								defaultActiveFirstOption={false}
+							>
+								{this.state.routes.map(item => (
+									<Select.Option key={item.id } value={item.id}>{item.name}</Select.Option>
+								))}
+							</Select>
 						</li>
 						{
 							!_.isEmpty(positionData) && 	<li>
@@ -269,9 +313,10 @@ class ShopKeeper extends React.Component{
 								}}
 							/>
 						</li>
+						
 						<li>
 							<span className="left" >地图位置</span>
-							<span onClick={()=>this.showMap(listData.position)} style={{'cursor':'pointer'}}>
+							<span onClick={()=>this.showMap(listData.position)} style={{'cursor':'pointer','width': '320px'}}>
 								<i className="iconfont" style={{'fontSize':'14px','color':'#4F9863','marginRight':'3px'}}>&#xe7b0;</i>
 								{this.state.address}
 							</span>

@@ -362,6 +362,7 @@ class GoodsManage extends React.Component{
 						id={this.state.id}
 						valChange={this.paginationChange}
 						current={this.state.current}
+						text={"条数据"}
 					/>
 				</div>
 			</div>

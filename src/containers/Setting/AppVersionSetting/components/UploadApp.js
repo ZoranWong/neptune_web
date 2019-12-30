@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Upload, message, Button, Icon } from 'antd';
 import {getToken} from "../../../../utils/dataStorage";
+import config from '../../../../config/app'
 function getBase64(img, callback) {
 	const reader = new FileReader();
 	reader.addEventListener('load', () => callback(reader.result));
@@ -55,7 +56,7 @@ class UploadApp extends Component {
 					headers={{'Authorization': `${getToken()}`}}
 					onChange={this.handleChange}
 					disabled={this.state.iconLoading}
-					action={`http://neptune.klsfood.cn/api/backend/merchant/app/packages/upload`}
+					action={`${config.apiUrl}/api/backend/merchant/app/packages/upload`}
 				>
 					<Button  loading={this.state.iconLoading} icon='vertical-align-top'>
 						 {text}

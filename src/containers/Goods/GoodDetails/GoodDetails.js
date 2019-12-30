@@ -3,6 +3,7 @@ import {withRouter} from 'react-router-dom'
 import {Button, Tag} from "antd";
 import {goodDetails} from "../../../api/goods/goods";
 import './shopDetail.sass'
+import {searchJson} from "../../../utils/dataStorage";
 class GoodDetails extends React.Component{
 
 	state = {
@@ -11,7 +12,7 @@ class GoodDetails extends React.Component{
 
 
 	componentDidMount() {
-		goodDetails({},this.props.location.state.id).then(r=>{
+		goodDetails({searchJson: searchJson({product_id: this.props.location.state.id})}).then(r=>{
 			if(r.batch.length){
 				let batch = '';
 				r.batch.forEach((item,index)=>{

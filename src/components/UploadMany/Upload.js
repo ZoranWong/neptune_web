@@ -1,6 +1,7 @@
 import { Upload, Icon, Modal,message } from 'antd';
 import React from "react";
 import {upload} from "../../api/common";
+import config from '../../config/app'
 import {getToken} from "../../utils/dataStorage";
 function getBase64(file) {
 	return new Promise((resolve, reject) => {
@@ -90,7 +91,7 @@ export default class UploadMany extends React.Component{
 					fileList={fileList}
 					onPreview={this.handlePreview}
 					onChange={this.handleChange}
-					action={`http://neptune.klsfood.cn/api/common/image/upload`}
+					action={`${config.apiUrl}/api/common/image/upload`}
 					headers={{'Authorization': `${getToken()}`}}
 					beforeUpload={this.beforeUpload}
 				>

@@ -12,7 +12,7 @@ import ReviewGoods from "../Components/ReviewGoods";
 import {userOrder,batchCancel,batchConfirm} from "../../../api/order/orderManage";
 import {consumer_order_values} from "../../../utils/consumer_order_fields";
 import Export from "../Components/Export";
-
+import Config from '../../../config/app'
 
 class Order extends React.Component{
 	constructor(props){
@@ -273,7 +273,7 @@ class Order extends React.Component{
 			customize_columns: items,
 			logic_conditions: conditions
 		});
-		window.location.href = `http://neptune.klsfood.cn/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
 		// dataExport({searchJson: searchJson(params)}).then(r=>{
 		// 	console.log(r);
 		// }).catch(_=>{})

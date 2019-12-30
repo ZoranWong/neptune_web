@@ -25,6 +25,7 @@ import SetUserMessage from "../containers/Order/SetUserMessage/SetUserMessage";
 import OrderSetting from "../containers/Order/OrderSetting/OrderSetting";
 
 import ShopManage from "../containers/Shops/ShopManage/ShopManage";
+import LogisticsRoutes from '../containers/Shops/LogisticsRoutes/LogisticsRoutes';
 import ShopGroup from '../containers/Shops/ShopGroup/ShopGroup'
 import FrozenShop from '../containers/Shops/FrozenShop/FrozenShop'
 import ShopChannel from '../containers/Shops/ShopChannel/ShopChannel'
@@ -162,6 +163,7 @@ const Routes = () =>(
 		<Route exact={true} path="/shops/frozen" render={props => onEnter(FrozenShop, props)} />
 		<Route exact={true} path="/shops/channel" render={props => onEnter(ShopChannel, props)} />
 		<Route exact={true} path="/shops/shopDetails" render={props => onEnter(ShopDetails, props)} />
+		<Route exact={true} path="/shops/logisticsRoutes" render={props => onEnter(LogisticsRoutes, props)} />
 		
 		{/*用户*/}
 		<Route exact={true} path="/user" render={props => onEnter(UserManage, props)} />

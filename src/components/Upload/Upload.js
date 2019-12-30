@@ -2,7 +2,7 @@ import { Input, Radio,Upload, Icon, Modal,message } from "antd";
 import React from "react";
 import './upload.sass'
 import {getToken} from "../../utils/dataStorage";
-
+import config from '../../config/app'
 function getBase64(img, callback) {
 	const reader = new FileReader();
 	reader.addEventListener('load', () => callback(reader.result));
@@ -89,7 +89,7 @@ export default class CustomUpload extends React.Component{
 					listType="picture-card"
 					className="avatar-uploader"
 					showUploadList={false}
-					action={`http://neptune.klsfood.cn/api/common/image/upload`}
+					action={`${config.apiUrl}/api/common/image/upload`}
 					headers={{'Authorization': `${getToken()}`}}
 					beforeUpload={this.beforeUpload}
 					onChange={this.handleChange}

@@ -32,6 +32,10 @@ export default class AdvancedFilterComponent extends React.Component{
 		this.props.closeAddGroup();
 	};
 	
+	export = () =>{
+		console.log(this.props);
+		this.props.export(this.child.current.state.data)
+	};
 	
 	render(){
 		return (
@@ -52,6 +56,14 @@ export default class AdvancedFilterComponent extends React.Component{
 								className="e_btn"
 								onClick={this.showAddGroup}
 							>加群组</Button>
+							{
+								window.hasPermission("shop_management_export") && <Button
+									size="small"
+									type="default"
+									className="e_btn"
+									onClick={this.export}
+								>导出</Button>
+							}
 							<Button
 								size="small"
 								className="e_btn"

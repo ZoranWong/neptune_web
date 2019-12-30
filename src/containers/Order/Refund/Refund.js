@@ -14,7 +14,7 @@ import RefundMoney from "./Modal/RefundMoney";
 import RefuseRefund from "./Modal/RefuseRefund";
 import {refundList} from "../../../api/order/orderManage";
 import Export from "../Components/Export";
-
+import Config from '../../../config/app'
 
 class Refund extends React.Component{
 	constructor(props){
@@ -280,7 +280,7 @@ class Refund extends React.Component{
 			customize_columns: items,
 			logic_conditions: conditions
 		});
-		window.location.href = `http://neptune.klsfood.cn/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
 		// dataExport({searchJson: searchJson(params)}).then(r=>{
 		// 	console.log(r);
 		// }).catch(_=>{})

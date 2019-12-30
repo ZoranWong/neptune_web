@@ -31,6 +31,12 @@ let baseMenu = [
 		icon:'icon-qudao1',
 		text:'店铺渠道',
 		slug: 'menu_shop_channel'
+	},
+	{
+		path:'/shops/logisticsRoutes',
+		icon:'icon-qudao1',
+		text:'物流路线',
+		slug: 'menu_shop_channel'
 	}
 ];
 baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
