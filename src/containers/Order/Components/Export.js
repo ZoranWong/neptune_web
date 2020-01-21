@@ -85,33 +85,35 @@ class Export extends Component {
 					<Radio.Group className='exportContent' onChange={this.onRadioChange} value={this.state.value}>
 						{
 							this.props.strategy.map(item=>(
-								<Radio value={item.key}>{item.value}</Radio>
+								<Radio value={item.key} key={item.key}>{item.value}</Radio>
 							))
 						}
 					</Radio.Group>
-					<div className="selectItems">
-						<span>选择显示项</span>
-						<Select
-							defaultActiveFirstOption={false}
-							mode='multiple'
-							value={selectedItems}
-							className='exportItems'
-							onChange={this.handleChange}
-							optionLabelProp="label"
-							allowClear
-							optionFilterProp="children"
-							filterOption={(input, option) =>
-								option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-							}
-						>
-							{this.state.orderItems.map(item => (
-								<Select.Option key={'order_'+item.value} label={item.label} value={'order_'+item.value}>
-									{item.label}
-								</Select.Option>
-							))}
-						</Select>
-						<Checkbox onChange={this.onCheckboxChange}>全选</Checkbox>
-					</div>
+					{
+						this.props.strategy[0]['key'] !== 'SHOP_SELF_PICK_SUMMARY' && <div className="selectItems">
+							<span>选择显示项</span>
+							<Select
+								defaultActiveFirstOption={false}
+								mode='multiple'
+								value={selectedItems}
+								className='exportItems'
+								onChange={this.handleChange}
+								optionLabelProp="label"
+								allowClear
+								optionFilterProp="children"
+								filterOption={(input, option) =>
+									option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+								}
+							>
+								{this.state.orderItems.map(item => (
+									<Select.Option key={'order_'+item.value} label={item.label} value={'order_'+item.value}>
+										{item.label}
+									</Select.Option>
+								))}
+							</Select>
+							<Checkbox onChange={this.onCheckboxChange}>全选</Checkbox>
+						</div>
+					}
 				</Modal>
 			</div>
 		);

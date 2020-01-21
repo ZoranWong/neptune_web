@@ -9,7 +9,9 @@ import SelectGoods from "./SelectGoods";
 export default class InStockNew extends React.Component{
 	constructor(props) {
 		super(props);
+		console.log(props, '||||||||||||||||||||||');
 		this.channel = props.location.state.channel;
+		this.actId = props.location.state.actId || '';
 		this.state = {
 			remark:'',   //备注
 			data:[],    // 已选入库商品
@@ -72,7 +74,8 @@ export default class InStockNew extends React.Component{
 			channel:this.channel,
 			stock_type:this.state.type,
 			stock_info:stockAry,
-			remark:this.state.remark
+			remark:this.state.remark,
+			activity_id: this.actId
 		};
 		inStock(params).then(r=>{
 			message.success(r.message);
@@ -160,6 +163,7 @@ export default class InStockNew extends React.Component{
 					onSubmit={this.selectedGoods}
 					channel={this.props.location.state.channel}
 					ref={this.child}
+					actId={this.actId}
 				/>
 				
 				

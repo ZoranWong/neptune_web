@@ -35,7 +35,8 @@ export default class SelectGoods extends React.Component{
 			channel:this.props.channel,
 			limit:10,
 			is_in_stock: true,
-			page:page
+			page:page,
+			activity_id: this.props.actId
 		}).then(r=>{
 			if(!r.data.length) return;
 			let {data} = this.state;
@@ -224,7 +225,7 @@ export default class SelectGoods extends React.Component{
 					<div className="selectGoodsChart" onScrollCapture={this.handleScroll}>
 						<Table
 							columns={columns}
-							rowKey={record => record.id}
+							rowKey={record => record['product_id']}
 							pagination={false}
 							rowClassName={(record, index) => {
 								let className = '';

@@ -51,6 +51,12 @@ class Nav extends React.Component{
 				name:"nav-marketing"
 			},
 			{
+				text:'活动',
+				path:'/activities',
+				exact:false,
+				name:"nav-marketing"
+			},
+			{
 				text:'商品',
 				path:'/goods',
 				exact:false,

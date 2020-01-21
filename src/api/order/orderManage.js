@@ -74,3 +74,12 @@ export function orderDetail(params,orderId) {
 		params: params
 	})
 }
+
+// 消费者汇总单
+export function summaryOrders(params) {
+	return request({
+		url: '/api/backend/orders/agents/summary_orders',
+		method: 'get',
+		params: params
+	})
+}

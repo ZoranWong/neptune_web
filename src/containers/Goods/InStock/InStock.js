@@ -10,6 +10,7 @@ export default class InStock extends React.Component{
 	constructor(props) {
 		super(props);
 		this.channel = props.location.state.channel;
+		this.actId = props.location.state.actId || '';
 		this.state = {
 			data:[]
 		}
@@ -25,7 +26,7 @@ export default class InStock extends React.Component{
 	}
 	
 	refresh = () =>{
-		inStockList({channel:this.channel}).then(r=>{
+		inStockList({channel:this.channel,activity_id: this.actId}).then(r=>{
 			this.setState({data:r.data})
 		})
 	};
@@ -37,7 +38,7 @@ export default class InStock extends React.Component{
 	};
 	
 	goInStockNew = () =>{
-		this.props.history.push({pathname:"/goods/inStockNew",state:{channel:this.channel}})
+		this.props.history.push({pathname:"/goods/inStockNew",state:{channel:this.channel,actId: this.actId}})
 	};
 	
 	render() {

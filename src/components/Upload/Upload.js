@@ -23,8 +23,12 @@ export default class CustomUpload extends React.Component{
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
-		if(!nextProps.defaultImg) return;
-		this.setState({imageUrl:nextProps.defaultImg})
+		if(!nextProps.defaultImg) {
+			this.setState({imageUrl:''})
+		} else {
+			this.setState({imageUrl:nextProps.defaultImg})
+		}
+		
 	}
 	
 	handleCancel = () => this.setState({ previewVisible: false });

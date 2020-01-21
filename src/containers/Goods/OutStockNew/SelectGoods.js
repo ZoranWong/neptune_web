@@ -33,8 +33,9 @@ export default class SelectGoods extends React.Component{
 		stockable({
 			channel:this.props.channel,
 			limit:10,
-			is_in_stock: false,
-			page:page
+			is_in_stock: 0,
+			page:page,
+			activity_id: this.props.actId
 		}).then(r=>{
 			if(!r.data.length) return;
 			let {data} = this.state;

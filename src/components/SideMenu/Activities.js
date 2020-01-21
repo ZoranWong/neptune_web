@@ -9,38 +9,14 @@ const { SubMenu } = Menu;
 
 let baseMenu = [
 	{
-		path:'/order',
+		path:'/activities',
 		icon:'icon-dingdan',
-		text:'订单管理',
+		text:'活动管理',
 		slug: 'menu_order_management'
-	},
-	{
-		path:'/order/setting',
-		icon:'icon-resource',
-		text:'订单设置',
-		slug: 'menu_order_setting'
-	},
-	{
-		path:'/order/refund',
-		icon:'icon-tuikuan',
-		text:'退款售后',
-		slug: 'menu_order_after_service'
-	},
-	{
-		path:'/order/goodsOrder',
-		icon:'icon-box-fill',
-		text:'订货管理',
-		slug: 'menu_order_agent'
-	},
-	{
-		path:'/order/summaryOrders',
-		icon:'icon-box-fill',
-		text:'消费者汇总单',
-		slug: 'menu_order_agent'
 	},
 ];
 baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
-const Order = ({ match }) => (
+const Activities = ({ match }) => (
 	<div style={{ paddingBottom: '120px',width:'216px' }}>
 		<Menu
 			theme="light"
@@ -66,8 +42,8 @@ const Order = ({ match }) => (
 	</div>
 )
 
-Order.propTypes = {
+Activities.propTypes = {
 	match: PropTypes.object.isRequired
 }
 
-export default Order
+export default Activities
