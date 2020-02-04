@@ -11,7 +11,8 @@ import CustomPagination from "../../../components/Layout/Pagination";
 import ReviewGoods from "../../Order/Components/ReviewGoods";
 import {actOrders, delivery, manufacture} from "../../../api/activities";
 import {consumer_order_values} from "../../../utils/consumer_order_fields";
-
+import _ from 'lodash';
+import Config from '../../../config/app'
 
 class OrderManage extends React.Component{
 	constructor(props){
@@ -26,10 +27,10 @@ class OrderManage extends React.Component{
 			data:[],
 			checkedAry:[],     // 列表页选中的用户id组
 			paginationParams:{
-				searchJson: searchJson({state_constant: 'WAIT_PAY'}),
+				searchJson: searchJson({state_constant: 'ALL'}),
 				search:'',
 			},
-			activeTab:'WAIT_PAY',
+			activeTab:'ALL',
 			items:[],  // 商品回显,
 			conditions: {},
 			current: 1,
@@ -44,7 +45,7 @@ class OrderManage extends React.Component{
 		}
 	}
 	
-	refresh = (status='WAIT_PAY')=>{
+	refresh = (status='ALL')=>{
 		this.setState({
 			filterVisible:false,
 			checkedAry: [],
@@ -161,6 +162,17 @@ class OrderManage extends React.Component{
 		});
 	};
 	
+	// 打印订单
+	print = () => {
+		let {checkedAry, data} = this.state;
+		let orders = [];
+		_.map((data), (order)=> {
+			if (_.indexOf(checkedAry, order.id) > -1) {
+				orders.push(order)
+			}
+		});
+		this.props.history.push({pathname:"/printSheet", state: {orders}})
+	};
 	
 	render(){
 		
@@ -170,11 +182,11 @@ class OrderManage extends React.Component{
 				selectedRows.forEach(item=>{
 					ary.push(item['id'])
 				});
-				if(this.state.activeTab !== 'WAIT_PLATFORM_VERIFY') return;
 				this.setState({checkedAry:ary})
 			}
 		};
 		const tabs = [
+			{name:'全部',key:'ALL'},
 			{name:'等待用户支付',key:'WAIT_PAY'},
 			{name:'已支付',key:'PAY_COMPLETED'},
 			{name:'制作中',key:'WAIT_MANUFACTURE'},
@@ -196,7 +208,7 @@ class OrderManage extends React.Component{
 		let style = {
 			'position': 'absolute',
 			'right': '280px',
-			'zIndex': '99999'
+			'zIndex': '999'
 		};
 		
 		let {activeTab} = this.state;
@@ -292,6 +304,8 @@ class OrderManage extends React.Component{
 						{
 							window.hasPermission("order_management_printing") && <Button
 								size="small"
+								onClick={this.print}
+								disabled={!this.state.checkedAry.length}
 							>打印订单</Button>
 						}
 						

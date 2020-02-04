@@ -13,6 +13,7 @@ import {userOrder,batchCancel,batchConfirm} from "../../../api/order/orderManage
 import {consumer_order_values} from "../../../utils/consumer_order_fields";
 import Export from "../Components/Export";
 import Config from '../../../config/app'
+import _ from "lodash";
 
 class Order extends React.Component{
 	constructor(props){
@@ -279,6 +280,18 @@ class Order extends React.Component{
 		// }).catch(_=>{})
 	};
 	
+	// // 打印订单
+	// print = () => {
+	// 	let {checkedAry, data} = this.state;
+	// 	let orders = [];
+	// 	_.map((data), (order)=> {
+	// 		if (_.indexOf(checkedAry, order.id) > -1) {
+	// 			orders.push(order)
+	// 		}
+	// 	});
+	// 	this.props.history.push({pathname:"/printSheet", state: {orders}})
+	// };
+	
 	render(){
 		
 		const rowSelection = {
@@ -287,7 +300,6 @@ class Order extends React.Component{
 				selectedRows.forEach(item=>{
 					ary.push(item['id'])
 				});
-				if(this.state.activeTab !== 'WAIT_PLATFORM_VERIFY') return;
 				this.setState({checkedAry:ary})
 			}
 		};
@@ -357,6 +369,8 @@ class Order extends React.Component{
 						{
 							window.hasPermission("order_management_printing") && <Button
 								size="small"
+								onClick={this.print}
+								disabled={!this.state.checkedAry.length}
 							>打印订单</Button>
 						}
 						

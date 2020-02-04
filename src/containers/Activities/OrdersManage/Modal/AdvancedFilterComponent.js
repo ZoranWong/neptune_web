@@ -40,11 +40,11 @@ export default class AdvancedFilterComponent extends React.Component{
 					maskClosable={false}
 					footer={
 						<div>
-							<Button
-								size="small"
-								type="default"
-								className="e_btn"
-							>打印订单</Button>
+							{/*<Button*/}
+							{/*	size="small"*/}
+							{/*	type="default"*/}
+							{/*	className="e_btn"*/}
+							{/*>打印订单</Button>*/}
 							<Button
 								size="small"
 								className="e_btn"

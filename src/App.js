@@ -20,6 +20,7 @@ import LoginContainer from "./containers/Login";
 import './style/iconFont.css'
 import TopBar from './components/Layout/TopBar'
 import ResetPassword from "./containers/Login/ResetPassword";
+import PrintSheet from "./containers/PrintSheet/PrintSheet";
 import {firstRoutes, secondRoutes} from "./utils/RouteFields";
 import ActivitiesManage from "./components/SideMenu/ActivitiesManage";
 import _ from 'lodash'
@@ -82,6 +83,8 @@ class App extends React.Component{
 			return <LoginContainer/>
 		} else if(this.props.location.pathname === '/login/resetPassword'){
 			return <ResetPassword/>
+		} else if (this.props.location.pathname === '/printSheet') {
+			return <PrintSheet orders={this.props.location.state.orders} />
 		}
 		return (
 			<Layout style={{minHeight:"100vh"}}>
