@@ -73,10 +73,10 @@ class PrintSheet extends Component {
 						let totalQuantity = 0;
 						let totalPrice = 0;
 						let wholePrice = 0;
-						totalQuantity = order.items.data.length;
 						order.items.data.length && order.items.data.map((item) => {
-							totalPrice += parseInt(item.price);
-							wholePrice += parseInt(item.price * item.quantity)
+							totalQuantity += item.quantity;
+							totalPrice += item.price;
+							wholePrice += item.price * item.quantity
 						});
 						const totalRow = {
 							id: String(Math.random()),
@@ -91,7 +91,11 @@ class PrintSheet extends Component {
 						order.items.data = [...order.items.data, totalRow, wholeRow];
 						return <div className='printSheet' key={order.id}>
 							<h3>{this.props.title}</h3>
-							<h4>用户：{order['user_nickname'] || order['name']}</h4>
+							{
+								order['shipping_info'] ? <h4>
+									用户：{order['shipping_info']['consignee_name']}</h4>
+								: <h4>用户：{order['user_nickname'] || order['name']}</h4>
+							}
 							<h4>订单号：{order['trade_no']}</h4>
 							{
 								order['shipping_info'] && <div>
