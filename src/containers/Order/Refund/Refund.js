@@ -15,6 +15,7 @@ import RefuseRefund from "./Modal/RefuseRefund";
 import {refundList} from "../../../api/order/orderManage";
 import Export from "../Components/Export";
 import Config from '../../../config/app'
+import _ from "lodash";
 
 class Refund extends React.Component{
 	constructor(props){
@@ -286,6 +287,18 @@ class Refund extends React.Component{
 		// }).catch(_=>{})
 	};
 	
+	// 打印订单
+	print = () => {
+		let {checkedAry, data} = this.state;
+		let orders = [];
+		_.map((data), (order)=> {
+			if (_.indexOf(checkedAry, order['order_id']) > -1) {
+				orders.push(order)
+			}
+		});
+		this.props.history.push({pathname:"/printSheet", state: {orders, title: '消费者退款订单'}})
+	};
+	
 	render(){
 		let refundColumns = [
 			{
@@ -420,6 +433,13 @@ class Refund extends React.Component{
 							text='请输入姓名或手机号'
 						/>
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
+						{
+							window.hasPermission("order_management_printing") && <Button
+								size="small"
+								onClick={this.print}
+								disabled={!this.state.checkedAry.length}
+							>打印订单</Button>
+						}
 					</div>
 				</div>
 				
@@ -451,7 +471,7 @@ class Refund extends React.Component{
 					<Table
 						rowSelection={rowSelection}
 						columns={this.refundColumns}
-						rowKey={record => record.product_id}
+						rowKey={record => record.order_id}
 						pagination={false}
 						rowClassName={(record, index) => {
 							let className = '';

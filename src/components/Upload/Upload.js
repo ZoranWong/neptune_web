@@ -86,6 +86,7 @@ export default class CustomUpload extends React.Component{
 			</div>
 		);
 		const {imageUrl} = this.state;
+		console.log(imageUrl);
 		return (
 			<div className="clearfix">
 				<Upload

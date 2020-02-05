@@ -32,6 +32,12 @@ let baseMenu = [
 		text:'模板消息',
 		slug: 'menu_marketing_msg_template'
 	},
+	{
+		path:'/marketing/banners',
+		icon:'icon-commentdots-fill',
+		text:'Banner设置',
+		slug: 'menu_marketing_msg_template'
+	},
 ];
 baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
 const Marketing = ({ match }) => (

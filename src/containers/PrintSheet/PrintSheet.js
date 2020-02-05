@@ -90,16 +90,20 @@ class PrintSheet extends Component {
 						};
 						order.items.data = [...order.items.data, totalRow, wholeRow];
 						return <div className='printSheet' key={order.id}>
-							<h3>青松功夫配送单</h3>
-							<h4>用户：{order['user_nickname']}</h4>
+							<h3>{this.props.title}</h3>
+							<h4>用户：{order['user_nickname'] || order['name']}</h4>
 							<h4>订单号：{order['trade_no']}</h4>
-							<h4>地址：
-								{order['shipping_info']['province']}
-								{order['shipping_info']['city']}
-								{order['shipping_info']['area']}
-								{order['shipping_info']['detail_address']}
-							</h4>
-							<h4>联系电话：{order['shipping_info']['consignee_mobile_phone']}</h4>
+							{
+								order['shipping_info'] && <div>
+									<h4>地址：
+										{order['shipping_info']['province']}
+										{order['shipping_info']['city']}
+										{order['shipping_info']['area']}
+										{order['shipping_info']['detail_address']}
+									</h4>
+									<h4>联系电话：{order['shipping_info']['consignee_mobile_phone']}</h4>
+								</div>
+							}
 							<h4>下单时间：{order['paid_at']}</h4>
 							<h4>预约送货时间：{order['expect_receive_date']} {order['expect_receive_time_start']}-{order['expect_receive_time_end']}</h4>
 							<div className="chart u_chart">

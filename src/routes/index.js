@@ -83,9 +83,11 @@ import OperationLogs from "../containers/Setting/OperationLogs/OperationLogs";
 import BigActivities from '../containers/Activities/ProductsManage/Activities';
 import OrderManage from '../containers/Activities/OrdersManage/OrderManage'
 import BigMarketing from '../containers/Activities/Marketing/Marketing';
+import Banners from "../containers/Marketing/Banners/Banners";
 import ActivitiesManage from "../containers/Activities/Activities/ActivitiesManage";
 import SummaryOrders from "../containers/Order/SummaryOrders/SummaryOrders";
 import PrintSheet from "../containers/PrintSheet/PrintSheet";
+
 /** 跳转到某个路由之前触发 用于验证页面权限**/
 function onEnter (Component, props) {
 	/**
@@ -168,6 +170,7 @@ const Routes = () =>(
 		<Route exact={true} path="/marketing/customWeChatMessage" render={props => onEnter(CustomWeChatMessage, props)} />
 		<Route exact={true} path="/marketing/editWeChatMessage" render={props => onEnter(EditWeChatMessage, props)} />
 		<Route exact={true} path="/marketing/setMarketingMessage" render={props => onEnter(SetMarketingMessage, props)} />
+		<Route exact={true} path="/marketing/banners" render={props => onEnter(Banners, props)} />
 		
 		{/*店铺*/}
 		<Route exact={true} path="/shops" render={props => onEnter(ShopManage, props)} />

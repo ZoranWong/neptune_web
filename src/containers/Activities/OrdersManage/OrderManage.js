@@ -171,7 +171,7 @@ class OrderManage extends React.Component{
 				orders.push(order)
 			}
 		});
-		this.props.history.push({pathname:"/printSheet", state: {orders}})
+		this.props.history.push({pathname:"/printSheet", state: {orders, title: '青松功夫配送单'}})
 	};
 	
 	render(){

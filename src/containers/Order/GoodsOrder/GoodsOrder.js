@@ -15,6 +15,7 @@ import {groups} from "../../../api/shops/groups";
 import ReviewGoods from "../Components/ReviewGoods";
 import Export from "../Components/Export";
 import Config from '../../../config/app'
+import _ from "lodash";
 class GoodsOrder extends React.Component{
 	constructor(props){
 		const defaultItem = ['shop_name','trade_no','products', 'deficientProducts', 'damagedProducts', 'created_at','state_desc','settlement_total_fee'];
@@ -276,7 +277,6 @@ class GoodsOrder extends React.Component{
 	
 	// 确定导出
 	export = (type, items, conditions) =>{
-		console.log(type, 'strategy');
 		let json = searchJson({
 			strategy: type,
 			customize_columns: items,
@@ -289,9 +289,22 @@ class GoodsOrder extends React.Component{
 		// }).catch(_=>{})
 	};
 	
+	// 打印订单
+	print = () => {
+		let {checkedAry, data} = this.state;
+		let orders = [];
+		_.map((data), (order)=> {
+			if (_.indexOf(checkedAry, order.id) > -1) {
+				orders.push(order)
+			}
+		});
+		this.props.history.push({pathname:"/printSheet", state: {orders, title: '商户订货订单'}})
+	};
+	
 	render(){
 		const rowSelection = {
 			onChange: (selectedRowKeys, selectedRows) => {
+				console.log(selectedRowKeys);
 				this.setState({checkedAry:selectedRowKeys})
 			}
 		};
@@ -354,6 +367,13 @@ class GoodsOrder extends React.Component{
 						/>
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
 						{
+							window.hasPermission("order_management_printing") && <Button
+								size="small"
+								onClick={this.print}
+								disabled={!this.state.checkedAry.length}
+							>打印订单</Button>
+						}
+						{
 							window.hasPermission("order_agent_bind_template") && <Button
 								size="small"
 								type='primary'
@@ -390,7 +410,7 @@ class GoodsOrder extends React.Component{
 					<Table
 						rowSelection={rowSelection}
 						columns={this.merchantColumns}
-						rowKey={record => record.product_id}
+						rowKey={record => record.id}
 						pagination={false}
 						rowClassName={(record, index) => {
 							let className = '';

@@ -84,7 +84,7 @@ class App extends React.Component{
 		} else if(this.props.location.pathname === '/login/resetPassword'){
 			return <ResetPassword/>
 		} else if (this.props.location.pathname === '/printSheet') {
-			return <PrintSheet orders={this.props.location.state.orders} />
+			return <PrintSheet orders={this.props.location.state.orders} title={this.props.location.state.title} />
 		}
 		return (
 			<Layout style={{minHeight:"100vh"}}>

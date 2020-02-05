@@ -280,17 +280,17 @@ class Order extends React.Component{
 		// }).catch(_=>{})
 	};
 	
-	// // 打印订单
-	// print = () => {
-	// 	let {checkedAry, data} = this.state;
-	// 	let orders = [];
-	// 	_.map((data), (order)=> {
-	// 		if (_.indexOf(checkedAry, order.id) > -1) {
-	// 			orders.push(order)
-	// 		}
-	// 	});
-	// 	this.props.history.push({pathname:"/printSheet", state: {orders}})
-	// };
+	// 打印订单
+	print = () => {
+		let {checkedAry, data} = this.state;
+		let orders = [];
+		_.map((data), (order)=> {
+			if (_.indexOf(checkedAry, order.id) > -1) {
+				orders.push(order)
+			}
+		});
+		this.props.history.push({pathname:"/printSheet", state: {orders, title: '消费者订单'}})
+	};
 	
 	render(){
 		

@@ -10,14 +10,11 @@ export default class ReviewGoods extends React.Component{
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
-		console.log(nextProps, '|||||||||||||||||||||||S');
 		if (!nextProps.items) {
 			return
 		}
 		if (nextProps.items && nextProps.items.length) {
-			console.log('11111111111111111');
 			let items = nextProps.items;
-			console.log(items, 'xxxxxxxxxxxxxxxxxxxxxxxxx');
 			items.forEach(item=>{
 				let ary = [];
 				for ( let k in item['product_spec_value']){
@@ -77,6 +74,7 @@ export default class ReviewGoods extends React.Component{
 											this.state.text === '缺少商品' && <span>数量:{item['deficient_quantity']}</span>
 										}
 										<span>零售价:{item.price + '元'}</span>
+										<span>备注:{item.remark || '无'}</span>
 									</div>
 								</li>
 							))
