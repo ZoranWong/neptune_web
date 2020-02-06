@@ -18,8 +18,18 @@ class PrintSheet extends Component {
 		}, ()=>{
 			window.print();
 		});
-		
 	}
+	
+	// doPrint = () => {
+	// 	let bdhtml = window.document.body.innerHTML;
+	// 	var jubuData = document.getElementById("printArea").innerHTML;
+	// 	//把获取的 局部div内容赋给body标签, 相当于重置了 body里的内容
+	// 	window.document.body.innerHTML= jubuData;
+	// 	//调用打印功能
+	// 	window.print();
+	// 	window.document.body.innerHTML=bdhtml;//重新给页面内容赋值；
+	// 	return false;
+	// };
 
 	
 	render() {
@@ -65,19 +75,19 @@ class PrintSheet extends Component {
 			}
 		];
 		const {orders} = this.state;
-		console.log(orders);
 		return (
-			<div>
+			<div id='printArea'>
 				{
 					orders.length && orders.map((order) => {
+						console.log(order);
 						let totalQuantity = 0;
 						let totalPrice = 0;
 						let wholePrice = 0;
 						order.items.data.length && order.items.data.map((item) => {
 							totalQuantity += item.quantity;
-							totalPrice += item.price;
-							wholePrice += item.price * item.quantity
 						});
+						totalPrice = order['total_fee'];
+						wholePrice = order['settlement_total_fee'];
 						const totalRow = {
 							id: String(Math.random()),
 							name: '合计',

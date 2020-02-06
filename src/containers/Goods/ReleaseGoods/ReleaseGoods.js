@@ -126,7 +126,6 @@ class ReleaseGoods extends React.Component{
 
 					// 数量
 					let tableData = this.child.current.state.data;
-
 					// 此处修改
 					tableData.forEach(item=>{
 						let spec = this.devideIds(item, childName);
@@ -134,8 +133,7 @@ class ReleaseGoods extends React.Component{
 						item['image'] = this.uploadChild.current.state.imgUrl || this.uploadChild.current.state.imageUrl;
 						item['spec'] = spec;
 					});
-
-
+					
 					values.spec = specs;
 					values.entities = tableData;
 					values.detail = this.editor.current?this.editor.current.state.outputHTML:values.detail;

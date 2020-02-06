@@ -42,6 +42,12 @@ export default class SpecItem extends React.Component{
 		this.props.renderTable();
 		this.hideNewSon()
 	};
+	
+	// 新增规格值时同步至所属父规格下
+	updateSelectedSpecification = (spec) => {
+		this.props.onUpdate(spec)
+	};
+	
 	showNewSon = (item) =>{
 		console.log(item);
 		this.setState({newSonVisible:true,parent:item})
@@ -79,6 +85,7 @@ export default class SpecItem extends React.Component{
 					onCancel={this.hideNewSon}
 					onSubmit={this.createNewSon}
 					parent={this.state.parent}
+					onUpdate={this.updateSelectedSpecification}
 				/>
 				<div className="s_tagBox">
 					{spec.length?spec.map(item=>{

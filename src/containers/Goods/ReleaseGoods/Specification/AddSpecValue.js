@@ -58,9 +58,7 @@ export default class NewSpecification extends React.Component{
 		
 		
 		let allValues = this.state.allValues;
-		console.log(allValues,'=====');
 		let specValues = this.state.specValues;
-		console.log(specValues,'-------');
 		let isInAll = [];
 		let notInAll = specValues;  // 初始默认值
 		allValues.forEach(item=>{
@@ -78,6 +76,7 @@ export default class NewSpecification extends React.Component{
 		if(notInAll.length){
 			createValues({values:notInAll},this.props.parent.id).then(r=>{
 				this.props.onSubmit(this.props.parent.id,r.data.concat(isInAll));
+				this.props.onUpdate(r.data);
 			}).catch(_=>{})
 		} else {
 			this.props.onSubmit(this.props.parent.id,isInAll);

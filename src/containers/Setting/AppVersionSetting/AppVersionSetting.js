@@ -11,7 +11,8 @@ class AppVersionSetting extends React.Component{
 			versions : [],
 			type: 0,
 			version: '',
-			desc: ''
+			desc: '',
+			platform: 'IOS'
 		};
 		this.child = React.createRef();
 	}
@@ -30,6 +31,10 @@ class AppVersionSetting extends React.Component{
 		this.setState({type: e.target.value})
 	};
 	
+	onPlatformChange = e => {
+		this.setState({platform: e.target.value})
+	};
+	
 	check = () =>{
 		let {state} = this;
 		if (!state.version) {
@@ -44,21 +49,23 @@ class AppVersionSetting extends React.Component{
 			message.error('请填写APP描述');
 			return
 		}
-		this.submit(state.version,this.child.current.state.resource_id,state.type,state.desc)
+		this.submit(state.version,this.child.current.state.resource_id,state.type,state.desc,state.platform)
 	};
 	
-	submit = (version, resource_id, type, desc) =>{
+	submit = (version, resource_id, type, desc, platform) =>{
 		newPackages({
 			version,
 			resource_id,
 			type,
-			desc
+			desc,
+			platform
 		}).then(r=>{
 			message.success('新建APP版本成功');
 			this.setState({
 				type: 0,
 				version: '',
-				desc: ''
+				desc: '',
+				platform: 'IOS'
 			},()=>{
 				this.child.current.remove();
 				this.refresh();
@@ -108,6 +115,13 @@ class AppVersionSetting extends React.Component{
 								<Radio.Group onChange={this.onRadioChange} value={this.state.type}>
 									<Radio value={0}>补丁</Radio>
 									<Radio value={1}>非补丁</Radio>
+							  	</Radio.Group>
+							</span>
+							<span>
+								<h5>资源包平台：</h5>
+								<Radio.Group onChange={this.onPlatformChange} value={this.state.platform}>
+									<Radio value='IOS'>IOS端</Radio>
+									<Radio value='ANDROID'>安卓端</Radio>
 							  	</Radio.Group>
 							</span>
 							<span>

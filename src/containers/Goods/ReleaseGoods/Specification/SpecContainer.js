@@ -6,6 +6,7 @@ import IconFont from "../../../../utils/IconFont";
 import SpecItem from "./SpecItem";
 import Upload from '../../../../components/Upload/Upload'
 import {arrayMultiplication} from "../../../../utils/dataStorage";
+import _ from 'lodash'
 
 export default class Specification extends React.Component{
 	constructor(props) {
@@ -124,6 +125,22 @@ export default class Specification extends React.Component{
 		this.setState({data: newTableData})
 	};
 	
+	// 新增规格值时同步至所属父规格下
+	updateSelectedSpecification = (specValue) => {
+		console.log(this.state.SelectedSpecification, 'old SelectedSpecification');
+		let specs = this.state.SelectedSpecification;
+		_.map(specs, (spec) => {
+			if (!spec['spec_value']) {
+				spec['spec_value'] = [];
+			}
+			if (specValue[0].parentKey == spec.id) {
+				spec['spec_value'].push(specValue[0])
+			}
+		});
+		console.log(specs);
+		this.setState({SelectedSpecification: specs})
+	};
+	
 	
 	deleteTableLine = (record) =>{
 		let ary = this.state.data;
@@ -142,6 +159,7 @@ export default class Specification extends React.Component{
 		SelectedSpecification.forEach(item=>{
 			tableChild.push({'title':item.name,dataIndex:`value${item.id}`,align:'center',})
 		});
+		console.log(SelectedSpecification, 'this is the new specs');
 		console.log(this.state.data, ')))))))))))))))))))))');
 		let columns = [
 			{
@@ -187,7 +205,6 @@ export default class Specification extends React.Component{
 				render:(text,record)=>{
 					if(record.name){
 						return <Input   type="number" addonAfter="元" disabled={true} value={record.retail_price} onChange={(e)=>{
-							console.log(e.target.value, '****************');
 							record.retail_price = e.target.value;
 						}} />
 					} else {
@@ -262,6 +279,7 @@ export default class Specification extends React.Component{
 					renderTable={this.renderTable}
 					onSubmit={this.handleDeleteSpecification}
 					isEdit={this.props.isEdit}
+					onUpdate={this.updateSelectedSpecification}
 				/>
 				<div className="specification_header">
 					<Button type="primary" size="small" onClick={this.showNewSpecification} disabled={this.props.entities && this.props.entities.length}>新增规格</Button>
