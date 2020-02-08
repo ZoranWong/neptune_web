@@ -3,6 +3,7 @@ import {Button, Input, message, Modal, Switch, Select} from "antd";
 import CustomUpload from "../../../../components/Upload/Upload";
 import '../css/index.sass';
 import {createNewBanner, editNewBanner} from "../../../../api/marketing/banners";
+import {channelsGoods} from "../../../../api/goods/goods";
 const {Option} = Select;
 class BannerSetting extends Component {
 	constructor(props) {
@@ -12,17 +13,23 @@ class BannerSetting extends Component {
 			isActive: true,
 			jumpUrl: '',
 			text: '新建',
+			jumpType: 'PAGE_PATH_ONLY',
 			defaultImg: '',
 			title: '',
 			synopsis: '',
-			sort: ''
+			sort: '',
+			selectedProduct: '',
+			products: [],
+			scrollPage:1,
 		};
 		this.banner = React.createRef();
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
+		console.log('----------update----------');
 		if (!nextProps.banner.id) {
 			this.setState({
+				text: '新增',
 				canJump: false,
 				jumpType: '',
 				jumpUrl: '',
@@ -46,6 +53,8 @@ class BannerSetting extends Component {
 				sort: nextProps.banner['sort'],
 			})
 		}
+		if (this.state.products.length) return;
+		this.getProducts(1)
 	}
 	
 	handleCancel = () =>{
@@ -54,7 +63,7 @@ class BannerSetting extends Component {
 	
 	handleSubmit = () => {
 		let banner = this.banner.current.state.imgUrl || this.banner.current.state.imageUrl;
-		let {canJump, jumpType, jumpUrl, title, synopsis, sort} = this.state;
+		let {canJump, jumpType, jumpUrl, title, synopsis, sort, selectedProduct} = this.state;
 		if (!title) {
 			message.error('请先填写轮播标题');
 			return
@@ -72,8 +81,16 @@ class BannerSetting extends Component {
 			return
 		}
 		if (canJump) {
-			if (!jumpUrl) {
+			if (!jumpType) {
+				message.error('请选择轮播图跳转类型');
+				return
+			}
+			if (jumpType === 'PAGE_PATH_ONLY' && !jumpUrl) {
 				message.error('请填写轮播图跳转链接');
+				return
+			}
+			if (jumpType === 'PRODUCT_DETAIL' && !selectedProduct) {
+				message.error('请选择轮播跳转详情商品');
 				return
 			}
 		}
@@ -81,10 +98,11 @@ class BannerSetting extends Component {
 			message.error('请先填写轮播序号');
 			return
 		}
-		this.operateBanner(title, synopsis,banner,canJump,jumpUrl,sort );
+		let action_args = jumpType === 'PRODUCT_DETAIL'?  {id: selectedProduct} : {};
+		this.operateBanner(title, synopsis,banner,canJump,jumpUrl,sort,jumpType,action_args);
 	};
 	
-	operateBanner = (title, synopsis, image, can_jump, action_link, sort) => {
+	operateBanner = (title, synopsis, image, can_jump, action_link, sort, action_type,action_args) => {
 		let api = this.props.banner.id ? editNewBanner : createNewBanner;
 		let id = this.props.banner.id ? this.props.banner.id : this.props.actId;
 		api({
@@ -92,9 +110,10 @@ class BannerSetting extends Component {
 			synopsis,
 			sort,
 			scene: 'WECHAT_MINIPROGRAM_INDEX',
-			action_type: 'INSIDE_WECHAT_MINIPROGRAM',
+			action_type: action_type,
 			is_active: this.state.isActive,
-			image,can_jump,action_link
+			image,can_jump,action_link,
+			action_args
 		},id).then(r=>{
 			message.success(r.message);
 			this.handleCancel();
@@ -115,12 +134,28 @@ class BannerSetting extends Component {
 	
 	handleSceneChange = (e) => {
 		this.setState({scene: e})
-	}
+	};
+	
+	getProducts = (page) =>{
+		channelsGoods({limit:100,page:1, channel: 'SHOP_KEEPER'},).then(r=>{
+			this.setState({products: r.data})
+		})
+	};
+	
+	handleTypeChange = (e) => {
+		this.setState({jumpType: e})
+	};
+	// 选定下拉标签时
+	handleChange = selectedItems => {
+		this.setState({ selectedProduct: selectedItems });
+	};
 	
 	
 	render() {
 		let img = (this.props.banner && this.props.banner['image']) || this.state.defaultImg;
+		console.log(this.state.defaultImg, '============================>');
 		console.log(img);
+		const {selectedProduct} = this.state;
 		return (
 			<div>
 				<Modal
@@ -168,14 +203,44 @@ class BannerSetting extends Component {
 						</li>
 						{
 							this.state.canJump && <li>
-								<span className="left">跳转地址</span>
-								<Input
-									className="liInput"
-									value={this.state.jumpUrl}
-									onChange={(e)=>{
-										this.setState({jumpUrl: e.target.value})
-									}}
-								/>
+								<span className="left">跳转类型</span>
+								<Select value={this.state.jumpType} onChange={this.handleTypeChange}>
+									<Option value="PAGE_PATH_ONLY">仅跳转页面</Option>
+									<Option value="PRODUCT_DETAIL">商品详情</Option>
+								</Select>
+							</li>
+						}
+						{
+							(this.state.canJump && this.state.jumpType) && <li>
+								<span className="left">{this.state.jumpType === 'PAGE_PATH_ONLY' ? '跳转地址': '商品名称'}</span>
+								{
+									this.state.jumpType === 'PAGE_PATH_ONLY' ?
+										<Input
+											className="liInput"
+											value={this.state.jumpUrl}
+											onChange={(e)=>{
+												this.setState({jumpUrl: e.target.value})
+											}}
+										/>
+										:
+										<Select
+											defaultActiveFirstOption={false}
+											value={selectedProduct}
+											onChange={this.handleChange}
+											optionLabelProp="label"
+											optionFilterProp="children"
+											filterOption={(input, option) =>
+												option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+											}
+										>
+											{this.state.products.map(item => (
+												<Select.Option key={item.product_id+''} label={item.name} value={item.product_id+''}>
+													{item.name}
+												</Select.Option>
+											))}
+										</Select>
+								}
+							
 							</li>
 						}
 						<li className='bannerSwitch'>

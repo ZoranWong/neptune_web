@@ -174,6 +174,18 @@ class OrderManage extends React.Component{
 		this.props.history.push({pathname:"/printSheet", state: {orders, title: '青松功夫配送单'}})
 	};
 	
+	export = () =>{
+		let json = searchJson({
+			strategy: 'ACTIVITY_ORDER_CAKE',
+			customize_columns: [],
+			logic_conditions: []
+		});
+		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+		// dataExport({searchJson: searchJson(params)}).then(r=>{
+		// 	console.log(r);
+		// }).catch(_=>{})
+	};
+	
 	render(){
 		
 		const rowSelection = {
@@ -200,9 +212,7 @@ class OrderManage extends React.Component{
 			{name:'已关闭',key:'CLOSED'}
 		];
 		const strategy = [
-			{key: 'USER_ORDER_CUSTOMIZE', value: '自定义显示项',},
-			{key: 'USER_ORDER_PRODUCT', value: '商品维度',},
-			{key: 'USER_ORDER_SHOP', value: '店铺维度',},
+			{key: 'ACTIVITY_ORDER_CAKE', value: '生日蛋糕',}
 		];
 		
 		let style = {
@@ -269,6 +279,8 @@ class OrderManage extends React.Component{
 		
 		return (
 			<div className="order">
+				
+				
 				<AdvancedFilterComponent
 					visible={this.state.filterVisible}
 					onCancel={this.closeHigherFilter}
@@ -308,7 +320,12 @@ class OrderManage extends React.Component{
 								disabled={!this.state.checkedAry.length}
 							>打印订单</Button>
 						}
-						
+						<Button
+							size="small"
+							type="default"
+							className="e_btn"
+							onClick={this.export}
+						>导出</Button>
 					
 					</div>
 				</div>
@@ -321,6 +338,7 @@ class OrderManage extends React.Component{
 									key={index}
 									className={this.state.activeTab == item.key?'active':''}
 									onClick={()=>this.onChangeTab(item)}
+									style={{'padding': '0 10px'}}
 								>{item.name}</li>
 							})
 						}

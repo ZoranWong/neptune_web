@@ -1,6 +1,6 @@
 import React from 'react';
-import {Button,Tabs,Tag,Modal } from "antd";
-import {userDetails, deleteUserTag, deleteUserGroup, deleteTagGroup} from "../../../api/user";
+import {Button, Tabs, Tag, Modal, message} from "antd";
+import {userDetails, deleteUserTag, deleteUserGroup, deleteTagGroup, deleteUser} from "../../../api/user";
 import './css/user_details.sass'
 import AdjustScore from './AdjustScore'
 import CouponRecords from "./Modals/CouponRecords";
@@ -135,6 +135,51 @@ class UserDetails extends React.Component{
 		this.props.history.push({pathname: this.props.location.state.path,state:{current: this.props.location.state.current}})
 	};
 	
+	// 删除用户
+	delete = () => {
+		let ary = [];
+		ary.push(this.props.location.state.id);
+		let goBack = this.goBack;
+		let confirmModal = confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			maskClosable:true,
+			content: (
+				<div className="U_confirm">
+					确定删除该用户么？
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				console.log(ary, '+++++++++++++++++');
+				deleteUser({user_ids: ary}).then(r=>{
+					message.success(r.message);
+					goBack()
+				}).catch(_=>{})
+			},
+			onCancel() {
+			
+			},
+		})
+	};
+	
 
 	render(){
 		const group = [
@@ -181,7 +226,10 @@ class UserDetails extends React.Component{
 				<div className="u_top">
 					<div className="u_header">
 						<span>用户详情</span>
-						<Button type="default" size="small" onClick={this.goBack}>返回用户列表</Button>
+						<div className="right">
+							<Button type="default" style={{'marginRight': '20px'}} size="small" onClick={this.delete}>删除该用户</Button>
+							<Button type="default" size="small" onClick={this.goBack}>返回用户列表</Button>
+						</div>
 					</div>
 					<div className="u_body">
 						<ul className="u_body_top">

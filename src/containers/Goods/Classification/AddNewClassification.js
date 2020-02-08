@@ -1,13 +1,16 @@
 import React from "react";
 import {Input, Modal} from "antd";
 import './css/addNewClassification.sass'
+import CustomUpload from "../../../components/Upload/Upload";
 export default class AddNewClassification extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
 			value:'',
-			disabled:false
+			disabled:false,
+			defaultImg: ''
 		};
+		this.child = React.createRef();
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
@@ -15,7 +18,7 @@ export default class AddNewClassification extends React.Component{
 			this.setState({classificationId: nextProps.classificationId});
 			return
 		};
-		this.setState({value:nextProps.name,disabled:true, classificationId: nextProps.classificationId})
+		this.setState({value:nextProps.name,defaultImg: nextProps.icon,disabled:true, classificationId: nextProps.classificationId})
 	}
 	
 	handleCancel = () =>{
@@ -24,10 +27,12 @@ export default class AddNewClassification extends React.Component{
 	};
 	
 	handleSubmit = () =>{
-		this.props.onSubmit(this.state.value)
+		let icon = this.child.current.state.imgUrl || this.child.current.state.imageUrl;
+		this.props.onSubmit(this.state.value, icon)
 	};
 	
 	render() {
+		let img = (this.props.icon && this.props.icon['image']) || this.state.defaultImg;
 		return (
 			<div>
 				<Modal
@@ -40,7 +45,7 @@ export default class AddNewClassification extends React.Component{
 					cancelText="取消"
 					onOk={this.handleSubmit}
 				>
-					<div className="warningStock">
+					<div className="newClassification warningStock">
 						分类名称
 						<Input
 							value={this.state.value}
@@ -49,6 +54,12 @@ export default class AddNewClassification extends React.Component{
 							}}
 						/>
 					</div>
+					<div className="newClassification">
+						<span>分类图标</span>
+						
+						<CustomUpload ref={this.child} defaultImg={img} />
+					</div>
+					
 				</Modal>
 			</div>
 		)

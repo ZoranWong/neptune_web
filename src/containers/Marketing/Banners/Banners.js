@@ -121,7 +121,7 @@ class Banners extends Component {
 				}
 			},
 			{
-				title: '跳转地址/商品详情ID',
+				title: '跳转地址',
 				dataIndex: 'action_link',
 				render: (text,record)=>{
 					return record['can_jump'] ? text : '无'

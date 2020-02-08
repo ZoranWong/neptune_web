@@ -24,6 +24,14 @@ export function deleteGroup(params,groupId) {
 		params: params
 	})
 }
+export function deleteUser(params) {
+	console.log(params);
+	return request({
+		url: `/api/backend/users/delete`,
+		method: 'delete',
+		params: params
+	})
+}
 
 // 新建群组（群组管理）
 export function addNewGroup(params,type) {

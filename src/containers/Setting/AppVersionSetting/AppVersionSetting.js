@@ -84,6 +84,13 @@ class AppVersionSetting extends React.Component{
 				dataIndex: 'resource_url',
 			},
 			{
+				title: '版本平台',
+				dataIndex: 'platform',
+				render: (text, record) => (
+					<span>{text === 'ANDROID'? '安卓': 'IOS' }</span>
+				)
+			},
+			{
 				title: '创建时间',
 				dataIndex: 'created_at',
 			},

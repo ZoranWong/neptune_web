@@ -47,7 +47,16 @@ class PrintSheet extends Component {
 					if (record.name === '合计') {
 						return '--';
 					} else {
-						return text ;  //++index相当于index+1
+						let desc = '';
+						if (text) {
+							for (let k in text) {
+								desc = `${k}: ${text[k]}`
+							}
+						} else {
+							desc= '无'
+						}
+						
+						return desc ;  //++index相当于index+1
 					}
 				}
 			},
@@ -72,9 +81,15 @@ class PrintSheet extends Component {
 				title: '单价(元)',
 				dataIndex: 'price',
 				align: 'center'
-			}
+			},
+			{
+				title: '备注',
+				dataIndex: 'remark',
+				align: 'center'
+			},
 		];
 		const {orders} = this.state;
+		console.log(orders);
 		return (
 			<div id='printArea'>
 				{

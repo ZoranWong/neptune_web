@@ -5,6 +5,7 @@ import {Button, Table, Popconfirm} from "antd";
 import {createNewFatherClassification,SonClassification,deleteClassification, editClassification} from "../../../api/goods/classification";
 import AddNewClassification from "./AddNewClassification";
 import AddNewSonClassification from "./AddNewSonClassification";
+
 class Classification extends React.Component{
 	constructor(props) {
 		super(props);
@@ -15,7 +16,8 @@ class Classification extends React.Component{
 			classificationName:'',
 			sonClassificationName:'',
 			parentId:'',
-			classificationId:''
+			classificationId:'',
+			icon: ''
 		};
 		this.child = React.createRef();
 	}
@@ -58,9 +60,9 @@ class Classification extends React.Component{
 	hideAddNewClassification = () =>{
 		this.setState({addNewVisible:false,classificationName:''})
 	};
-	submitAddNewClassification = (value) =>{
+	submitAddNewClassification = (value, icon) =>{
 		let api = this.child.current.state.classificationId ? editClassification : createNewFatherClassification;
-		api({name:value},this.child.current.state.classificationId).then(r=>{
+		api({name:value, icon: icon},this.child.current.state.classificationId).then(r=>{
 			this.hideAddNewClassification();
 			this.refresh()
 		})
@@ -82,7 +84,7 @@ class Classification extends React.Component{
 	
 	// 查看分类详情
 	showDetail = (record) =>{
-		this.setState({classificationName:record.name, classificationId: record.id},()=>{
+		this.setState({classificationName:record.name, icon: record.icon, classificationId: record.id},()=>{
 			this.showAddNewClassification();
 		})
 	};
@@ -199,6 +201,7 @@ class Classification extends React.Component{
 					onCancel={this.hideAddNewClassification}
 					onSubmit={this.submitAddNewClassification}
 					name={this.state.classificationName}
+					icon={this.state.icon}
 					classificationId={this.state.classificationId}
 					ref={this.child}
 				/>

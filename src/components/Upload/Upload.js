@@ -18,13 +18,15 @@ export default class CustomUpload extends React.Component{
 			loading: false,
 			imgUrl:'',
 			previewVisible:false,
-			previewImage:''
+			previewImage:'',
+			imageUrl: ''
 		};
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
+		console.log(nextProps, '============================>  update');
 		if(!nextProps.defaultImg) {
-			this.setState({imageUrl:''})
+			 // this.setState({imageUrl:''})
 		} else {
 			this.setState({imageUrl:nextProps.defaultImg})
 		}
@@ -64,7 +66,7 @@ export default class CustomUpload extends React.Component{
 		}
 		if (info.file.status === 'done') {
 			message.success('上传成功');
-			this.setState({imgUrl:info.file.response.data.url});
+			this.setState({imgUrl:info.file.response.data.url, imageUrl: info.file.response.data.url});
 			// Get this url from response in real world.
 			getBase64(info.file.originFileObj, imageUrl =>
 				{
