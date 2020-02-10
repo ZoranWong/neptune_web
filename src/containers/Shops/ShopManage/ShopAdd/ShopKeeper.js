@@ -24,7 +24,8 @@ class ShopKeeper extends React.Component{
 			channels:[],
 			routes: [],
 			activeChannel:'',
-			activeRoute: ''
+			activeRoute: '',
+			lngLat: {}
 		};
 		this.childMap = React.createRef();
 		this.childAdd = React.createRef();
@@ -154,8 +155,8 @@ class ShopKeeper extends React.Component{
 			status:this.state.status,
 			introducer_code:listData.introducer_code,
 			name:listData.name,
-			lat:this.childMap.current.state.markerPosition.latitude,
-			lng:this.childMap.current.state.markerPosition.longitude,
+			lat:this.state.lngLat.latitude || listData.position.lat,
+			lng:this.state.lngLat.longitude || listData.position.lng,
 			id_card_images: id_card_images,
 			business_license_images:business_license_images,
 			shop_images:shop_images
@@ -176,7 +177,11 @@ class ShopKeeper extends React.Component{
 	
 	showMap = (e) =>{
 		this.handleCancel();
-		this.setState({visible:true,position:e})
+		if (this.state.lngLat.latitude ) {
+			this.setState({visible:true,position: {...this.state.position, lng: this.state.lngLat.longitude,  lat:  this.state.lngLat.latitude}})
+		} else {
+			this.setState({visible:true,position:e})
+		}
 	};
 	hideMap = () =>{
 		this.props.onShow();
@@ -184,7 +189,7 @@ class ShopKeeper extends React.Component{
 	};
 	
 	handleLocation = (position,lng) =>{
-		this.setState({address:position})
+		this.setState({address:position,lngLat: lng,position: {...this.state.position, lng: lng.longitude,  lat:  lng.latitude}})
 	};
 	handleChannelChange = value =>{
 		this.setState({activeChannel:value})

@@ -2,6 +2,7 @@ import { Map,Marker} from "react-amap";
 import React from 'react'
 import './map.sass'
 import {Input, Modal} from "antd";
+import 	_ from 'lodash';
 export default class CustomMap extends React.Component{
 	constructor(props) {
 		super(props);
@@ -18,9 +19,11 @@ export default class CustomMap extends React.Component{
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		if (!nextProps.position) return;
-		this.setState({markerPosition:{...this.state.markerPosition,longitude:nextProps.position.lng,latitude:nextProps.position.lat},searchContent:''})
+		console.log(nextProps, 'XXXXXXXXXXXXXXXXXXXXXXXX');
+		this.setState({markerPosition:{...this.state.markerPosition,longitude:nextProps.position.lng,latitude:nextProps.position.lat},searchContent:''}, ()=>{
+			console.log('更新地图数据');
+		})
 	}
-	
 	
 	
 	placeSearch = (e) => {
@@ -35,6 +38,7 @@ export default class CustomMap extends React.Component{
 		if(this.props.disabled){
 			this.handleCancel();
 		} else {
+			console.log(this.state.markerPosition,'{{{{{{{{{{{{{{{{{{{');
 			this.props.handleLocation(this.state.searchContent,this.state.markerPosition);
 			this.handleCancel();
 		}

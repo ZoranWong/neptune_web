@@ -21,7 +21,8 @@ class BreakfastCar extends React.Component{
 			listData:{},
 			status:100,
 			activeRoute: '',
-			routes:[]
+			routes:[],
+			lngLat: {}
 		};
 		this.childMap = React.createRef();
 		this.childAdd = React.createRef();
@@ -129,8 +130,8 @@ class BreakfastCar extends React.Component{
 			status:this.state.status,
 			breakfast_car_code:listData.breakfast_car_code || listData.breakfast_code,
 			name:listData.name,
-			lat:this.childMap.current.state.markerPosition.latitude,
-			lng:this.childMap.current.state.markerPosition.longitude,
+			lat:this.state.lngLat.latitude || listData.position.lat,
+			lng:this.state.lngLat.longitude || listData.position.lng,
 			id_card_images: id_card_images,
 			shop_images:shop_images
 		};
@@ -149,9 +150,15 @@ class BreakfastCar extends React.Component{
 		}
 	};
 	
-	showMap = () =>{
+	showMap = (e) =>{
+		console.log(e);
+		console.log(this.state.lngLat.latitude);
 		this.handleCancel();
-		this.setState({visible:true})
+		if (this.state.lngLat.latitude ) {
+			this.setState({visible:true,position: {...this.state.position, lng: this.state.lngLat.longitude,  lat:  this.state.lngLat.latitude}})
+		} else {
+			this.setState({visible:true,position:e})
+		}
 	};
 	hideMap = () =>{
 		this.props.onShow();
@@ -159,7 +166,7 @@ class BreakfastCar extends React.Component{
 	};
 	
 	handleLocation = (position,lng) =>{
-		this.setState({address:position})
+		this.setState({address:position,lngLat: lng, position: {...this.state.position, lng: lng.longitude,  lat:  lng.latitude}})
 	};
 	handleRouteChange = value =>{
 		this.setState({activeRoute:value})
@@ -174,6 +181,7 @@ class BreakfastCar extends React.Component{
 					 hideMap={this.hideMap}
 					 handleLocation={this.handleLocation}
 					 ref={this.childMap}
+					 position={this.state.position}
 				/>
 				
 				<Modal
@@ -266,7 +274,7 @@ class BreakfastCar extends React.Component{
 						</li>
 						<li>
 							<span className="left" >地图位置</span>
-							<span onClick={this.showMap} style={{'cursor':'pointer','width': '320px'}}>
+							<span onClick={()=>this.showMap(listData.position)} style={{'cursor':'pointer','width': '320px'}}>
 								<i className="iconfont" style={{'fontSize':'14px','color':'#4F9863','marginRight':'3px'}}>&#xe7b0;</i>
 								{this.state.address}
 							</span>
