@@ -128,25 +128,25 @@ class OrderSetting extends Component {
 				<div className="setting_body">
 					{
 						state.data.length && <div className="setting_item">
-							<Checkbox
-								checked={this.getFlag('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT').flag}
-								onChange={(e)=>{
-									this.handleChange('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT',e.target.checked)
-								}}
-							>
-							<span className='cancelSpan'>订单支付完成后 <Input
-								type='number'
-								value={state['USER_ORDER_MANUAL_CANCEL_TIME_LIMIT']}
-								onChange={(e)=>this.valueChange('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT',e.target.value)}
-								onBlur={()=>this.submitSetting('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT')}
-							/> 小时之内</span>
-							</Checkbox>
-							<Checkbox
-								checked={this.getFlag('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR').flag}
-								onChange={(e)=>{
-									this.handleChange('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR',e.target.checked)
-								}}
-							>
+							{/*<Checkbox*/}
+							{/*	checked={this.getFlag('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT').flag}*/}
+							{/*	onChange={(e)=>{*/}
+							{/*		this.handleChange('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT',e.target.checked)*/}
+							{/*	}}*/}
+							{/*>*/}
+							{/*<span className='cancelSpan'>订单支付完成后 <Input*/}
+							{/*	type='number'*/}
+							{/*	value={state['USER_ORDER_MANUAL_CANCEL_TIME_LIMIT']}*/}
+							{/*	onChange={(e)=>this.valueChange('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT',e.target.value)}*/}
+							{/*	onBlur={()=>this.submitSetting('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT')}*/}
+							{/*/> 小时之内</span>*/}
+							{/*</Checkbox>*/}
+							{/*<Checkbox*/}
+							{/*	checked={this.getFlag('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR').flag}*/}
+							{/*	onChange={(e)=>{*/}
+							{/*		this.handleChange('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR',e.target.checked)*/}
+							{/*	}}*/}
+							{/*>*/}
 							<span className='cancelSpan'>每天  <Input
 								type='number'
 								value={state['USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR']}
@@ -158,7 +158,7 @@ class OrderSetting extends Component {
 								onChange={(e)=>this.valueChange('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_MINUTE',e.target.value)}
 								onBlur={()=>this.submitSetting('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_MINUTE')}
 							/> 分之前</span>
-							</Checkbox>
+							{/*</Checkbox>*/}
 						</div>
 					}
 				</div>

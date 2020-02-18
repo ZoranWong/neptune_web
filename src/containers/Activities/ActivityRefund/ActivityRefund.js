@@ -5,24 +5,26 @@ import IconFont from "../../../utils/IconFont";
 import './css/refund.sass'
 import {searchJson, getToken, orderOutputTransformer, orderInputTransformer} from "../../../utils/dataStorage";
 import {refund_order_values} from "../../../utils/refund_order_fields";
-import AdvancedFilterComponent from "../Components/AdvancedFilterComponent";
+import AdvancedFilterComponent from "../OrdersManage/Modal/AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
-import ReviewGoods from "../Components/ReviewGoods";
-import {summaryOrders} from "../../../api/order/orderManage";
-import Export from "../Components/Export";
+import ReviewGoods from "../../Order/Components/ReviewGoods";
+import RefundMoney from "./Modal/RefundMoney";
+import RefuseRefund from "./Modal/RefuseRefund";
+import {actRefundOrders} from "../../../api/activities/index";
+import Export from "../../Order/Components/Export";
 import Config from '../../../config/app'
 import _ from "lodash";
 
-class SummaryOrders extends React.Component{
+class ActivityRefund extends React.Component{
 	constructor(props){
 		
 		const defaultItem = ['user_nickname','trade_no', 'products', 'settlement_total_fee', 'refund_type', 'refund_apply_at','refund_state'];
 		super(props);
 		this.child = React.createRef();
 		this.state = {
-			api:summaryOrders,
+			api:actRefundOrders,
 			filterVisible:false,
 			customVisible:false,
 			exportVisible: false,
@@ -34,7 +36,7 @@ class SummaryOrders extends React.Component{
 				logic_conditions:[],
 				search:'',
 			},
-			activeTab:'BACKEND_ALL',
+			activeTab:-1,
 			reviewGoodsVisible:false,
 			record:{},
 			items:[],
@@ -42,21 +44,23 @@ class SummaryOrders extends React.Component{
 			refuseItem:{},
 			defaultItem: defaultItem,
 			conditions: {},
-			current: 1
+			current: 1,
+			actId: ''
 		};
 		this.refundColumns = [
 			{
-				title: '收货店铺',
-				dataIndex: 'shop_name',
+				title: '订单号',
+				dataIndex: 'trade_no',
 				render: (text,record) => <span
+					onClick={()=>this.jump(record)}
 					style={{'color':'#4F9863','cursor':'pointer'}}>{text}</span>,
 			},
 			{
 				title: '商品',
 				render: (text,record) => {
-					if(record.items.length){
+					if(record.items.data.length){
 						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-							<span className="orderGoods">{record.items[0].product_name+'......'}</span>
+							<span className="orderGoods">{record.items.data[0].name+'......'}</span>
 							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items)} />
 						</span>
 					} else {
@@ -65,43 +69,42 @@ class SummaryOrders extends React.Component{
 				},
 			},
 			{
-				title: '缺少商品',
-				render: (text,record) => {
-					if(record.deficient_items.length){
-						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-							<span className="orderGoods">{record.deficient_items[0].product_name+'......'}</span>
-							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.deficient_items)} />
-						</span>
+				title: '实付款',
+				dataIndex: 'settlement_total_fee',
+			},
+			{
+				title: '用户昵称',
+				dataIndex: 'nickname',
+			},
+			{
+				title: '退款类型',
+				dataIndex: 'refund_type_desc',
+			},
+			{
+				title: '申请时间',
+				dataIndex: 'applied_at',
+			},
+			{
+				title: this.state.activeTab === 0?'操作':'退款状态',
+				dataIndex:'refund_state_desc',
+				render:(text,record) =>{
+					if(this.state.activeTab === 0){
+						return (
+							<div>
+								<span style={{'color':'#4F9863','cursor':'pointer','marginRight':'20px'}} onClick={()=>this.showRefund(record)}>退款</span>
+								<span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.showRefuse(record)}>拒绝退款</span>
+							</div>
+						)
 					} else {
-						return <span>无</span>
+						return <span>{text}</span>
 					}
 				},
-			},
-			{
-				title: '破损商品',
-				render: (text,record) => {
-					if(record.damaged_items.length){
-						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-							<span className="orderGoods">{record.damaged_items[0].product_name+'......'}</span>
-							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.damaged_items)} />
-						</span>
-					} else {
-						return <span>无</span>
-					}
-				},
-			},
-			{
-				title: '汇总时间',
-				dataIndex: 'summary_date',
-			},
-			{
-				title: '状态',
-				dataIndex:'state_desc',
 			},
 		];
 	}
 	
 	componentWillMount() {
+		this.setState({actId: this.props.location.state.id});
 		if (this.props.location.state && this.props.location.state.current) {
 			this.setState({current: this.props.location.state.current})
 		}
@@ -111,19 +114,20 @@ class SummaryOrders extends React.Component{
 	
 	
 	
-	refresh = (status='BACKEND_ALL')=>{
+	refresh = (status = -1)=>{
 		this.setState({
 			filterVisible:false,
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
-				searchJson:searchJson({state_constant:status})
+				searchJson:searchJson({refund_state:status})
 			}
 		},()=>{
 			this.child.current.pagination(1)
 		})
 	};
 	
+	// 商品回显
 	// 商品回显
 	reviewGoods = (record,text) =>{
 		this.setState({reviewGoodsVisible:true,items:record,text: text})
@@ -132,11 +136,14 @@ class SummaryOrders extends React.Component{
 		this.setState({reviewGoodsVisible:false})
 	};
 	
+	jump = record => {
+		this.props.history.push({pathname:"/order/orderDetail",state:{id:record['order_id'],path:'/order/refund', current: this.child.current.state.current}})
+	};
 	
 	// 头部搜索框
 	search = (value) =>{
 		this.setState({
-			api:summaryOrders,
+			api:actRefundOrders,
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value,status:true})}
 		},()=>{
@@ -152,7 +159,7 @@ class SummaryOrders extends React.Component{
 		this.setState({filterVisible:false})
 	};
 	onSubmit = (data) =>{
-		this.setState({api:summaryOrders,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
+		this.setState({api:actRefundOrders,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
 			this.child.current.pagination(1)
 		});
 	};
@@ -166,6 +173,7 @@ class SummaryOrders extends React.Component{
 		this.setState({customVisible:false})
 	};
 	handleCustom = (e) =>{
+		console.log(e, '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`');
 		let ary = [];
 		e.forEach(e=>{
 			refund_order_values.forEach(u=>{
@@ -176,9 +184,9 @@ class SummaryOrders extends React.Component{
 						obj.dataIndex = orderOutputTransformer(e);
 						if (obj.dataIndex === 'damaged_items') {
 							obj.render = (text,record) => {
-								if(record.damaged_items.length){
+								if(record.damaged_items.data.length){
 									return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-										<span className="orderGoods">{record.damaged_items[0].product_name+'......'}</span>
+										<span className="orderGoods">{record.damaged_items.data[0].name+'......'}</span>
 										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.damaged_items, '破损商品')} />
 									</span>
 								} else {
@@ -188,10 +196,10 @@ class SummaryOrders extends React.Component{
 						};
 						if (obj.dataIndex === 'items') {
 							obj.render = (text,record) => {
-								if(record.items.length){
+								if(record.items.data.length){
 									return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-										<span className="orderGoods">{record.items[0].product_name+'......'}</span>
-										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items)} />
+										<span className="orderGoods">{record.items.data[0].name+'......'}</span>
+										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items, '商品')} />
 									</span>
 								} else {
 									return <span>无</span>
@@ -200,9 +208,9 @@ class SummaryOrders extends React.Component{
 						}
 						if (obj.dataIndex === 'deficient_items') {
 							obj.render =(text,record) => {
-								if(record.deficient_items.length){
+								if(record.deficient_items.data.length){
 									return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-										<span className="orderGoods">{record.deficient_items[0].product_name+'......'}</span>
+										<span className="orderGoods">{record.deficient_items.data[0].name+'......'}</span>
 										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.deficient_items, '缺少商品')} />
 									</span>
 								} else {
@@ -243,6 +251,21 @@ class SummaryOrders extends React.Component{
 		this.refresh(item.key)
 	};
 	
+	//   退款
+	showRefund = record =>{
+		this.setState({refundVisible:true,refundItem:record})
+	};
+	hideRefund = () =>{
+		this.setState({refundVisible:false})
+	};
+	
+	// 拒绝退款
+	showRefuse = record =>{
+		this.setState({refuseVisible:true,refuseItem:record})
+	};
+	hideRefuse = () =>{
+		this.setState({refuseVisible:false})
+	};
 	
 	// 导出
 	showExport = (conditions) =>{
@@ -261,7 +284,7 @@ class SummaryOrders extends React.Component{
 			customize_columns: items,
 			logic_conditions: conditions
 		});
-		window.open(`${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`,'target','');
+		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
 		// dataExport({searchJson: searchJson(params)}).then(r=>{
 		// 	console.log(r);
 		// }).catch(_=>{})
@@ -272,15 +295,84 @@ class SummaryOrders extends React.Component{
 		let {checkedAry, data} = this.state;
 		let orders = [];
 		_.map((data), (order)=> {
-			if (_.indexOf(checkedAry, order.id) > -1) {
+			if (_.indexOf(checkedAry, order['order_id']) > -1) {
 				orders.push(order)
 			}
 		});
-		console.log(orders, '==============>');
-		this.props.history.push({pathname:"/printSummaryOrders", state: {orders, title: '消费者汇总单'}})
+		this.props.history.push({pathname:"/printSheet", state: {orders, title: '消费者退款订单'}})
+	};
+	
+	backAct = () => {
+		this.props.history.push({pathname:"/activities"})
 	};
 	
 	render(){
+		let refundColumns = [
+			{
+				title: '订单号',
+				dataIndex: 'trade_no',
+				render: (text,record) => <span
+					style={{'color':'#4F9863','cursor':'pointer'}}>{text}</span>,
+			},
+			{
+				title: '缺少商品',
+				render: (text,record) => {
+					if(record.damaged_items.data.length){
+						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+							<span className="orderGoods">{record.damaged_items.data[0].name+'......'}</span>
+							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.damaged_items)} />
+						</span>
+					} else {
+						return <span>无</span>
+					}
+				},
+			},
+			{
+				title: '破损商品',
+				render: (text,record) => {
+					if(record.deficient_items.data.length){
+						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+							<span className="orderGoods">{record.deficient_items.data[0].name+'......'}</span>
+							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.deficient_items)} />
+						</span>
+					} else {
+						return <span>无</span>
+					}
+				},
+			},
+			{
+				title: '实付款',
+				dataIndex: 'settlement_total_fee',
+			},
+			{
+				title: '用户昵称',
+				dataIndex: 'nickname',
+			},
+			{
+				title: '退款类型',
+				dataIndex: 'refund_type',
+			},
+			{
+				title: '申请时间',
+				dataIndex: 'applied_at',
+			},
+			{
+				title: this.state.activeTab === 0?'操作':'退款状态',
+				dataIndex:'refund_state_desc',
+				render:(text,record) =>{
+					if(this.state.activeTab === 0){
+						return (
+							<div>
+								<span style={{'color':'#4F9863','cursor':'pointer','marginRight':'20px'}} onClick={()=>this.showRefund(record)}>退款</span>
+								<span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.showRefuse(record)}>拒绝退款</span>
+							</div>
+						)
+					} else {
+						return <span>{text}</span>
+					}
+				},
+			},
+		];
 		
 		const rowSelection = {
 			onChange: (selectedRowKeys, selectedRows) => {
@@ -288,14 +380,17 @@ class SummaryOrders extends React.Component{
 			}
 		};
 		const tabs = [
-			{name:'全部',key:'BACKEND_ALL'},
-			{name:'待收货',key:'BACKEND_WAIT_AGENT_VERIFY'},
-			{name:'正常完成收货',key:'BACKEND_SUCCESS_COMPLETED'},
-			{name:'异常完成收货',key:'BACKEND_UNQUALIFIED_COMPLETED'}
+			{name:'全部',key: -1},
+			{name:'待处理',key: 0},
+			{name:'处理中',key:1},
+			{name:'已退款',key: 2},
+			{name:'拒绝退款',key: 3},
 		];
 		
 		const strategy = [
-			{key: 'SHOP_SELF_PICK_SUMMARY', value: '自提汇总单',}
+			{key: 'USER_ORDER_CUSTOMIZE', value: '自定义显示项',},
+			{key: 'USER_ORDER_PRODUCT', value: '商品维度',},
+			{key: 'USER_ORDER_SHOP', value: '店铺维度',},
 		];
 		const exportProps = {
 			visible : this.state.exportVisible,
@@ -305,6 +400,13 @@ class SummaryOrders extends React.Component{
 			values: refund_order_values,
 			conditions: this.state.conditions
 		};
+		
+		let style = {
+			'position': 'absolute',
+			'right': '280px',
+			'zIndex': '999'
+		};
+		
 		return (
 			<div className="refund">
 				<Export {...exportProps} />
@@ -325,6 +427,20 @@ class SummaryOrders extends React.Component{
 					text={this.state.text}
 				/>
 				
+				<RefundMoney
+					visible={this.state.refundVisible}
+					onCancel={this.hideRefund}
+					item={this.state.refundItem}
+					refresh={()=>this.refresh(0)}
+				/>
+				<RefuseRefund
+					visible={this.state.refuseVisible}
+					onCancel={this.hideRefuse}
+					item={this.state.refuseItem}
+					refresh={()=>this.refresh(0)}
+				/>
+				
+				<Button size='small' style={style} onClick={this.backAct}>返回活动管理</Button>
 				<div className="s_body">
 					<div className="headerLeft">
 						<SearchInput
@@ -340,7 +456,6 @@ class SummaryOrders extends React.Component{
 							>打印订单</Button>
 						}
 					</div>
-					
 				</div>
 				
 				<div className="tabs">
@@ -371,7 +486,7 @@ class SummaryOrders extends React.Component{
 					<Table
 						rowSelection={rowSelection}
 						columns={this.refundColumns}
-						rowKey={record => record.id}
+						rowKey={record => record.order_id}
 						pagination={false}
 						rowClassName={(record, index) => {
 							let className = '';
@@ -387,15 +502,13 @@ class SummaryOrders extends React.Component{
 						ref={this.child}
 						text="条记录"
 						params={this.state.paginationParams}
-						id={this.state.id}
+						id={this.state.actId}
 						valChange={this.paginationChange}
 						current={this.state.current}
 					/>
 				</div>
-				
-				
 			</div>
 		)
 	}
 }
-export default withRouter(SummaryOrders)
+export default withRouter(ActivityRefund)

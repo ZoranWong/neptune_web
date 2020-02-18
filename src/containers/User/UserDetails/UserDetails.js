@@ -243,15 +243,15 @@ class UserDetails extends React.Component{
 							</li>
 							<li>
 								<p>昵称：{this.state.data.nickname}</p>
-								<p>姓名：{this.state.data.real_name}</p>
+								<p>姓名：{this.state.data.real_name || '暂无'}</p>
 								<p>性别：{this.state.data.sex}</p>
-								<p>地区：{this.state.data.address}</p>
+								<p>地区：{this.state.data.province} {this.state.data.city} </p>
 							</li>
 							<li>
 								<p>会员等级：{this.state.data.member_rank}</p>
 								<p>来源：{this.state.data.register_channel}</p>
-								<p>第一次购买时间：待后面补充</p>
-								<p>距离最近一次购买：待后面补充</p>
+								<p>第一次购买时间：{this.state.data.first_purchased_at}</p>
+								<p>距离最近一次购买：{this.state.data.last_purchased_at}</p>
 							</li>
 						</ul>
 						<ul className="u_body_bottom">
@@ -268,13 +268,13 @@ class UserDetails extends React.Component{
 							<li>
 								优惠券
 								<h4>
-									5
+									{this.state.data.active_coupon_record_count}
 									<span onClick={this.showCouponRecords} style={{cursor:'pointer'}}>查看记录</span>
 								</h4>
 							</li>
 							<li>
 								积分 <h4>
-								{this.state.data.score}
+								{this.state.data.total_score}
 								<span
 									onClick={this.showAdjust}
 									style={{'cursor':'pointer'}}
@@ -283,15 +283,20 @@ class UserDetails extends React.Component{
 							</h4>
 							</li>
 							<li>
-								被购买次数 <h4>200</h4>
+								被购买次数 <h4>暂无</h4>
 							</li>
 							<li>
-								返佣总额 <h4>3000</h4>
+								返佣总额 <h4>暂无</h4>
 							</li>
 							<li>
-								<p>上线：002890王大虎</p>
-								<p>成为此人下线时间：2019-07-01</p>
-								<p>成为下线时间：2019-06-12</p>
+								{
+									this.state.data.superior_shop ? <div>
+										<p>上线：{this.state.data.superior_shop['keeper_name']}(店铺编号:{this.state.data.superior_shop['code']})</p>
+										<p>成为此人下线时间：{this.state.data.subordinated_at }</p>
+										<p>成为下线时间：{this.state.data.first_subordinated_at }</p>
+									</div> : '暂无上线'
+								}
+								
 							</li>
 						</ul>
 					</div>
@@ -299,49 +304,49 @@ class UserDetails extends React.Component{
 				<div className="u_middle">
 					<ul>
 						<li>
-							<h3>总消费金额 10000</h3>
+							<h3>总消费金额 {this.state.data.consume_total_amount}</h3>
 							<div>
 								<span>
 								小程序消费金额
-								<p>1000</p>
+								<p>{this.state.data.online_consume_total_amount}</p>
 							</span>
 								<span>
 								门店消费金额
-								<p>9000</p>
+								<p>{this.state.data.offline_consume_total_amount}</p>
 							</span>
 							</div>
 							
 						</li>
 						<li>
 							<h3>
-								总购买次数 10000
+								总购买次数 {this.state.data.purchase_total_count}
 								<span className="jump" onClick={this.jumpOrder}>详情</span>
 							</h3>
 							<div>
 								<span>
-								小程序购买金额
-								<p>1000</p>
+								小程序购买次数
+								<p>{this.state.data.online_purchase_total_count}</p>
 							</span>
 								<span>
-								门店购买金额
-								<p>9000</p>
+								门店购买次数
+								<p>{this.state.data.offline_purchase_total_count}</p>
 							</span>
 							</div>
 							
 						</li>
 						<li>
 							<h3>
-								总储值金额 10000
+								总储值金额 {this.state.data.deposit_total_amount}
 								<span className="jump" onClick={this.jumpUserStore}>详情</span>
 							</h3>
 							<div>
 								<span>
 								储值次数
-								<p>100</p>
+								<p>{this.state.data.deposit_total_count}</p>
 							</span>
 								<span>
 								赠送金额
-								<p>1000</p>
+								<p>{this.state.data.deposit_total_gift_amount}</p>
 							</span>
 							</div>
 							

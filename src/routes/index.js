@@ -87,6 +87,8 @@ import Banners from "../containers/Marketing/Banners/Banners";
 import ActivitiesManage from "../containers/Activities/Activities/ActivitiesManage";
 import SummaryOrders from "../containers/Order/SummaryOrders/SummaryOrders";
 import PrintSheet from "../containers/PrintSheet/PrintSheet";
+import PrintSummaryOrders from "../containers/Order/SummaryOrders/printSummaryOrders/printSummaryOrders";
+import ActivityRefund from "../containers/Activities/ActivityRefund/ActivityRefund";
 
 /** 跳转到某个路由之前触发 用于验证页面权限**/
 function onEnter (Component, props) {
@@ -117,6 +119,7 @@ const Routes = () =>(
 		<Route exact={true} path="/activities" component={ActivitiesManage}/>} />
 		<Route exact={true} path="/activities/orderManage" component={OrderManage}/>} />
 		<Route exact={true} path="/activities/marketing" component={BigMarketing}/>} />
+		<Route exact={true} path="/activities/refund" component={ActivityRefund}/>} />
 		
 		{/*数据*/}
 		<Route exact={true} path="/data" render={props => onEnter(Data, props)} />
@@ -157,6 +160,7 @@ const Routes = () =>(
 		<Route exact={true} path="/order/setUserMessage" render={props => onEnter(SetUserMessage, props)} />
 		<Route exact={true} path="/order/setting" render={props => onEnter(OrderSetting, props)} />
 		<Route exact={true} path="/order/summaryOrders" render={props => onEnter(SummaryOrders, props)} />
+		
 		
 		{/*营销*/}
 		<Route exact={true} path="/marketing" render={props => onEnter(Marketing, props)} />
@@ -205,6 +209,7 @@ const Routes = () =>(
 		
 		{/*打印订单*/}
 		<Route exact={true} path="/printSheet" render={props => onEnter(PrintSheet, props)} />
+		<Route exact={true} path="/printSummaryOrders" render={props => onEnter(PrintSummaryOrders, props)} />
 		
 	</Switch>
 );

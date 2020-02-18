@@ -88,3 +88,21 @@ export function manufacture(params,actId, orderId) {
 		data: params
 	})
 }
+
+// 取消订单
+export function cancelOrder( params, orderId) {
+	return request({
+		url: `/api/backend/orders/${orderId}/to_cancel`,
+		method: 'put',
+		data: params
+	})
+}
+
+// 活动下退款订单列表
+export function actRefundOrders(params, activityId) {
+	return request({
+		url: `/api/backend/activities/${activityId}/refunds`,
+		method: 'get',
+		params: params
+	})
+}

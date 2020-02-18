@@ -57,6 +57,10 @@ class ActivitiesManage extends Component {
 		this.props.history.push({pathname:"/activities/marketing",state:{id:record.id}});
 	};
 	
+	refund = (record) => {
+		this.props.history.push({pathname:"/activities/refund",state:{id:record.id}});
+	};
+	
 	render() {
 		
 		const column = [
@@ -87,6 +91,10 @@ class ActivitiesManage extends Component {
 						<Button size="small" onClick={()=>this.orderManage(record)}>
 							<IconFont type="icon-tubiaozhizuomoban" />
 							订单管理
+						</Button>
+						<Button size="small" onClick={()=>this.refund(record)}>
+							<IconFont type="icon-tuikuan" />
+							退款售后
 						</Button>
 						<Button size="small" onClick={()=>this.marketing(record)}>
 							<IconFont type="icon-chart-relation" />

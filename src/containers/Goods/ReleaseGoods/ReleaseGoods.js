@@ -31,6 +31,7 @@ class ReleaseGoods extends React.Component{
 			entities:[], // 数量回显
 			detail:'',  //富文本回显
 			PI: 0,
+			status: 'create'
 		};
 		this.child = React.createRef();
 		this.uploadChild = React.createRef();
@@ -42,6 +43,7 @@ class ReleaseGoods extends React.Component{
 	componentWillMount() {
 		if(this.props.location.state&&this.props.location.state.id){
 			beforeEditGood({},this.props.location.state.id).then(r=>{
+				console.log(r, '___________________________________________...........................');
 				for (let key in r.data){
 					this.props.form.setFieldsValue({[key]:r.data[key]})
 				}
@@ -50,7 +52,8 @@ class ReleaseGoods extends React.Component{
 					spec:r.data.spec,
 					entities:r.data.entities.data,
 					detail:r.data.detail,
-					category_ids:r.data.category_ids
+					category_ids:r.data.category_ids,
+					status: 'edit'
 				})
 			}).catch(_=>{})
 		}
@@ -101,10 +104,23 @@ class ReleaseGoods extends React.Component{
 			});
 			let retail_price = values.retail_price || 0;
 			let market_price = values.market_price || 0;
-			if(retail_price - market_price > 0){
-				message.error('零售价不可大于市场价');
-				return;
+			let show_market_price = values['show_market_price'];
+			// if (show_market_price) {
+			// 	if (!market_price) {
+			// 		message.error('开启市场价时请填写市场价');
+			// 		return;
+			// 	}
+			// }
+			if (market_price) {
+				console.log(retail_price, '|||');
+				console.log(market_price, '|||');
+				if(retail_price - market_price > 0){
+					message.error('零售价不可大于市场价');
+					return;
+				}
 			}
+			
+			
 			if (!err) {
 				if(values.open_specification){
 					values.open_specification = 1;
@@ -148,6 +164,7 @@ class ReleaseGoods extends React.Component{
 
 				} else {
 					values.open_specification = 0;
+					values['market_price']  = values['market_price'] ? values['market_price'] : 0;
 					values.detail = this.editor.current?this.editor.current.state.outputHTML:values.detail;
 					api(values,this.props.location.state&&this.props.location.state.id).then(r=>{
 						message.success(text);
@@ -199,12 +216,12 @@ class ReleaseGoods extends React.Component{
 										})(<Input
 										/>)}
 									</Form.Item>
-									<Form.Item label="商品条码：" style={{marginBottom:0}} >
+									<Form.Item label="商品编码：" style={{marginBottom:0}} >
 										{getFieldDecorator('barcode', {
 											initialValue:'',
 											rules: [
 											],
-										})(<Input disabled={this.props.location.state&&this.props.location.state.id}
+										})(<Input
 										/>)}
 									</Form.Item>
 									<Form.Item label="商品缩略图：" className="upload">
@@ -219,6 +236,8 @@ class ReleaseGoods extends React.Component{
 										})(<Upload
 											defaultImg={this.props.form.getFieldValue('thumbnail')}
 											ref={this.uploadChild}
+											status={this.state.status}
+											isProduct={true}
 											text="上传"/>)}
 									</Form.Item>
 									<Form.Item label="商品banner图："  className="upload banners" >
@@ -248,7 +267,6 @@ class ReleaseGoods extends React.Component{
 											initialValue:'',
 											rules: [{ required: true, message: '请选择商品属性' }],
 										})(<Select
-												disabled={this.props.location.state&&this.props.location.state.id}
 												onChange={(e)=>{
 													this.props.form.setFieldsValue({
 														property:e
@@ -271,11 +289,21 @@ class ReleaseGoods extends React.Component{
 											rules: [{ required: true, message: '请输入商品单位' }],
 										})(<Input/>)}
 									</Form.Item>
+									<Form.Item label="是否显示市场价：" >
+										{getFieldDecorator('show_market_price', {
+											initialValue:false
+										})(<Switch
+											checked={this.props.form.getFieldValue('show_market_price')}  onChange={(e)=>{
+											this.props.form.setFieldsValue({
+												show_market_price:e
+											});
+										}}/>)}
+									</Form.Item>
 									<Form.Item label="开启规格：" >
 										{getFieldDecorator('open_specification', {
 											initialValue:false
 										})(<Switch
-											disabled={this.props.location.state&&this.props.location.state.id}
+											disabled={!!(this.props.location.state&&this.props.location.state.id)}
 											checked={this.props.form.getFieldValue('open_specification')}  onChange={(e)=>{
 											this.props.form.setFieldsValue({
 												open_specification:e
@@ -284,7 +312,7 @@ class ReleaseGoods extends React.Component{
 										}}/>)}
 									</Form.Item>
 									{
-										this.state.specificationIsOpen?(<Specification
+										(this.state.specificationIsOpen )?(<Specification
 											ref={this.child}
 											spec={this.state.spec}
 											entities={this.state.entities}
@@ -295,12 +323,12 @@ class ReleaseGoods extends React.Component{
 													{getFieldDecorator('retail_price', {
 														initialValue:'',
 														rules: [{ required: true, message: '请输入零售价' }],
-													})(<Input disabled={this.props.location.state&&this.props.location.state.id} />)}
+													})(<Input disabled={!!(this.props.location.state&&this.props.location.state.id)} />)}
 												</Form.Item>
 												<Form.Item label="市场价：" >
 													{getFieldDecorator('market_price', {
 														initialValue:'',
-														rules: [{ required: true, message: '请输入市场价' }],
+														rules: [{ required: false, message: '请输入市场价' }],
 													})(<Input />)}
 												</Form.Item>
 												<Form.Item label="成本价：" >

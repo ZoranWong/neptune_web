@@ -18,6 +18,7 @@ class Distributor extends React.Component{
 				city_code: '340100',
 				area_code: '340102',
 			},
+			statusD: 'create'
 		};
 		this.child = React.createRef();
 		this.front = React.createRef();
@@ -36,8 +37,10 @@ class Distributor extends React.Component{
 				positionData['province_code'] = r.data.province_code;
 				positionData['city_code'] = r.data.city_code;
 				positionData['area_code'] = r.data.area_code;
-				this.setState({listData:r.data,positionData})
-			});
+				this.setState({listData:r.data,positionData, statusD: 'edit'})
+			})
+		} else {
+			this.setState({statusD: 'create'})
 		}
 	 }
 
@@ -204,9 +207,9 @@ class Distributor extends React.Component{
 						<li  className="li">
 							<span className="left">上传身份证照片</span>
 							<div className="imgs">
-								<CustomUpload ref={this.front} defaultImg={listData.id_card_images?listData.id_card_images['front']:''} text="正面" />
-								<CustomUpload ref={this.backend} defaultImg={listData.id_card_images?listData.id_card_images['backend']:''} text="反面"/>
-								<CustomUpload ref={this.holding} defaultImg={listData.id_card_images?listData.id_card_images['holding']:''} text="手持"/>
+								<CustomUpload ref={this.front} defaultImg={listData.id_card_images?listData.id_card_images['front']:''} text="正面" status={this.state.statusD}/>
+								<CustomUpload ref={this.backend} defaultImg={listData.id_card_images?listData.id_card_images['backend']:''} text="反面" status={this.state.statusD}/>
+								<CustomUpload ref={this.holding} defaultImg={listData.id_card_images?listData.id_card_images['holding']:''} text="手持" status={this.state.statusD}/>
 							</div>
 							
 						</li>

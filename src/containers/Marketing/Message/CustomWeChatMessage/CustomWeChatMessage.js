@@ -150,6 +150,8 @@ class CustomWeChatMessage extends Component {
 								<p>cardCode: 优惠券编码code</p>
 							</Panel>
 							<Panel header="订单" key="2">
+								<p>username: 用户昵称，未绑定手机号非用户时则填登录时昵称</p>
+								<p>name: 同username</p>
 								<p>selfPickUpCode: 自提码</p>
 								<p>address: 自提地址、早餐车地址</p>
 								<p>pickUpTime: 自提时间</p>

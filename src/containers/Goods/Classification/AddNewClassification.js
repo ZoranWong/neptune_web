@@ -8,7 +8,9 @@ export default class AddNewClassification extends React.Component{
 		this.state = {
 			value:'',
 			disabled:false,
-			defaultImg: ''
+			defaultImg: '',
+			status: 'create',
+			sort: 0
 		};
 		this.child = React.createRef();
 	}
@@ -17,8 +19,8 @@ export default class AddNewClassification extends React.Component{
 		if(!nextProps.name) {
 			this.setState({classificationId: nextProps.classificationId});
 			return
-		};
-		this.setState({value:nextProps.name,defaultImg: nextProps.icon,disabled:true, classificationId: nextProps.classificationId})
+		}
+		this.setState({value:nextProps.name,defaultImg: nextProps.icon,disabled:true, classificationId: nextProps.classificationId,status: 'edit', sort: nextProps.sort})
 	}
 	
 	handleCancel = () =>{
@@ -28,7 +30,7 @@ export default class AddNewClassification extends React.Component{
 	
 	handleSubmit = () =>{
 		let icon = this.child.current.state.imgUrl || this.child.current.state.imageUrl;
-		this.props.onSubmit(this.state.value, icon)
+		this.props.onSubmit(this.state.value, icon, this.state.sort)
 	};
 	
 	render() {
@@ -57,9 +59,18 @@ export default class AddNewClassification extends React.Component{
 					<div className="newClassification">
 						<span>分类图标</span>
 						
-						<CustomUpload ref={this.child} defaultImg={img} />
+						<CustomUpload ref={this.child} defaultImg={img} status={this.state.status}/>
 					</div>
-					
+					<div className="newClassification warningStock sort">
+						分类排序
+						<Input
+							type='number'
+							value={this.state.sort}
+							onChange={(e)=>{
+								this.setState({sort:e.target.value})
+							}}
+						/>
+					</div>
 				</Modal>
 			</div>
 		)

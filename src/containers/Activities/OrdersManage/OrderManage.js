@@ -12,7 +12,8 @@ import ReviewGoods from "../../Order/Components/ReviewGoods";
 import {actOrders, delivery, manufacture} from "../../../api/activities";
 import {consumer_order_values} from "../../../utils/consumer_order_fields";
 import _ from 'lodash';
-import Config from '../../../config/app'
+import Config from '../../../config/app';
+import {cancelOrder} from "../../../api/activities";
 
 class OrderManage extends React.Component{
 	constructor(props){
@@ -162,6 +163,46 @@ class OrderManage extends React.Component{
 		});
 	};
 	
+	// 取消订单
+	cancel = (record) => {
+		let refresh = this.refresh;
+		let { activeTab} = this.state;
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			content: (
+				<div className="U_confirm">
+					是否确定取消订单并退款?
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				// 确定按钮执行操作
+				cancelOrder({}, record.id).then(r=>{
+					message.success(r.message);
+					refresh(activeTab)
+				}).catch(_=>{})
+			}
+		});
+	};
+	
 	// 打印订单
 	print = () => {
 		let {checkedAry, data} = this.state;
@@ -171,14 +212,28 @@ class OrderManage extends React.Component{
 				orders.push(order)
 			}
 		});
-		this.props.history.push({pathname:"/printSheet", state: {orders, title: '青松功夫配送单'}})
+		this.props.history.push({pathname:"/printSheet", state: {orders, title: '青松功夫配送单',isNeedItems: true}})
 	};
 	
 	export = () =>{
 		let json = searchJson({
 			strategy: 'ACTIVITY_ORDER_CAKE',
 			customize_columns: [],
-			logic_conditions: []
+			logic_conditions: [],
+			order_ids: this.state.checkedAry
+		});
+		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+		// dataExport({searchJson: searchJson(params)}).then(r=>{
+		// 	console.log(r);
+		// }).catch(_=>{})
+	};
+	
+	exportNew = () => {
+		let json = searchJson({
+			strategy: 'ACTIVITY_ORDER_CAKE_2',
+			customize_columns: [],
+			logic_conditions: [],
+			order_ids: this.state.checkedAry
 		});
 		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
 		// dataExport({searchJson: searchJson(params)}).then(r=>{
@@ -204,9 +259,11 @@ class OrderManage extends React.Component{
 			{name:'制作中',key:'WAIT_MANUFACTURE'},
 			{name:'配送中',key:'WAIT_CUSTOMER_VERIFY'},
 			{name:'已完成',key:'COMPLETED'},
+			{name:'平台取消',key:'CANCEL_PLATFORM'},
 			{name:'支付超时取消',key:'CANCEL_PAY_TIMEOUT'},
 			{name:'用户取消',key:'CANCEL_MANUAL'},
 			{name:'发起售后',key:'LAUNCH_AFTER_SALE'},
+			{name:'售后处理中',key:'ON_AFTER_SALE'},
 			{name:'已退款',key:'REFUNDED'},
 			{name:'已拒绝退款',key:'REFUSE_REFUND'},
 			{name:'已关闭',key:'CLOSED'}
@@ -269,7 +326,10 @@ class OrderManage extends React.Component{
 				colSpan: activeTab === 'PAY_COMPLETED' || activeTab === 'WAIT_MANUFACTURE' ? 1 : 0,
 				render: (text,record) => {
 					if (activeTab === 'PAY_COMPLETED') {
-						return <span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.start(record, 'do')}>开始制作</span>
+						return <div>
+							<span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.start(record, 'do')}>开始制作</span>
+							<span style={{'color':'#4F9863','cursor':'pointer',marginLeft: '20px'}} onClick={()=>this.cancel(record)}>取消</span>
+						</div>
 					} else if (activeTab === 'WAIT_MANUFACTURE') {
 						return <span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.start(record, 'go')}>开始配送</span>
 					}
@@ -325,7 +385,15 @@ class OrderManage extends React.Component{
 							type="default"
 							className="e_btn"
 							onClick={this.export}
+							disabled={!this.state.checkedAry.length}
 						>导出</Button>
+						<Button
+							size="small"
+							type="default"
+							className="e_btn"
+							disabled={!this.state.checkedAry.length}
+							onClick={this.exportNew}
+						>导出新格式</Button>
 					
 					</div>
 				</div>
@@ -344,7 +412,7 @@ class OrderManage extends React.Component{
 						}
 					</ul>
 					{
-						this.state.data.length && <div className="right">
+						this.state.data.length ? <div className="right">
 							<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 							<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
 								<CustomItem
@@ -354,7 +422,7 @@ class OrderManage extends React.Component{
 									firstItem={'trade_no'}
 								/>
 							</div>
-						</div>
+						</div> : ''
 					}
 				
 				</div>

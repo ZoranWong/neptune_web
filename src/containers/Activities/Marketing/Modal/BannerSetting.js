@@ -18,6 +18,7 @@ class BannerSetting extends Component {
 			selectedProduct: '',
 			products: [],
 			scrollPage:1,
+			status: 'create'
 		};
 		this.banner = React.createRef();
 	}
@@ -28,7 +29,8 @@ class BannerSetting extends Component {
 				canJump: false,
 				jumpType: '',
 				jumpUrl: '',
-				defaultImg: ''
+				defaultImg: '',
+				status: 'create'
 			})
 		} else {
 			this.setState({
@@ -36,7 +38,8 @@ class BannerSetting extends Component {
 				canJump: nextProps.banner['can_jump'],
 				jumpType: nextProps.banner['action_type'],
 				jumpUrl: nextProps.banner['action_link'],
-				defaultImg: nextProps.banner['image']
+				defaultImg: nextProps.banner['image'],
+				status: 'edit'
 			})
 		}
 		;
@@ -144,7 +147,7 @@ class BannerSetting extends Component {
 					<ul className="mainUl">
 						<li className="normalLi imgLi">
 							<span className="left c_left">banner图片</span>
-							<CustomUpload ref={this.banner} defaultImg={img} />
+							<CustomUpload ref={this.banner} defaultImg={img} status={this.state.status} />
 						</li>
 						<li className='bannerSwitch'>
 							<span className="left">是否可跳转</span>

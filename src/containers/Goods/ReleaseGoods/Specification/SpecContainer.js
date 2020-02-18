@@ -1,6 +1,6 @@
 import React from "react";
 import './specification.sass'
-import  {Button, Input, InputNumber, Table, Tag} from "antd";
+import {Button, Input, InputNumber, Switch, Table, Tag} from "antd";
 import AddSpecName from "./AddSpecName";
 import IconFont from "../../../../utils/IconFont";
 import SpecItem from "./SpecItem";
@@ -25,13 +25,13 @@ export default class Specification extends React.Component{
 	
 	componentDidMount() {
 		this.setState({data:this.props.entities})
-		console.log(this.props.entities);
+		console.log(this.props.entities, 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN');
 	}
 	
-	componentWillReceiveProps(nextProps, nextContext) {
-		if(!nextProps.entities || !nextProps.entities.length) return;
-		this.setState({data:nextProps.entities})
-	}
+	// componentWillReceiveProps(nextProps, nextContext) {
+	// 	if(!nextProps.entities || !nextProps.entities.length) return;
+	// 	this.setState({data:nextProps.entities})
+	// }
 	
 	// 新增规格
 	showNewSpecification = () =>{
@@ -65,45 +65,70 @@ export default class Specification extends React.Component{
 		console.log(this.props.entities, '------------props-----------------');
 		let data = [];
 		let newTableData = [];
-		if(this.specItemChild.current){
-			let specValue = this.specItemChild.current.state.specItemData;
-			let specValueArray = [];
-			for ( let key in specValue){
-				specValue[key].forEach(item=>{
-					item["parentKey"] = key
-				});
-				specValueArray.push(specValue[key])
-			}
-			data = arrayMultiplication.apply(this,specValueArray);
-			console.log(data,'9090090');
-			data.forEach(item=>{
-				if(item.value){
-					console.log(item, '________________item___________________');
-					let d = {};
-					let key = `value${item["parentKey"]}`;
-					let id = `id${item["id"]}`;
-					d[key] = item['value'];
-					d[id] = item['id'];
-					d['parentKey']=item["parentKey"];
-					d['id'] = item['id'];
-					newTableData.push(d);
-				} else {
-					console.log(item, '_______________ go _item___________________');
-					let d = {};
-					item.forEach(i=>{
-						let key = `value${i["parentKey"]}`;
-						let id = `id${i["id"]}`;
-						d[key] = i['value'];
-						d[id] = i['id'];
-						d['id'] = i['id']
+		console.log(this.specItemChild.current, '=================>');
+		if (!this.props.entities.length ) {
+			// 新建
+			if(this.specItemChild.current){
+				let specValue = this.specItemChild.current.state.specItemData;
+				let specValueArray = [];
+				for ( let key in specValue){
+					specValue[key].forEach(item=>{
+						item["parentKey"] = key
 					});
-					console.log(d);
-					newTableData.push(d)
+					specValueArray.push(specValue[key])
 				}
-				
-			});
-			console.log(newTableData,'lllllllllllll');
+				console.log(this.state.data, '+++++++++++++++=');
+				console.log(specValueArray, 'x[[[[[[[[[[[[[[[[[[[[[[[');
+				data = arrayMultiplication.apply(this,specValueArray);
+				console.log(data,'9090090');
+				data.forEach(item=>{
+					if(item.value){
+						console.log(item, '________________item___________________');
+						let d = {};
+						let key = `value${item["parentKey"]}`;
+						let id = `id${item["id"]}`;
+						d[key] = item['value'];
+						d[id] = item['id'];
+						d['parentKey']=item["parentKey"];
+						d['id'] = item['id'];
+						newTableData.push(d);
+					} else {
+						console.log(item, '_______________ go _item___________________');
+						let d = {};
+						item.forEach(i=>{
+							let key = `value${i["parentKey"]}`;
+							let id = `id${i["id"]}`;
+							d[key] = i['value'];
+							d[id] = i['id'];
+							d['id'] = i['id']
+						});
+						console.log(d);
+						newTableData.push(d)
+					}
+					
+				});
+				console.log(newTableData,'lllllllllllll');
+			}
+			this.setState({data: newTableData})
+		} else {
+			// 编辑
+			let entities = this.props.entities;
+			if (this.specItemChild.current) {
+				_.map(entities, entity => {
+					for (let key in entity.spec) {
+						_.map(this.specItemChild.current.state.specItemData[key], spec => {
+							if (spec.id === entity.spec[key]) {
+								console.log('2222222222222');
+								entity[`value${key}`] = spec.name
+							}
+						})
+					}
+					console.log(entity, '...........................');
+				})
+			}
+			this.setState({data: entities})
 		}
+		
 		// if(this.props.entities.length){
 		// 	let data = this.state.data;
 		// 	console.log(data,'ggggggggggggggggg');
@@ -122,7 +147,7 @@ export default class Specification extends React.Component{
 		//
 		// }
 		
-		this.setState({data: newTableData})
+		
 	};
 	
 	// 新增规格值时同步至所属父规格下
@@ -152,9 +177,25 @@ export default class Specification extends React.Component{
 		this.setState({data:ary})
 	};
 	
+	// 编辑时改变列表
+	tableChange = (e, type, record) => {
+		console.log(e);
+		console.log(record);
+		let entities = this.state.data;
+		console.log(entities);
+		
+		_.map(entities, (entity) => {
+			if (entity.id === record.id) {
+				entity[type] = e.target.value
+			}
+		})
+		this.setState({data: entities})
+	};
+	
 	
 	render() {
 		const {SelectedSpecification} = this.state;
+		console.log(SelectedSpecification, '.....S');
 		let tableChild = [];
 		SelectedSpecification.forEach(item=>{
 			tableChild.push({'title':item.name,dataIndex:`value${item.id}`,align:'center',})
@@ -182,17 +223,15 @@ export default class Specification extends React.Component{
 				}
 			},
 			{
-				title: '商品条码',
+				title: '商品编码',
 				dataIndex: 'barcode',
 				align:'center',
 				render:(text,record)=>{
 					console.log(record, '^^^^^^^^^^^^7777777777');
 					if(record.name){
-						return <Input placeholder='请输入条形码' disabled={true} value={record.barcode} onChange={(e)=>{
-							record.barcode = e.target.value;
-						}} />
+						return <Input placeholder='请输入商品编码'  value={record.barcode} onChange={(e)=>this.tableChange(e, 'barcode',record)}/>
 					} else {
-						return <Input placeholder='请输入条形码' disabled={this.props.entities && this.props.entities.length} onChange={(e)=>{
+						return <Input placeholder='请输入商品编码' onChange={(e)=>{
 							record.barcode = e.target.value;
 						}} />
 					}
@@ -204,11 +243,9 @@ export default class Specification extends React.Component{
 				align:'center',
 				render:(text,record)=>{
 					if(record.name){
-						return <Input   type="number" addonAfter="元" disabled={true} value={record.retail_price} onChange={(e)=>{
-							record.retail_price = e.target.value;
-						}} />
+						return <Input   type="number" addonAfter="元" disabled={true} value={record.retail_price} onChange={(e)=>this.tableChange(e, 'retail_price',record)}/>
 					} else {
-						return <Input  type="number" disabled={this.props.entities && this.props.entities.length} addonAfter="元"  onChange={(e)=>{
+						return <Input  type="number" disabled={!!(this.props.entities && this.props.entities.length)} addonAfter="元"  onChange={(e)=>{
 							record.retail_price = e.target.value;
 						}} />
 					}
@@ -221,9 +258,7 @@ export default class Specification extends React.Component{
 				render:(text,record)=>{
 					
 					if(record.name){
-						return <Input  type="number" value={record.cost_price} addonAfter="元" onChange={(e)=>{
-							record.cost_price = e.target.value;
-						}}/>
+						return <Input  type="number" value={record.cost_price} addonAfter="元" onChange={(e)=>this.tableChange(e, 'cost_price',record)}/>
 					} else {
 						return <Input  type="number" addonAfter="元" onChange={(e)=>{
 							record.cost_price = e.target.value;
@@ -238,9 +273,7 @@ export default class Specification extends React.Component{
 				render:(text,record)=>{
 				
 					if(record.name){
-						return <Input type="number" value={record.market_price}  addonAfter="元" onChange={(e)=>{
-							record.market_price = e.target.value;
-						}} />
+						return <Input type="number" value={record.market_price}  addonAfter="元" onChange={(e)=>this.tableChange(e, 'market_price',record)} />
 					} else {
 						return <Input type="number"  addonAfter="元" onChange={(e)=>{
 							record.market_price = e.target.value;
@@ -248,6 +281,33 @@ export default class Specification extends React.Component{
 					}
 				}
 			},
+			// {
+			// 	title: '是否显示市场价'	,
+			// 	dataIndex: 'show_market_price',
+			// 	align:'center',
+			// 	render:(text,record)=>{
+			//
+			// 		if(record.name){
+			// 			return <Switch
+			// 				checked={record['show_market_price']}  onChange={(e)=>{
+			// 				let entities = this.state.data;
+			//
+			// 				_.map(entities, (entity) => {
+			// 					if (entity.id === record.id) {
+			// 						entity['show_market_price'] = e
+			// 					}
+			// 				});
+			// 				this.setState({data: entities})
+			// 			}}/>
+			// 		} else {
+			// 			return <Switch
+			// 				  onChange={(e)=>{
+			// 					console.log(record, '=====>');
+			// 					record['show_market_price'] = e
+			// 			}}/>
+			// 		}
+			// 	}
+			// },
 			{
 				title: '操作',
 				render: (text,record)=>(
@@ -282,7 +342,7 @@ export default class Specification extends React.Component{
 					onUpdate={this.updateSelectedSpecification}
 				/>
 				<div className="specification_header">
-					<Button type="primary" size="small" onClick={this.showNewSpecification} disabled={this.props.entities && this.props.entities.length}>新增规格</Button>
+					<Button type="primary" size="small" onClick={this.showNewSpecification} disabled={(this.props.entities && this.props.entities.length)?true: false}>新增规格</Button>
 				</div>
 				<div className="specification_body">
 					<Table
@@ -290,9 +350,10 @@ export default class Specification extends React.Component{
 						dataSource={this.state.data}
 						bordered
 						pagination={false}
-						rowKey={record => record.key}
+						rowKey={record => record.id}
 					/>
 				</div>
+				
 			</div>
 		)
 	}

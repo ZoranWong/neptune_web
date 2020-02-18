@@ -24,11 +24,18 @@ export default class CustomUpload extends React.Component{
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
-		console.log(nextProps, '============================>  update');
 		if(!nextProps.defaultImg) {
 			 // this.setState({imageUrl:''})
 		} else {
-			this.setState({imageUrl:nextProps.defaultImg})
+			if (nextProps.status === 'edit') {
+				if (!this.state.imgUrl) {
+					this.setState({imageUrl:nextProps.defaultImg})
+				} else {
+					console.log('已经上传过图片啦');
+				}
+			} else {
+				this.setState({imageUrl:nextProps.defaultImg})
+			}
 		}
 		
 	}
@@ -88,7 +95,6 @@ export default class CustomUpload extends React.Component{
 			</div>
 		);
 		const {imageUrl} = this.state;
-		console.log(imageUrl);
 		return (
 			<div className="clearfix">
 				<Upload

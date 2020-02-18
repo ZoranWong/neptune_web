@@ -1,7 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
 import './css/classification.sass'
-import {Button, Table, Popconfirm} from "antd";
+import {Button, Table, Popconfirm, message} from "antd";
 import {createNewFatherClassification,SonClassification,deleteClassification, editClassification} from "../../../api/goods/classification";
 import AddNewClassification from "./AddNewClassification";
 import AddNewSonClassification from "./AddNewSonClassification";
@@ -17,7 +17,9 @@ class Classification extends React.Component{
 			sonClassificationName:'',
 			parentId:'',
 			classificationId:'',
-			icon: ''
+			icon: '',
+			sort: '',
+			sonSort: ''
 		};
 		this.child = React.createRef();
 	}
@@ -60,11 +62,12 @@ class Classification extends React.Component{
 	hideAddNewClassification = () =>{
 		this.setState({addNewVisible:false,classificationName:''})
 	};
-	submitAddNewClassification = (value, icon) =>{
+	submitAddNewClassification = (value, icon, sort) =>{
 		let api = this.child.current.state.classificationId ? editClassification : createNewFatherClassification;
-		api({name:value, icon: icon},this.child.current.state.classificationId).then(r=>{
+		api({name:value, icon: icon, sort},this.child.current.state.classificationId).then(r=>{
 			this.hideAddNewClassification();
 			this.refresh()
+			message.success(r.message || '新建成功')
 		})
 	};
 	
@@ -75,22 +78,23 @@ class Classification extends React.Component{
 	hideAddNewSonClassification = () =>{
 		this.setState({addNewSonVisible:false,sonClassificationName:''})
 	};
-	submitAddNewSonClassification = (value) =>{
-		createNewFatherClassification({name:value,parent_id:this.state.parentId}).then(r=>{
+	submitAddNewSonClassification = (value, sort) =>{
+		createNewFatherClassification({name:value,parent_id:this.state.parentId, sort}).then(r=>{
 			this.hideAddNewSonClassification();
 			this.refresh()
+			message.success(r.message || '新建成功')
 		})
 	};
 	
 	// 查看分类详情
 	showDetail = (record) =>{
-		this.setState({classificationName:record.name, icon: record.icon, classificationId: record.id},()=>{
+		this.setState({classificationName:record.name, icon: record.icon,sort: record.sort, classificationId: record.id},()=>{
 			this.showAddNewClassification();
 		})
 	};
 	// 编辑子分类
 	editSonClassification = (record) =>{
-		this.setState({sonClassificationName:record.name},()=>{
+		this.setState({sonClassificationName:record.name, sonSort: record.sort},()=>{
 			this.showAddNewSonClassification()
 		})
 	};
@@ -202,6 +206,7 @@ class Classification extends React.Component{
 					onSubmit={this.submitAddNewClassification}
 					name={this.state.classificationName}
 					icon={this.state.icon}
+					sort={this.state.sort}
 					classificationId={this.state.classificationId}
 					ref={this.child}
 				/>
@@ -210,6 +215,7 @@ class Classification extends React.Component{
 					onCancel={this.hideAddNewSonClassification}
 					onSubmit={this.submitAddNewSonClassification}
 					name={this.state.sonClassificationName}
+					sort={this.state.sonSort}
 				/>
 				
 				

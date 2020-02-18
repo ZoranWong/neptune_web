@@ -6,13 +6,14 @@ export default class AddNewSonClassification extends React.Component{
 		super(props);
 		this.state = {
 			value:'',
-			disabled:false
+			disabled:false,
+			sort: 0
 		};
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(!nextProps.name) return;
-		this.setState({value:nextProps.name,disabled:true})
+		this.setState({value:nextProps.name,disabled:true, sort : nextProps.sort})
 	}
 	
 	handleCancel = () =>{
@@ -21,7 +22,7 @@ export default class AddNewSonClassification extends React.Component{
 	};
 	
 	handleSubmit = () =>{
-		this.props.onSubmit(this.state.value)
+		this.props.onSubmit(this.state.value, this.state.sort)
 	};
 	
 	render() {
@@ -43,6 +44,16 @@ export default class AddNewSonClassification extends React.Component{
 							value={this.state.value}
 							onChange={(e)=>{
 								this.setState({value:e.target.value})
+							}}
+						/>
+					</div>
+					<div className="newClassification warningStock sort">
+						分类排序
+						<Input
+							type='number'
+							value={this.state.sort}
+							onChange={(e)=>{
+								this.setState({sort:e.target.value})
 							}}
 						/>
 					</div>

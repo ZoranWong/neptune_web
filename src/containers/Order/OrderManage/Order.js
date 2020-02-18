@@ -9,11 +9,13 @@ import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
 import ReviewGoods from "../Components/ReviewGoods";
-import {userOrder,batchCancel,batchConfirm} from "../../../api/order/orderManage";
+import {userOrder,batchCancel,batchConfirm, checkOrder} from "../../../api/order/orderManage";
 import {consumer_order_values} from "../../../utils/consumer_order_fields";
+import {consumer_order_values_export} from "../../../utils/consumer_order_fields_export";
 import Export from "../Components/Export";
 import Config from '../../../config/app'
 import _ from "lodash";
+import CheckOrder from "./Modal/CheckOrder";
 
 class Order extends React.Component{
 	constructor(props){
@@ -57,7 +59,54 @@ class Order extends React.Component{
 			{
 				title: '订单状态',
 				dataIndex:'state_desc'
+			}
+		];
+		
+		const sColumns = [
+			{
+				title: '订单号',
+				dataIndex: 'trade_no',
+				render: (text,record) => <span
+					style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.jump(record)}>{text}</span>,
 			},
+			{
+				title: '商品',
+				dataIndex: 'category_desc',
+				render: (text,record) => {
+					if(record.items.data.length){
+						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+							<span className="orderGoods">{record.items.data[0].name+'......'}</span>
+							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items)} />
+						</span>
+					} else {
+						return <span>无</span>
+					}
+				},
+			},
+			{
+				title: '实付款',
+				dataIndex: 'settlement_total_fee',
+			},
+			{
+				title: '用户昵称',
+				dataIndex: 'user_nickname',
+			},
+			{
+				title: '订单类型',
+				dataIndex: 'order_type',
+			},
+			{
+				title: '下单时间',
+				dataIndex: 'paid_at',
+			},
+			{
+				title: '订单状态',
+				dataIndex:'state_desc'
+			},
+			{
+				title: '操作',
+				render: (text,record) =>(<span style={{color: '#4f9863', cursor: 'pointer'}} onClick={()=>this.checkOrder(record)}>手动核销</span>)
+			}
 		];
 		const defaultItem = ['user_nickname','trade_no', 'products', 'settlement_total_fee', 'order_type', 'created_at','state_desc'];
 		super(props);
@@ -68,6 +117,8 @@ class Order extends React.Component{
 			customVisible:false,
 			reviewGoodsVisible:false,
 			exportVisible: false,
+			columns: columns,
+			sColumns: sColumns,
 			defaultItem: defaultItem,
 			data:[],
 			checkedAry:[],     // 列表页选中的用户id组
@@ -76,11 +127,10 @@ class Order extends React.Component{
 				search:'',
 			},
 			activeTab:'ALL',
-			columns:columns,
 			items:[],  // 商品回显,
 			conditions: {},
-			current: 1
-			
+			current: 1,
+			problemOrder: {}
 		};
 	}
 	
@@ -89,6 +139,7 @@ class Order extends React.Component{
 			this.setState({current: this.props.location.state.current})
 		}
 		document.addEventListener('click', this.closeCustom);
+		
 	}
 	
 	refresh = (status='ALL')=>{
@@ -243,9 +294,72 @@ class Order extends React.Component{
 		});
 	};
 	
+	// 选择核销破损商品
+	showCheckinNormal = (record) => {
+		this.setState({checkVisible: true,problemOrder: record})
+	};
+	hideCheckNormal = () => {
+		this.setState({checkVisible: false})
+	};
+	checkInNormalOrder = (id, items, boolean) => {
+		checkOrder({
+			is_exception: boolean,
+			items
+		},id).then(r=>{
+			message.success(`手动核销订单成功！`);
+			this.hideCheckNormal();
+			this.refresh('WAIT_CUSTOMER_VERIFY')
+		});
+	};
+	
+	// check
+	checkOrder = (record) => {
+		let refresh = this.refresh;
+		let showCheckinNormal = this.showCheckinNormal;
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			maskClosable:true,
+			content: (
+				<div className="U_confirm">
+					确定手动核销该订单么？
+				</div>
+			),
+			cancelText: '商品异常',
+			okText:'直接核销',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				checkOrder({is_exception: false},record.id).then(r=>{
+					message.success(`手动核销订单成功！`);
+					refresh('WAIT_CUSTOMER_VERIFY')
+				});
+				
+			},
+			onCancel() {
+				showCheckinNormal(record)
+			},
+		});
+	}
+	
 	// 商品回显
-	reviewGoods = record =>{
-		this.setState({reviewGoodsVisible:true,items:record})
+	// 商品回显
+	reviewGoods = (record,text) =>{
+		this.setState({reviewGoodsVisible:true,items:record,text: text})
 	};
 	closeReviewGoods = () =>{
 		this.setState({reviewGoodsVisible:false})
@@ -289,7 +403,7 @@ class Order extends React.Component{
 				orders.push(order)
 			}
 		});
-		this.props.history.push({pathname:"/printSheet", state: {orders, title: '消费者订单'}})
+		this.props.history.push({pathname:"/printSheet", state: {orders, title: '顾客订单'}})
 	};
 	
 	render(){
@@ -320,6 +434,7 @@ class Order extends React.Component{
 			{key: 'USER_ORDER_CUSTOMIZE', value: '自定义显示项',},
 			{key: 'USER_ORDER_PRODUCT', value: '商品维度',},
 			{key: 'USER_ORDER_SHOP', value: '店铺维度',},
+			{key: 'USER_ORDER_4', value: '导出格式4(含Excal)',},
 		];
 		
 		const exportProps = {
@@ -327,15 +442,24 @@ class Order extends React.Component{
 			onCancel : this.hideExport,
 			export: this.export,
 			strategy,
-			values: consumer_order_values,
+			values: consumer_order_values_export,
 			conditions: this.state.conditions
 		};
 		
 		
+		
+		const checkOrderProps = {
+			visible : this.state.checkVisible,
+			onCancel: this.hideCheckNormal,
+			refresh: ()=>this.refresh('WAIT_CUSTOMER_VERIFY'),
+			onSubmit: this.checkInNormalOrder,
+			problemOrder: this.state.problemOrder
+		};
+		
 		return (
 			<div className="order">
 				<Export {...exportProps} />
-				
+				<CheckOrder {...checkOrderProps} />
 				<AdvancedFilterComponent
 					visible={this.state.filterVisible}
 					onCancel={this.closeHigherFilter}
@@ -349,7 +473,6 @@ class Order extends React.Component{
 					visible={this.state.reviewGoodsVisible}
 					onCancel={this.closeReviewGoods}
 					items={this.state.items}
-					text={'商品'}
 				/>
 				
 				<div className="s_body">
@@ -422,7 +545,7 @@ class Order extends React.Component{
 				<div className="chart u_chart">
 					<Table
 						rowSelection={rowSelection}
-						columns={this.state.columns}
+						columns={this.state.activeTab === 'WAIT_CUSTOMER_VERIFY' ? this.state.sColumns : this.state.columns}
 						rowKey={record => record.id}
 						pagination={false}
 						rowClassName={(record, index) => {

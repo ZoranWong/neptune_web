@@ -76,6 +76,16 @@ export const merchant_order_values = [
 				type:'equalCompare'
 			},
 			{
+				label:'店铺名称',
+				value:'shop_name',
+				type:'equalCompare'
+			},
+			{
+				label:'店铺编号',
+				value:'shop_code',
+				type:'equalCompare'
+			},
+			{
 				label:'破损商品',
 				value:'damagedProducts',
 				type:'equalCompare'

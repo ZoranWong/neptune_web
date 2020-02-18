@@ -348,7 +348,6 @@ class NewCoupon extends Component {
 							<Radio.Group onChange={(e)=>this.onRadioChange('release_mode',e)} value={radioValue.release_mode}>
 								<Radio value='MANUAL_RECEIVE'>
 									主动领取
-									<Checkbox.Group options={options}  onChange={this.onCheckBoxChange} />
 								</Radio>
 								<Radio value='PLATFORM_SEND'>
 									直接发送

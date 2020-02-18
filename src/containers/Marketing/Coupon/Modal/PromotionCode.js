@@ -2,6 +2,17 @@ import React, {Component,Fragment} from 'react';
 import {Modal} from "antd";
 
 class PromotionCode extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			img: ''
+		}
+	}
+	
+	componentWillReceiveProps(nextProps, nextContext) {
+		console.log(nextProps);
+	}
+	
 	
 	handleCancel = () =>{
 		this.props.onCancel()

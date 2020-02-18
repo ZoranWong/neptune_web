@@ -52,7 +52,7 @@ class IntroductionPerson extends React.Component{
 			{
 				title: '总购买额（本月购买额）',
 				dataIndex: 'total_purchase_amount',
-				render: (text, record) => `${text}(${record['current_month_purchase_amount'].toFixed(2)})`
+				render: (text, record) => `${text}(${record['current_month_purchase_amount']/100})`
 			},
 			{
 				title: '总订单数（本月订单数）',

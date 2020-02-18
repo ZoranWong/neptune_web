@@ -21,6 +21,7 @@ class BannerSetting extends Component {
 			selectedProduct: '',
 			products: [],
 			scrollPage:1,
+			status: 'create'
 		};
 		this.banner = React.createRef();
 	}
@@ -38,7 +39,8 @@ class BannerSetting extends Component {
 				synopsis: '',
 				sort: '',
 				isActive: true,
-				scene: 'WECHAT_MINIPROGRAM_INDEX'
+				scene: 'WECHAT_MINIPROGRAM_INDEX',
+				status: 'create'
 			})
 		} else {
 			console.log(nextProps);
@@ -51,6 +53,7 @@ class BannerSetting extends Component {
 				jumpUrl: nextProps.banner['action_link'] || '',
 				defaultImg: nextProps.banner['image'],
 				sort: nextProps.banner['sort'],
+				status: 'edit'
 			})
 		}
 		if (this.state.products.length) return;
@@ -195,7 +198,7 @@ class BannerSetting extends Component {
 						</li>
 						<li className="normalLi imgLi">
 							<span className="left c_left">banner图片</span>
-							<CustomUpload ref={this.banner} defaultImg={img} />
+							<CustomUpload ref={this.banner} defaultImg={img} status={this.state.status} />
 						</li>
 						<li className='bannerSwitch'>
 							<span className="left">是否可跳转</span>

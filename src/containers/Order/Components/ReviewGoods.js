@@ -5,7 +5,8 @@ export default class ReviewGoods extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-			items:[]
+			items:[],
+			text: '商品'
 		}
 	}
 	
@@ -48,7 +49,7 @@ export default class ReviewGoods extends React.Component{
 		return (
 			<Fragment>
 				<Modal
-					title={this.state.text}
+					title='商品'
 					width={520}
 					centered={true}
 					visible={this.props.visible}
@@ -64,15 +65,7 @@ export default class ReviewGoods extends React.Component{
 									<div className="right">
 										<span>商品名:{item.name || item.product_name}</span>
 										<span>规格:{item.spec_desc || '无'}</span>
-										{
-											this.state.text === '商品' && <span>数量:{item.quantity}</span>
-										}
-										{
-											this.state.text === '破损商品' && <span>数量:{item['damaged_quantity']}</span>
-										}
-										{
-											this.state.text === '缺少商品' && <span>数量:{item['deficient_quantity']}</span>
-										}
+										<span>数量:{item.quantity}</span>
 										<span>零售价:{item.price + '元'}</span>
 										<span>备注:{item.remark || '无'}</span>
 									</div>

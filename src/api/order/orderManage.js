@@ -1,5 +1,14 @@
 import request from '../../utils/request.js'
 
+// 手动和小订单
+export function checkOrder(params,orderId) {
+	return request({
+		url: `/api/backend/orders/${orderId}/to_complete`,
+		method: 'post',
+		data: params
+	})
+}
+
 //订单管理-订单列表-消费者订单列表
 export function userOrder(params) {
 	return request({

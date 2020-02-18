@@ -22,7 +22,8 @@ class BreakfastCar extends React.Component{
 			status:100,
 			activeRoute: '',
 			routes:[],
-			lngLat: {}
+			lngLat: {},
+			statusD: 'create'
 		};
 		this.childMap = React.createRef();
 		this.childAdd = React.createRef();
@@ -41,8 +42,10 @@ class BreakfastCar extends React.Component{
 				positionData['province_code'] = r.data.province_code;
 				positionData['city_code'] = r.data.city_code;
 				positionData['area_code'] = r.data.area_code;
-				this.setState({listData:r.data,positionData,activeRoute: r.data.delivery_route_id})
+				this.setState({listData:r.data,positionData,activeRoute: r.data.delivery_route_id, statusD: 'edit'})
 			});
+		} else {
+			this.setState({statusD: 'create'})
 		}
 	}
 	
@@ -319,18 +322,18 @@ class BreakfastCar extends React.Component{
 						<li className="li">
 							<span className="left">上传身份证照片：</span>
 							<div className="imgs">
-								<CustomUpload ref={this.front} text="正面" defaultImg={listData.id_card_images?listData.id_card_images['front']:''} />
-								<CustomUpload ref={this.backend} text="反面" defaultImg={listData.id_card_images?listData.id_card_images['backend']:''}/>
-								<CustomUpload ref={this.holding} text="手持" defaultImg={listData.id_card_images?listData.id_card_images['holding']:''} />
+								<CustomUpload ref={this.front} text="正面" defaultImg={listData.id_card_images?listData.id_card_images['front']:''} status={this.state.statusD} />
+								<CustomUpload ref={this.backend} text="反面" defaultImg={listData.id_card_images?listData.id_card_images['backend']:''} status={this.state.statusD}/>
+								<CustomUpload ref={this.holding} text="手持" defaultImg={listData.id_card_images?listData.id_card_images['holding']:''}  status={this.state.statusD}/>
 							</div>
 							
 						</li>
 						<li className="li">
 							<span className="left">上传店铺照片：</span>
 							<div className="imgs">
-								<CustomUpload ref={this.cashier}  text="上传" defaultImg={listData.shop_images?listData.shop_images['cashier']:''}/>
-								<CustomUpload ref={this.doorway} text="上传" defaultImg={listData.shop_images?listData.shop_images['doorway']:''}/>
-								<CustomUpload ref={this.environment} text="上传" defaultImg={listData.shop_images?listData.shop_images['environment']:''}/>
+								<CustomUpload ref={this.cashier}  text="上传" defaultImg={listData.shop_images?listData.shop_images['cashier']:''}  status={this.state.statusD}/>
+								<CustomUpload ref={this.doorway} text="上传" defaultImg={listData.shop_images?listData.shop_images['doorway']:''}  status={this.state.statusD}/>
+								<CustomUpload ref={this.environment} text="上传" defaultImg={listData.shop_images?listData.shop_images['environment']:''}  status={this.state.statusD}/>
 							</div>
 							
 						</li>

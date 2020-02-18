@@ -36,7 +36,7 @@ class Refund extends React.Component{
 				logic_conditions:[],
 				search:'',
 			},
-			activeTab:'-1',
+			activeTab:-1,
 			reviewGoodsVisible:false,
 			record:{},
 			items:[],
@@ -84,10 +84,10 @@ class Refund extends React.Component{
 				dataIndex: 'applied_at',
 			},
 			{
-				title: this.state.activeTab == '0'?'操作':'退款状态',
+				title: this.state.activeTab === 0?'操作':'退款状态',
 				dataIndex:'refund_state_desc',
 				render:(text,record) =>{
-					if(this.state.activeTab == '0'){
+					if(this.state.activeTab === 0){
 						return (
 							<div>
 								<span style={{'color':'#4F9863','cursor':'pointer','marginRight':'20px'}} onClick={()=>this.showRefund(record)}>退款</span>
@@ -112,7 +112,7 @@ class Refund extends React.Component{
 	
 	
 	
-	refresh = (status='-1')=>{
+	refresh = (status=-1)=>{
 		this.setState({
 			filterVisible:false,
 			paginationParams:{
@@ -126,8 +126,9 @@ class Refund extends React.Component{
 	};
 	
 	// 商品回显
-	reviewGoods = record =>{
-		this.setState({reviewGoodsVisible:true,items:record})
+	// 商品回显
+	reviewGoods = (record,text) =>{
+		this.setState({reviewGoodsVisible:true,items:record,text: text})
 	};
 	closeReviewGoods = () =>{
 		this.setState({reviewGoodsVisible:false})
@@ -196,7 +197,7 @@ class Refund extends React.Component{
 								if(record.items.data.length){
 									return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
 										<span className="orderGoods">{record.items.data[0].name+'......'}</span>
-										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items)} />
+										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items, '商品')} />
 									</span>
 								} else {
 									return <span>无</span>
@@ -350,10 +351,10 @@ class Refund extends React.Component{
 				dataIndex: 'applied_at',
 			},
 			{
-				title: this.state.activeTab == '0'?'操作':'退款状态',
+				title: this.state.activeTab === 0?'操作':'退款状态',
 				dataIndex:'refund_state_desc',
 				render:(text,record) =>{
-					if(this.state.activeTab == '0'){
+					if(this.state.activeTab === 0){
 						return (
 							<div>
 								<span style={{'color':'#4F9863','cursor':'pointer','marginRight':'20px'}} onClick={()=>this.showRefund(record)}>退款</span>
@@ -373,11 +374,11 @@ class Refund extends React.Component{
 			}
 		};
 		const tabs = [
-			{name:'全部',key:'-1'},
-			{name:'待处理',key:'0'},
-			{name:'处理中',key:'1'},
-			{name:'已退款',key:'2'},
-			{name:'拒绝退款',key:'3'},
+			{name:'全部',key:-1},
+			{name:'待处理',key:0},
+			{name:'处理中',key:1},
+			{name:'已退款',key:2},
+			{name:'拒绝退款',key:3},
 		];
 		
 		const strategy = [
@@ -410,19 +411,20 @@ class Refund extends React.Component{
 					visible={this.state.reviewGoodsVisible}
 					onCancel={this.closeReviewGoods}
 					items={this.state.items}
+					text={this.state.text}
 				/>
 				
 				<RefundMoney
 					visible={this.state.refundVisible}
 					onCancel={this.hideRefund}
 					item={this.state.refundItem}
-					refresh={()=>this.refresh('0')}
+					refresh={()=>this.refresh(0)}
 				/>
 				<RefuseRefund
 					visible={this.state.refuseVisible}
 					onCancel={this.hideRefuse}
 					item={this.state.refuseItem}
-					refresh={()=>this.refresh('0')}
+					refresh={()=>this.refresh(0)}
 				/>
 				
 				

@@ -86,11 +86,13 @@ class Consumer extends Component {
 						{
 							this.renderStatus(record)
 						}
-						<span
-							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
-							onClick={()=>this.showPromotionCode(record)}
-						>二维码
-						</span>
+						{
+							record['release_mode'] === '主动领取' ? <span
+								style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
+								onClick={()=>this.showPromotionCode(record)}
+							>二维码
+						</span> : ''
+						}
 						<span
 							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
 							onClick={()=>this.deletePopover(record)}
@@ -114,7 +116,8 @@ class Consumer extends Component {
 			promotionCodeVisible:false,  // 推广码
 			couponId:'',   // 优惠券id 用于领取详情
 			detailsVisible: false,
-			detailsId: ''
+			detailsId: '',
+			record: {}
 		};
 		this.child = React.createRef();
 	}
@@ -369,8 +372,8 @@ class Consumer extends Component {
 	};
 	
 	// 二维码
-	showPromotionCode = () =>{
-		this.setState({promotionCodeVisible:true})
+	showPromotionCode = (record) =>{
+		this.setState({promotionCodeVisible:true, record})
 	};
 	hidePromotionCode = () =>{
 		this.setState({promotionCodeVisible:false})
@@ -397,7 +400,8 @@ class Consumer extends Component {
 		};
 		const promotionCodeProps = {
 			visible:this.state.promotionCodeVisible,
-			onCancel: this.hidePromotionCode
+			onCancel: this.hidePromotionCode,
+			record: this.state.record
 		};
 		const couponDetails = {
 			visible: this.state.detailsVisible,

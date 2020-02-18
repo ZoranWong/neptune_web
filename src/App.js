@@ -24,6 +24,7 @@ import PrintSheet from "./containers/PrintSheet/PrintSheet";
 import {firstRoutes, secondRoutes} from "./utils/RouteFields";
 import ActivitiesManage from "./components/SideMenu/ActivitiesManage";
 import _ from 'lodash'
+import PrintSummaryOrders from "./containers/Order/SummaryOrders/printSummaryOrders/printSummaryOrders";
 const { Header, Sider, Content } = Layout;
 class App extends React.Component{
 	
@@ -84,7 +85,9 @@ class App extends React.Component{
 		} else if(this.props.location.pathname === '/login/resetPassword'){
 			return <ResetPassword/>
 		} else if (this.props.location.pathname === '/printSheet') {
-			return <PrintSheet orders={this.props.location.state.orders} title={this.props.location.state.title} />
+			return <PrintSheet orders={this.props.location.state.orders} title={this.props.location.state.title} isNeedItems={this.props.location.state.isNeedItems}  />
+		} else if (this.props.location.pathname === '/printSummaryOrders') {
+			return <PrintSummaryOrders orders={this.props.location.state.orders} title={this.props.location.state.title} />
 		}
 		return (
 			<Layout style={{minHeight:"100vh"}}>

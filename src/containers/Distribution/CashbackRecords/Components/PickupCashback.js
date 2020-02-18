@@ -108,8 +108,9 @@ class PickupCashback extends Component {
 	};
 	
 	// 商品回显
-	reviewGoods = record =>{
-		this.setState({reviewGoodsVisible:true,items:record})
+	// 商品回显
+	reviewGoods = (record,text) =>{
+		this.setState({reviewGoodsVisible:true,items:record,text: text})
 	};
 	closeReviewGoods = () =>{
 		this.setState({reviewGoodsVisible:false})
