@@ -135,11 +135,14 @@ class DistributorDisabled extends React.Component{
 								</li>
 								<li  className="li">
 									<span className="left">上传身份证照片</span>
-									<div className="id_images">
-										<img src={data.id_card_images[0]} alt=""/>
-										<img src={data.id_card_images[1]} alt=""/>
-										<img src={data.id_card_images[2]} alt=""/>
-									</div>
+									{
+										data.id_card_images && data.id_card_images.length ? <div className="id_images">
+											<img src={data.id_card_images[0]} alt=""/>
+											<img src={data.id_card_images[1]} alt=""/>
+											<img src={data.id_card_images[2]} alt=""/>
+										</div> : ''
+									}
+									
 								</li>
 							</ul>
 						):'暂无数据'

@@ -216,6 +216,17 @@ class ReleaseGoods extends React.Component{
 										})(<Input
 										/>)}
 									</Form.Item>
+									<Form.Item label="商品展示名称：">
+										{getFieldDecorator('display_name', {
+											initialValue:'',
+											rules: [
+												{
+													required: false,
+												},
+											],
+										})(<Input
+										/>)}
+									</Form.Item>
 									<Form.Item label="商品编码：" style={{marginBottom:0}} >
 										{getFieldDecorator('barcode', {
 											initialValue:'',
@@ -252,7 +263,7 @@ class ReleaseGoods extends React.Component{
 									<Form.Item label="商品简介：" style={{marginTop:'90px'}}>
 										{getFieldDecorator('intro', {
 											initialValue:'',
-											rules: [{ required: true, message: '请输入商品简介' }],
+											rules: [{ required: false}],
 										})(<Input/>)}
 									</Form.Item>
 									<Form.Item label="分享描述：" >

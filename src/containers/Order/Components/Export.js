@@ -53,7 +53,13 @@ class Export extends Component {
 			message.error('请先选择自定义显示项');
 			return
 		}
-		this.props.export(this.state.value, this.state.selectedItems, this.props.conditions)
+		if (this.props.isToday) {
+			console.log('isToday');
+			this.props.exportToday(this.state.value, this.state.selectedItems)
+		} else {
+			console.log('is not today');
+			this.props.export(this.state.value, this.state.selectedItems, this.props.conditions)
+		}
 	};
 	
 	onCheckboxChange = (e) => {

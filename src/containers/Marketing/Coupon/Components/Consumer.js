@@ -13,6 +13,7 @@ import PickUpDetails from "../Modal/PickUpDetails";
 import PromotionCode from "../Modal/PromotionCode";
 import CouponDetails from "../Modal/CouponDetails";
 import {coupons,deleteCoupons,offShelvesCoupons,onShelvesCoupons,sendCoupons} from "../../../../api/marketing/coupon";
+import {transform} from "../utils/transform";
 
 class Consumer extends Component {
 	constructor(props) {
@@ -30,6 +31,9 @@ class Consumer extends Component {
 			{
 				title: '领取方式',
 				dataIndex: 'release_mode',
+				render: (text, record) => <span>
+					{transform(text)}
+				</span>
 			},
 			{
 				title: '有效期',
@@ -57,7 +61,7 @@ class Consumer extends Component {
 				title: '状态',
 				dataIndex: 'state_desc',
 				render:(text,record)=>{
-					if(record.release_mode === '直接发放'){
+					if(record.release_mode === 'PLATFORM_SEND'){
 						switch (record.state) {
 							case 0:
 								text = '未发送';
@@ -87,7 +91,7 @@ class Consumer extends Component {
 							this.renderStatus(record)
 						}
 						{
-							record['release_mode'] === '主动领取' ? <span
+							record['release_mode'] === 'MANUAL_RECEIVE' ? <span
 								style={{'color':'#4F9863','cursor':'pointer',marginLeft:'10px'}}
 								onClick={()=>this.showPromotionCode(record)}
 							>二维码

@@ -13,8 +13,8 @@ class ShopKeeperDisabled extends React.Component{
 			positionData : {},
 			address:'设置地图坐标',
 			data:{},
-			shopKeeperVisible:false
-			
+			shopKeeperVisible:false,
+			confirmData: {}
 		};
 		this.child = React.createRef();
 	}
@@ -30,7 +30,7 @@ class ShopKeeperDisabled extends React.Component{
 	};
 	handleSubmit = () =>{
 		this.handleCancel();
-		this.setState({shopKeeperVisible:true})
+		this.setState({shopKeeperVisible:true, confirmData: this.state.data})
 	};
 	
 	refuse = () =>{
@@ -90,7 +90,7 @@ class ShopKeeperDisabled extends React.Component{
 		this.setState({shopKeeperVisible:false})
 	};
 	showShopKeeper = () =>{
-		this.setState({shopKeeperVisible:true})
+		this.setState({shopKeeperVisible:true, confirmData: this.state.data})
 	};
 	
 	render(){
@@ -104,7 +104,7 @@ class ShopKeeperDisabled extends React.Component{
 				/>
 				<ShopKeeper
 					visible={this.state.shopKeeperVisible}
-					data={this.state.data}
+					data={this.state.confirmData}
 					onClose={this.hideShopKeeper}
 					onShow={this.showShopKeeper}
 				/>
@@ -139,11 +139,11 @@ class ShopKeeperDisabled extends React.Component{
 						</li>
 						<li>
 							<span className="left">店铺名称</span>
-							<span>{data.shop_name}</span>
+							<span>{data.name}</span>
 						</li>
 						<li>
 							<span className="left">省</span>
-							<span>{data.province}</span>
+							<span>{data.province ||'无'}</span>
 						</li>
 						<li>
 							<span className="left">市</span>
@@ -166,20 +166,20 @@ class ShopKeeperDisabled extends React.Component{
 						</li>
 						<li>
 							<span className="left">商户姓名</span>
-							<span>{data.applicant_name}</span>
+							<span>{data.keeper_name}</span>
 						</li>
 						<li>
 							<span className="left">商户电话</span>
-							<span>{data.mobile}</span>
+							<span>{data.keeper_mobile}</span>
 						</li>
 						<li>
 							<span className="left">商户身份证号码</span>
-							<span>{data.id_card_no}</span>
+							<span>{data.keeper_id_card_no}</span>
 						</li>
 						<li className="li">
 							<span className="left">上传身份证照片：</span>
 							{
-								data.id_card_images?(
+								data.id_card_images&&data.id_card_images.length?(
 									<div className="id_images">
 										<img src={data.id_card_images[0]} alt=""/>
 										<img src={data.id_card_images[1]} alt=""/>
@@ -192,7 +192,7 @@ class ShopKeeperDisabled extends React.Component{
 							<span className="left">上传营业执照：</span>
 							<div className="id_images">
 								{
-									data.business_license_images?(
+									data.business_license_images&&data.business_license_images.length?(
 										<div className="id_images">
 											<img src={data.business_license_images[0]} alt=""/>
 										</div>
@@ -204,7 +204,7 @@ class ShopKeeperDisabled extends React.Component{
 							<span className="left">上传店铺照片：</span>
 							<div className="id_images">
 								{
-									data.shop_images?(
+									data.shop_images&&data.shop_images.length?(
 										<div className="id_images">
 											<img src={data.shop_images[0]} alt=""/>
 											<img src={data.shop_images[1]} alt=""/>

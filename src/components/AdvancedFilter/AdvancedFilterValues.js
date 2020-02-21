@@ -235,6 +235,8 @@ export default class AdvancedFilterValues extends React.Component{
 							onChange={this.onTimestampChange}
 							placeholder="请选择日期"
 							showToday={false}
+							showTime={{ format: 'HH:mm' }}
+							format="YYYY-MM-DD HH:mm"
 						/>
 					</LocaleProvider>
 				</span>;
@@ -245,6 +247,8 @@ export default class AdvancedFilterValues extends React.Component{
 						<RangePicker
 							onChange={this.onPeriodChange}
 							//showTime={true}
+							showTime={{ format: 'HH:mm' }}
+							format="YYYY-MM-DD HH:mm"
 						/>
 					</LocaleProvider>
 					

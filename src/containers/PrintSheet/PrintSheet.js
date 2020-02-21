@@ -198,11 +198,6 @@ class PrintSheet extends Component {
 				dataIndex: 'price',
 				align: 'center'
 			},
-			{
-				title: '备注',
-				dataIndex: 'remark',
-				align: 'center'
-			}
 		];
 		const {orders} = this.state;
 		return (

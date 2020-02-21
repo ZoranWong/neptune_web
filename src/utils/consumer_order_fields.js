@@ -81,12 +81,12 @@ export const consumer_order_values = [
 				type:'equalCompare'
 			},
 			{
-				label:'店铺名称',
+				label:'自提店铺名称',
 				value:'shop_name',
 				type:'equalCompare'
 			},
 			{
-				label:'店铺编号',
+				label:'自提店铺编号',
 				value:'shop_code',
 				type:'equalCompare'
 			},

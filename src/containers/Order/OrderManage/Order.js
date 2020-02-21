@@ -12,6 +12,7 @@ import ReviewGoods from "../Components/ReviewGoods";
 import {userOrder,batchCancel,batchConfirm, checkOrder} from "../../../api/order/orderManage";
 import {consumer_order_values} from "../../../utils/consumer_order_fields";
 import {consumer_order_values_export} from "../../../utils/consumer_order_fields_export";
+import {getBeforeDate} from "../../../utils/dataStorage";
 import Export from "../Components/Export";
 import Config from '../../../config/app'
 import _ from "lodash";
@@ -130,7 +131,8 @@ class Order extends React.Component{
 			items:[],  // 商品回显,
 			conditions: {},
 			current: 1,
-			problemOrder: {}
+			problemOrder: {},
+			isToday: false
 		};
 	}
 	
@@ -139,7 +141,7 @@ class Order extends React.Component{
 			this.setState({current: this.props.location.state.current})
 		}
 		document.addEventListener('click', this.closeCustom);
-		
+		this.conditions()
 	}
 	
 	refresh = (status='ALL')=>{
@@ -182,6 +184,7 @@ class Order extends React.Component{
 		this.setState({filterVisible:false})
 	};
 	onSubmit = (data) =>{
+		console.log(data, '|||||||||||||||||');
 		this.setState({api:userOrder,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
 			this.child.current.pagination(1)
 		});
@@ -372,7 +375,7 @@ class Order extends React.Component{
 	
 	// 导出
 	showExport = (conditions) =>{
-		this.setState({conditions, exportVisible: true}, ()=>{
+		this.setState({conditions, exportVisible: true, isToday: false}, ()=>{
 			this.closeHigherFilter()
 		})
 	};
@@ -383,6 +386,7 @@ class Order extends React.Component{
 	// 确定导出
 	export = (type, items,conditions) =>{
 		console.log(type, '--- type---');
+		console.log(conditions, '>>>>>>>>>>>>>>>>>>>>>>>>>>');
 		let json = searchJson({
 			strategy: type,
 			customize_columns: items,
@@ -405,6 +409,52 @@ class Order extends React.Component{
 		});
 		this.props.history.push({pathname:"/printSheet", state: {orders, title: '顾客订单'}})
 	};
+	
+	// 今日订单高级筛选conditions
+	conditions = () => {
+		let yesterday = getBeforeDate(-1) + ' 21:00';
+		let today = getBeforeDate(0) + ' 21:00';
+		return {
+			conditions: [
+				{
+					conditions: [
+						{
+							key: 'order_created_at',
+							operation: 'between',
+							value: [yesterday, today]
+						}
+					],
+					logic: 'and'
+				}
+			],
+			logic: 'and'
+		}
+	};
+	
+	// 查看今日订单
+	todayOrders = () => {
+		this.setState({
+			api:userOrder,
+			paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions: this.conditions()})
+	}},()=>{
+			this.child.current.pagination(1)
+		});
+	};
+	
+	// 导出今日订单
+	exportTodayOrders = () => {
+		this.setState({exportVisible: true, isToday: true})
+	};
+	// 确认导出今日订单
+	exportToday = (type, items) => {
+		let json = searchJson({
+			strategy: type,
+			customize_columns: items,
+			logic_conditions: this.conditions()
+		});
+		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+	};
+	
 	
 	render(){
 		
@@ -435,15 +485,17 @@ class Order extends React.Component{
 			{key: 'USER_ORDER_PRODUCT', value: '商品维度',},
 			{key: 'USER_ORDER_SHOP', value: '店铺维度',},
 			{key: 'USER_ORDER_4', value: '导出格式4(含Excal)',},
+			{key: 'USER_ORDER_5', value: '导出格式5(吴婉秋定制款2.0)',},
 		];
-		
 		const exportProps = {
 			visible : this.state.exportVisible,
 			onCancel : this.hideExport,
 			export: this.export,
 			strategy,
 			values: consumer_order_values_export,
-			conditions: this.state.conditions
+			conditions: this.state.conditions,
+			isToday: this.state.isToday,
+			exportToday: this.exportToday
 		};
 		
 		
@@ -496,7 +548,14 @@ class Order extends React.Component{
 								disabled={!this.state.checkedAry.length}
 							>打印订单</Button>
 						}
-						
+						<Button
+							size="small"
+							onClick={this.todayOrders}
+						>查看今日订单</Button>
+						<Button
+							size="small"
+							onClick={this.exportTodayOrders}
+						>导出今日订单</Button>
 						{/*{*/}
 						{/*	window.hasPermission("order_management_platform_cancel") &&<Button*/}
 						{/*		size="small"*/}

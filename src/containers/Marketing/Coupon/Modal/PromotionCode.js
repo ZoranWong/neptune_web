@@ -1,6 +1,6 @@
 import React, {Component,Fragment} from 'react';
 import {Modal} from "antd";
-
+import '../css/couponImg.sass'
 class PromotionCode extends Component {
 	constructor(props) {
 		super(props);
@@ -11,6 +11,8 @@ class PromotionCode extends Component {
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		console.log(nextProps);
+		if (!nextProps.record['qr_code']) return;
+		this.setState({img: nextProps.record['qr_code']})
 	}
 	
 	
@@ -20,7 +22,7 @@ class PromotionCode extends Component {
 	
 	render() {
 		return (
-			<Fragment>
+			<div>
 				<Modal
 					title="二维码"
 					width={520}
@@ -30,8 +32,11 @@ class PromotionCode extends Component {
 					footer={null}
 					maskClosable={false}
 				>
+					<div className="couponImg">
+						<img src={this.state.img} alt=""/>
+					</div>
 				</Modal>
-			</Fragment>
+			</div>
 		);
 	}
 }

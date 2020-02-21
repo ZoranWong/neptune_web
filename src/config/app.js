@@ -1,8 +1,9 @@
 import {Z2_EMPHASIS_LIFT} from "echarts/src/util/graphic";
 
 const devApiUrl = 'http://neptune.klsfood.cn';
-const proApiUrl = 'https://www.neptune.kingdomcloud.cn'; //正式环境变量,注意修改
-//const proApiUrl = 'http://neptune.klsfood.cn'; //测试服务器,注意修改
+// const proApiUrl = 'https://www.neptune.kingdomcloud.cn'; //正式环境变量,注意修改
+const proApiUrl = 'https://www.neptune.kingdomcloud.cn'; //测试服务器,注意修改
+
 
 
 

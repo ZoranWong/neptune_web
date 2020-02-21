@@ -40,7 +40,9 @@ class ShopKeeper extends React.Component{
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
+		console.log(nextProps, ']]]]]');
 		if(!(this.props.data == nextProps.data)){
+			console.log('11111');
 			this.setState({listData:nextProps.data});
 		}
 		if(!(this.props.recordId ==  nextProps.recordId)){
@@ -271,7 +273,7 @@ class ShopKeeper extends React.Component{
 						
 						</li>
 						<li>
-							<span className="left">店铺编号</span>
+							<span className="left">金蝶编号</span>
 							<Input
 								className="liInput"
 								value={listData.uni_code}
