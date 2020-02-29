@@ -1,6 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
-import {Button, Table} from 'antd'
+import {Button, message, Table} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/refund.sass'
 import {searchJson, getToken, orderOutputTransformer, orderInputTransformer} from "../../../utils/dataStorage";
@@ -14,6 +14,7 @@ import {summaryOrders} from "../../../api/order/orderManage";
 import Export from "../Components/Export";
 import Config from '../../../config/app'
 import _ from "lodash";
+import {timeFormer} from '../../../utils/dataStorage'
 
 class SummaryOrders extends React.Component{
 	constructor(props){
@@ -33,6 +34,7 @@ class SummaryOrders extends React.Component{
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
+				searchJson: searchJson({date: null})
 			},
 			activeTab:'BACKEND_ALL',
 			reviewGoodsVisible:false,
@@ -42,7 +44,10 @@ class SummaryOrders extends React.Component{
 			refuseItem:{},
 			defaultItem: defaultItem,
 			conditions: {},
-			current: 1
+			current: 1,
+			todayOrders: [],
+			loadingOne: false,
+			loadingTwo: false
 		};
 		this.refundColumns = [
 			{
@@ -258,13 +263,11 @@ class SummaryOrders extends React.Component{
 	export = (type, items, conditions) =>{
 		let json = searchJson({
 			strategy: type,
+			summary_order_id: this.state.checkedAry[0],
 			customize_columns: items,
 			logic_conditions: conditions
 		});
 		window.open(`${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`,'target','');
-		// dataExport({searchJson: searchJson(params)}).then(r=>{
-		// 	console.log(r);
-		// }).catch(_=>{})
 	};
 	
 	// 打印订单
@@ -276,9 +279,89 @@ class SummaryOrders extends React.Component{
 				orders.push(order)
 			}
 		});
-		console.log(orders, '==============>');
 		this.props.history.push({pathname:"/printSummaryOrders", state: {orders, title: '消费者汇总单'}})
 	};
+	
+	
+	// 打印某一店铺订单
+	printShopOrder = () => {
+		if (this.state.checkedAry.length > 1) {
+			message.error('当前打印只可选择一项进行打印');
+			return
+		}
+		let {checkedAry, data} = this.state;
+		let orders = [];
+		let title = '';
+		_.map((data), (order)=> {
+			if (_.indexOf(checkedAry, order.id) > -1) {
+				title = `${order['shop_name']}的订单`;
+				orders = order.relatedOrders.data
+			}
+		});
+		console.log(orders, '...');
+		this.props.history.push({pathname:"/printSheet", state: {orders, title: title}})
+	};
+	
+	// 导出今日订单
+	exportOrders = () => {
+		if (this.state.checkedAry.length > 1) {
+			message.error('当前导出只可选择一项进行导出');
+			return
+		}
+		this.setState({exportVisible: true, isToday: true})
+	};
+	
+	// 点击获取今日所有汇总单
+	getTodayOrder = async (page = 1, today, type) =>{
+		let res = await summaryOrders({page: page, limit: 10, searchJson: searchJson({date: today})});
+		let list = res.data;
+		let meta = res.meta;
+		this.setState({todayOrders: this.state.todayOrders.concat(list)}, ()=>{
+			if (meta['pagination']['current_page'] < meta['pagination']['total_pages']) {
+				this.getTodayOrder(meta['pagination']['current_page'] + 1, today, type)
+			} else {
+				this.setState({
+					loadingOne: false,
+					loadingTwo: false
+				});
+				let todayOrders = this.state.todayOrders;
+				console.log(type, 'xxxxx');
+				console.log(todayOrders, '=====');
+				if (type === 'summary') {
+					let orders = [];
+					if (todayOrders.length) {
+						_.map(todayOrders, (todayOrder)=>{
+							_.map(todayOrder['relatedOrders'].data, (item) =>{
+								orders.push(item)
+							})
+						});
+						this.props.history.push({pathname:"/printSheet", state: {orders: orders, title: ''}})
+					}
+				} else if (type === 'order') {
+					console.log(type, 'ooooooooooo', todayOrders);
+					this.props.history.push({pathname:"/printSummaryOrders", state: {orders: todayOrders, title: ''}})
+				}
+			}
+		})
+		
+	};
+	
+	// 打印今日汇总单
+	printAllSummaryOrders = async () => {
+		let now = new　Date();
+		this.setState({loadingOne: true});
+		await this.getTodayOrder(1, timeFormer(now), 'order');
+		
+	};
+	
+	// 打印今日订单
+	printAllOrders = async () => {
+		let now = new Date();
+		this.setState({loadingTwo: true});
+		await this.getTodayOrder(1, timeFormer(now),'summary');
+	};
+	
+	// 打印今日订单
 	
 	render(){
 		
@@ -295,7 +378,8 @@ class SummaryOrders extends React.Component{
 		];
 		
 		const strategy = [
-			{key: 'SHOP_SELF_PICK_SUMMARY', value: '自提汇总单',}
+			{key: 'SHOP_SELF_PICK_SUMMARY', value: '自提汇总单',},
+			{key: 'SHOP_SELF_PICK_SUMMARY_2', value: '自提汇总单婉秋定制版',}
 		];
 		const exportProps = {
 			visible : this.state.exportVisible,
@@ -337,7 +421,35 @@ class SummaryOrders extends React.Component{
 								size="small"
 								onClick={this.print}
 								disabled={!this.state.checkedAry.length}
+							>打印汇总单</Button>
+						}
+						{
+							window.hasPermission("order_management_printing") && <Button
+								size="small"
+								onClick={this.printShopOrder}
+								disabled={!this.state.checkedAry.length}
 							>打印订单</Button>
+						}
+						{
+							window.hasPermission("order_management_printing") && <Button
+								size="small"
+								onClick={this.exportOrders}
+								disabled={!this.state.checkedAry.length}
+							>导出</Button>
+						}
+						{
+							window.hasPermission("order_management_printing") && <Button
+								size="small"
+								onClick={this.printAllSummaryOrders}
+								loading={this.state.loadingOne}
+							>打印今日汇总单</Button>
+						}
+						{
+							window.hasPermission("order_management_printing") && <Button
+								size="small"
+								onClick={this.printAllOrders}
+								loading={this.state.loadingTwo}
+							>打印今日订单</Button>
 						}
 					</div>
 					

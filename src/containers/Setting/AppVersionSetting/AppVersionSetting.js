@@ -12,7 +12,9 @@ class AppVersionSetting extends React.Component{
 			type: 0,
 			version: '',
 			desc: '',
-			platform: 'IOS'
+			platform: 'IOS',
+			appUrl: '',
+			uploadType: 'ID'
 		};
 		this.child = React.createRef();
 	}
@@ -35,27 +37,42 @@ class AppVersionSetting extends React.Component{
 		this.setState({platform: e.target.value})
 	};
 	
+	onUploadTypeChange = e => {
+		this.setState({uploadType: e.target.value})
+	};
 	check = () =>{
 		let {state} = this;
 		if (!state.version) {
 			message.error('请填写版本号');
 			return
 		}
-		if (!this.child.current.state.resource_id) {
+		if (this.state.uploadType === 'ID' && !this.child.current.state.resource_id) {
 			message.error('请上传资源包');
 			return
 		}
+		
+		if (this.state.uploadType === 'URL' && !this.state.appUrl) {
+			message.error('请填写资源包URL');
+			return
+		}
+		
 		if (!state.desc) {
 			message.error('请填写APP描述');
 			return
 		}
-		this.submit(state.version,this.child.current.state.resource_id,state.type,state.desc,state.platform)
+		
+		let id = this.state.uploadType === 'ID' ? this.child.current.state.resource_id : '';
+		let url = this.state.uploadType === 'ID' ? '' : this.state.appUrl;
+		
+		
+		this.submit(state.version,id, url,state.type,state.desc,state.platform)
 	};
 	
-	submit = (version, resource_id, type, desc, platform) =>{
+	submit = (version, resource_id,resource_url, type, desc, platform, ) =>{
 		newPackages({
 			version,
 			resource_id,
+			resource_url,
 			type,
 			desc,
 			platform
@@ -65,12 +82,19 @@ class AppVersionSetting extends React.Component{
 				type: 0,
 				version: '',
 				desc: '',
-				platform: 'IOS'
+				platform: 'IOS',
+				appUrl: ''
 			},()=>{
-				this.child.current.remove();
+				if (this.state.uploadType === 'ID') {
+					this.child.current.remove();
+				}
 				this.refresh();
 			})
 		}).catch(_=>{})
+	};
+	
+	onSuccessUpload = (url) => {
+		this.setState({appUrl: url})
 	};
 	
 	render(){
@@ -114,9 +138,30 @@ class AppVersionSetting extends React.Component{
 								/>
 							</span>
 							<span>
-								<h5>资源包：</h5>
-								<UploadApp ref={this.child} />
+								<h5>上传类型：</h5>
+								<Radio.Group onChange={this.onUploadTypeChange} value={this.state.uploadType}>
+									<Radio value='ID'>资源包</Radio>
+									<Radio value='URL'>资源包URL</Radio>
+							  	</Radio.Group>
 							</span>
+							{
+								this.state.uploadType === 'ID' && <span>
+									<h5>资源包：</h5>
+									<UploadApp ref={this.child} />
+								</span>
+							}
+							{
+								this.state.uploadType === 'URL' && <span>
+									<h5>资源包URL:</h5>
+									<Input
+										value={this.state.appUrl}
+										onChange={(e)=>{
+											this.setState({appUrl: e.target.value})
+										}}
+									/>
+								</span>
+							}
+							
 							<span>
 								<h5>资源包类型：</h5>
 								<Radio.Group onChange={this.onRadioChange} value={this.state.type}>

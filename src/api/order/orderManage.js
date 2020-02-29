@@ -92,3 +92,12 @@ export function summaryOrders(params) {
 		params: params
 	})
 }
+
+// 核实订单
+export function checkOrders(params) {
+	return request({
+		url: '/api/backend/orders/force/make/paid',
+		method: 'put',
+		data: params
+	})
+}

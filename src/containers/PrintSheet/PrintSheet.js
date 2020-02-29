@@ -15,12 +15,31 @@ class PrintSheet extends Component {
 	
 	
 	componentDidMount() {
+		let newOrder = {};
+		let newOrders = [];
+		_.map(this.props.orders, (order) => {
+			if (!newOrder[order['shop_name']]) {
+				let ary = [];
+				ary.push(order);
+				newOrders.push(ary);
+				newOrder[order['shop_name']] = order;
+			} else {
+				_.map(newOrders, (newOrder,index) => {
+					if (newOrder[0]['shop_name'] === order['shop_name']) {
+						newOrder.push(order)
+					}
+				})
+			}
+		});
+		let handledArray = [].concat.apply([], newOrders);
+		
 		this.setState({
-			orders: this.props.orders
+			orders: handledArray
 		}, ()=>{
 			window.print();
 		});
 	}
+	
 	
 	candle = (spec, type) => {
 		if (!_.isEmpty(spec)) {
@@ -155,29 +174,29 @@ class PrintSheet extends Component {
 				dataIndex: 'name',
 				align: 'center'
 			},
+			// {
+			// 	title: '规格',
+			// 	dataIndex: 'spec_value',
+			// 	align: 'center',
+			// 	render: (text, record, index) => {
+			// 		if (record.name === '合计') {
+			// 			return '--';
+			// 		} else {
+			// 			let desc = '';
+			// 			if (text) {
+			// 				for (let k in text) {
+			// 					desc = `${k}: ${text[k]}`
+			// 				}
+			// 			} else {
+			// 				desc= '无'
+			// 			}
+			//
+			// 			return desc ;  //++index相当于index+1
+			// 		}
+			// 	}
+			// },
 			{
-				title: '规格',
-				dataIndex: 'spec_value',
-				align: 'center',
-				render: (text, record, index) => {
-					if (record.name === '合计') {
-						return '--';
-					} else {
-						let desc = '';
-						if (text) {
-							for (let k in text) {
-								desc = `${k}: ${text[k]}`
-							}
-						} else {
-							desc= '无'
-						}
-						
-						return desc ;  //++index相当于index+1
-					}
-				}
-			},
-			{
-				title: '单位',
+				title: '规格(单位)',
 				dataIndex: 'unit',
 				align: 'center',
 				render: (text, record, index) => {
@@ -228,13 +247,20 @@ class PrintSheet extends Component {
 						};
 						order.items.data = [...order.items.data, totalRow, wholeRow];
 						return <div className='printSheet' key={order.id}>
-							<h3>{this.props.title}</h3>
+							{/*<h3>{this.props.title}</h3>*/}
 							{
-								order['shipping_info'] ? <h4>
-									用户：{order['shipping_info']['consignee_name']}</h4>
-								: <h4>用户：{order['user_nickname'] || order['name']}</h4>
+								order['shop_name'] ? <h4 className="shopInfo" >{order['shop_name']}({order['shop_code']})</h4> : ''
 							}
-							<h4>订单号：{order['trade_no']}</h4>
+							<h4>
+								用户：{order['user_nickname'] || order['name']}&nbsp;&nbsp;&nbsp;&nbsp;
+								<span>
+									收货人：{
+										order['shipping_info'] && order['shipping_info']['consignee_name']
+									}
+								</span>
+							</h4>
+							
+							<h4>订单号：{order['trade_no'].slice(14,24)}</h4>
 							{
 								order['shipping_info'] && <div>
 									<h4>配送地址：
@@ -248,9 +274,7 @@ class PrintSheet extends Component {
 							}
 							<h4>下单时间：{order['paid_at']}</h4>
 							<h4>预约送货时间：{order['expect_receive_date']} {order['expect_receive_time_start']}-{order['expect_receive_time_end']}</h4>
-							{
-								order['shop_name'] ? <h4 className="shopInfo" >自提店铺:{order['shop_name']}</h4> : ''
-							}
+							
 							{
 								order['shop_keeper_name'] ? <h4 >自提商户主姓名:{order['shop_keeper_name']}</h4> : ''
 							}

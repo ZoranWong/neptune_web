@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import SingLine from "./Components/SingLine";
-import './css/index.sass'
-import ProductLine from "./Components/ProductLine";
+import {Table} from "antd";
+import '../../../PrintSheet/index.sass'
 import _ from 'lodash'
+
 class PrintSummaryOrders extends Component {
 	constructor(props) {
 		super(props);
@@ -14,119 +14,116 @@ class PrintSummaryOrders extends Component {
 	
 	
 	componentDidMount() {
-		let root = document.getElementById('root');
-		let body = document.getElementsByTagName('body')[0];
-		root.style.background = '#fff';
-		body.style.background = '#fff';
-		let orders = this.props.orders;
-		_.map(orders, (order) => {
-			let quantity = 0;
-			order.items.length && _.map(order.items, item=>{
-				console.log(item.quantity);
-				quantity = quantity + Number(item.quantity);
-			});
-			order.totalQuantity = quantity;
-		});
 		
 		this.setState({
 			orders: this.props.orders
 		}, ()=>{
 			window.print();
-			console.log(this.state.orders, '=============>');
 		});
 	}
-	
-	
-	
 	render() {
+		const columns = [
+			{
+				title: '商品信息',
+				dataIndex: 'product_name',
+				align: 'center'
+			},
+			// {
+			// 	title: '规格',
+			// 	dataIndex: 'product_spec_value',
+			// 	align: 'center',
+			// 	render: (text, record) => {
+			// 		if (text === 'wholeRow') {
+			// 			return ''
+			// 		} else {
+			// 			return text || '--'
+			// 		}
+			// 	}
+			// },
+			{
+				title: '规格（单位）',
+				dataIndex: 'unit',
+				align: 'center',
+				render: (text, record, index) => {
+					if (record.name === '合计') {
+						return '--';
+					} else {
+						return text ;  //++index相当于index+1
+					}
+				}
+			},
+			{
+				title: '数量',
+				align: 'center',
+				dataIndex: 'quantity',
+			},
+			{
+				title: '单价(元)',
+				dataIndex: 'price',
+				align: 'center'
+			},
+			{
+				title: '金额(元)',
+				dataIndex: 'total_fee',
+				align: 'center'
+			},
+		];
 		const {orders} = this.state;
-		console.log(orders);
 		return (
-			<div>
-				{orders.length && orders.map(order => (
-					<div id='sendOrder'>
-						<div className="images">
-							<div className="left">
-								<h3></h3>
+			<div id='printArea'>
+				{
+					orders.length && orders.map((order,index) => {
+						console.log(order);
+						let totalQuantity = 0;
+						let totalPrice = 0;
+						let wholePrice = 0;
+						order.items.length && order.items.map((item) => {
+							totalQuantity += item.quantity;
+						});
+						totalPrice = order['total_fee'];
+						wholePrice = order['settlement_total_fee'];
+						const totalRow = {
+							id: String(Math.random()),
+							product_name: '合计',
+							quantity: totalQuantity,  //应当取从后台返回数据，此处为演示，所以自定义了默认值
+							total_fee: totalPrice, //应当取从后台返回数据，此处为演示，所以自定义了默认值
+						};
+						const wholeRow = {
+							product_spec_value: 'wholeRow',
+							product_name: '司机签名',
+							quantity: '客户签名', //应当取从后台返回数据，此处为演示，所以自定义了默认值
+						};
+						order.items = [...order.items, totalRow, wholeRow];
+						return <div className='printSheet' key={order.id}>
+							{
+								order['shop_info'] ? <div>
+									<h4  className="shopInfo" >{index + 1}号店铺：{order['shop_info']['name']}</h4>
+									<h4>编码：{order['shop_info']['code']}</h4>
+									<h4>地址：{order['shop_info']['address']}</h4>
+									<h4>收货人：{order['shop_info']['keeper_name']}</h4>
+									<h4>联系电话：{order['shop_info']['keeper_mobile']}</h4>
+								</div> : ''
+							}
+							<h4>单据编号：</h4>
+							<h4>物流电话：</h4>
+							<h4>配送员：</h4>
+							<h4>汇总时间：{order['summary_date']}</h4>
+							<h4>车线：{order['shop_delivery_route'] && order['shop_delivery_route'].name}</h4>
+							<div className="chart u_chart">
+								<Table
+									columns={columns}
+									bordered={true}
+									rowKey={record => record['item_id']}
+									pagination={false}
+									dataSource={order.items}
+								/>
 							</div>
-							<div className="right">
-								<h3></h3>
-							</div>
-						</div>
 						
-						<div id='sendInfo'>
-							<div className="userInfo">
-								<div className="header">
-									<h3>用户信息</h3>
-									<span>The user Information</span>
-								</div>
-								<div className="components">
-									<SingLine title='客户' eng='Name' value={order['shop_info'].name} />
-									<SingLine title='编码' eng='Coding' value={order['shop_info'].code} />
-									<SingLine title='地址' eng='Address' value={order['shop_info'].address.slice(0,12)} />
-									<SingLine title='' eng='' value={order['shop_info'].address.slice(12,22)} />
-									<SingLine title='收货人' eng='Consignee' value={order['shop_info']['keeper_name']} />
-									<SingLine title='联系电话' eng='Phone' value={order['shop_info']['keeper_mobile']} />
-								</div>
-							</div>
-							<div className="logInfo">
-								<div className="header">
-									<h3>物流信息</h3>
-									<span>Logistics Information</span>
-								</div>
-								<div className="components">
-									<SingLine title='单据编号' eng='Receipt Number' value='' />
-									<SingLine title='物流电话' eng='Logistics Call' value='' />
-									<SingLine title='配送员' eng='Marki' value='' />
-									<SingLine title='配送时间' eng='Summary Date' value={order['summary_date']} />
-									<SingLine title='车线' eng='Car Line' value={order['shop_delivery_route'].name} />
-								</div>
-							</div>
 						</div>
-						<div id="sendProductsInfo">
-							<div className="header">
-								<div>商品信息</div>
-								<div>规格</div>
-								<div>单位</div>
-								<div>数量</div>
-								<div>单价</div>
-								<div>金额</div>
-							</div>
-							<div className="components">
-								{
-									order.items.length && order.items.map(item => {
-										if (item['product_spec_value']) {
-											for (let k in item['product_spec_value']) {
-												item['product_spec_value'] = `${k}:${item['product_spec_value'][k]}`
-											}
-										} else {
-											item['product_spec_value'] = '--'
-										}
-										return <ProductLine
-											name={item['product_name']}
-											spec={item['product_spec_value']}
-											unit={item.unit || '--'}
-											quantity={item.quantity || '--'}
-											price={item.price}
-											amount={item['total_fee']}
-										/>
-									})
-								}
-							</div>
-							<div className="total">
-								<div>合计</div>
-								<div><span>{order.totalQuantity}</span></div>
-								<div>{order['total_fee']}</div>
-							</div>
-							<div className="sign">
-								<div>司机签名:</div>
-								<div>客户签名:</div>
-							</div>
-						</div>
-					</div>
-				))}
+					})
+				}
 			</div>
-			
+		
 		);
 	}
 }

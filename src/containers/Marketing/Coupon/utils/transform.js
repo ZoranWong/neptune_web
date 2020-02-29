@@ -12,6 +12,10 @@ export const types = [
 		cn: '积分商城',
 		en: 'INTEGRAL_EXCHANGE'
 	},
+	{
+		cn: '新人优惠券',
+		en: 'NEW_USER'
+	}
 ];
 export function transform(en) {
 	let cn;

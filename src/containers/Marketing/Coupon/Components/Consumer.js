@@ -147,7 +147,7 @@ class Consumer extends Component {
 	renderStatus = (record) =>{
 		let confirmPopover = this.confirmPopover;
 		let state;
-		if(record.release_mode === '直接发放'){
+		if(record.release_mode === 'PLATFORM_SEND'){
 			switch (record.state) {
 				case 0 :
 					state = <span
@@ -306,7 +306,7 @@ class Consumer extends Component {
 			},
 			onOk() {
 				fn({},id).then(r=>{
-					message.success(`${keyWord}成功！`);
+					message.success(r.message);
 					refresh()
 				});
 				

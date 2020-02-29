@@ -179,29 +179,29 @@ class NewCoupon extends Component {
 		let put_conditions = {};
 		switch (userType) {
 			case 'ALL':
-				put_conditions.strategy = 'USER_PUT_IN_ALL_USER_SET';
+				put_conditions.strategy = 'COUPON_PUT_IN_ALL_USER_SET';
 				break;
 			case 'PARTIAL_AVAILABLE_ID':
-				put_conditions.strategy = 'USER_PUT_IN_USER_SET';
+				put_conditions.strategy = 'COUPON_PUT_IN_USER_SET';
 				put_conditions['value'] = this.ableUser.current.state.selectedItems;
 				break;
 			case 'PARTIAL_FORBIDDEN':
-				put_conditions.strategy = 'USER_PUT_NOT_IN_USER_SET';
+				put_conditions.strategy = 'COUPON_PUT_IN_USER_SET';
 				put_conditions['value'] = this.disableUser.current.state.selectedItems;
 				break;
 			case 'PARTIAL_AVAILABLE_GROUP':
-				put_conditions.strategy = 'USER_PUT_IN_USER_GROUP_SET';
+				put_conditions.strategy = 'COUPON_PUT_IN_USER_GROUP_SET';
 				put_conditions['value'] = this.ableUserGroup.current.state.selectedItems;
 				break;
 			case 'PARTIAL_FORBIDDEN_GROUP':
-				put_conditions.strategy = 'USER_PUT_NOT_IN_USER_GROUP_SET';
+				put_conditions.strategy = 'COUPON_PUT_NOT_IN_USER_GROUP_SET';
 				put_conditions['value'] = this.disableUserGroup.current.state.selectedItems;
 				break;
 			default:
 				break;
 		}
 		if(values.release_mode !== 'INTEGRAL_EXCHANGE'){
-			if(put_conditions.strategy !== 'USER_PUT_IN_ALL_USER_SET'){
+			if(put_conditions.strategy !== 'COUPON_PUT_IN_ALL_USER_SET'){
 				if(!put_conditions['value'] || !put_conditions['value'].length){
 					message.error('请选择用户或用户组');
 					return;
@@ -214,7 +214,7 @@ class NewCoupon extends Component {
 		values.put_conditions.push(put_conditions);
 		
 		// 验证发放总量
-		if(values.release_mode !== 'PLATFORM_SEND'){
+		if(values.release_mode !== 'PLATFORM_SEND' && values.release_mode !== 'NEW_USER'){
 			if(!values.issue_count) {
 				message.error('请输入发放总量');
 				return;
@@ -355,6 +355,9 @@ class NewCoupon extends Component {
 								<Radio value='INTEGRAL_EXCHANGE'>
 									积分商城
 								</Radio>
+								<Radio value='NEW_USER'>
+									新人优惠券
+								</Radio>
 							</Radio.Group>
 						</li>
 						<li className="normalLi imgLi">
@@ -391,14 +394,16 @@ class NewCoupon extends Component {
 						<li>
 							<span className="c_left">有效期:</span>
 							<Radio.Group onChange={(e)=>this.onRadioChange('valid_date_type',e)} value={radioValue.valid_date_type}>
-								<Radio value='DATE_TYPE_FIX_TIME_RANGE'>
-									固定日期
-									<LocaleProvider locale={zh_CN}>
-										<RangePicker
-											onChange={this.onDateChange}
-										/>
-									</LocaleProvider>
-								</Radio>
+								{
+									this.state.radioValue.release_mode !== 'NEW_USER' && <Radio value='DATE_TYPE_FIX_TIME_RANGE'>
+										固定日期
+										<LocaleProvider locale={zh_CN}>
+											<RangePicker
+												onChange={this.onDateChange}
+											/>
+										</LocaleProvider>
+									</Radio>
+								}
 								<Radio value='DATE_TYPE_FIX_TERM_TODAY'>
 									领到券当日开始
 									<Input value={radioValue.fixed_term_today} type="number" onChange={(e)=>{
@@ -470,7 +475,7 @@ class NewCoupon extends Component {
 							</Radio.Group>
 						</li>
 						{
-							this.state.radioValue.release_mode !== 'INTEGRAL_EXCHANGE'  && <li>
+							(this.state.radioValue.release_mode !== 'INTEGRAL_EXCHANGE' && this.state.radioValue.release_mode !== 'NEW_USER')  && <li>
 								<span className="c_left">发放范围:</span>
 								<Radio.Group onChange={(e)=>this.onRadioChange('userType',e)} value={radioValue.userType}>
 									<Radio value="ALL">
@@ -496,7 +501,7 @@ class NewCoupon extends Component {
 							</li>
 						}
 						{
-							(this.state.radioValue.release_mode !== 'PLATFORM_SEND' )? <li>
+							(this.state.radioValue.release_mode !== 'PLATFORM_SEND' && this.state.radioValue.release_mode !== 'NEW_USER' )? <li>
 								<span className="c_left">发放总量:</span>
 								<div className="liRight">
 									<Input className="bigInput" value={radioValue.issue_count} onChange={(e)=>{

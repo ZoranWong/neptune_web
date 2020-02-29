@@ -188,6 +188,20 @@ class OrderSetting extends Component {
 					/> 小时之内
 					</div>
 				</div>
+				
+				<div className="setting_header">
+					消费者同城配送起送金额
+				</div>
+				<div className="setting_body">
+					<div className="setting_item">
+						满 <Input
+						type='number'
+						value={state['USER_ORDER_DELIVERY_THRESHOLD']}
+						onChange={(e)=>this.valueChange('USER_ORDER_DELIVERY_THRESHOLD',e.target.value)}
+						onBlur={()=>this.submitSetting('USER_ORDER_DELIVERY_THRESHOLD')}
+					/> 元起送
+					</div>
+				</div>
 			</div>
 		);
 	}

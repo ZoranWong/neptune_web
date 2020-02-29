@@ -9,10 +9,11 @@ import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
 import ReviewGoods from "../Components/ReviewGoods";
-import {userOrder,batchCancel,batchConfirm, checkOrder} from "../../../api/order/orderManage";
+import {userOrder,batchCancel,checkOrders, checkOrder} from "../../../api/order/orderManage";
 import {consumer_order_values} from "../../../utils/consumer_order_fields";
 import {consumer_order_values_export} from "../../../utils/consumer_order_fields_export";
 import {getBeforeDate} from "../../../utils/dataStorage";
+import ChangeOrderStatus from "./Modal/ChangeOrderStatus";
 import Export from "../Components/Export";
 import Config from '../../../config/app'
 import _ from "lodash";
@@ -132,7 +133,8 @@ class Order extends React.Component{
 			conditions: {},
 			current: 1,
 			problemOrder: {},
-			isToday: false
+			isToday: false,
+			changeOrderStatusVisible: false
 		};
 	}
 	
@@ -422,7 +424,12 @@ class Order extends React.Component{
 							key: 'order_created_at',
 							operation: 'between',
 							value: [yesterday, today]
-						}
+						},
+						{
+							key: 'order_state',
+							operation: '=',
+							value: 'WAIT_AGENT_VERIFY'
+						},
 					],
 					logic: 'and'
 				}
@@ -453,6 +460,24 @@ class Order extends React.Component{
 			logic_conditions: this.conditions()
 		});
 		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+	};
+	
+	// 核实订单
+	changeOrderStatus　= () => {
+		this.setState({changeOrderStatusVisible: true})
+	};
+	//提交
+	submitChangeOrderStatus　= (formatOrder) => {
+		console.log(formatOrder, '|||');
+		checkOrders({orders: formatOrder}).then(r=>{
+			message.success(r.data.message);
+			this.hideChangeOrderStatus();
+			this.refresh()
+		})
+	};
+	
+	hideChangeOrderStatus = () => {
+		this.setState({changeOrderStatusVisible: false})
 	};
 	
 	
@@ -508,10 +533,17 @@ class Order extends React.Component{
 			problemOrder: this.state.problemOrder
 		};
 		
+		const changeOrderStatus = {
+			visible: this.state.changeOrderStatusVisible,
+			onCancel: this.hideChangeOrderStatus,
+			onSubmit : this.submitChangeOrderStatus,
+		}
+		
 		return (
 			<div className="order">
 				<Export {...exportProps} />
 				<CheckOrder {...checkOrderProps} />
+				<ChangeOrderStatus {...changeOrderStatus} />
 				<AdvancedFilterComponent
 					visible={this.state.filterVisible}
 					onCancel={this.closeHigherFilter}
@@ -551,11 +583,15 @@ class Order extends React.Component{
 						<Button
 							size="small"
 							onClick={this.todayOrders}
-						>查看今日订单</Button>
+						>查看今日待收货订单</Button>
 						<Button
 							size="small"
 							onClick={this.exportTodayOrders}
-						>导出今日订单</Button>
+						>导出今日待收货订单</Button>
+						<Button
+							size="small"
+							onClick={this.changeOrderStatus}
+						>核实订单</Button>
 						{/*{*/}
 						{/*	window.hasPermission("order_management_platform_cancel") &&<Button*/}
 						{/*		size="small"*/}

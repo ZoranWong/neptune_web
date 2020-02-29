@@ -177,29 +177,29 @@ class NewCouponShop extends Component {
 		let put_conditions = {};
 		switch (userType) {
 			case 'ALL':
-				put_conditions.strategy = 'SHOP_PUT_IN_ALL_SHOP_SET';
+				put_conditions.strategy = 'COUPON_PUT_IN_ALL_SHOP_SET';
 				break;
 			case 'PARTIAL_AVAILABLE_ID':
-				put_conditions.strategy = 'SHOP_PUT_IN_SHOP_SET';
+				put_conditions.strategy = 'COUPON_PUT_IN_SHOP_SET';
 				put_conditions['value'] = this.ableUser.current.state.selectedItems;
 				break;
 			case 'PARTIAL_FORBIDDEN':
-				put_conditions.strategy = 'SHOP_PUT_NOT_IN_SHOP_SET';
+				put_conditions.strategy = 'COUPON_PUT_NOT_IN_SHOP_SET';
 				put_conditions['value'] = this.disableUser.current.state.selectedItems;
 				break;
 			case 'PARTIAL_AVAILABLE_GROUP':
-				put_conditions.strategy = 'SHOP_PUT_IN_SHOP_GROUP_SET';
+				put_conditions.strategy = 'COUPON_PUT_IN_SHOP_CHANNEL_SET';
 				put_conditions['value'] = this.ableUserGroup.current.state.selectedItems;
 				break;
 			case 'PARTIAL_FORBIDDEN_GROUP':
-				put_conditions.strategy = 'SHOP_PUT_IN_SHOP_CHANNEL_SET';
+				put_conditions.strategy = 'COUPON_PUT_IN_SHOP_GROUP_SET';
 				put_conditions['value'] = this.ableChannel.current.state.selectedItems;
 				break;
 			default:
 				break;
 		}
 		if(values.release_mode !== 'INTEGRAL_EXCHANGE'){
-			if(put_conditions.strategy !== 'SHOP_PUT_IN_ALL_SHOP_SET'){
+			if(put_conditions.strategy !== 'COUPON_PUT_IN_ALL_SHOP_SET'){
 				if(!put_conditions['value'] || !put_conditions['value'].length){
 					message.error('请选择商户或商户组');
 					return;

@@ -250,7 +250,7 @@ export  function getPreMonth() {
 }
 
 // 处理日期数据
-function timeFormer(first) {
+export function timeFormer(first) {
     let year,month,day ;
     first.setDate(first.getDate());
     year = first.getFullYear();

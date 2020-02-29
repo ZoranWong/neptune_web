@@ -78,15 +78,15 @@ class CouponDetails extends Component {
 						<span className='limit'>{data['remark']}</span>
 					</li>
 					{
-						data['use_conditions'].length && 	<li>
-							<span className="left">适用商品:</span>
-							<span className='limit'>{data['condition_strategy_desc'][data['use_conditions'][0]['strategy']]}</span>
+						data['applicable_desc'].length && 	<li>
+							<span className="left">适用范围:</span>
+							<span className='limit'>{data['applicable_desc'][0]['value_display']}</span>
 						</li>
 					}
 					{
-						data['put_conditions'].length && <li>
+						data['deliverable_desc'].length && <li>
 							<span className="left">发放范围:</span>
-							<span className='limit'>{data['condition_strategy_desc'][data['put_conditions'][0]['strategy']]}</span>
+							<span className='limit'>{data['deliverable_desc'][0]['value_display']}</span>
 						</li>
 					}
 					
