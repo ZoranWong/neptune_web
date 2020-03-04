@@ -7,12 +7,13 @@ class Nav extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			userPermission:[{slug:'nav-setting'}]
+			userPermission:[]
 		}
 	}
 	
 	componentWillMount() {
 		if(getUserInfo()){
+			console.log(JSON.parse(getUserInfo()), '...........');
 			this.setState({userPermission:JSON.parse(getUserInfo())})
 		}
 	}
@@ -54,7 +55,7 @@ class Nav extends React.Component{
 				text:'活动',
 				path:'/activities',
 				exact:false,
-				name:"nav-marketing"
+				name:"nav_activity"
 			},
 			{
 				text:'商品',

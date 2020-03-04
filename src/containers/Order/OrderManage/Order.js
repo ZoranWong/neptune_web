@@ -9,7 +9,7 @@ import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
 import ReviewGoods from "../Components/ReviewGoods";
-import {userOrder,batchCancel,checkOrders, checkOrder} from "../../../api/order/orderManage";
+import {userOrder, batchCancel, checkOrders, checkOrder, checkManyOrder} from "../../../api/order/orderManage";
 import {consumer_order_values} from "../../../utils/consumer_order_fields";
 import {consumer_order_values_export} from "../../../utils/consumer_order_fields_export";
 import {getBeforeDate} from "../../../utils/dataStorage";
@@ -249,6 +249,19 @@ class Order extends React.Component{
 	
 	// 切换tab
 	onChangeTab = item =>{
+		console.log(item, '........');
+		if (item.key === 'WAIT_CUSTOMER_VERIFY_HOME') {
+			this.setState({api:userOrder,activeTab: item.key,paginationParams:{...this.state.paginationParams,searchJson:searchJson({delivery_type: 'HOME_DELIVERY',state_constant: 'WAIT_CUSTOMER_VERIFY'})}},()=>{
+				this.child.current.pagination(1);
+			});
+			return
+		}
+		if (item.key === 'WAIT_CUSTOMER_VERIFY') {
+			this.setState({api:userOrder,activeTab: item.key,paginationParams:{...this.state.paginationParams,searchJson:searchJson({delivery_type: 'SELF_PICK',state_constant: 'WAIT_CUSTOMER_VERIFY'})}},()=>{
+				this.child.current.pagination(1);
+			});
+			return
+		}
 		this.setState({activeTab:item.key});
 		this.refresh(item.key)
 	};
@@ -480,6 +493,51 @@ class Order extends React.Component{
 		this.setState({changeOrderStatusVisible: false})
 	};
 	
+	// 批量核销订单
+	checkManyOrders = () => {
+		let self = this;
+		let checkedAry = this.state.checkedAry;
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			maskClosable:true,
+			content: (
+				<div className="U_confirm">
+					确定批量核销该订单么？
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				checkManyOrder({order_ids: checkedAry}).then(r=>{
+					message.success(`批量核销订单成功！`);
+					self.setState({api:userOrder,activeTab: 'WAIT_CUSTOMER_VERIFY',paginationParams:{...self.state.paginationParams,searchJson:searchJson({delivery_type: 'SELF_PICK',state_constant: 'WAIT_CUSTOMER_VERIFY'})}},()=>{
+						self.child.current.pagination(1);
+					});
+				});
+				
+			},
+			onCancel() {
+			},
+		});
+	};
+	
 	
 	render(){
 		
@@ -495,7 +553,7 @@ class Order extends React.Component{
 		const tabs = [
 			{name:'全部',key:'ALL'},
 			// {name:'待确认',key:'WAIT_PLATFORM_VERIFY'},
-			{name:'待收货',key:'WAIT_AGENT_VERIFY'},
+			{name:'待收货(自提点自提)',key:'WAIT_AGENT_VERIFY'},
 			{name:'待自提',key:'WAIT_CUSTOMER_VERIFY'},
 			{name:'已完成',key:'COMPLETED'},
 			{name:'已退款',key:'REFUNDED'},
@@ -504,6 +562,7 @@ class Order extends React.Component{
 			{name:'订单异常',key:'EXCEPTION'},
 			{name:'申请售后',key:'AFTER_SALE'},
 			{name:'拒绝退款',key:'REFUSE_REFUND'},
+			// {name:'待收货(配送单)',key:'WAIT_CUSTOMER_VERIFY_HOME'},
 		];
 		const strategy = [
 			{key: 'USER_ORDER_CUSTOMIZE', value: '自定义显示项',},
@@ -592,6 +651,11 @@ class Order extends React.Component{
 							size="small"
 							onClick={this.changeOrderStatus}
 						>核实订单</Button>
+						<Button
+							size="small"
+							onClick={this.checkManyOrders}
+							disabled={!this.state.checkedAry.length || this.state.activeTab !== 'WAIT_CUSTOMER_VERIFY' }
+						>批量核销订单</Button>
 						{/*{*/}
 						{/*	window.hasPermission("order_management_platform_cancel") &&<Button*/}
 						{/*		size="small"*/}
@@ -640,7 +704,7 @@ class Order extends React.Component{
 				<div className="chart u_chart">
 					<Table
 						rowSelection={rowSelection}
-						columns={this.state.activeTab === 'WAIT_CUSTOMER_VERIFY' ? this.state.sColumns : this.state.columns}
+						columns={this.state.activeTab === 'WAIT_CUSTOMER_VERIFY' || this.state.activeTab === 'WAIT_CUSTOMER_VERIFY_HOME'  ? this.state.sColumns : this.state.columns}
 						rowKey={record => record.id}
 						pagination={false}
 						rowClassName={(record, index) => {

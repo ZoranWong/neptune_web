@@ -94,7 +94,22 @@ export const consumer_order_values_export = [
 				label:'订单类型',
 				value:'order_type',
 				type:'consumerOrder'
-			}
+			},
+			{
+				label:'自提店铺编号',
+				value:'shop_code',
+				type:'equalCompare'
+			},
+			{
+				label:'上线店铺',
+				value:'superior_shop_name',
+				type:'equalCompare'
+			},
+			{
+				label:'上线店铺编号',
+				value:'superior_shop_code',
+				type:'equalCompare'
+			},
 		]
 	},
 ];

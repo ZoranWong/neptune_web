@@ -15,7 +15,7 @@ import Export from "../Components/Export";
 import Config from '../../../config/app'
 import _ from "lodash";
 import {timeFormer} from '../../../utils/dataStorage'
-
+import SelectPosition from "./Modal/SelectPosition";
 class SummaryOrders extends React.Component{
 	constructor(props){
 		
@@ -47,7 +47,8 @@ class SummaryOrders extends React.Component{
 			current: 1,
 			todayOrders: [],
 			loadingOne: false,
-			loadingTwo: false
+			loadingTwo: false,
+			positionVisible: false
 		};
 		this.refundColumns = [
 			{
@@ -112,9 +113,6 @@ class SummaryOrders extends React.Component{
 		}
 		document.addEventListener('click', this.closeCustom);
 	}
-	
-	
-	
 	
 	refresh = (status='BACKEND_ALL')=>{
 		this.setState({
@@ -248,7 +246,6 @@ class SummaryOrders extends React.Component{
 		this.refresh(item.key)
 	};
 	
-	
 	// 导出
 	showExport = (conditions) =>{
 		this.setState({conditions, exportVisible: true}, ()=>{
@@ -281,7 +278,6 @@ class SummaryOrders extends React.Component{
 		});
 		this.props.history.push({pathname:"/printSummaryOrders", state: {orders, title: '消费者汇总单'}})
 	};
-	
 	
 	// 打印某一店铺订单
 	printShopOrder = () => {
@@ -325,8 +321,6 @@ class SummaryOrders extends React.Component{
 					loadingTwo: false
 				});
 				let todayOrders = this.state.todayOrders;
-				console.log(type, 'xxxxx');
-				console.log(todayOrders, '=====');
 				if (type === 'summary') {
 					let orders = [];
 					if (todayOrders.length) {
@@ -350,24 +344,38 @@ class SummaryOrders extends React.Component{
 	printAllSummaryOrders = async () => {
 		let now = new　Date();
 		this.setState({loadingOne: true});
+		// this.showPosition()
 		await this.getTodayOrder(1, timeFormer(now), 'order');
-		
 	};
 	
 	// 打印今日订单
 	printAllOrders = async () => {
 		let now = new Date();
+		// this.showPosition()
 		this.setState({loadingTwo: true});
 		await this.getTodayOrder(1, timeFormer(now),'summary');
 	};
 	
-	// 打印今日订单
+	// 选择地点
+	showPosition = () => {
+		this.setState({positionVisible: true})
+	};
+	hidePosition = () => {
+		this.setState({positionVisible: false})
+	};
+	submitPosition = (position) => {
+		console.log(position, '==================================>');
+	};
 	
 	render(){
 		
 		const rowSelection = {
 			onChange: (selectedRowKeys, selectedRows) => {
-				this.setState({checkedAry:selectedRowKeys})
+				let ary = [];
+				_.map(selectedRows, row=>{
+					ary.push(row.id)
+				});
+				this.setState({checkedAry:ary})
 			}
 		};
 		const tabs = [
@@ -376,7 +384,6 @@ class SummaryOrders extends React.Component{
 			{name:'正常完成收货',key:'BACKEND_SUCCESS_COMPLETED'},
 			{name:'异常完成收货',key:'BACKEND_UNQUALIFIED_COMPLETED'}
 		];
-		
 		const strategy = [
 			{key: 'SHOP_SELF_PICK_SUMMARY', value: '自提汇总单',},
 			{key: 'SHOP_SELF_PICK_SUMMARY_2', value: '自提汇总单婉秋定制版',}
@@ -389,10 +396,15 @@ class SummaryOrders extends React.Component{
 			values: refund_order_values,
 			conditions: this.state.conditions
 		};
+		const positionProps = {
+			visible : this.state.positionVisible,
+			onCancel: this.hidePosition,
+			submit: this.submitPosition
+		};
 		return (
 			<div className="refund">
 				<Export {...exportProps} />
-				
+				<SelectPosition {...positionProps} />
 				<AdvancedFilterComponent
 					visible={this.state.filterVisible}
 					onCancel={this.closeHigherFilter}
@@ -483,7 +495,9 @@ class SummaryOrders extends React.Component{
 					<Table
 						rowSelection={rowSelection}
 						columns={this.refundColumns}
-						rowKey={record => record.id}
+						rowKey={(record, index) => {
+							return index
+						}}
 						pagination={false}
 						rowClassName={(record, index) => {
 							let className = '';

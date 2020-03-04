@@ -15,7 +15,6 @@ let baseMenu = [
 		slug: 'menu_order_management'
 	},
 ];
-baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
 const Activities = ({ match }) => (
 	<div style={{ paddingBottom: '120px',width:'216px' }}>
 		<Menu

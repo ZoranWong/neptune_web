@@ -25,6 +25,11 @@ export function setUserInfo(user){
     return user;
 }
 
+export function removeUserInfo(){
+    Storage.remove(Config.storageUserKey);
+}
+
+
 
 /**
  *

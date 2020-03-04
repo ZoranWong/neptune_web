@@ -448,13 +448,11 @@ class ActivityRefund extends React.Component{
 							text='请输入姓名或手机号'
 						/>
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
-						{
-							window.hasPermission("order_management_printing") && <Button
-								size="small"
-								onClick={this.print}
-								disabled={!this.state.checkedAry.length}
-							>打印订单</Button>
-						}
+						<Button
+							size="small"
+							onClick={this.print}
+							disabled={!this.state.checkedAry.length}
+						>打印订单</Button>
 					</div>
 				</div>
 				

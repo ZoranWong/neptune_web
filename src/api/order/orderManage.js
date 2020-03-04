@@ -101,3 +101,13 @@ export function checkOrders(params) {
 		data: params
 	})
 }
+
+
+// 批量核销订单
+export function checkManyOrder(params) {
+	return request({
+		url: '/api/backend/orders/to_complete',
+		method: 'post',
+		data: params
+	})
+}

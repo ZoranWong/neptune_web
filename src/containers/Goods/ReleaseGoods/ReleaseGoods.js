@@ -153,8 +153,7 @@ class ReleaseGoods extends React.Component{
 					values.spec = specs;
 					values.entities = tableData;
 					values.detail = this.editor.current?this.editor.current.state.outputHTML:values.detail;
-					
-					
+					values.sort = Math.round(values.sort);
 					api(values,this.props.location.state&&this.props.location.state.id).then(r=>{
 						message.success(text);
 						window.setTimeout(()=>{
@@ -165,6 +164,7 @@ class ReleaseGoods extends React.Component{
 				} else {
 					values.open_specification = 0;
 					values['market_price']  = values['market_price'] ? values['market_price'] : 0;
+					values.sort = Math.round(values.sort);
 					values.detail = this.editor.current?this.editor.current.state.outputHTML:values.detail;
 					api(values,this.props.location.state&&this.props.location.state.id).then(r=>{
 						message.success(text);
@@ -265,6 +265,13 @@ class ReleaseGoods extends React.Component{
 											initialValue:'',
 											rules: [{ required: false}],
 										})(<Input/>)}
+									</Form.Item>
+									<Form.Item label="商品排序：" >
+										{getFieldDecorator('sort', {
+											initialValue:0,
+											rules: [{ required: true, message: '请输入商品排序' }],
+										})(<Input type='number'
+										/>)}
 									</Form.Item>
 									<Form.Item label="分享描述：" >
 										{getFieldDecorator('share_desc', {

@@ -24,10 +24,11 @@ class PickUpDetails extends Component {
 	}
 	
 	pagination = (page,id) =>{
+		console.log(page, '....');
 		let params = {};
 		params.limit = 10;
 		params.page = page;
-		receiveCoupons({params},id).then(r=>{
+		receiveCoupons(params,id).then(r=>{
 			this.setState({data:r.data,total:r.meta.pagination.total});
 		})
 	};

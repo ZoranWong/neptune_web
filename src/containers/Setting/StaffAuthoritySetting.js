@@ -79,6 +79,7 @@ class StaffAuthoritySetting  extends React.Component{
 	checkedKeys = (permissions) =>{
 		if(!permissions||!permissions.length) return 
 		let ary = [];
+		
 		for(let i = 0;i < permissions.length;i++){
 			// if(permissions[i].selected == true){
 			// 	ary.push(permissions[i].id+'')
@@ -88,8 +89,12 @@ class StaffAuthoritySetting  extends React.Component{
 					if(item.selected){
 						ary.push(item.id+'')
 					}
-				})
+				});
 				this.checkedKeys(permissions[i].child)
+			} else {
+				if(permissions[i].selected){
+					ary.push(permissions[i].id)
+				}
 			}
 			
 		}
@@ -109,6 +114,7 @@ class StaffAuthoritySetting  extends React.Component{
 	makeTree = (list) =>{
 		if(!list||!list.length) return;
 		return list.map(item=>{
+			
 			if(item.child&&item.child.length){
 				return (
 					<TreeNode

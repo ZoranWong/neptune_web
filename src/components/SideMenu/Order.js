@@ -36,7 +36,7 @@ let baseMenu = [
 		path:'/order/summaryOrders',
 		icon:'icon-box-fill',
 		text:'消费者汇总单',
-		slug: 'menu_order_agent'
+		slug: "menu_order_user_summary"
 	},
 ];
 baseMenu = baseMenu.filter(item=> hasPermission(item.slug));

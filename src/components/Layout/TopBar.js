@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../style/topBar.sass'
 import {Icon,message} from "antd";
-import {removeToken} from "../../utils/dataStorage";
+import {removeToken,removeUserInfo} from "../../utils/dataStorage";
 import {logout} from "../../api/auth";
 import {withRouter} from 'react-router-dom'
 class TopBar extends React.Component{
@@ -12,6 +12,7 @@ class TopBar extends React.Component{
 		logout({}).then(r=>{
 			message.success('退出登录成功');
 			removeToken();
+			removeUserInfo()
 			setTimeout(() =>{ this.props.history.replace("/")},1000);
 		}).catch(_=>{})
 	};

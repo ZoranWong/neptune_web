@@ -366,20 +366,16 @@ class OrderManage extends React.Component{
 							text='请输入姓名或手机号'
 						/>
 						<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
-						{
-							window.hasPermission("order_management_bind_template") && <Button
-								size="small"
-								type='primary'
-								onClick={this.setMessage}
-							>设置默认模板消息</Button>
-						}
-						{
-							window.hasPermission("order_management_printing") && <Button
-								size="small"
-								onClick={this.print}
-								disabled={!this.state.checkedAry.length}
-							>打印订单</Button>
-						}
+						<Button
+							size="small"
+							type='primary'
+							onClick={this.setMessage}
+						>设置默认模板消息</Button>
+						<Button
+							size="small"
+							onClick={this.print}
+							disabled={!this.state.checkedAry.length}
+						>打印订单</Button>
 						<Button
 							size="small"
 							type="default"
