@@ -274,7 +274,7 @@ class OrderManage extends React.Component{
 		
 		let style = {
 			'position': 'absolute',
-			'right': '280px',
+			'right': '0px',
 			'zIndex': '999'
 		};
 		
@@ -356,7 +356,7 @@ class OrderManage extends React.Component{
 					text={'商品'}
 				/>
 		
-				<Button size='small' style={style} onClick={this.backAct}>返回活动管理</Button>
+				
 			
 				<div className="s_body">
 					
@@ -390,8 +390,10 @@ class OrderManage extends React.Component{
 							disabled={!this.state.checkedAry.length}
 							onClick={this.exportNew}
 						>导出新格式</Button>
-					
+						
+						
 					</div>
+					<Button size='small' style={style} onClick={this.backAct}>返回活动管理</Button>
 				</div>
 				
 				<div className="tabs">
