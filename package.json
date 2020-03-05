@@ -40,7 +40,8 @@
         "reqwest": "^2.0.5",
         "sass": "^1.21.0",
         "webpack-hot-middleware": "^2.25.0",
-        "webpackbar": "^3.2.0"
+        "webpackbar": "^3.2.0",
+        "xlsx": "^0.15.5"
     },
     "scripts": {
         "start": "react-app-rewired start",
