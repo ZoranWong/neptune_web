@@ -10,11 +10,11 @@ import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
 import ReviewGoods from "../Components/ReviewGoods";
-import {summaryOrders} from "../../../api/order/orderManage";
+import {summaryOrders,userOrder} from "../../../api/order/orderManage";
 import Export from "../Components/Export";
 import Config from '../../../config/app'
 import _ from "lodash";
-import {timeFormer} from '../../../utils/dataStorage'
+import {timeFormer,getBeforeDate} from '../../../utils/dataStorage'
 import SelectPosition from "./Modal/SelectPosition";
 class SummaryOrders extends React.Component{
 	constructor(props){
@@ -48,7 +48,9 @@ class SummaryOrders extends React.Component{
 			todayOrders: [],
 			loadingOne: false,
 			loadingTwo: false,
-			positionVisible: false
+			positionVisible: false,
+			loadingThree: false,
+			deliveryHomeOrders: []
 		};
 		this.refundColumns = [
 			{
@@ -337,7 +339,6 @@ class SummaryOrders extends React.Component{
 				}
 			}
 		})
-		
 	};
 	
 	// 打印今日汇总单
@@ -365,6 +366,58 @@ class SummaryOrders extends React.Component{
 	};
 	submitPosition = (position) => {
 		console.log(position, '==================================>');
+	};
+	
+	getConditions = () => {
+		let time = [`${getBeforeDate(-1)} 21:00`, `${getBeforeDate(0)} 21:00`];
+		let conditions = {
+			logic_conditions: {
+				conditions: [
+					{
+						conditions: [
+							{
+								key: 'order_delivery_type',
+								operation: '=',
+								value: 'HOME_DELIVERY'
+							},
+							{
+								key: 'order_state',
+								operation: '=',
+								value: 'WAIT_CUSTOMER_VERIFY'
+							},
+							{
+								key: 'order_created_at',
+								operation: 'between',
+								value: time
+							}
+						],
+						logic: 'and'
+					}
+				],
+				logic: 'and'
+			}
+		}
+		return conditions
+	};
+	
+	// 打印今日配送单
+	printDeliveryOrders = async (event,page) => {
+		event.persist();
+		this.setState({loadingThree: true});
+		let res = await userOrder({page: page, limit: 10, searchJson: searchJson(this.getConditions())});
+		console.log(res);
+		let list = res.data;
+		let meta = res.meta;
+		this.setState({deliveryHomeOrders: this.state.deliveryHomeOrders.concat(list)}, ()=>{
+			if (meta['pagination']['current_page'] < meta['pagination']['total_pages']) {
+				this.printDeliveryOrders(event, meta['pagination']['current_page'] + 1)
+			} else {
+				this.setState({
+					loadingThree: false
+				});
+				this.props.history.push({pathname:"/printSheet", state: {orders: this.state.deliveryHomeOrders, title: 'delivery'}})
+			}
+		})
 	};
 	
 	render(){
@@ -462,6 +515,13 @@ class SummaryOrders extends React.Component{
 								onClick={this.printAllOrders}
 								loading={this.state.loadingTwo}
 							>打印今日订单</Button>
+						}
+						{
+							window.hasPermission("order_management_printing") && <Button
+								size="small"
+								onClick={(e)=>this.printDeliveryOrders(e)}
+								loading={this.state.loadingThree}
+							>打印今日配送单</Button>
 						}
 					</div>
 					

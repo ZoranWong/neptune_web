@@ -229,7 +229,7 @@ export function getBeforeDate(n){//n为你要传入的参数，当前为0，前�
     let s = year + '-' + ( month < 10 ? ( '0' + month ) : month ) + '-' + ( day < 10 ? ( '0' + day ) : day);
     return s
 }
-function getNowDate(){//n为你要传入的参数，当前为0，前一天为-1，后一天为1
+export function getNowDate(){//n为你要传入的参数，当前为0，前一天为-1，后一天为1
     let date = new Date() ;
     let year,month,day ;
     date.setDate(date.getDate());

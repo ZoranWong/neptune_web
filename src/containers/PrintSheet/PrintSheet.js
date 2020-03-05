@@ -174,27 +174,6 @@ class PrintSheet extends Component {
 				dataIndex: 'name',
 				align: 'center'
 			},
-			// {
-			// 	title: '规格',
-			// 	dataIndex: 'spec_value',
-			// 	align: 'center',
-			// 	render: (text, record, index) => {
-			// 		if (record.name === '合计') {
-			// 			return '--';
-			// 		} else {
-			// 			let desc = '';
-			// 			if (text) {
-			// 				for (let k in text) {
-			// 					desc = `${k}: ${text[k]}`
-			// 				}
-			// 			} else {
-			// 				desc= '无'
-			// 			}
-			//
-			// 			return desc ;  //++index相当于index+1
-			// 		}
-			// 	}
-			// },
 			{
 				title: '规格(单位)',
 				dataIndex: 'unit',
@@ -249,15 +228,23 @@ class PrintSheet extends Component {
 						return <div className='printSheet' key={order.id}>
 							{/*<h3>{this.props.title}</h3>*/}
 							{
+								this.props.title === 'delivery' ? <h4 className="shopInfo" >收货人：{
+									order['shipping_info'] && order['shipping_info']['consignee_name']
+								}</h4> : ''
+							}
+							{
 								order['shop_name'] ? <h4 className="shopInfo" >{order['shop_name']}({order['shop_code']})</h4> : ''
 							}
 							<h4>
 								用户：{order['user_nickname'] || order['name']}&nbsp;&nbsp;&nbsp;&nbsp;
-								<span>
+								{
+									this.props.title === 'delivery' ? '' :<span>
 									收货人：{
 										order['shipping_info'] && order['shipping_info']['consignee_name']
 									}
 								</span>
+								}
+								
 							</h4>
 							
 							<h4>订单号：{order['trade_no'].slice(14,24)}</h4>

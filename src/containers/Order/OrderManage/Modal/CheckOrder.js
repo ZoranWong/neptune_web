@@ -57,7 +57,6 @@ class CheckOrder extends Component {
 	
 	render() {
 		let {order} = this.state;
-		console.log(order);
 		
 		const columns = [
 			{

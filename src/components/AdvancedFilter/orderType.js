@@ -20,3 +20,8 @@ export const merchantOrder = [
 	{name:'处理中',key:'GOODS_UNQUALIFIED_WAIT_VERIFY'},
 	{name:'已退款',key:'GOODS_UNQUALIFIED_REFUNDED'}
 ];
+
+export const deliveryType = [
+	{name:'同城配送',key:'HOME_DELIVERY'},
+	{name:'预定自提',key:'SELF_PICK'},
+]

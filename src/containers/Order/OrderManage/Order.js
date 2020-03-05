@@ -60,7 +60,7 @@ class Order extends React.Component{
 			},
 			{
 				title: '订单状态',
-				dataIndex:'state_desc'
+				dataIndex:'state_desc',
 			}
 		];
 		
@@ -103,7 +103,14 @@ class Order extends React.Component{
 			},
 			{
 				title: '订单状态',
-				dataIndex:'state_desc'
+				dataIndex:'state_desc',
+				render: (text,record) => {
+					if (!record['shop_name'] && record['state'] === 'WAIT_CUSTOMER_VERIFY') {
+						return '待收货'
+					} else {
+						return text
+					}
+				}
 			},
 			{
 				title: '操作',
@@ -497,6 +504,7 @@ class Order extends React.Component{
 	checkManyOrders = () => {
 		let self = this;
 		let checkedAry = this.state.checkedAry;
+		let tab = this.state.activeTab;
 		let confirmModal = Modal.confirm({
 			title: (
 				<div className= 'u_confirm_header'>
@@ -527,7 +535,7 @@ class Order extends React.Component{
 			onOk() {
 				checkManyOrder({order_ids: checkedAry}).then(r=>{
 					message.success(`批量核销订单成功！`);
-					self.setState({api:userOrder,activeTab: 'WAIT_CUSTOMER_VERIFY',paginationParams:{...self.state.paginationParams,searchJson:searchJson({delivery_type: 'SELF_PICK',state_constant: 'WAIT_CUSTOMER_VERIFY'})}},()=>{
+					self.setState({api:userOrder,activeTab: tab,paginationParams:{...self.state.paginationParams,searchJson:searchJson({delivery_type: 'SELF_PICK',state_constant: 'WAIT_CUSTOMER_VERIFY'})}},()=>{
 						self.child.current.pagination(1);
 					});
 				});
@@ -562,7 +570,7 @@ class Order extends React.Component{
 			{name:'订单异常',key:'EXCEPTION'},
 			{name:'申请售后',key:'AFTER_SALE'},
 			{name:'拒绝退款',key:'REFUSE_REFUND'},
-			// {name:'待收货(配送单)',key:'WAIT_CUSTOMER_VERIFY_HOME'},
+			{name:'待收货(配送单)',key:'WAIT_CUSTOMER_VERIFY_HOME'},
 		];
 		const strategy = [
 			{key: 'USER_ORDER_CUSTOMIZE', value: '自定义显示项',},
@@ -654,7 +662,7 @@ class Order extends React.Component{
 						<Button
 							size="small"
 							onClick={this.checkManyOrders}
-							disabled={!this.state.checkedAry.length || this.state.activeTab !== 'WAIT_CUSTOMER_VERIFY' }
+							disabled={!this.state.checkedAry.length || (this.state.activeTab !== 'WAIT_CUSTOMER_VERIFY' && this.state.activeTab !== 'WAIT_CUSTOMER_VERIFY_HOME') }
 						>批量核销订单</Button>
 						{/*{*/}
 						{/*	window.hasPermission("order_management_platform_cancel") &&<Button*/}

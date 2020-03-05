@@ -71,6 +71,11 @@ export const consumer_order_values = [
 				type:'consumerOrder'
 			},
 			{
+				label:'配送类型',
+				value:'delivery_type',
+				type:'deliveryType'
+			},
+			{
 				label:'下单时间',
 				value:'created_at',
 				type:'timeCompare'
@@ -181,6 +186,13 @@ export const operation = {
 			label:'不等于以下任意',
 			value:'not in',
 			type:'consumerOrder'
+		},
+	],
+	'deliveryType': [
+		{
+			label:'等于',
+			value:'=',
+			type:'deliveryTypeEqual'
 		},
 	],
 	'merchantOrder': [

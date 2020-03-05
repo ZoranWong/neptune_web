@@ -4,7 +4,7 @@ import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
 import {regions} from "../../api/common";
 import './index.sass'
-import {consumerOrder, merchantOrder, refundOrder} from "./orderType";
+import {consumerOrder, merchantOrder, refundOrder,deliveryType} from "./orderType";
 import {SonClassification} from "../../api/goods/classification";
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -183,6 +183,25 @@ export default class AdvancedFilterValues extends React.Component{
 					}
 				>
 					{consumerOrder.map(item => (
+						<Select.Option key={item.key} label={item.name} value={item.key}>
+							{item.name}
+						</Select.Option>
+					))}
+				</Select>;
+				break;
+			case 'deliveryTypeEqual':
+				return <Select
+					defaultActiveFirstOption={false}
+					value={selectedItems}
+					className='selectedBox'
+					onChange={this.handleChange}
+					optionLabelProp="label"
+					optionFilterProp="children"
+					filterOption={(input, option) =>
+						option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+					}
+				>
+					{deliveryType.map(item => (
 						<Select.Option key={item.key} label={item.name} value={item.key}>
 							{item.name}
 						</Select.Option>
