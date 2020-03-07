@@ -91,12 +91,16 @@ class CustomOrdersPrint extends Component {
 						});
 						const wholeRow = {
 							unit: '实付',
-							price: totalPrice.toFixed(2), //应当取从后台返回数据，此处为演示，所以自定义了默认值
+							quantity: totalQuantity,
+							price: '', //应当取从后台返回数据，此处为演示，所以自定义了默认值
 							total: wholePrice.toFixed(2),
 						};
 						order.products = [...order.products, wholeRow];
 						return <div className='printSheet' key={Math.random()}>
 							<h4 className="shopInfo" >小区：{order['village']}</h4>
+							<h4>自提人姓名：{order['nameBig']}</h4>
+							<h4>自提人手机号码：{order['mobile']}</h4>
+							<h4>小区地址：{order['address']}</h4>
 							<h4>
 								用户昵称：{order['nickname']}&nbsp;&nbsp;&nbsp;&nbsp;
 								<span>
