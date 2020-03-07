@@ -208,7 +208,7 @@ class Consumer extends Component {
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value})}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	
@@ -224,7 +224,7 @@ class Consumer extends Component {
 			api:coupons(),
 			paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,obj_type:'USER'})}
 			},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	

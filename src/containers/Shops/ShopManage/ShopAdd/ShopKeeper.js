@@ -169,11 +169,13 @@ class ShopKeeper extends React.Component{
 		if(this.props.recordId){
 			editShop(data,this.props.recordId).then(r=>{
 				message.success('编辑店铺成功');
-				this.handleCancel()
+				this.props.refresh();
+				this.handleCancel();
 			}).catch(_=>{})
 		} else {
 			shopKeeper(data).then(r=>{
 				message.success('新增店铺成功');
+				this.props.refresh();
 				this.handleCancel()
 			})
 		}

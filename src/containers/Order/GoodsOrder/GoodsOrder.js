@@ -127,7 +127,7 @@ class GoodsOrder extends React.Component{
 				})
 			}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
 	
@@ -141,7 +141,7 @@ class GoodsOrder extends React.Component{
 					state_constant:this.state.activeTab
 				})}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	
@@ -154,7 +154,7 @@ class GoodsOrder extends React.Component{
 	};
 	onSubmit = (data) =>{
 		this.setState({api:shopOrder,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	
@@ -228,7 +228,7 @@ class GoodsOrder extends React.Component{
 			columns:ary,
 			paginationParams:{...this.state.paginationParams, only:  e.join(',')}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
 	

@@ -22,7 +22,7 @@ class LogisticsRoutes extends Component {
 	
 	
 	refresh = ()=>{
-		this.child.current.pagination(1)
+		this.child.current.pagination(this.child.current.state.current)
 	};
 	
 	addNew = () =>{

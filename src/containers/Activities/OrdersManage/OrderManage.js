@@ -75,7 +75,7 @@ class OrderManage extends React.Component{
 					state_constant: this.state.activeTab
 				})}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	//高级筛选
@@ -87,7 +87,7 @@ class OrderManage extends React.Component{
 	};
 	onSubmit = (data) =>{
 		this.setState({api:actOrders,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	

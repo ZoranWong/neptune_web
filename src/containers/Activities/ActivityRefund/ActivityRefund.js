@@ -123,7 +123,7 @@ class ActivityRefund extends React.Component{
 				searchJson:searchJson({refund_state:status})
 			}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
 	
@@ -147,7 +147,7 @@ class ActivityRefund extends React.Component{
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value,status:true})}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	
@@ -160,7 +160,7 @@ class ActivityRefund extends React.Component{
 	};
 	onSubmit = (data) =>{
 		this.setState({api:actRefundOrders,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	
@@ -235,7 +235,7 @@ class ActivityRefund extends React.Component{
 			columns:ary,
 			paginationParams:{...this.state.paginationParams, only:  e.join(',')}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
 	

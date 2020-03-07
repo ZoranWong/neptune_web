@@ -22,6 +22,6 @@ export const merchantOrder = [
 ];
 
 export const deliveryType = [
-	{name:'同城配送',key:'HOME_DELIVERY'},
-	{name:'预定自提',key:'SELF_PICK'},
-]
+	{name:'配送到家',key:'HOME_DELIVERY'},
+	{name:'到店自提',key:'SELF_PICK'},
+];

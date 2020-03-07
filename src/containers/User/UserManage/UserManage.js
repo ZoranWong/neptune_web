@@ -97,7 +97,7 @@ class UserManage extends React.Component{
 				logic_conditions:[],
 				search:''
 			}},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
 	// 失败标签组人
@@ -105,7 +105,7 @@ class UserManage extends React.Component{
 		this.setState({tagVisible:false,paginationParams:{
 				searchJson:searchJson({user_ids:ids})
 			}},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
 
@@ -140,7 +140,7 @@ class UserManage extends React.Component{
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value})}
 			},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	//高级筛选
@@ -152,7 +152,7 @@ class UserManage extends React.Component{
 	};
 	onSubmit = (data) =>{
 		this.setState({api:users,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	//自定义显示项
@@ -188,7 +188,7 @@ class UserManage extends React.Component{
 			columns:ary,
 			paginationParams:{...this.state.paginationParams, only:  e.join(',')}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
 	

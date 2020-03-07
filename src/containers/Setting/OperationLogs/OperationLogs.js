@@ -45,7 +45,7 @@ class OperationLogs extends Component {
 			paginationParams:{...this.state.paginationParams,
 				searchJson: searchJson(obj)}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	

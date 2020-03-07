@@ -141,7 +141,7 @@ class ShopManage extends React.Component{
 			},
 			checkedAry: []
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
 	
@@ -188,7 +188,7 @@ class ShopManage extends React.Component{
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value})}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	//高级筛选
@@ -200,7 +200,7 @@ class ShopManage extends React.Component{
 	};
 	onSubmit = (data) =>{
 		this.setState({api:shops,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	
@@ -332,7 +332,7 @@ class ShopManage extends React.Component{
 			columns:ary,
 			paginationParams:{...this.state.paginationParams, only:  e.join(',')}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
 	
@@ -443,6 +443,7 @@ class ShopManage extends React.Component{
 					onShow={this.showShopKeeper}
 					recordId={this.state.recordId}
 					channelDesc={this.state.channel_desc}
+					refresh={this.refresh}
 				/>
 				
 				

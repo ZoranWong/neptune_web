@@ -149,7 +149,7 @@ class Activities extends React.Component{
 				channel:this.channel
 			}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
 	
@@ -173,7 +173,7 @@ class Activities extends React.Component{
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value})}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	//高级筛选
@@ -185,7 +185,7 @@ class Activities extends React.Component{
 	};
 	onSubmit = (data) =>{
 		this.setState({api:channelsGoods,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	

@@ -112,7 +112,7 @@ class GoodsManage extends React.Component{
 				searchJson:searchJson({status:true})
 			}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
 	
@@ -141,7 +141,7 @@ class GoodsManage extends React.Component{
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value,status:true})}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	//高级筛选
@@ -153,7 +153,7 @@ class GoodsManage extends React.Component{
 	};
 	onSubmit = (data) =>{
 		this.setState({api:products,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 
@@ -191,7 +191,7 @@ class GoodsManage extends React.Component{
 		this.setState({columns:ary,
 			paginationParams:{...this.state.paginationParams, only:  e.join(',')}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
 	

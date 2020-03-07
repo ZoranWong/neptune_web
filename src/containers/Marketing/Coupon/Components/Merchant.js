@@ -160,7 +160,7 @@ class Merchant extends Component {
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value,status:true})}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	
@@ -173,7 +173,7 @@ class Merchant extends Component {
 	};
 	onSubmit = (data) =>{
 		this.setState({api:coupons,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	

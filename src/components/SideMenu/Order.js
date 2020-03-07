@@ -38,6 +38,12 @@ let baseMenu = [
 		text:'消费者汇总单',
 		slug: "menu_order_user_summary"
 	},
+	{
+		path:'/order/orderTransformer',
+		icon:'icon-box-fill',
+		text:'订单转换',
+		slug: "menu_order_management"
+	},
 ];
 baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
 const Order = ({ match }) => (

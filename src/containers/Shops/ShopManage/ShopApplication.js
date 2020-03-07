@@ -27,7 +27,7 @@ class ShopApplication extends React.Component{
 	
 	handleShow=()=>{
 		this.props.onShow();
-		this.child.current.pagination(1)
+		this.child.current.pagination(this.child.current.state.current)
 	};
 	
 	// 分页器改变时赋值

@@ -78,7 +78,7 @@ class BasicStatistics extends Component {
 			api:'这里需要填写新的api',
 			paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	

@@ -125,7 +125,7 @@ class SummaryOrders extends React.Component{
 				searchJson:searchJson({state_constant:status})
 			}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
 	
@@ -145,7 +145,7 @@ class SummaryOrders extends React.Component{
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value,status:true})}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	
@@ -158,7 +158,7 @@ class SummaryOrders extends React.Component{
 	};
 	onSubmit = (data) =>{
 		this.setState({api:summaryOrders,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	
@@ -232,7 +232,7 @@ class SummaryOrders extends React.Component{
 			columns:ary,
 			paginationParams:{...this.state.paginationParams, only:  e.join(',')}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
 	
@@ -334,7 +334,6 @@ class SummaryOrders extends React.Component{
 						this.props.history.push({pathname:"/printSheet", state: {orders: orders, title: ''}})
 					}
 				} else if (type === 'order') {
-					console.log(type, 'ooooooooooo', todayOrders);
 					this.props.history.push({pathname:"/printSummaryOrders", state: {orders: todayOrders, title: ''}})
 				}
 			}

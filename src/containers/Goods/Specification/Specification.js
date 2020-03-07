@@ -24,7 +24,7 @@ export default class Specification extends React.Component{
 	}
 	
 	refresh = () =>{
-		this.child.current.pagination(1)
+		this.child.current.pagination(this.child.current.state.current)
 	};
 	
 	paginationChange = (list) =>{

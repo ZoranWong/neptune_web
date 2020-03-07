@@ -23,6 +23,7 @@ import Refund from "../containers/Order/Refund/Refund";
 import OrderDetail from "../containers/Order/OrderDetail/OrderDetail";
 import SetUserMessage from "../containers/Order/SetUserMessage/SetUserMessage";
 import OrderSetting from "../containers/Order/OrderSetting/OrderSetting";
+import OrderTransformer from "../containers/Order/OrderTransformer/OrderTransformer";
 
 import ShopManage from "../containers/Shops/ShopManage/ShopManage";
 import LogisticsRoutes from '../containers/Shops/LogisticsRoutes/LogisticsRoutes';
@@ -89,6 +90,8 @@ import SummaryOrders from "../containers/Order/SummaryOrders/SummaryOrders";
 import PrintSheet from "../containers/PrintSheet/PrintSheet";
 import PrintSummaryOrders from "../containers/Order/SummaryOrders/printSummaryOrders/printSummaryOrders";
 import ActivityRefund from "../containers/Activities/ActivityRefund/ActivityRefund";
+import CustomOrdersPrint from "../containers/Order/OrderTransformer/CustomOrdersPrint/CustomOrdersPrint";
+import CustomSummaryPrint from "../containers/Order/OrderTransformer/CustomSummaryPrint/CustomSummaryPrint";
 
 /** 跳转到某个路由之前触发 用于验证页面权限**/
 function onEnter (Component, props) {
@@ -160,6 +163,7 @@ const Routes = () =>(
 		<Route exact={true} path="/order/setUserMessage" render={props => onEnter(SetUserMessage, props)} />
 		<Route exact={true} path="/order/setting" render={props => onEnter(OrderSetting, props)} />
 		<Route exact={true} path="/order/summaryOrders" render={props => onEnter(SummaryOrders, props)} />
+		<Route exact={true} path="/order/orderTransformer" render={props => onEnter(OrderTransformer, props)} />
 		
 		
 		{/*营销*/}
@@ -210,6 +214,8 @@ const Routes = () =>(
 		{/*打印订单*/}
 		<Route exact={true} path="/printSheet" render={props => onEnter(PrintSheet, props)} />
 		<Route exact={true} path="/printSummaryOrders" render={props => onEnter(PrintSummaryOrders, props)} />
+		<Route exact={true} path="/printCustomOrders" render={props => onEnter(CustomOrdersPrint, props)} />
+		<Route exact={true} path="/printCustomSummaryOrders" render={props => onEnter(CustomSummaryPrint, props)} />
 		
 	</Switch>
 );

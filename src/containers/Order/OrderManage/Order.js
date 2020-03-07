@@ -51,8 +51,8 @@ class Order extends React.Component{
 				dataIndex: 'user_nickname',
 			},
 			{
-				title: '订单类型',
-				dataIndex: 'order_type',
+				title: '配送类型',
+				dataIndex: 'delivery_type',
 			},
 			{
 				title: '下单时间',
@@ -61,7 +61,14 @@ class Order extends React.Component{
 			{
 				title: '订单状态',
 				dataIndex:'state_desc',
-			}
+				render: (text,record) => {
+					if (!record['shop_name'] && record['state'] === 'WAIT_CUSTOMER_VERIFY') {
+						return '待收货'
+					} else {
+						return text
+					}
+				}
+			},
 		];
 		
 		const sColumns = [
@@ -94,8 +101,8 @@ class Order extends React.Component{
 				dataIndex: 'user_nickname',
 			},
 			{
-				title: '订单类型',
-				dataIndex: 'order_type',
+				title: '配送类型',
+				dataIndex: 'delivery_type',
 			},
 			{
 				title: '下单时间',
@@ -117,7 +124,7 @@ class Order extends React.Component{
 				render: (text,record) =>(<span style={{color: '#4f9863', cursor: 'pointer'}} onClick={()=>this.checkOrder(record)}>手动核销</span>)
 			}
 		];
-		const defaultItem = ['user_nickname','trade_no', 'products', 'settlement_total_fee', 'order_type', 'created_at','state_desc'];
+		const defaultItem = ['user_nickname','trade_no', 'products', 'settlement_total_fee', 'delivery_type', 'created_at','state_desc'];
 		super(props);
 		this.child = React.createRef();
 		this.state = {
@@ -182,7 +189,7 @@ class Order extends React.Component{
 					state_constant: this.state.activeTab
 				})}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	//高级筛选
@@ -195,7 +202,7 @@ class Order extends React.Component{
 	onSubmit = (data) =>{
 		console.log(data, '|||||||||||||||||');
 		this.setState({api:userOrder,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	
@@ -245,7 +252,7 @@ class Order extends React.Component{
 			columns:ary,
 			paginationParams:{...this.state.paginationParams, only:  e.join(',')}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
 	
@@ -259,13 +266,13 @@ class Order extends React.Component{
 		console.log(item, '........');
 		if (item.key === 'WAIT_CUSTOMER_VERIFY_HOME') {
 			this.setState({api:userOrder,activeTab: item.key,paginationParams:{...this.state.paginationParams,searchJson:searchJson({delivery_type: 'HOME_DELIVERY',state_constant: 'WAIT_CUSTOMER_VERIFY'})}},()=>{
-				this.child.current.pagination(1);
+				this.child.current.pagination(this.child.current.state.current);
 			});
 			return
 		}
 		if (item.key === 'WAIT_CUSTOMER_VERIFY') {
 			this.setState({api:userOrder,activeTab: item.key,paginationParams:{...this.state.paginationParams,searchJson:searchJson({delivery_type: 'SELF_PICK',state_constant: 'WAIT_CUSTOMER_VERIFY'})}},()=>{
-				this.child.current.pagination(1);
+				this.child.current.pagination(this.child.current.state.current);
 			});
 			return
 		}
@@ -464,7 +471,7 @@ class Order extends React.Component{
 			api:userOrder,
 			paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions: this.conditions()})
 	}},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	
@@ -561,7 +568,7 @@ class Order extends React.Component{
 		const tabs = [
 			{name:'全部',key:'ALL'},
 			// {name:'待确认',key:'WAIT_PLATFORM_VERIFY'},
-			{name:'待收货(自提点自提)',key:'WAIT_AGENT_VERIFY'},
+			{name:'待收货(自提单)',key:'WAIT_AGENT_VERIFY'},
 			{name:'待自提',key:'WAIT_CUSTOMER_VERIFY'},
 			{name:'已完成',key:'COMPLETED'},
 			{name:'已退款',key:'REFUNDED'},

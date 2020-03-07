@@ -97,7 +97,7 @@ class FrozenShop extends React.Component{
 				search:''
 			}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
 	
@@ -166,7 +166,7 @@ class FrozenShop extends React.Component{
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value})}
 		},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	//高级筛选
@@ -178,7 +178,7 @@ class FrozenShop extends React.Component{
 	};
 	onSubmit = (data) =>{
 		this.setState({api:getFrozen,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
-			this.child.current.pagination(1)
+			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
 	
