@@ -92,6 +92,7 @@ import PrintSummaryOrders from "../containers/Order/SummaryOrders/printSummaryOr
 import ActivityRefund from "../containers/Activities/ActivityRefund/ActivityRefund";
 import CustomOrdersPrint from "../containers/Order/OrderTransformer/CustomOrdersPrint/CustomOrdersPrint";
 import CustomSummaryPrint from "../containers/Order/OrderTransformer/CustomSummaryPrint/CustomSummaryPrint";
+import HandleStatistics from "../containers/Distribution/DistributionStatistics/HandleStatistics/HandleStatistics";
 
 /** 跳转到某个路由之前触发 用于验证页面权限**/
 function onEnter (Component, props) {
@@ -204,7 +205,8 @@ const Routes = () =>(
 		
 		
 		{/*分销*/}
-		{/*<Route exact={true} path="/distribution" render={props => onEnter(DistributionStatistics, props)} />*/}
+		<Route exact={true} path="/distribution/distributionStatistics" render={props => onEnter(DistributionStatistics, props)} />
+		<Route exact={true} path="/distribution/distributionStatistics/handleStatistics" render={props => onEnter(HandleStatistics, props)} />
 		<Route exact={true} path="/distribution" render={props => onEnter(CashbackRecords, props)} />
 		<Route exact={true} path="/distribution/cashbackSetting" render={props => onEnter(CashbackSetting, props)} />
 	

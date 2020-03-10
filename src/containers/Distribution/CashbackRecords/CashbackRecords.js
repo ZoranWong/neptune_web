@@ -18,7 +18,7 @@ class CashbackRecords extends Component {
 							<PickupCashback />
 						</TabPane>
 						<TabPane tab="销售返现" key="SALE_CASHBACK">
-							<SaleCashback />
+							<SaleCashback {...this.props} />
 						</TabPane>
 					</Tabs>
 				</div>

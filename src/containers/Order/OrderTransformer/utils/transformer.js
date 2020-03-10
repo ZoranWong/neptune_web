@@ -49,6 +49,10 @@ export const transformer = [
 		cn: '房号',
 		en: 'homeAddress'
 	},
+	{
+		cn: '园区',
+		en: 'area'
+	},
 ];
 
 // 订单中英文转换

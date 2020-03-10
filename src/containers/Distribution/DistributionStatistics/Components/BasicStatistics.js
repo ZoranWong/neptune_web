@@ -1,50 +1,58 @@
 import React, {Component} from 'react';
-import SearchInput from "../../../../components/SearchInput/SearchInput";
-import {Button, LocaleProvider, DatePicker, Table} from "antd";
+import {Button, DatePicker, Table} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
+import locale from 'antd/es/date-picker/locale/zh_CN';
 import '../css/basicStatistics.sass'
 import CustomPagination from "../../../../components/Layout/Pagination";
 import {searchJson} from "../../../../utils/dataStorage";
-
-const {RangePicker} = DatePicker;
+const {MonthPicker} = DatePicker;
 class BasicStatistics extends Component {
 	constructor(props) {
 		super(props);
 		const columns = [
 			{
-				title: '店铺名称/店铺编号/店铺主姓名/手机号码',
-				dataIndex: 'name',
+				title: '汇总月份',
+				dataIndex: 'month',
 			},
 			{
-				title: '介绍人',
-				dataIndex: 'release_mode',
+				title: '总销售额',
+				dataIndex: 'total_sales',
 			},
 			{
-				title: '下层数量/层数',
+				title: '总返佣额',
 				dataIndex: 'value',
 			},
 			{
-				title: '下层总BV',
-				dataIndex: 'floor',
+				title: '操作',
+				render: (text,record) =>
+					<div>
+						 <span
+							 style={{'color':'#4F9863','cursor':'pointer'}}
+							 onClick={()=>this.export(record)}
+						 >导出
+						</span>
+						<span
+							style={{'color':'#4F9863','cursor':'pointer',marginLeft: '20px'}}
+							onClick={()=>this.details(record)}
+						>详情
+						</span>
+						<span
+							style={{'color':'#4F9863','cursor':'pointer',marginLeft: '20px'}}
+							onClick={()=>this.handleStatistics(record)}
+						>处理
+						</span>
+					</div>
 			},
-			{
-				title: '个人总BV',
-				dataIndex: 'goods',
-			},
-			{
-				title: '团体PV',
-				dataIndex: 'date',
-			},
-			{
-				title: '下线数',
-				dataIndex: 'issue_count',
-			}
 		];
 		this.state = {
 			filterVisible:false,
 			customVisible:false,
 			api:'',
-			data:[],
+			data:[
+				{
+					x: '1'
+				}
+			],
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
@@ -66,30 +74,30 @@ class BasicStatistics extends Component {
 		})
 	};
 	
-	//高级筛选
-	higherFilter = () =>{
-		this.setState({filterVisible:true})
-	};
-	closeHigherFilter = () =>{
-		this.setState({filterVisible:false})
-	};
-	onSubmit = (data) =>{
-		this.setState({
-			api:'这里需要填写新的api',
-			paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}
-		},()=>{
-			this.child.current.pagination(this.child.current.state.current)
-		});
+	// 导出
+	export = () => {
+	
 	};
 	
+	// 详情
+	details = () => {
+	
+	};
+	
+	// 处理
+	handleStatistics = () => {
+		this.props.history.push({pathname:"/distribution/distributionStatistics/handleStatistics"})
+	};
 	
 	// 分页器改变值
 	paginationChange = (list) =>{
 		this.setState({data:list})
 	};
 	
-	onDateChange = () =>{
-	
+	onDateChange = (date,dateString) =>{
+		console.log(date);
+		console.log(dateString);
+		
 	};
 	
 	render() {
@@ -99,27 +107,12 @@ class BasicStatistics extends Component {
 					<ul className="header_left">
 						<li>
 							时间:
-							<LocaleProvider locale={zh_CN}>
-								<RangePicker
-									onChange={this.onDateChange}
-								/>
-							</LocaleProvider>
-						</li>
-						<li>
-							店铺:
-							<SearchInput
-								getDatas={this.search}
-								text='请输入店铺名称/店铺编号/店铺主姓名/手机号码'
-							/>
+							<MonthPicker picker="month" placeholder='请选择月份'  locale={locale} onChange={this.onDateChange} />
 						</li>
 						<li>
 							<Button type='primary' size="small">筛选</Button>
 						</li>
-						<li>
-							<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
-						</li>
 					</ul>
-					<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 				</div>
 				<div className="chart u_chart">
 					<Table

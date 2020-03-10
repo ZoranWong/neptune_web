@@ -40,7 +40,6 @@ class ShopKeeper extends React.Component{
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
-		console.log(nextProps, ']]]]]');
 		if(!(this.props.data == nextProps.data)){
 			console.log('11111');
 			this.setState({listData:nextProps.data});

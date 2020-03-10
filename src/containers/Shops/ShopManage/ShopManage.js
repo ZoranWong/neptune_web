@@ -5,6 +5,7 @@ import {withRouter} from 'react-router-dom'
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import {shop_values} from "../../../utils/shop_fields";
+import {shop_export_values} from "./shop_export_fields";
 import {getToken, searchJson} from "../../../utils/dataStorage";
 import {shops,applicationsCount} from "../../../api/shops/shopManage";
 import CustomPagination from "../../../components/Layout/Pagination";
@@ -397,8 +398,9 @@ class ShopManage extends React.Component{
 			onCancel : this.hideExport,
 			export: this.export,
 			strategy,
-			values: shop_values,
-			conditions: this.state.conditions
+			values: shop_export_values,
+			conditions: this.state.conditions,
+			slug: 'shop_'
 		};
 		return (
 			<div>

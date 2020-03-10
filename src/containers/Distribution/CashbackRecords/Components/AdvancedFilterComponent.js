@@ -18,7 +18,7 @@ export default class AdvancedFilterComponent extends React.Component{
 		this.props.onSubmit(this.child.current.state.data);
 		this.handleCancel()
 	};
-
+	
 	clearFilter = ()=>{
 		this.child.current.clearFilter();
 	};
@@ -32,6 +32,10 @@ export default class AdvancedFilterComponent extends React.Component{
 	
 	showAddTags = () =>{
 		this.props.showAddTags(this.child.current.state.data)
+	};
+	
+	export = () =>{
+		this.props.export(this.child.current.state.data)
 	};
 	
 	render(){
@@ -50,6 +54,11 @@ export default class AdvancedFilterComponent extends React.Component{
 							<Button
 								size="small"
 								className="e_btn"
+								onClick={this.export}
+							>导出</Button>
+							<Button
+								size="small"
+								className="e_btn"
 								onClick={this.clearFilter}
 							>清空筛选条件</Button>
 							<Button
@@ -63,7 +72,7 @@ export default class AdvancedFilterComponent extends React.Component{
 						ref={this.child}
 						value={this.props.value}
 						operation={this.props.operation}
-						slug="user"
+						slug="merchant_self_pick_cashback_record"
 					/>
 				</Modal>
 			</div>

@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import SearchInput from "../../../../components/SearchInput/SearchInput";
 import {Button, Table} from "antd";
 import CustomPagination from "../../../../components/Layout/Pagination";
-import {searchJson} from "../../../../utils/dataStorage";
+import {getToken, searchJson} from "../../../../utils/dataStorage";
 import {pickupCashback} from "../../../../api/distribution/records";
 import AdvancedFilterComponent from "./AdvancedFilterComponent";
 import {self_pick_fields,operation} from "../../../../utils/self_pick_fields";
 import IconFont from "../../../../utils/IconFont";
 import Reviews from "../Modals/Reviews";
-import ReviewGoods from "../../../Order/Components/ReviewGoods";
+import Export from "../../../Order/Components/Export";
+import Config from "../../../../config/app";
 class PickupCashback extends Component {
 	constructor(props) {
 		super(props);
@@ -55,6 +56,7 @@ class PickupCashback extends Component {
 		this.state = {
 			filterVisible:false,
 			customVisible:false,
+			exportVisible: false,
 			api:pickupCashback,
 			data:[],
 			paginationParams:{
@@ -125,9 +127,44 @@ class PickupCashback extends Component {
 	
 	};
 	
+	// 导出
+	showExport = (conditions) =>{
+		this.setState({conditions, exportVisible: true, isToday: false}, ()=>{
+			this.closeHigherFilter()
+		})
+	};
+	hideExport = () =>{
+		this.setState({exportVisible: false})
+	};
+	// 确定导出
+	export = (type, items,conditions) =>{
+		console.log(type, '--- type---');
+		console.log(conditions, '>>>>>>>>>>>>>>>>>>>>>>>>>>');
+		let json = searchJson({
+			strategy: type,
+			customize_columns: items,
+			logic_conditions: conditions
+		});
+		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+	};
+	
 	render() {
+		const strategy = [
+			{key: 'MERCHANT_SELF_PICK_CASHBACK_RECORD', value: '店铺自提返佣',},
+		];
+		const exportsProps = {
+			visible : this.state.exportVisible,
+			onCancel : this.hideExport,
+			export: this.export,
+			strategy,
+		};
+		
+		
 		return (
 			<div className="basic_statistics">
+				<Export {...exportsProps} />
+				
+				
 				<Reviews
 					visible={this.state.reviewGoodsVisible}
 					onCancel={this.closeReviewGoods}
@@ -141,6 +178,7 @@ class PickupCashback extends Component {
 					refresh={this.refresh}
 					value={self_pick_fields}
 					operation={operation}
+					export={this.showExport}
 				/>
 				<div className="basic_statistics_header">
 					<ul className="header_left">

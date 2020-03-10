@@ -392,7 +392,8 @@ class Refund extends React.Component{
 			export: this.export,
 			strategy,
 			values: refund_order_values,
-			conditions: this.state.conditions
+			conditions: this.state.conditions,
+			slug: 'order_'
 		};
 		return (
 			<div className="refund">

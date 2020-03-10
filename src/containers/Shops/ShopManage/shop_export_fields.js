@@ -1,168 +1,40 @@
-export const shop_values = [
+export const shop_export_values = [
 	{
 		value:'base_attributes',
 		label:'基本属性',
 		children:[
 			{
-				label:'开业时间',
-				value:'created_at',
+				label:'店铺名称',
+				value:'name',
 				type:'timeCompare'
 			},
 			{
-				label:'介绍人编号',
-				value:'introducer_code',
+				label:'店铺编号',
+				value:'code',
 				type:'equal'
 			},
 			{
-				label:'介绍人姓名',
-				value:'introducer_name',
+				label:'店铺主姓名',
+				value:'keeper_name',
 				type:'equal'
 			},
 			{
-				label:'他介绍的店铺数量',
-				value:'introduce_shop_count',
+				label:'店铺主手机号',
+				value:'keeper_mobile',
 				type:'numCompare'
 			},
 			{
 				label:'店铺地区',
 				value:'region',
 				type:'detailAddress'
+			},
+			{
+				label:'店铺地址',
+				value:'address',
+				type:'detailAddress'
 			}
 		]
-	},
-	{
-		value:'account_data',
-		label:'账户数据',
-		children:[
-			{
-				label:'余额',
-				value:'balance',
-				type:'numCompare'
-			},
-			{
-				label:'充值总额',
-				value:'total_recharge',
-				type:'numCompare'
-				
-			},
-			{
-				label:'提现总额',
-				value:'total_withdrawal',
-				type:'timeCompare'
-			},
-			{
-				label:'返现总额',
-				value:'total_cashback',
-				type:'numCompare'
-				
-			},
-			{
-				label:'自提返现总额',
-				value:'total_self_pick_cashback',
-				type:'numCompare'
-			},
-			{
-				label:'自提佣金总额',
-				value:'total_self_pick_commission',
-				type:'numCompare'
-			},
-			{
-				label:'自提补贴总额',
-				value:'total_self_pick_allowance',
-				type:'numCompare'
-			},
-			{
-				label:'销售返现总额',
-				value:'total_sale_cashback',
-				type:'numCompare'
-			},
-			{
-				label:'销售佣金总额',
-				value:'total_sale_commission',
-				type:'numCompare'
-			},
-			{
-				label:'销售补贴总额',
-				value:'total_sale_allowance',
-				type:'numCompare'
-			}
-		]
-	},
-	{
-		value:'shop_attributes',
-		label:'店铺属性',
-		children:[
-			{
-				label:'状态',
-				value:'status',
-				type:'status'
-			},
-			{
-				label:'渠道',
-				value:'channel_id',
-				type:'channel'
-			},
-			{
-				label:'商户组',
-				value:'groups',
-				type:'group'
-			},
-		]
-	},
-	{
-		value:'sell_data',
-		label:'销售数据',
-		children:[
-			{
-				label:'扫码付总额',
-				value:'total_code_scan_amount',
-				type:'numCompare'
-			},
-			{
-				label:'支付宝总额',
-				value:'total_ali_amount',
-				type:'numCompare'
-				
-			},
-			{
-				label:'微信支付总额',
-				value:'total_wx_amount',
-				type:'timeCompare'
-			},
-			{
-				label:'余额支付总额',
-				value:'total_balance_amount',
-				type:'numCompare'
-				
-			},
-			{
-				label:'招行一网通支付总额',
-				value:'total_cmb_amount',
-				type:'numCompare'
-			},
-			{
-				label:'订货总额',
-				value:'total_order_product_amount',
-				type:'numCompare'
-			},
-		]
-	},
-	{
-		value:'self_pick_data',
-		label:'自提数据',
-		children:[
-			{
-				label:'自提订单总数',
-				value:'total_self_pick_orders_count',
-				type:'numCompare'
-			},
-			{
-				label:'自提订单总额',
-				value:'total_self_pick_amount',
-				type:'numCompare'
-			}
-		]
-	},
+	}
 ];
 
 

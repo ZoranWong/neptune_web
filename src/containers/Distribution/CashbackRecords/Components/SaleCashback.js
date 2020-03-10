@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
-import SearchInput from "../../../../components/SearchInput/SearchInput";
-import {Button, Table} from "antd";
+import { DatePicker, Table} from "antd";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import {searchJson} from "../../../../utils/dataStorage";
-import {salesCashback} from '../../../../api/distribution/records'
-import AdvancedFilterComponent from "./AdvancedFilterComponent";
-import {sales_fields,operation} from "../../../../utils/sales_fields";
-
+import {pickupCashback} from "../../../../api/distribution/records";
+import locale from "antd/es/date-picker/locale/zh_CN";
+const { RangePicker,MonthPicker } = DatePicker;
 class SaleCashback extends Component {
 	constructor(props) {
 		super(props);
@@ -16,37 +14,46 @@ class SaleCashback extends Component {
 				dataIndex: 'cashback_time',
 			},
 			{
-				title: '店铺',
+				title: '汇总月份',
 				dataIndex: 'shop_name',
 			},
 			{
-				title: '团队PV',
-				dataIndex: 'team_pv',
+				title: '总销售额',
+				dataIndex: 'trade_no',
 			},
 			{
-				title: '个人BV',
-				dataIndex: 'personal_bv',
+				title: '总返佣额',
+				dataIndex: 'settlement_total_fee',
 			},
 			{
-				title: '返现比例',
-				dataIndex: 'cashback_ratio',
+				title: '操作',
+				render: (text,record) =>
+					<div>
+						 <span
+							 style={{'color':'#4F9863','cursor':'pointer'}}
+							 onClick={()=>this.send(record)}
+						 >发送
+						</span>
+						<span
+							style={{'color':'#4F9863','cursor':'pointer', marginLeft: '20px'}}
+							onClick={()=>this.details(record)}
+						>详情
+						</span>
+					</div>
 			},
-			{
-				title: '返现金额',
-				dataIndex: 'cashback_amount',
-				render: (text,record) => `${text}元`
-			}
 		];
 		this.state = {
 			filterVisible:false,
 			customVisible:false,
-			api:salesCashback,
+			api:pickupCashback,
 			data:[],
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
 			},
 			columns:columns,
+			reviewGoodsVisible: false,
+			items:[]
 		};
 		this.child = React.createRef();
 	}
@@ -63,26 +70,11 @@ class SaleCashback extends Component {
 		})
 	};
 	
-	//高级筛选
-	higherFilter = () =>{
-		this.setState({filterVisible:true})
-	};
-	closeHigherFilter = () =>{
-		this.setState({filterVisible:false})
-	};
-	onSubmit = (data) =>{
-		this.setState({
-			api:salesCashback,
-			paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}
-		},()=>{
-			this.child.current.pagination(this.child.current.state.current)
-		});
-	};
 	
 	// 头部搜索框
 	search = (value) =>{
 		this.setState({
-			api:salesCashback,
+			api:pickupCashback,
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value})}
 		},()=>{
@@ -90,37 +82,43 @@ class SaleCashback extends Component {
 		});
 	};
 	
+	// 发送
+	send = () => {
+	
+	};
+	
+	// 详情
+	details = () => {
+	
+	};
+	
+	
 	// 分页器改变值
 	paginationChange = (list) =>{
 		this.setState({data:list})
 	};
 	
-	onDateChange = () =>{
-	
+	onDateChange = (date,dateString) =>{
+		console.log(date);
+		console.log(dateString);
+		
 	};
 	
 	render() {
 		return (
 			<div className="basic_statistics">
-				<AdvancedFilterComponent
-					visible={this.state.filterVisible}
-					onCancel={this.closeHigherFilter}
-					onSubmit={this.onSubmit}
-					refresh={this.refresh}
-					value={sales_fields}
-					operation={operation}
-				/>
 				<div className="basic_statistics_header">
 					<ul className="header_left">
 						<li>
-							店铺:
-							<SearchInput
-								getDatas={this.search}
-								text='请输入店铺名称/店铺编号/店铺主姓名/手机号码'
-							/>
+							返佣时间:
+							<RangePicker picker="month"  locale={locale} onChange={this.onDateChange} />
 						</li>
 						<li>
-							<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
+							汇总月份:
+							<MonthPicker picker="month" placeholder='请选择月份'  locale={locale} onChange={this.onDateChange} />
+						</li>
+						<li>
+							<h4 className="higherFilter">筛选</h4>
 						</li>
 					</ul>
 				</div>

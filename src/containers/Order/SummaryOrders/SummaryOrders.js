@@ -446,7 +446,8 @@ class SummaryOrders extends React.Component{
 			export: this.export,
 			strategy,
 			values: refund_order_values,
-			conditions: this.state.conditions
+			conditions: this.state.conditions,
+			slug: 'order_'
 		};
 		const positionProps = {
 			visible : this.state.positionVisible,

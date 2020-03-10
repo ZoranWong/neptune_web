@@ -329,7 +329,8 @@ class GoodsOrder extends React.Component{
 			export: this.export,
 			strategy,
 			values: merchant_order_values,
-			conditions: this.state.conditions
+			conditions: this.state.conditions,
+			slug: 'order_'
 		};
 		return (
 			<div className="goodsOrder">

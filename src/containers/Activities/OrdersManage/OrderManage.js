@@ -14,6 +14,7 @@ import {consumer_order_values} from "../../../utils/consumer_order_fields";
 import _ from 'lodash';
 import Config from '../../../config/app';
 import {cancelOrder} from "../../../api/activities";
+import {checkManyOrder} from "../../../api/order/orderManage";
 
 class OrderManage extends React.Component{
 	constructor(props){
@@ -241,6 +242,52 @@ class OrderManage extends React.Component{
 		// }).catch(_=>{})
 	};
 	
+	// 手动核销
+	check = (record) => {
+		let refresh = this.refresh;
+		let checkedAry = this.state.checkedAry;
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			maskClosable:true,
+			content: (
+				<div className="U_confirm">
+					确定手动核销该订单么？
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				checkManyOrder({order_ids: checkedAry}).then(r=>{
+					message.success(`手动核销订单成功！`);
+					refresh('WAIT_CUSTOMER_VERIFY')
+				});
+				
+			},
+			onCancel() {
+			
+			},
+		});
+	}
+	
+	
+	
 	render(){
 		
 		const rowSelection = {
@@ -390,7 +437,11 @@ class OrderManage extends React.Component{
 							disabled={!this.state.checkedAry.length}
 							onClick={this.exportNew}
 						>导出新格式</Button>
-						
+						<Button
+							size="small"
+							onClick={this.check}
+							disabled={!this.state.checkedAry.length || this.state.activeTab !== 'WAIT_CUSTOMER_VERIFY' }
+						>批量核销订单</Button>
 						
 					</div>
 					<Button size='small' style={style} onClick={this.backAct}>返回活动管理</Button>

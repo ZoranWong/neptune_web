@@ -1,67 +1,16 @@
 export const self_pick_fields = [
 	{
-		value:'base_attributes',
+		value:'money_attributes',
 		label:'基本属性',
 		children:[
-			{
-				label:'店铺名称',
-				value:'shop_name',
-				type:'absoluteCompare'
-			},
-			{
-				label:'店铺编号',
-				value:'shop_no',
-				type:'absoluteCompare'
-			},
-			{
-				label:'店主名称',
-				value:'shop_keeper_name',
-				type:'absoluteCompare'
-			},
-			{
-				label:'店主手机',
-				value:'shop_keeper_mobile',
-				type:'absoluteCompare'
-			},
 			{
 				label:'返现时间',
 				value:'commission_at',
 				type:'timeCompare'
-			},
-			{
-				label:'实付款',
-				value:'order_total_fee',
-				type:'numCompare'
-			},
-			{
-				label:'返佣款',
-				value:'commission_fee',
-				type:'numCompare'
-			},
-			{
-				label:'订单号',
-				value:'order_no',
-				type:'absoluteCompare'
-			},
-			{
-				label:'商品',
-				value:'product_name',
-				type:'equalCompare'
-			},
-			{
-				label:'消费者昵称',
-				value:'user_nickname',
-				type:'absoluteCompare'
-			},
-			{
-				label:'消费者手机号',
-				value:'user_mobile',
-				type:'absoluteCompare'
 			}
 		]
-	},
+	}
 ];
-
 
 export const operation = {
 	'absoluteCompare':[
@@ -71,41 +20,11 @@ export const operation = {
 			type:'input'
 		}
 	],
-	'timeCompare':[
+	'detailAddress': [
 		{
 			label:'等于',
-			value:'=',
-			type:'timestamp'
-		},
-		{
-			label:'不等于',
-			value:'<>',
-			type:'timestamp'
-		},
-		{
-			label:'晚于',
-			value:'>',
-			type:'timestamp'
-		},
-		{
-			label:'晚于(含)',
-			value:'>=',
-			type:'timestamp'
-		},
-		{
-			label:'早于',
-			value:'<',
-			type:'timestamp'
-		},
-		{
-			label:'早于(含)',
-			value:'<=',
-			type:'timestamp'
-		},
-		{
-			label:'区间',
-			value:'between',
-			type:'period'
+			value:'like',
+			type:'orderDetailAddress'
 		}
 	],
 	'numCompare':[
@@ -145,6 +64,86 @@ export const operation = {
 			type:'inputRange'
 		}
 	],
+	'contain':[
+		{
+			label:'包含以下任意',
+			value:'in',
+			type:'selectedTagBox'
+		},
+		{
+			label:'包含以下所有',
+			value:'all',
+			type:'selectedTagBox'
+		},
+		{
+			label:'不包含以下任意',
+			value:'not in',
+			type:'selectedTagBox'
+		},
+	],
+	'consumerOrder': [
+		{
+			label:'等于',
+			value:'=',
+			type:'consumerOrderEqual'
+		},
+		{
+			label: '在以下所有中',
+			value: 'all',
+			type: 'consumerOrder'
+		},
+		{
+			label:'等于其中之一',
+			value:'in',
+			type:'consumerOrder'
+		},
+		{
+			label:'不等于以下任意',
+			value:'not in',
+			type:'consumerOrder'
+		},
+	],
+	'deliveryType': [
+		{
+			label:'等于',
+			value:'=',
+			type:'deliveryTypeEqual'
+		},
+	],
+	'merchantOrder': [
+		{
+			label:'等于',
+			value:'in',
+			type:'merchantOrder'
+		},
+		{
+			label:'等于其中之一',
+			value:'all',
+			type:'merchantOrder'
+		},
+		{
+			label:'不等于以下任意',
+			value:'not in',
+			type:'merchantOrder'
+		},
+	],
+	'group':[
+		{
+			label:'在以下任意群组中',
+			value:'in',
+			type:'selectedGroupBox'
+		},
+		{
+			label:'在以下所有群组中',
+			value:'all',
+			type:'selectedGroupBox'
+		},
+		{
+			label:'不在以下任意群组中',
+			value:'not in',
+			type:'selectedGroupBox'
+		},
+	],
 	'equalCompare':[
 		{
 			label:'等于',
@@ -161,5 +160,49 @@ export const operation = {
 			value:'not in',
 			type:'selectedBox'
 		},
-	]
-};
+	],
+	'timeCompare':[
+		{
+			label:'晚于',
+			value:'>',
+			type:'times'
+		},
+		{
+			label:'晚于(含)',
+			value:'>=',
+			type:'times'
+		},
+		{
+			label:'早于',
+			value:'<',
+			type:'times'
+		},
+		{
+			label:'早于(含)',
+			value:'<=',
+			type:'times'
+		},
+		{
+			label:'区间',
+			value:'between',
+			type:'noTimePeriod'
+		}
+	],
+	'emptyCompare':[
+		{
+			label:'等于',
+			value:'=',
+			type:'input'
+		},
+		{
+			label:'为空',
+			value:'is null',
+			type:''
+		},
+		{
+			label:'不为空',
+			value:'is not null',
+			type:''
+		},
+	],
+}

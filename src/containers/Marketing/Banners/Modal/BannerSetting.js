@@ -214,36 +214,36 @@ class BannerSetting extends Component {
 							</li>
 						}
 						{
-							(this.state.canJump && this.state.jumpType) && <li>
-								<span className="left">{this.state.jumpType === 'PAGE_PATH_ONLY' ? '跳转地址': '商品名称'}</span>
-								{
-									this.state.jumpType === 'PAGE_PATH_ONLY' ?
-										<Input
-											className="liInput"
-											value={this.state.jumpUrl}
-											onChange={(e)=>{
-												this.setState({jumpUrl: e.target.value})
-											}}
-										/>
-										:
-										<Select
-											defaultActiveFirstOption={false}
-											value={selectedProduct}
-											onChange={this.handleChange}
-											optionLabelProp="label"
-											optionFilterProp="children"
-											filterOption={(input, option) =>
-												option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-											}
-										>
-											{this.state.products.map(item => (
-												<Select.Option key={item.product_id+''} label={item.name} value={item.product_id+''}>
-													{item.name}
-												</Select.Option>
-											))}
-										</Select>
-								}
-							
+							this.state.canJump && <li>
+								<span className="left">跳转地址</span>
+								<Input
+									className="liInput"
+									value={this.state.jumpUrl}
+									onChange={(e)=>{
+										this.setState({jumpUrl: e.target.value})
+									}}
+								/>
+							</li>
+						}
+						{
+							(this.state.canJump && this.state.jumpType=== 'PRODUCT_DETAIL') && <li>
+								<span className="left">商品名称</span>
+								<Select
+									defaultActiveFirstOption={false}
+									value={selectedProduct}
+									onChange={this.handleChange}
+									optionLabelProp="label"
+									optionFilterProp="children"
+									filterOption={(input, option) =>
+										option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+									}
+								>
+									{this.state.products.map(item => (
+										<Select.Option key={item.product_id+''} label={item.name} value={item.product_id+''}>
+											{item.name}
+										</Select.Option>
+									))}
+								</Select>
 							</li>
 						}
 						<li className='bannerSwitch'>

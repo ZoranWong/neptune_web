@@ -1,5 +1,5 @@
 import React from 'react'
-import {DatePicker,Input,Select,LocaleProvider} from 'antd'
+import {DatePicker,Input,Select,LocaleProvider,Cascader} from 'antd'
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
 import {regions} from "../../api/common";
@@ -46,7 +46,19 @@ export default class AdvancedFilterValues extends React.Component{
 		regions({}).then(r=>{
 			let cityAry = [];
 			r.forEach(item=>{
-				cityAry = cityAry.concat(item.children)
+				cityAry = cityAry.concat(item.children);
+				item.children.forEach(area=>{
+					area.children.unshift({
+						region_code: null,
+						name: '全部',
+						children: []
+					})
+				});
+				item.children.unshift({
+					region_code: null,
+					name: '全部',
+					children: []
+				})
 			});
 			let areaAry=[];
 			cityAry.forEach(item=>{
@@ -145,6 +157,12 @@ export default class AdvancedFilterValues extends React.Component{
 		} else {
 			return this.state.areaData
 		}
+	};
+	
+	// 省市区发生变化
+	onDetailAddressChange = (value) => {
+		console.log(value);
+		this.props.onValueChange(value)
 	};
 	
 	renderTree = () =>{
@@ -247,6 +265,18 @@ export default class AdvancedFilterValues extends React.Component{
 					))}
 				</Select>;
 				break;
+			case 'times':
+				return <span>
+					<LocaleProvider locale={zh_CN}>
+						<DatePicker
+							onChange={this.onTimestampChange}
+							placeholder="请选择日期"
+							showToday={false}
+							format="YYYY-MM-DD"
+						/>
+					</LocaleProvider>
+				</span>;
+				break;
 			case 'timestamp':
 				return <span>
 					<LocaleProvider locale={zh_CN}>
@@ -268,6 +298,18 @@ export default class AdvancedFilterValues extends React.Component{
 							//showTime={true}
 							showTime={{ format: 'HH:mm' }}
 							format="YYYY-MM-DD HH:mm"
+						/>
+					</LocaleProvider>
+					
+				</span>;
+				break;
+			case 'noTimePeriod':
+				return <span>
+					<LocaleProvider locale={zh_CN}>
+						<RangePicker
+							onChange={this.onPeriodChange}
+							//showTime={true}
+							format="YYYY-MM-DD"
 						/>
 					</LocaleProvider>
 					
@@ -501,6 +543,26 @@ export default class AdvancedFilterValues extends React.Component{
 							</Select.Option>
 						))}
 					</Select>
+				</span>;
+				break;
+			case 'orderDetailAddress':
+				return <span>
+					<Cascader
+						options={this.state.provinceData}
+						onChange={this.onDetailAddressChange}
+						placeholder="请选择省市区"
+						fieldNames={{label: 'name', value: 'name', children: 'children' }}
+					/>,
+				</span>;
+				break;
+			case 'detailAddress':
+				return <span>
+					<Cascader
+						options={this.state.provinceData}
+						onChange={this.onDetailAddressChange}
+						placeholder="请选择省市区"
+						fieldNames={{label: 'name', value: 'region_code', children: 'children' }}
+					/>,
 				</span>;
 				break;
 			case 'selectedBoxGender':

@@ -99,7 +99,12 @@ export const consumer_order_values = [
 				label:'订单类型',
 				value:'order_type',
 				type:'consumerOrder'
-			}
+			},
+			{
+				label:'收货地区',
+				value:'region',
+				type:'detailAddress'
+			},
 		]
 	},
 ];
@@ -110,6 +115,13 @@ export const operation = {
 			label:'等于',
 			value:'=',
 			type:'input'
+		}
+	],
+	'detailAddress': [
+		{
+			label:'等于',
+			value:'like',
+			type:'orderDetailAddress'
 		}
 	],
 	'numCompare':[

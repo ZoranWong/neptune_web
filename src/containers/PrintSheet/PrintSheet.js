@@ -271,6 +271,7 @@ class PrintSheet extends Component {
 							{
 								order['shop_complete_address'] ? <h4 >自提店铺地址:{order['shop_complete_address']}</h4> : ''
 							}
+							<h4 >备注:{order['remark'] || '无'}</h4>
 							<div className="chart u_chart">
 								<Table
 									columns={this.props.isNeedItems ? needColumns: columns}

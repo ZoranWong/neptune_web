@@ -98,9 +98,7 @@ class CustomOrdersPrint extends Component {
 						order.products = [...order.products, wholeRow];
 						return <div className='printSheet' key={Math.random()}>
 							<h4 className="shopInfo" >小区：{order['village']}</h4>
-							<h4>自提人姓名：{order['nameBig']}</h4>
-							<h4>自提人手机号码：{order['mobile']}</h4>
-							<h4>小区地址：{order['address']}</h4>
+							
 							<h4>
 								用户昵称：{order['nickname']}&nbsp;&nbsp;&nbsp;&nbsp;
 								<span>
@@ -113,6 +111,9 @@ class CustomOrdersPrint extends Component {
 							<h4>订单号：{order['trade_no'].slice(14,24)}</h4>
 							<h4>配送地址：
 								{order['homeAddress']}
+							</h4>
+							<h4>园区：
+								{order['area']}
 							</h4>
 							<h4>客户 联系电话：{order['phone']}</h4>
 							<h4>下单时间：{order['paid_at']}</h4>
@@ -127,6 +128,9 @@ class CustomOrdersPrint extends Component {
 							{
 								order['shop_complete_address'] ? <h4 >自提店铺地址:{order['shop_complete_address']}</h4> : ''
 							}
+							<h4>小区联系人：{order['nameBig']}</h4>
+							<h4>小区联系人手机号：{order['mobile']}</h4>
+							<h4>小区地址：{order['address']}</h4>
 							<div className="chart u_chart">
 								<Table
 									columns={columns}

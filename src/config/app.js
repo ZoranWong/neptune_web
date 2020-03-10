@@ -20,3 +20,5 @@ export default {
     requestRetryDelay:800,
     shortLength:6, // 密码最小长度
 }
+
+

@@ -594,7 +594,8 @@ class Order extends React.Component{
 			values: consumer_order_values_export,
 			conditions: this.state.conditions,
 			isToday: this.state.isToday,
-			exportToday: this.exportToday
+			exportToday: this.exportToday,
+			slug: 'order_'
 		};
 		
 		

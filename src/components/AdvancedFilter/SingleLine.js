@@ -3,6 +3,7 @@ import {Select,Cascader} from 'antd';
 import './index.sass'
 //import {this.props.value,operation} from "../../utils/user_fields";
 import AdvancedFilterValues from './AdvancedFilterValues'
+import _ from 'lodash'
 const { Option } = Select;
 export default class SingleLine extends React.Component{
 	constructor(props){
@@ -80,6 +81,50 @@ export default class SingleLine extends React.Component{
 		});
 	};
 	
+	transformOrderData = data =>{
+		let reg = data;
+		let index = _.findIndex(data.value, (region)=>{
+			return region === '全部'
+		});
+		if (index > -1) {
+			if (index === 1) {
+				reg.key = 'order_province';
+				reg.value = data.value[index - 1];
+				this.props.onData(reg);
+			} else if (index === 2) {
+				reg.key = 'order_city';
+				reg.value = data.value[index - 1];
+				this.props.onData(reg);
+			}
+		} else {
+			reg.key = 'order_area';
+			reg.value = data.value[data.value.length -1];
+			this.props.onData(reg);
+		}
+	};
+	
+	transformShopData = data =>{
+		let reg = data;
+		let index = _.findIndex(data.value, (region)=>{
+			return !region
+		});
+		if (index > -1) {
+			if (index === 1) {
+				reg.key = 'shop_province_code';
+				reg.value = data.value[index - 1];
+				this.props.onData(reg);
+			} else if (index === 2) {
+				reg.key = 'shop_city_code';
+				reg.value = data.value[index - 1];
+				this.props.onData(reg);
+			}
+		} else {
+			reg.key = 'shop_area_code';
+			reg.value = data.value[data.value.length -1];
+			this.props.onData(reg);
+		}
+	};
+	
 	
 	valueChange = (value) =>{
 		let key = this.state.activeKey.value ? this.state.activeKey.value : this.props.value[0].children[0].value;
@@ -90,7 +135,15 @@ export default class SingleLine extends React.Component{
 			cid:this.cid
 		};
 		this.setState({singleLineData:data,activeValue:value});
-		this.props.onData(data);
+		console.log(data, '=========================================');
+		if (data.key === 'order_region') {
+			this.transformOrderData(data)
+		} else if (data.key === 'shop_region') {
+			this.transformShopData(data)
+		} else {
+			this.props.onData(data);
+		}
+		
 	};
 
 	

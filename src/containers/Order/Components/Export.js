@@ -21,14 +21,16 @@ class Export extends Component {
 	}
 	
 	setOrderItems = () => {
-		let order_item = [];
-		let clone_consumer_order_values = this.props.values.concat();
-		_.map(clone_consumer_order_values, (item)=>{
-			_.map(item.children, (i)=>{
-				order_item.push(i)
-			})
-		});
-		this.setState({orderItems: order_item})
+		if (this.props.values && this.props.values.length) {
+			let order_item = [];
+			let clone_consumer_order_values = this.props.values.concat();
+			_.map(clone_consumer_order_values, (item)=>{
+				_.map(item.children, (i)=>{
+					order_item.push(i)
+				})
+			});
+			this.setState({orderItems: order_item})
+		}
 	};
 	
 	handleCancel = () =>{
@@ -66,7 +68,7 @@ class Export extends Component {
 		let checked = e.target.checked;
 		let items = [];
 		_.map(this.state.orderItems, (item)=>{
-			items.push('order_' + item.value)
+			items.push(this.props.slug + item.value)
 		});
 		if (checked) {
 			this.setState({selectedItems: items})
@@ -96,7 +98,7 @@ class Export extends Component {
 						}
 					</Radio.Group>
 					{
-						this.props.strategy[0]['key'] !== 'SHOP_SELF_PICK_SUMMARY' && <div className="selectItems">
+						(this.props.strategy[0]['key'] !== 'SHOP_SELF_PICK_SUMMARY' && this.props.strategy[0]['key'] !== 'MERCHANT_SELF_PICK_CASHBACK_RECORD') && <div className="selectItems">
 							<span>选择显示项</span>
 							<Select
 								defaultActiveFirstOption={false}
@@ -112,7 +114,7 @@ class Export extends Component {
 								}
 							>
 								{this.state.orderItems.map(item => (
-									<Select.Option key={'order_'+item.value} label={item.label} value={'order_'+item.value}>
+									<Select.Option key={this.props.slug+item.value} label={item.label} value={this.props.slug+item.value}>
 										{item.label}
 									</Select.Option>
 								))}
