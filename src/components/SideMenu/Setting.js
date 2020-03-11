@@ -35,6 +35,12 @@ let Setting = ({ match }) => (
 					<span>APP版本设置</span>
 				</Link>
 			</Menu.Item>
+			<Menu.Item key="/setting/protocolSetting">
+				<Link to="/setting/protocolSetting">
+					<IconFont type="icon-tubiaozhizuomoban" />
+					<span>协议设置</span>
+				</Link>
+			</Menu.Item>
 		</Menu>
 	</div>
 );

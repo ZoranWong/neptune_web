@@ -93,6 +93,9 @@ import ActivityRefund from "../containers/Activities/ActivityRefund/ActivityRefu
 import CustomOrdersPrint from "../containers/Order/OrderTransformer/CustomOrdersPrint/CustomOrdersPrint";
 import CustomSummaryPrint from "../containers/Order/OrderTransformer/CustomSummaryPrint/CustomSummaryPrint";
 import HandleStatistics from "../containers/Distribution/DistributionStatistics/HandleStatistics/HandleStatistics";
+import ProtocolSetting from "../containers/Setting/ProtocolSetting/ProtocolSetting";
+import EditProtocol from "../containers/Setting/ProtocolSetting/EditProtocol/EditProtocol";
+import CashbackDetails from "../containers/Distribution/CashbackDetails/CashbackDetails";
 
 /** 跳转到某个路由之前触发 用于验证页面权限**/
 function onEnter (Component, props) {
@@ -202,6 +205,8 @@ const Routes = () =>(
 		<Route exact={true} path="/setting" render={props => onEnter(Staffing, props)} />
 		<Route exact={true} path="/setting/warningSetting" render={props => onEnter(WarningSetting, props)} />
 		<Route exact={true} path="/setting/logs" render={props => onEnter(OperationLogs, props)} />
+		<Route exact={true} path="/setting/protocolSetting" render={props => onEnter(ProtocolSetting, props)} />
+		<Route exact={true} path="/setting/editProtocol" render={props => onEnter(EditProtocol, props)} />
 		
 		
 		{/*分销*/}
@@ -209,6 +214,7 @@ const Routes = () =>(
 		<Route exact={true} path="/distribution/distributionStatistics/handleStatistics" render={props => onEnter(HandleStatistics, props)} />
 		<Route exact={true} path="/distribution" render={props => onEnter(CashbackRecords, props)} />
 		<Route exact={true} path="/distribution/cashbackSetting" render={props => onEnter(CashbackSetting, props)} />
+		<Route exact={true} path="/distribution/cashbackDetails" render={props => onEnter(CashbackDetails, props)} />
 	
 		{/*重定向至首页*/}
 		<Redirect to={'/home'} />

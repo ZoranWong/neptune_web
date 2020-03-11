@@ -65,7 +65,8 @@ class PickupCashback extends Component {
 			},
 			columns:columns,
 			reviewGoodsVisible: false,
-			items:[]
+			items:[],
+			conditions: {}
 		};
 		this.child = React.createRef();
 	}
@@ -157,6 +158,7 @@ class PickupCashback extends Component {
 			onCancel : this.hideExport,
 			export: this.export,
 			strategy,
+			conditions: this.state.conditions
 		};
 		
 		

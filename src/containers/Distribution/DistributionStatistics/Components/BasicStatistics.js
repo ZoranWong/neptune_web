@@ -5,7 +5,10 @@ import locale from 'antd/es/date-picker/locale/zh_CN';
 import '../css/basicStatistics.sass'
 import CustomPagination from "../../../../components/Layout/Pagination";
 import {searchJson} from "../../../../utils/dataStorage";
+import {summaries} from "../../../../api/distribution/statistics";
+
 const {MonthPicker} = DatePicker;
+
 class BasicStatistics extends Component {
 	constructor(props) {
 		super(props);
@@ -13,14 +16,21 @@ class BasicStatistics extends Component {
 			{
 				title: '汇总月份',
 				dataIndex: 'month',
+				render: (text,record) => (
+					<span>{record['summary_year']+ '-' +record['summary_month']}</span>
+				)
 			},
 			{
 				title: '总销售额',
-				dataIndex: 'total_sales',
+				dataIndex: 'sales_amount',
 			},
 			{
 				title: '总返佣额',
-				dataIndex: 'value',
+				dataIndex: 'amount',
+			},
+			{
+				title: '市场推广服务费',
+				dataIndex: 'market_promotion_service_fee',
 			},
 			{
 				title: '操作',
@@ -36,38 +46,36 @@ class BasicStatistics extends Component {
 							onClick={()=>this.details(record)}
 						>详情
 						</span>
-						<span
-							style={{'color':'#4F9863','cursor':'pointer',marginLeft: '20px'}}
-							onClick={()=>this.handleStatistics(record)}
-						>处理
-						</span>
+						{
+							!record['has_add_to_balance'] && <span
+									style={{'color':'#4F9863','cursor':'pointer',marginLeft: '20px'}}
+									onClick={()=>this.handleStatistics(record)}
+								>处理
+							</span>
+						}
 					</div>
 			},
 		];
 		this.state = {
 			filterVisible:false,
 			customVisible:false,
-			api:'',
-			data:[
-				{
-					x: '1'
-				}
-			],
+			api:summaries,
+			value: '',
+			data:[],
 			paginationParams:{
-				logic_conditions:[],
-				search:'',
+				searchJson: {}
 			},
 			columns:columns,
 		};
 		this.child = React.createRef();
 	}
 	
-	refresh = ()=>{
+	refresh = (data = {})=>{
+		console.log(data, '...');
 		this.setState({
 			filterVisible:false,
 			paginationParams:{
-				logic_conditions:[],
-				search:'',
+				searchJson: data
 			}
 		},()=>{
 			this.child.current.pagination(this.child.current.state.current)
@@ -80,8 +88,8 @@ class BasicStatistics extends Component {
 	};
 	
 	// 详情
-	details = () => {
-	
+	details = (record) => {
+		this.props.history.push({pathname:"/distribution/cashbackDetails", state: {id: record.id}})
 	};
 	
 	// 处理
@@ -95,9 +103,12 @@ class BasicStatistics extends Component {
 	};
 	
 	onDateChange = (date,dateString) =>{
-		console.log(date);
-		console.log(dateString);
-		
+		let dateSplit = dateString.split('-');
+		this.refresh(searchJson({year: Number(dateSplit[0]), month: Number(dateSplit[1])}))
+	};
+	
+	selectWholeYear = () => {
+		this.refresh(searchJson({year: 2020}))
 	};
 	
 	render() {
@@ -107,7 +118,15 @@ class BasicStatistics extends Component {
 					<ul className="header_left">
 						<li>
 							时间:
-							<MonthPicker picker="month" placeholder='请选择月份'  locale={locale} onChange={this.onDateChange} />
+							<MonthPicker
+								picker="month"
+								placeholder='请选择月份'
+								locale={locale}
+								onChange={this.onDateChange}
+								renderExtraFooter={() => <span onClick={this.selectWholeYear} style={{cursor: 'pointer', color: '#4f9863'}}>
+									一整年
+								</span>}
+							/>
 						</li>
 						<li>
 							<Button type='primary' size="small">筛选</Button>

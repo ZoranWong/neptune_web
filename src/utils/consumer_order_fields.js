@@ -245,7 +245,7 @@ export const operation = {
 		{
 			label:'等于',
 			value:'=',
-			type:'selectedOneBox'
+			type:'input'
 		},
 		{
 			label:'等于其中之一',

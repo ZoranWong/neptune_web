@@ -8,15 +8,15 @@ import {hasPermission} from "../../utils/hasPermissions";
 const { SubMenu } = Menu;
 let baseMenu = [
 	{
-		path:'/distribution/distributionStatistics',
-		icon:'icon-dingdan',
-		text:'分销数据',
-		slug: 'menu_cashback_record'
-	},
-	{
 		path:'/distribution',
 		icon:'icon-dingdanjilu-kongbaiye',
 		text:'返现记录',
+		slug: 'menu_cashback_record'
+	},
+	{
+		path:'/distribution/distributionStatistics',
+		icon:'icon-dingdan',
+		text:'分销数据',
 		slug: 'menu_cashback_record'
 	},
 	{
