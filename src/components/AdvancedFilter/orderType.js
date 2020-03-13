@@ -25,3 +25,9 @@ export const deliveryType = [
 	{name:'配送到家',key:'HOME_DELIVERY'},
 	{name:'到店自提',key:'SELF_PICK'},
 ];
+
+export const withdrawState = [
+	{name:'处理中',key:'0'},
+	{name:'提现成功',key:'1'},
+	{name:'提现失败',key:'2'},
+];

@@ -46,13 +46,13 @@ class BasicStatistics extends Component {
 							onClick={()=>this.details(record)}
 						>详情
 						</span>
-						{
-							!record['has_add_to_balance'] && <span
-									style={{'color':'#4F9863','cursor':'pointer',marginLeft: '20px'}}
-									onClick={()=>this.handleStatistics(record)}
-								>处理
-							</span>
-						}
+						{/*{*/}
+						{/*	!record['has_add_to_balance'] && <span*/}
+						{/*			style={{'color':'#4F9863','cursor':'pointer',marginLeft: '20px'}}*/}
+						{/*			onClick={()=>this.handleStatistics(record)}*/}
+						{/*		>处理*/}
+						{/*	</span>*/}
+						{/*}*/}
 					</div>
 			},
 		];
@@ -93,8 +93,8 @@ class BasicStatistics extends Component {
 	};
 	
 	// 处理
-	handleStatistics = () => {
-		this.props.history.push({pathname:"/distribution/distributionStatistics/handleStatistics"})
+	handleStatistics = (record) => {
+		this.props.history.push({pathname:"/distribution/distributionStatistics/handleStatistics", state: {id: record.id}})
 	};
 	
 	// 分页器改变值

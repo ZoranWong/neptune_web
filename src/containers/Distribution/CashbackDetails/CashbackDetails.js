@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {Button, Input, message, Modal, Table} from "antd";
+import { Table} from "antd";
 import './css/index.sass'
 import {shopStatistics} from "../../../api/distribution/statistics";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import {searchJson} from "../../../utils/dataStorage";
 import CustomPagination from "../../../components/Layout/Pagination";
-
+import IconFont from "../../../utils/IconFont";
+import ReviewShops from "./Modal/ReviewShops";
 class CashbackDetails extends Component {
 	constructor(props) {
 		super(props);
@@ -15,7 +16,9 @@ class CashbackDetails extends Component {
 			api: shopStatistics,
 			paginationParams: {
 				searchJson: {}
-			}
+			},
+			shops: [],
+			shopsVisible: false
 		};
 		this.child = React.createRef()
 	}
@@ -51,6 +54,14 @@ class CashbackDetails extends Component {
 		this.setState({tableData:list})
 	};
 	
+	// 回显下线店铺
+	reviewShops = (shops) => {
+		this.setState({shops, shopVisible: true})
+	};
+	hideShops = () => {
+		this.setState({shopVisible: false})
+	};
+	
 	render() {
 		const columnsOther = [
 			{
@@ -66,11 +77,22 @@ class CashbackDetails extends Component {
 			},
 			{
 				title: '下线数量',
-				dataIndex: 'ratio',
+				dataIndex: 'introduced_shops_count',
 			},
 			{
 				title: '下线',
-				dataIndex: 'ratio1',
+				dataIndex: 'xx',
+				render: (text, record) => {
+					if (record['introduced_shops_count'] > 0) {
+						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+							<span style={{marginRight: '10px'}} >查看</span>
+							<IconFont type="icon-eye-fill" onClick={()=>this.reviewShops(record['introduced_shops'])} />
+						</span>
+						
+					} else {
+						return <span>无</span>
+					}
+				}
 			},
 			{
 				title: '个人BV',
@@ -83,6 +105,14 @@ class CashbackDetails extends Component {
 			{
 				title: '销售返佣',
 				dataIndex: 'sales_cashback',
+			},
+			{
+				title: '市场推广服务费',
+				dataIndex: 'market_promotion_fee',
+			},
+			{
+				title: '总佣金',
+				dataIndex: 'amount',
 			},
 		];
 		const columnsSales = [
@@ -106,6 +136,25 @@ class CashbackDetails extends Component {
 				dataIndex: 'sales_cashback',
 			},
 			{
+				title: '市场推广服务费',
+				dataIndex: 'market_promotion_fee',
+			},
+			{
+				title: '总佣金',
+				dataIndex: 'amount',
+			},
+			{
+				title: '是否发放',
+				dataIndex: 'has_add_to_balance',
+				render: (text,record) => (
+					<span>{text ? '是': '否'}</span>
+				)
+			},
+			{
+				title: '发放时间',
+				dataIndex: 'add_to_balance_time',
+			},
+			{
 				title: '调整',
 				dataIndex: 'adjust',
 			},
@@ -116,8 +165,14 @@ class CashbackDetails extends Component {
 		];
 		let {state} = this;
 		let text = this.state.type === 'saleCashback' ? '请输入店铺名或店铺编号' : '请输入店铺编号或店铺主姓名或店铺主手机号码或店铺名';
+		const shopProps = {
+			visible: this.state.shopVisible,
+			shops: this.state.shops,
+			onClose: this.hideShops
+		};
 		return (
 			<div className='cash_back_setting'>
+				<ReviewShops {...shopProps} />
 				<SearchInput
 					getDatas={this.search}
 					text={text}

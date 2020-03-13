@@ -1,9 +1,8 @@
 import React from 'react';
 import {Modal,Button} from "antd";
-import AdvancedFilter from '../../../components/AdvancedFilter/AdvancedFilter'
-import {shop_values,operation} from "./shop_fields";
-import {getChannels,} from "../../../api/shops/channel";
-import {groups} from "../../../api/shops/groups";
+import AdvancedFilter from '../../../../components/AdvancedFilter/AdvancedFilter'
+import {getChannels} from "../../../../api/shops/channel";
+import {groups} from "../../../../api/shops/groups";
 
 export default class AdvancedFilterComponent extends React.Component{
 	constructor(props){
@@ -18,10 +17,11 @@ export default class AdvancedFilterComponent extends React.Component{
 	
 	
 	onSubmit = () =>{
+		console.log(JSON.stringify(this.child.current.state.data));
 		this.props.onSubmit(this.child.current.state.data);
 		this.handleCancel()
 	};
-
+	
 	clearFilter = ()=>{
 		this.child.current.clearFilter();
 	};
@@ -30,11 +30,15 @@ export default class AdvancedFilterComponent extends React.Component{
 	};
 	closeAdd = ()=>{
 		this.props.closeAddGroup();
+		this.props.closeAddTags()
 	};
 	
-	export = () =>{
-		console.log(this.props);
-		this.props.export(this.child.current.state.data)
+	showAddTags = () =>{
+		this.props.showAddTags(this.child.current.state.data)
+	};
+	
+	withdraw = () =>{
+		this.props.withdraw(this.child.current.state.data)
 	};
 	
 	render(){
@@ -52,18 +56,9 @@ export default class AdvancedFilterComponent extends React.Component{
 						<div>
 							<Button
 								size="small"
-								type="default"
 								className="e_btn"
-								onClick={this.showAddGroup}
-							>加群组</Button>
-							{
-								window.hasPermission("shop_management_export") && <Button
-									size="small"
-									type="default"
-									className="e_btn"
-									onClick={this.export}
-								>导出</Button>
-							}
+								onClick={this.withdraw}
+							>确认提现</Button>
 							<Button
 								size="small"
 								className="e_btn"
@@ -78,10 +73,10 @@ export default class AdvancedFilterComponent extends React.Component{
 				>
 					<AdvancedFilter
 						ref={this.child}
-						value={shop_values}
-						operation={operation}
-						api={{groups,getChannels}}
-						slug="shop"
+						value={this.props.value}
+						api={{getChannels,groups}}
+						operation={this.props.operation}
+						slug="merchant_withdraw_log"
 					/>
 				</Modal>
 			</div>

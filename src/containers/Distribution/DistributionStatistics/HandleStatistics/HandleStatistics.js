@@ -6,17 +6,22 @@ import CustomPagination from "../../../../components/Layout/Pagination";
 import '../css/basicStatistics.sass'
 import AdjustBV from "./components/AdjustBV";
 import _ from 'lodash'
+import {shopStatistics} from "../../../../api/distribution/statistics";
+
 class HandleStatistics extends Component {
 	constructor(props) {
 		super(props);
 		const columns = [
 			{
 				title: '店铺名称/店铺编号',
-				dataIndex: 'code',
+				dataIndex: 'shop_name',
+				render: (text,record) => (
+					<span>{text}/{record['shop_code']}</span>
+				)
 			},
 			{
 				title: '个人BV',
-				dataIndex: 'bv',
+				dataIndex: 'personal_bv',
 			},
 			{
 				title: '操作',
@@ -37,33 +42,23 @@ class HandleStatistics extends Component {
 			},
 		];
 		this.state = {
-			api: '',
-			data:[
-				{
-					code: '张强的店',
-					bv: '100000',
-					id: 1
-				},
-				{
-					code: '张小强的店',
-					bv: '5000',
-					id: 2
-				},
-				{
-					code: '张大强的店',
-					bv: '7000',
-					id: 3
-				}
-			],
+			api: shopStatistics,
+			id: '',
+			data:[],
 			paginationParams:{
-				logic_conditions:[],
-				search:'',
+				searchJson: {}
 			},
 			columns:columns,
 			adjustVisible: false,
-			adjustItem: {}
+			adjustItem: {},
+			adjusted: []
 		};
 		this.child = React.createRef();
+	}
+	
+	componentDidMount() {
+		let id = this.props.location.state.id;
+		this.setState({id});
 	}
 	
 	
@@ -71,8 +66,7 @@ class HandleStatistics extends Component {
 		this.setState({
 			filterVisible:false,
 			paginationParams:{
-				logic_conditions:[],
-				search:'',
+				searchJson: {}
 			}
 		},()=>{
 			this.child.current.pagination(this.child.current.state.current)
@@ -82,7 +76,7 @@ class HandleStatistics extends Component {
 	// 头部搜索框
 	search = (value) =>{
 		this.setState({
-			api:'',
+			api:shopStatistics,
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value})}
 		},()=>{
@@ -92,6 +86,17 @@ class HandleStatistics extends Component {
 	
 	// 分页器改变值
 	paginationChange = (list) =>{
+		let {adjusted} = this.state;
+		_.map(adjusted, item=>{
+			let index = _.findIndex(list, listItem => {
+				return listItem.id === item.id
+			});
+			if (index > -1) {
+				list[index]['operation'] = item['operation'];
+				list[index]['operationValue'] = item['operationValue'];
+				list[index]['remark'] = item['remark'];
+			}
+		});
 		this.setState({data:list})
 	};
 	
@@ -116,7 +121,10 @@ class HandleStatistics extends Component {
 			return item.id === record.id
 		});
 		index > -1 && (data[index] = record);
-		this.setState({data})
+		this.setState({data, adjusted: [...this.state.adjusted, record]},()=>{
+			console.log(this.state.adjusted, '.......................................');
+			
+		});
 	};
 	
 	render() {
@@ -169,6 +177,7 @@ class HandleStatistics extends Component {
 					<CustomPagination
 						text='条数据'
 						api={this.state.api}
+						id={this.state.id}
 						ref={this.child}
 						params={this.state.paginationParams}
 						valChange={this.paginationChange}

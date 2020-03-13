@@ -1,122 +1,45 @@
-export const consumer_order_values = [
+export const withdraw_application_fields = [
 	{
 		value:'money_attributes',
-		label:'金额属性',
-		children:[
-			{
-				label:'实付款',
-				value:'settlement_total_fee',
-				type:'numCompare'
-			},
-			{
-				label:'应付款',
-				value:'total_fee',
-				type:'numCompare'
-			},
-			{
-				label:'成本总额',
-				value:'cost_amount',
-				type:'numCompare'
-			},
-			{
-				label:'优惠金额',
-				value:'total_preferential_fee',
-				type:'numCompare'
-			},
-			{
-				label:'退款金额',
-				value:'refund_fee',
-				type:'numCompare'
-			},
-			{
-				label:'付款方式',
-				value:'payment_type',
-				type:'equalCompare'
-			}
-		]
-	},
-	{
-		value:'base_attributes',
 		label:'基本属性',
 		children:[
 			{
-				label:'订单号',
-				value:'trade_no',
-				type:'absoluteCompare'
-			},
-			{
-				label:'用户昵称',
-				value:'user_nickname',
-				type:'emptyCompare'
-			},
-			{
-				label:'用户手机号',
-				value:'user_mobile',
-				type:'emptyCompare'
-			},
-			{
-				label:'支付流水号',
-				value:'transaction_id',
-				type:'absoluteCompare'
-			}
-		]
-	},
-	{
-		value:'order_attribution',
-		label:'订单属性',
-		children:[
-			{
-				label:'订单状态',
-				value:'state',
-				type:'consumerOrder'
-			},
-			{
-				label:'配送类型',
-				value:'delivery_type',
-				type:'deliveryType'
-			},
-			{
-				label:'支付时间',
-				value:'paid_at',
-				type:'timeCompare'
-			},
-			{
-				label:'下单时间',
-				value:'created_at',
-				type:'timeCompare'
-			},
-			{
-				label:'核销时间',
-				value:'verified_at',
-				type:'timeCompare'
-			},
-			{
-				label:'商品',
-				value:'product_name',
-				type:'equalCompare'
-			},
-			{
-				label:'自提店铺名称',
+				label:'店铺名称',
 				value:'shop_name',
 				type:'equalCompare'
 			},
 			{
-				label:'自提店铺编号',
+				label:'店铺编号',
 				value:'shop_code',
 				type:'equalCompare'
 			},
 			{
-				label:'订单类型',
-				value:'order_type',
-				type:'consumerOrder'
+				label:'店铺主姓名',
+				value:'shop_keeper_name',
+				type:'absoluteCompare'
 			},
 			{
-				label:'收货地区',
-				value:'region',
-				type:'detailAddress'
+				label:'店铺主手机号',
+				value:'shop_keeper_mobile',
+				type:'absoluteCompare'
 			},
+			{
+				label:'渠道',
+				value:'channel',
+				type:'channel'
+			},
+			{
+				label:'提现金额',
+				value:'amount',
+				type:'numCompare'
+			},
+			{
+				label:'申请时间',
+				value:'created_at',
+				type:'timeCompare'
+			}
 		]
-	},
+	}
 ];
 
 export const operation = {
@@ -170,6 +93,23 @@ export const operation = {
 			value:'between',
 			type:'inputRange'
 		}
+	],
+	'channel':[
+		{
+			label:'等于',
+			value:'=',
+			type:'selectedChannelOneBox'
+		},
+		{
+			label:'等于其中之一',
+			value:'in',
+			type:'selectedChannelBox'
+		},
+		{
+			label:'不等于以下任意',
+			value:'not in',
+			type:'selectedChannelBox'
+		},
 	],
 	'contain':[
 		{
@@ -270,39 +210,29 @@ export const operation = {
 	],
 	'timeCompare':[
 		{
-			label:'等于',
-			value:'=',
-			type:'timestamp'
-		},
-		{
-			label:'不等于',
-			value:'<>',
-			type:'timestamp'
-		},
-		{
 			label:'晚于',
 			value:'>',
-			type:'timestamp'
+			type:'times'
 		},
 		{
 			label:'晚于(含)',
 			value:'>=',
-			type:'timestamp'
+			type:'times'
 		},
 		{
 			label:'早于',
 			value:'<',
-			type:'timestamp'
+			type:'times'
 		},
 		{
 			label:'早于(含)',
 			value:'<=',
-			type:'timestamp'
+			type:'times'
 		},
 		{
 			label:'区间',
 			value:'between',
-			type:'period'
+			type:'noTimePeriod'
 		}
 	],
 	'emptyCompare':[

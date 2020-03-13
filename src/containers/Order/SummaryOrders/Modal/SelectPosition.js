@@ -1,16 +1,40 @@
 import React from "react";
-import {Modal,Radio} from "antd";
+import {Cascader, Modal} from "antd";
 import '../css/modal.sass'
+import {regions} from "../../../../api/common";
+import _ from "lodash";
 
 export default class SelectPosition extends React.Component{
 	
 	
 	state = {
-		position: '合肥'
+		regions: [],
+		position: []
 	};
 	
-	onChange = (e) => {
-		this.setState({position: e.target.value})
+	componentDidMount() {
+		regions({}).then(r=>{
+			r.forEach(item=>{
+				item.children.forEach(area=>{
+					area.children.unshift({
+						region_code: null,
+						name: '全部',
+						children: []
+					})
+				});
+				item.children.unshift({
+					region_code: null,
+					name: '全部',
+					children: []
+				})
+			});
+			this.setState({regions:r})
+		}).catch(_=>{});
+	}
+	
+	onPositionChange = (e) => {
+		console.log(e, '...');
+		this.setState({position: e})
 	};
 	
 	handleCancel = () =>{
@@ -18,7 +42,29 @@ export default class SelectPosition extends React.Component{
 	};
 	
 	handleSubmit = () =>{
-		this.props.submit(this.state.position);
+		let reg = this.state.position;
+		let index = _.findIndex(reg, (region)=>{
+			if (this.props.type === 'deliveryOrders') {
+				return region === '全部'
+			} else {
+				return !region
+			}
+			
+		});
+		let params = {};
+		if (index > -1) {
+			if (index === 1) {
+				params.key =  this.props.type === 'deliveryOrders' ?  'province' : 'shop_province_code';
+				params.value = reg[index - 1];
+			} else if (index === 2) {
+				params.key =  this.props.type === 'deliveryOrders' ?  'city' : 'shop_city_code';
+				params.value = reg[index - 1];
+			}
+		} else {
+			params.key =  this.props.type === 'deliveryOrders' ?  'area' : 'shop_area_code';
+			params.value = reg[reg.length -1];
+		}
+		this.props.submit(params, this.props.type);
 		this.handleCancel();
 	};
 	
@@ -26,7 +72,7 @@ export default class SelectPosition extends React.Component{
 		return (
 			<div className="refundMoney">
 				<Modal
-					title="选择地点"
+					title="选择地区"
 					width={520}
 					visible={this.props.visible}
 					onCancel={this.handleCancel}
@@ -34,10 +80,20 @@ export default class SelectPosition extends React.Component{
 					okText="确定"
 					cancelText="取消"
 				>
-					<Radio.Group onChange={this.onChange} value={this.state.position}>
-						<Radio value='合肥'>合肥</Radio>
-						<Radio value='六安'>六安</Radio>
-					</Radio.Group>
+					{
+						this.props.type === 'deliveryOrders' ? <Cascader
+							options={this.state.regions}
+							onChange={this.onPositionChange}
+							placeholder="请选择省市区"
+							fieldNames={{label: 'name', value: 'name', children: 'children' }}
+						/> : <Cascader
+							options={this.state.regions}
+							onChange={this.onPositionChange}
+							placeholder="请选择省市区"
+							fieldNames={{label: 'name', value: 'region_code', children: 'children' }}
+						/>
+					}
+					
 				</Modal>
 			</div>
 		)

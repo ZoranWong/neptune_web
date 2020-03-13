@@ -154,13 +154,17 @@ export default class Specification extends React.Component{
 	updateSelectedSpecification = (specValue) => {
 		console.log(this.state.SelectedSpecification, 'old SelectedSpecification');
 		let specs = this.state.SelectedSpecification;
+		console.log(specValue, '...... new sepc cvalue');
 		_.map(specs, (spec) => {
 			if (!spec['spec_value']) {
 				spec['spec_value'] = [];
 			}
-			if (specValue[0].parentKey == spec.id) {
-				spec['spec_value'].push(specValue[0])
-			}
+			_.map(specValue, newValue => {
+				if (newValue.parentKey == spec.id) {
+					spec['spec_value'].push(newValue)
+				}
+			});
+			
 		});
 		console.log(specs);
 		this.setState({SelectedSpecification: specs})

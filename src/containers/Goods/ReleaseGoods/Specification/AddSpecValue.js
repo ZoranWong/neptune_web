@@ -76,7 +76,7 @@ export default class NewSpecification extends React.Component{
 		if(notInAll.length){
 			createValues({values:notInAll},this.props.parent.id).then(r=>{
 				this.props.onSubmit(this.props.parent.id,r.data.concat(isInAll));
-				this.props.onUpdate(r.data);
+				this.props.onUpdate(r.data.concat(isInAll));
 			}).catch(_=>{})
 		} else {
 			this.props.onSubmit(this.props.parent.id,isInAll);

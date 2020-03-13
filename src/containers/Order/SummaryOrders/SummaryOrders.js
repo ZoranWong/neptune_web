@@ -4,7 +4,7 @@ import {Button, message, Table} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/refund.sass'
 import {searchJson, getToken, orderOutputTransformer, orderInputTransformer} from "../../../utils/dataStorage";
-import {refund_order_values} from "../../../utils/refund_order_fields";
+import {summary_order_values} from "../../../utils/summary_order_fields";
 import AdvancedFilterComponent from "../Components/AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
@@ -50,7 +50,8 @@ class SummaryOrders extends React.Component{
 			loadingTwo: false,
 			positionVisible: false,
 			loadingThree: false,
-			deliveryHomeOrders: []
+			deliveryHomeOrders: [],
+			type: 'summaryOrders'
 		};
 		this.refundColumns = [
 			{
@@ -173,7 +174,7 @@ class SummaryOrders extends React.Component{
 	handleCustom = (e) =>{
 		let ary = [];
 		e.forEach(e=>{
-			refund_order_values.forEach(u=>{
+			summary_order_values.forEach(u=>{
 				u.children.forEach(c=>{
 					if(e == c.value){
 						let obj = {};
@@ -309,14 +310,41 @@ class SummaryOrders extends React.Component{
 		this.setState({exportVisible: true, isToday: true})
 	};
 	
+	// 获取汇总单高级筛选条件
+	getSummaryConditions = (condition) => {
+		let time = getBeforeDate(0);
+		condition.key = 'merchant_summary_order_' + condition.key;
+		let logic_conditions = {
+			conditions: [
+				{
+					conditions: [
+						{
+							key: 'merchant_summary_order_summary_date',
+							operation: '=',
+							value: time
+						},
+						{
+							key: condition.key,
+							operation: '=',
+							value: condition.value
+						}
+					],
+					logic: 'and'
+				}
+			],
+			logic: 'and'
+		};
+		return logic_conditions
+	};
+	
 	// 点击获取今日所有汇总单
-	getTodayOrder = async (page = 1, today, type) =>{
-		let res = await summaryOrders({page: page, limit: 10, searchJson: searchJson({date: today})});
+	getTodayOrder = async (page = 1, consitions, type) =>{
+		let res = await summaryOrders({page: page, limit: 10, searchJson: searchJson({logic_conditions: consitions})});
 		let list = res.data;
 		let meta = res.meta;
 		this.setState({todayOrders: this.state.todayOrders.concat(list)}, ()=>{
 			if (meta['pagination']['current_page'] < meta['pagination']['total_pages']) {
-				this.getTodayOrder(meta['pagination']['current_page'] + 1, today, type)
+				this.getTodayOrder(meta['pagination']['current_page'] + 1, consitions, type)
 			} else {
 				this.setState({
 					loadingOne: false,
@@ -341,33 +369,40 @@ class SummaryOrders extends React.Component{
 	};
 	
 	// 打印今日汇总单
-	printAllSummaryOrders = async () => {
-		let now = new　Date();
+	printAllSummaryOrders = async (position) => {
 		this.setState({loadingOne: true});
-		// this.showPosition()
-		await this.getTodayOrder(1, timeFormer(now), 'order');
+		await this.getTodayOrder(1, this.getSummaryConditions(position), 'order');
 	};
 	
 	// 打印今日订单
-	printAllOrders = async () => {
-		let now = new Date();
-		// this.showPosition()
+	printAllOrders = async (position) => {
 		this.setState({loadingTwo: true});
-		await this.getTodayOrder(1, timeFormer(now),'summary');
+		await this.getTodayOrder(1, this.getSummaryConditions(position),'summary');
 	};
 	
 	// 选择地点
-	showPosition = () => {
-		this.setState({positionVisible: true})
+	showPosition = (type) => {
+		this.setState({positionVisible: true, type})
 	};
 	hidePosition = () => {
 		this.setState({positionVisible: false})
 	};
-	submitPosition = (position) => {
-		console.log(position, '==================================>');
+	submitPosition = (position, type) => {
+		switch (type) {
+			case 'deliveryOrders':
+				this.printDeliveryOrders(1, position);
+				break;
+			case 'orders':
+				this.printAllOrders(position);
+				break;
+			case 'summaryOrders':
+				this.printAllSummaryOrders(position);
+				break
+		}
 	};
 	
-	getConditions = () => {
+	getConditions = (condition) => {
+		condition.key = 'order_' + condition.key;
 		let time = [`${getBeforeDate(-1)} 21:00`, `${getBeforeDate(0)} 21:00`];
 		let conditions = {
 			logic_conditions: {
@@ -388,6 +423,11 @@ class SummaryOrders extends React.Component{
 								key: 'order_created_at',
 								operation: 'between',
 								value: time
+							},
+							{
+								key: condition.key,
+								operation: 'like',
+								value: condition.value
 							}
 						],
 						logic: 'and'
@@ -395,21 +435,20 @@ class SummaryOrders extends React.Component{
 				],
 				logic: 'and'
 			}
-		}
+		};
 		return conditions
 	};
 	
 	// 打印今日配送单
-	printDeliveryOrders = async (event,page) => {
-		event.persist();
+	printDeliveryOrders = async (page, conditions) => {
 		this.setState({loadingThree: true});
-		let res = await userOrder({page: page, limit: 10, searchJson: searchJson(this.getConditions())});
+		let res = await userOrder({page: page, limit: 10, searchJson: searchJson(this.getConditions(conditions))});
 		console.log(res);
 		let list = res.data;
 		let meta = res.meta;
 		this.setState({deliveryHomeOrders: this.state.deliveryHomeOrders.concat(list)}, ()=>{
 			if (meta['pagination']['current_page'] < meta['pagination']['total_pages']) {
-				this.printDeliveryOrders(event, meta['pagination']['current_page'] + 1)
+				this.printDeliveryOrders( meta['pagination']['current_page'] + 1, conditions)
 			} else {
 				this.setState({
 					loadingThree: false
@@ -445,14 +484,15 @@ class SummaryOrders extends React.Component{
 			onCancel : this.hideExport,
 			export: this.export,
 			strategy,
-			values: refund_order_values,
+			values: summary_order_values,
 			conditions: this.state.conditions,
 			slug: 'order_'
 		};
 		const positionProps = {
 			visible : this.state.positionVisible,
 			onCancel: this.hidePosition,
-			submit: this.submitPosition
+			submit: this.submitPosition,
+			type: this.state.type
 		};
 		return (
 			<div className="refund">
@@ -463,7 +503,7 @@ class SummaryOrders extends React.Component{
 					onCancel={this.closeHigherFilter}
 					onSubmit={this.onSubmit}
 					refresh={this.refresh}
-					data={refund_order_values}
+					data={summary_order_values}
 					export={this.showExport}
 				/>
 				
@@ -505,21 +545,21 @@ class SummaryOrders extends React.Component{
 						{
 							window.hasPermission("order_management_printing") && <Button
 								size="small"
-								onClick={this.printAllSummaryOrders}
+								onClick={()=>this.showPosition('summaryOrders')}
 								loading={this.state.loadingOne}
 							>打印今日汇总单</Button>
 						}
 						{
 							window.hasPermission("order_management_printing") && <Button
 								size="small"
-								onClick={this.printAllOrders}
+								onClick={()=>this.showPosition('orders')}
 								loading={this.state.loadingTwo}
 							>打印今日订单</Button>
 						}
 						{
 							window.hasPermission("order_management_printing") && <Button
 								size="small"
-								onClick={(e)=>this.printDeliveryOrders(e)}
+								onClick={()=>this.showPosition('deliveryOrders')}
 								loading={this.state.loadingThree}
 							>打印今日配送单</Button>
 						}
@@ -543,7 +583,7 @@ class SummaryOrders extends React.Component{
 						<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 						<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
 							<CustomItem
-								data={refund_order_values}
+								data={summary_order_values}
 								targetKeys={orderInputTransformer(this.state.defaultItem)}
 								firstItem={'trade_no'}
 								handleCustom={this.handleCustom}

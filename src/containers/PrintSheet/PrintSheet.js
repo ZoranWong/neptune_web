@@ -201,7 +201,7 @@ class PrintSheet extends Component {
 		return (
 			<div id='printArea'>
 				{
-					orders.length && orders.map((order) => {
+					orders.length ? orders.map((order) => {
 						console.log(order);
 						let totalQuantity = 0;
 						let totalPrice = 0;
@@ -283,7 +283,7 @@ class PrintSheet extends Component {
 							</div>
 							
 						</div>
-					})
+					}) : '暂无订单'
 				}
 			</div>
 			

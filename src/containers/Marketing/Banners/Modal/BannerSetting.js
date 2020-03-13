@@ -53,7 +53,9 @@ class BannerSetting extends Component {
 				jumpUrl: nextProps.banner['action_link'] || '',
 				defaultImg: nextProps.banner['image'],
 				sort: nextProps.banner['sort'],
-				status: 'edit'
+				scene: nextProps.banner['scene'],
+				status: 'edit',
+				isActive: nextProps.banner['is_active']
 			})
 		}
 		if (this.state.products.length) return;
@@ -101,7 +103,7 @@ class BannerSetting extends Component {
 			message.error('请先填写轮播序号');
 			return
 		}
-		let action_args = jumpType === 'PRODUCT_DETAIL'?  {id: selectedProduct} : {};
+		let action_args = jumpType === 'PRODUCT_DETAIL'?  {id: selectedProduct} : {id: '-1'};
 		this.operateBanner(title, synopsis,banner,canJump,jumpUrl,sort,jumpType,action_args);
 	};
 	
@@ -112,7 +114,7 @@ class BannerSetting extends Component {
 			title,
 			synopsis,
 			sort,
-			scene: 'WECHAT_MINIPROGRAM_INDEX',
+			scene: this.state.scene,
 			action_type: action_type,
 			is_active: this.state.isActive,
 			image,can_jump,action_link,
@@ -140,7 +142,7 @@ class BannerSetting extends Component {
 	};
 	
 	getProducts = (page) =>{
-		channelsGoods({limit:100,page:1, channel: 'SHOP_KEEPER'},).then(r=>{
+		channelsGoods({limit:100,page:1, channel: 'DISTRIBUTION_MALL'},).then(r=>{
 			this.setState({products: r.data})
 		})
 	};
@@ -187,9 +189,11 @@ class BannerSetting extends Component {
 						</li>
 						<li className="normalLi imgLi">
 							<span className="left">使用场景</span>
-							<Select value={this.state.scene} onChange={this.handleSceneChange}>
-								{/*<Option value="GENERAL_INDEXL">网址，链接</Option>*/}
+							<Select value={this.state.scene} onChange={this.handleSceneChange} disabled={this.props.banner.id}>
+								<Option value="GENERAL_INDEX">通用首页</Option>
 								<Option value="WECHAT_MINIPROGRAM_INDEX">小程序首页</Option>
+								<Option value="APP_INDEX_MERCHANT">APP商户首页</Option>
+								<Option value="APP_INDEX_DISTRIBUTOR">APP分销员首页</Option>
 							</Select>
 						</li>
 						<li className="normalLi imgLi">

@@ -72,7 +72,7 @@ class PrintSummaryOrders extends Component {
 		return (
 			<div id='printArea'>
 				{
-					orders.length && orders.map((order,index) => {
+					orders.length ? orders.map((order,index) => {
 						console.log(order);
 						let totalQuantity = 0;
 						let totalPrice = 0;
@@ -120,7 +120,7 @@ class PrintSummaryOrders extends Component {
 							</div>
 						
 						</div>
-					})
+					}) : '暂无订单'
 				}
 			</div>
 		

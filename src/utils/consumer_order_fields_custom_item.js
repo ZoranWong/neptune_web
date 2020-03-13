@@ -1,4 +1,4 @@
-export const consumer_order_values = [
+export const consumer_order_values_custom = [
 	{
 		value:'money_attributes',
 		label:'金额属性',
@@ -83,11 +83,6 @@ export const consumer_order_values = [
 			{
 				label:'下单时间',
 				value:'created_at',
-				type:'timeCompare'
-			},
-			{
-				label:'核销时间',
-				value:'verified_at',
 				type:'timeCompare'
 			},
 			{

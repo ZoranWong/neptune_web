@@ -81,6 +81,11 @@ export const consumer_order_values_export = [
 				type:'consumerOrder'
 			},
 			{
+				label:'支付时间',
+				value:'paid_at',
+				type:'timeCompare'
+			},
+			{
 				label:'下单时间',
 				value:'created_at',
 				type:'timeCompare'

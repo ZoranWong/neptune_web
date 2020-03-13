@@ -13,7 +13,6 @@ class Nav extends React.Component{
 	
 	componentWillMount() {
 		if(getUserInfo()){
-			console.log(JSON.parse(getUserInfo()), '...........');
 			this.setState({userPermission:JSON.parse(getUserInfo())})
 		}
 	}

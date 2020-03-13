@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Button, message, Modal, Table} from "antd";
+import {Button, message, Modal, Select, Table,Switch} from "antd";
 import BannerSetting from "./Modal/BannerSetting";
-import {banners, deleteBanner} from "../../../api/marketing/banners";
+import {banners, deleteBanner,enableBanner,disableBanner} from "../../../api/marketing/banners";
 import './css/index.sass'
 import {searchJson} from "../../../utils/dataStorage";
 class Banners extends Component {
@@ -11,6 +11,8 @@ class Banners extends Component {
 			banners: [],
 			settingVisible: false,
 			banner: {},
+			state: null,
+			scene: null
 		};
 		this.child = React.createRef();
 	}
@@ -20,7 +22,7 @@ class Banners extends Component {
 	};
 	
 	refresh = () => {
-		banners({searchJson: searchJson({scene: ''})}).then(r=>{
+		banners({}).then(r=>{
 			this.setState({banners: r.data})
 		}).catch(_=>{})
 	};
@@ -80,8 +82,56 @@ class Banners extends Component {
 		});
 	};
 	
+	handleChange = (type,e) => {
+		this.setState({[type]: e}, ()=>{
+			console.log(e);
+			console.log(this.state, '...');
+		})
+	};
+	
+	search = () => {
+		let {scene,state} = this.state;
+		let params = {};
+		if (!state && state !== false) {
+			if (scene) {
+				params = {
+					scene
+				}
+			} else {
+				params = {}
+			}
+		} else {
+			if (scene) {
+				params = {
+					scene,
+					is_active: state
+				}
+			} else {
+				params = {
+					is_active: state
+				}
+			}
+			
+		}
+		banners({searchJson: searchJson(params)}).then(r=>{
+			this.setState({banners: r.data})
+		}).catch(_=>{})
+	};
+	
+	// 开关
+	onSwitchChange = (e, record) => {
+		console.log(e);
+		console.log(record);
+		let api = e ? enableBanner : disableBanner;
+		let text = e ? '启用' : '禁用';
+		api({},record.id).then(r=>{
+			message.success(`${text}Banner成功`);
+			this.search()
+		}).catch(_=>{})
+	};
+	
+	
 	render() {
-		
 		const columns = [
 			{
 				title: '标题',
@@ -132,6 +182,19 @@ class Banners extends Component {
 				dataIndex: 'sort',
 			},
 			{
+				title: '状态',
+				dataIndex: 'is_active',
+				render: (text,record) => (
+					<span>{text ? '已使用' : '未使用'}</span>
+				)
+			},
+			{
+				title: '开关',
+				render: (text,record) => (
+					<Switch checked={record['is_active']} onChange={(e)=>this.onSwitchChange(e,record)} />
+				)
+			},
+			{
 				title: '操作',
 				render: (text,record) =>
 					<div>
@@ -140,13 +203,27 @@ class Banners extends Component {
 							onClick={()=>this.editBanner(record)}
 						>编辑
 						</span>
-						<span
-							style={{'color':'#4F9863','cursor':'pointer'}}
-							onClick={()=>this.deleteBanner(record.id)}
-						>删除
+						{
+							!record['is_active'] && <span
+								style={{'color':'#4F9863','cursor':'pointer'}}
+								onClick={()=>this.deleteBanner(record.id)}
+							>删除
 						</span>
+						}
 					</div>
 			},
+		];
+		
+		const scene = [
+			{name: '通用首页',value: 'GENERAL_INDEX'},
+			{name: '小程序首页',value: 'WECHAT_MINIPROGRAM_INDEX'},
+			{name: 'APP商户首页',value: 'APP_INDEX_MERCHANT'},
+			{name: 'APP分销员首页',value: 'APP_INDEX_DISTRIBUTOR'}
+		];
+		
+		const state = [
+			{name: '已使用', value: true},
+			{name: '未使用', value: false}
 		];
 		
 		const bannerSettingProps = {
@@ -165,6 +242,39 @@ class Banners extends Component {
 					<Button className="addNew" onClick={this.createNewBanner}>
 						<i className="iconfont">&#xe7e0;</i>
 						新增Banner</Button>
+					
+					<div className="searchSelect">
+						<Select
+							defaultActiveFirstOption={false}
+							value={this.state.scene}
+							onChange={(e)=>this.handleChange('scene',e)}
+							optionLabelProp="label"
+							allowClear
+							placeholder='请选择使用场景'
+						>
+							{scene.map(item => (
+								<Select.Option key={item.value} label={item.name}  value={item.value}>
+									{item.name}
+								</Select.Option>
+							))}
+						</Select>
+						<Select
+							defaultActiveFirstOption={false}
+							value={this.state.state}
+							onChange={(e)=>this.handleChange('state',e)}
+							optionLabelProp="label"
+							allowClear
+							placeholder='请选择状态'
+						>
+							{state.map(item => (
+								<Select.Option  key={item.value} label={item.name}  value={item.value}>
+									{item.name}
+								</Select.Option>
+							))}
+						</Select>
+						<span style={{color: '#4f9863', fontSize: '12px', cursor: 'pointer'}} onClick={this.search}>筛选</span>
+					</div>
+					
 					<Table
 						dataSource={this.state.banners}
 						rowKey={record => record.id}

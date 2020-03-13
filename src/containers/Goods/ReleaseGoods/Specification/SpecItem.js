@@ -2,7 +2,7 @@ import React from "react";
 import {Tag} from 'antd'
 import IconFont from "../../../../utils/IconFont";
 import NewSon from "./AddSpecValue";
-
+import _ from 'lodash'
 export default class SpecItem extends React.Component{
 	constructor(props) {
 		super(props);
@@ -29,15 +29,31 @@ export default class SpecItem extends React.Component{
 		});
 	}
 	
-	// 新增规格值
+
+// 新增规格值
 	createNewSon = (specId, values) =>{
 		let copySpecItemData = this.state.specItemData;
+		console.log(copySpecItemData, '1111111111111111111111');
+		console.log(specId, '33333333333');
+		if (copySpecItemData[specId] && copySpecItemData[specId].length) {
+			values.forEach(item=>{
+				item.parentKey = specId;
+				let index = _.findIndex(copySpecItemData[specId], (data) => {
+					return data.id == item.id
+				});
+				if (index === -1) {
+					copySpecItemData[specId].push(item);
+				}
+			});
+		} else {
+			copySpecItemData[specId] = [];
+			values.forEach(item=>{
+				copySpecItemData[specId].push(item);
+			});
+		}
 		
-		copySpecItemData[specId] = [];
+		console.log(values, '2222222222');
 		
-		values.forEach(item=>{
-			copySpecItemData[specId].push(item);
-		});
 		this.setState({specItemData:copySpecItemData});
 		this.props.renderTable();
 		this.hideNewSon()

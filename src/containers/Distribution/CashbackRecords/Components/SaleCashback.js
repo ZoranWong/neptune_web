@@ -1,14 +1,19 @@
 import React, {Component} from 'react';
-import { DatePicker, Table} from "antd";
+import {DatePicker, message, Modal, Table} from "antd";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import {searchJson} from "../../../../utils/dataStorage";
-import {summaries} from "../../../../api/distribution/statistics";
+import {summaries,} from "../../../../api/distribution/statistics";
+import {sendIssueBalance} from "../../../../api/distribution/records";
 import locale from "antd/es/date-picker/locale/zh_CN";
 const { RangePicker,MonthPicker } = DatePicker;
 class SaleCashback extends Component {
 	constructor(props) {
 		super(props);
 		const columns = [
+			{
+				title: '返佣时间',
+				dataIndex: 'add_to_balance_time'
+			},
 			{
 				title: '汇总月份',
 				dataIndex: 'month',
@@ -29,18 +34,22 @@ class SaleCashback extends Component {
 				dataIndex: 'market_promotion_service_fee',
 			},
 			{
+				title: '发放状态',
+				dataIndex: 'issue_state_desc',
+			},
+			{
 				title: '操作',
 				render: (text,record) =>
 					<div>
 						{
-							!record['has_add_to_balance'] && <span
-								style={{'color':'#4F9863','cursor':'pointer'}}
+							record['issue_state'] === 1 && <span
+								style={{'color':this.state.canClick?'#4F9863': '#ccc','cursor':'pointer',marginRight: '20px'}}
 								onClick={()=>this.send(record)}
 							>发送
 							</span>
 						}
 						<span
-							style={{'color':'#4F9863','cursor':'pointer', marginLeft: '20px'}}
+							style={{'color':'#4F9863','cursor':'pointer'}}
 							onClick={()=>this.details(record)}
 						>详情
 						</span>
@@ -58,7 +67,8 @@ class SaleCashback extends Component {
 			},
 			columns:columns,
 			reviewGoodsVisible: false,
-			items:[]
+			items:[],
+			canClick: true
 		};
 		this.child = React.createRef();
 	}
@@ -87,8 +97,43 @@ class SaleCashback extends Component {
 	};
 	
 	// 发送
-	send = () => {
-	
+	send = (record) => {
+		let {canClick} = this.state;
+		let self = this;
+		if (!canClick) return;
+		this.setState({canClick: false});
+		let refresh = this.refresh;
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			maskClosable:true,
+			content: (
+				<div className="U_confirm">
+					确定发放该笔佣金吗?
+				</div>
+			),
+			okText:'知道了',
+			onOk() {
+				sendIssueBalance({},record.id).then(r=>{
+					message.success(r.message);
+					self.setState({canClick: true});
+					refresh()
+				})
+			},
+			onCancel() {
+				self.setState({canClick: true})
+			},
+		});
 	};
 	
 	// 详情
@@ -116,10 +161,6 @@ class SaleCashback extends Component {
 			<div className="basic_statistics">
 				<div className="basic_statistics_header">
 					<ul className="header_left">
-						<li>
-							返佣时间:
-							<RangePicker picker="month"  locale={locale} onChange={this.onDateChange} />
-						</li>
 						<li>
 							汇总月份:
 							<MonthPicker

@@ -50,7 +50,7 @@ class ShopKeeper extends React.Component{
 				positionData['province_code'] = r.data.province_code;
 				positionData['city_code'] = r.data.city_code;
 				positionData['area_code'] = r.data.area_code;
-				this.setState({listData:r.data,positionData,activeRoute: r.data['delivery_route_id'],statusD : 'edit'})
+				this.setState({listData:r.data,positionData,activeRoute: r.data['delivery_route_id'],statusD : 'edit',address: '设置地图坐标'})
 			});
 		} else {
 			this.setState({statusD: 'create'})
@@ -68,6 +68,7 @@ class ShopKeeper extends React.Component{
 	
 	
 	handleCancel = ()=>{
+		this.setState({lngLat: {latitude: '',longitude: ''}});
 		this.props.onClose()
 	};
 	handleSubmit = () =>{
@@ -175,7 +176,7 @@ class ShopKeeper extends React.Component{
 			shopKeeper(data).then(r=>{
 				message.success('新增店铺成功');
 				this.props.refresh();
-				this.handleCancel()
+				this.handleCancel();
 			})
 		}
 	

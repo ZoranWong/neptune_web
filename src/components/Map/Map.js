@@ -19,7 +19,6 @@ export default class CustomMap extends React.Component{
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		if (!nextProps.position) return;
-		console.log(nextProps, 'XXXXXXXXXXXXXXXXXXXXXXXX');
 		this.setState({markerPosition:{...this.state.markerPosition,longitude:nextProps.position.lng,latitude:nextProps.position.lat},searchContent:''}, ()=>{
 			console.log('更新地图数据');
 		})
@@ -38,7 +37,6 @@ export default class CustomMap extends React.Component{
 		if(this.props.disabled){
 			this.handleCancel();
 		} else {
-			console.log(this.state.markerPosition,'{{{{{{{{{{{{{{{{{{{');
 			this.props.handleLocation(this.state.searchContent,this.state.markerPosition);
 			this.handleCancel();
 		}

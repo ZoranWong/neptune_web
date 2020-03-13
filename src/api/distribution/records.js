@@ -17,3 +17,12 @@ export function pickupCashback(params) {
 		params: params
 	})
 }
+
+// 发放佣金
+export function sendIssueBalance(params,platformSummary) {
+	return request({
+		url: `/api/backend/distribution/sales/cashback/platform/summaries/${platformSummary}/issue_balance`,
+		method: 'put',
+		data: params
+	})
+}

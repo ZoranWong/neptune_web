@@ -12,6 +12,7 @@ import ReviewGoods from "../Components/ReviewGoods";
 import {userOrder, batchCancel, checkOrders, checkOrder, checkManyOrder} from "../../../api/order/orderManage";
 import {consumer_order_values} from "../../../utils/consumer_order_fields";
 import {consumer_order_values_export} from "../../../utils/consumer_order_fields_export";
+import {consumer_order_values_custom} from "../../../utils/consumer_order_fields_custom_item";
 import {getBeforeDate} from "../../../utils/dataStorage";
 import ChangeOrderStatus from "./Modal/ChangeOrderStatus";
 import Export from "../Components/Export";
@@ -55,7 +56,7 @@ class Order extends React.Component{
 				dataIndex: 'delivery_type',
 			},
 			{
-				title: '下单时间',
+				title: '支付时间',
 				dataIndex: 'paid_at',
 			},
 			{
@@ -105,7 +106,7 @@ class Order extends React.Component{
 				dataIndex: 'delivery_type',
 			},
 			{
-				title: '下单时间',
+				title: '支付时间',
 				dataIndex: 'paid_at',
 			},
 			{
@@ -218,7 +219,7 @@ class Order extends React.Component{
 		let ary = [];
 		console.log(e);
 		e.forEach(e=>{
-			consumer_order_values.forEach(u=>{
+			consumer_order_values_custom.forEach(u=>{
 				u.children.forEach(c=>{
 					if(e == c.value){
 						let obj = {};
@@ -707,7 +708,7 @@ class Order extends React.Component{
 							<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 							<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
 								<CustomItem
-									data={consumer_order_values}
+									data={consumer_order_values_custom}
 									handleCustom={this.handleCustom}
 									targetKeys={orderInputTransformer(this.state.defaultItem)}
 									firstItem={'trade_no'}

@@ -36,3 +36,22 @@ export function deleteBanner(params,bannerId) {
 		params: params
 	})
 }
+
+// 开启banner
+export function enableBanner(params,bannerId) {
+	return request({
+		url: `/api/backend/marketing/banners/${bannerId}/enable`,
+		method: 'get',
+		params: params
+	})
+}
+
+
+// 禁用banner
+export function disableBanner(params,bannerId) {
+	return request({
+		url: `/api/backend/marketing/banners/${bannerId}/disable`,
+		method: 'get',
+		params: params
+	})
+}
