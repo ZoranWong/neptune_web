@@ -229,9 +229,9 @@ class OrderManage extends React.Component{
 		// }).catch(_=>{})
 	};
 	
-	exportNew = () => {
+	exportNew = (strategy) => {
 		let json = searchJson({
-			strategy: 'ACTIVITY_ORDER_CAKE_2',
+			strategy: strategy,
 			customize_columns: [],
 			logic_conditions: [],
 			order_ids: this.state.checkedAry
@@ -435,8 +435,15 @@ class OrderManage extends React.Component{
 							type="default"
 							className="e_btn"
 							disabled={!this.state.checkedAry.length}
-							onClick={this.exportNew}
+							onClick={()=>this.exportNew('ACTIVITY_ORDER_CAKE_2')}
 						>导出新格式</Button>
+						<Button
+							size="small"
+							type="default"
+							className="e_btn"
+							disabled={!this.state.checkedAry.length}
+							onClick={()=>this.exportNew('ACTIVITY_ORDER_CAKE_3')}
+						>导出新新格式</Button>
 						<Button
 							size="small"
 							onClick={this.check}

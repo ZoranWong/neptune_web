@@ -91,6 +91,11 @@ export const consumer_order_values = [
 				type:'timeCompare'
 			},
 			{
+				label:'预期收货日期',
+				value:'expect_receive_date',
+				type:'times'
+			},
+			{
 				label:'商品',
 				value:'product_name',
 				type:'equalCompare'
@@ -266,6 +271,13 @@ export const operation = {
 			label:'不等于其中之一',
 			value:'not in',
 			type:'selectedBox'
+		},
+	],
+	'times': [
+		{
+			label:'等于',
+			value:'=',
+			type:'times'
 		},
 	],
 	'timeCompare':[

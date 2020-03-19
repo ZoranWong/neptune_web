@@ -27,7 +27,8 @@ export const deliveryType = [
 ];
 
 export const withdrawState = [
-	{name:'处理中',key:'0'},
-	{name:'提现成功',key:'1'},
-	{name:'提现失败',key:'2'},
+	{name:'发起提现',key:1},
+	{name:'财务处理中',key:2},
+	{name:'已发放',key:3},
+	{name:'发放失败',key:4},
 ];

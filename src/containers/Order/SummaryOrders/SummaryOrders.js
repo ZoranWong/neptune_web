@@ -270,6 +270,16 @@ class SummaryOrders extends React.Component{
 		window.open(`${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`,'target','');
 	};
 	
+	// 一键导出
+	exportToday = (type) =>{
+		let json = searchJson({
+			strategy: type,
+			customize_columns: [],
+			logic_conditions: []
+		});
+		window.open(`${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`,'target','');
+	};
+	
 	// 打印订单
 	print = () => {
 		let {checkedAry, data} = this.state;
@@ -311,29 +321,79 @@ class SummaryOrders extends React.Component{
 	};
 	
 	// 获取汇总单高级筛选条件
-	getSummaryConditions = (condition) => {
+	getSummaryConditions = (condition, group) => {
 		let time = getBeforeDate(0);
 		condition.key = 'merchant_summary_order_' + condition.key;
-		let logic_conditions = {
-			conditions: [
-				{
-					conditions: [
-						{
-							key: 'merchant_summary_order_summary_date',
-							operation: '=',
-							value: time
-						},
-						{
-							key: condition.key,
-							operation: '=',
-							value: condition.value
-						}
-					],
-					logic: 'and'
-				}
-			],
-			logic: 'and'
-		};
+		let logic_conditions;
+		if (condition.value && group) {
+			logic_conditions = {
+				conditions: [
+					{
+						conditions: [
+							{
+								key: 'merchant_summary_order_summary_date',
+								operation: '=',
+								value: time
+							},
+							{
+								key: condition.key,
+								operation: '=',
+								value: condition.value
+							},
+							{
+								key: 'merchant_summary_order_shop_group',
+								operation: '=',
+								value: group
+							}
+						],
+						logic: 'and'
+					}
+				],
+				logic: 'and'
+			};
+		} else if (!condition.value && group) {
+			logic_conditions = {
+				conditions: [
+					{
+						conditions: [
+							{
+								key: 'merchant_summary_order_summary_date',
+								operation: '=',
+								value: time
+							},
+							{
+								key: 'merchant_summary_order_shop_group',
+								operation: '=',
+								value: group
+							}
+						],
+						logic: 'and'
+					}
+				],
+				logic: 'and'
+			};
+		} else if (condition && !group) {
+			logic_conditions = {
+				conditions: [
+					{
+						conditions: [
+							{
+								key: 'merchant_summary_order_summary_date',
+								operation: '=',
+								value: time
+							},
+							{
+								key: condition.key,
+								operation: '=',
+								value: condition.value
+							}
+						],
+						logic: 'and'
+					}
+				],
+				logic: 'and'
+			};
+		}
 		return logic_conditions
 	};
 	
@@ -360,24 +420,31 @@ class SummaryOrders extends React.Component{
 							})
 						});
 						this.props.history.push({pathname:"/printSheet", state: {orders: orders, title: ''}})
+					} else {
+						message.error('今日暂无订单')
 					}
 				} else if (type === 'order') {
-					this.props.history.push({pathname:"/printSummaryOrders", state: {orders: todayOrders, title: ''}})
+					if (todayOrders.length) {
+						this.props.history.push({pathname:"/printSummaryOrders", state: {orders: todayOrders, title: ''}})
+					}else {
+						message.error('今日暂无订单')
+					}
+					
 				}
 			}
 		})
 	};
 	
 	// 打印今日汇总单
-	printAllSummaryOrders = async (position) => {
+	printAllSummaryOrders = async (position, group) => {
 		this.setState({loadingOne: true});
-		await this.getTodayOrder(1, this.getSummaryConditions(position), 'order');
+		await this.getTodayOrder(1, this.getSummaryConditions(position, group), 'order');
 	};
 	
 	// 打印今日订单
-	printAllOrders = async (position) => {
+	printAllOrders = async (position, group) => {
 		this.setState({loadingTwo: true});
-		await this.getTodayOrder(1, this.getSummaryConditions(position),'summary');
+		await this.getTodayOrder(1, this.getSummaryConditions(position, group),'summary');
 	};
 	
 	// 选择地点
@@ -387,16 +454,16 @@ class SummaryOrders extends React.Component{
 	hidePosition = () => {
 		this.setState({positionVisible: false})
 	};
-	submitPosition = (position, type) => {
+	submitPosition = (position, type, group) => {
 		switch (type) {
 			case 'deliveryOrders':
 				this.printDeliveryOrders(1, position);
 				break;
 			case 'orders':
-				this.printAllOrders(position);
+				this.printAllOrders(position, group);
 				break;
 			case 'summaryOrders':
-				this.printAllSummaryOrders(position);
+				this.printAllSummaryOrders(position, group);
 				break
 		}
 	};
@@ -514,7 +581,7 @@ class SummaryOrders extends React.Component{
 					text={this.state.text}
 				/>
 				
-				<div className="s_body">
+				<div className="s_body_box">
 					<div className="headerLeft">
 						<SearchInput
 							getDatas={this.search}
@@ -563,10 +630,23 @@ class SummaryOrders extends React.Component{
 								loading={this.state.loadingThree}
 							>打印今日配送单</Button>
 						}
+						
 					</div>
 					
 				</div>
-				
+				<div className="" style={{marginTop: '20px'}}>
+					<Button
+						size="small"
+						onClick={()=>this.exportToday('SHOP_SELF_PICK_SUMMARY_3')}
+						loading={this.state.loadingThree}
+					>导出今日自提点地址</Button>
+					<Button
+						size="small"
+						onClick={()=>this.exportToday('SHOP_SELF_PICK_SUMMARY_4')}
+						loading={this.state.loadingThree}
+						style={{marginLeft: '15px'}}
+					>导出今日配送单地址</Button>
+				</div>
 				<div className="tabs">
 					<ul className="left">
 						{

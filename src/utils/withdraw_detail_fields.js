@@ -35,12 +35,27 @@ export const withdraw_detail_fields = [
 			},
 			{
 				label:'申请时间',
-				value:'created_at',
+				value:'applied_time',
 				type:'timeCompare'
 			},
 			{
-				label:'确定时间',
-				value:'handled_at',
+				label:'确认时间',
+				value:'confirmed_time',
+				type:'timeCompare'
+			},
+			{
+				label:'最后确认时间',
+				value:'verified_time',
+				type:'timeCompare'
+			},
+			{
+				label:'审核通过时间',
+				value:'passed_time',
+				type:'timeCompare'
+			},
+			{
+				label:'审核拒绝时间',
+				value:'failed_time',
 				type:'timeCompare'
 			},
 			{

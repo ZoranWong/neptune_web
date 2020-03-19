@@ -76,7 +76,7 @@ export default class AdvancedFilterComponent extends React.Component{
 						value={this.props.value}
 						api={{getChannels,groups}}
 						operation={this.props.operation}
-						slug="merchant_withdraw_log"
+						slug="merchant_withdrawal_record"
 					/>
 				</Modal>
 			</div>

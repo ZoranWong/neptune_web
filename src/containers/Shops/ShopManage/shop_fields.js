@@ -275,7 +275,7 @@ export const operation = {
 		},
 		{
 			label:'不等于以下任意',
-			value:'not in',
+			value:'not_in',
 			type:'selectedChannelBox'
 		},
 	],
@@ -292,17 +292,17 @@ export const operation = {
 		},
 		{
 			label:'不在以下任意群组中',
-			value:'not in',
+			value:'not_in',
 			type:'selectedGroupBox'
 		},
 		{
 			label:'为空',
-			value:'is null',
+			value:'is_null',
 			type:''
 		},
 		{
 			label:'不为空',
-			value:'is not null',
+			value:'is_not_null',
 			type:''
 		},
 	],
@@ -319,7 +319,7 @@ export const operation = {
 		},
 		{
 			label:'不等于以下任意',
-			value:'not in',
+			value:'not_in',
 			type:'selectedBox'
 		},
 	],
@@ -353,7 +353,7 @@ export const operation = {
 		},
 		{
 			label:'不等于其中任意',
-			value:'not in',
+			value:'not_in',
 			type:'cityBox'
 		},
 	],

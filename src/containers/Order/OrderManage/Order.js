@@ -449,7 +449,7 @@ class Order extends React.Component{
 				{
 					conditions: [
 						{
-							key: 'order_created_at',
+							key: 'order_paid_at',
 							operation: 'between',
 							value: [yesterday, today]
 						},

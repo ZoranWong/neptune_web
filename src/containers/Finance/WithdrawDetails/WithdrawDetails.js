@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import {Button, message, Modal, Table} from "antd";
 import CustomPagination from "../../../components/Layout/Pagination";
 import './css/withdrawDetail.sass'
-import {withdrawOverview,withdrawList,confirmSend,confirmFailedSend} from "../../../api/finance/withdraw";
-import SelectTimeRange from "../../../components/SelectTimeRange/SelectTimeRange";
-import {searchJson} from "../../../utils/dataStorage";
+import {withdrawList,confirmSend,confirmFailedSend} from "../../../api/finance/withdraw";
+import {getToken, searchJson} from "../../../utils/dataStorage";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import AdvancedFilterComponent from "./components/AdvancedFilterComponent";
 import {operation, withdraw_detail_fields} from "../../../utils/withdraw_detail_fields";
 import FailedReason from "./components/FailedReason";
+import Config from "../../../config/app";
 export default class WithdrawDetails extends Component {
 	constructor(props) {
 		super(props);
@@ -24,7 +24,8 @@ export default class WithdrawDetails extends Component {
 			this_month_withdraw_total: 0,
 			status: null,
 			checkedAry: [],
-			reasonVisible: false
+			reasonVisible: false,
+			conditions: []
 		};
 		this.child = React.createRef();
 	}
@@ -118,7 +119,6 @@ export default class WithdrawDetails extends Component {
 		}).catch(_=>{})
 	};
 	
-	
 	// 已发放
 	sended = () => {
 		let refresh = this.refresh;
@@ -158,6 +158,16 @@ export default class WithdrawDetails extends Component {
 				}).catch(_=>{});
 			}
 		});
+	};
+	
+	// 确定导出
+	export = (conditions) =>{
+		let json = searchJson({
+			strategy: 'MERCHANT_WITHDRAWAL_RECORD',
+			customize_columns: [],
+			logic_conditions: conditions
+		});
+		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
 	};
 	
 	render() {
@@ -205,6 +215,7 @@ export default class WithdrawDetails extends Component {
 					refresh={this.refresh}
 					value={withdraw_detail_fields}
 					operation={operation}
+					export={this.export}
 				/>
 				<FailedReason {...failedReason} />
 				
@@ -213,21 +224,6 @@ export default class WithdrawDetails extends Component {
 						window.hasPermission("withdraw_detailed_application") && 					<Button type="primary" size="small" onClick={this.goApplication}>提现申请</Button>
 					}
 				</div>
-				{/*<SelectTimeRange api={withdrawOverview} handleData={this.handleData} />*/}
-				{/*<ul className="data">*/}
-				{/*	<li>*/}
-				{/*		累计提现总额*/}
-				{/*		<span>{this.state.summary_total}</span>*/}
-				{/*	</li>*/}
-				{/*	<li>*/}
-				{/*		上月提现额*/}
-				{/*		<span>{this.state.last_month_withdraw_total}</span>*/}
-				{/*	</li>*/}
-				{/*	<li>*/}
-				{/*		本月提现额*/}
-				{/*		<span>{this.state.this_month_withdraw_total}</span>*/}
-				{/*	</li>*/}
-				{/*</ul>*/}
 				<div className="wd_chartContent" >
 					<ul className="header_left" style={{background: '#F6F7FA', paddingLeft: '20px'}}>
 						<li>
