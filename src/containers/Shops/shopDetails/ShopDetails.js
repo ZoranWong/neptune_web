@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button,Tag,Modal } from "antd";
+import {Button, Tag, Modal, message} from "antd";
 import {shopRealDetails,deleteGroup} from "../../../api/shops/shopManage";
 import './css/shop_details.sass'
 import ShopInformation from "./ShopInformation";
@@ -145,6 +145,16 @@ class ShopDetails extends React.Component{
 	goBack = () => {
 		this.props.history.push({pathname: this.props.location.state.path,state:{current: this.props.location.state.current}})
 	};
+	
+	goIntroducer = (id) => {
+		shopRealDetails({},id).then(r=>{
+			if (!r) {
+				message.error('该店铺已不存在');
+				return
+			}
+			this.setState({data:r})
+		}).catch(_=>{})
+	};
 	render(){
 		const {data} = this.state;
 		const balanceProps = {
@@ -221,7 +231,7 @@ class ShopDetails extends React.Component{
 							<li>
 								<p>开业时间：{data.created_at}</p>
 								{
-									data.introducer && <p>介绍人：{data.introducer.name || '无'}</p>
+									data.introducer && <p >介绍人： <span onClick={()=>this.goIntroducer(data.introducer.id)} style={{color: '#4f9863', cursor: 'pointer'}}>{data.introducer.name || '无'}</span></p>
 								}
 							</li>
 							<li className="btns">

@@ -32,7 +32,17 @@ export const shop_export_values = [
 				label:'店铺地址',
 				value:'address',
 				type:'detailAddress'
-			}
+			},
+			{
+				label:'介绍人编号',
+				value:'introducer_code',
+				type:'equal'
+			},
+			{
+				label:'介绍人姓名',
+				value:'introducer_name',
+				type:'equal'
+			},
 		]
 	}
 ];

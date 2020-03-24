@@ -66,6 +66,9 @@ class Consumer extends Component {
 							case 0:
 								text = '未发送';
 								break;
+							case 1:
+								text = '发送中';
+								break;
 							case 2:
 								text = '已发送';
 								break;

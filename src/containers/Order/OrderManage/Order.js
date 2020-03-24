@@ -668,11 +668,7 @@ class Order extends React.Component{
 							size="small"
 							onClick={this.changeOrderStatus}
 						>核实订单</Button>
-						<Button
-							size="small"
-							onClick={this.checkManyOrders}
-							disabled={!this.state.checkedAry.length || (this.state.activeTab !== 'WAIT_CUSTOMER_VERIFY' && this.state.activeTab !== 'WAIT_CUSTOMER_VERIFY_HOME') }
-						>批量核销订单</Button>
+						
 						{/*{*/}
 						{/*	window.hasPermission("order_management_platform_cancel") &&<Button*/}
 						{/*		size="small"*/}
@@ -690,7 +686,15 @@ class Order extends React.Component{
 						
 					</div>
 				</div>
-				
+				<div className="s_body" style={{marginTop: '20px'}}>
+					<div className="headerLeft">
+						<Button
+							size="small"
+							onClick={this.checkManyOrders}
+							disabled={!this.state.checkedAry.length || (this.state.activeTab !== 'WAIT_CUSTOMER_VERIFY' && this.state.activeTab !== 'WAIT_CUSTOMER_VERIFY_HOME') }
+						>批量核销订单</Button>
+					</div>
+				</div>
 				<div className="tabs">
 					<ul className="left">
 						{

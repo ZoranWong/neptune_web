@@ -91,6 +91,11 @@ export const consumer_order_values_export = [
 				type:'timeCompare'
 			},
 			{
+				label:'预期收货时间',
+				value:'expect_receive_date',
+				type:'times'
+			},
+			{
 				label:'商品',
 				value:'products',
 				type:'equalCompare'

@@ -17,8 +17,10 @@ export default class Address extends React.Component{
 		};
 	}
 	
-	componentWillMount() {
-		let data = this.props.defaultData;
+	componentWillReceiveProps(nextProps, nextContext) {
+		if (nextProps.defaultData['area_code'] === this.props.defaultData['area_code']) return;
+		let data = nextProps.defaultData;
+		console.log(data, ',................................');
 		let isEmpty = _.isEmpty(data);
 		let p = [];
 		_.map(data, (item)=>{
@@ -39,6 +41,10 @@ export default class Address extends React.Component{
 				this.onAreaChange(p[2])
 			}
 		}).catch(_=>{})
+	}
+	
+	componentWillMount() {
+	
 	}
 	
 	handleProvinceChange = value => {

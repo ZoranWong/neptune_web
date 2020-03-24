@@ -21,7 +21,7 @@ import ShopCode from "./ShopCode";
 import {shopListInGroup} from "../../../api/shops/groups";
 import Export from "../../Order/Components/Export";
 import Config from '../../../config/app'
-
+import SelectDate from "./SelectDate";
 class ShopManage extends React.Component{
 	constructor(props){
 		const columns = [
@@ -101,7 +101,9 @@ class ShopManage extends React.Component{
 			channel_desc:'',
 			shopCodeId: '',
 			current: 1,
-			exportVisible: false
+			exportVisible: false,
+			selectDate: false,
+			strategy: ''
 		};
 	}
 	
@@ -361,7 +363,6 @@ class ShopManage extends React.Component{
 	
 	// 确定导出
 	export = (type, items,conditions) =>{
-		console.log(type, '--- type---');
 		let json = searchJson({
 			strategy: type,
 			customize_columns: items,
@@ -372,6 +373,47 @@ class ShopManage extends React.Component{
 		// 	console.log(r);
 		// }).catch(_=>{})
 	};
+	
+	// 店铺pv  bv 导出
+	shopExport = (type, isShowDate) => {
+		if (isShowDate) {
+			this.setState({selectDate: true, strategy: type})
+		} else {
+			let json = searchJson({
+				strategy: type,
+				customize_columns: [],
+				logic_conditions: [],
+				shop_id: this.state.checkedAry[0]
+			});
+			window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+		}
+	};
+	hideSelectDate = () => {
+		this.setState({selectDate:false})
+	};
+	submitSelectDate = (date) => {
+		let json = '';
+		if (this.state.strategy === 'MERCHANT_CURRENT_MONTH_BV') {
+			json = searchJson({
+				strategy: this.state.strategy,
+				customize_columns: [],
+				logic_conditions: [],
+				start_date: date[0],
+				end_date: date[1]
+			});
+		} else if (this.state.strategy === 'MERCHANT_PARTNERS_CURRENT_MONTH_BV') {
+			json = searchJson({
+				strategy: this.state.strategy,
+				customize_columns: [],
+				logic_conditions: [],
+				shop_id: this.state.checkedAry[0],
+				start_date: date[0],
+				end_date: date[1]
+			});
+		}
+		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+	};
+	
 	
 	render(){
 		const rowSelection = {
@@ -402,8 +444,15 @@ class ShopManage extends React.Component{
 			conditions: this.state.conditions,
 			slug: 'shop_'
 		};
+		const dateProps = {
+			visible: this.state.selectDate,
+			onClose: this.hideSelectDate,
+			onSubmit: this.submitSelectDate
+		};
+		
 		return (
 			<div>
+				<SelectDate {...dateProps} />
 				<Export {...exportProps} />
 				<AdvancedFilterComponent
 					visible={this.state.filterVisible}
@@ -477,8 +526,28 @@ class ShopManage extends React.Component{
 					}
 				</div>
 				
+				<div className="s_header" style={{marginTop: '16px'}}>
+					<Button
+						size="small"
+						onClick={()=>this.shopExport('MERCHANT_CURRENT_MONTH_PV', false)}
+					>导出所有店铺当月pv</Button>
+					<Button
+						size="small"
+						onClick={()=>this.shopExport('MERCHANT_CURRENT_MONTH_BV', true)}
+					>导出所有店铺当月bv</Button>
+					<Button
+						size="small"
+						disabled={this.state.checkedAry.length == 0 || this.state.checkedAry.length > 1}
+						onClick={()=>this.shopExport('MERCHANT_PARTNERS_CURRENT_MONTH_PV',false)}
+					>导出指定店铺所有下线当月pv</Button>
+					<Button
+						size="small"
+						disabled={this.state.checkedAry.length == 0 || this.state.checkedAry.length > 1 }
+						onClick={()=>this.shopExport('MERCHANT_PARTNERS_CURRENT_MONTH_BV', true)}
+					>导出指定店铺所有下线当月bv</Button>
+				</div>
 				
-				<div className="s_body">
+				<div className="s_body"  style={{paddingTop: '16px'}}>
 					<div className="headerLeft">
 						<SearchInput
 							getDatas={this.search}

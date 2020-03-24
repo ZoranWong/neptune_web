@@ -11,14 +11,61 @@ import CustomPagination from "../../../components/Layout/Pagination";
 import ReviewGoods from "../../Order/Components/ReviewGoods";
 import {actOrders, delivery, manufacture} from "../../../api/activities";
 import {consumer_order_values} from "../../../utils/consumer_order_fields";
+import {consumer_order_values_export} from "../../../utils/consumer_order_fields_export";
 import _ from 'lodash';
 import Config from '../../../config/app';
 import {cancelOrder} from "../../../api/activities";
 import {checkManyOrder} from "../../../api/order/orderManage";
+import {consumer_order_values_custom} from "../../../utils/consumer_order_fields_custom_item";
 
 class OrderManage extends React.Component{
 	constructor(props){
-		
+		const defaultItem = ['trade_no', 'products', 'settlement_total_fee', 'user_nickname', 'expect_receive_date','paid_at','state_desc'];
+		const columns = [
+			{
+				title: '订单号',
+				dataIndex: 'trade_no',
+				render: (text,record) => <span
+					style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.jump(record)}>{text}</span>,
+			},
+			{
+				title: '商品',
+				dataIndex: 'category_desc',
+				render: (text,record) => {
+					if(record.items.data.length){
+						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+							<span className="orderGoods">{record.items.data[0].name+'......'}</span>
+							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items)} />
+						</span>
+					} else {
+						return <span>无</span>
+					}
+				},
+			},
+			{
+				title: '实付款',
+				dataIndex: 'settlement_total_fee',
+			},
+			{
+				title: '用户昵称',
+				dataIndex: 'user_nickname',
+			},
+			{
+				title: '预期收货时间',
+				dataIndex: 'expect_receive_date',
+				render: (text,record) => (
+					<span>{text} {record['expect_receive_time_start']}-{record['expect_receive_time_end']}</span>
+				)
+			},
+			{
+				title: '支付时间',
+				dataIndex: 'paid_at',
+			},
+			{
+				title: '订单状态',
+				dataIndex:'state_desc'
+			}
+		];
 		super(props);
 		this.child = React.createRef();
 		this.state = {
@@ -32,6 +79,8 @@ class OrderManage extends React.Component{
 				searchJson: searchJson({state_constant: 'ALL'}),
 				search:'',
 			},
+			defaultItem:defaultItem,
+			columns: columns,
 			activeTab:'ALL',
 			items:[],  // 商品回显,
 			conditions: {},
@@ -45,6 +94,7 @@ class OrderManage extends React.Component{
 		if (this.props.location.state && this.props.location.state.current) {
 			this.setState({current: this.props.location.state.current})
 		}
+		document.addEventListener('click', this.closeCustom);
 	}
 	
 	refresh = (status='ALL')=>{
@@ -87,7 +137,7 @@ class OrderManage extends React.Component{
 		this.setState({filterVisible:false})
 	};
 	onSubmit = (data) =>{
-		this.setState({api:actOrders,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
+		this.setState({api:actOrders,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,state_constant:  this.state.activeTab || 'ALL'})}},()=>{
 			this.child.current.pagination(this.child.current.state.current)
 		});
 	};
@@ -120,6 +170,76 @@ class OrderManage extends React.Component{
 	
 	backAct = () => {
 		this.props.history.push({pathname:"/activities"})
+	};
+	
+	//自定义显示项
+	showCustom = (e) =>{
+		e.nativeEvent.stopImmediatePropagation();
+		this.setState({customVisible:true})
+	};
+	closeCustom = () =>{
+		this.setState({customVisible:false})
+	};
+	handleCustom = (e) =>{
+		let ary = [];
+		console.log(e);
+		e.forEach(e=>{
+			consumer_order_values_custom.forEach(u=>{
+				u.children.forEach(c=>{
+					if(e == c.value){
+						let obj = {};
+						obj.title = c.label;
+						obj.dataIndex = orderOutputTransformer(e);
+						if (obj.dataIndex === 'items') {
+							obj.render = (text,record) => {
+								if(record.items.data.length){
+									return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+										<span className="orderGoods">{record.items.data[0].name+'......'}</span>
+										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items)} />
+									</span>
+								} else {
+									return <span>无</span>
+								}
+							}
+						}
+						if (obj.dataIndex === 'expect_receive_date') {
+							obj.render =  (text,record) => (
+								<span>{text} {record['expect_receive_time_start']}-{record['expect_receive_time_end']}</span>
+							)
+						}
+						ary.push(obj);
+					}
+				})
+			})
+		});
+		let index = e.indexOf('id');
+		if (index < 0) {
+			e.push('id');
+		}
+		ary[0].render = (text,record) => <span
+			style={{'color':'#4F9863','cursor':'pointer'}}
+			onClick={()=>this.jump(record)}>{text}</span>;
+		let {activeTab} = this.state;
+		ary.push({
+			title: '操作',
+			colSpan: activeTab === 'PAY_COMPLETED' || activeTab === 'WAIT_MANUFACTURE' ? 1 : 0,
+			render: (text,record) => {
+				if (activeTab === 'PAY_COMPLETED') {
+					return <div>
+						<span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.start(record, 'do')}>开始制作</span>
+						<span style={{'color':'#4F9863','cursor':'pointer',marginLeft: '20px'}} onClick={()=>this.cancel(record)}>取消</span>
+					</div>
+				} else if (activeTab === 'WAIT_MANUFACTURE') {
+					return <span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.start(record, 'go')}>开始配送</span>
+				}
+			}
+		});
+		this.setState({
+			columns:ary,
+			paginationParams:{...this.state.paginationParams, only:  e.join(',')}
+		},()=>{
+			this.child.current.pagination(this.child.current.state.current)
+		})
 	};
 	
 	// 开始制作
@@ -325,50 +445,11 @@ class OrderManage extends React.Component{
 			'zIndex': '999'
 		};
 		
-		let {activeTab} = this.state;
-		
-		const columns = [
-			{
-				title: '订单号',
-				dataIndex: 'trade_no',
-				render: (text,record) => <span
-					style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.jump(record)}>{text}</span>,
-			},
-			{
-				title: '商品',
-				dataIndex: 'category_desc',
-				render: (text,record) => {
-					if(record.items.data.length){
-						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-							<span className="orderGoods">{record.items.data[0].name+'......'}</span>
-							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items)} />
-						</span>
-					} else {
-						return <span>无</span>
-					}
-				},
-			},
-			{
-				title: '实付款',
-				dataIndex: 'settlement_total_fee',
-			},
-			{
-				title: '用户昵称',
-				dataIndex: 'user_nickname',
-			},
-			{
-				title: '订单类型',
-				dataIndex: 'order_type',
-			},
-			{
-				title: '下单时间',
-				dataIndex: 'paid_at',
-			},
-			{
-				title: '订单状态',
-				dataIndex:'state_desc'
-			},
-			{
+		let {activeTab,columns} = this.state;
+		if (_.findIndex(columns, column => {
+			return column.title === '操作'
+		}) < 0) {
+			columns.push({
 				title: '操作',
 				colSpan: activeTab === 'PAY_COMPLETED' || activeTab === 'WAIT_MANUFACTURE' ? 1 : 0,
 				render: (text,record) => {
@@ -381,8 +462,24 @@ class OrderManage extends React.Component{
 						return <span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.start(record, 'go')}>开始配送</span>
 					}
 				}
-			}
-		];
+			});
+		} else {
+			columns.pop();
+			columns.push({
+				title: '操作',
+				colSpan: activeTab === 'PAY_COMPLETED' || activeTab === 'WAIT_MANUFACTURE' ? 1 : 0,
+				render: (text,record) => {
+					if (activeTab === 'PAY_COMPLETED') {
+						return <div>
+							<span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.start(record, 'do')}>开始制作</span>
+							<span style={{'color':'#4F9863','cursor':'pointer',marginLeft: '20px'}} onClick={()=>this.cancel(record)}>取消</span>
+						</div>
+					} else if (activeTab === 'WAIT_MANUFACTURE') {
+						return <span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.start(record, 'go')}>开始配送</span>
+					}
+				}
+			})
+		}
 		
 		return (
 			<div className="order">
@@ -472,7 +569,7 @@ class OrderManage extends React.Component{
 							<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 							<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
 								<CustomItem
-									data={consumer_order_values}
+									data={consumer_order_values_export}
 									handleCustom={this.handleCustom}
 									targetKeys={orderInputTransformer(this.state.defaultItem)}
 									firstItem={'trade_no'}
@@ -485,7 +582,7 @@ class OrderManage extends React.Component{
 				<div className="chart u_chart">
 					<Table
 						rowSelection={rowSelection}
-						columns={columns}
+						columns={this.state.columns}
 						rowKey={record => record.id}
 						pagination={false}
 						rowClassName={(record, index) => {
