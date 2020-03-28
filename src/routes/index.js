@@ -81,21 +81,28 @@ import CashbackRecords from "../containers/Distribution/CashbackRecords/Cashback
 import CashbackSetting from "../containers/Distribution/CashbackSetting/CashbackSetting";
 import OperationLogs from "../containers/Setting/OperationLogs/OperationLogs";
 
-import BigActivities from '../containers/Activities/ProductsManage/Activities';
-import OrderManage from '../containers/Activities/OrdersManage/OrderManage'
-import BigMarketing from '../containers/Activities/Marketing/Marketing';
+import AllActivities from "../containers/Activities/AllActivities/AllActivities";
+import BigActivities from '../containers/Activities/Activities/ProductsManage/Activities';
+import OrderManage from '../containers/Activities/Activities/OrdersManage/OrderManage'
+import BigMarketing from '../containers/Activities/Activities/Marketing/Marketing';
 import Banners from "../containers/Marketing/Banners/Banners";
 import ActivitiesManage from "../containers/Activities/Activities/ActivitiesManage";
 import SummaryOrders from "../containers/Order/SummaryOrders/SummaryOrders";
 import PrintSheet from "../containers/PrintSheet/PrintSheet";
 import PrintSummaryOrders from "../containers/Order/SummaryOrders/printSummaryOrders/printSummaryOrders";
-import ActivityRefund from "../containers/Activities/ActivityRefund/ActivityRefund";
+import ActivityRefund from "../containers/Activities/Activities/ActivityRefund/ActivityRefund";
 import CustomOrdersPrint from "../containers/Order/OrderTransformer/CustomOrdersPrint/CustomOrdersPrint";
 import CustomSummaryPrint from "../containers/Order/OrderTransformer/CustomSummaryPrint/CustomSummaryPrint";
 import HandleStatistics from "../containers/Distribution/DistributionStatistics/HandleStatistics/HandleStatistics";
 import ProtocolSetting from "../containers/Setting/ProtocolSetting/ProtocolSetting";
 import EditProtocol from "../containers/Setting/ProtocolSetting/EditProtocol/EditProtocol";
 import CashbackDetails from "../containers/Distribution/CashbackDetails/CashbackDetails";
+import EditActivityPage from "../containers/Activities/AllActivities/pages/EditActivityPage/EditActivityPage";
+import ActivityProductsManage
+	from "../containers/Activities/AllActivities/pages/ActivityProductsManage/ActivityProductsManage";
+import CakeClassification from "../containers/Activities/Activities/ProductsManage/CakeClassification";
+import OnShelvesProducts from "../containers/Activities/AllActivities/pages/OnShelvesProducts/OnShelvesProducts";
+
 
 /** 跳转到某个路由之前触发 用于验证页面权限**/
 function onEnter (Component, props) {
@@ -123,10 +130,15 @@ const Routes = () =>(
 		
 		{/*活动*/}
 		<Route exact={true} path="/activities/productsManage" component={BigActivities}/>} />
+		<Route exact={true} path="/activities/cakeClassification" component={CakeClassification}/>} />
 		<Route exact={true} path="/activities" component={ActivitiesManage}/>} />
 		<Route exact={true} path="/activities/orderManage" component={OrderManage}/>} />
 		<Route exact={true} path="/activities/marketing" component={BigMarketing}/>} />
 		<Route exact={true} path="/activities/refund" component={ActivityRefund}/>} />
+		<Route exact={true} path="/activities/all" component={AllActivities}/>} />
+		<Route exact={true} path="/activities/editActivityPage" component={EditActivityPage}/>} />
+		<Route exact={true} path="/activities/activityProductsManage" component={ActivityProductsManage}/>} />
+		<Route exact={true} path="/activities/onShelvesProducts" component={OnShelvesProducts}/>} />
 		
 		{/*数据*/}
 		<Route exact={true} path="/data" render={props => onEnter(Data, props)} />

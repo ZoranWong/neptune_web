@@ -41,11 +41,9 @@ class ShopKeeper extends React.Component{
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(!(this.props.data == nextProps.data)){
-			console.log('11111');
 			this.setState({listData:nextProps.data});
 		}
 		if(!(this.props.recordId ==  nextProps.recordId)){
-			console.log('xxxxxxxxxxxxxxxxxxxxx');
 			shopDetails({},nextProps.recordId).then(r=>{
 				let positionData = {};
 				positionData['province_code'] = r.data.province_code;

@@ -99,7 +99,7 @@ export function  addMosaic(str) {
 
 /** 正则 手机号验证 **/
 export function  checkPhone(str) {
-    const rex = /^1[345789]\d{9}$/;
+    const rex = /^1[3456789]\d{9}$/;
     return rex.test(str);
 }
 /*正则 身份证号验证*/

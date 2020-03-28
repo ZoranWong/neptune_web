@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, message, Modal, Table} from "antd";
 import BannerSetting from "./Modal/BannerSetting";
-import {banners, deleteBanner} from "../../../api/activities";
+import {banners, deleteBanner} from "../../../../api/activities";
 import './css/index.sass'
 class Marketing extends Component {
 	constructor(props) {
@@ -151,7 +151,7 @@ class Marketing extends Component {
 					<Button className="addNew" onClick={this.createNewBanner}>
 						<i className="iconfont">&#xe7e0;</i>
 						新增Banner</Button>
-					<Button size='small' style={{'float': 'right'}} onClick={this.backAct}>返回活动管理</Button>
+					<Button size='small' style={{'float': 'right'}} onClick={this.backAct}>返回蛋糕管理</Button>
 					<Table
 						dataSource={this.state.banners}
 						rowKey={record => record.id}

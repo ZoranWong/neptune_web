@@ -1,9 +1,9 @@
 import React from "react";
 import {Transfer, Table, Modal, message} from 'antd';
 import difference from 'lodash/difference';
-import './css/shelfGoods.sass'
-import {products} from "../../../api/goods/goods";
-import {searchJson} from "../../../utils/dataStorage";
+import '../../../Goods/Components/css/shelfGoods.sass'
+import {shelfableProducts} from "../../../../api/activities/activities";
+import _ from 'lodash'
 // Customize Table Transfer
 const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
 	<Transfer {...restProps} >
@@ -26,14 +26,14 @@ const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
 				onSelectAll(selected, selectedRows) {
 					const treeSelectedKeys = selectedRows
 						.filter(item => !item.disabled)
-						.map((item) => item.product_id);
+						.map((item) => item.id);
 					const diffKeys = selected
 						? difference(treeSelectedKeys, listSelectedKeys)
 						: difference(listSelectedKeys, treeSelectedKeys);
 					onItemSelectAll(diffKeys, selected);
 				},
 				onSelect(selectedRowKeys, selected) {
-					onItemSelect(selectedRowKeys.product_id, selected);
+					onItemSelect(selectedRowKeys.id, selected);
 				},
 				selectedRowKeys: listSelectedKeys,
 			};
@@ -42,7 +42,7 @@ const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
 					<div>
 						<Table
 							rowSelection={rowSelection}
-							rowKey={record => record.product_id}
+							rowKey={record => record.id}
 							columns={columns}
 							showHeader={showHeader}
 							dataSource={filteredItems}
@@ -60,7 +60,7 @@ const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
 				return <Table
 					rowSelection={rowSelection}
 					columns={columns}
-					rowKey={record => record.product_id}
+					rowKey={record => record.id}
 					showHeader={showHeader}
 					dataSource={filteredItems}
 					size="small"
@@ -96,13 +96,29 @@ const leftTableColumns = [
 	{
 		dataIndex: 'name',
 		title: '商品名称',
+		render: (text,record) => {
+			
+			if (record['product_entity']['spec_value']) {
+				return <span>{record['product_entity'].name} - {record['product_entity']['spec_value'][Object.keys(record['product_entity']['spec_value'])[0]]}</span>
+			} else {
+				return <span>{record['product_entity'].name}</span>
+			}
+		}
 	}
 ];
 const rightTableColumns = [
 	{
 		dataIndex: 'name',
-		title: 'Name',
-	},
+		title: '商品名称',
+		render: (text,record) => {
+			
+			if (record['product_entity']['spec_value']) {
+				return <span>{record['product_entity'].name} - {record['product_entity']['spec_value'][Object.keys(record['product_entity']['spec_value'])[0]]}</span>
+			} else {
+				return <span>{record['product_entity'].name}</span>
+			}
+		}
+	}
 ];
 
 
@@ -113,11 +129,13 @@ export default class ShelfGoods extends React.Component {
 		data:[]
 	};
 	
-	componentDidMount() {
-		products({limit:100,page:1,searchJson:searchJson({status:true})}).then(r=>{
+	componentWillReceiveProps(nextProps, nextContext) {
+		if (!nextProps.id) return;
+		shelfableProducts({limit:100,page:1}, nextProps.id).then(r=>{
 			this.setState({data:r.data})
 		}).catch(_=>{});
 	}
+	
 	
 	onChange = nextTargetKeys => {
 		this.setState({ targetKeys: nextTargetKeys });
@@ -132,7 +150,15 @@ export default class ShelfGoods extends React.Component {
 			message.error('请选择上架商品');
 			return;
 		}
-		this.props.onSubmit(this.state.targetKeys)
+		let ary = [];
+		_.map(this.state.data, (item=>{
+			_.map(this.state.targetKeys, key => {
+				if (key === item.id) {
+					ary.push(item)
+				}
+			})
+		}));
+		this.props.onSubmit(ary)
 	};
 	
 	handleTabs = () =>{
@@ -165,7 +191,7 @@ export default class ShelfGoods extends React.Component {
 						dataSource={this.state.data}
 						targetKeys={targetKeys}
 						showSearch={true}
-						rowKey={record => record.product_id}
+						rowKey={record => record.id}
 						onChange={this.onChange}
 						locale={{'itemUnit': '项', 'itemsUnit': '项', 'notFoundContent': '列表为空', 'searchPlaceholder': '请输入商品名称'}}
 						leftColumns={leftTableColumns}

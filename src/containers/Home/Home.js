@@ -20,7 +20,12 @@ class Home extends React.Component{
 		channels: []
 	};
 	componentDidMount() {
-		this.handleData(['1970-01-01 00:00:00', moment().format('YYYY-MM-DD HH:mm:ss')])
+		this.handleData(['1970-01-01 00:00:00', moment().format('YYYY-MM-DD HH:mm:ss')]);
+		
+		
+		
+		
+		
 	}
 	
 	handleData = (date) => {

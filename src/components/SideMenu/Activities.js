@@ -11,8 +11,13 @@ let baseMenu = [
 	{
 		path:'/activities',
 		icon:'icon-dingdan',
-		text:'活动管理',
+		text:'蛋糕管理',
 		slug: 'menu_order_management'
+	},
+	{
+		path:'/activities/all',
+		icon:'icon-dingdan',
+		text:'活动管理',
 	},
 ];
 const Activities = ({ match }) => (

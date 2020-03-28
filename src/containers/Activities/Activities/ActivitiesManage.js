@@ -116,10 +116,10 @@ class ActivitiesManage extends Component {
 				
 				<OperateAct {...actProps} />
 				
-				<Button size="small" onClick={this.createAct}>
-					<IconFont type="icon-plus-circle" />
-					新增活动
-				</Button>
+				{/*<Button size="small" onClick={this.createAct}>*/}
+				{/*	<IconFont type="icon-plus-circle" />*/}
+				{/*	新增活动*/}
+				{/*</Button>*/}
 				<div className="chart u_chart">
 					<Table
 						columns={column}

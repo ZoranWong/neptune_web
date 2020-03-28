@@ -18,9 +18,8 @@ export default class Address extends React.Component{
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
-		if (nextProps.defaultData['area_code'] === this.props.defaultData['area_code']) return;
+		if (nextProps.defaultData['area_code'] === this.props.defaultData['area_code'] && this.state.activeArea) return;
 		let data = nextProps.defaultData;
-		console.log(data, ',................................');
 		let isEmpty = _.isEmpty(data);
 		let p = [];
 		_.map(data, (item)=>{

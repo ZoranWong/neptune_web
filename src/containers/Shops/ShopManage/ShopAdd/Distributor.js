@@ -56,7 +56,7 @@ class Distributor extends React.Component{
 			message.error('请填写地址');
 			return
 		}
-		if(!listData.introducer_code) {
+		if(!listData.introducer_code && !this.props.recordId) {
 			message.error('请填写介绍人编号');
 			return
 		}

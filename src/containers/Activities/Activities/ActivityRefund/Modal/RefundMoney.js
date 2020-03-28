@@ -1,7 +1,7 @@
 import React from "react";
 import {Modal, Input, message} from "antd";
 import '../css/modal.sass'
-import {refund} from "../../../../api/order/orderManage";
+import {refund} from "../../../../../api/order/orderManage";
 
 export default class RefundMoney extends React.Component{
 	

@@ -1,7 +1,9 @@
 import React from 'react';
 import {Modal,Button} from "antd";
-import AdvancedFilter from '../../../components/AdvancedFilter/AdvancedFilter'
-import {good_values,operation} from "../../../utils/good_fields";
+import AdvancedFilter from '../../../../../components/AdvancedFilter/AdvancedFilter'
+import {operation} from "../../../../../utils/consumer_order_fields";
+import {groups} from "../../../../../api/shops/groups";
+
 export default class AdvancedFilterComponent extends React.Component{
 	constructor(props){
 		super(props);
@@ -24,6 +26,7 @@ export default class AdvancedFilterComponent extends React.Component{
 	};
 	
 	
+	
 	render(){
 		return (
 			<div>
@@ -37,6 +40,11 @@ export default class AdvancedFilterComponent extends React.Component{
 					maskClosable={false}
 					footer={
 						<div>
+							{/*<Button*/}
+							{/*	size="small"*/}
+							{/*	type="default"*/}
+							{/*	className="e_btn"*/}
+							{/*>打印订单</Button>*/}
 							<Button
 								size="small"
 								className="e_btn"
@@ -51,8 +59,10 @@ export default class AdvancedFilterComponent extends React.Component{
 				>
 					<AdvancedFilter
 						ref={this.child}
-						value={good_values}
+						value={this.props.data}
 						operation={operation}
+						slug="order"
+						api={{groups, goodsOrder: true}}
 					/>
 				</Modal>
 			</div>

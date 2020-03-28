@@ -106,3 +106,30 @@ export function actRefundOrders(params, activityId) {
 		params: params
 	})
 }
+
+// 活动分类列表
+export function actCateList(params, activityId) {
+	return request({
+		url: `/api/backend/activities/${activityId}/categories/all`,
+		method: 'get',
+		params: params
+	})
+}
+
+// 新增分类
+export function newCate(params, activityId) {
+	return request({
+		url: `/api/backend/activities/${activityId}/categories`,
+		method: 'post',
+		data: params
+	})
+}
+
+// 删除分类
+export function deleteCate(params, activityId, query) {
+	return request({
+		url: `/api/backend/activities/${activityId}/categories/delete?category_ids[]=${query}`,
+		method: 'delete',
+		params: params
+	})
+}

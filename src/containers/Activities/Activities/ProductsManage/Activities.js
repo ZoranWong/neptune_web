@@ -1,16 +1,16 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
 import {Button, Table, Modal, Input, message, InputNumber} from 'antd'
-import IconFont from "../../../utils/IconFont";
-import '../../Goods/BreakfastOrder/css/breakfastOrder.sass'
-import {channelsGoods,onShelves,offShelves,setWarning,setVirtualSales} from "../../../api/goods/goods";
-import {searchJson} from "../../../utils/dataStorage";
+import IconFont from "../../../../utils/IconFont";
+import '../../../Goods/BreakfastOrder/css/breakfastOrder.sass'
+import {channelsGoods,onShelves,offShelves,setWarning,setVirtualSales} from "../../../../api/goods/goods";
+import {searchJson} from "../../../../utils/dataStorage";
 import AdvancedFilterComponent from "./AdvancedFilterComponent";
-import SearchInput from "../../../components/SearchInput/SearchInput";
-import CustomPagination from "../../../components/Layout/Pagination";
-import WarningStock from "../../Goods/Components/WarningStock";
-import ShelfGoods from "../../Goods/Components/ShelfGoods";
-import RecordSpec from "../../Goods/Components/RecordSpec";
+import SearchInput from "../../../../components/SearchInput/SearchInput";
+import CustomPagination from "../../../../components/Layout/Pagination";
+import WarningStock from "../../../Goods/Components/WarningStock";
+import ShelfGoods from "../../../Goods/Components/ShelfGoods";
+import RecordSpec from "../../../Goods/Components/RecordSpec";
 class Activities extends React.Component{
 	constructor(props){
 		const columns = [
@@ -300,6 +300,11 @@ class Activities extends React.Component{
 		this.props.history.push({pathname:"/activities"})
 	};
 	
+	// 蛋糕分类
+	cakeClassification = () => {
+		this.props.history.push({pathname:"/activities/cakeClassification",state:{actId: this.state.actId}})
+	};
+	
 	render(){
 		const rowSelection = {
 			onChange: (selectedRowKeys, selectedRows) => {
@@ -352,8 +357,10 @@ class Activities extends React.Component{
 						<IconFont type="icon-upload" />
 						商品出库
 					</Button>
-					
-					<Button size='small' className='backActsManage' onClick={this.backAct}>返回活动管理</Button>
+					<Button size="small" onClick={this.cakeClassification}>
+						蛋糕商品分类
+					</Button>
+					<Button size='small' className='backActsManage' onClick={this.backAct}>返回蛋糕管理</Button>
 				</div>
 				
 				<div className="s_body">

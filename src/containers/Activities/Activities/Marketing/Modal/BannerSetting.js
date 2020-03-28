@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Button, Input, message, Modal, Switch, Select} from "antd";
-import CustomUpload from "../../../../components/Upload/Upload";
+import CustomUpload from "../../../../../components/Upload/Upload";
 import '../css/index.sass';
-import {createNewBanner, editNewBanner} from "../../../../api/activities";
-import {channelsGoods} from "../../../../api/goods/goods";
+import {createNewBanner, editNewBanner} from "../../../../../api/activities";
+import {channelsGoods} from "../../../../../api/goods/goods";
 
 const {Option} = Select;
 class BannerSetting extends Component {

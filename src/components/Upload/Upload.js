@@ -73,6 +73,9 @@ export default class CustomUpload extends React.Component{
 		}
 		if (info.file.status === 'done') {
 			message.success('上传成功');
+			if (this.props.type && this.props.type === 'activity') {
+				this.props.success(info.file.response.data.url,this.props.conponentType)
+			}
 			this.setState({imgUrl:info.file.response.data.url, imageUrl: info.file.response.data.url});
 			// Get this url from response in real world.
 			getBase64(info.file.originFileObj, imageUrl =>

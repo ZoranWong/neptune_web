@@ -460,9 +460,29 @@ class Order extends React.Component{
 						},
 					],
 					logic: 'and'
-				}
+				},
+				{
+					conditions: [
+						{
+							key: 'order_paid_at',
+							operation: 'between',
+							value: [yesterday, today]
+						},
+						{
+							key: 'order_state',
+							operation: '=',
+							value: 'WAIT_CUSTOMER_VERIFY'
+						},
+						{
+							key: 'order_delivery_type',
+							operation: '=',
+							value: 'HOME_DELIVERY'
+						},
+					],
+					logic: 'and'
+				},
 			],
-			logic: 'and'
+			logic: 'or'
 		}
 	};
 	
