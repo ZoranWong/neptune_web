@@ -1,6 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
-import {Button, message, Table} from 'antd'
+import {Button, message, Modal, Table} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/refund.sass'
 import {searchJson, getToken, orderOutputTransformer, orderInputTransformer} from "../../../utils/dataStorage";
@@ -10,7 +10,7 @@ import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
 import ReviewGoods from "../Components/ReviewGoods";
-import {summaryOrders,userOrder} from "../../../api/order/orderManage";
+import {summaryOrders, userOrder, checkSummaryOrder, checkManyOrder} from "../../../api/order/orderManage";
 import Export from "../Components/Export";
 import Config from '../../../config/app'
 import _ from "lodash";
@@ -525,6 +525,53 @@ class SummaryOrders extends React.Component{
 		})
 	};
 	
+	// 批量确认收货
+	confirmVerify = () => {
+		let ids = this.state.checkedAry;
+		let tab = this.state.activeTab;
+		let self = this;
+		let refresh = this.refresh;
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			maskClosable:true,
+			content: (
+				<div className="U_confirm">
+					确定批量核销这些订单么？
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				checkSummaryOrder({order_ids: ids}).then(r=>{
+					message.success(`批量核销订单成功！`);
+					self.setState({api:summaryOrders,activeTab: tab,paginationParams:{...self.state.paginationParams,searchJson:searchJson({state_constant: tab})}},()=>{
+						self.child.current.pagination(1);
+					});
+				});
+				
+			},
+			onCancel() {
+			},
+		});
+	};
+	
 	render(){
 		
 		const rowSelection = {
@@ -646,6 +693,12 @@ class SummaryOrders extends React.Component{
 						loading={this.state.loadingThree}
 						style={{marginLeft: '15px'}}
 					>导出今日配送单地址</Button>
+					<Button
+						size="small"
+						onClick={this.confirmVerify}
+						disabled={!this.state.checkedAry.length || this.state.activeTab !== 'BACKEND_WAIT_AGENT_VERIFY'}
+						style={{marginLeft: '15px'}}
+					>确认收货</Button>
 				</div>
 				<div className="tabs">
 					<ul className="left">

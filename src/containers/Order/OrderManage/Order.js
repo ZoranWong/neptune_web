@@ -19,7 +19,7 @@ import Export from "../Components/Export";
 import Config from '../../../config/app'
 import _ from "lodash";
 import CheckOrder from "./Modal/CheckOrder";
-
+import SelectPosition from "./Modal/SelectPosition";
 class Order extends React.Component{
 	constructor(props){
 		const columns = [
@@ -149,7 +149,9 @@ class Order extends React.Component{
 			current: 1,
 			problemOrder: {},
 			isToday: false,
-			changeOrderStatusVisible: false
+			changeOrderStatusVisible: false,
+			positionVisible: false,
+			position: []
 		};
 	}
 	
@@ -444,46 +446,101 @@ class Order extends React.Component{
 	conditions = () => {
 		let yesterday = getBeforeDate(-1) + ' 21:00';
 		let today = getBeforeDate(0) + ' 21:00';
-		return {
-			conditions: [
-				{
-					conditions: [
-						{
-							key: 'order_paid_at',
-							operation: 'between',
-							value: [yesterday, today]
-						},
-						{
-							key: 'order_state',
-							operation: '=',
-							value: 'WAIT_AGENT_VERIFY'
-						},
-					],
-					logic: 'and'
-				},
-				{
-					conditions: [
-						{
-							key: 'order_paid_at',
-							operation: 'between',
-							value: [yesterday, today]
-						},
-						{
-							key: 'order_state',
-							operation: '=',
-							value: 'WAIT_CUSTOMER_VERIFY'
-						},
-						{
-							key: 'order_delivery_type',
-							operation: '=',
-							value: 'HOME_DELIVERY'
-						},
-					],
-					logic: 'and'
-				},
-			],
-			logic: 'or'
+		let position = this.state.position;
+		if (position.key) {
+			return {
+				conditions: [
+					{
+						conditions: [
+							{
+								key: 'order_paid_at',
+								operation: 'between',
+								value: [yesterday, today]
+							},
+							{
+								key: 'order_state',
+								operation: '=',
+								value: 'WAIT_AGENT_VERIFY'
+							},
+							{
+								key: `order_${position.key}`,
+								operation: 'like',
+								value: position.value
+							},
+						],
+						logic: 'and'
+					},
+					{
+						conditions: [
+							{
+								key: 'order_paid_at',
+								operation: 'between',
+								value: [yesterday, today]
+							},
+							{
+								key: 'order_state',
+								operation: '=',
+								value: 'WAIT_CUSTOMER_VERIFY'
+							},
+							{
+								key: 'order_delivery_type',
+								operation: '=',
+								value: 'HOME_DELIVERY'
+							},
+							{
+								key: `order_${position.key}`,
+								operation: 'like',
+								value: position.value
+							},
+						],
+						logic: 'and'
+					},
+				],
+				logic: 'or'
+			}
+		} else {
+			return {
+				conditions: [
+					{
+						conditions: [
+							{
+								key: 'order_paid_at',
+								operation: 'between',
+								value: [yesterday, today]
+							},
+							{
+								key: 'order_state',
+								operation: '=',
+								value: 'WAIT_AGENT_VERIFY'
+							}
+						],
+						logic: 'and'
+					},
+					{
+						conditions: [
+							{
+								key: 'order_paid_at',
+								operation: 'between',
+								value: [yesterday, today]
+							},
+							{
+								key: 'order_state',
+								operation: '=',
+								value: 'WAIT_CUSTOMER_VERIFY'
+							},
+							{
+								key: 'order_delivery_type',
+								operation: '=',
+								value: 'HOME_DELIVERY'
+							},
+						],
+						logic: 'and'
+					},
+				],
+				logic: 'or'
+			}
 		}
+		
 	};
 	
 	// 查看今日订单
@@ -496,9 +553,21 @@ class Order extends React.Component{
 		});
 	};
 	
+	
+	// 选择地点
+	showPosition = () => {
+		this.setState({positionVisible: true})
+	};
+	hidePosition = () => {
+		this.setState({positionVisible: false})
+	};
+	submitPosition = (position) => {
+		this.exportTodayOrders(position)
+	};
+	
 	// 导出今日订单
-	exportTodayOrders = () => {
-		this.setState({exportVisible: true, isToday: true})
+	exportTodayOrders = (position) => {
+		this.setState({exportVisible: true, isToday: true, position})
 	};
 	// 确认导出今日订单
 	exportToday = (type, items) => {
@@ -575,6 +644,7 @@ class Order extends React.Component{
 	};
 	
 	
+	
 	render(){
 		
 		const rowSelection = {
@@ -633,10 +703,18 @@ class Order extends React.Component{
 			visible: this.state.changeOrderStatusVisible,
 			onCancel: this.hideChangeOrderStatus,
 			onSubmit : this.submitChangeOrderStatus,
-		}
+		};
+		
+		const positionProps = {
+			visible : this.state.positionVisible,
+			onCancel: this.hidePosition,
+			submit: this.submitPosition,
+			type: 'deliveryOrders'
+		};
 		
 		return (
 			<div className="order">
+				<SelectPosition {...positionProps} />
 				<Export {...exportProps} />
 				<CheckOrder {...checkOrderProps} />
 				<ChangeOrderStatus {...changeOrderStatus} />
@@ -682,7 +760,7 @@ class Order extends React.Component{
 						>查看今日待收货订单</Button>
 						<Button
 							size="small"
-							onClick={this.exportTodayOrders}
+							onClick={this.showPosition}
 						>导出今日待收货订单</Button>
 						<Button
 							size="small"

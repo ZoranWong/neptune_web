@@ -9,6 +9,16 @@ export function checkOrder(params,orderId) {
 	})
 }
 
+// 手动完成自提汇总单
+export function checkSummaryOrder(params) {
+	return request({
+		url: `/api/backend/orders/agents/summary_orders/to_complete`,
+		method: 'post',
+		data: params
+	})
+}
+
+
 //订单管理-订单列表-消费者订单列表
 export function userOrder(params) {
 	return request({

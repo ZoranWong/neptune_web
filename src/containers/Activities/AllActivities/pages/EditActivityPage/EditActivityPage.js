@@ -29,21 +29,20 @@ class EditActivityPage extends Component {
 			type: '',
 			selectedItem: [],
 			selectedProducts: [],
-			templates: []
+			templates: [
+				{
+					name: 'SHARE_BUTTON'
+				},
+				{
+					name: 'PRODUCTS'
+				}
+			]
 		};
 		this.image = React.createRef();
 	}
 	
 	onProductChange = selectedItem => {
-		let selectedProducts = [];
-		_.map(this.state.products, product => {
-			_.map(selectedItem, item=>{
-				if (item == product['product_entity'].id) {
-					selectedProducts.push(product)
-				}
-			})
-		});
-		this.setState({selectedItem,selectedProducts});
+		this.setState({selectedItem});
 	};
 	
 	componentDidMount() {
@@ -53,14 +52,24 @@ class EditActivityPage extends Component {
 			if (template.name === 'SHARE_BUTTON') {
 				this.setState({image: template.data})
 			} else if (template.name === 'PRODUCTS') {
-				this.setState({selectedProducts: template.data})
+				this.setState({selectedItem: template.data})
 			}
 		});
 		this.setState({id: this.props.location.state.actId, templates: templates}, ()=>{
 			products({page:1, limit: 100},this.state.id).then(r=>{
-				this.setState({products: r.data})
+				this.setState({products: r.data}, () => {
+					let products = [];
+					_.map(this.state.selectedItem, (item=>{
+						_.map(r.data, product => {
+							if (item == product['product_entity'].id) {
+								products.push(product)
+							}
+						});
+					}));
+					this.setState({selectedProducts: products})
+				})
 			}).catch(_=>{});
-		})
+		});
 	}
 	
 	// 点击按钮选择模块
@@ -125,21 +134,28 @@ class EditActivityPage extends Component {
 	
 	// 上传图片成功
 	successUpload = (image, type) => {
+		let templates = this.state.templates;
+		_.map(templates, template => {
+			if (template.name === type) {
+				template.data = image
+			}
+		});
 		console.log(type);
 		let obj = {};
 		obj.name = type;
 		obj.data = image;
-		this.setState({templates: [...this.state.templates,obj],image});
+		this.setState({templates: templates,image});
 	};
 	
 	save = () => {
-		
-		
-		let obj = {};
-		obj.name = 'PRODUCTS';
-		obj.data = this.state.selectedProducts;
-		this.setState({templates: [...this.state.templates, obj]}, ()=>{
-			activityTemplateSetting({template: this.state.templates},this.state.id).then(r=>{
+		let templates = this.state.templates;
+		_.map(templates, template => {
+			if (template.name === 'PRODUCTS') {
+				template.data =  this.state.selectedItem
+			}
+		});
+		this.setState({templates: templates}, ()=>{
+			activityTemplateSetting({template: templates},this.state.id).then(r=>{
 				message.success(r.message);
 				this.back()
 			}).catch(_=>{})
@@ -203,7 +219,7 @@ class EditActivityPage extends Component {
 							
 							>
 								{products.map(item => (
-									<Select.Option key={item['product_entity'].id + ''} value={item['product_entity'].id + ''} label={item['product_entity'].name} >
+									<Select.Option key={item.id + ''} value={item.id + ''} label={item['product_entity'].name} >
 										{item['product_entity'].name}
 									</Select.Option>
 								))}

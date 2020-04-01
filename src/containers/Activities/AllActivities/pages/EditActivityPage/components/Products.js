@@ -3,6 +3,10 @@ import {Icon} from "antd";
 
 class Products extends Component {
 	
+	componentDidMount() {
+		console.log(this.props, '......');
+	}
+	
 	operation = () => {
 		this.props.onChange('PRODUCTS')
 	};
@@ -11,7 +15,7 @@ class Products extends Component {
 		return (
 			<Fragment>
 				{
-					this.props.selectedProducts.length ? <div className='actProductBox'>
+					this.props.selectedProducts.length ? <div className='actProductBox' onClick={this.operation}>
 						{
 							this.props.selectedProducts.map(item=> (
 								<div className='actProducts'>
