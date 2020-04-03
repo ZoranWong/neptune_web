@@ -46,15 +46,19 @@ class EditActivityPage extends Component {
 	};
 	
 	componentDidMount() {
-		let templates = this.props.location.state.template;
-		_.map(templates, template => {
-			console.log(template, '==');
-			if (template.name === 'SHARE_BUTTON') {
-				this.setState({image: template.data})
-			} else if (template.name === 'PRODUCTS') {
-				this.setState({selectedItem: template.data})
-			}
-		});
+		let templates = (this.props.location.state.template.length && this.props.location.state.template) || this.state.templates;
+		console.log(templates);
+		if (this.props.location.state.template.length ) {
+			_.map(templates, template => {
+				console.log(template, '==');
+				if (template.name === 'SHARE_BUTTON') {
+					this.setState({image: template.data})
+				} else if (template.name === 'PRODUCTS') {
+					this.setState({selectedItem: template.data})
+				}
+			});
+		}
+		
 		this.setState({id: this.props.location.state.actId, templates: templates}, ()=>{
 			products({page:1, limit: 100},this.state.id).then(r=>{
 				this.setState({products: r.data}, () => {
@@ -149,11 +153,13 @@ class EditActivityPage extends Component {
 	
 	save = () => {
 		let templates = this.state.templates;
+		console.log(templates, '123456');
 		_.map(templates, template => {
 			if (template.name === 'PRODUCTS') {
 				template.data =  this.state.selectedItem
 			}
 		});
+		console.log(templates, 'xxxxxxx');
 		this.setState({templates: templates}, ()=>{
 			activityTemplateSetting({template: templates},this.state.id).then(r=>{
 				message.success(r.message);

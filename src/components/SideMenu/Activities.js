@@ -14,11 +14,11 @@ let baseMenu = [
 		text:'蛋糕管理',
 		slug: 'menu_order_management'
 	},
-	// {
-	// 	path:'/activities/all',
-	// 	icon:'icon-dingdan',
-	// 	text:'活动管理',
-	// },
+	{
+		path:'/activities/all',
+		icon:'icon-dingdan',
+		text:'活动管理',
+	},
 ];
 const Activities = ({ match }) => (
 	<div style={{ paddingBottom: '120px',width:'216px' }}>

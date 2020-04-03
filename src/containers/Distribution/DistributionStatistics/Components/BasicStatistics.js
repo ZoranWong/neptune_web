@@ -4,8 +4,9 @@ import zh_CN from "antd/lib/locale-provider/zh_CN";
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import '../css/basicStatistics.sass'
 import CustomPagination from "../../../../components/Layout/Pagination";
-import {searchJson} from "../../../../utils/dataStorage";
+import {getToken, searchJson} from "../../../../utils/dataStorage";
 import {summaries} from "../../../../api/distribution/statistics";
+import Config from "../../../../config/app";
 
 const {MonthPicker} = DatePicker;
 
@@ -83,8 +84,14 @@ class BasicStatistics extends Component {
 	};
 	
 	// 导出
-	export = () => {
-	
+	export = (record) => {
+		let json = searchJson({
+			strategy: 'MERCHANT_MONTH_SALES_CASHBACK_RECORD',
+			customize_columns: [],
+			logic_conditions: [],
+			summary_id: record.id
+		});
+		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
 	};
 	
 	// 详情
