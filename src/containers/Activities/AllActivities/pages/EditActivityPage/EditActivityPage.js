@@ -43,6 +43,15 @@ class EditActivityPage extends Component {
 	
 	onProductChange = selectedItem => {
 		this.setState({selectedItem});
+		let products = [];
+		_.map(selectedItem, (item=>{
+			_.map(this.state.products, product => {
+				if (item == product.id) {
+					products.push(product)
+				}
+			});
+		}));
+		this.setState({selectedProducts: products})
 	};
 	
 	componentDidMount() {
@@ -58,18 +67,19 @@ class EditActivityPage extends Component {
 				}
 			});
 		}
-		
+		console.log(templates, '!!!!!!!!!!!!');
 		this.setState({id: this.props.location.state.actId, templates: templates}, ()=>{
 			products({page:1, limit: 100},this.state.id).then(r=>{
 				this.setState({products: r.data}, () => {
 					let products = [];
 					_.map(this.state.selectedItem, (item=>{
 						_.map(r.data, product => {
-							if (item == product['product_entity'].id) {
+							if (item == product.id) {
 								products.push(product)
 							}
 						});
 					}));
+					console.log(products, ';;;;;;;;;;');
 					this.setState({selectedProducts: products})
 				})
 			}).catch(_=>{});
@@ -156,7 +166,7 @@ class EditActivityPage extends Component {
 		console.log(templates, '123456');
 		_.map(templates, template => {
 			if (template.name === 'PRODUCTS') {
-				template.data =  this.state.selectedItem
+				template.data = this.state.selectedItem
 			}
 		});
 		console.log(templates, 'xxxxxxx');
