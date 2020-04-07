@@ -7,7 +7,7 @@ import ActivityModules from "./modal/ActivityModules";
 import EditIndexVisible from "./modal/EditIndexVisible";
 import {createNewActivity, startActivity,endActivity, activities, activityEntrySetting} from "../../../api/activities/activities";
 import _ from 'lodash'
-
+import PreviewDetails from "./modal/PreviewDetails";
 class AllActivities extends Component {
 	constructor(props) {
 		super(props);
@@ -17,7 +17,9 @@ class AllActivities extends Component {
 			editIndexVisible: false,  // 编辑首页
 			data: [],
 			actId: '',
-			entryTemplate: []
+			entryTemplate: [],
+			detailsVisible: false,
+			details: {}
 		}
 	}
 	
@@ -96,6 +98,14 @@ class AllActivities extends Component {
 			this.refresh()
 		}).catch(_=>{})
 	};
+
+	// 优惠券详情
+	showDetails = (record) =>{
+		this.setState({detailsVisible: true, details: record})
+	};
+	hideDetails = () =>{
+		this.setState({detailsVisible: false})
+	};
 	
 	
 	render() {
@@ -104,6 +114,11 @@ class AllActivities extends Component {
 				title: '活动名称',
 				dataIndex: 'name',
 				align: 'center',
+				render: (text,record) => <span
+					onClick={()=>this.showDetails(record)}
+					style={{'color':'#4F9863','cursor':'pointer'}}>
+					{text}
+				</span>,
 			},
 			{
 				title: '起止时间',
@@ -168,12 +183,18 @@ class AllActivities extends Component {
 			actId: this.state.actId,
 			entryTemplate: this.state.entryTemplate
 		};
+		const detailProps = {
+			visible: this.state.detailsVisible,
+			details: this.state.details,
+			onClose: this.hideDetails
+		};
 		
 		return (
 			<div className='allActivities'>
 				<CreateNewActivity {...newActivityProps} />
 				<ActivityModules {...activityModulesProps} />
 				<EditIndexVisible {...editIndexProps} />
+				<PreviewDetails {...detailProps} />
 				
 				<Button size="small" onClick={this.showNewAct} >
 					<IconFont type="icon-plus-circle"  />
