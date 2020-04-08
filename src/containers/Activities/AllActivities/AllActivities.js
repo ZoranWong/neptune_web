@@ -8,6 +8,7 @@ import EditIndexVisible from "./modal/EditIndexVisible";
 import {createNewActivity, startActivity,endActivity, activities, activityEntrySetting} from "../../../api/activities/activities";
 import _ from 'lodash'
 import PreviewDetails from "./modal/PreviewDetails";
+import EndDateSelect from "./modal/EndDateSelect";
 class AllActivities extends Component {
 	constructor(props) {
 		super(props);
@@ -19,7 +20,8 @@ class AllActivities extends Component {
 			actId: '',
 			entryTemplate: [],
 			detailsVisible: false,
-			details: {}
+			details: {},
+			dateSelectVisible: false
 		}
 	}
 	
@@ -60,6 +62,21 @@ class AllActivities extends Component {
 			this.refresh();
 		})
 	};
+
+	status = (status) => {
+		let text = '';
+		switch (status) {
+			case 0:
+				text = '待开始';
+				break;
+			case 2:
+				text = '已结束';
+				break;
+			default:
+				text = '进行中'
+		}
+		return text
+	};
 	
 	// 编辑活动页
 	jump = (route, params = {}) => {
@@ -93,10 +110,14 @@ class AllActivities extends Component {
 	// 操作活动开关
 	switchChange = (e,record) => {
 		let api = e ? startActivity : endActivity;
-		api({},record.id).then(r=>{
-			message.success(r.message);
-			this.refresh()
-		}).catch(_=>{})
+		if (record.status === 2) {
+			this.setState({dateSelectVisible: true, record})
+		} else {
+			api({},record.id).then(r=>{
+				message.success(r.message);
+				this.refresh()
+			}).catch(_=>{})
+		}
 	};
 
 	// 优惠券详情
@@ -106,6 +127,17 @@ class AllActivities extends Component {
 	hideDetails = () =>{
 		this.setState({detailsVisible: false})
 	};
+
+	onDateClose = () => {
+		this.setState({dateSelectVisible: false})
+	};
+	onDateSubmit = (date) => {
+		startActivity({end_date: date}, this.state.record.id).then(r=>{
+			message.success(r.message);
+			this.refresh()
+		}).catch(_=>{})
+	};
+
 	
 	
 	render() {
@@ -137,7 +169,15 @@ class AllActivities extends Component {
 				)
 			},
 			{
-				title: '状态',
+				title: '活动状态',
+				dataIndex: 'status',
+				align: 'center',
+				render: (text,record) => {
+					return this.status(text)
+				}
+			},
+			{
+				title: '活动开启/关闭',
 				dataIndex: 'isOpen',
 				align: 'center',
 				render: (text,record) => (
@@ -149,7 +189,7 @@ class AllActivities extends Component {
 				align: 'center',
 				render: (text, record) => (
 					<div>
-						<Button size="small" onClick={()=>this.jump('/activities/activityProductsManage', {actId: record.id})} >
+						<Button size="small" onClick={()=>this.jump('/activities/activityProductsManage', {actId: record.id, name: record.name})} >
 							商品管理
 						</Button>
 						<Button size="small" onClick={()=>this.jump('/activities/editActivityPage',{actId: record.id, template: record.template})}>
@@ -188,13 +228,19 @@ class AllActivities extends Component {
 			details: this.state.details,
 			onClose: this.hideDetails
 		};
-		
+		const dateProps = {
+			visible: this.state.dateSelectVisible,
+			onClose: this.onDateClose,
+			onSubmit: this.onDateSubmit
+		};
+
 		return (
 			<div className='allActivities'>
 				<CreateNewActivity {...newActivityProps} />
 				<ActivityModules {...activityModulesProps} />
 				<EditIndexVisible {...editIndexProps} />
 				<PreviewDetails {...detailProps} />
+				<EndDateSelect {...dateProps} />
 				
 				<Button size="small" onClick={this.showNewAct} >
 					<IconFont type="icon-plus-circle"  />

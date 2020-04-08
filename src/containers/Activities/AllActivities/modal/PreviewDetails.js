@@ -27,6 +27,21 @@ class PreviewDetails extends Component {
         return text
     };
 
+    handleType = (status) => {
+        let text = '';
+        switch (status) {
+            case 'DISCOUNT':
+                text = '折扣活动';
+                break;
+            case 'FULL_REDUCTION':
+                text = '满减活动';
+                break;
+            default:
+                text = '无特殊优惠'
+        }
+        return text
+    };
+
 
     render() {
         return (
@@ -47,6 +62,10 @@ class PreviewDetails extends Component {
                         <li>
                             <span className="left">活动描述:</span>
                             <span className='limit'>{this.props.details.desc}</span>
+                        </li>
+                        <li>
+                            <span className="left">活动类型:</span>
+                            <span className='limit'>{this.handleType(this.props.details.type)}</span>
                         </li>
                         <li>
                             <span className="left">活动图片:</span>

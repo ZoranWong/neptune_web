@@ -19,7 +19,7 @@ class ActivityProductsManage extends Component {
 	}
 	
 	componentDidMount() {
-		this.setState({id: this.props.location.state.actId})
+		this.setState({id: this.props.location.state.actId, name: this.props.location.state.name})
 	}
 	
 	// 分页器改变值
@@ -51,7 +51,7 @@ class ActivityProductsManage extends Component {
 	
 	// 上架商品
 	jumpProduct = () => {
-		this.props.history.push({pathname:"/activities/onShelvesProducts", state: {id: this.state.id}});
+		this.props.history.push({pathname:"/activities/onShelvesProducts", state: {id: this.state.id, name: this.state.name}});
 	};
 	
 	// 下架

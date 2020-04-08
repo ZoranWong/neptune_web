@@ -5,9 +5,11 @@ import { Table,Button} from "antd";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import '../css/basicStatistics.sass'
 import AdjustBV from "./components/AdjustBV";
+import AdjustSalesBV from "./components/AdjustSalesBV";
 import _ from 'lodash'
 import {shopStatistics} from "../../../../api/distribution/statistics";
-
+import ConfirmHandle from "./modal/confirmHandle";
+import SelectType from "./modal/SelectType";
 class HandleStatistics extends Component {
 	constructor(props) {
 		super(props);
@@ -22,6 +24,10 @@ class HandleStatistics extends Component {
 			{
 				title: '个人BV',
 				dataIndex: 'personal_bv',
+			},
+			{
+				title: '市场推广服务费➕销售返佣金额',
+				dataIndex: 'amount',
 			},
 			{
 				title: '操作',
@@ -51,14 +57,22 @@ class HandleStatistics extends Component {
 			columns:columns,
 			adjustVisible: false,
 			adjustItem: {},
-			adjusted: []
+			adjusted: [],
+			confirmVisible: false,
+			adjustSalesVisible: false,
+			type: 'ADJUST_SALES_AMOUNT',
+			typeVisible: false
 		};
 		this.child = React.createRef();
 	}
 	
 	componentDidMount() {
 		let id = this.props.location.state.id;
-		this.setState({id});
+		let type = this.props.location.state.type;
+		if (type === 'Sales') {
+			this.setState({typeVisible: true})
+		}
+ 		this.setState({id});
 	}
 	
 	
@@ -102,12 +116,17 @@ class HandleStatistics extends Component {
 	
 	// 调整
 	showAdjust = (record) => {
-		this.setState({adjustVisible: true, adjustItem: record})
+		if (this.state.type === 'ADJUST_SALES_AMOUNT') {
+			this.setState({adjustVisible: true, adjustItem: record})
+		} else {
+			this.setState({adjustSalesVisible: true, adjustItem: record})
+		}
+
 	};
 	
 	// 关闭调整
 	hideAdjust = () => {
-		this.setState({adjustVisible: false})
+		this.setState({adjustVisible: false, adjustSalesVisible: false})
 	};
 	
 	// 提交调整
@@ -134,6 +153,23 @@ class HandleStatistics extends Component {
 			
 		});
 	};
+
+	//确定处理
+	confirmHandle = () => {
+		this.setState({confirmVisible: true})
+	};
+
+	//关闭处理
+	closeHandle = () => {
+		this.setState({confirmVisible: false})
+	};
+
+	back = () => {
+		this.props.history.go(-1);
+	};
+	typeSelect = (type) => {
+		this.setState({type,typeVisible: false })
+	};
 	
 	render() {
 		const BVProps = {
@@ -142,20 +178,33 @@ class HandleStatistics extends Component {
 			onCancel: this.hideAdjust,
 			onSubmit: this.onSubmit
 		};
-		
+		const BVSalesProps = {
+			visible: this.state.adjustSalesVisible,
+			item: this.state.adjustItem,
+			onCancel: this.hideAdjust,
+			onSubmit: this.onSubmit,
+			type: this.state.type
+		};
+		const confirmProps = {
+			visible: this.state.confirmVisible,
+			onClose: this.closeHandle,
+			adjusted: this.state.adjusted,
+			id: this.state.id,
+			type: this.state.type
+		};
+		const typeProps = {
+			visible: this.state.typeVisible,
+			onClose: this.back,
+			typeSelect: this.typeSelect
+		};
 		
 		return (
 			<div className='basic_statistics'>
 				<AdjustBV {...BVProps}/>
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				<ConfirmHandle {...confirmProps} />
+				<SelectType {...typeProps} />
+				<AdjustSalesBV {...BVSalesProps} />
+
 				<div className="basic_statistics_header">
 					<ul className="header_left">
 						<li>
@@ -166,7 +215,7 @@ class HandleStatistics extends Component {
 							/>
 						</li>
 					</ul>
-					<Button>确定处理</Button>
+					<Button onClick={this.confirmHandle} disabled={!this.state.adjusted.length}>确定处理</Button>
 				</div>
 				<div className="chart u_chart">
 					<Table

@@ -12,7 +12,10 @@ class SaleCashback extends Component {
 		const columns = [
 			{
 				title: '返佣时间',
-				dataIndex: 'add_to_balance_time'
+				dataIndex: 'add_to_balance_time',
+				render: (text, record) => (
+					<span>{text || '暂无'}</span>
+				)
 			},
 			{
 				title: '汇总月份',
@@ -42,7 +45,7 @@ class SaleCashback extends Component {
 				render: (text,record) =>
 					<div>
 						{
-							record['issue_state'] === 1 && <span
+							record['can_issue'] && <span
 								style={{'color':this.state.canClick?'#4F9863': '#ccc','cursor':'pointer',marginRight: '20px'}}
 								onClick={()=>this.send(record)}
 							>发送
@@ -53,6 +56,14 @@ class SaleCashback extends Component {
 							onClick={()=>this.details(record)}
 						>详情
 						</span>
+						{
+							record['can_adjust'] && <span
+								style={{'color':'#4F9863','cursor':'pointer',marginLeft: '20px'}}
+								onClick={()=>this.handleStatistics(record)}
+							>处理
+						</span>
+						}
+
 					</div>
 			},
 		];
@@ -82,6 +93,11 @@ class SaleCashback extends Component {
 		},()=>{
 			this.child.current.pagination(this.child.current.state.current)
 		})
+	};
+
+	// 处理
+	handleStatistics = (record) => {
+		this.props.history.push({pathname:"/distribution/distributionStatistics/handleStatistics", state: {id: record.id, type:'Sales'}})
 	};
 	
 	

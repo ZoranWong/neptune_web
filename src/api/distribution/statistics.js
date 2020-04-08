@@ -17,3 +17,12 @@ export function shopStatistics(params, platformSummaryId) {
 		params: params
 	})
 }
+
+// 调整分销数据
+export function handleStatistics(params, platformSummaryId) {
+	return request({
+		url: `/api/backend/distribution/sales/cashback/platform/summaries/${platformSummaryId}/records/adjust`,
+		method: 'post',
+		data: params
+	})
+}

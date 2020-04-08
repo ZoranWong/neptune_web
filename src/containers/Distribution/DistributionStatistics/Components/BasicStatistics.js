@@ -105,7 +105,7 @@ class BasicStatistics extends Component {
 	
 	// 处理
 	handleStatistics = (record) => {
-		this.props.history.push({pathname:"/distribution/distributionStatistics/handleStatistics", state: {id: record.id}})
+		this.props.history.push({pathname:"/distribution/distributionStatistics/handleStatistics", state: {id: record.id,type: 'basic'}})
 	};
 	
 	// 分页器改变值

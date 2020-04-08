@@ -38,8 +38,8 @@ class OnShelvesProducts extends Component {
 	};
 	
 	componentDidMount() {
-		this.setState({id: this.props.location.state.id},()=>{
-			this.getDetails()
+		this.setState({id: this.props.location.state.id, name: this.props.location.state.name},()=>{
+			this.getDetails();
 		})
 	}
 	
@@ -78,6 +78,8 @@ class OnShelvesProducts extends Component {
 			params['entity_id'] = item['product_entity_id'];
 			params['configurations'] = {};
 			params['configurations']['act_price'] = Number(item['act_price']);
+			params['configurations']['tags'] = [];
+			params['configurations']['tags'][0] = this.state.name;
 			params['configurations']['buy_max_num'] =  Number(item['buy_max_num']);
 			params['configurations']['discount'] =  Number(item['discount']);
 			params['configurations']['has_sell_limit'] = item['has_sell_limit'];
