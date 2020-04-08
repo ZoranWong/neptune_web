@@ -113,15 +113,23 @@ class HandleStatistics extends Component {
 	// 提交调整
 	onSubmit = (type, value ,remark, record) => {
 		let operation = type === 'add' ? '增加' : '减少';
-		let data = this.state.data;
+		let {adjusted, data} = this.state;
 		record.operation = operation;
 		record.operationValue = value;
 		record.remark = remark;
 		let index = _.findIndex(data, item => {
 			return item.id === record.id
 		});
+		let i = _.findIndex(adjusted, item => {
+			return item.id === record.id
+		});
+		if (i > -1) {
+			adjusted[i] = record
+		} else {
+			adjusted.push(record)
+		}
 		index > -1 && (data[index] = record);
-		this.setState({data, adjusted: [...this.state.adjusted, record]},()=>{
+		this.setState({data, adjusted},()=>{
 			console.log(this.state.adjusted, '.......................................');
 			
 		});

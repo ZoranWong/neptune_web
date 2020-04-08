@@ -10,7 +10,6 @@ class AdjustBV extends Component {
 	};
 	
 	componentWillReceiveProps(nextProps, nextContext) {
-		console.log(nextProps, '...');
 		if (!nextProps.item.operation) {
 			this.setState({
 				value: 'add',

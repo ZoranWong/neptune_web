@@ -34,6 +34,10 @@ class BasicStatistics extends Component {
 				dataIndex: 'market_promotion_service_fee',
 			},
 			{
+				title: '发放状态',
+				dataIndex: 'issue_state_desc'
+			},
+			{
 				title: '操作',
 				render: (text,record) =>
 					<div>
@@ -47,13 +51,13 @@ class BasicStatistics extends Component {
 							onClick={()=>this.details(record)}
 						>详情
 						</span>
-						{/*{*/}
-						{/*	!record['has_add_to_balance'] && <span*/}
-						{/*			style={{'color':'#4F9863','cursor':'pointer',marginLeft: '20px'}}*/}
-						{/*			onClick={()=>this.handleStatistics(record)}*/}
-						{/*		>处理*/}
-						{/*	</span>*/}
-						{/*}*/}
+						{
+							!record['has_add_to_balance'] && <span
+									style={{'color':'#4F9863','cursor':'pointer',marginLeft: '20px'}}
+									onClick={()=>this.handleStatistics(record)}
+								>处理
+							</span>
+						}
 					</div>
 			},
 		];
