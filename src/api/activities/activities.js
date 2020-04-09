@@ -98,3 +98,13 @@ export function activityDetails(params,activityId) {
 		params: params
 	})
 }
+
+// 编辑商品
+export function editActProducts(params,activityId,activityProductId) {
+	return request({
+		url: `/api/backend/activities/${activityId}/products/${activityProductId}`,
+		method: 'put',
+		data: params
+	})
+}
+

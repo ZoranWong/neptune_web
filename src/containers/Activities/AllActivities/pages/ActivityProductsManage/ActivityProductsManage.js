@@ -14,6 +14,7 @@ class ActivityProductsManage extends Component {
 			data: [],
 			shelfGoodsVisible: false, // 上架商品
 			editProductVisible: false, // 编辑商品
+			record: {}
 		};
 		this.child = React.createRef();
 	}
@@ -34,8 +35,8 @@ class ActivityProductsManage extends Component {
 	
 	
 	//编辑商品
-	showEditProduct = () => {
-		this.setState({editProductVisible: true})
+	showEditProduct = (record) => {
+		this.setState({editProductVisible: true, record})
 	};
 	hideEditProduct = () =>{
 		this.setState({editProductVisible:false})
@@ -144,7 +145,7 @@ class ActivityProductsManage extends Component {
 						<Button size="small" onClick={()=>this.offShelves(record)}>
 							下架
 						</Button>
-						<Button size="small" onClick={this.showEditProduct}>
+						<Button size="small" onClick={()=>this.showEditProduct(record)}>
 							编辑
 						</Button>
 					</div>
@@ -162,6 +163,9 @@ class ActivityProductsManage extends Component {
 					visible={this.state.editProductVisible}
 					onClose={this.hideEditProduct}
 					onSubmit={this.submitEditProduct}
+					record={this.state.record}
+					id={this.state.id}
+					refresh={this.refresh}
 				/>
 				<div style={{display: 'flex', justifyContent: 'space-between'}}>
 					<Button size="small" onClick={this.jumpProduct}>
