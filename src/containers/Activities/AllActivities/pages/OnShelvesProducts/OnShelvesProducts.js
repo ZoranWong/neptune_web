@@ -178,7 +178,12 @@ class OnShelvesProducts extends Component {
 				dataIndex: 'user_limit_day',
 				align: 'center',
 				render: (text,record) => (
-					<Input type='number' style={{width: '80px'}} value={text} onChange={(e)=>this.inputChange(e, 'user_limit_day', record)} />
+					<Input
+						disabled={this.state.details['user_limit_day']}
+						type='number'
+						style={{width: '80px'}}
+						value={text}
+						onChange={(e)=>this.inputChange(e, 'user_limit_day', record)} />
 				)
 			},
 			{
@@ -187,7 +192,7 @@ class OnShelvesProducts extends Component {
 				align: 'center',
 				render: (text,record) => (
 					<Input
-						disabled={this.state.details['buy_max_num']}
+						disabled={this.state.details['user_limit_num']}
 						type='number'
 						style={{width: '80px'}}
 						value={text}

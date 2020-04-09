@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import './js/index'
 import IconFont from "../../../utils/IconFont";
-import {Button, message, Switch, Table} from "antd";
+import {Button, message, Modal, Switch, Table} from "antd";
 import CreateNewActivity from "./modal/CreateNewActivity";
 import ActivityModules from "./modal/ActivityModules";
 import EditIndexVisible from "./modal/EditIndexVisible";
-import {createNewActivity, startActivity,endActivity, activities, activityEntrySetting} from "../../../api/activities/activities";
+import {createNewActivity, startActivity,endActivity, activities, activityEntrySetting, deleteActivity} from "../../../api/activities/activities";
 import _ from 'lodash'
 import PreviewDetails from "./modal/PreviewDetails";
 import EndDateSelect from "./modal/EndDateSelect";
@@ -120,7 +120,7 @@ class AllActivities extends Component {
 		}
 	};
 
-	// 优惠券详情
+	// 活动详情
 	showDetails = (record) =>{
 		this.setState({detailsVisible: true, details: record})
 	};
@@ -136,6 +136,45 @@ class AllActivities extends Component {
 			message.success(r.message);
 			this.refresh()
 		}).catch(_=>{})
+	};
+
+	// 删除活动
+	deleteActivity = (record) => {
+		let refresh = this.refresh;
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			content: (
+				<div className="U_confirm">
+					确定删除该活动吗？
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				// 确定按钮执行操作
+				deleteActivity({}, record.id).then(r=>{
+					message.success(r.message);
+					refresh()
+				}).catch(_=>{})
+			}
+		});
 	};
 
 	
@@ -198,7 +237,7 @@ class AllActivities extends Component {
 						<Button size="small" onClick={()=>this.showEditIndex(record)} >
 							编辑首页
 						</Button>
-						<Button size="small">
+						<Button size="small" onClick={()=>this.deleteActivity(record)}>
 							删除
 						</Button>
 					</div>

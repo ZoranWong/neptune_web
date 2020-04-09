@@ -162,7 +162,7 @@ class ActivityProductsManage extends Component {
 						<Button
 							size="small"
 							onClick={()=>this.showEditProduct(record)}
-							disabled={this.state.details['buy_max_num'] }
+							disabled={this.state.details['user_limit_num'] && this.state.details['user_limit_day']}
 						>
 							编辑
 						</Button>

@@ -35,6 +35,15 @@ export function endActivity(params,activityId) {
 	})
 }
 
+// 删除活动
+export function deleteActivity(params,activityId) {
+	return request({
+		url: `/api/backend/activities/${activityId}`,
+		method: 'delete',
+		params: params
+	})
+}
+
 // 设置活动入口模板
 export function activityEntrySetting(params,activityId) {
 	return request({
