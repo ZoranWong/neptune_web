@@ -17,7 +17,7 @@ class CreateNewActivity extends Component {
 			discount: 100,
 			discount_amount: 0,
 			status: 0,
-			user_join_strategy: 'ALL_USER',
+			userType: 'ACTIVITY_USE_IN_ALL_USER_SET',
 			user_limit_day: 0,
 			user_limit_num: 0
 		};
@@ -54,6 +54,10 @@ class CreateNewActivity extends Component {
 			}
 		}
 		state.image = banner;
+		state['use_conditions'] = [];
+		state['use_conditions'].push({
+			strategy: state.userType
+		});
 		this.props.onSubmit(state)
 	};
 	
@@ -128,16 +132,12 @@ class CreateNewActivity extends Component {
 						{/*	<Input type='number' className='liInput' value={state.buy_max_num} onChange={(e) => this.onChange('buy_max_num', e)}  />*/}
 						{/*</li>*/}
 						<li>
-							<span>活动统一价格: </span>
-							<Input type='number' className='liInput' value={state.act_price} onChange={(e) => this.onChange('act_price', e, true)}  />
-						</li>
-						<li>
 							<span>活动人群设置: </span>
-							<Radio.Group onChange={(e)=>this.onChange('user_join_strategy', e)} value={this.state.user_join_strategy}>
-								<Radio style={radioStyle} value='ALL_USER'>
+							<Radio.Group onChange={(e)=>this.onChange('userType',e)} value={this.state.userType}>
+								<Radio value="ACTIVITY_USE_IN_ALL_USER_SET">
 									全部用户
 								</Radio>
-								<Radio style={radioStyle} value='NEW_USER'>
+								<Radio value="ACTIVITY_USE_IN_NEW_USER_SET">
 									新用户
 								</Radio>
 							</Radio.Group>
@@ -159,6 +159,12 @@ class CreateNewActivity extends Component {
 								</Radio>
 							</Radio.Group>
 						</li>
+						{
+							this.state.type === 'NONE' && <li>
+								<span>活动统一价格: </span>
+								<Input type='number' className='liInput' value={state.act_price} onChange={(e) => this.onChange('act_price', e, true)}  />
+							</li>
+						}
 						{
 							this.state.type === 'DISCOUNT' && <li>
 								<span>折扣(0-100百分制): </span>

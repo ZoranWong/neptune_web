@@ -106,14 +106,18 @@ class PreviewDetails extends Component {
                             <span className="left">最大优惠金额:</span>
                             <span className='limit'>{this.props.details['max_discount_amount']}</span>
                         </li>
-                        <li>
-                            <span className="left">折扣(0-100百分制):</span>
-                            <span className='limit'>{this.props.details.discount}</span>
-                        </li>
-                        <li>
-                            <span className="left">满减金额:</span>
-                            <span className='limit'>{this.props.details['limit_amount']}</span>
-                        </li>
+                        {
+                            this.props.details.type === 'DISCOUNT' && <li>
+                                <span className="left">折扣(0-100百分制):</span>
+                                <span className='limit'>{this.props.details.discount}</span>
+                            </li>
+                        }
+                        {
+                            this.props.details.type === 'FULL_REDUCTION' && <li>
+                                <span className="left">满减金额:</span>
+                                <span className='limit'>满{this.props.details['limit_amount']}元减{this.props.details['discount_amount']}元</span>
+                            </li>
+                        }
                         <li>
                             <span className="left">活动起始时间:</span>
                             <span className='limit'>{this.props.details['start_date'] || '无'}</span>

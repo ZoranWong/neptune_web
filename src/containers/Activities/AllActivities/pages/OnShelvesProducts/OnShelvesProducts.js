@@ -78,7 +78,7 @@ class OnShelvesProducts extends Component {
 			let params = {};
 			params['entity_id'] = item['product_entity_id'];
 			params['configurations'] = {};
-			params['configurations']['act_price'] = Number(item['act_price']);
+			params['configurations']['act_price'] = this.state.details.type === 'NONE' ?  Number(item['act_price']) : Number(item['product_entity']['retail_price']) ;
 			params['configurations']['tags'] = [];
 			params['configurations']['tags'][0] = this.state.name;
 			params['configurations']['buy_max_num'] =  Number(item['buy_max_num']);
@@ -134,9 +134,17 @@ class OnShelvesProducts extends Component {
 				title: '促销价',
 				dataIndex: 'act_price',
 				align: 'center',
-				render: (text,record) => (
-					<Input type='number' style={{width: '80px'}} value={text} onChange={(e)=>this.inputChange(e, 'act_price', record)} />
-				)
+				render: (text,record) => {
+					if (this.state.details.type !== 'NONE') {
+						return <span>{record['product_entity']['retail_price']}</span>
+					} else {
+						return <Input
+							type='number'
+							style={{width: '80px'}}
+							value={text} onChange={(e)=>this.inputChange(e, 'act_price', record)} />
+					}
+
+				}
 			},
 			{
 				title: '参与活动最大优惠数量',
