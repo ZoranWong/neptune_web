@@ -115,15 +115,6 @@ class CreateNewActivity extends Component {
 							<span>活动统一价格: </span>
 							<Input type='number' className='liInput' value={state.act_price} onChange={(e) => this.onChange('act_price', e)}  />
 						</li>
-						
-						<li>
-							<span>享受优惠活动产品的购买金额: </span>
-							<Input type='number' className='liInput' value={state.limit_amount} onChange={(e) => this.onChange('limit_amount', e)}  />
-						</li>
-						<li>
-							<span>最大优惠金额: </span>
-							<Input type='number' className='liInput' value={state.max_discount_amount} onChange={(e) => this.onChange('max_discount_amount', e)}  />
-						</li>
 						<li>
 							<span>活动类型: </span>
 							<Radio.Group onChange={(e)=>this.onChange('type', e)} value={this.state.type}>
@@ -141,13 +132,27 @@ class CreateNewActivity extends Component {
 								</Radio>
 							</Radio.Group>
 						</li>
+						{
+							this.state.type === 'DISCOUNT' && <li>
+								<span>折扣(0-100百分制): </span>
+								<Input type='number' className='liInput' value={state.discount} onChange={(e) => this.onChange('discount', e)}  />
+							</li>
+						}
+						{
+							this.state.type === 'FULL_REDUCTION' && <li>
+								<span>享受优惠活动产品的购买金额: </span>
+								<Input type='number' className='liInput' value={state.limit_amount} onChange={(e) => this.onChange('limit_amount', e)}  />
+							</li>
+						}
+						{
+							this.state.type === 'FULL_REDUCTION' && <li>
+								<span>满减金额: </span>
+								<Input type='number' className='liInput' value={state.discount_amount} onChange={(e) => this.onChange('discount_amount', e)}  />
+							</li>
+						}
 						<li>
-							<span>折扣(0-100百分制): </span>
-							<Input type='number' className='liInput' value={state.discount} onChange={(e) => this.onChange('discount', e)}  />
-						</li>
-						<li>
-							<span>满减金额: </span>
-							<Input type='number' className='liInput' value={state.discount_amount} onChange={(e) => this.onChange('discount_amount', e)}  />
+							<span>最大优惠金额: </span>
+							<Input type='number' className='liInput' value={state.max_discount_amount} onChange={(e) => this.onChange('max_discount_amount', e)}  />
 						</li>
 						<li>
 							<span>活动起始时间: </span>

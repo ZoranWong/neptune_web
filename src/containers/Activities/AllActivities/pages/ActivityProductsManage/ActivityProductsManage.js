@@ -3,7 +3,12 @@ import {Button, message, Modal, Table} from "antd";
 import CustomPagination from "../../../../../components/Layout/Pagination";
 
 import EditProduct from "./Modal/EditProduct";
-import {shelfableProducts,products, offShelvesProducts} from "../../../../../api/activities/activities";
+import {
+	shelfableProducts,
+	products,
+	offShelvesProducts,
+	activityDetails
+} from "../../../../../api/activities/activities";
 
 class ActivityProductsManage extends Component {
 	constructor(props) {
@@ -14,14 +19,23 @@ class ActivityProductsManage extends Component {
 			data: [],
 			shelfGoodsVisible: false, // 上架商品
 			editProductVisible: false, // 编辑商品
-			record: {}
+			record: {},
+			details: {}
 		};
 		this.child = React.createRef();
 	}
 	
 	componentDidMount() {
-		this.setState({id: this.props.location.state.actId, name: this.props.location.state.name})
+		this.setState({id: this.props.location.state.actId, name: this.props.location.state.name}, ()=> {
+			this.getDetails()
+		})
 	}
+
+	getDetails = () => {
+		activityDetails({},this.state.id).then(r=>{
+			this.setState({details: r.data})
+		}).then(r=>{})
+	};
 	
 	// 分页器改变值
 	paginationChange = (list) =>{
@@ -145,7 +159,11 @@ class ActivityProductsManage extends Component {
 						<Button size="small" onClick={()=>this.offShelves(record)}>
 							下架
 						</Button>
-						<Button size="small" onClick={()=>this.showEditProduct(record)}>
+						<Button
+							size="small"
+							onClick={()=>this.showEditProduct(record)}
+							disabled={this.state.details['buy_max_num'] }
+						>
 							编辑
 						</Button>
 					</div>

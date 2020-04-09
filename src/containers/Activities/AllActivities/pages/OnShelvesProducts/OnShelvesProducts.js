@@ -3,6 +3,7 @@ import {Button, Input, message, Switch, Table} from "antd";
 import ShelfGoods from "../../modal/ShelfGoods";
 import {activityDetails, onShelvesProducts} from "../../../../../api/activities/activities";
 import _ from 'lodash'
+import './index.sass'
 class OnShelvesProducts extends Component {
 	constructor(props) {
 		super(props);
@@ -30,7 +31,7 @@ class OnShelvesProducts extends Component {
 			v['has_sell_limit'] = false;
 			v['sell_limit'] = 0;
 			v['user_limit_day'] = 0;
-			v['user_limit_num'] = 0;
+			v['user_limit_num'] = details['buy_max_num'];
 		});
 		this.setState({data: value}, ()=>{
 			this.hideShelfGoods()
@@ -165,9 +166,12 @@ class OnShelvesProducts extends Component {
 				title: '参与活动商品数量',
 				dataIndex: 'sell_limit',
 				align: 'center',
-				render: (text,record) => (
-					<Input type='number' style={{width: '80px'}} value={text} onChange={(e)=>this.inputChange(e, 'sell_limit', record)} />
-				)
+				render: (text,record) => {
+					return record['has_sell_limit'] ?
+						 <Input type='number' style={{width: '80px'}} value={text} onChange={(e)=>this.inputChange(e, 'sell_limit', record)} />
+						: <span>暂无</span>
+
+				}
 			},
 			{
 				title: '限购周期(天)',
@@ -182,7 +186,13 @@ class OnShelvesProducts extends Component {
 				dataIndex: 'user_limit_num',
 				align: 'center',
 				render: (text,record) => (
-					<Input type='number' style={{width: '80px'}} value={text} onChange={(e)=>this.inputChange(e, 'user_limit_num', record)} />
+					<Input
+						disabled={this.state.details['buy_max_num']}
+						type='number'
+						style={{width: '80px'}}
+						value={text}
+						onChange={(e)=>this.inputChange(e, 'user_limit_num', record)}
+					/>
 				)
 			},
 		];
@@ -207,7 +217,7 @@ class OnShelvesProducts extends Component {
 					</Button>
 				</div>
 				
-				<div className="chart u_chart">
+				<div className="chart u_chart shelfProducts">
 					<Table
 						columns={columns}
 						rowKey={record => record.id}
