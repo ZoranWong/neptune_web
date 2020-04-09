@@ -82,10 +82,13 @@ class PreviewDetails extends Component {
                             <span className="left">活动类型:</span>
                             <span className='limit'>{this.handleType(this.props.details.type)}</span>
                         </li>
-                        <li>
-                            <span className="left">活动人群:</span>
-                            <span className='limit'>{this.handleTarget(this.props.details['user_join_strategy'])}</span>
-                        </li>
+                        {
+                            this.props.details['applicable_desc'] && this.props.details['applicable_desc'].length ?  <li>
+                                <span className="left">活动人群:</span>
+                                <span className='limit'>{this.props.details['applicable_desc'][0]['value_display']}</span>
+                            </li> : ''
+                        }
+
                         <li>
                             <span className="left">活动图片:</span>
                             <img style={{width: '100px', height: '100px'}} src={this.props.details.image} alt=""/>
@@ -102,10 +105,12 @@ class PreviewDetails extends Component {
                             <span className="left">每人限购数量:</span>
                             <span className='limit'>{this.props.details['user_limit_num']}件</span>
                         </li>
-                        <li>
-                            <span className="left">最大优惠金额:</span>
-                            <span className='limit'>{this.props.details['max_discount_amount']}</span>
-                        </li>
+                        {
+                            this.props.details.type === 'NONE' && <li>
+                                <span className="left">最大优惠金额:</span>
+                                <span className='limit'>{this.props.details['max_discount_amount']}</span>
+                            </li>
+                        }
                         {
                             this.props.details.type === 'DISCOUNT' && <li>
                                 <span className="left">折扣(0-100百分制):</span>

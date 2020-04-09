@@ -32,13 +32,14 @@ class AdjustSalesBV extends Component {
 	
 	handleSubmit = () => {
 		let bv = Number(this.state.bvValue);
+		console.log(this.props.item, '====');
 		let type = this.props.type === 'REWARD' ? 'add' : 'sub';
 		if (!bv) {
 			message.error('请输入调整值');
 			return
 		}
 		if (type === 'sub') {
-			if (bv - this.props.item['personal_bv'] > 0) {
+			if (bv - this.props.item['amount'] > 0) {
 				message.error('当前不可惩罚这么多');
 				return
 			}

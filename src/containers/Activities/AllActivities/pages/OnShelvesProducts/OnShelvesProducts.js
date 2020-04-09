@@ -82,7 +82,7 @@ class OnShelvesProducts extends Component {
 			params['configurations']['tags'] = [];
 			params['configurations']['tags'][0] = this.state.name;
 			params['configurations']['buy_max_num'] =  Number(item['buy_max_num']);
-			params['configurations']['discount'] =  Number(item['discount']);
+			params['configurations']['discount'] =  this.state.details.type === 'DISCOUNT' ? Number(item['discount']) : 100;
 			params['configurations']['has_sell_limit'] = item['has_sell_limit'];
 			params['configurations']['sell_limit'] =  Number(item['sell_limit']);
 			params['configurations']['user_limit_day'] =  Number(item['user_limit_day']);
@@ -158,9 +158,14 @@ class OnShelvesProducts extends Component {
 				title: '折扣(0-100百分制)',
 				dataIndex: 'discount',
 				align: 'center',
-				render: (text,record) => (
-					<Input type='number' style={{width: '80px'}} value={text} onChange={(e)=>this.inputChange(e, 'discount', record)} />
-				)
+				render: (text,record) => {
+					if (this.state.details.type === 'DISCOUNT') {
+						return 	<Input type='number' style={{width: '80px'}} value={text} onChange={(e)=>this.inputChange(e, 'discount', record)} />
+					} else {
+						return <span>100</span>
+					}
+
+				}
 			},
 			{
 				title: '是否有活动数量限制',

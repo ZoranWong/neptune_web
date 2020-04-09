@@ -124,7 +124,7 @@ class CreateNewActivity extends Component {
 							<Input type='number' className='liInput' value={state.user_limit_day} onChange={(e) => this.onChange('user_limit_day', e, true)}  />
 						</li>
 						<li>
-							<span>限购数量（天）: </span>
+							<span>限购数量（件）: </span>
 							<Input type='number' className='liInput' value={state.user_limit_num} onChange={(e) => this.onChange('user_limit_num', e, true)}  />
 						</li>
 						{/*<li>*/}
@@ -183,10 +183,12 @@ class CreateNewActivity extends Component {
 								<Input type='number' className='liInput' value={state.discount_amount} onChange={(e) => this.onChange('discount_amount', e, true)}  />
 							</li>
 						}
-						<li>
-							<span>最大优惠金额: </span>
-							<Input type='number' className='liInput' value={state.max_discount_amount} onChange={(e) => this.onChange('max_discount_amount', e, true)}  />
-						</li>
+						{
+							this.state.type === 'NONE' && <li>
+								<span>最大优惠金额: </span>
+								<Input type='number' className='liInput' value={state.max_discount_amount} onChange={(e) => this.onChange('max_discount_amount', e, true)}  />
+							</li>
+						}
 						<li>
 							<span>活动起始时间: </span>
 							<LocaleProvider locale={zh_CN}>
