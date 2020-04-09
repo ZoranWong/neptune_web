@@ -52,7 +52,7 @@ class BasicStatistics extends Component {
 						>详情
 						</span>
 						{
-							!record['has_add_to_balance'] && <span
+							record['can_adjust'] && <span
 									style={{'color':'#4F9863','cursor':'pointer',marginLeft: '20px'}}
 									onClick={()=>this.handleStatistics(record)}
 								>处理
