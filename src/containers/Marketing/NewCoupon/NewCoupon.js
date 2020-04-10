@@ -489,14 +489,14 @@ class NewCoupon extends Component {
 										指定用户不可用
 									</Radio>
 									<SelectUser ref={this.disableUser} />
-									<Radio value="PARTIAL_AVAILABLE_GROUP">
-										指定群组可用
-									</Radio>
-									<SelectUserGroup ref={this.ableUserGroup} />
-									<Radio value="PARTIAL_FORBIDDEN_GROUP">
-										指定群组不可用
-									</Radio>
-									<SelectUserGroup ref={this.disableUserGroup} />
+									{/*<Radio value="PARTIAL_AVAILABLE_GROUP">*/}
+									{/*	指定群组可用*/}
+									{/*</Radio>*/}
+									{/*<SelectUserGroup ref={this.ableUserGroup} />*/}
+									{/*<Radio value="PARTIAL_FORBIDDEN_GROUP">*/}
+									{/*	指定群组不可用*/}
+									{/*</Radio>*/}
+									{/*<SelectUserGroup ref={this.disableUserGroup} />*/}
 								</Radio.Group>
 							</li>
 						}
