@@ -58,6 +58,8 @@ class CreateNewActivity extends Component {
 		state['use_conditions'].push({
 			strategy: state.userType
 		});
+		state['start_date'] = state['start_date'] + ':00';
+		state['end_date'] = state['end_date'] + ':00';
 		this.props.onSubmit(state)
 	};
 	
@@ -192,13 +194,23 @@ class CreateNewActivity extends Component {
 						<li>
 							<span>活动起始时间: </span>
 							<LocaleProvider locale={zh_CN}>
-								<DatePicker style={{width: '300px'}} disabledDate={this.disabledDate} onChange={(date,dateString)=>this.onDateChange(date, dateString, 'start_date')}  />
+								<DatePicker
+									format="YYYY-MM-DD HH:mm"
+									showTime={true}
+									style={{width: '300px'}}
+									disabledDate={this.disabledDate}
+									onChange={(date,dateString)=>this.onDateChange(date, dateString, 'start_date')}  />
 							</LocaleProvider>
 						</li>
 						<li>
 							<span>活动结束时间: </span>
 							<LocaleProvider locale={zh_CN}>
-								<DatePicker style={{width: '300px'}} disabledDate={this.disabledDate} onChange={(date,dateString)=>this.onDateChange(date, dateString, 'end_date')} />
+								<DatePicker
+									format="YYYY-MM-DD HH:mm"
+									showTime={true}
+									style={{width: '300px'}}
+									disabledDate={this.disabledDate}
+									onChange={(date,dateString)=>this.onDateChange(date, dateString, 'end_date')} />
 							</LocaleProvider>
 						</li>
 						{/*<li>*/}

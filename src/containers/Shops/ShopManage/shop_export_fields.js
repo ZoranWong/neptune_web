@@ -39,7 +39,7 @@ export const shop_export_values = [
 				type:'equal'
 			},
 			{
-				label:'介绍人姓名',
+				label:'介绍人店铺名称',
 				value:'introducer_name',
 				type:'equal'
 			},
