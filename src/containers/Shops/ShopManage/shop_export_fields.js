@@ -43,6 +43,16 @@ export const shop_export_values = [
 				value:'introducer_name',
 				type:'equal'
 			},
+			{
+				label:'店铺创建时间',
+				value:'created_time',
+				type:'timeCompare'
+			},
+			{
+				label:'店铺最新开业时间',
+				value:'last_open_time',
+				type:'timeCompare'
+			},
 		]
 	}
 ];
