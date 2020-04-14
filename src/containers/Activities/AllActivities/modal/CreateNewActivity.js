@@ -58,8 +58,8 @@ class CreateNewActivity extends Component {
 		state['use_conditions'].push({
 			strategy: state.userType
 		});
-		state['start_date'] = state['start_date'] + ':00';
-		state['end_date'] = state['end_date'] + ':00';
+		state['start_date'] = state['start_date'] ? state['start_date'] + ':00': null;
+		state['end_date'] = state['end_date'] ? state['end_date'] + ':00' : null;
 		this.props.onSubmit(state)
 	};
 	

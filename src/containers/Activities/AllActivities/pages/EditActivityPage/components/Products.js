@@ -17,8 +17,8 @@ class Products extends Component {
 				{
 					this.props.selectedProducts.length ? <div className='actProductBox' onClick={this.operation}>
 						{
-							this.props.selectedProducts.map(item=> (
-								<div className='actProducts'>
+							this.props.selectedProducts.map((item, index)=> (
+								<div className='actProducts' key={index}>
 									{item['product_entity'].name}
 								</div>
 							))

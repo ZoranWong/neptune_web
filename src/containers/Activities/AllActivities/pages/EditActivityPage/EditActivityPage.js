@@ -15,23 +15,29 @@ import {operation} from "./utils/Operations";
 import _ from 'lodash';
 import CustomUpload from "../../../../../components/Upload/Upload";
 import UploadMany from "../../../../../components/UploadMany/Upload";
+import EditRichText from "./modal/EditRichText";
 import {products,activityTemplateSetting} from "../../../../../api/activities/activities";
 
 class EditActivityPage extends Component {
 	constructor() {
-		super();
+		super ();
 		this.state = {
-			modules : ['SHARE_BUTTON','PRODUCTS'],
+			modules : ['SHARE_BUTTON', 'RICH_TEXT', 'PRODUCTS'],
 			operationType: '',
 			products: [],
 			image: '',
 			id: '',
 			type: '',
+			richText: '',
 			selectedItem: [],
 			selectedProducts: [],
+			richTextVisible: false,
 			templates: [
 				{
 					name: 'SHARE_BUTTON'
+				},
+				{
+					name: 'RICH_TEXT'
 				},
 				{
 					name: 'PRODUCTS'
@@ -64,6 +70,8 @@ class EditActivityPage extends Component {
 					this.setState({image: template.data})
 				} else if (template.name === 'PRODUCTS') {
 					this.setState({selectedItem: template.data})
+				} else if (template.name === 'RICH_TEXT') {
+					this.setState({richText: template.data})
 				}
 			});
 		}
@@ -107,11 +115,12 @@ class EditActivityPage extends Component {
 	};
 	
 	renderModules = type => {
-		let {image,selectedProducts} = this.state;
+		let {image,selectedProducts, richText} = this.state;
 		let props = {
 			onChange: this.editModule,
 			image: image,
-			selectedProducts: selectedProducts
+			selectedProducts: selectedProducts,
+			details: richText
 		};
 		
 		switch (type) {
@@ -177,11 +186,38 @@ class EditActivityPage extends Component {
 			}).catch(_=>{})
 		})
 	};
+
+	// 富文本编辑器
+	showRichText = () => {
+		this.setState({richTextVisible: true})
+	};
+	closeRichText = () => {
+		this.setState({richTextVisible: false})
+	};
+	saveRichText = (text) => {
+		this.setState({richText: text});
+		let templates = this.state.templates;
+		_.map(templates, template => {
+			if (template.name === 'RICH_TEXT') {
+				template.data = text
+			}
+		})
+	};
 	
 	render() {
 		const {modules,image,products} = this.state;
+		const textProps = {
+			visible: this.state.richTextVisible,
+			onClose: this.closeRichText,
+			onSubmit: this.saveRichText
+		};
 		return (
 			<div>
+				{/* 点击编辑弹出富文本框 */}
+				<EditRichText {...textProps} />
+
+
+
 				<div style={{paddingBottom: '16px',marginBottom: '16px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e9e9e9'}}>
 					<Button size='small' onClick={this.save}>保存</Button>
 					<Button size='small' onClick={this.back}>返回活动管理</Button>
@@ -240,6 +276,9 @@ class EditActivityPage extends Component {
 									</Select.Option>
 								))}
 							</Select>
+						},
+						{
+							this.state.operationType === 'edit_rich_text' && <Button size='small' onClick={this.showRichText}>点击编辑富文本</Button>
 						}
 					</div>
 				</div>

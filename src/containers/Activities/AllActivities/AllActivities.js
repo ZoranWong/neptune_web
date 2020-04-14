@@ -51,7 +51,7 @@ class AllActivities extends Component {
 	};
 	createNewAct = (data) => {
 		for (let k in data) {
-			if (data[k] === '' || data[k] === null) {
+			if ((data[k] === '' || data[k] === null) && k !== 'start_date' && k!== 'end_date') {
 				data[k] = 0
 			}
 		}
