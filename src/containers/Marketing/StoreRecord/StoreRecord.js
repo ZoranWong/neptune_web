@@ -311,7 +311,7 @@ class StoreRecord extends Component {
 								onClick={this.search}
 							>筛选
 							</Button>
-							<Button size="small">导出表格</Button>
+							{/*<Button size="small">导出表格</Button>*/}
 							<span className="clear" onClick={this.clear}>清空筛选条件</span>
 						</li>
 					</ul>
@@ -334,6 +334,7 @@ class StoreRecord extends Component {
 							ref={this.child}
 							params={this.state.paginationParams}
 							valChange={this.paginationChange}
+							text='条数据'
 						/>
 					</div>
 					
