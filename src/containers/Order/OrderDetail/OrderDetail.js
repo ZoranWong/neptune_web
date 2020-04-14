@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import {Button} from "antd";
 import './css/orderDetail.sass'
 import {orderDetail} from "../../../api/order/orderManage";
@@ -37,10 +37,8 @@ export default class OrderDetail extends React.Component{
 								<p>订单号：{details['trade_no']}</p>
 								<p>支付流水：{details['transaction_id']}</p>
 								<p>订单类型：{details['order_type']}</p>
-							</li>
-							<li>
-								<p>自提商户：{details['self_pick_shop_name']}</p>
-								<p>上线编号：{details['introducer_code']}</p>
+								<p>配送方式：{details['delivery_type_desc']}</p>
+								<p>上线：{details['introducer_code']}</p>
 							</li>
 							{/*<li className="steps">*/}
 							{/*	<Steps size="small" current={1} labelPlacement="vertical">*/}
@@ -48,6 +46,31 @@ export default class OrderDetail extends React.Component{
 							{/*		<Step title="交易完成" description="2019-5-20 10:00"  />*/}
 							{/*	</Steps>*/}
 							{/*</li>*/}
+							<li>
+								<h3>自提信息</h3>
+								{
+									details['shop_info'] && <Fragment>
+										<p>自提店铺名称：{details['shop_info'].name}</p>
+										<p>自提店铺编号：{details['shop_info'].code}</p>
+										<p>自提店铺主姓名：{details['shop_info']['keeper_name']}</p>
+										<p>自提店铺主手机号（注册）：{details['shop_info']['keeper_mobile']}</p>
+									</Fragment>
+								}
+							</li>
+							<li>
+								<h3>配送信息</h3>
+								{details['shipping_info'] && <Fragment>
+									<p>收货人姓名：{details['shipping_info']['consignee_name']}</p>
+									<p>收货人手机号：{details['shipping_info']['consignee_mobile_phone']}</p>
+									<p>
+										收货人地址：
+										{details['shipping_info']['province']}
+										{details['shipping_info']['city']}
+										{details['shipping_info']['area']}
+										{details['shipping_info']['detail_address']}
+									</p>
+								</Fragment>}
+							</li>
 						</ul>
 					</div>
 				</div>
