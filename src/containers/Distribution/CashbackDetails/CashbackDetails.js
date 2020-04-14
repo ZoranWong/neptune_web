@@ -7,6 +7,7 @@ import {searchJson} from "../../../utils/dataStorage";
 import CustomPagination from "../../../components/Layout/Pagination";
 import IconFont from "../../../utils/IconFont";
 import ReviewShops from "./Modal/ReviewShops";
+import ReviewAdjustment from "./Modal/ReviewAdjustment";
 class CashbackDetails extends Component {
 	constructor(props) {
 		super(props);
@@ -18,7 +19,9 @@ class CashbackDetails extends Component {
 				searchJson: {}
 			},
 			shops: [],
-			shopsVisible: false
+			shopsVisible: false,
+			adjustmentVisible: false,
+			adjustmentRecord: []
 		};
 		this.child = React.createRef()
 	}
@@ -61,6 +64,15 @@ class CashbackDetails extends Component {
 	hideShops = () => {
 		this.setState({shopVisible: false})
 	};
+
+	//调整记录
+	showAdjustment = (record) => {
+		this.setState({adjustmentVisible: true, adjustmentRecord: record.adjustments})
+	};
+	hideAdjustment = () => {
+		this.setState({adjustmentVisible: false})
+	};
+
 	
 	render() {
 		const columnsOther = [
@@ -156,7 +168,10 @@ class CashbackDetails extends Component {
 			},
 			{
 				title: '调整',
-				dataIndex: 'adjust',
+				dataIndex: 'adjust_data',
+				render: (text,record) => (
+					<span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.showAdjustment(record)}>查看调整</span>
+				)
 			},
 			{
 				title: '备注',
@@ -170,9 +185,16 @@ class CashbackDetails extends Component {
 			shops: this.state.shops,
 			onClose: this.hideShops
 		};
+		const adjustmentProps = {
+			visible: this.state.adjustmentVisible,
+			adjustments: this.state.adjustmentRecord,
+			onClose: this.hideAdjustment
+		};
 		return (
 			<div className='cash_back_setting'>
 				<ReviewShops {...shopProps} />
+				<ReviewAdjustment {...adjustmentProps} />
+
 				<SearchInput
 					getDatas={this.search}
 					text={text}
