@@ -102,6 +102,7 @@ import ActivityProductsManage
 	from "../containers/Activities/AllActivities/pages/ActivityProductsManage/ActivityProductsManage";
 import CakeClassification from "../containers/Activities/Activities/ProductsManage/CakeClassification";
 import OnShelvesProducts from "../containers/Activities/AllActivities/pages/OnShelvesProducts/OnShelvesProducts";
+import ProductsOrderSetting from "../containers/Order/ProductsOrderSetting/ProductsOrderSetting";
 
 
 /** 跳转到某个路由之前触发 用于验证页面权限**/
@@ -180,7 +181,8 @@ const Routes = () =>(
 		<Route exact={true} path="/order/setting" render={props => onEnter(OrderSetting, props)} />
 		<Route exact={true} path="/order/summaryOrders" render={props => onEnter(SummaryOrders, props)} />
 		<Route exact={true} path="/order/orderTransformer" render={props => onEnter(OrderTransformer, props)} />
-		
+		<Route exact={true} path="/order/productsOrderSetting" render={props => onEnter(ProductsOrderSetting, props)} />
+
 		
 		{/*营销*/}
 		<Route exact={true} path="/marketing" render={props => onEnter(Marketing, props)} />

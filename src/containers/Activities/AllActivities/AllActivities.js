@@ -50,17 +50,30 @@ class AllActivities extends Component {
 		this.setState({newActVisible: false})
 	};
 	createNewAct = (data) => {
+		// state['start_date'] = state['start_date'] ? state['start_date'] + ':00': null;
+		// state['end_date'] = state['end_date'] ? state['end_date'] + ':00' : null;
 		for (let k in data) {
 			if ((data[k] === '' || data[k] === null) && k !== 'start_date' && k!== 'end_date') {
 				data[k] = 0
 			}
+			if (k === 'start_date' || k === 'end_date') {
+				data[k] = this.handleDate(data[k])
+			}
 		}
-		console.log(data, '...');
 		createNewActivity(data).then(r=>{
 			message.success(r.message);
 			this.hideNewAct();
 			this.refresh();
 		})
+	};
+
+	handleDate = (date) => {
+		let time = date;
+		let dateSplited = date.split(':');
+		if (dateSplited.length && dateSplited.length < 3) {
+			time = date + ':00'
+		}
+		return time;
 	};
 
 	status = (status) => {

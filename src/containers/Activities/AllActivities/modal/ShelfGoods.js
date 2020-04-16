@@ -196,9 +196,9 @@ export default class ShelfGoods extends React.Component {
 						locale={{'itemUnit': '项', 'itemsUnit': '项', 'notFoundContent': '列表为空', 'searchPlaceholder': '请输入商品名称'}}
 						leftColumns={leftTableColumns}
 						rightColumns={rightTableColumns}
-						titles={[(this.handleTabs()),'已选商品']}
+						titles={['可选商品','已选商品']}
 						filterOption={(inputValue, item) =>
-							item.name.indexOf(inputValue) !== -1
+							item['product_entity'].name.indexOf(inputValue) !== -1
 						}
 					/>
 				</Modal>

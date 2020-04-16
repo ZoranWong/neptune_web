@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Menu, Icon } from 'antd'
+import { Menu } from 'antd'
 import { Link } from 'react-router-dom'
 import '../../style/sider.sass'
 import IconFont from "../../utils/IconFont";
@@ -18,6 +18,11 @@ let baseMenu = [
 		path:'/activities/all',
 		icon:'icon-dingdan',
 		text:'活动管理',
+	},
+	{
+		path:'/activities/groupon',
+		icon:'icon-dingdan',
+		text:'拼团管理',
 	},
 ];
 const Activities = ({ match }) => (
@@ -41,13 +46,13 @@ const Activities = ({ match }) => (
 					)
 				})
 			}
-			
+
 		</Menu>
 	</div>
-)
+);
 
 Activities.propTypes = {
 	match: PropTypes.object.isRequired
-}
+};
 
 export default Activities

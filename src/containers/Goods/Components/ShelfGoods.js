@@ -103,6 +103,13 @@ const rightTableColumns = [
 		dataIndex: 'name',
 		title: 'Name',
 	},
+	{
+		dataIndex: '操作',
+		title: '操作',
+		render : (text,record) => (
+			<span>删除</span>
+		)
+	}
 ];
 
 
@@ -135,16 +142,16 @@ export default class ShelfGoods extends React.Component {
 		this.props.onSubmit(this.state.targetKeys)
 	};
 	
-	handleTabs = () =>{
-		const list = ['配送批次','保存方式','商品属性','商品分类'];
-		return list.map((item,index)=>{
-			return <span
-				className="headerTabs"
-				key={index}>
-				{item}
-			</span>
-		})
-	};
+	// handleTabs = () =>{
+	// 	const list = ['配送批次','保存方式','商品属性','商品分类'];
+	// 	return list.map((item,index)=>{
+	// 		return <span
+	// 			className="headerTabs"
+	// 			key={index}>
+	// 			{item}
+	// 		</span>
+	// 	})
+	// };
 	
 	render() {
 		const { targetKeys } = this.state;
@@ -170,10 +177,11 @@ export default class ShelfGoods extends React.Component {
 						locale={{'itemUnit': '项', 'itemsUnit': '项', 'notFoundContent': '列表为空', 'searchPlaceholder': '请输入商品名称'}}
 						leftColumns={leftTableColumns}
 						rightColumns={rightTableColumns}
-						titles={[(this.handleTabs()),'已选商品']}
-						filterOption={(inputValue, item) =>
+						//titles={[(this.handleTabs()),'已选商品']}
+						titles={['可选商品', '已选商品']}
+						filterOption={(inputValue, item) =>(
 							item.name.indexOf(inputValue) !== -1
-						}
+						)}
 					/>
 				</Modal>
 			</div>

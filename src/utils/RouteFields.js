@@ -28,6 +28,7 @@ export const secondRoutes = [
 	'cashbackSetting',
 	'setUserMessage',
 	'setting',
+	'productsOrderSetting',
 	'setMarketingMessage',
 	'warningSetting',
 	'logs'

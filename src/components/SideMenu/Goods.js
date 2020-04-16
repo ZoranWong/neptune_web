@@ -50,12 +50,12 @@ let baseMenu = [
 		text:'商户订货',
 		slug: 'menu_product_merchant_book'
 	},
-	{
-		path:'/goods/activities',
-		icon:'icon-huodong',
-		text:'活动',
-		slug: 'menu_product_activity_book'
-	},
+	// {
+	// 	path:'/goods/activities',
+	// 	icon:'icon-huodong',
+	// 	text:'活动',
+	// 	slug: 'menu_product_activity_book'
+	// },
 	{
 		path:'/goods/distributionMall',
 		icon:'icon-fenxiao',

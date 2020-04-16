@@ -33,6 +33,12 @@ let baseMenu = [
 		slug: 'menu_order_agent'
 	},
 	{
+		path:'/order/productsOrderSetting',
+		icon:'icon-resource',
+		text:'订货设置',
+		slug: 'menu_order_setting'
+	},
+	{
 		path:'/order/summaryOrders',
 		icon:'icon-box-fill',
 		text:'消费者汇总单',
