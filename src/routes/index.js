@@ -103,6 +103,10 @@ import ActivityProductsManage
 import CakeClassification from "../containers/Activities/Activities/ProductsManage/CakeClassification";
 import OnShelvesProducts from "../containers/Activities/AllActivities/pages/OnShelvesProducts/OnShelvesProducts";
 import ProductsOrderSetting from "../containers/Order/ProductsOrderSetting/ProductsOrderSetting";
+import GrouponList from "../containers/Activities/GroupOn/GrouponList/GrouponList";
+import GrouponManage from "../containers/Activities/GroupOn/GrouponManage/GrouponManage";
+import GrouponOrderManage from "../containers/Activities/GroupOn/GrouponOrderManage/GrouponOrderManage";
+import NewGroupon from "../containers/Activities/GroupOn/GrouponList/NewGroupon/NewGroupon";
 
 
 /** 跳转到某个路由之前触发 用于验证页面权限**/
@@ -140,7 +144,11 @@ const Routes = () =>(
 		<Route exact={true} path="/activities/editActivityPage" component={EditActivityPage}/>} />
 		<Route exact={true} path="/activities/activityProductsManage" component={ActivityProductsManage}/>} />
 		<Route exact={true} path="/activities/onShelvesProducts" component={OnShelvesProducts}/>} />
-		
+		<Route exact={true} path="/activities/grouponList" component={GrouponList}/>} />
+		<Route exact={true} path="/activities/grouponManage" component={GrouponManage}/>} />
+		<Route exact={true} path="/activities/grouponOrderManage" component={GrouponOrderManage}/>} />
+		<Route exact={true} path="/activities/newGroupon" component={NewGroupon}/>} />
+
 		{/*数据*/}
 		<Route exact={true} path="/data" render={props => onEnter(Data, props)} />
 		

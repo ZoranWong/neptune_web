@@ -103,13 +103,13 @@ const rightTableColumns = [
 		dataIndex: 'name',
 		title: 'Name',
 	},
-	{
-		dataIndex: '操作',
-		title: '操作',
-		render : (text,record) => (
-			<span>删除</span>
-		)
-	}
+	// {
+	// 	dataIndex: '操作',
+	// 	title: '操作',
+	// 	render : (text,record) => (
+	// 		<span>删除</span>
+	// 	)
+	// }
 ];
 
 

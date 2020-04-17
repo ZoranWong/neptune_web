@@ -11,7 +11,7 @@ class ProductsOrderSetting extends Component {
 	
 	
 	componentDidMount() {
-		getSystemSetting({searchJson: searchJson({type: 'ORDER'})}).then(r=>{
+		getSystemSetting({searchJson: searchJson({type: 'MERCHANT_ORDER'})}).then(r=>{
 			r.data.forEach(item=>{
 				this.setState({[item.key]: item.value})
 			});
@@ -21,14 +21,14 @@ class ProductsOrderSetting extends Component {
 	
 	
 	valueChange = (type,value) => {
-		if (type === 'USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR') {
+		if (type === 'MERCHANT_ORDER_PAID_TIME_THRESHOLD_HOUR') {
 			if(value > 24)return
 		}
-		if (type === 'USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_MINUTE') {
+		if (type === 'MERCHANT_ORDER_PAID_TIME_THRESHOLD_MINUTE') {
 			if(value > 59)return
 		}
 		
-		if (type === 'USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR' || type === 'USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_MINUTE') {
+		if (type === 'MERCHANT_ORDER_PAID_TIME_THRESHOLD_HOUR' || type === 'MERCHANT_ORDER_PAID_TIME_THRESHOLD_MINUTE') {
 			value = parseInt(value)
 		} else {
 			value = parseFloat(value);
@@ -40,82 +40,12 @@ class ProductsOrderSetting extends Component {
 		let value = this.state[key];
 
 		systemSetting({
-			type: 'ORDER',
+			type: 'MERCHANT_ORDER',
 			key,
 			value
 		}).then(r=>{
 			message.success(r.message);
 		})
-	};
-	
-	enableSetting = key =>{
-		enable({
-			type: 'ORDER',
-			key
-		}).then(r=>{
-			console.log(r, 'able');
-		}).catch(_=>{})
-	};
-	disableSetting = key =>{
-		disableSetting({
-			type: 'ORDER',
-			key
-		}).then(r=>{
-			console.log(r, 'disable');
-		}).catch(_=>{})
-	};
-	
-	getFlag = (key) =>{
-		return this.state.data.filter(item=>item.key === key)[0]
-	};
-	
-	handleChecked = (key, checked) =>{
-		let {data} = this.state;
-		_.map(data, (items) => {
-			if (items['key'] === key) {
-				items['flag'] = checked;
-			}
-		});
-		this.setState({data})
-	};
-	
-	handleChange = (type, checked) =>{
-		let {data} = this.state;
-		console.log(checked);
-		_.map(data, (items) => {
-			if (items['key'] === type) {
-				items['flag'] = checked;
-			}
-		});
-		if (type === 'USER_ORDER_MANUAL_CANCEL_TIME_LIMIT') {
-			if (checked) {
-				console.log('前真');
-				this.enableSetting('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT');
-				this.disableSetting('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR');
-				this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT', true);
-				this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR', false);
-			} else {
-				console.log('前jia');
-				this.disableSetting('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT');
-				this.enableSetting('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR')
-				this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT', false);
-				this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR', true);
-			}
-		} else {
-			if (checked) {
-				console.log('hou真');
-				this.disableSetting('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT');
-				this.enableSetting('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR')
-				this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT', false);
-				this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR', true);
-			} else {
-				console.log('houjia');
-				this.enableSetting('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT');
-				this.disableSetting('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR')
-				this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT', true);
-				this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR', false);
-			}
-		}
 	};
 	
 	render() {
@@ -130,14 +60,14 @@ class ProductsOrderSetting extends Component {
 						state.data.length && <div className="setting_item">
 							<span className='cancelSpan'>每天  <Input
 								type='number'
-								value={state['USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR']}
-								onChange={(e)=>this.valueChange('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR',e.target.value)}
-								onBlur={()=>this.submitSetting('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR')}
+								value={state['MERCHANT_ORDER_PAID_TIME_THRESHOLD_HOUR']}
+								onChange={(e)=>this.valueChange('MERCHANT_ORDER_PAID_TIME_THRESHOLD_HOUR',e.target.value)}
+								onBlur={()=>this.submitSetting('MERCHANT_ORDER_PAID_TIME_THRESHOLD_HOUR')}
 							/> 时 <Input
 								type='number'
-								value={state['USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_MINUTE']}
-								onChange={(e)=>this.valueChange('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_MINUTE',e.target.value)}
-								onBlur={()=>this.submitSetting('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_MINUTE')}
+								value={state['MERCHANT_ORDER_PAID_TIME_THRESHOLD_MINUTE']}
+								onChange={(e)=>this.valueChange('MERCHANT_ORDER_PAID_TIME_THRESHOLD_MINUTE',e.target.value)}
+								onBlur={()=>this.submitSetting('MERCHANT_ORDER_PAID_TIME_THRESHOLD_MINUTE')}
 							/> 分之前</span>
 						</div>
 					}
@@ -150,9 +80,9 @@ class ProductsOrderSetting extends Component {
 					<div className="setting_item">
 						满 <Input
 						type='number'
-						value={state['USER_ORDER_DELIVERY_THRESHOLD']}
-						onChange={(e)=>this.valueChange('USER_ORDER_DELIVERY_THRESHOLD',e.target.value)}
-						onBlur={()=>this.submitSetting('USER_ORDER_DELIVERY_THRESHOLD')}
+						value={state['MERCHANT_ORDER_PAID_THRESHOLD']}
+						onChange={(e)=>this.valueChange('MERCHANT_ORDER_PAID_THRESHOLD',e.target.value)}
+						onBlur={()=>this.submitSetting('MERCHANT_ORDER_PAID_THRESHOLD')}
 					/> 元起送
 					</div>
 				</div>

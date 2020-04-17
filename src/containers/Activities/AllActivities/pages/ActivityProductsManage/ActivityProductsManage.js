@@ -142,13 +142,18 @@ class ActivityProductsManage extends Component {
 				dataIndex: 'user_limit_day',
 				align: 'center',
 				render: (text, record) => {
-					if (text === 0) {
-						return "无"
+					if (this.state.details['user_limit_num'] && this.state.details['user_limit_day']) {
+						return <span>该活动下所有商品{text}天限购{record['user_limit_num']}件</span>
 					} else {
-						return <span>
+						if (text === 0) {
+							return "无"
+						} else {
+							return <span>
 							每位用户{text}天限购{record['user_limit_num']}件
 						</span>
+						}
 					}
+
 				}
 			},
 			{
