@@ -53,7 +53,7 @@ class ProductsOrderSetting extends Component {
 		return (
 			<div className='order_setting'>
 				<div className="setting_header">
-					消费者取消订单时间
+					截单时间
 				</div>
 				<div className="setting_body">
 					{

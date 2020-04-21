@@ -75,7 +75,6 @@ class EditActivityPage extends Component {
 				}
 			});
 		}
-		console.log(templates, '!!!!!!!!!!!!');
 		this.setState({id: this.props.location.state.actId, templates: templates}, ()=>{
 			products({page:1, limit: 100},this.state.id).then(r=>{
 				this.setState({products: r.data}, () => {
@@ -87,7 +86,6 @@ class EditActivityPage extends Component {
 							}
 						});
 					}));
-					console.log(products, ';;;;;;;;;;');
 					this.setState({selectedProducts: products})
 				})
 			}).catch(_=>{});

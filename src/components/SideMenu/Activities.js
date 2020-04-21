@@ -45,8 +45,8 @@ const groups = [
 const menu = (
 	<Menu>
 		{
-			groups.map((item)=>(
-				<Menu.Item>
+			groups.map((item, index)=>(
+				<Menu.Item key={index}>
 					<Link to={item.path} key={item.name}>{item.name}</Link>
 				</Menu.Item>
 

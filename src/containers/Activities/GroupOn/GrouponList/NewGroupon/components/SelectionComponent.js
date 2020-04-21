@@ -5,13 +5,19 @@ class SelectionComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedItems: []
+            selectedItems: ''
         }
+    }
+
+    componentDidMount() {
+        this.setState({selectedItems: this.props.value})
     }
 
 
     handleChange = (selectedItems) => {
         //this.setState({selectedItems})
+        console.log(selectedItems);
+        this.setState({selectedItems: selectedItems});
         this.props.selectionChange(this.props.type, selectedItems)
     };
 
@@ -31,8 +37,8 @@ class SelectionComponent extends Component {
                         option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                 >
-                    {(strategy && strategy.length) && strategy.map(item => (
-                        <Select.Option key={item.key} label={item.name} value={item.key}>
+                    {(strategy && strategy.length) && strategy.map((item,index) => (
+                        <Select.Option key={index} label={item.name} value={item.key}>
                             {item.name}
                         </Select.Option>
                     ))}
