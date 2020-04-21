@@ -20,11 +20,11 @@ let baseMenu = [
 		icon:'icon-dingdan',
 		text:'活动管理',
 	},
-	{
-		path:'',
-		icon:'icon-dingdan',
-		text:'拼团管理',
-	},
+	// {
+	// 	path:'',
+	// 	icon:'icon-dingdan',
+	// 	text:'拼团管理',
+	// },
 ];
 const groups = [
 	{
@@ -35,10 +35,10 @@ const groups = [
 		name: '拼团单管理',
 		path: '/activities/grouponManage'
 	},
-	// {
-	// 	name: '拼团订单管理',
-	// 	path: '/activities/grouponOrderManage'
-	// }
+	{
+		name: '拼团订单管理',
+		path: '/activities/grouponOrderManage'
+	}
 ];
 
 
