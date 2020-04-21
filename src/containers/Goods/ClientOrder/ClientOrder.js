@@ -291,7 +291,7 @@ class ClientOrder extends React.Component{
 	onSubmitShelfGoods = (value) =>{
 		onShelves({
 			channel:this.channel,
-			product_ids:value
+			product_params:value
 		}).then(r=>{
 			message.success(r.message);
 			this.hideShelfGoods();

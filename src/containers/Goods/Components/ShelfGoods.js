@@ -1,9 +1,10 @@
 import React from "react";
-import {Transfer, Table, Modal, message} from 'antd';
+import {Transfer, Table, Modal, message, Switch} from 'antd';
 import difference from 'lodash/difference';
 import './css/shelfGoods.sass'
 import {products} from "../../../api/goods/goods";
 import {searchJson} from "../../../utils/dataStorage";
+import _ from 'lodash'
 // Customize Table Transfer
 const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
 	<Transfer {...restProps} >
@@ -90,7 +91,9 @@ for (let i = 0; i < 20; i++) {
 	});
 }
 
-
+function onSwitchChange  (checked,record)  {
+	record.checked = checked
+}
 
 const leftTableColumns = [
 	{
@@ -103,14 +106,16 @@ const rightTableColumns = [
 		dataIndex: 'name',
 		title: 'Name',
 	},
-	// {
-	// 	dataIndex: '操作',
-	// 	title: '操作',
-	// 	render : (text,record) => (
-	// 		<span>删除</span>
-	// 	)
-	// }
+	{
+		dataIndex: '操作',
+		title: '操作',
+		render : (text,record) => (
+			<span className='shelfSwitch'>是否可用: <Switch onChange={(checked)=>onSwitchChange(checked,record)} /></span>
+		)
+	}
 ];
+
+
 
 
 
@@ -139,7 +144,20 @@ export default class ShelfGoods extends React.Component {
 			message.error('请选择上架商品');
 			return;
 		}
-		this.props.onSubmit(this.state.targetKeys)
+		let products = this.state.data;
+		let targetKeys = this.state.targetKeys;
+		let params = [];
+		_.map(products, product => {
+			_.map(targetKeys, key => {
+				if (product['product_id'] === key) {
+					params.push({
+						product_id :key,
+						is_visible: product.checked || false
+					})
+				}
+			})
+		});
+		this.props.onSubmit(params)
 	};
 	
 	// handleTabs = () =>{

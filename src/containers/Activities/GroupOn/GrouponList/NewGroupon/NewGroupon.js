@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Button, Input, DatePicker, LocaleProvider} from "antd";
 import {memberLimit} from "./fields";
 import '../css/newGroupon.sass';
+import SelectionComponent from "./SelectionComponent";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 
 
@@ -45,15 +46,15 @@ class NewGroupon extends Component {
                     </li>
                     <li>
                         <h4>成团限制</h4>
-                        <Input />
+                        <SelectionComponent />
                     </li>
                     <li>
                         <h4>截单周期</h4>
-                        <Input />
+                        <SelectionComponent />
                     </li>
                     <li>
                         <h4>配送周期</h4>
-                        <Input />
+                        <SelectionComponent />
                     </li>
                     <li>
                         <h4>配送时间</h4>
@@ -61,15 +62,15 @@ class NewGroupon extends Component {
                     </li>
                     <li>
                         <h4>是否打折</h4>
-                        <Input />
+                        <SelectionComponent />
                     </li>
                     <li>
                         <h4>是否有成团红包</h4>
-                        <Input />
+                        <SelectionComponent />
                     </li>
                     <li>
                         <h4>是否有赠品</h4>
-                        <Input />
+                        <SelectionComponent />
                     </li>
                     <li>
                         <h4>分享图片</h4>
