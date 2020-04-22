@@ -11,13 +11,14 @@ import GroupRedPacketLevel from "./components/GroupRedPacketLevel";
 import _ from 'lodash';
 import moment from 'moment';
 import {createNewGroupon} from "../../../../../api/activities/groupon";
+import {delivery, discount, groupLimit, orderDeadline, redPacketLevel} from "../utils/desc";
 
 const { RangePicker } = DatePicker;
 //const { RangePicker } = TimePicker;
 const { TextArea } = Input;
 const format = 'HH:mm';
 
-class NewGroupon extends Component {
+class EditGroupon extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -43,7 +44,7 @@ class NewGroupon extends Component {
             order_deadline_time: '',
             delivery_time_period_start: '',
             delivery_time_period_end: '',
-            consume_stock_day_before_deadline: '',
+            consume_stock_day_before_deadline: ''
         };
         this.image = React.createRef();
         this.redPacket = React.createRef();
@@ -51,7 +52,12 @@ class NewGroupon extends Component {
     }
 
     componentDidMount() {
-
+        let props = this.props.location.state;
+        if(props && props.data && props.data.id){
+            this.setState({...props.data}, ()=>{
+                console.log(this.state, '============>');
+            })
+        }
         shelfableProducts({limit:100,page:1}, 13).then(r=>{
             this.setState({products: r.data})
         }).catch(_=>{})
@@ -264,6 +270,7 @@ class NewGroupon extends Component {
     };
 
     render() {
+        const {state} = this;
         return (
             <div className='newGroupon'>
                 <div className="header">
@@ -273,20 +280,20 @@ class NewGroupon extends Component {
                 <ul className='forms'>
                     <li>
                         <h4>拼团名称</h4>
-                        <Input value={this.state.name} onChange={(e)=>this.onInputChange(e, 'name')} />
+                        <h5>{state.name}</h5>
                     </li>
                     <li>
-                        <h4>展示名称（团购主题）</h4>
+                        <h4>展示名称（团购主题）1111</h4>
                         <Input value={this.state.display_name} onChange={(e)=>this.onInputChange(e, 'display_name')} />
                     </li>
                     <li>
-                        <h4>活动时间</h4>
+                        <h4>活动时间1111</h4>
                         <LocaleProvider locale={zh_CN}>
-                            <RangePicker showTime onChange={this.actDateChange} />
+                            <RangePicker onChange={this.actDateChange} />
                         </LocaleProvider>
                     </li>
                     <li>
-                        <h4>参与商品</h4>
+                        <h4>参与商品111</h4>
                         <Select
                             mode='multiple'
                             defaultActiveFirstOption={false}
@@ -309,130 +316,30 @@ class NewGroupon extends Component {
                     </li>
                     <li>
                         <h4>成团限制</h4>
-                        <Radio.Group onChange={(e)=>this.onRadioChange(e, 'has_group_limit')} value={this.state['has_group_limit']}>
-                            <Radio value={true}>是</Radio>
-                            <Radio value={false}>否</Radio>
-                        </Radio.Group>
+                        <h5>{groupLimit(this.state)}</h5>
                     </li>
-                    {
-                        this.state.has_group_limit && <li>
-                            <h4>成团限制类型</h4>
-                            <SelectionComponent
-                                strategy={selection.group_limit_type}
-                                type='group_limit_type'
-                                selectionChange={this.selectionChange}
-                                value={this.state.group_limit_type}
-                            />
-                        </li>
-                    }
-                    {
-                        (this.state.has_group_limit && this.state.group_limit_type === 'ORDERS_COUNT_LIMIT') && <li>
-                            <h4>订单数限制</h4>
-                            <Input type='number' value={this.state.group_orders_count_floor} onChange={(e)=>this.onInputChange(e, 'group_orders_count_floor')} />
-                        </li>
-                    }
-                    {
-                        (this.state.has_group_limit && this.state.group_limit_type === 'ORDERS_COUNT_LIMIT') && <li>
-                            <h4>订单起订金额</h4>
-                            <Input type='number' value={this.state.group_order_fee_floor} onChange={(e)=>this.onInputChange(e, 'group_order_fee_floor')} />
-                        </li>
-                    }
-                    {
-                        (this.state.has_group_limit && this.state.group_limit_type === 'ORDERS_TOTAL_FEE_LIMIT') && <li>
-                            <h4>订单总金额限制</h4>
-                            <Input type='number' value={this.state.group_orders_total_fee_floor} onChange={(e)=>this.onInputChange(e, 'group_orders_total_fee_floor')} />
-                        </li>
-                    }
                     <li>
                         <h4>截单周期</h4>
-                        <SelectionComponent
-                            strategy={selection.order_deadline_type}
-                            type='order_deadline_type'
-                            selectionChange={this.selectionChange}
-                            value={this.state.order_deadline_type}
-                        />
+                        <h5>{orderDeadline(this.state)}</h5>
                     </li>
                     {
-                        this.state.order_deadline_type === 'BEFORE_FIXED_DATE' && <li>
-                            <h4>某日期前</h4>
-                            <LocaleProvider locale={zh_CN}>
-                                <DatePicker onChange={(d,ds)=>this.onDatePicker(ds, 'order_deadline_fixed_date')} />
-                            </LocaleProvider>
+                        this.state['consume_stock_args'] && <li>
+                            <h4>开始消耗库存时间</h4>
+                            <h5>截单前{this.state['consume_stock_args']['day_before_order_deadline']}天 {this.state['consume_stock_args'].time}</h5>
                         </li>
                     }
-                    {
-                        this.state.order_deadline_type === 'FIXED_DATE' && <li>
-                            <h4>固定日期</h4>
-                            <LocaleProvider locale={zh_CN}>
-                                <DatePicker onChange={(d,ds)=>this.onDatePicker(ds, 'order_deadline_fixed_date')} />
-                            </LocaleProvider>
-                        </li>
-                    }
-                    <li className='time'>
-                        <h4>选择截单具体时间</h4>
-                        <LocaleProvider locale={zh_CN}>
-                            <TimePicker  format={format} onChange={(time,t)=>this.onTimeChange(t, 'order_deadline_time')}/>
-                        </LocaleProvider>
-                    </li>
                     <li>
-                        <h4>开始消耗库存时间</h4>
-                        <div className='short'>
-                            截单前 <Input type='number' value={this.state.consume_stock_day_before_deadline} onChange={(e)=>this.onInputChange(e, 'consume_stock_day_before_deadline')} />
-                            天
-                        </div>
-                    </li>
-                    <li className='time'>
-                        <h4>开始消耗库存具体时间</h4>
-                        <LocaleProvider locale={zh_CN}>
-                            <TimePicker  format={format} onChange={(time,t)=>this.onTimeChange(t, 'consume_stock_time')}/>
-                        </LocaleProvider>
-                    </li>
-                    <li>
-                        <h4>配送周期</h4>
-                        <SelectionComponent
-                            strategy={selection.delivery_type}
-                            type='delivery_type'
-                            selectionChange={this.selectionChange}
-                            value={this.state.delivery_type}
-                        />
-                    </li>
-                    {
-                        this.state.delivery_type === 'FIXED_DATE' && <li>
-                            <h4>固定日期</h4>
-                            <DatePicker onChange={(d,ds)=>this.onDatePicker(ds, ' delivery_fixed_date')} />
-                        </li>
-                    }
-                    <li className='timeRange'>
                         <h4>配送时间</h4>
-                        <LocaleProvider locale={zh_CN}>
-                            <TimePicker  format={format} onChange={(time,t)=>this.onTimeRangeChange(t, 'delivery_time_period_start')}/>
-                            <TimePicker  format={format} onChange={(time,t)=>this.onTimeRangeChange(t, 'delivery_time_period_end')}/>
-                        </LocaleProvider>
+                        <h5>{delivery(this.state)}</h5>
                     </li>
                     <li>
-                        <h4>是否打折</h4>
-                        <Radio.Group onChange={(e)=>this.onRadioChange(e, 'isDiscount')} value={this.state['isDiscount']}>
-                            <Radio value={true}>是</Radio>
-                            <Radio value={false}>否</Radio>
-                        </Radio.Group>
+                        <h4>折扣</h4>
+                        <h5>{discount(this.state)}</h5>
                     </li>
-                    {
-                        this.state.isDiscount && <li>
-                            <h4>折扣</h4>
-                            <Input type='number' value={this.state.discount} onChange={(e)=>this.onInputChange(e, 'discount')} />
-                        </li>
-                    }
                     <li>
-                        <h4>是否有成团红包</h4>
-                        <Radio.Group onChange={(e)=>this.onRadioChange(e, 'has_group_red_packet')} value={this.state['has_group_red_packet']}>
-                            <Radio value={true}>是</Radio>
-                            <Radio value={false}>否</Radio>
-                        </Radio.Group>
+                        <h4>成团红包</h4>
+                        <h5>{redPacketLevel(this.state)}</h5>
                     </li>
-                    {
-                        this.state.has_group_red_packet && <GroupRedPacketLevel ref={this.redPacket} />
-                    }
-
                     <li>
                         <h4>是否有赠品</h4>
                         <Radio.Group onChange={(e)=>this.onRadioChange(e, 'has_gift')} value={this.state['has_gift']}>
@@ -440,36 +347,6 @@ class NewGroupon extends Component {
                             <Radio value={false}>否</Radio>
                         </Radio.Group>
                     </li>
-                    {
-                        this.state.has_gift && <li>
-                            <h4>起送金额</h4>
-                            <Input type='number' value={this.state.gift_floor} onChange={(e)=>this.onInputChange(e, 'gift_floor')} />
-                        </li>
-                    }
-                    {
-                        this.state.has_gift && <li>
-                            <h4>赠送商品</h4>
-                            <Select
-                                mode='multiple'
-                                defaultActiveFirstOption={false}
-                                value={this.state.gift_products}
-                                className='selectedBox'
-                                onChange={(e)=>this.onProductChange(e, 'gift_products')}
-                                optionLabelProp="label"
-                                optionFilterProp="children"
-                                filterOption={(input, option) =>
-                                    option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                                }
-
-                            >
-                                {this.state.products.map(item => (
-                                    <Select.Option key={item['product_entity_id'] + ''} value={item['product_entity_id'] + ''} label={item['product_entity'].name} >
-                                        {item['product_entity'].name}
-                                    </Select.Option>
-                                ))}
-                            </Select>
-                        </li>
-                    }
                     <li>
                         <h4>是否拼团记录生成图片</h4>
                         <Radio.Group onChange={(e)=>this.onRadioChange(e, 'auto_generate_shared_picture')} value={this.state['auto_generate_shared_picture']}>
@@ -478,15 +355,15 @@ class NewGroupon extends Component {
                         </Radio.Group>
                     </li>
                     <li>
-                        <h4>固定分享图片</h4>
+                        <h4>固定分享图片1111</h4>
                         <CustomUpload ref={this.image}/>
                     </li>
                     <li>
-                        <h4>分享文案</h4>
+                        <h4>分享文案1111</h4>
                         <TextArea rows={4} value={this.state.share_text} onChange={(e)=>this.onInputChange(e, 'share_text')} />
                     </li>
                     <li>
-                        <h4>拼团页富文本编辑</h4>
+                        <h4>拼团页富文本编辑1111</h4>
                         <Editor ref={this.editor} />
                     </li>
                 </ul>
@@ -495,4 +372,4 @@ class NewGroupon extends Component {
     }
 }
 
-export default NewGroupon;
+export default EditGroupon;

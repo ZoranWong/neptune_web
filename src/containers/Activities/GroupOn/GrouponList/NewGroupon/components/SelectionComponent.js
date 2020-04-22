@@ -10,6 +10,7 @@ class SelectionComponent extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props.value, 'xxxx');
         this.setState({selectedItems: this.props.value})
     }
 
@@ -24,6 +25,7 @@ class SelectionComponent extends Component {
     render() {
         const {selectedItems} = this.state;
         let strategy = this.props.strategy;
+
         return (
             <div className='selection'>
                 <Select

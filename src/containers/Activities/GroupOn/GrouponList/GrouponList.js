@@ -1,15 +1,18 @@
-import React, {Component} from 'react';
-import {Button, Table} from "antd";
-import {groupsList} from "../../../../api/activities/groupon";
+import React, {Component, Fragment} from 'react';
+import {Button, message, Modal, Table} from "antd";
+import {groupsList, stopGroupon} from "../../../../api/activities/groupon";
 import {orderInputTransformer, orderOutputTransformer, searchJson} from "../../../../utils/dataStorage";
-import {summaryOrders} from "../../../../api/order/orderManage";
 import {summary_order_values} from "../../../../utils/summary_order_fields";
 import IconFont from "../../../../utils/IconFont";
 import AdvancedFilterComponent from "../../../Order/Components/AdvancedFilterComponent";
 import SearchInput from "../../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../../components/Layout/Pagination";
-import './css/list.sass'
+import {delivery, getStatus, groupLimit, orderDeadline} from "./utils/desc";
+import './css/list.sass';
+import PreviewDetails from "./modal/PreviewDetails";
+import ReviewGoods from "./modal/ReviewGoods";
+
 class GrouponList extends Component {
     constructor(props) {
         super(props);
@@ -22,48 +25,93 @@ class GrouponList extends Component {
                 search:'',
                 searchJson: searchJson({date: ''})
             },
-            activeTab:''
+            activeTab: -1,
+            detailVisible: false, //  拼团回显详情
+            productsVisible: false, // 参与商品
+            groupon: {},
+            products: []
         };
         this.columns = [
             {
                 title: '拼团名称',
-                dataIndex: 'shop_name'
+                dataIndex: 'name',
+                render: (text, record) => (
+                    <span onClick={()=>this.showGroupDetails(record)} style={{color: '#4f9863', cursor: 'pointer'}}>{text}</span>
+                )
             },
-            {
-                title: '持续时间',
-                dataIndex: 'shop1223_name'
-            },
+            // {
+            //     title: '持续时间',
+            //     dataIndex: 'start_date',
+            //     render: (text, record) => (<span>
+            //         {text}至{record['end_date']}
+            //     </span>)
+            // },
             {
                 title: '参与商品',
-                dataIndex: 'sh12op_name'
+                dataIndex: 'sh12op_name',
+                render: ((text, record) => <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
+                    <span className="orderGoods">{record.group_products[0].name+'......'}</span>
+                    <IconFont type="icon-eye-fill" onClick={()=>this.showProductsReview(record.group_products)} />
+                </span>)
             },
-            {
-                title: '成团限制',
-                dataIndex: 's1hop_name'
-            },
+            // {
+            //     title: '成团限制',
+            //     dataIndex: 's1hop_name',
+            //     render: (text, record) => {
+            //         return groupLimit(record)
+            //     }
+            // },
             {
                 title: '截单时间',
-                dataIndex: 'sh2op_name'
+                dataIndex: 'sh2op_name',
+                render: (text, record) => {
+                    return orderDeadline(record)
+                }
             },
             {
-                title: '配送时间',
-                dataIndex: 'sho1p_name'
+                title: '配送日期',
+                dataIndex: 'sho1p1_name',
+                render: (text, record) => {
+                    return delivery(record)
+                }
             },
             {
-                title: '打折',
-                dataIndex: 'shop2_name'
+                title: '开团次数',
+                dataIndex: 'shop_shopping_groups_count'
             },
             {
-                title: '红包',
-                dataIndex: 'sho1p_name'
+                title: '下单数',
+                dataIndex: 'shopping_group_orders_count'
             },
             {
-                title: '分享文案',
-                dataIndex: 'sho2p_name'
+                title: '状态',
+                dataIndex: 'status',
+                render: (text, record) => {
+                    return getStatus(record.state)
+                }
             },
+            // {
+            //     title: '打折',
+            //     dataIndex: 'discount',
+            //     render: (text, record) => {
+            //         return discount(record)
+            //         if (text === 100) {
+            //             return '无'
+            //         } else {
+            //             return `${text / 100}折`
+            //         }
+            //     }
+            // },
             {
                 title: '操作',
-                dataIndex: 'shop_1name'
+                render: (text, record) => (
+                    <Fragment>
+                        <span onClick={()=>this.editGroupon(record)} style={{color: '#4f9863', cursor: 'pointer', marginRight: '10px'}}>编辑</span>
+                        {
+                            record.state === 1 && <span style={{color: '#4f9863', cursor: 'pointer'}} onClick={()=>this.stopGroupon(record)}>提前结束</span>
+                        }
+                    </Fragment>
+                )
             },
 
         ];
@@ -73,6 +121,65 @@ class GrouponList extends Component {
     componentDidMount() {
         document.addEventListener('click', this.closeCustom);
     }
+
+    editGroupon = (record) => {
+        this.props.history.push({pathname:`/activities/editGroupon`, state: {data: record}})
+    };
+
+    stopGroupon = (record) => {
+        let refresh = this.refresh;
+        let confirmModal = Modal.confirm({
+            title: (
+                <div className= 'u_confirm_header'>
+                    提示
+                    <i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+                        confirmModal.destroy()
+                    }}>&#xe82a;</i>
+                </div>
+            ),
+            icon:null,
+            width:'280px',
+            closable:true,
+            centered:true,
+            maskClosable:true,
+            content: (
+                <div className="U_confirm">
+                    确定结束该活动么？
+                </div>
+            ),
+            cancelText: '取消',
+            okText:'确定',
+            okButtonProps: {
+                size:'small'
+            },
+            cancelButtonProps:{
+                size:'small'
+            },
+            onOk() {
+                stopGroupon({},record.id).then(r=>{
+                    message.success('已结束该活动');
+                    refresh()
+                }).catch(_=>{})
+            },
+            onCancel() {
+
+            },
+        });
+    };
+
+    showGroupDetails = (record) => {
+        this.setState({detailVisible: true, groupon: record})
+    };
+    closeGroupDetails = () => {
+        this.setState({detailVisible: false})
+    };
+
+    showProductsReview = (products) => {
+        this.setState({productsVisible: true, products})
+    };
+    closeProductsReview = () => {
+        this.setState({productsVisible: false})
+    };
 
     refresh = ()=>{
         this.setState({
@@ -94,7 +201,7 @@ class GrouponList extends Component {
     // 头部搜索框
     search = (value) =>{
         this.setState({
-            api:summaryOrders,
+            api:groupsList,
             paginationParams:{...this.state.paginationParams,
                 searchJson:searchJson({search:value,status:true})}
         },()=>{
@@ -110,7 +217,7 @@ class GrouponList extends Component {
         this.setState({filterVisible:false})
     };
     onSubmit = (data) =>{
-        this.setState({api:summaryOrders,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
+        this.setState({api:groupsList,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
             this.child.current.pagination(this.child.current.state.current)
         });
     };
@@ -167,7 +274,6 @@ class GrouponList extends Component {
 
     // 分页器改变值
     paginationChange = (list) =>{
-        console.log(list);
         this.setState({data:list})
     };
 
@@ -179,11 +285,22 @@ class GrouponList extends Component {
 
     render() {
         const tabs = [
-            {name:'全部',key:'BACKEND_ALL'},
-            {name:'待收货',key:'BACKEND_WAIT_AGENT_VERIFY'},
-            {name:'正常完成收货',key:'BACKEND_SUCCESS_COMPLETED'},
-            {name:'异常完成收货',key:'BACKEND_UNQUALIFIED_COMPLETED'}
+            {name:'全部',key: -1},
+            {name:'未开始',key:0},
+            {name:'进行中',key:1},
+            {name:'已结束',key:2}
         ];
+        const detailsProps = {
+            visible: this.state.detailVisible,
+            data: this.state.groupon,
+            onClose: this.closeGroupDetails
+        };
+        const productsProps = {
+            visible: this.state.productsVisible,
+            items: this.state.products,
+            onClose: this.closeProductsReview
+        };
+
         return (
             <div className='grouponList'>
                 <AdvancedFilterComponent
@@ -193,6 +310,10 @@ class GrouponList extends Component {
                     refresh={this.refresh}
                     data={summary_order_values}
                 />
+                <PreviewDetails {...detailsProps} />
+                <ReviewGoods {...productsProps} />
+
+
 
                 <div className="s_body_box">
                     <div className="headerLeft">

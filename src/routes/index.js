@@ -107,6 +107,7 @@ import GrouponList from "../containers/Activities/GroupOn/GrouponList/GrouponLis
 import GrouponManage from "../containers/Activities/GroupOn/GrouponManage/GrouponManage";
 import GrouponOrderManage from "../containers/Activities/GroupOn/GrouponOrderManage/GrouponOrderManage";
 import NewGroupon from "../containers/Activities/GroupOn/GrouponList/NewGroupon/NewGroupon";
+import EditGroupon from "../containers/Activities/GroupOn/GrouponList/NewGroupon/EditGroupon";
 
 
 /** 跳转到某个路由之前触发 用于验证页面权限**/
@@ -148,6 +149,7 @@ const Routes = () =>(
 		<Route exact={true} path="/activities/grouponManage" component={GrouponManage}/>} />
 		<Route exact={true} path="/activities/grouponOrderManage" component={GrouponOrderManage}/>} />
 		<Route exact={true} path="/activities/newGroupon" component={NewGroupon}/>} />
+		<Route exact={true} path="/activities/editGroupon" component={EditGroupon}/>} />
 
 		{/*数据*/}
 		<Route exact={true} path="/data" render={props => onEnter(Data, props)} />

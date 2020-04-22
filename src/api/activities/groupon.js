@@ -26,7 +26,7 @@ export function editGroupon(params,shoppingGroupId) {
 	})
 }
 
-// 结束拼团`
+// 结束拼团
 export function stopGroupon(params,shoppingGroupId) {
 	return request({
 		url: `/api/backend/group_shopping/shopping_groups/${shoppingGroupId}/to_end`,
