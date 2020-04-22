@@ -70,14 +70,22 @@ class EditIndexVisible extends Component {
 		let modules = [];
 		
 		let ary = [];
-		let products = [state.productOne, state.productTwo, state.productThree];
+		let products = [{id: state.productOne}, {id: state.productTwo}, {id: state.productThree}];
 		_.map(state.products, product => {
-			let index = _.findIndex(products, pro => {
-				return pro == product['product_entity'].id
-			});
-			if (index > -1) {
-				ary.push(product)
-			}
+			// let index = _.findIndex(products, pro => {
+			// 	return pro == product['product_entity'].id
+			// });
+			// if (index > -1) {
+			// 	ary.push(product)
+			// }
+			_.map(products, pro => {
+				if (pro.id == product['product_entity'].id) {
+					pro.product = product
+				}
+			})
+		});
+		_.map(products, product => {
+			ary.push(product.product)
 		});
 		modules.push({
 			name: state.module,
