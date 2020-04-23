@@ -73,7 +73,6 @@ class OperateBalance extends Component {
 						<span>备注:</span>
 						<Input
 							value={this.state.remark}
-							type='number'
 							onChange={(e)=>{
 								this.setState({remark:e.target.value})
 							}}
