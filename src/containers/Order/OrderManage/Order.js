@@ -674,8 +674,8 @@ class Order extends React.Component{
 			{key: 'USER_ORDER_CUSTOMIZE', value: '自定义显示项',},
 			{key: 'USER_ORDER_PRODUCT', value: '商品维度',},
 			{key: 'USER_ORDER_SHOP', value: '店铺维度',},
-			{key: 'USER_ORDER_4', value: '导出格式4(含Excal)',},
-			{key: 'USER_ORDER_5', value: '导出格式5(吴婉秋定制款2.0)',},
+			{key: 'USER_ORDER_4', value: '用户维度',},
+			{key: 'USER_ORDER_5', value: '物流订单模板',},
 		];
 		const exportProps = {
 			visible : this.state.exportVisible,
