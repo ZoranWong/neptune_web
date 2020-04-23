@@ -6,7 +6,8 @@ import {adjustUserBalance} from "../../api/user";
 
 class OperateBalance extends Component {
 	state = {
-		value: 'add'
+		value: 'add',
+		remark: ''
 	};
 	
 	handleCancel = () => {
@@ -25,12 +26,13 @@ class OperateBalance extends Component {
 		api({
 			amount: this.state.balanceValue,
 			operation: this.state.value,
-			[field]: id
+			[field]: id,
+			remark: this.state.remark
 		}).then(r=>{
 			message.success(r.message);
 			this.handleCancel();
 			this.props.refresh();
-			this.setState({balanceValue: 0})
+			this.setState({balanceValue: 0, remark: ''})
 		}).catch(_=>{})
 	};
 	
@@ -64,6 +66,16 @@ class OperateBalance extends Component {
 									return;
 								}
 								this.setState({balanceValue:e.target.value})
+							}}
+						/>
+					</div>
+					<div className="operateBalanceRemark">
+						<span>备注:</span>
+						<Input
+							value={this.state.remark}
+							type='number'
+							onChange={(e)=>{
+								this.setState({remark:e.target.value})
 							}}
 						/>
 					</div>
