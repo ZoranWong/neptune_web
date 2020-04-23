@@ -8,7 +8,7 @@ const group_limit_type = [
 const order_deadline_type = [
     {name: '当日', key: 'FIXED_TERM_0'},
     {name: '次日', key: 'FIXED_TERM_1'},
-    {name: '某日期签不限制', key: 'BEFORE_FIXED_DATE'},
+    {name: '某日期前不限制', key: 'BEFORE_FIXED_DATE'},
     {name: '固定日期', key: 'FIXED_DATE'},
 ];
 

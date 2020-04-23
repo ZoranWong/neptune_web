@@ -7,7 +7,7 @@ class GroupRedPacketLevel extends Component {
         super(props);
         this.state = {
             ary: [
-                {full: '', send: '', id: 1}
+                {full: '', send: '', id: 0}
             ]
         }
     }

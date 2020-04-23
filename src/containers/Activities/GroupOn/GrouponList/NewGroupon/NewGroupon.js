@@ -278,7 +278,7 @@ class NewGroupon extends Component {
                         <h4>展示名称（团购主题）</h4>
                         <Input value={this.state.display_name} onChange={(e)=>this.onInputChange(e, 'display_name')} />
                     </li>
-                    <li>
+                    <li className='longDatePicker'>
                         <h4>拼团时间</h4>
                         <LocaleProvider locale={zh_CN}>
                             <RangePicker showTime onChange={this.actDateChange} />
@@ -352,7 +352,7 @@ class NewGroupon extends Component {
                         />
                     </li>
                     {
-                        this.state.order_deadline_type === 'BEFORE_FIXED_DATE' && <li>
+                        this.state.order_deadline_type === 'BEFORE_FIXED_DATE' && <li className='longDatePicker'>
                             <h4>某日期前</h4>
                             <LocaleProvider locale={zh_CN}>
                                 <DatePicker onChange={(d,ds)=>this.onDatePicker(ds, 'order_deadline_fixed_date')} />
