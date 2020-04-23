@@ -280,7 +280,7 @@ class NewGroupon extends Component {
                         <Input value={this.state.display_name} onChange={(e)=>this.onInputChange(e, 'display_name')} />
                     </li>
                     <li>
-                        <h4>活动时间</h4>
+                        <h4>拼团时间</h4>
                         <LocaleProvider locale={zh_CN}>
                             <RangePicker showTime onChange={this.actDateChange} />
                         </LocaleProvider>

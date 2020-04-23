@@ -1,54 +1,31 @@
 import React, {Component, Fragment} from 'react';
-import {Button, Input, DatePicker, LocaleProvider, Radio, Select, message, TimePicker} from "antd";
+import {Button, Input, DatePicker, LocaleProvider, Radio, Select, message} from "antd";
 import '../css/newGroupon.sass';
-import SelectionComponent from "./components/SelectionComponent";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
-import selection from './fields'
 import CustomUpload from "../../../../../components/Upload/Upload";
 import Editor from "../../../../../components/Editor/Editor";
 import {shelfableProducts} from "../../../../../api/activities/activities";
-import GroupRedPacketLevel from "./components/GroupRedPacketLevel";
 import _ from 'lodash';
 import moment from 'moment';
-import {createNewGroupon} from "../../../../../api/activities/groupon";
+import { editGroupon} from "../../../../../api/activities/groupon";
 import {delivery, discount, groupLimit, orderDeadline, redPacketLevel} from "../utils/desc";
 
 const { RangePicker } = DatePicker;
-//const { RangePicker } = TimePicker;
 const { TextArea } = Input;
-const format = 'HH:mm';
 
 class EditGroupon extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
             display_name: '',
             share_text: '',
-            group_limit_type: 'ORDERS_COUNT_LIMIT',
-            group_order_fee_floor: '',
-            group_orders_count_floor: '',
-            group_orders_total_fee_floor: '',
-            order_deadline_fixed_date: '',
-            has_group_limit: false,
-            isDiscount: false,
             discount: '',
-            has_group_red_packet: false,
-            has_gift: false,
-            gift_floor: '',
             products: [],
             gift_products: [],
             group_products: [],
-            delivery_fixed_date: '',
-            auto_generate_shared_picture: false,
-            order_deadline_time: '',
-            delivery_time_period_start: '',
-            delivery_time_period_end: '',
-            consume_stock_day_before_deadline: '',
             timeRange: []
         };
         this.image = React.createRef();
-        this.redPacket = React.createRef();
         this.editor = React.createRef();
     }
 
@@ -131,10 +108,6 @@ class EditGroupon extends Component {
         let image = this.image.current ? this.image.current.state.imgUrl || this.image.current.state.imageUrl : '';
         let detail = this.editor.current?this.editor.current.state.outputHTML : '';
 
-        if (!state.name) {
-            message.error('请填写拼团名称');
-            return
-        }
         if (!state.display_name) {
             message.error('请填写展示名称');
             return
@@ -146,112 +119,6 @@ class EditGroupon extends Component {
         if (!state.group_products.length) {
             message.error('请选择拼团参与商品');
             return
-        }
-        if (state.has_group_limit && state.group_limit_type === 'ORDERS_COUNT_LIMIT' && !state.group_orders_count_floor) {
-            message.error('请填写成团订单数限制');
-            return
-        }
-        if (state.has_group_limit && state.group_limit_type === 'ORDERS_COUNT_LIMIT' && !state.group_order_fee_floor) {
-            message.error('请填写订单起订金额');
-            return
-        }
-        if (state.has_group_limit && state.group_limit_type === 'ORDERS_TOTAL_FEE_LIMIT' && !state.group_orders_total_fee_floor) {
-            message.error('请填写订单总金额限制');
-            return
-        }
-
-        if (state.order_deadline_type === 'BEFORE_FIXED_DATE' && !state.order_deadline_fixed_date) {
-            message.error('请选择截单周期');
-            return
-        }
-        if (state.order_deadline_type === 'FIXED_DATE' && !state.order_deadline_fixed_date) {
-            message.error('请选择截单周期');
-            return
-        }
-        if (!state.order_deadline_time) {
-            message.error('请选择截单具体时间');
-            return
-        }
-
-        if (state.order_deadline_type === 'FIXED_TERM_0') {
-            state.order_deadline_fixed_term = 0;
-            state.order_deadline_type = 'FIXED_TERM';
-        } else if (state.order_deadline_type === 'FIXED_TERM_1') {
-            state.order_deadline_fixed_term = 1;
-            state.order_deadline_type = 'FIXED_TERM';
-        }
-        if (state.delivery_type === 'FIXED_DATE' && !state.delivery_fixed_date) {
-            message.error('请选择配送周期');
-            return
-        }
-        if (!state.delivery_time_period_start) {
-            message.error('请选择配送开始时间');
-            return
-        }
-        if (!state.delivery_time_period_end) {
-            message.error('请选择配送结束时间');
-            return
-        }
-        if (state.delivery_type === 'FIXED_TERM_0') {
-            state.delivery_fixed_term = 1;
-            state.delivery_type = 'FIXED_TERM';
-        } else if (state.delivery_type === 'FIXED_TERM_1') {
-            state.delivery_fixed_term = 2;
-            state.delivery_type = 'FIXED_TERM';
-        }
-        if (state.has_group_limit && state.group_limit_type === 'ORDERS_TOTAL_FEE_LIMIT' && !state.group_orders_total_fee_floor) {
-            message.error('请填写订单总金额限制');
-            return
-        }
-        if (state.isDiscount && !state.discount) {
-            message.error('请填写折扣');
-            return
-        }
-        state.discount = state.isDiscount ? state.discount : 100;
-        // 校验成团红包
-        if (state.has_group_red_packet) {
-            let redPacket = this.redPacket.current && this.redPacket.current.state.ary;
-            let group_red_packet_levels = [];
-            _.map(redPacket, item => {
-                let all = true;
-                for (let k in item) {
-                    if (!item[k]) {
-                        all = false;
-                        break
-                    }
-                }
-                all && group_red_packet_levels.push({
-                    minimum_total_fee: Number(item.full),
-                    gift_amount: Number(item.send)
-                })
-            });
-            if (group_red_packet_levels.length < redPacket.length) {
-                message.error('请正确填写成团红包');
-                return
-            }
-
-            state.group_red_packet_levels = group_red_packet_levels;
-        }
-
-
-        if (state.has_gift && !state.gift_floor) {
-            message.error('请填写赠品起送金额');
-            return
-        }
-        if (state.has_gift && !state.gift_products.length) {
-            message.error('请选择赠品');
-            return
-        }
-
-        if (state.has_gift && state.gift_products.length) {
-            let items = [];
-            _.map(state.gift_products, item => {
-                let obj = {};
-                obj['product_entity_id'] = Number(item);
-                obj['gift_quantity'] = 1;
-                items.push(obj)
-            });
-            state.gift_products = items;
         }
 
         // 此处校验上传图片
@@ -275,7 +142,7 @@ class EditGroupon extends Component {
     };
 
     submit = data => {
-        createNewGroupon(data).then(r=>{
+        editGroupon(data).then(r=>{
             message.success(r.message);
             this.back()
         }).catch(_=>{})
@@ -299,7 +166,7 @@ class EditGroupon extends Component {
                         <Input value={this.state.display_name} onChange={(e)=>this.onInputChange(e, 'display_name')} />
                     </li>
                     <li>
-                        <h4>活动时间1111</h4>
+                        <h4>拼团时间1111</h4>
                         <LocaleProvider locale={zh_CN}>
                             <RangePicker showTime value={this.state.timeRange} onChange={this.actDateChange} />
                         </LocaleProvider>
@@ -361,23 +228,23 @@ class EditGroupon extends Component {
                     </li>
                     <li>
                         <h4>是否拼团记录生成图片</h4>
-                        <Radio.Group onChange={(e)=>this.onRadioChange(e, 'auto_generate_shared_picture')} value={this.state['auto_generate_shared_picture']}>
-                            <Radio value={true}>是</Radio>
-                            <Radio value={false}>否</Radio>
-                        </Radio.Group>
+                        <h5>{this.state['auto_generate_shared_picture'] ? '是' : '否'}</h5>
                     </li>
                     <li>
                         <h4>固定分享图片1111</h4>
-                        <CustomUpload ref={this.image}/>
+                        <CustomUpload ref={this.image} defaultImg={this.state['fixed_shared_picture']} />
                     </li>
                     <li>
                         <h4>分享文案1111</h4>
                         <TextArea rows={4} value={this.state.share_text} onChange={(e)=>this.onInputChange(e, 'share_text')} />
                     </li>
-                    <li>
-                        <h4>拼团页富文本编辑1111</h4>
-                        <Editor ref={this.editor} />
-                    </li>
+                    {
+                        this.state.detail && <li>
+                            <h4>拼团页富文本编辑1111</h4>
+                            <Editor ref={this.editor} default={this.state.detail} />
+                        </li>
+                    }
+
                 </ul>
             </div>
         );
