@@ -90,8 +90,10 @@ export function giftInfo(record) {
     let text = '';
     if (record['has_gift']) {
         _.map(record['gift_products'], product => {
-
-        })
+            text += `${product['product_entity_info'].name} * 1、`
+        });
+        text = `满${record['gift_floor']}元赠送` + text;
+        text = text.substring(0, text.length - 1);
     } else {
         text = '无赠品'
     }

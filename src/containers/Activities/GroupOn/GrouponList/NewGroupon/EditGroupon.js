@@ -8,7 +8,7 @@ import {shelfableProducts} from "../../../../../api/activities/activities";
 import _ from 'lodash';
 import moment from 'moment';
 import { editGroupon} from "../../../../../api/activities/groupon";
-import {delivery, discount, groupLimit, orderDeadline, redPacketLevel} from "../utils/desc";
+import {delivery, discount, giftInfo, groupLimit, orderDeadline, redPacketLevel} from "../utils/desc";
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -219,10 +219,7 @@ class EditGroupon extends Component {
                     </li>
                     <li>
                         <h4>是否有赠品</h4>
-                        <Radio.Group onChange={(e)=>this.onRadioChange(e, 'has_gift')} value={this.state['has_gift']}>
-                            <Radio value={true}>是</Radio>
-                            <Radio value={false}>否</Radio>
-                        </Radio.Group>
+                        <h5>{giftInfo(this.state)}</h5>
                     </li>
                     <li>
                         <h4>是否拼团记录生成图片</h4>

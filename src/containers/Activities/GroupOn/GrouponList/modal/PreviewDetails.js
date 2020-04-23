@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Modal} from "antd";
-import {delivery, discount, groupLimit, orderDeadline, redPacketLevel} from "../utils/desc";
+import {delivery, discount, giftInfo, groupLimit, orderDeadline, redPacketLevel} from "../utils/desc";
 import _ from 'lodash'
 class PreviewDetails extends Component {
 
@@ -88,6 +88,10 @@ class PreviewDetails extends Component {
                         <li>
                             <span className="left">成团红包:</span>
                             <span className='limit'>{redPacketLevel(details)}</span>
+                        </li>
+                        <li>
+                            <span className="left">赠品:</span>
+                            <span className='limit'>{giftInfo(details)}</span>
                         </li>
                         <li>
                             <span className="left">是否拼团记录生成图片:</span>

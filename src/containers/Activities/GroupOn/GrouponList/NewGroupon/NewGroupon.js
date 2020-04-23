@@ -224,16 +224,14 @@ class NewGroupon extends Component {
             message.error('请选择赠品');
             return
         }
-
+        let giftProducts = [];
         if (state.has_gift && state.gift_products.length) {
-            let items = [];
             _.map(state.gift_products, item => {
                 let obj = {};
                 obj['product_entity_id'] = Number(item);
                 obj['gift_quantity'] = 1;
-                items.push(obj)
+                giftProducts.push(obj)
             });
-            state.gift_products = items;
         }
 
         // 此处校验上传图片
@@ -253,10 +251,11 @@ class NewGroupon extends Component {
         }
         state.detail = detail;
 
-        this.submit(state)
+        this.submit(state, giftProducts)
     };
 
-    submit = data => {
+    submit = (data, giftProducts) => {
+        data['gift_products'] = giftProducts;
         createNewGroupon(data).then(r=>{
             message.success(r.message);
             this.back()
