@@ -44,7 +44,8 @@ class EditGroupon extends Component {
             order_deadline_time: '',
             delivery_time_period_start: '',
             delivery_time_period_end: '',
-            consume_stock_day_before_deadline: ''
+            consume_stock_day_before_deadline: '',
+            timeRange: []
         };
         this.image = React.createRef();
         this.redPacket = React.createRef();
@@ -54,7 +55,17 @@ class EditGroupon extends Component {
     componentDidMount() {
         let props = this.props.location.state;
         if(props && props.data && props.data.id){
-            this.setState({...props.data}, ()=>{
+            let group_products = [];
+            _.map(props.data['group_products'], product => {
+                group_products.push(product.id)
+            });
+            let start = props.data['start_date'];
+            let end = props.data['end_date'];
+
+            let startMoment = moment(start,'YYYY-MM-DD HH:mm:ss');
+            let endMoment = moment(end,'YYYY-MM-DD HH:mm:ss');
+            let timeRange = [startMoment, endMoment];
+            this.setState({...props.data, group_products: group_products, timeRange}, ()=>{
                 console.log(this.state, '============>');
             })
         }
@@ -88,7 +99,8 @@ class EditGroupon extends Component {
     actDateChange = (date, dateString) => {
         this.setState({
             start_date: dateString[0],
-            end_date: dateString[1]
+            end_date: dateString[1],
+            timeRange: date
         })
     };
 
@@ -289,7 +301,7 @@ class EditGroupon extends Component {
                     <li>
                         <h4>活动时间1111</h4>
                         <LocaleProvider locale={zh_CN}>
-                            <RangePicker onChange={this.actDateChange} />
+                            <RangePicker showTime value={this.state.timeRange} onChange={this.actDateChange} />
                         </LocaleProvider>
                     </li>
                     <li>
@@ -308,7 +320,7 @@ class EditGroupon extends Component {
 
                         >
                             {this.state.products.map(item => (
-                                <Select.Option key={item['product_entity_id'] + ''} value={item['product_entity_id'] + ''} label={item['product_entity'].name} >
+                                <Select.Option key={item['product_entity_id']} value={item['product_entity_id']} label={item['product_entity'].name} >
                                     {item['product_entity'].name}
                                 </Select.Option>
                             ))}
