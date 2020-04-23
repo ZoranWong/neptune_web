@@ -485,7 +485,7 @@ class NewGroupon extends Component {
                         <h4>分享文案</h4>
                         <TextArea rows={4} value={this.state.share_text} onChange={(e)=>this.onInputChange(e, 'share_text')} />
                     </li>
-                    <li>
+                    <li className='richText'>
                         <h4>拼团页富文本编辑</h4>
                         <Editor ref={this.editor} />
                     </li>

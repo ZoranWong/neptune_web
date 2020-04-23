@@ -13,8 +13,6 @@ export default class BasicDemo extends React.Component {
 	}
 	
 	componentDidMount () {
-		console.log(this.props,"kkkk");
-		console.log(this.props.default);
 		this.setState({editorState: BraftEditor.createEditorState(this.props.default)});
 		this.isLivinig = true;
 		// 3秒后更改编辑器内容

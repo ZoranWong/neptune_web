@@ -42,9 +42,7 @@ class EditGroupon extends Component {
             let startMoment = moment(start,'YYYY-MM-DD HH:mm:ss');
             let endMoment = moment(end,'YYYY-MM-DD HH:mm:ss');
             let timeRange = [startMoment, endMoment];
-            this.setState({...props.data, group_products: group_products, timeRange}, ()=>{
-                console.log(this.state, '============>');
-            })
+            this.setState({...props.data, group_products: group_products, timeRange})
         }
         shelfableProducts({limit:100,page:1}, 13).then(r=>{
             this.setState({products: r.data})
@@ -142,7 +140,7 @@ class EditGroupon extends Component {
     };
 
     submit = data => {
-        editGroupon(data).then(r=>{
+        editGroupon(data, this.props.location.state.data.id).then(r=>{
             message.success(r.message);
             this.back()
         }).catch(_=>{})
@@ -166,13 +164,13 @@ class EditGroupon extends Component {
                         <Input value={this.state.display_name} onChange={(e)=>this.onInputChange(e, 'display_name')} />
                     </li>
                     <li>
-                        <h4>拼团时间1111</h4>
+                        <h4>拼团时间</h4>
                         <LocaleProvider locale={zh_CN}>
                             <RangePicker showTime value={this.state.timeRange} onChange={this.actDateChange} />
                         </LocaleProvider>
                     </li>
                     <li>
-                        <h4>参与商品111</h4>
+                        <h4>参与商品</h4>
                         <Select
                             mode='multiple'
                             defaultActiveFirstOption={false}
@@ -231,16 +229,16 @@ class EditGroupon extends Component {
                         <h5>{this.state['auto_generate_shared_picture'] ? '是' : '否'}</h5>
                     </li>
                     <li>
-                        <h4>固定分享图片1111</h4>
-                        <CustomUpload ref={this.image} defaultImg={this.state['fixed_shared_picture']} />
+                        <h4>固定分享图片</h4>
+                        <CustomUpload status='edit' ref={this.image} defaultImg={this.state['fixed_shared_picture']} />
                     </li>
                     <li>
-                        <h4>分享文案1111</h4>
+                        <h4>分享文案</h4>
                         <TextArea rows={4} value={this.state.share_text} onChange={(e)=>this.onInputChange(e, 'share_text')} />
                     </li>
                     {
-                        this.state.detail && <li>
-                            <h4>拼团页富文本编辑1111</h4>
+                        this.state.detail && <li className='richText'>
+                            <h4>拼团页富文本编辑</h4>
                             <Editor ref={this.editor} default={this.state.detail} />
                         </li>
                     }
