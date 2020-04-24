@@ -167,7 +167,6 @@ class ActivityProductsManage extends Component {
 							defaultValue={record['last_num']}
 							onBlur={(e)=>{
 								e.target.value = e.target.value < 0? 0:e.target.value;
-								if(e.target.value <= 0) return;
 								editActProducts({last_num:Number(e.target.value)},this.state.id, record.id).then(r=>{
 									message.success(r.message)
 								}).catch(_=>{})
