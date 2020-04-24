@@ -9,9 +9,9 @@ export function orderDeadline(record) {
             text = `次日 ${record['order_deadline_args'].time}`
         }
     } else if (record['order_deadline_type'] === 'BEFORE_FIXED_DATE') {
-        text = `${record['order_deadline_args'].order_deadline_fixed_date}前 ${record['order_deadline_args'].time}`
+        text = `${record['order_deadline_args']['fixed_date']}前 ${record['order_deadline_args'].time}`
     } else if (record['order_deadline_type'] === 'FIXED_DATE') {
-        text = `${record['order_deadline_args'].order_deadline_fixed_date}日 ${record['order_deadline_args'].time}`
+        text = `${record['order_deadline_args']['fixed_date']}日 ${record['order_deadline_args'].time}`
     }
     return text
 }
