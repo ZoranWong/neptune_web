@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Button, message, Modal, Table} from "antd";
+import {Button, InputNumber, message, Modal, Table} from "antd";
 import CustomPagination from "../../../../../components/Layout/Pagination";
 
 import EditProduct from "./Modal/EditProduct";
 import {
+	editActProducts,
 	shelfableProducts,
 	products,
 	offShelvesProducts,
@@ -154,6 +155,28 @@ class ActivityProductsManage extends Component {
 						}
 					}
 
+				}
+			},
+			{
+				title: '活动数量限制',
+				dataIndex: 'has_sell_limit',
+				align: 'center',
+				render: (text, record) => {
+					if (text) {
+						return <InputNumber
+							className="virtualSales"
+							defaultValue={record['last_num']}
+							onBlur={(e)=>{
+								e.target.value = e.target.value < 0? 0:e.target.value;
+								if(e.target.value <= 0) return;
+								editActProducts({last_num:Number(e.target.value)},this.state.id, record.id).then(r=>{
+									message.success(r.message)
+								}).catch(_=>{})
+							}}
+						/>
+					} else {
+						return '无'
+					}
 				}
 			},
 			{
