@@ -16,8 +16,8 @@ class EditIndexVisible extends Component {
 		};
 		this.child = React.createRef();
 	}
-	
-	
+
+
 	componentWillReceiveProps(nextProps, nextContext) {
 		if (!nextProps.actId) return;
 		products({page:1, limit: 100},nextProps.actId).then(r=>{
@@ -35,21 +35,21 @@ class EditIndexVisible extends Component {
 			this.setState({
 				module: nextProps.entryTemplate[0].name,
 				defaultImg: nextProps.entryTemplate[0].image,
-				productOne: nextProps.entryTemplate[0].data.length && nextProps.entryTemplate[0].data[0]['product_entity'].id,
-				productTwo: nextProps.entryTemplate[0].data.length && nextProps.entryTemplate[0].data[1]['product_entity'].id,
-				productThree: nextProps.entryTemplate[0].data.length && nextProps.entryTemplate[0].data[2]['product_entity'].id
+				productOne: nextProps.entryTemplate[0].data.length && nextProps.entryTemplate[0].data[0],
+				productTwo: nextProps.entryTemplate[0].data.length && nextProps.entryTemplate[0].data[1],
+				productThree: nextProps.entryTemplate[0].data.length && nextProps.entryTemplate[0].data[2]
 			})
 		}
 	}
-	
+
 	onModuleChange = (module) => {
 		this.setState({module})
 	};
-	
+
 	handleCancel = () => {
 		this.props.onClose()
 	};
-	
+
 	handleSubmit = () => {
 		let image = this.child.current.state.imgUrl || this.child.current.state.imageUrl;
 		let {state} = this;
@@ -68,25 +68,25 @@ class EditIndexVisible extends Component {
 			}
 		}
 		let modules = [];
-		
-		let ary = [];
-		let products = [{id: state.productOne}, {id:state.productTwo}, {id: state.productThree}];
-		_.map(state.products, product => {
-			// let index = _.findIndex(products, pro => {
-			// 	return pro == product['product_entity'].id
-			// });
-			// if (index > -1) {
-			// 	ary.push(product)
-			// }
-			_.map(products, pro => {
-				if (pro.id == product['product_entity'].id) {
-					pro.product = product
-				}
-			})
-		});
-		_.map(products, product => {
-			ary.push(product.product)
-		});
+
+		let ary = [state.productOne, state.productTwo, state.productThree];
+		// let products = [{id: state.productOne}, {id: state.productTwo}, {id: state.productThree}];
+		// _.map(state.products, product => {
+		// 	// let index = _.findIndex(products, pro => {
+		// 	// 	return pro == product['product_entity'].id
+		// 	// });
+		// 	// if (index > -1) {
+		// 	// 	ary.push(product)
+		// 	// }
+		// 	_.map(products, pro => {
+		// 		if (pro.id == product['product_entity'].id) {
+		// 			pro.product = product
+		// 		}
+		// 	})
+		// });
+		// _.map(products, product => {
+		// 	ary.push(product.product)
+		// });
 		modules.push({
 			name: state.module,
 			image: image,
@@ -94,11 +94,11 @@ class EditIndexVisible extends Component {
 		});
 		this.props.onSubmit(modules, this.props.actId);
 	};
-	
+
 	onProductChange = (e,product) => {
 		this.setState({[product]: e})
 	};
-	
+
 	render() {
 		const modules = [
 			{key: 'module_1', value: 'module_1', name: '模板一'},
@@ -131,7 +131,7 @@ class EditIndexVisible extends Component {
 								filterOption={(input, option) =>
 									option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 								}
-							
+
 							>
 								{modules.map(item => (
 									<Select.Option key={item.key} label={item.name} value={item.value}>
@@ -164,10 +164,10 @@ class EditIndexVisible extends Component {
 										filterOption={(input, option) =>
 											option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 										}
-									
+
 									>
 										{state.products.map(item => (
-											<Select.Option key={item['product_entity'].id} value={item['product_entity'].id} label={item.name} >
+											<Select.Option key={item.id} value={item.id} label={item.name} >
 												{item.name}
 											</Select.Option>
 										))}
@@ -185,10 +185,10 @@ class EditIndexVisible extends Component {
 										filterOption={(input, option) =>
 											option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 										}
-									
+
 									>
 										{state.products.map(item => (
-											<Select.Option key={item['product_entity'].id} value={item['product_entity'].id} label={item.name} >
+											<Select.Option key={item.id} value={item.id} label={item.name} >
 												{item.name}
 											</Select.Option>
 										))}
@@ -206,10 +206,10 @@ class EditIndexVisible extends Component {
 										filterOption={(input, option) =>
 											option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 										}
-									
+
 									>
 										{state.products.map(item => (
-											<Select.Option key={item['product_entity'].id} value={item['product_entity'].id} label={item.name} >
+											<Select.Option key={item.id} value={item.id} label={item.name} >
 												{item.name}
 											</Select.Option>
 										))}
@@ -217,7 +217,7 @@ class EditIndexVisible extends Component {
 								</li>
 							</Fragment>
 						}
-						
+
 					</ul>
 				</Modal>
 			</div>
