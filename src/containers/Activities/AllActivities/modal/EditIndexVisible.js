@@ -35,9 +35,9 @@ class EditIndexVisible extends Component {
 			this.setState({
 				module: nextProps.entryTemplate[0].name,
 				defaultImg: nextProps.entryTemplate[0].image,
-				productOne: nextProps.entryTemplate[0].data.length && nextProps.entryTemplate[0].data[0]['product_entity'].id,
-				productTwo: nextProps.entryTemplate[0].data.length && nextProps.entryTemplate[0].data[1]['product_entity'].id,
-				productThree: nextProps.entryTemplate[0].data.length && nextProps.entryTemplate[0].data[2]['product_entity'].id
+				productOne: nextProps.entryTemplate[0].data.length && nextProps.entryTemplate[0].data[0],
+				productTwo: nextProps.entryTemplate[0].data.length && nextProps.entryTemplate[0].data[1],
+				productThree: nextProps.entryTemplate[0].data.length && nextProps.entryTemplate[0].data[2]
 			})
 		}
 	}
@@ -69,24 +69,24 @@ class EditIndexVisible extends Component {
 		}
 		let modules = [];
 		
-		let ary = [];
-		let products = [{id: state.productOne}, {id: state.productTwo}, {id: state.productThree}];
-		_.map(state.products, product => {
-			// let index = _.findIndex(products, pro => {
-			// 	return pro == product['product_entity'].id
-			// });
-			// if (index > -1) {
-			// 	ary.push(product)
-			// }
-			_.map(products, pro => {
-				if (pro.id == product['product_entity'].id) {
-					pro.product = product
-				}
-			})
-		});
-		_.map(products, product => {
-			ary.push(product.product)
-		});
+		let ary = [state.productOne, state.productTwo, state.productThree];
+		// let products = [{id: state.productOne}, {id: state.productTwo}, {id: state.productThree}];
+		// _.map(state.products, product => {
+		// 	// let index = _.findIndex(products, pro => {
+		// 	// 	return pro == product['product_entity'].id
+		// 	// });
+		// 	// if (index > -1) {
+		// 	// 	ary.push(product)
+		// 	// }
+		// 	_.map(products, pro => {
+		// 		if (pro.id == product['product_entity'].id) {
+		// 			pro.product = product
+		// 		}
+		// 	})
+		// });
+		// _.map(products, product => {
+		// 	ary.push(product.product)
+		// });
 		modules.push({
 			name: state.module,
 			image: image,
@@ -167,7 +167,7 @@ class EditIndexVisible extends Component {
 									
 									>
 										{state.products.map(item => (
-											<Select.Option key={item['product_entity'].id} value={item['product_entity'].id} label={item.name} >
+											<Select.Option key={item.id} value={item.id} label={item.name} >
 												{item.name}
 											</Select.Option>
 										))}
@@ -188,7 +188,7 @@ class EditIndexVisible extends Component {
 									
 									>
 										{state.products.map(item => (
-											<Select.Option key={item['product_entity'].id} value={item['product_entity'].id} label={item.name} >
+											<Select.Option key={item.id} value={item.id} label={item.name} >
 												{item.name}
 											</Select.Option>
 										))}
@@ -209,7 +209,7 @@ class EditIndexVisible extends Component {
 									
 									>
 										{state.products.map(item => (
-											<Select.Option key={item['product_entity'].id} value={item['product_entity'].id} label={item.name} >
+											<Select.Option key={item.id} value={item.id} label={item.name} >
 												{item.name}
 											</Select.Option>
 										))}
