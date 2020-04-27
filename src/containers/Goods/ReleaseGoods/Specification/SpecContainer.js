@@ -192,8 +192,20 @@ export default class Specification extends React.Component{
 			if (entity.id === record.id) {
 				entity[type] = e.target.value
 			}
-		})
+		});
 		this.setState({data: entities})
+	};
+
+	renderRecordImage = (url, record) => {
+		let list = this.state.data;
+		record['image'] = url;
+
+		_.map(list, item=> {
+			if (item.id === record.id) {
+				item.image = url;
+			}
+		});
+		this.setState({data: list})
 	};
 	
 	
@@ -220,7 +232,7 @@ export default class Specification extends React.Component{
 				render:(text,record) =>{
 					console.log(record, '^^^^^^^^^^^^^^^^6');
 					if(record.name){
-						return <Upload ref={this.uploadChild} defaultImg={record.image} text=""/>
+						return <Upload status='editProduct' upload={(url)=>this.renderRecordImage(url, record)} ref={this.uploadChild} defaultImg={record.image} text=""/>
 					} else {
 						return <Upload ref={this.uploadChild} defaultImg={record.image} text=""/>
 					}

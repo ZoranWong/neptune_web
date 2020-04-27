@@ -146,7 +146,8 @@ class ReleaseGoods extends React.Component{
 					tableData.forEach(item=>{
 						let spec = this.devideIds(item, childName);
 						item['name'] = values.name;
-						item['image'] = this.uploadChild.current.state.imgUrl || this.uploadChild.current.state.imageUrl;
+						console.log(item, '========>');
+						//item['image'] = item.image;
 						item['spec'] = spec;
 					});
 					
