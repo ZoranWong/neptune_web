@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Button, Table} from "antd";
-import {groupsOrdersList } from "../../../../api/activities/groupon";
+import {groupsProductsManage } from "../../../../api/activities/groupon";
 import {orderInputTransformer, orderOutputTransformer, searchJson} from "../../../../utils/dataStorage";
 import {summary_order_values} from "../../../../utils/summary_order_fields";
 import IconFont from "../../../../utils/IconFont";
@@ -10,20 +10,21 @@ import CustomItem from "../../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import ReviewGoods from "../GrouponList/modal/ReviewGoods";
 
-class GrouponOrderManage extends Component {
+class GrouponProductsManage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            api: groupsOrdersList,
+            api: groupsProductsManage,
             data:[],
             filterVisible: false,
             paginationParams:{
                 logic_conditions:[],
                 search:'',
-                searchJson: searchJson({date: ''})
+                searchJson: searchJson({is_on_sale: true})
             },
             activeTab: -1,
-            products: []
+            products: [],
+            is_on_sale: true
         };
         this.columns = [
             {
@@ -51,14 +52,6 @@ class GrouponOrderManage extends Component {
                 dataIndex: 'delivery_date'
             },
             {
-                title: '商品',
-                dataIndex: 'sh12op_name',
-                render: ((text, record) => <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-                    <span className="orderGoods">{record.items[0].name+'......'}</span>
-                    <IconFont type="icon-eye-fill" onClick={()=>this.showProductsReview(record.items)} />
-                </span>)
-            },
-            {
                 title: '实付款',
                 dataIndex: 'settlement_total_fee'
             },
@@ -77,7 +70,7 @@ class GrouponOrderManage extends Component {
             paginationParams:{
                 logic_conditions:[],
                 search:'',
-                searchJson:searchJson({state_constant:''})
+                searchJson:searchJson({is_on_sale:this.state.is_on_sale})
             }
         },()=>{
             this.child.current.pagination(this.child.current.state.current)
@@ -88,9 +81,9 @@ class GrouponOrderManage extends Component {
     // 头部搜索框
     search = (value) =>{
         this.setState({
-            api:groupsOrdersList,
+            api:groupsProductsManage,
             paginationParams:{...this.state.paginationParams,
-                searchJson:searchJson({search:value,status:true})}
+                searchJson:searchJson({search:value,status:true, is_on_sale: this.state.is_on_sale})}
         },()=>{
             this.child.current.pagination(this.child.current.state.current)
         });
@@ -104,7 +97,7 @@ class GrouponOrderManage extends Component {
         this.setState({filterVisible:false})
     };
     onSubmit = (data) =>{
-        this.setState({api:groupsOrdersList,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true})}},()=>{
+        this.setState({api:groupsProductsManage,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data,status:true, is_on_sale: this.state.is_on_sale})}},()=>{
             this.child.current.pagination(this.child.current.state.current)
         });
     };
@@ -258,7 +251,7 @@ class GrouponOrderManage extends Component {
                     <CustomPagination
                         api={this.state.api}
                         ref={this.child}
-                        text="笔拼团订单"
+                        text="件商品"
                         params={this.state.paginationParams}
                         id={this.state.id}
                         valChange={this.paginationChange}
@@ -271,4 +264,4 @@ class GrouponOrderManage extends Component {
     }
 }
 
-export default GrouponOrderManage;
+export default GrouponProductsManage;

@@ -38,6 +38,10 @@ const groups = [
 	{
 		name: '拼团订单管理',
 		path: '/activities/grouponOrderManage'
+	},
+	{
+		name: '商品管理',
+		path: '/activities/grouponProductsManage'
 	}
 ];
 
