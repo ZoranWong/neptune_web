@@ -22,37 +22,33 @@ class GrouponProductsManage extends Component {
                 search:'',
                 searchJson: searchJson({is_on_sale: true})
             },
-            activeTab: -1,
+            activeTab: true,
             products: [],
             is_on_sale: true
         };
         this.columns = [
             {
-                title: '用户昵称',
-                dataIndex: 'nickname'
+                title: '商品名称',
+                dataIndex: 'product_entity_name'
             },
             {
-                title: '拼团名称',
-                dataIndex: 'group_name'
+                title: '拼团数',
+                dataIndex: 'shopping_group_count'
             },
             {
-                title: '开团店铺',
-                dataIndex: 'initiator_name'
+                title: '拼团单数',
+                dataIndex: 'shop_shopping_groups_count'
             },
             {
-                title: '下单时间',
-                dataIndex: 'created_at'
+                title: '待收货数量',
+                dataIndex: 'wait_pick_count'
             },
             {
-                title: '截单时间',
-                dataIndex: 'orderable_deadline'
+                title: '已售数量',
+                dataIndex: 'sales_completed_count'
             },
             {
-                title: '配送日期',
-                dataIndex: 'delivery_date'
-            },
-            {
-                title: '实付款',
+                title: '操作',
                 dataIndex: 'settlement_total_fee'
             },
         ];
@@ -64,13 +60,13 @@ class GrouponProductsManage extends Component {
     }
 
 
-    refresh = ()=>{
+    refresh = (activeTab = true)=>{
         this.setState({
             filterVisible:false,
             paginationParams:{
                 logic_conditions:[],
                 search:'',
-                searchJson:searchJson({is_on_sale:this.state.is_on_sale})
+                searchJson:searchJson({is_on_sale: activeTab})
             }
         },()=>{
             this.child.current.pagination(this.child.current.state.current)
@@ -159,7 +155,7 @@ class GrouponProductsManage extends Component {
 
     // 切换tab
     onChangeTab = item =>{
-        this.setState({activeTab:item.key});
+        this.setState({activeTab:item.key, is_on_sale: item.key});
         this.refresh(item.key)
     };
 
@@ -172,12 +168,8 @@ class GrouponProductsManage extends Component {
 
     render() {
         const tabs = [
-            {name:'全部',key: -1},
-            {name:'待成团',key:0},
-            {name:'待收货',key:1},
-            {name:'未成团',key:2},
-            {name:'待自提',key:3},
-            {name:'已完成',key:4}
+            {name:'在售',key: true},
+            {name:'不在售',key:false},
         ];
 
         const productsProps = {
