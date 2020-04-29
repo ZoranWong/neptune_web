@@ -4,6 +4,7 @@ import difference from 'lodash/difference';
 import './css/shelfGoods.sass'
 import {products} from "../../../api/goods/goods";
 import {searchJson} from "../../../utils/dataStorage";
+import _ from "lodash";
 // Customize Table Transfer
 const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
 	<Transfer {...restProps} >
@@ -135,13 +136,26 @@ export default class ShelfGoods extends React.Component {
 	handleCancel = () =>{
 		this.props.onCancel()
 	};
-	
+
 	handleSubmit = () =>{
 		if(!this.state.targetKeys.length){
 			message.error('请选择上架商品');
 			return;
 		}
-		this.props.onSubmit(this.state.targetKeys)
+		let products = this.state.data;
+		let targetKeys = this.state.targetKeys;
+		let params = [];
+		_.map(products, product => {
+			_.map(targetKeys, key => {
+				if (product['product_id'] === key) {
+					params.push({
+						product_id :key,
+						is_visible: product.checked || false
+					})
+				}
+			})
+		});
+		this.props.onSubmit(params)
 	};
 	
 	// handleTabs = () =>{
