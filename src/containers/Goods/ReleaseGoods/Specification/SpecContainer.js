@@ -234,7 +234,7 @@ export default class Specification extends React.Component{
 					if(record.name){
 						return <Upload status='editProduct' upload={(url)=>this.renderRecordImage(url, record)} ref={this.uploadChild} defaultImg={record.image} text=""/>
 					} else {
-						return <Upload ref={this.uploadChild} defaultImg={record.image} text=""/>
+						return <Upload status='editProduct' ref={this.uploadChild} defaultImg={record.image} text="" upload={(url)=>this.renderRecordImage(url, record)} />
 					}
 				}
 			},
