@@ -141,7 +141,7 @@ class ReleaseGoods extends React.Component{
 					});
 
 					// 数量
-					let tableData = this.child.current.state.data;w390
+					let tableData = this.child.current.state.data;
 					let flag = true;
 					// 此处修改
 					tableData.forEach(item=>{

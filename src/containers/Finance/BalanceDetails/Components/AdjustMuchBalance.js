@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
 import {Input, Modal, Upload, Button, message, Icon} from "antd";
-import Config from '../../../../config/app'
+import Config from '../../../../config/app';
+import {dataImport} from "../../../../api/common";
+
 class AdjustMuchBalance extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            remark: ''
+            remark: '',
+            file:''
         }
     }
 
@@ -18,35 +21,39 @@ class AdjustMuchBalance extends Component {
             message.error('请填写备注');
             return
         }
+        if (!this.state.file) {
+            message.error('请上传文件');
+            return
+        }
+        let formData = new FormData();
+        console.log(formData, '====<');
+        formData.append('file', this.state.file.originFileObj);
+        formData.append('strategy', 'MERCHANT_BALANCE_ADJUST');
+        formData.append('import_mode', 'IMMEDIATE');
+        formData.append('remark', this.state.remark);
+        dataImport(formData).then(r=>{
+            message.success(r.message);
+            this.handleCancel()
+        }).catch(_=>{})
     };
 
+
     render() {
-        let strategy = 'MERCHANT_BALANCE_ADJUST';
         let that = this;
         const props = {
             name: 'file',
-            action: `${Config.apiUrl}/api/backend/import`,
-            data: {
-                strategy: 'MERCHANT_BALANCE_ADJUST',
-                import_mode: 'IMMEDIATE',
-                remark: this.state.remark,
-            },
+            action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
             headers: {
                 authorization: 'authorization-text',
-            },
-            beforeUpload () {
-                if (!that.state.remark) {
-                    message.error('请填写备注');
-                    return false
-                }
             },
             onChange(info) {
                 if (info.file.status !== 'uploading') {
                     console.log(info.file, info.fileList);
                 }
                 if (info.file.status === 'done') {
+                    console.log(info);
+                    that.setState({file: info.file});
                     message.success(`${info.file.name} 上传成功`);
-                    that.handleCancel();
                 } else if (info.file.status === 'error') {
                     message.error(`${info.file.name} file upload failed.`);
                 }

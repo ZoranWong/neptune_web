@@ -79,6 +79,15 @@ export function dataExport(params) {
     })
 }
 
+// 倒入
+export function dataImport(params) {
+    return request({
+        url: '/api/backend/import',
+        method: 'post',
+        data: params
+    })
+}
+
 // 启用系统设置
 export function enable(params) {
     return request({
