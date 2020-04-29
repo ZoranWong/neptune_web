@@ -1,5 +1,5 @@
 import React from "react";
-import {Transfer, Table, Modal, message} from 'antd';
+import {Transfer, Table, Modal, message,Switch} from 'antd';
 import difference from 'lodash/difference';
 import './css/shelfGoods.sass'
 import {products} from "../../../api/goods/goods";
@@ -103,13 +103,13 @@ const rightTableColumns = [
 		dataIndex: 'name',
 		title: 'Name',
 	},
-	// {
-	// 	dataIndex: '操作',
-	// 	title: '操作',
-	// 	render : (text,record) => (
-	// 		<span>删除</span>
-	// 	)
-	// }
+	{
+		dataIndex: '操作',
+		title: '操作',
+		render : (text,record) => (
+			<span className='shelfSwitch'>是否可用: <Switch onChange={(checked)=>onSwitchChange(checked,record)} /></span>
+		)
+	}
 ];
 
 
