@@ -89,7 +89,9 @@ for (let i = 0; i < 20; i++) {
 		title: `content${i + 1}`
 	});
 }
-
+function onSwitchChange  (checked,record)  {
+	record.checked = checked
+}
 
 
 const leftTableColumns = [
