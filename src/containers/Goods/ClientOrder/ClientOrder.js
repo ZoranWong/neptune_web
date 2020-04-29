@@ -247,7 +247,7 @@ class ClientOrder extends React.Component{
 				// 确定按钮执行操作
 				offShelves({
 					channel:channel,
-					product_ids:products_ids
+					product_params:products_ids
 				}).then(r=>{
 					message.success(r.message);
 					refresh()
