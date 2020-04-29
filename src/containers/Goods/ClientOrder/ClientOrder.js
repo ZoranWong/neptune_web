@@ -247,7 +247,7 @@ class ClientOrder extends React.Component{
 				// 确定按钮执行操作
 				offShelves({
 					channel:channel,
-					product_params:products_ids
+					product_ids:products_ids
 				}).then(r=>{
 					message.success(r.message);
 					refresh()
@@ -291,7 +291,7 @@ class ClientOrder extends React.Component{
 	onSubmitShelfGoods = (value) =>{
 		onShelves({
 			channel:this.channel,
-			product_ids:value
+			product_params:value
 		}).then(r=>{
 			message.success(r.message);
 			this.hideShelfGoods();
