@@ -191,13 +191,15 @@ class NewGroupon extends Component {
         }
         state.discount = state.isDiscount ? state.discount : 100;
         // 校验成团红包
+        console.log(state, '=============<<<<<<<<<<<<<');
         if (state.has_group_red_packet) {
             let redPacket = this.redPacket.current && this.redPacket.current.state.ary;
+            console.log(redPacket, 'redPacket');
             let group_red_packet_levels = [];
             _.map(redPacket, item => {
                 let all = true;
                 for (let k in item) {
-                    if (!item[k]) {
+                    if (k !== 'id' && !item[k]) {
                         all = false;
                         break
                     }
@@ -207,6 +209,7 @@ class NewGroupon extends Component {
                     gift_amount: Number(item.send)
                 })
             });
+            console.log(group_red_packet_levels, 'group_red_packet_levels');
             if (group_red_packet_levels.length < redPacket.length) {
                 message.error('请正确填写成团红包');
                 return

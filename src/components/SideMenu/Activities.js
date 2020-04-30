@@ -11,53 +11,69 @@ const { SubMenu } = Menu;
 let baseMenu = [
 	{
 		path:'/activities',
-		icon:'icon-dingdan',
+		icon:'icon-dangao-shi',
 		text:'蛋糕管理',
 		slug: 'menu_order_management'
 	},
 	{
 		path:'/activities/all',
-		icon:'icon-dingdan',
+		icon:'icon-huodong3',
 		text:'活动管理',
 	},
 	{
 		path:'',
-		icon:'icon-dingdan',
+		icon:'icon-pintuanzhuanqu',
 		text:'拼团管理',
 	},
-];
-const groups = [
 	{
-		name: '拼团',
+		text: '拼团',
 		path: '/activities/grouponList'
 	},
 	{
-		name: '拼团单管理',
+		text: '拼团单管理',
 		path: '/activities/grouponManage'
 	},
 	{
-		name: '拼团订单管理',
+		text: '拼团订单管理',
 		path: '/activities/grouponOrderManage'
 	},
 	{
-		name: '商品管理',
+		text: '商品管理',
 		path: '/activities/grouponProductsManage'
 	}
 ];
+// const groups = [
+// 	{
+// 		name: '拼团',
+// 		path: '/activities/grouponList'
+// 	},
+// 	{
+// 		name: '拼团单管理',
+// 		path: '/activities/grouponManage'
+// 	},
+// 	{
+// 		name: '拼团订单管理',
+// 		path: '/activities/grouponOrderManage'
+// 	},
+// 	{
+// 		name: '商品管理',
+// 		path: '/activities/grouponProductsManage'
+// 	}
+// ];
 
 
-const menu = (
-	<Menu>
-		{
-			groups.map((item, index)=>(
-				<Menu.Item key={index}>
-					<Link to={item.path} key={item.name}>{item.name}</Link>
-				</Menu.Item>
-
-			))
-		}
-	</Menu>
-);
+// const menu = (
+// 	<Menu>
+// 		{
+// 			groups.map((item, index)=>(
+// 				<Menu.Item key={index}>
+// 					<Link to={item.path} key={item.name}>{item.name}</Link>
+// 				</Menu.Item>
+//
+// 			))
+// 		}
+// 	</Menu>
+// );
 
 const Activities = ({ match }) => (
 	<div style={{ paddingBottom: '120px',width:'216px' }}>
@@ -73,13 +89,10 @@ const Activities = ({ match }) => (
 					return (
 						<Menu.Item key={item.path}>
 							{
-								item.text === '拼团管理' ? <Dropdown overlay={menu}>
-									<a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-										<IconFont type={item.icon} />
-										拼团管理
-										<DownOutlined />
-									</a>
-								</Dropdown> : <Link to={item.path}>
+								item.text === '拼团管理' ? <a>
+									<IconFont type={item.icon} />
+									<span>拼团管理</span>
+								</a> : <Link to={item.path}>
 									<IconFont type={item.icon} />
 									<span>{item.text}</span>
 								</Link>
