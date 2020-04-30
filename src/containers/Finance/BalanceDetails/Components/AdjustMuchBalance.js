@@ -8,8 +8,9 @@ class AdjustMuchBalance extends Component {
         super(props);
         this.state = {
             remark: '',
-            file:''
-        }
+            file: ''
+        };
+        this.loading = false
     }
 
     handleCancel = () => {
@@ -17,6 +18,10 @@ class AdjustMuchBalance extends Component {
     };
 
     handleSubmit = () => {
+        if (this.loading) {
+            return
+        }
+        this.loading = true;
         if (!this.state.remark) {
             message.error('请填写备注');
             return
@@ -26,15 +31,17 @@ class AdjustMuchBalance extends Component {
             return
         }
         let formData = new FormData();
-        console.log(formData, '====<');
         formData.append('file', this.state.file.originFileObj);
         formData.append('strategy', 'MERCHANT_BALANCE_ADJUST');
         formData.append('import_mode', 'IMMEDIATE');
         formData.append('remark', this.state.remark);
         dataImport(formData).then(r=>{
             message.success(r.message);
-            this.handleCancel()
-        }).catch(_=>{})
+            this.handleCancel();
+            this.loading = false
+        }).catch(error=>{
+            this.loading = false;
+        })
     };
 
 
@@ -68,6 +75,9 @@ class AdjustMuchBalance extends Component {
                     onCancel={this.handleCancel}
                     onOk={this.handleSubmit}
                     okText="确定"
+                    okButtonProps={
+                        {disabled: this.loading}
+                    }
                     cancelText="取消"
                 >
                     <ul className="mainUl">
