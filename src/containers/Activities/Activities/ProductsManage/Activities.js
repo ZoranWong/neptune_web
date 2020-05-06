@@ -277,7 +277,7 @@ class Activities extends React.Component{
 	onSubmitShelfGoods = (value) =>{
 		onShelves({
 			channel:this.channel,
-			product_ids:value,
+			product_params:value,
 			activity_id: this.state.actId
 		}).then(r=>{
 			message.success(r.message);
