@@ -30,7 +30,7 @@ class NewGroupon extends Component {
             group_orders_total_fee_floor: '',
             order_deadline_fixed_date: '',
             has_group_limit: false,
-            isDiscount: false,
+            has_discount: false,
             discount: '',
             has_group_red_packet: false,
             has_gift: false,
@@ -185,11 +185,11 @@ class NewGroupon extends Component {
             message.error('请填写订单总金额限制');
             return
         }
-        if (state.isDiscount && !state.discount) {
+        if (state.has_discount && !state.discount) {
             message.error('请填写折扣');
             return
         }
-        state.discount = state.isDiscount ? state.discount : 100;
+        state.discount = state.has_discount ? state.discount : 100;
         // 校验成团红包
         console.log(state, '=============<<<<<<<<<<<<<');
         if (state.has_group_red_packet) {
@@ -413,13 +413,13 @@ class NewGroupon extends Component {
                     </li>
                     <li>
                         <h4>是否打折</h4>
-                        <Radio.Group onChange={(e)=>this.onRadioChange(e, 'isDiscount')} value={this.state['isDiscount']}>
+                        <Radio.Group onChange={(e)=>this.onRadioChange(e, 'has_discount')} value={this.state['has_discount']}>
                             <Radio value={true}>是</Radio>
                             <Radio value={false}>否</Radio>
                         </Radio.Group>
                     </li>
                     {
-                        this.state.isDiscount && <li>
+                        this.state.has_discount && <li>
                             <h4>折扣</h4>
                             <Input type='number' value={this.state.discount} onChange={(e)=>this.onInputChange(e, 'discount')} />
                         </li>
