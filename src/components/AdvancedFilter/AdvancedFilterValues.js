@@ -4,7 +4,8 @@ import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
 import {regions} from "../../api/common";
 import './index.sass'
-import {consumerOrder, merchantOrder, withdrawState,deliveryType} from "./orderType";
+import {consumerOrder, merchantOrder, withdrawState,deliveryType} from "./utils/orderType";
+import {grouponState,deadlineType,deliveryTime} from "./utils/groupon";
 import {SonClassification} from "../../api/goods/classification";
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -188,6 +189,65 @@ export default class AdvancedFilterValues extends React.Component{
 					))}
 				</Select>;
 			break;
+			case 'deadlineType':
+				return <Select
+					defaultActiveFirstOption={false}
+					mode="tags"
+					value={selectedItems}
+					className='selectedBox'
+					onChange={this.handleChange}
+					optionLabelProp="label"
+					optionFilterProp="children"
+					filterOption={(input, option) =>
+						option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+					}
+				>
+					{deadlineType.map(item => (
+						<Select.Option key={item.key} label={item.name} value={item.key}>
+							{item.name}
+						</Select.Option>
+					))}
+				</Select>;
+				break;
+			case 'deliveryTime':
+				return <Select
+					defaultActiveFirstOption={false}
+					mode="tags"
+					value={selectedItems}
+					className='selectedBox'
+					onChange={this.handleChange}
+					optionLabelProp="label"
+					optionFilterProp="children"
+					filterOption={(input, option) =>
+						option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+					}
+				>
+					{deliveryTime.map(item => (
+						<Select.Option key={item.key} label={item.name} value={item.key}>
+							{item.name}
+						</Select.Option>
+					))}
+				</Select>;
+				break;
+			case 'grouponStatus':
+				return <Select
+					defaultActiveFirstOption={false}
+					value={selectedItems}
+					className='selectedBox'
+					onChange={this.handleChange}
+					optionLabelProp="label"
+					optionFilterProp="children"
+					filterOption={(input, option) =>
+						option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+					}
+				>
+					{grouponState.map(item => (
+						<Select.Option key={item.key} label={item.name} value={item.key}>
+							{item.name}
+						</Select.Option>
+					))}
+				</Select>;
+				break;
 			case 'consumerOrderEqual':
 				return <Select
 					defaultActiveFirstOption={false}
@@ -312,6 +372,31 @@ export default class AdvancedFilterValues extends React.Component{
 							placeholder="请选择日期"
 							showToday={false}
 							format="YYYY-MM-DD"
+						/>
+					</LocaleProvider>
+				</span>;
+				break;
+			case 'detailTime':
+				return <span>
+					<LocaleProvider locale={zh_CN}>
+						<DatePicker
+							onChange={this.onTimestampChange}
+							placeholder="请选择时间"
+							showToday={false}
+							showTime={{ format: 'HH:mm:ss' }}
+							format="YYYY-MM-DD HH:mm:ss"
+						/>
+					</LocaleProvider>
+				</span>;
+				break;
+			case 'periodDetailTime':
+				return <span>
+					<LocaleProvider locale={zh_CN}>
+						<RangePicker
+							onChange={this.onPeriodChange}
+							//showTime={true}
+							showTime={{ format: 'HH:mm:ss' }}
+							format="YYYY-MM-DD HH:mm:ss"
 						/>
 					</LocaleProvider>
 				</span>;
@@ -614,6 +699,18 @@ export default class AdvancedFilterValues extends React.Component{
 								<Option value="1">男</Option>
 								<Option value="2">女</Option>
 								<Option value="0">无</Option>
+							</Select>
+					</span>;
+				break;
+			case 'boolean':
+				return  <span>
+							<Select
+								defaultActiveFirstOption={false}
+								placeholder="请选择是否"
+								style={{ width: 120 }}
+								onChange={this.handleChange}>
+								<Option value={true}>是</Option>
+								<Option value={false}>否</Option>
 							</Select>
 					</span>;
 				break;

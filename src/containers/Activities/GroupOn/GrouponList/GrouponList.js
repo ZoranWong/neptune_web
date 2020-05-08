@@ -2,9 +2,10 @@ import React, {Component, Fragment} from 'react';
 import {Button, message, Modal, Table} from "antd";
 import {groupsList, stopGroupon} from "../../../../api/activities/groupon";
 import {orderInputTransformer, orderOutputTransformer, searchJson} from "../../../../utils/dataStorage";
-import {summary_order_values} from "../../../../utils/summary_order_fields";
+import {groupon_list_fields} from "./utils/groupon_list_fields";
+import {groupon_list_custom_fields} from "./utils/groupon_list_custom_fields";
 import IconFont from "../../../../utils/IconFont";
-import AdvancedFilterComponent from "../../../Order/Components/AdvancedFilterComponent";
+import AdvancedFilterComponent from "../Components/AdvancedFilterComponent";
 import SearchInput from "../../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../../components/Layout/Pagination";
@@ -16,6 +17,7 @@ import ReviewGoods from "./modal/ReviewGoods";
 class GrouponList extends Component {
     constructor(props) {
         super(props);
+        const defaultItem = ['display_name','group_products', 'orderable_deadline_specified_type', 'delivery_specified_type', 'shop_shopping_groups_count', 'order_placed_count','state_desc','id'];
         this.state = {
             api: groupsList,
             data:[],
@@ -29,12 +31,13 @@ class GrouponList extends Component {
             detailVisible: false, //  拼团回显详情
             productsVisible: false, // 参与商品
             groupon: {},
-            products: []
+            products: [],
+            defaultItem: defaultItem,
         };
         this.columns = [
             {
                 title: '拼团名称',
-                dataIndex: 'name',
+                dataIndex: 'display_name',
                 render: (text, record) => (
                     <span onClick={()=>this.showGroupDetails(record)} style={{color: '#4f9863', cursor: 'pointer'}}>{text}</span>
                 )
@@ -128,6 +131,7 @@ class GrouponList extends Component {
 
     stopGroupon = (record) => {
         let refresh = this.refresh;
+        let self = this;
         let confirmModal = Modal.confirm({
             title: (
                 <div className= 'u_confirm_header'>
@@ -158,7 +162,7 @@ class GrouponList extends Component {
             onOk() {
                 stopGroupon({},record.id).then(r=>{
                     message.success('已结束该活动');
-                    refresh()
+                    refresh(self.state.activeTab)
                 }).catch(_=>{})
             },
             onCancel() {
@@ -181,13 +185,27 @@ class GrouponList extends Component {
         this.setState({productsVisible: false})
     };
 
-    refresh = ()=>{
+    refresh = (key)=>{
+        let logic_conditions = [];
+        if (key < 0) {
+            logic_conditions = []
+        } else {
+            logic_conditions = {
+                conditions: [
+                    {
+                        key: 'shopping_group_state',
+                        operation: '=',
+                        value: key
+                    }
+                ],
+                logic: 'and'
+            }
+        }
         this.setState({
             filterVisible:false,
             paginationParams:{
-                logic_conditions:[],
                 search:'',
-                searchJson:searchJson({state_constant:''})
+                searchJson:searchJson({state_constant:'', logic_conditions})
             }
         },()=>{
             this.child.current.pagination(this.child.current.state.current)
@@ -233,18 +251,18 @@ class GrouponList extends Component {
     handleCustom = (e) =>{
         let ary = [];
         e.forEach(e=>{
-            summary_order_values.forEach(u=>{
+            groupon_list_custom_fields.forEach(u=>{
                 u.children.forEach(c=>{
                     if(e == c.value){
                         let obj = {};
                         obj.title = c.label;
-                        obj.dataIndex = orderOutputTransformer(e);
-                        if (obj.dataIndex === 'items') {
+                        obj.dataIndex = e;
+                        if (obj.dataIndex === 'group_products') {
                             obj.render = (text,record) => {
-                                if(record.items.length){
+                                if(record.group_products.length){
                                     return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-										<span className="orderGoods">{record.items[0].product_name+'......'}</span>
-										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items)} />
+										<span className="orderGoods">{record.group_products[0].name+'......'}</span>
+										<IconFont type="icon-eye-fill" onClick={()=>this.showProductsReview(record.group_products)} />
 									</span>
                                 } else {
                                     return <span>无</span>
@@ -260,9 +278,10 @@ class GrouponList extends Component {
         if (index < 0) {
             e.push('id');
         }
+        console.log(ary, '_______ ggg ______');
         ary[0].render = (text,record) => <span
             style={{'color':'#4F9863','cursor':'pointer'}}
-            onClick={()=>this.jump(record)}>{text}</span>;
+            onClick={()=>this.showGroupDetails(record)}>{text}</span>;
         this.columns = ary;
         this.setState({
             columns:ary,
@@ -308,7 +327,7 @@ class GrouponList extends Component {
                     onCancel={this.closeHigherFilter}
                     onSubmit={this.onSubmit}
                     refresh={this.refresh}
-                    data={summary_order_values}
+                    data={groupon_list_fields}
                 />
                 <PreviewDetails {...detailsProps} />
                 <ReviewGoods {...productsProps} />
@@ -319,7 +338,7 @@ class GrouponList extends Component {
                     <div className="headerLeft">
                         <SearchInput
                             getDatas={this.search}
-                            text='请输入姓名或手机号'
+                            text='请输入拼团名称'
                         />
                         <h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
                         <Button size='small' onClick={this.createNewGroupon}>创建拼团</Button>
@@ -341,9 +360,9 @@ class GrouponList extends Component {
                         <Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
                         <div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
                             <CustomItem
-                                data={summary_order_values}
-                                targetKeys={orderInputTransformer(this.state.defaultItem)}
-                                firstItem={'trade_no'}
+                                data={groupon_list_custom_fields}
+                                targetKeys={this.state.defaultItem}
+                                firstItem={'display_name'}
                                 handleCustom={this.handleCustom}
                             />
                         </div>
