@@ -4,9 +4,24 @@ export const groupon_order_fields = [
 		label:'基本属性',
 		children:[
 			{
-				label:'开团时间',
-				value:'created_time',
-				type:'detailTimeCompare'
+				label:'拼团',
+				value:'shopping_group_id',
+				type:'equalGrouponCompare'
+			},
+			{
+				label:'拼团单',
+				value:'shop_shopping_group_id',
+				type:'equalGrouponListCompare'
+			},
+			{
+				label:'开团店铺',
+				value:'initiator_id',
+				type:'equalShopCompare'
+			},
+			{
+				label:'自提店铺',
+				value:'pickup_shop_id',
+				type:'equalShopCompare'
 			},
 			{
 				label:'截单时间',
@@ -19,40 +34,40 @@ export const groupon_order_fields = [
 				type:'dataCompare'
 			},
 			{
-				label:'开始消耗库存时间',
-				value:'consume_stock_time',
+				label:'下单时间',
+				value:'created_at',
 				type:'detailTimeCompare'
 			},
 			{
-				label:'拼团状态',
-				value:'state',
-				type:'grouponStatus'
+				label:'支付时间',
+				value:'paid_at',
+				type:'detailTimeCompare'
 			},
 			{
-				label:'商品',
-				value:'group_orders_count_floor',
+				label:'实付款',
+				value:'settlement_total_fee',
 				type:'numCompare'
 			},
 			{
-				label:'点击次数',
-				value:'click_count',
+				label:'应付款',
+				value:'total_fee',
 				type:'numCompare'
 			},
 			{
-				label:'下单数',
-				value:'order_placed_count',
-				type:'deliveryType'
-			},
-			{
-				label:'下单人数',
-				value:'orders_placed_users_count',
-				type:'isTrue'
-			},
-			{
-				label:'总金额',
-				value:'orders_total_settlement_fee',
+				label:'优惠金额',
+				value:'total_preferential_fee',
 				type:'numCompare'
-			}
+			},
+			// {
+			// 	label:'应付款',
+			// 	value:'orders_total_settlement_fee',
+			// 	type:'numCompare'
+			// },
+			// {
+			// 	label:'应付款',
+			// 	value:'orders_total_settlement_fee',
+			// 	type:'numCompare'
+			// }
 		]
 	},
 ];
@@ -145,21 +160,55 @@ export const operation = {
 			type:'selectedGroupBox'
 		},
 	],
-	'equalCompare':[
+	'equalShopCompare':[
 		{
 			label:'等于',
 			value:'=',
-			type:'selectedOneBox'
+			type:'selectedOneGrouponBox'
 		},
 		{
 			label:'等于其中之一',
 			value:'in',
-			type:'selectedBox'
+			type:'selectedGrouponBox'
 		},
 		{
 			label:'不等于其中之一',
 			value:'not in',
-			type:'selectedBox'
+			type:'selectedGrouponBox'
+		},
+	],
+	'equalGrouponCompare':[
+		{
+			label:'等于',
+			value:'=',
+			type:'selectedOneGrouponBox'
+		},
+		{
+			label:'等于其中之一',
+			value:'in',
+			type:'selectedGrouponBox'
+		},
+		{
+			label:'不等于其中之一',
+			value:'not in',
+			type:'selectedGrouponBox'
+		},
+	],
+	'equalGrouponListCompare':[
+		{
+			label:'等于',
+			value:'=',
+			type:'selectedOneGrouponBox'
+		},
+		{
+			label:'等于其中之一',
+			value:'in',
+			type:'selectedGrouponBox'
+		},
+		{
+			label:'不等于其中之一',
+			value:'not in',
+			type:'selectedGrouponBox'
 		},
 	],
 	'deadlineType':[

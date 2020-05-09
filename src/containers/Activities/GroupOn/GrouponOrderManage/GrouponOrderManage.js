@@ -2,17 +2,20 @@ import React, {Component} from 'react';
 import {Button, Table} from "antd";
 import {groupsOrdersList } from "../../../../api/activities/groupon";
 import {orderInputTransformer, orderOutputTransformer, searchJson} from "../../../../utils/dataStorage";
-import {summary_order_values} from "../../../../utils/summary_order_fields";
+import {groupon_order_fields} from "./utils/groupon_order_fields";
+import {operation} from "./utils/groupon_order_fields";
 import IconFont from "../../../../utils/IconFont";
-import AdvancedFilterComponent from "../../../Order/Components/AdvancedFilterComponent";
+import AdvancedFilterComponent from "../Components/AdvancedFilterComponent";
 import SearchInput from "../../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import ReviewGoods from "../GrouponList/modal/ReviewGoods";
+import {groupon_order_custom_fields} from "./utils/groupon_order_custom_fields";
 
 class GrouponOrderManage extends Component {
     constructor(props) {
         super(props);
+        const defaultItem = ['nickname','trade_no', 'initiator_name', 'paid_at', 'delivery_date', 'items','settlement_total_fee','state_desc','id'];
         this.state = {
             api: groupsOrdersList,
             data:[],
@@ -23,7 +26,8 @@ class GrouponOrderManage extends Component {
                 searchJson: searchJson({date: ''})
             },
             activeTab: -1,
-            products: []
+            products: [],
+            defaultItem: defaultItem
         };
         this.columns = [
             {
@@ -31,20 +35,16 @@ class GrouponOrderManage extends Component {
                 dataIndex: 'nickname'
             },
             {
-                title: '拼团名称',
-                dataIndex: 'group_name'
+                title: '订单号',
+                dataIndex: 'trade_no'
             },
             {
                 title: '开团店铺',
                 dataIndex: 'initiator_name'
             },
             {
-                title: '下单时间',
-                dataIndex: 'created_at'
-            },
-            {
-                title: '截单时间',
-                dataIndex: 'orderable_deadline'
+                title: '支付时间',
+                dataIndex: 'paid_at'
             },
             {
                 title: '配送日期',
@@ -62,6 +62,10 @@ class GrouponOrderManage extends Component {
                 title: '实付款',
                 dataIndex: 'settlement_total_fee'
             },
+            {
+                title: '状态',
+                dataIndex: 'state_desc'
+            }
         ];
         this.child = React.createRef()
     }
@@ -71,7 +75,22 @@ class GrouponOrderManage extends Component {
     }
 
 
-    refresh = ()=>{
+    refresh = (key)=>{
+        // let logic_conditions = [];
+        // if (key < 0) {
+        //     logic_conditions = []
+        // } else {
+        //     logic_conditions = {
+        //         conditions: [
+        //             {
+        //                 key: 'shopping_group_order_order_state',
+        //                 operation: '=',
+        //                 value: key
+        //             }
+        //         ],
+        //         logic: 'and'
+        //     }
+        // }
         this.setState({
             filterVisible:false,
             paginationParams:{
@@ -120,18 +139,18 @@ class GrouponOrderManage extends Component {
     handleCustom = (e) =>{
         let ary = [];
         e.forEach(e=>{
-            summary_order_values.forEach(u=>{
+            groupon_order_custom_fields.forEach(u=>{
                 u.children.forEach(c=>{
                     if(e == c.value){
                         let obj = {};
                         obj.title = c.label;
-                        obj.dataIndex = orderOutputTransformer(e);
+                        obj.dataIndex = e;
                         if (obj.dataIndex === 'items') {
                             obj.render = (text,record) => {
                                 if(record.items.length){
                                     return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-										<span className="orderGoods">{record.items[0].product_name+'......'}</span>
-										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items)} />
+										<span className="orderGoods">{record.items[0].name+'......'}</span>
+										<IconFont type="icon-eye-fill" onClick={()=>this.showProductsReview(record.items)} />
 									</span>
                                 } else {
                                     return <span>无</span>
@@ -147,9 +166,6 @@ class GrouponOrderManage extends Component {
         if (index < 0) {
             e.push('id');
         }
-        ary[0].render = (text,record) => <span
-            style={{'color':'#4F9863','cursor':'pointer'}}
-            onClick={()=>this.jump(record)}>{text}</span>;
         this.columns = ary;
         this.setState({
             columns:ary,
@@ -201,7 +217,9 @@ class GrouponOrderManage extends Component {
                     onCancel={this.closeHigherFilter}
                     onSubmit={this.onSubmit}
                     refresh={this.refresh}
-                    data={summary_order_values}
+                    data={groupon_order_fields}
+                    operation={operation}
+                    slug={'shopping_group_order'}
                 />
                 <ReviewGoods {...productsProps} />
 
@@ -231,9 +249,9 @@ class GrouponOrderManage extends Component {
                         <Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
                         <div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
                             <CustomItem
-                                data={summary_order_values}
-                                targetKeys={orderInputTransformer(this.state.defaultItem)}
-                                firstItem={'trade_no'}
+                                data={groupon_order_custom_fields}
+                                targetKeys={this.state.defaultItem}
+                                firstItem={'nickname'}
                                 handleCustom={this.handleCustom}
                             />
                         </div>

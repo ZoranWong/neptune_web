@@ -165,7 +165,7 @@ class GrouponManage extends Component {
         if (index < 0) {
             e.push('id');
         }
-        
+
         this.columns = ary;
         this.setState({
             columns:ary,

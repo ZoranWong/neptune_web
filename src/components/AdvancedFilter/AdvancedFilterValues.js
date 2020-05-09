@@ -7,6 +7,9 @@ import './index.sass'
 import {consumerOrder, merchantOrder, withdrawState,deliveryType} from "./utils/orderType";
 import {grouponState,deadlineType,deliveryTime,grouponListState} from "./utils/groupon";
 import {SonClassification} from "../../api/goods/classification";
+import {groupsList, groupsShoppingList} from "../../api/activities/groupon";
+import {shops} from "../../api/shops/shopManage";
+
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 const OPTIONS = ['Apples', 'Nails', 'Bananas', 'Helicopters'];
@@ -34,13 +37,16 @@ export default class AdvancedFilterValues extends React.Component{
 			scrollPage:1,
 			selectedChannelItems:[],
 			delivery_batch: '',
-			keep_mode: ''
+			keep_mode: '',
+			grouponData: []
 		}
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
 		if(nextProps.type === undefined) return;
-		this.setState({type:nextProps.type+'',value:nextProps.activeKey.value})
+		this.setState({type:nextProps.type+'',value:nextProps.activeKey.value}, () => {
+			this.handleGrouponOptions(nextProps.activeKey.value)
+		})
 	}
 	
 	componentDidMount() {
@@ -165,10 +171,57 @@ export default class AdvancedFilterValues extends React.Component{
 		console.log(value);
 		this.props.onValueChange(value)
 	};
-	
+
+	// 拼团订单参数
+	handleGrouponOptions = (value) => {
+		value = value || 'shopping_group_id';
+		if (value !== 'shopping_group_id' && value !== 'shop_shopping_group_id' && value !== 'initiator_id' && value !== 'pickup_shop_id') return;
+		this.getGrouponData(this.handleGrouponApi(value), 1);
+	};
+	// 获取拼团参数对应api
+	handleGrouponApi = (value) => {
+		let api = '';
+		switch (value) {
+			case 'shopping_group_id':
+				api = groupsList;
+				break;
+			case 'shop_shopping_group_id':
+				api = groupsShoppingList;
+				break;
+			default:
+				api = shops
+		};
+		return api
+	};
+	// 获取拼团数据
+	getGrouponData = (api, nextScrollPage) => {
+		api({limit:10,page: nextScrollPage}).then(r=>{
+			if(!r.data.length) return;
+			if (r.meta.pagination['current_page'] === 1) {
+				this.setState({grouponData: r.data})
+			} else {
+				this.setState({grouponData: this.state.grouponData.concat(r.data)})
+			}
+
+		});
+	};
+	// 下拉加载
+	tagGrouponScroll = e => {
+		let value = this.state.value || 'shopping_group_id';
+		let api = this.handleGrouponApi(value);
+		e.persist();
+		const { target } = e;
+		if (target.scrollTop + target.offsetHeight === target.scrollHeight) {
+			const { scrollPage } = this.state;
+			const nextScrollPage = scrollPage + 1;
+			this.setState({ scrollPage: nextScrollPage });
+			this.getGrouponData(api, nextScrollPage); // 调用api方法
+		}
+	};
+
+
 	renderTree = () =>{
 		const { selectedItems } = this.state;
-		console.log(this.state.type, '========== type ============');
 		switch (this.state.type) {
 			case 'consumerOrder':
 				return <Select
@@ -556,6 +609,54 @@ export default class AdvancedFilterValues extends React.Component{
 					</Select>
 				</span>;
 				break;
+			case 'selectedGrouponBox':
+				return  <span>
+					<Select
+						defaultActiveFirstOption={false}
+						mode="multiple"
+						value={selectedItems}
+						className='selectedBox'
+						onChange={this.handleChange}
+						onPopupScroll={this.tagGrouponScroll}
+						optionLabelProp="label"
+						optionFilterProp="children"
+						filterOption={(input, option) =>
+							option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+						}
+
+					>
+						{this.state.grouponData.map(item => (
+							<Select.Option key={item.id + ''} label={item.name || item.display_name} value={item.id + ''}>
+								{item.name || item.display_name}
+							</Select.Option>
+						))}
+					</Select>
+				</span>;
+				break;
+			case 'selectedOneGrouponBox':
+				return  <span>
+					<Select
+						defaultActiveFirstOption={false}
+						value={selectedItems}
+						className='selectedBox'
+						onPopupScroll={this.tagGrouponScroll}
+						onChange={this.handleChange}
+						allowClear
+						optionLabelProp="label"
+						optionFilterProp="children"
+						filterOption={(input, option) =>
+							option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+						}
+
+					>
+						{this.state.grouponData.map(item => (
+							<Select.Option key={item.id} label={item.name || item.display_name} value={item.id}>
+								{item.name || item.display_name}
+							</Select.Option>
+						))}
+					</Select>
+				</span>;
+				break;
 			case 'selectedChannelOneBox':
 				return <span>
 					<Select
@@ -571,7 +672,7 @@ export default class AdvancedFilterValues extends React.Component{
 						}
 					>
 						{this.state.selectedChannelItems.map(item => (
-							<Select.Option key={item.id+""} label={item.name} value={item.id+''}>
+							<Select.Option key={item.id} label={item.name} value={item.id}>
 								{item.name}
 							</Select.Option>
 						))}
