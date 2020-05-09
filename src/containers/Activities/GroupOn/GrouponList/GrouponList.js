@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {Button, message, Modal, Table} from "antd";
 import {groupsList, stopGroupon} from "../../../../api/activities/groupon";
 import {orderInputTransformer, orderOutputTransformer, searchJson} from "../../../../utils/dataStorage";
-import {groupon_list_fields} from "./utils/groupon_list_fields";
+import {groupon_list_fields, operation} from "./utils/groupon_list_fields";
 import {groupon_list_custom_fields} from "./utils/groupon_list_custom_fields";
 import IconFont from "../../../../utils/IconFont";
 import AdvancedFilterComponent from "../Components/AdvancedFilterComponent";
@@ -328,6 +328,8 @@ class GrouponList extends Component {
                     onSubmit={this.onSubmit}
                     refresh={this.refresh}
                     data={groupon_list_fields}
+                    slug={'shopping_group'}
+                    operation={operation}
                 />
                 <PreviewDetails {...detailsProps} />
                 <ReviewGoods {...productsProps} />

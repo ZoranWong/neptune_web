@@ -5,7 +5,7 @@ import 'moment/locale/zh-cn';
 import {regions} from "../../api/common";
 import './index.sass'
 import {consumerOrder, merchantOrder, withdrawState,deliveryType} from "./utils/orderType";
-import {grouponState,deadlineType,deliveryTime} from "./utils/groupon";
+import {grouponState,deadlineType,deliveryTime,grouponListState} from "./utils/groupon";
 import {SonClassification} from "../../api/goods/classification";
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -168,6 +168,7 @@ export default class AdvancedFilterValues extends React.Component{
 	
 	renderTree = () =>{
 		const { selectedItems } = this.state;
+		console.log(this.state.type, '========== type ============');
 		switch (this.state.type) {
 			case 'consumerOrder':
 				return <Select
@@ -242,6 +243,25 @@ export default class AdvancedFilterValues extends React.Component{
 					}
 				>
 					{grouponState.map(item => (
+						<Select.Option key={item.key} label={item.name} value={item.key}>
+							{item.name}
+						</Select.Option>
+					))}
+				</Select>;
+				break;
+			case 'grouponListStatus':
+				return <Select
+					defaultActiveFirstOption={false}
+					value={selectedItems}
+					className='selectedBox'
+					onChange={this.handleChange}
+					optionLabelProp="label"
+					optionFilterProp="children"
+					filterOption={(input, option) =>
+						option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+					}
+				>
+					{grouponListState.map(item => (
 						<Select.Option key={item.key} label={item.name} value={item.key}>
 							{item.name}
 						</Select.Option>
@@ -371,6 +391,17 @@ export default class AdvancedFilterValues extends React.Component{
 							onChange={this.onTimestampChange}
 							placeholder="请选择日期"
 							showToday={false}
+							format="YYYY-MM-DD"
+						/>
+					</LocaleProvider>
+				</span>;
+				break;
+			case 'dateRange':
+				return <span>
+					<LocaleProvider locale={zh_CN}>
+						<RangePicker
+							onChange={this.onPeriodChange}
+							//showTime={true}
 							format="YYYY-MM-DD"
 						/>
 					</LocaleProvider>

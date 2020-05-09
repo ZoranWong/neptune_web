@@ -1,67 +1,27 @@
-export const groupon_list_fields = [
+export const groupon_fields = [
 	{
 		value:'base_attributes',
 		label:'基本属性',
 		children:[
 			{
-				label:'活动开始时间',
-				value:'start_date',
+				label:'开团时间',
+				value:'created_time',
 				type:'detailTimeCompare'
 			},
 			{
-				label:'活动结束时间',
-				value:'end_date',
+				label:'截单时间',
+				value:'orderable_deadline',
 				type:'detailTimeCompare'
 			},
-			// {
-			// 	label:'参与商品',
-			// 	value:'group_product_entity_ids',
-			// 	type:'contain'
-			// },
 			{
-				label:'成团限制',
-				value:'has_group_limit',
-				type:'isTrue'
+				label:'配送日期',
+				value:'delivery_date',
+				type:'dataCompare'
 			},
 			{
-				label:'成团金额限制',
-				value:'group_orders_total_fee_floor',
-				type:'numCompare'
-			},
-			{
-				label:'成团订单数限制',
-				value:'group_orders_count_floor',
-				type:'numCompare'
-			},
-			{
-				label:'截单周期',
-				value:'orderable_deadline_type',
-				type:'deadlineType'
-			},
-			{
-				label:'配送周期',
-				value:'delivery_type',
-				type:'deliveryType'
-			},
-			{
-				label:'是否打折',
-				value:'has_discount',
-				type:'isTrue'
-			},
-			{
-				label:'打折幅度',
-				value:'discount',
-				type:'numCompare'
-			},
-			{
-				label:'是否有赠品',
-				value:'has_gift',
-				type:'isTrue'
-			},
-			{
-				label:'起赠金额',
-				value:'gift_floor',
-				type:'numCompare'
+				label:'开始消耗库存时间',
+				value:'consume_stock_time',
+				type:'detailTimeCompare'
 			},
 			{
 				label:'拼团状态',
@@ -69,28 +29,8 @@ export const groupon_list_fields = [
 				type:'grouponStatus'
 			},
 			{
-				label:'开团次数',
-				value:'shop_shopping_groups_count',
-				type:'numCompare'
-			},
-			{
-				label:'开团店铺数',
-				value:'shop_shopping_group_shops_count',
-				type:'numCompare'
-			},
-			{
-				label:'成团数',
-				value:'shop_shopping_group_formed_count',
-				type:'numCompare'
-			},
-			{
-				label:'下单人数',
-				value:'order_placed_users_count',
-				type:'numCompare'
-			},
-			{
-				label:'下单数',
-				value:'order_placed_count',
+				label:'商品',
+				value:'group_orders_count_floor',
 				type:'numCompare'
 			},
 			{
@@ -99,8 +39,18 @@ export const groupon_list_fields = [
 				type:'numCompare'
 			},
 			{
-				label:'成团订单数',
-				value:'formed_orders_count',
+				label:'下单数',
+				value:'order_placed_count',
+				type:'deliveryType'
+			},
+			{
+				label:'下单人数',
+				value:'orders_placed_users_count',
+				type:'isTrue'
+			},
+			{
+				label:'总金额',
+				value:'orders_total_settlement_fee',
 				type:'numCompare'
 			}
 		]
@@ -115,43 +65,6 @@ export const operation = {
 			label:'等于',
 			value:'=',
 			type:'input'
-		}
-	],
-	'dataCompare':[
-		{
-			label:'等于',
-			value:'=',
-			type:'times'
-		},
-		{
-			label:'不等于',
-			value:'<>',
-			type:'times'
-		},
-		{
-			label:'晚于',
-			value:'>',
-			type:'times'
-		},
-		{
-			label:'晚于(含)',
-			value:'>=',
-			type:'times'
-		},
-		{
-			label:'早于',
-			value:'<',
-			type:'times'
-		},
-		{
-			label:'早于(含)',
-			value:'<=',
-			type:'times'
-		},
-		{
-			label:'区间',
-			value:'between',
-			type:'dateRange'
 		}
 	],
 	'numCompare':[
@@ -287,17 +200,17 @@ export const operation = {
 		{
 			label:'等于',
 			value:'=',
-			type:'grouponStatus'
+			type:'grouponListStatus'
 		},
 		{
 			label:'等于其中之一',
 			value:'in',
-			type:'grouponStatus'
+			type:'grouponListStatus'
 		},
 		{
 			label:'不等于其中之一',
 			value:'not in',
-			type:'grouponStatus'
+			type:'grouponListStatus'
 		},
 	],
 	'detailTimeCompare': [
@@ -337,41 +250,41 @@ export const operation = {
 			type:'periodDetailTime'
 		}
 	],
-	'timeCompare':[
+	'dataCompare':[
 		{
 			label:'等于',
 			value:'=',
-			type:'timestamp'
+			type:'times'
 		},
 		{
 			label:'不等于',
 			value:'<>',
-			type:'timestamp'
+			type:'times'
 		},
 		{
 			label:'晚于',
 			value:'>',
-			type:'timestamp'
+			type:'times'
 		},
 		{
 			label:'晚于(含)',
 			value:'>=',
-			type:'timestamp'
+			type:'times'
 		},
 		{
 			label:'早于',
 			value:'<',
-			type:'timestamp'
+			type:'times'
 		},
 		{
 			label:'早于(含)',
 			value:'<=',
-			type:'timestamp'
+			type:'times'
 		},
 		{
 			label:'区间',
 			value:'between',
-			type:'period'
+			type:'dateRange'
 		}
 	],
 	'emptyCompare':[

@@ -68,7 +68,7 @@ export function discount(record) {
     if (record.discount === 100) {
         text = '无'
     } else {
-        text = `${record.discount / 100}折`
+        text = `${record.discount / 10}折`
     }
     return text
 }

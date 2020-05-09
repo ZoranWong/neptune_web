@@ -16,3 +16,9 @@ export const grouponState = [
 	{name:'进行中',key:1},
 	{name:'已结束',key:2},
 ];
+export const grouponListState = [
+	{name:'待成团',key:0},
+	{name:'未成团',key:1},
+	{name:'已成团',key:2},
+	{name:'已完成',key:3},
+];

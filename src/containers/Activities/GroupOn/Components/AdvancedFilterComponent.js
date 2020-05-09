@@ -1,7 +1,7 @@
 import React from 'react';
 import {Modal,Button} from "antd";
 import AdvancedFilter from '../../../../components/AdvancedFilter/AdvancedFilter'
-import {operation} from "../GrouponList/utils/groupon_list_fields";
+
 
 
 export default class AdvancedFilterComponent extends React.Component{
@@ -67,8 +67,8 @@ export default class AdvancedFilterComponent extends React.Component{
 					<AdvancedFilter
 						ref={this.child}
 						value={this.props.data}
-						operation={operation}
-						slug="shopping_group"
+						operation={this.props.operation}
+						slug={this.props.slug}
 					/>
 				</Modal>
 			</div>
