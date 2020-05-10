@@ -17,7 +17,7 @@ import ReviewGoods from "./modal/ReviewGoods";
 class GrouponList extends Component {
     constructor(props) {
         super(props);
-        const defaultItem = ['display_name','group_products', 'orderable_deadline_specified_type', 'delivery_specified_type', 'shop_shopping_groups_count', 'order_placed_count','state_desc','id'];
+        const defaultItem = ['display_name','group_products', 'order_deadline_desc', 'delivery_specified_type_desc', 'shop_shopping_groups_count', 'order_placed_count','state_desc','id'];
         this.state = {
             api: groupsList,
             data:[],

@@ -28,7 +28,10 @@ export default class AdvancedFilterComponent extends React.Component{
 	export = () =>{
 		this.props.export(this.child.current.state.data)
 	};
-	
+
+	print = () => {
+		this.props.print(this.child.current.state.data)
+	};
 	
 	render(){
 		return (
@@ -43,14 +46,23 @@ export default class AdvancedFilterComponent extends React.Component{
 					maskClosable={false}
 					footer={
 						<div>
-							{/*{*/}
-							{/*	window.hasPermission("order_management_export") &&	<Button*/}
-							{/*		size="small"*/}
-							{/*		type="default"*/}
-							{/*		className="e_btn"*/}
-							{/*		onClick={this.export}*/}
-							{/*	>导出</Button>*/}
-							{/*}*/}
+							{
+								this.props.slug === 'shopping_group_order' &&	<Button
+									size="small"
+									type="default"
+									className="e_btn"
+									onClick={this.export}
+								>导出</Button>
+							}
+							{
+								this.props.slug === 'shop_shopping_group' &&	<Button
+									size="small"
+									type="default"
+									className="e_btn"
+									onClick={this.print}
+									loading={this.props.loading}
+								>打印</Button>
+							}
 						
 							<Button
 								size="small"

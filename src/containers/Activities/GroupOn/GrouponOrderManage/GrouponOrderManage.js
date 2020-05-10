@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Button, Table} from "antd";
+import {Button, message, Table} from "antd";
 import {groupsOrdersList } from "../../../../api/activities/groupon";
-import {orderInputTransformer, orderOutputTransformer, searchJson} from "../../../../utils/dataStorage";
+import {getToken, orderInputTransformer, orderOutputTransformer, searchJson} from "../../../../utils/dataStorage";
 import {groupon_order_fields} from "./utils/groupon_order_fields";
 import {operation} from "./utils/groupon_order_fields";
 import IconFont from "../../../../utils/IconFont";
@@ -11,6 +11,9 @@ import CustomItem from "../../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import ReviewGoods from "../GrouponList/modal/ReviewGoods";
 import {groupon_order_custom_fields} from "./utils/groupon_order_custom_fields";
+import Config from "../../../../config/app";
+import Export from "../../../Order/Components/Export";
+import _ from "lodash";
 
 class GrouponOrderManage extends Component {
     constructor(props) {
@@ -27,7 +30,10 @@ class GrouponOrderManage extends Component {
             },
             activeTab: -1,
             products: [],
-            defaultItem: defaultItem
+            defaultItem: defaultItem,
+            exportVisible: false,
+            orders: [],
+            loading: false
         };
         this.columns = [
             {
@@ -114,6 +120,34 @@ class GrouponOrderManage extends Component {
             this.child.current.pagination(this.child.current.state.current)
         });
     };
+
+    // 导出
+    showExport = (conditions) =>{
+        this.setState({conditions, exportVisible: true}, ()=>{
+            this.closeHigherFilter()
+        })
+    };
+    hideExport = () =>{
+        this.setState({exportVisible: false})
+    };
+
+
+
+    // 确定导出
+    export = (type, items,conditions) =>{
+        console.log(type, '--- type---');
+        console.log(conditions, '>>>>>>>>>>>>>>>>>>>>>>>>>>');
+        let json = searchJson({
+            strategy: type,
+            customize_columns: items,
+            logic_conditions: conditions
+        });
+        window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+        // dataExport({searchJson: searchJson(params)}).then(r=>{
+        // 	console.log(r);
+        // }).catch(_=>{})
+    };
+
 
     //高级筛选
     higherFilter = () =>{
@@ -203,10 +237,26 @@ class GrouponOrderManage extends Component {
             {name:'已完成',key:4}
         ];
 
+        const strategy = [
+            {key: 'GROUP_SHOPPING_ORDER_CUSTOMIZE', value: '自定义显示项',},
+            {key: 'GROUP_SHOPPING_PRODUCT_DIMENSION', value: '商品维度',},
+            {key: 'GROUP_SHOPPING_WULIU', value: '物流订单模板',},
+        ];
+
         const productsProps = {
             visible: this.state.productsVisible,
             items: this.state.products,
             onClose: this.closeProductsReview
+        };
+
+        const exportProps = {
+            visible : this.state.exportVisible,
+            onCancel : this.hideExport,
+            export: this.export,
+            strategy,
+            values: groupon_order_custom_fields,
+            conditions: this.state.conditions,
+            slug: 'shopping_group_order_'
         };
 
 
@@ -220,10 +270,13 @@ class GrouponOrderManage extends Component {
                     data={groupon_order_fields}
                     operation={operation}
                     slug={'shopping_group_order'}
+                    export={this.showExport}
+
+
                 />
                 <ReviewGoods {...productsProps} />
 
-
+                <Export {...exportProps} />
                 <div className="s_body_box">
                     <div className="headerLeft">
                         <SearchInput

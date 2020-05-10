@@ -95,6 +95,8 @@ class NewGroupon extends Component {
 
     // 日期选择
     onDatePicker = (dateString, type) => {
+        console.log(dateString);
+        console.log(type);
         this.setState({[type]: dateString})
     };
 
@@ -401,7 +403,9 @@ class NewGroupon extends Component {
                     {
                         this.state.delivery_type === 'FIXED_DATE' && <li>
                             <h4>固定日期</h4>
-                            <DatePicker onChange={(d,ds)=>this.onDatePicker(ds, ' delivery_fixed_date')} />
+                            <LocaleProvider locale={zh_CN}>
+                                <DatePicker onChange={(d,ds)=>this.onDatePicker(ds, 'delivery_fixed_date')} />
+                            </LocaleProvider>
                         </li>
                     }
                     <li className='timeRange'>

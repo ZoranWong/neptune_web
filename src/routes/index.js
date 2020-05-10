@@ -109,6 +109,7 @@ import GrouponOrderManage from "../containers/Activities/GroupOn/GrouponOrderMan
 import NewGroupon from "../containers/Activities/GroupOn/GrouponList/NewGroupon/NewGroupon";
 import EditGroupon from "../containers/Activities/GroupOn/GrouponList/NewGroupon/EditGroupon";
 import GrouponProductsManage from "../containers/Activities/GroupOn/GrouponProductsManage/GrouponProductsManage";
+import PrintGrouponOrders from "../containers/Activities/GroupOn/printGrouponOrders/printGrouponOrders";
 
 
 /** 跳转到某个路由之前触发 用于验证页面权限**/
@@ -250,7 +251,8 @@ const Routes = () =>(
 		<Route exact={true} path="/printSummaryOrders" render={props => onEnter(PrintSummaryOrders, props)} />
 		<Route exact={true} path="/printCustomOrders" render={props => onEnter(CustomOrdersPrint, props)} />
 		<Route exact={true} path="/printCustomSummaryOrders" render={props => onEnter(CustomSummaryPrint, props)} />
-		
+		<Route exact={true} path="/printGrouponOrders" render={props => onEnter(PrintGrouponOrders, props)} />
+
 	</Switch>
 );
 export default Routes

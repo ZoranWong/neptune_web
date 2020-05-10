@@ -21,7 +21,7 @@ export const groupon_list_custom_fields = [
 			},
 			{
 				label:'成团限制',
-				value:'has_group_limit',
+				value:'group_limit_desc',
 			},
 			{
 				label:'成团金额限制',
@@ -33,16 +33,16 @@ export const groupon_list_custom_fields = [
 			},
 			{
 				label:'截单周期',
-				value:'orderable_deadline_specified_type',
+				value:'order_deadline_desc',
 			},
 			{
 				label:'配送周期',
-				value:'delivery_specified_type',
+				value:'delivery_specified_type_desc',
 				type:'deliveryType'
 			},
 			{
 				label:'是否打折',
-				value:'has_discount',
+				value:'discount_desc',
 			},
 			{
 				label:'打折幅度',
@@ -50,7 +50,7 @@ export const groupon_list_custom_fields = [
 			},
 			{
 				label:'是否有赠品',
-				value:'has_gift',
+				value:'group_red_packet_levels_desc',
 			},
 			{
 				label:'起赠金额',

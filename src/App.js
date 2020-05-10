@@ -27,6 +27,7 @@ import _ from 'lodash'
 import PrintSummaryOrders from "./containers/Order/SummaryOrders/printSummaryOrders/printSummaryOrders";
 import CustomSummaryPrint from "./containers/Order/OrderTransformer/CustomSummaryPrint/CustomSummaryPrint";
 import CustomOrdersPrint from "./containers/Order/OrderTransformer/CustomOrdersPrint/CustomOrdersPrint";
+import PrintGrouponOrders from "./containers/Activities/GroupOn/printGrouponOrders/printGrouponOrders";
 const { Header, Sider, Content } = Layout;
 class App extends React.Component{
 	
@@ -94,6 +95,8 @@ class App extends React.Component{
 			return <CustomSummaryPrint orders={this.props.location.state.orders} />
 		} else if (this.props.location.pathname === '/printCustomOrders') {
 			return <CustomOrdersPrint orders={this.props.location.state.orders} />
+		} else if (this.props.location.pathname === '/printGrouponOrders') {
+			return <PrintGrouponOrders orders={this.props.location.state.orders} />
 		}
 		return (
 			<Layout style={{minHeight:"100vh"}}>

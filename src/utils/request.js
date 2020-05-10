@@ -48,7 +48,7 @@ service.interceptors.response.use(
 		console.log(response, '========');
 		if(!response || !response.status) return;
 		
-		if(response.status === 422 && response.data.errors.introducer_code){
+		if(response.status === 422 && response.data.errors &&  response.data.errors.introducer_code){
 			message.error('请输入正确的介绍人编号');
 			return Promise.reject(error);
 		}

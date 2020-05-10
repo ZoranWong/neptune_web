@@ -25,7 +25,7 @@ export function delivery(record) {
             text = `隔日 ${record['delivery_args']['time_period_start']} - ${record['delivery_args']['time_period_end']}`
         }
     } else if (record['delivery_type'] === 'FIXED_DATE') {
-        text = `${record['delivery_args'].delivery_fixed_date}日 ${record['delivery_args']['time_period_start']} - ${record['delivery_args']['time_period_end']}`
+        text = `${record['delivery_args'].fixed_date}日 ${record['delivery_args']['time_period_start']} - ${record['delivery_args']['time_period_end']}`
     }
     return text
 }

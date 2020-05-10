@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Button, Table} from "antd";
-import {groupsShoppingList } from "../../../../api/activities/groupon";
+import {Button, message, Table} from "antd";
+import { groupsShoppingList} from "../../../../api/activities/groupon";
 import {orderInputTransformer, orderOutputTransformer, searchJson} from "../../../../utils/dataStorage";
 import {groupon_fields, operation} from "./utils/groupon_fields";
 import {groupon_custom_fields} from "./utils/groupon_custom_fields";
@@ -27,6 +27,8 @@ class GrouponManage extends Component {
             activeTab: -1,
             products: [],
             defaultItem: defaultItem,
+            orders: [],
+            loading: false
         };
         this.columns = [
             {
@@ -193,6 +195,36 @@ class GrouponManage extends Component {
         this.setState({productsVisible: false})
     };
 
+    // 打印
+    print =  (conditions) => {
+        this.setState({loading: true}, ()=> {
+            this.getGrouponOrders(conditions, 1)
+        });
+    };
+    // 根据高级筛选获取相应订单
+    getGrouponOrders = async (conditions, page = 1) => {
+        let res = await groupsShoppingList({page: page, limit: 10, searchJson: searchJson({logic_conditions: conditions})});
+        let list = res.data;
+        let meta = res.meta;
+        this.setState({orders: this.state.orders.concat(list)}, ()=> {
+            if (meta['pagination']['current_page'] < meta['pagination']['total_pages']) {
+                this.getGrouponOrders(conditions, meta['pagination']['current_page'] + 1)
+            } else {
+                this.setState({
+                    loading: false,
+                });
+                let orders = this.state.orders;
+                if (orders.length) {
+                    this.closeHigherFilter();
+                    this.props.history.push({pathname:"/printGrouponOrders", state: {orders: orders, title: '拼团订单列表'}})
+                }else {
+                    message.error('今日暂无订单')
+                }
+            }
+        })
+    };
+
+
     render() {
         const tabs = [
             {name:'全部',key: -1},
@@ -218,6 +250,8 @@ class GrouponManage extends Component {
                     data={groupon_fields}
                     slug={'shop_shopping_group'}
                     operation={operation}
+                    print={this.print}
+                    loading={this.state.loading}
                 />
                 <ReviewGoods {...productsProps} />
 
