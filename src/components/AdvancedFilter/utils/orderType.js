@@ -13,6 +13,13 @@ export const consumerOrder = [
 	{name:'拒绝退款',key:'REFUSE_REFUND'}
 	];
 
+export const consumerOrderType = [
+	// {name:'待确认',key:'WAIT_PLATFORM_VERIFY'},
+	{name:'自提(预定)订单',key:'SELF_PICK'},
+	// {name:'待收货(配送单)',key:'WAIT_CUSTOMER_VERIFY_HOME'},
+	{name:'团购订单',key:'GROUP_SHOPPING'},
+];
+
 export const merchantOrder = [
 	{name:'全部',key:'ALL'},
 	{name:'待收货',key:'WAIT_AGENT_VERIFY'},

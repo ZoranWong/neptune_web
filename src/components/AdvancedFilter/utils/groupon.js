@@ -22,3 +22,10 @@ export const grouponListState = [
 	{name:'已成团',key:2},
 	{name:'已完成',key:3},
 ];
+export const grouponOrderState = [
+	{name:'待成团',key:'GROUPON_ORDER_PAY_COMPLETED'},
+	{name:'待收货',key:'GROUPON_ORDER_WAIT_AGENT_VERIFY'},
+	{name:'未成团',key:'GROUPON_ORDER_CANCEL_AUTO'},
+	{name:'待自提',key:'GROUPON_ORDER_WAIT_CUSTOMER_VERIFY'},
+	{name:'已完成',key:'GROUPON_ORDER_COMPLETED'}
+];

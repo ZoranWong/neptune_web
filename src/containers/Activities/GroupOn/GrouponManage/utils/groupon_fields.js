@@ -202,16 +202,16 @@ export const operation = {
 			value:'=',
 			type:'grouponListStatus'
 		},
-		{
-			label:'等于其中之一',
-			value:'in',
-			type:'grouponListStatus'
-		},
-		{
-			label:'不等于其中之一',
-			value:'not in',
-			type:'grouponListStatus'
-		},
+		// {
+		// 	label:'等于其中之一',
+		// 	value:'in',
+		// 	type:'grouponListStatus'
+		// },
+		// {
+		// 	label:'不等于其中之一',
+		// 	value:'not in',
+		// 	type:'grouponListStatus'
+		// },
 	],
 	'detailTimeCompare': [
 		{

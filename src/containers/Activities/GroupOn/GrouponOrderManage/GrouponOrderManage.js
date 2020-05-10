@@ -28,7 +28,7 @@ class GrouponOrderManage extends Component {
                 search:'',
                 searchJson: searchJson({date: ''})
             },
-            activeTab: -1,
+            activeTab: '',
             products: [],
             defaultItem: defaultItem,
             exportVisible: false,
@@ -82,27 +82,27 @@ class GrouponOrderManage extends Component {
 
 
     refresh = (key)=>{
-        // let logic_conditions = [];
-        // if (key < 0) {
-        //     logic_conditions = []
-        // } else {
-        //     logic_conditions = {
-        //         conditions: [
-        //             {
-        //                 key: 'shopping_group_order_order_state',
-        //                 operation: '=',
-        //                 value: key
-        //             }
-        //         ],
-        //         logic: 'and'
-        //     }
-        // }
+        let logic_conditions = [];
+        if (!key) {
+            logic_conditions = []
+        } else {
+            logic_conditions = {
+                conditions: [
+                    {
+                        key: 'shopping_group_order_order_state',
+                        operation: '=',
+                        value: key
+                    }
+                ],
+                logic: 'and'
+            }
+        }
         this.setState({
             filterVisible:false,
             paginationParams:{
                 logic_conditions:[],
                 search:'',
-                searchJson:searchJson({state_constant:''})
+                searchJson:searchJson({state_constant:'', logic_conditions})
             }
         },()=>{
             this.child.current.pagination(this.child.current.state.current)
@@ -229,12 +229,12 @@ class GrouponOrderManage extends Component {
 
     render() {
         const tabs = [
-            {name:'全部',key: -1},
-            {name:'待成团',key:0},
-            {name:'待收货',key:1},
-            {name:'未成团',key:2},
-            {name:'待自提',key:3},
-            {name:'已完成',key:4}
+            {name:'全部',key: ''},
+            {name:'待成团',key:'GROUPON_ORDER_PAY_COMPLETED'},
+            {name:'待收货',key:'GROUPON_ORDER_WAIT_AGENT_VERIFY'},
+            {name:'未成团',key:'GROUPON_ORDER_CANCEL_AUTO'},
+            {name:'待自提',key:'GROUPON_ORDER_WAIT_CUSTOMER_VERIFY'},
+            {name:'已完成',key:'GROUPON_ORDER_COMPLETED'}
         ];
 
         const strategy = [

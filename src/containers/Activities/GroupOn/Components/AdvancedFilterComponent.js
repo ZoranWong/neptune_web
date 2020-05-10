@@ -54,15 +54,15 @@ export default class AdvancedFilterComponent extends React.Component{
 									onClick={this.export}
 								>导出</Button>
 							}
-							{
-								this.props.slug === 'shop_shopping_group' &&	<Button
-									size="small"
-									type="default"
-									className="e_btn"
-									onClick={this.print}
-									loading={this.props.loading}
-								>打印</Button>
-							}
+							{/*{*/}
+							{/*	this.props.slug === 'shop_shopping_group' &&	<Button*/}
+							{/*		size="small"*/}
+							{/*		type="default"*/}
+							{/*		className="e_btn"*/}
+							{/*		onClick={this.print}*/}
+							{/*		loading={this.props.loading}*/}
+							{/*	>打印</Button>*/}
+							{/*}*/}
 						
 							<Button
 								size="small"

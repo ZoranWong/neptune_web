@@ -25,7 +25,7 @@ export const groupon_custom_fields = [
 			},
 			{
 				label:'配送时间',
-				value:'delivery_time_start',
+				value:'delivery_time_period',
 			},
 			{
 				label:'点击次数',

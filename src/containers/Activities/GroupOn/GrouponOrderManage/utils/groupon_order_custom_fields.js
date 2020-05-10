@@ -41,7 +41,7 @@ export const groupon_order_custom_fields = [
 			},
 			{
 				label:'配送时间',
-				value:'delivery_time_start'
+				value:'delivery_time_period'
 			},
 			{
 				label:'商品',

@@ -113,7 +113,7 @@ export const consumer_order_values = [
 			{
 				label:'订单类型',
 				value:'order_type',
-				type:'consumerOrder'
+				type:'consumerType'
 			},
 			{
 				label:'收货地区',
@@ -191,6 +191,13 @@ export const operation = {
 			label:'不包含以下任意',
 			value:'not in',
 			type:'selectedTagBox'
+		},
+	],
+	'consumerType': [
+		{
+			label:'等于',
+			value:'=',
+			type:'consumerTypeEqual'
 		},
 	],
 	'consumerOrder': [

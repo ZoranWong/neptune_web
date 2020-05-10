@@ -58,6 +58,11 @@ export const groupon_order_fields = [
 				value:'total_preferential_fee',
 				type:'numCompare'
 			},
+			{
+				label:'订单状态',
+				value:'total_preferential_fee',
+				type:'orderStateCompare'
+			},
 			// {
 			// 	label:'应付款',
 			// 	value:'orders_total_settlement_fee',
@@ -142,6 +147,13 @@ export const operation = {
 			value: '=',
 			type: 'boolean'
 		}
+	],
+	'orderStateCompare':[
+		{
+			label:'等于',
+			value:'=',
+			type:'grouponOrderStatus'
+		},
 	],
 	'group':[
 		{

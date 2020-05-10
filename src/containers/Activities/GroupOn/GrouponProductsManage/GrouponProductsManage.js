@@ -47,10 +47,10 @@ class GrouponProductsManage extends Component {
                 title: '已售数量',
                 dataIndex: 'sales_completed_count'
             },
-            {
-                title: '操作',
-                dataIndex: 'settlement_total_fee'
-            },
+            // {
+            //     title: '操作',
+            //     dataIndex: 'settlement_total_fee'
+            // },
         ];
         this.child = React.createRef()
     }
@@ -197,7 +197,7 @@ class GrouponProductsManage extends Component {
                             getDatas={this.search}
                             text='请输入用户名或订单号'
                         />
-                        <h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>
+                        {/*<h4 className="higherFilter" onClick={this.higherFilter}>高级筛选</h4>*/}
                     </div>
                 </div>
                 <div className="tabs">
