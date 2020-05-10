@@ -229,8 +229,8 @@ class GrouponManage extends Component {
         const tabs = [
             {name:'全部',key: -1},
             {name:'待成团',key:0},
-            {name:'已成团',key:1},
-            {name:'未成团',key:2},
+            {name:'未成团',key:1},
+            {name:'已成团',key:2},
             {name:'已完成',key:3}
         ];
         const productsProps = {

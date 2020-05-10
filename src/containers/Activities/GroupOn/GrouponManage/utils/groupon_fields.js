@@ -52,6 +52,16 @@ export const groupon_fields = [
 				label:'总金额',
 				value:'orders_total_settlement_fee',
 				type:'numCompare'
+			},
+			{
+				label:'开团店铺',
+				value:'initiator_id',
+				type:'equalShopCompare'
+			},
+			{
+				label:'自提店铺',
+				value:'pickup_shop_id',
+				type:'equalShopCompare'
 			}
 		]
 	},
@@ -127,6 +137,23 @@ export const operation = {
 			value: '=',
 			type: 'boolean'
 		}
+	],
+	'equalShopCompare':[
+		{
+			label:'等于',
+			value:'=',
+			type:'selectedOneGrouponBox'
+		},
+		{
+			label:'等于其中之一',
+			value:'in',
+			type:'selectedGrouponBox'
+		},
+		{
+			label:'不等于其中之一',
+			value:'not in',
+			type:'selectedGrouponBox'
+		},
 	],
 	'group':[
 		{

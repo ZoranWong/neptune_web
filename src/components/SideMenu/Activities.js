@@ -21,6 +21,11 @@ let baseMenu = [
 		text:'活动管理',
 	},
 	{
+		path:'',
+		icon:'icon-pintuanzhuanqu',
+		text:'拼团管理',
+	},
+	{
 		text: '拼团',
 		path: '/activities/grouponList'
 	},

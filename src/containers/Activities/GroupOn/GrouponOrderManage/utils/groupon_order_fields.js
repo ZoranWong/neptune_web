@@ -60,7 +60,7 @@ export const groupon_order_fields = [
 			},
 			{
 				label:'订单状态',
-				value:'total_preferential_fee',
+				value:'order_state',
 				type:'orderStateCompare'
 			},
 			// {
