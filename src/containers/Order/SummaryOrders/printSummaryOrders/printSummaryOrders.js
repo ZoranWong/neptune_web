@@ -26,7 +26,10 @@ class PrintSummaryOrders extends Component {
 			{
 				title: '商品信息',
 				dataIndex: 'product_name',
-				align: 'center'
+				align: 'center',
+				render: (text, record) => (<span>
+					{text ? text : record.name}
+				</span>)
 			},
 			// {
 			// 	title: '规格',
@@ -45,6 +48,7 @@ class PrintSummaryOrders extends Component {
 				dataIndex: 'unit',
 				align: 'center',
 				render: (text, record, index) => {
+					console.log(record, '===============>');
 					if (record.name === '合计') {
 						return '--';
 					} else {
@@ -77,7 +81,8 @@ class PrintSummaryOrders extends Component {
 						let totalQuantity = 0;
 						let totalPrice = 0;
 						let wholePrice = 0;
-						order.items.length && order.items.map((item) => {
+						let items = order.items && order.items.data ? order.items.data : order.items;
+						items.length && items.map((item) => {
 							totalQuantity += item.quantity;
 						});
 						totalPrice = order['total_fee'];
@@ -93,7 +98,7 @@ class PrintSummaryOrders extends Component {
 							product_name: '司机签名',
 							quantity: '客户签名', //应当取从后台返回数据，此处为演示，所以自定义了默认值
 						};
-						order.items = [...order.items, totalRow, wholeRow];
+						order.items = [...items, totalRow, wholeRow];
 						return <div className='printSheet' key={order.id}>
 							{
 								order['shop_info'] ? <div>
@@ -102,6 +107,14 @@ class PrintSummaryOrders extends Component {
 									<h4>地址：{order['shop_info']['address']}</h4>
 									<h4>收货人：{order['shop_info']['keeper_name']}</h4>
 									<h4>联系电话：{order['shop_info']['keeper_mobile']}</h4>
+								</div> : ''
+							}
+							{
+								order['shipping_info'] ? <div>
+									<h4  className="shopInfo" >店铺名称：{order['name']}</h4>
+									<h4>地址：{order['shipping_info']['province']}{order['shipping_info']['city']}{order['shipping_info']['area']}{order['shipping_info']['detail_address']}</h4>
+									<h4>收货人：{order['shipping_info']['consignee_name']}</h4>
+									<h4>联系电话：{order['shipping_info']['consignee_mobile_phone']}</h4>
 								</div> : ''
 							}
 							<h4>单据编号：</h4>

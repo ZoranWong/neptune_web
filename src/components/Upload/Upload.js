@@ -24,6 +24,7 @@ export default class CustomUpload extends React.Component{
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
+		console.log(nextProps, '=====================================>');
 		if(!nextProps.defaultImg) {
 			 // this.setState({imageUrl:''})
 		} else {
@@ -76,7 +77,12 @@ export default class CustomUpload extends React.Component{
 			if (this.props.type && this.props.type === 'activity') {
 				this.props.success(info.file.response.data.url,this.props.conponentType)
 			}
-			this.setState({imgUrl:info.file.response.data.url, imageUrl: info.file.response.data.url});
+			this.setState({imgUrl:info.file.response.data.url, imageUrl: info.file.response.data.url}, ()=>{
+				if (this.props.status === 'editProduct') {
+					this.props.upload(info.file.response.data.url)
+				}
+				console.log(this.state, 'ssasaasasasasassaassaassaasasasasasasasassa');
+			});
 			// Get this url from response in real world.
 			getBase64(info.file.originFileObj, imageUrl =>
 				{

@@ -1,10 +1,12 @@
 import React from "react";
-import {Transfer, Table, Modal, message, Switch} from 'antd';
+import {Transfer, Table, Modal, message,Switch} from 'antd';
+
 import difference from 'lodash/difference';
 import './css/shelfGoods.sass'
 import {products} from "../../../api/goods/goods";
 import {searchJson} from "../../../utils/dataStorage";
-import _ from 'lodash'
+
+import _ from "lodash";
 // Customize Table Transfer
 const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
 	<Transfer {...restProps} >
@@ -90,7 +92,6 @@ for (let i = 0; i < 20; i++) {
 		title: `content${i + 1}`
 	});
 }
-
 function onSwitchChange  (checked,record)  {
 	record.checked = checked
 }
@@ -138,7 +139,7 @@ export default class ShelfGoods extends React.Component {
 	handleCancel = () =>{
 		this.props.onCancel()
 	};
-	
+
 	handleSubmit = () =>{
 		if(!this.state.targetKeys.length){
 			message.error('请选择上架商品');

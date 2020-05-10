@@ -142,14 +142,22 @@ class ReleaseGoods extends React.Component{
 
 					// 数量
 					let tableData = this.child.current.state.data;
+					let flag = true;
 					// 此处修改
 					tableData.forEach(item=>{
+						console.log(item, '+++++++++__)_+))_+)_+)_+)))_+)+)_+__');
+						if (!item.barcode) {
+							message.error('请输入规格商品编码');
+							flag = false;
+							return
+						}
 						let spec = this.devideIds(item, childName);
 						item['name'] = values.name;
-						item['image'] = this.uploadChild.current.state.imgUrl || this.uploadChild.current.state.imageUrl;
+						console.log(item, '========>');
+						//item['image'] = item.image;
 						item['spec'] = spec;
 					});
-					
+					if (!flag) return;
 					values.spec = specs;
 					values.entities = tableData;
 					values.detail = this.editor.current?this.editor.current.state.outputHTML:values.detail;

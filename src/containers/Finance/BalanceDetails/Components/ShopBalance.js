@@ -5,7 +5,7 @@ import CustomPagination from "../../../../components/Layout/Pagination";
 import '../css/shop.sass'
 import {merchantBalanceRecord} from "../../../../api/finance/balance";
 import {searchJson} from "../../../../utils/dataStorage";
-
+import AdjustMuchBalance from "./AdjustMuchBalance";
 const {RangePicker} = DatePicker;
 
 class ShopBalance extends Component {
@@ -20,7 +20,8 @@ class ShopBalance extends Component {
 				'shop.keeper_name':'',
 				'shop.mobile':'',
 				created_at:'',
-			}
+			},
+			uploadVisible: false
 		};
 		this.child = React.createRef();
 	}
@@ -103,6 +104,13 @@ class ShopBalance extends Component {
 			this.search()
 		})
 	};
+
+	showUpload = () => {
+		this.setState({uploadVisible: true})
+	};
+	closeUpload = () => {
+		this.setState({uploadVisible: false})
+	};
 	
 	render() {
 		const columns = [
@@ -135,6 +143,13 @@ class ShopBalance extends Component {
 		
 		return (
 			<div className="overviewShopBalance">
+				<AdjustMuchBalance
+					visible={this.state.uploadVisible}
+					onClose={this.closeUpload}
+				/>
+
+
+				<Button size='small' style={{marginBottom: '10px'}} onClick={this.showUpload}>批量调整余额</Button>
 				<p>剩余余额总额:1000000</p>
 				<div className="ob_chartContent">
 					<ul className="filter">

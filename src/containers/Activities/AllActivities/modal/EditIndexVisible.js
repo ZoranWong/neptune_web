@@ -68,7 +68,6 @@ class EditIndexVisible extends Component {
 			}
 		}
 		let modules = [];
-
 		let ary = [state.productOne, state.productTwo, state.productThree];
 		// let products = [{id: state.productOne}, {id: state.productTwo}, {id: state.productThree}];
 		// _.map(state.products, product => {

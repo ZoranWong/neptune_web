@@ -298,7 +298,7 @@ class GoodsOrder extends React.Component{
 				orders.push(order)
 			}
 		});
-		this.props.history.push({pathname:"/printSheet", state: {orders, title: '商户订货订单'}})
+		this.props.history.push({pathname:"/printSummaryOrders", state: {orders, title: '商户订货订单'}})
 	};
 	
 	render(){

@@ -8,7 +8,7 @@ import {
 	shelfableProducts,
 	products,
 	offShelvesProducts,
-	activityDetails
+	activityDetails, editActProducts
 } from "../../../../../api/activities/activities";
 
 class ActivityProductsManage extends Component {
