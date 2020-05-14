@@ -36,7 +36,7 @@ class SummaryOrders extends React.Component{
 				search:'',
 				searchJson: searchJson({date: null})
 			},
-			activeTab:'BACKEND_ALL',
+			activeTab:'ALL',
 			reviewGoodsVisible:false,
 			record:{},
 			items:[],
@@ -117,7 +117,7 @@ class SummaryOrders extends React.Component{
 		document.addEventListener('click', this.closeCustom);
 	}
 	
-	refresh = (status='BACKEND_ALL')=>{
+	refresh = (status='ALL')=>{
 		this.setState({
 			filterVisible:false,
 			paginationParams:{
@@ -584,10 +584,10 @@ class SummaryOrders extends React.Component{
 			}
 		};
 		const tabs = [
-			{name:'全部',key:'BACKEND_ALL'},
-			{name:'待收货',key:'BACKEND_WAIT_AGENT_VERIFY'},
-			{name:'正常完成收货',key:'BACKEND_SUCCESS_COMPLETED'},
-			{name:'异常完成收货',key:'BACKEND_UNQUALIFIED_COMPLETED'}
+			{name:'全部',key:'ALL'},
+			{name:'待收货',key:'WAIT_AGENT_VERIFY'},
+			{name:'正常完成收货',key:'SUCCESS_COMPLETED'},
+			{name:'异常完成收货',key:'UNQUALIFIED_COMPLETED'}
 		];
 		const strategy = [
 			{key: 'SHOP_SELF_PICK_SUMMARY', value: '自提汇总单',},
@@ -696,7 +696,7 @@ class SummaryOrders extends React.Component{
 					<Button
 						size="small"
 						onClick={this.confirmVerify}
-						disabled={!this.state.checkedAry.length || this.state.activeTab !== 'BACKEND_WAIT_AGENT_VERIFY'}
+						disabled={!this.state.checkedAry.length || this.state.activeTab !== 'WAIT_AGENT_VERIFY'}
 						style={{marginLeft: '15px'}}
 					>确认收货</Button>
 				</div>
