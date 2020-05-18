@@ -14,8 +14,9 @@ const order_deadline_type = [
 
 // 配送周期
 const delivery_type = [
-    {name: '次日达', key: 'FIXED_TERM_0'},
-    {name: '隔日达', key: 'FIXED_TERM_1'},
+    {name: '当日达', key: 'FIXED_TERM_0'},
+    {name: '次日达', key: 'FIXED_TERM_1'},
+    {name: '隔日达', key: 'FIXED_TERM_2'},
     {name: '固定日期', key: 'FIXED_DATE'},
 ];
 

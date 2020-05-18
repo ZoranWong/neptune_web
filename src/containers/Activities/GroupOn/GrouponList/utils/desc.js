@@ -23,6 +23,8 @@ export function delivery(record) {
             text = `次日 ${record['delivery_args']['time_period_start']} - ${record['delivery_args']['time_period_end']} `
         } else if (record['delivery_args']['fixed_term'] === 2) {
             text = `隔日 ${record['delivery_args']['time_period_start']} - ${record['delivery_args']['time_period_end']}`
+        } else if (record['delivery_args']['fixed_term'] === 0) {
+            text = `当日 ${record['delivery_args']['time_period_start']} - ${record['delivery_args']['time_period_end']}`
         }
     } else if (record['delivery_type'] === 'FIXED_DATE') {
         text = `${record['delivery_args'].fixed_date}日 ${record['delivery_args']['time_period_start']} - ${record['delivery_args']['time_period_end']}`

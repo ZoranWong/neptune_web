@@ -34,8 +34,14 @@ let baseMenu = [
 	},
 	{
 		path:'/marketing/banners',
-		icon:'icon-commentdots-fill',
+		icon:'icon-shuffling-banner',
 		text:'Banner设置',
+		slug: 'menu_marketing_msg_template'
+	},
+	{
+		path:'/marketing/recharge',
+		icon:'icon-chongzhiqia',
+		text: '充值卡',
 		slug: 'menu_marketing_msg_template'
 	},
 ];

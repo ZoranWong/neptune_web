@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Modal} from "antd";
+import {Modal, Radio} from "antd";
 
 class PreviewDetails extends Component {
 
@@ -104,6 +104,10 @@ class PreviewDetails extends Component {
                         <li>
                             <span className="left">每人限购数量:</span>
                             <span className='limit'>{this.props.details['user_limit_num']}件</span>
+                        </li>
+                        <li>
+                            <span>是否参与销售返佣</span>
+                            <span className='limit'>{this.props.details['is_join_sales_cashback'] ? '是' : '否'}</span>
                         </li>
                         {
                             this.props.details.type === 'NONE' && <li>

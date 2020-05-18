@@ -6,6 +6,7 @@ export const deadlineType = [
 	];
 
 export const deliveryTime = [
+	{name:'当日',key:'TODAY'},
 	{name:'次日',key:'TODAY_PLUS_1'},
 	{name:'隔日',key:'TODAY_PLUS_2'},
 	{name:'固定日期',key:'FIXED_DATE'}

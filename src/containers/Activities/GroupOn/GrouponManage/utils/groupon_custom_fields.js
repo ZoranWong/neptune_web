@@ -48,6 +48,26 @@ export const groupon_custom_fields = [
 				value:'group_products',
 			},
 			{
+				label:'开团店铺名称',
+				value:'initiator_name',
+			},
+			{
+				label:'开团店铺编号',
+				value:'initiator_code',
+			},
+			{
+				label:'开团店铺主姓名',
+				value:'initiator_keeper_name',
+			},
+			{
+				label:'开团店铺主手机号',
+				value:'initiator_keeper_mobile',
+			},
+			{
+				label:'自提店铺名称',
+				value:'pick_shop_name',
+			},
+			{
 				label:'状态',
 				value:'state_desc',
 			},
