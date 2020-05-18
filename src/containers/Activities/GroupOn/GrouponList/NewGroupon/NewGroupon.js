@@ -40,6 +40,7 @@ class NewGroupon extends Component {
             group_products: [],
             delivery_fixed_date: '',
             auto_generate_shared_picture: false,
+            is_join_sales_cashback: false,
             order_deadline_time: '',
             delivery_time_period_start: '',
             delivery_time_period_end: '',
@@ -479,6 +480,13 @@ class NewGroupon extends Component {
                     <li>
                         <h4>是否拼团记录生成图片</h4>
                         <Radio.Group onChange={(e)=>this.onRadioChange(e, 'auto_generate_shared_picture')} value={this.state['auto_generate_shared_picture']}>
+                            <Radio value={true}>是</Radio>
+                            <Radio value={false}>否</Radio>
+                        </Radio.Group>
+                    </li>
+                    <li>
+                        <h4>是否参与销售返佣</h4>
+                        <Radio.Group onChange={(e)=>this.onRadioChange(e, 'is_join_sales_cashback')} value={this.state['is_join_sales_cashback']}>
                             <Radio value={true}>是</Radio>
                             <Radio value={false}>否</Radio>
                         </Radio.Group>
