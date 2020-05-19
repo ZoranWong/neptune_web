@@ -7,7 +7,10 @@ class NewCard extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-
+			name: '',
+			amount: '',
+			quantity: '',
+			time: ''
 		};
 		this.banner = React.createRef();
 	}
@@ -18,7 +21,24 @@ class NewCard extends Component {
 	};
 	
 	handleSubmit = () => {
-
+		let {name,amount, quantity, time} = this.state;
+		if (!name) {
+			message.error('请填写充值卡名称');
+			return
+		}
+		if (!amount) {
+			message.error('请填写充值卡金额');
+			return
+		}
+		if (!quantity) {
+			message.error('请填写充值卡数量');
+			return
+		}
+		if (!time) {
+			message.error('请选择充值卡有效期');
+			return
+		}
+		console.log('done');
 	};
 
 	// 活动起始时间

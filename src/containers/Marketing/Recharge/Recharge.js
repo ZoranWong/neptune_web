@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {Button, Table,Switch} from "antd";
 import './css/index.sass'
 import NewCard from "./Modal/NewCard";
+import SearchInput from "../../../components/SearchInput/SearchInput";
+
+import {searchJson} from "../../../utils/dataStorage";
 class Recharge extends Component {
 	constructor(props) {
 		super(props);
@@ -18,6 +21,17 @@ class Recharge extends Component {
 	
 	refresh = () => {
 
+	};
+
+	// 头部搜索框
+	search = (value) =>{
+		this.setState({
+			api: '',
+			paginationParams:{...this.state.paginationParams,
+				searchJson:searchJson({search:value})}
+		},()=>{
+			this.child.current.pagination(this.child.current.state.current)
+		});
 	};
 	
 	paginationChange = (list)=>{
@@ -109,10 +123,17 @@ class Recharge extends Component {
 				<NewCard {...cardProps} />
 
 				<div className="chart">
-					<Button className="addNew addNewCard" onClick={this.createNewCard}>
-						<i className="iconfont">&#xe7e0;</i>
-						新建充值卡
-					</Button>
+					<div className="headerLeft rechargeCards">
+						<SearchInput
+							getDatas={this.search}
+							text='请输入充值卡名称'
+						/>
+						<Button className="addNew addNewCard" onClick={this.createNewCard}>
+							<i className="iconfont">&#xe7e0;</i>
+							新建充值卡
+						</Button>
+					</div>
+
 					<Table
 						dataSource={this.state.cards}
 						rowKey={record => record.id}

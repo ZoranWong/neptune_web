@@ -65,7 +65,7 @@ class PreviewDetails extends Component {
                         </li>
                         <li>
                             <span className="left">成团限制:</span>
-                            <span className='limit'>{groupLimit(details)}</span>
+                            <span className='limit'>{details['group_limit_desc']}</span>
                         </li>
                         <li>
                             <span className="left">截单周期:</span>

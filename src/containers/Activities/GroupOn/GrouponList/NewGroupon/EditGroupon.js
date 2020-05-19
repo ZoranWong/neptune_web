@@ -193,7 +193,7 @@ class EditGroupon extends Component {
                     </li>
                     <li>
                         <h4>成团限制</h4>
-                        <h5>{groupLimit(this.state)}</h5>
+                        <h5>{this.state['group_limit_desc']}</h5>
                     </li>
                     <li>
                         <h4>截单周期</h4>
