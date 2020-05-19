@@ -1,15 +1,20 @@
 import React, {Component} from 'react';
-import {Button, Table,Switch} from "antd";
+import {Button, message, Modal, Table} from "antd";
 import './css/index.sass'
 import NewCard from "./Modal/NewCard";
 import SearchInput from "../../../components/SearchInput/SearchInput";
-
-import {searchJson} from "../../../utils/dataStorage";
+import {cardList, stopCard} from "../../../api/marketing/cards";
+import {getToken, searchJson} from "../../../utils/dataStorage";
+import CustomPagination from "../../../components/Layout/Pagination";
+import Config from "../../../config/app";
 class Recharge extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			cards: [1],
+			api: cardList,
+			paginationParams: {},
+			current: 1,
+			cards: [],
 			newCardVisible: false
 		};
 		this.child = React.createRef();
@@ -20,13 +25,13 @@ class Recharge extends Component {
 	};
 	
 	refresh = () => {
-
+		this.child.current.pagination(this.child.current.state.current)
 	};
 
 	// 头部搜索框
 	search = (value) =>{
 		this.setState({
-			api: '',
+			api: cardList,
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value})}
 		},()=>{
@@ -35,7 +40,7 @@ class Recharge extends Component {
 	};
 	
 	paginationChange = (list)=>{
-		this.setState({banners:list})
+		this.setState({cards:list})
 	};
 
 	// 兑换详情
@@ -44,8 +49,42 @@ class Recharge extends Component {
 	};
 
 	// 停用
-	stopExchange = () => {
-
+	stopExchange = (id) => {
+		let refresh = this.refresh;
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			content: (
+				<div className="U_confirm">
+					确定停用该消费卡吗？
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				// 确定按钮执行操作
+				stopCard({},id).then(r=>{
+					message.success(r.message);
+					refresh()
+				})
+			}
+		});
 	};
 
 	// 创建充值卡
@@ -58,7 +97,12 @@ class Recharge extends Component {
 
 	// 导出充值卡
 	export = () => {
-
+		let json = searchJson({
+			strategy: 'CONSUME_CARD_EXCHANGE_CODE',
+			customize_columns: [],
+			logic_conditions: []
+		});
+		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
 	};
 
 	
@@ -67,27 +111,30 @@ class Recharge extends Component {
 		const columns = [
 			{
 				title: '充值卡名称',
-				dataIndex: 'title',
+				dataIndex: 'name',
 			},
 			{
 				title: '金额',
-				dataIndex: 'scene_desc',
+				dataIndex: 'amount',
 			},
 			{
 				title: '创建时间',
-				dataIndex: 'synopsis',
+				dataIndex: 'create_time',
 			},
 			{
 				title: '有效期',
-				dataIndex: 'can_jump',
+				dataIndex: 'start_time',
+				render: (text, record) => (
+					<span>{text}-{record['end_time']}</span>
+				)
 			},
 			{
 				title: '总数量',
-				dataIndex: 'action_type',
+				dataIndex: 'total_quantity',
 			},
 			{
 				title: '已兑换数量',
-				dataIndex: 'action_link'
+				dataIndex: 'exchange_quantity'
 			},
 			{
 				title: '操作',
@@ -114,7 +161,8 @@ class Recharge extends Component {
 		
 		const cardProps = {
 			visible: this.state.newCardVisible,
-			onClose: this.closeCreateNewCard
+			onClose: this.closeCreateNewCard,
+			refresh: this.refresh
 		};
 		
 		return (
@@ -147,6 +195,16 @@ class Recharge extends Component {
 					>
 					
 					</Table>
+				</div>
+				<div className="pagination">
+					<CustomPagination
+						api={this.state.api}
+						text="个充值卡"
+						ref={this.child}
+						params={this.state.paginationParams}
+						current={this.state.current}
+						valChange={this.paginationChange}
+					/>
 				</div>
 			</div>
 		);

@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {Button, DatePicker, Input, LocaleProvider, message, Modal, Select} from "antd";
+import {Button, DatePicker, Input, LocaleProvider, message, Modal} from "antd";
 import '../css/index.sass';
 import zh_CN from "antd/lib/locale-provider/zh_CN";
+import {createNewCard} from "../../../../api/marketing/cards";
+
 const { RangePicker } = DatePicker;
 class NewCard extends Component {
 	constructor(props) {
@@ -9,10 +11,10 @@ class NewCard extends Component {
 		this.state = {
 			name: '',
 			amount: '',
-			quantity: '',
-			time: ''
+			total_quantity: '',
+			start_time: '',
+			end_time: '',
 		};
-		this.banner = React.createRef();
 	}
 
 	
@@ -21,7 +23,7 @@ class NewCard extends Component {
 	};
 	
 	handleSubmit = () => {
-		let {name,amount, quantity, time} = this.state;
+		let {name,amount, total_quantity, start_time,end_time} = this.state;
 		if (!name) {
 			message.error('请填写充值卡名称');
 			return
@@ -30,27 +32,34 @@ class NewCard extends Component {
 			message.error('请填写充值卡金额');
 			return
 		}
-		if (!quantity) {
+		if (!total_quantity) {
 			message.error('请填写充值卡数量');
 			return
 		}
-		if (!time) {
+		if (!start_time || !end_time) {
 			message.error('请选择充值卡有效期');
 			return
 		}
-		console.log('done');
+		createNewCard(this.state).then(r=>{
+			message.success(r.message);
+			this.handleCancel();
+			this.props.refresh()
+		})
 	};
 
 	// 活动起始时间
 	actDateChange = (date, dateString) => {
 		this.setState({
-			start_date: dateString[0],
-			end_date: dateString[1]
+			start_time: dateString[0],
+			end_time: dateString[1]
 		})
 	};
 
 	inputChange = (e,type) => {
 		this.setState({[type]: e.target.value})
+	};
+	inputNumChange = (e,type) => {
+		this.setState({[type]: parseInt(e.target.value)})
 	};
 	
 
@@ -82,20 +91,20 @@ class NewCard extends Component {
 					<ul className="mainUl">
 						<li className="normalLi imgLi">
 							<span className="left c_left">充值卡名称</span>
-							<Input className="liInput" type="text" value={this.state.title} onChange={(e)=>this.inputChange(e, 'title')} />
+							<Input className="liInput" type="text" value={this.state.name} onChange={(e)=>this.inputChange(e, 'name')} />
 						</li>
 						<li className="normalLi imgLi">
 							<span className="left c_left">充值卡金额</span>
-							<Input className="liInput" type="text" value={this.state.title} onChange={(e)=>this.inputChange(e, 'title')} />
+							<Input className="liInput" type='number' value={this.state.amount} onChange={(e)=>this.inputNumChange(e, 'amount')} />
 						</li>
 						<li className="normalLi imgLi">
 							<span className="left c_left">数量</span>
-							<Input className="liInput" type="text" value={this.state.title} onChange={(e)=>this.inputChange(e, 'title')} />
+							<Input className="liInput" type="number" value={this.state.total_quantity} onChange={(e)=>this.inputNumChange(e, 'total_quantity')} />
 						</li>
 						<li className="normalLi imgLi">
 							<span className="left c_left">有效期</span>
 							<LocaleProvider locale={zh_CN}>
-								<RangePicker style={{width: '300px'}} showTime onChange={this.actDateChange} />
+								<RangePicker format="YYYY-MM-DD HH:mm" style={{width: '300px'}} showTime onChange={this.actDateChange} />
 							</LocaleProvider>
 						</li>
 					</ul>
