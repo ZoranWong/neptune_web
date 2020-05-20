@@ -663,7 +663,7 @@ class Order extends React.Component{
 			{name:'待自提',key:'WAIT_CUSTOMER_VERIFY'},
 			{name:'已完成',key:'COMPLETED'},
 			{name:'已退款',key:'REFUNDED'},
-			{name:'用户取消',key:'CANCEL_MANUAL'},
+			{name:'已取消',key:'CANCEL_MANUAL'},
 			// {name:'平台取消',key:'CANCEL_PLATFORM'},
 			{name:'订单异常',key:'EXCEPTION'},
 			{name:'申请售后',key:'AFTER_SALE'},

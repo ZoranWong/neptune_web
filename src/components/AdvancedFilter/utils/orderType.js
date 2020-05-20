@@ -6,7 +6,7 @@ export const consumerOrder = [
 	{name:'待自提',key:'WAIT_CUSTOMER_VERIFY'},
 	{name:'已完成',key:'COMPLETED'},
 	{name:'已退款',key:'REFUNDED'},
-	{name:'用户取消',key:'CANCEL_MANUAL'},
+	{name:'已取消',key:'CANCEL_MANUAL'},
 	// {name:'平台取消',key:'CANCEL_PLATFORM'},
 	{name:'订单异常',key:'EXCEPTION'},
 	{name:'申请售后',key:'AFTER_SALE'},
@@ -15,7 +15,7 @@ export const consumerOrder = [
 
 export const consumerOrderType = [
 	// {name:'待确认',key:'WAIT_PLATFORM_VERIFY'},
-	{name:'自提(预定)订单',key:'SELF_PICK'},
+	{name:'商城订单',key:'SELF_PICK'},
 	// {name:'待收货(配送单)',key:'WAIT_CUSTOMER_VERIFY_HOME'},
 	{name:'团购订单',key:'GROUP_SHOPPING'},
 ];
