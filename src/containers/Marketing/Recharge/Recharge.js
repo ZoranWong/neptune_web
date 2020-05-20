@@ -96,11 +96,12 @@ class Recharge extends Component {
 	};
 
 	// 导出充值卡
-	export = () => {
+	export = (id) => {
 		let json = searchJson({
 			strategy: 'CONSUME_CARD_EXCHANGE_CODE',
 			customize_columns: [],
-			logic_conditions: []
+			logic_conditions: [],
+			consume_card_id: id
 		});
 		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
 	};
@@ -137,6 +138,22 @@ class Recharge extends Component {
 				dataIndex: 'exchange_quantity'
 			},
 			{
+				title: '状态',
+				dataIndex: 'state',
+				render: (text, record) => {
+					switch (text) {
+						case 0:
+							return '待激活';
+						case 1:
+							return '已激活';
+						case 2:
+							return '已停用';
+						default:
+							return '已过期'
+					}
+				}
+			},
+			{
 				title: '操作',
 				render: (text,record) =>
 					<div>
@@ -145,11 +162,13 @@ class Recharge extends Component {
 							onClick={()=>this.exchangeDetails(record)}
 						>兑换详情
 						</span>
-						<span
-							style={{'color':'#4F9863','cursor':'pointer','marginRight' : '10px'}}
-							onClick={()=>this.stopExchange(record.id)}
-						>停用
+						{
+							(record.state === 0 || record.state === 1) && <span
+								style={{'color':'#4F9863','cursor':'pointer','marginRight' : '10px'}}
+								onClick={()=>this.stopExchange(record.id)}
+							>停用
 						</span>
+						}
 						<span
 							style={{'color':'#4F9863','cursor':'pointer'}}
 							onClick={()=>this.export(record.id)}
