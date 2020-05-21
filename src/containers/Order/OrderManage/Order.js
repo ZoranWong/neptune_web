@@ -777,11 +777,11 @@ class Order extends React.Component{
 						<Button
 							size="small"
 							onClick={this.todayOrders}
-						>查看今日待收货订单</Button>
+						>查看明日配送订单</Button>
 						<Button
 							size="small"
 							onClick={this.showPosition}
-						>导出今日待收货订单</Button>
+						>导出明日配送订单</Button>
 						<Button
 							size="small"
 							onClick={this.changeOrderStatus}
