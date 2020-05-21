@@ -181,7 +181,7 @@ class NewGroupon extends Component {
             state.delivery_fixed_term = 0;
             state.delivery_type = 'FIXED_TERM';
         } else if (state.delivery_type === 'FIXED_TERM_1') {
-            state.delivery_fixed_term = 2;
+            state.delivery_fixed_term = 1;
             state.delivery_type = 'FIXED_TERM';
         } else if (state.delivery_type === 'FIXED_TERM_2') {
             state.delivery_fixed_term = 2;
