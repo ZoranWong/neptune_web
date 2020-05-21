@@ -96,11 +96,6 @@ export const consumer_order_values = [
 				type:'times'
 			},
 			{
-				label:'配送时间(自提)',
-				value:'xxx',
-				type:'timeCompare'
-			},
-			{
 				label:'商品',
 				value:'product_name',
 				type:'equalCompare'
