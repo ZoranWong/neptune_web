@@ -96,6 +96,11 @@ export const consumer_order_values = [
 				type:'times'
 			},
 			{
+				label:'配送时间(自提)',
+				value:'xxx',
+				type:'timeCompare'
+			},
+			{
 				label:'商品',
 				value:'product_name',
 				type:'equalCompare'
@@ -125,6 +130,50 @@ export const consumer_order_values = [
 ];
 
 export const operation = {
+	'dataCompare':[
+		{
+			label:'等于',
+			value:'=',
+			type:'times'
+		},
+		{
+			label:'不等于',
+			value:'<>',
+			type:'times'
+		},
+		{
+			label:'晚于',
+			value:'>',
+			type:'times'
+		},
+		{
+			label:'晚于(含)',
+			value:'>=',
+			type:'times'
+		},
+		{
+			label:'早于',
+			value:'<',
+			type:'times'
+		},
+		{
+			label:'早于(含)',
+			value:'<=',
+			type:'times'
+		},
+		{
+			label:'区间',
+			value:'between',
+			type:'dateRange'
+		}
+	],
+	'summaryOrderType': [
+		{
+			label:'等于',
+			value:'=',
+			type:'summaryOrderType'
+		},
+	],
 	'absoluteCompare':[
 		{
 			label:'等于',

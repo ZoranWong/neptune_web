@@ -619,6 +619,7 @@ class SummaryOrders extends React.Component{
 					refresh={this.refresh}
 					data={summary_order_values}
 					export={this.showExport}
+					slug='merchant_summary_order'
 				/>
 				
 				<ReviewGoods

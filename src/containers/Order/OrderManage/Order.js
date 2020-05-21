@@ -658,17 +658,16 @@ class Order extends React.Component{
 		};
 		const tabs = [
 			{name:'全部',key:'ALL'},
-			// {name:'待确认',key:'WAIT_PLATFORM_VERIFY'},
 			{name:'待收货(自提单)',key:'WAIT_AGENT_VERIFY'},
 			{name:'待自提',key:'WAIT_CUSTOMER_VERIFY'},
 			{name:'已完成',key:'COMPLETED'},
 			{name:'已退款',key:'REFUNDED'},
-			{name:'已取消',key:'CANCEL_MANUAL'},
-			// {name:'平台取消',key:'CANCEL_PLATFORM'},
+			{name:'已取消',key:'CANCELED'},
 			{name:'订单异常',key:'EXCEPTION'},
 			{name:'申请售后',key:'AFTER_SALE'},
 			{name:'拒绝退款',key:'REFUSE_REFUND'},
 			{name:'待收货(配送单)',key:'WAIT_CUSTOMER_VERIFY_HOME'},
+			{name:'待成团',key:'WAIT_FORM_GROUP'},
 		];
 		const strategy = [
 			{key: 'USER_ORDER_CUSTOMIZE', value: '自定义显示项',},

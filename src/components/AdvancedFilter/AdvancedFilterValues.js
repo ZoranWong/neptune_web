@@ -4,7 +4,7 @@ import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
 import {regions} from "../../api/common";
 import './index.sass'
-import {consumerOrder, merchantOrder, withdrawState,deliveryType,consumerOrderType} from "./utils/orderType";
+import {consumerOrder, merchantOrder, withdrawState,deliveryType,consumerOrderType, summaryOrderType} from "./utils/orderType";
 import {grouponState,deadlineType,deliveryTime,grouponListState, grouponOrderState} from "./utils/groupon";
 import {SonClassification} from "../../api/goods/classification";
 import {groupsList, groupsShoppingList} from "../../api/activities/groupon";
@@ -411,6 +411,25 @@ export default class AdvancedFilterValues extends React.Component{
 					}
 				>
 					{withdrawState.map(item => (
+						<Select.Option key={item.key} label={item.name} value={item.key}>
+							{item.name}
+						</Select.Option>
+					))}
+				</Select>;
+				break;
+			case 'summaryOrderType':
+				return <Select
+					defaultActiveFirstOption={false}
+					value={selectedItems}
+					className='selectedBox'
+					onChange={this.handleChange}
+					optionLabelProp="label"
+					optionFilterProp="children"
+					filterOption={(input, option) =>
+						option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+					}
+				>
+					{summaryOrderType.map(item => (
 						<Select.Option key={item.key} label={item.name} value={item.key}>
 							{item.name}
 						</Select.Option>

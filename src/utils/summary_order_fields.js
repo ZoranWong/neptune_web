@@ -24,14 +24,19 @@ export const summary_order_values = [
 				type:'absoluteCompare'
 			},
 			{
-				label:'店铺类型',
+				label:'订单类型',
 				value:'type',
-				type:'equalCompare'
+				type:'summaryOrderType'
 			},
 			{
 				label:'汇总日期',
 				value:'summary_date',
 				type:'timeCompare'
+			},
+			{
+				label:'配送日期',
+				value:'delivery_date',
+				type:'dataCompare'
 			},
 		]
 	},
@@ -39,6 +44,50 @@ export const summary_order_values = [
 
 
 export const operation = {
+	'dataCompare':[
+		{
+			label:'等于',
+			value:'=',
+			type:'times'
+		},
+		{
+			label:'不等于',
+			value:'<>',
+			type:'times'
+		},
+		{
+			label:'晚于',
+			value:'>',
+			type:'times'
+		},
+		{
+			label:'晚于(含)',
+			value:'>=',
+			type:'times'
+		},
+		{
+			label:'早于',
+			value:'<',
+			type:'times'
+		},
+		{
+			label:'早于(含)',
+			value:'<=',
+			type:'times'
+		},
+		{
+			label:'区间',
+			value:'between',
+			type:'dateRange'
+		}
+	],
+	'summaryOrderType': [
+		{
+			label:'等于',
+			value:'=',
+			type:'summaryOrderType'
+		},
+	],
 	'absoluteCompare':[
 		{
 			label:'等于',
