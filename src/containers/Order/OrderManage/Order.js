@@ -446,6 +446,7 @@ class Order extends React.Component{
 	conditions = () => {
 		let yesterday = getBeforeDate(-1) + ' 21:00';
 		let today = getBeforeDate(0) + ' 21:00';
+		let tomorrow = getBeforeDate(1);
 		let position = this.state.position;
 		if (position.key) {
 			return {
@@ -453,9 +454,9 @@ class Order extends React.Component{
 					{
 						conditions: [
 							{
-								key: 'order_paid_at',
-								operation: 'between',
-								value: [yesterday, today]
+								key: 'order_expect_receive_date',
+								operation: '=',
+								value: tomorrow
 							},
 							{
 								key: 'order_state',
@@ -467,15 +468,20 @@ class Order extends React.Component{
 								operation: 'like',
 								value: position.value
 							},
+							{
+								key: 'order_order_type',
+								operation: 'in',
+								value: ['SELF_PICK','GROUP_SHOPPING']
+							}
 						],
 						logic: 'and'
 					},
 					{
 						conditions: [
 							{
-								key: 'order_paid_at',
-								operation: 'between',
-								value: [yesterday, today]
+								key: 'order_expect_receive_date',
+								operation: '=',
+								value: tomorrow
 							},
 							{
 								key: 'order_state',
@@ -492,6 +498,11 @@ class Order extends React.Component{
 								operation: 'like',
 								value: position.value
 							},
+							{
+								key: 'order_order_type',
+								operation: 'in',
+								value: ['SELF_PICK','GROUP_SHOPPING']
+							}
 						],
 						logic: 'and'
 					},
@@ -504,14 +515,19 @@ class Order extends React.Component{
 					{
 						conditions: [
 							{
-								key: 'order_paid_at',
-								operation: 'between',
-								value: [yesterday, today]
+								key: 'order_expect_receive_date',
+								operation: '=',
+								value: tomorrow
 							},
 							{
 								key: 'order_state',
 								operation: '=',
 								value: 'WAIT_AGENT_VERIFY'
+							},
+							{
+								key: 'order_order_type',
+								operation: 'in',
+								value: ['SELF_PICK','GROUP_SHOPPING']
 							}
 						],
 						logic: 'and'
@@ -519,9 +535,9 @@ class Order extends React.Component{
 					{
 						conditions: [
 							{
-								key: 'order_paid_at',
-								operation: 'between',
-								value: [yesterday, today]
+								key: 'order_expect_receive_date',
+								operation: '=',
+								value: tomorrow
 							},
 							{
 								key: 'order_state',
@@ -533,6 +549,11 @@ class Order extends React.Component{
 								operation: '=',
 								value: 'HOME_DELIVERY'
 							},
+							{
+								key: 'order_order_type',
+								operation: 'in',
+								value: ['SELF_PICK','GROUP_SHOPPING']
+							}
 						],
 						logic: 'and'
 					},
@@ -805,7 +826,7 @@ class Order extends React.Component{
 						}
 					</ul>
 					{
-						this.state.data.length && <div className="right">
+						this.state.data.length ? <div className="right">
 							<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 							<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
 								<CustomItem
@@ -815,7 +836,7 @@ class Order extends React.Component{
 									firstItem={'trade_no'}
 								/>
 							</div>
-						</div>
+						</div>: ''
 					}
 					
 				</div>
