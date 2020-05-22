@@ -47,7 +47,7 @@ class NewGroupon extends Component {
             delivery_time_period_start: '',
             delivery_time_period_end: '',
             consume_stock_day_before_deadline: '',
-            scope_visible: null,
+            visible_scope: null,
             data: [], // 可见范围的店铺或店铺组
             type: 'shop',
             scrollPage: 1
@@ -286,7 +286,7 @@ class NewGroupon extends Component {
             });
         }
 
-        if (state['scope_visible']) {
+        if (state['visible_scope']) {
             if(!state.opt){
                 message.error('请选择可见类型');
                 return;
@@ -295,7 +295,7 @@ class NewGroupon extends Component {
                 message.error('请选择店铺或店铺组');
                 return
             }
-            state['scope_visible'] = {
+            state['visible_scope'] = {
                 type: state.type,
                 opt: state.opt,
                 where: state.where
@@ -541,13 +541,13 @@ class NewGroupon extends Component {
                     }
                     <li>
                         <h4>可见范围</h4>
-                        <Radio.Group onChange={(e)=>this.onRadioChange(e, 'scope_visible')} value={this.state['scope_visible']}>
+                        <Radio.Group onChange={(e)=>this.onRadioChange(e, 'visible_scope')} value={this.state['visible_scope']}>
                             <Radio value={null}>全部</Radio>
                             <Radio value={1}>部分</Radio>
                         </Radio.Group>
                     </li>
                     {
-                        this.state['scope_visible'] && <div className="scope">
+                        this.state['visible_scope'] && <div className="scope">
                             <Select
                                 defaultActiveFirstOption={false}
                                 onChange={this.onShopGroupChange}

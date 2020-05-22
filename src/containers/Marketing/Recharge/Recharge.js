@@ -44,8 +44,8 @@ class Recharge extends Component {
 	};
 
 	// 兑换详情
-	exchangeDetails = () => {
-		this.props.history.push({pathname:"/marketing/rechargeDetails"});
+	exchangeDetails = (id) => {
+		this.props.history.push({pathname:"/marketing/rechargeDetails", state: {id: id}});
 	};
 
 	// 停用
@@ -159,7 +159,7 @@ class Recharge extends Component {
 					<div>
 						<span
 							style={{'color':'#4F9863','cursor':'pointer','marginRight' : '10px'}}
-							onClick={()=>this.exchangeDetails(record)}
+							onClick={()=>this.exchangeDetails(record.id)}
 						>兑换详情
 						</span>
 						{

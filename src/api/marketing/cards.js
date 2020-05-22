@@ -29,6 +29,21 @@ export function stopCard(params,consumeCardId) {
 	})
 }
 
-
+// 获取消费卡列表
+export function exchangeCodes(params,consumeCardId) {
+	return request({
+		url: `/api/backend/consume_cards/${consumeCardId}/exchange_codes`,
+		method: 'get',
+		params: params
+	})
+}
+// 手动停用兑换码
+export function stopCode(params,consumeCardExchangeCodeId) {
+	return request({
+		url: `/api/backend/consume_cards/exchange_codes/${consumeCardExchangeCodeId}/manual_stop`,
+		method: 'put',
+		data: params
+	})
+}
 
 
