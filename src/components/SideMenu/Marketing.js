@@ -38,12 +38,12 @@ let baseMenu = [
 		text:'Banner设置',
 		slug: 'menu_marketing_msg_template'
 	},
-	// {
-	// 	path:'/marketing/recharge',
-	// 	icon:'icon-chongzhiqia',
-	// 	text: '充值卡',
-	// 	slug: 'menu_marketing_msg_template'
-	// },
+	{
+		path:'/marketing/recharge',
+		icon:'icon-chongzhiqia',
+		text: '充值卡',
+		slug: 'menu_marketing_msg_template'
+	},
 ];
 baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
 const Marketing = ({ match }) => (
