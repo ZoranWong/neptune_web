@@ -11,6 +11,8 @@ import GroupRedPacketLevel from "./components/GroupRedPacketLevel";
 import _ from 'lodash';
 import moment from 'moment';
 import {createNewGroupon} from "../../../../../api/activities/groupon";
+import {shops} from "../../../../../api/shops/shopManage";
+import {groups} from "../../../../../api/shops/groups";
 
 const { RangePicker } = DatePicker;
 //const { RangePicker } = TimePicker;
@@ -45,6 +47,10 @@ class NewGroupon extends Component {
             delivery_time_period_start: '',
             delivery_time_period_end: '',
             consume_stock_day_before_deadline: '',
+            scope_visible: null,
+            data: [], // 可见范围的店铺或店铺组
+            type: 'shop',
+            scrollPage: 1
         };
         this.image = React.createRef();
         this.redPacket = React.createRef();
@@ -55,7 +61,10 @@ class NewGroupon extends Component {
 
         shelfableProducts({limit:100,page:1}, 13).then(r=>{
             this.setState({products: r.data})
-        }).catch(_=>{})
+        }).catch(_=>{});
+        shops({limit:10,page:1}).then(r=>{
+            this.setState({data:r.data})
+        });
     }
 
     selectionChange = (type, value) => {
@@ -101,6 +110,41 @@ class NewGroupon extends Component {
         this.setState({[type]: dateString})
     };
 
+    // 可见范围
+    onShopGroupChange = (e) =>{
+        this.setState({where:[]});
+        let api = '';
+        api = e === 'shop'?shops:groups;
+        api({}).then(r=>{
+            this.setState({type:e,data:r.data})
+        });
+
+    };
+    onShopChange = selectedItems =>{
+        this.setState({where:selectedItems})
+    };
+    onTypeChange = opt =>{
+        this.setState({opt})
+    };
+    // 店铺或店铺组滚动加载
+    tagScroll = e => {
+        e.persist();
+        const { target } = e;
+        if (target.scrollTop + target.offsetHeight === target.scrollHeight) {
+            const { scrollPage } = this.state;
+            const nextScrollPage = scrollPage + 1;
+            this.setState({ scrollPage: nextScrollPage });
+            this.getList(nextScrollPage); // 调用api方法
+        }
+    };
+    getList = (page) =>{
+        let api = this.state.type === 'shop'?shops:groups;
+        api({limit:10,page:page}).then(r=>{
+            if(!r.data.length) return;
+            this.setState({data: this.state.data.concat(r.data)})
+        })
+    };
+
     // 时间选择
     onTimeChange = (time, type) => {
         this.setState({[type]: time})
@@ -115,7 +159,6 @@ class NewGroupon extends Component {
         let {state} = this;
         let image = this.image.current ? this.image.current.state.imgUrl || this.image.current.state.imageUrl : '';
         let detail = this.editor.current?this.editor.current.state.outputHTML : '';
-
         if (!state.name) {
             message.error('请填写拼团名称');
             return
@@ -241,6 +284,22 @@ class NewGroupon extends Component {
                 obj['gift_quantity'] = 1;
                 giftProducts.push(obj)
             });
+        }
+
+        if (state['scope_visible']) {
+            if(!state.opt){
+                message.error('请选择可见类型');
+                return;
+            }
+            if(!state.where || !state.where.length){
+                message.error('请选择店铺或店铺组');
+                return
+            }
+            state['scope_visible'] = {
+                type: state.type,
+                opt: state.opt,
+                where: state.where
+            }
         }
 
         // 此处校验上传图片
@@ -479,6 +538,57 @@ class NewGroupon extends Component {
                                 ))}
                             </Select>
                         </li>
+                    }
+                    <li>
+                        <h4>可见范围</h4>
+                        <Radio.Group onChange={(e)=>this.onRadioChange(e, 'scope_visible')} value={this.state['scope_visible']}>
+                            <Radio value={null}>全部</Radio>
+                            <Radio value={1}>部分</Radio>
+                        </Radio.Group>
+                    </li>
+                    {
+                        this.state['scope_visible'] && <div className="scope">
+                            <Select
+                                defaultActiveFirstOption={false}
+                                onChange={this.onShopGroupChange}
+                                value={this.state.type}
+                                className='type'
+                                placeholder="请选择可见范围"
+                            >
+                                <Select.Option value="shop">店铺</Select.Option>
+                                <Select.Option value="group">店铺组</Select.Option>
+                            </Select>
+                            <Select
+                                defaultActiveFirstOption={false}
+                                className='opt'
+                                onChange={this.onTypeChange}
+                                placeholder= '请选择可见方式'
+                            >
+                                <Select.Option value="in">可见</Select.Option>
+                                <Select.Option value="not in">不可见</Select.Option>
+                            </Select>
+                            <Select
+                                defaultActiveFirstOption={false}
+                                mode="multiple"
+                                value={this.state.where}
+                                placeholder='请选择范围'
+                                className='value'
+                                onChange={this.onShopChange}
+                                onPopupScroll={this.tagScroll}
+                                allowClear
+                                optionFilterProp="children"
+                                optionLabelProp="label"
+                                filterOption={(input, option) =>
+                                    option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                }
+                            >
+                                {this.state.data.map(item => (
+                                    <Select.Option key={item.id+""} label={item.name} value={item.id+''}>
+                                        {item.name}
+                                    </Select.Option>
+                                ))}
+                            </Select>
+                        </div>
                     }
                     <li>
                         <h4>是否拼团记录生成图片</h4>
