@@ -94,6 +94,10 @@ class PreviewDetails extends Component {
                             <span className='limit'>{giftInfo(details)}</span>
                         </li>
                         <li>
+                            <span className="left">可见范围:</span>
+                            <span className='limit'>{details['visible_scope_desc']}</span>
+                        </li>
+                        <li>
                             <span className="left">是否拼团记录生成图片:</span>
                             <span className='limit'>{details.auto_generate_shared_picture ? '是' : '否'}</span>
                         </li>

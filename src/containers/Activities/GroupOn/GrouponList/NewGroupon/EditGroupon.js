@@ -222,6 +222,10 @@ class EditGroupon extends Component {
                         <h5>{giftInfo(this.state)}</h5>
                     </li>
                     <li>
+                        <h4>可见范围</h4>
+                        <h5>{this.state['visible_scope_desc']}</h5>
+                    </li>
+                    <li>
                         <h4>是否拼团记录生成图片</h4>
                         <h5>{this.state['auto_generate_shared_picture'] ? '是' : '否'}</h5>
                     </li>

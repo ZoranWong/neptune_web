@@ -169,11 +169,14 @@ class Recharge extends Component {
 							>停用
 						</span>
 						}
-						<span
-							style={{'color':'#4F9863','cursor':'pointer'}}
-							onClick={()=>this.export(record.id)}
-						>导出
+						{
+							record['exchange_code_ready'] && <span
+								style={{'color':'#4F9863','cursor':'pointer'}}
+								onClick={()=>this.export(record.id)}
+							>导出
 						</span>
+						}
+
 					</div>
 			},
 		];
