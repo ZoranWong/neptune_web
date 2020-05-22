@@ -4,16 +4,27 @@ import CustomPagination from "../../../../components/Layout/Pagination";
 import {exchangeCodes, stopCode} from "../../../../api/marketing/cards";
 import {searchJson} from "../../../../utils/dataStorage";
 import '../css/details.sass'
+let logic_conditions = {
+    conditions: [
+        {
+            key: 'consume_card_exchange_code_state',
+            operation: '=',
+            value: 0
+        }
+    ],
+    logic: 'and'
+};
 class RechargeDetails extends Component {
     constructor() {
         super();
+
         this.state = {
             api: exchangeCodes,
             activeTab: 0,
             paginationParams:{
                 logic_conditions:[],
                 search:'',
-                searchJson: searchJson({date: ''})
+                searchJson: searchJson({logic_conditions: logic_conditions})
             },
             current: 1,
             id: null,
