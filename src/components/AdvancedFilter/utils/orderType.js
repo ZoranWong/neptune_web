@@ -19,7 +19,6 @@ export const consumerOrderType = [
 ];
 
 export const merchantOrder = [
-	{name:'全部',key:'ALL'},
 	{name:'待收货',key:'WAIT_AGENT_VERIFY'},
 	{name:'已完成',key:'COMPLETED'},
 	{name:'商品异常',key:'GOODS_UNQUALIFIED_WAIT_PROCESS'},

@@ -1,21 +1,29 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
-import {Button, Table} from 'antd'
+import {Button, message, Table} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/goodsOrder.sass'
-import {getToken, orderInputTransformer, orderOutputTransformer, searchJson} from "../../../utils/dataStorage";
+import {
+	getBeforeDate,
+	getToken,
+	orderInputTransformer,
+	orderOutputTransformer,
+	searchJson
+} from "../../../utils/dataStorage";
 import {merchant_order_values} from "../../../utils/merchant_order_fields";
+import {merchant_order_custom_fields} from "../../../utils/merchant_order_custom_fields";
 import AdvancedFilterComponent from "../Components/AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
 import RefundMoney from "./Modal/RefundMoney";
-import {shopOrder} from "../../../api/order/orderManage";
+import {shopOrder, summaryOrders} from "../../../api/order/orderManage";
 import {groups} from "../../../api/shops/groups";
 import ReviewGoods from "../Components/ReviewGoods";
 import Export from "../Components/Export";
 import Config from '../../../config/app'
 import _ from "lodash";
+import {getSystemSetting} from "../../../api/common";
 class GoodsOrder extends React.Component{
 	constructor(props){
 		const defaultItem = ['shop_name','trade_no','products', 'deficientProducts', 'damagedProducts', 'created_at','state_desc','settlement_total_fee'];
@@ -37,6 +45,8 @@ class GoodsOrder extends React.Component{
 			activeTab:'ALL',
 			refundItem:{},
 			defaultItem: defaultItem,
+			todayOrders: [],
+			loadingOne: false
 		};
 		this.merchantColumns = [
 			{
@@ -85,7 +95,7 @@ class GoodsOrder extends React.Component{
 			
 			{
 				title: '下单时间',
-				dataIndex: 'paid_at',
+				dataIndex: 'created_at',
 			},
 			{
 				title: '实付款',
@@ -169,7 +179,7 @@ class GoodsOrder extends React.Component{
 	handleCustom = (e) =>{
 		let ary = [];
 		e.forEach(e=>{
-			merchant_order_values.forEach(u=>{
+			merchant_order_custom_fields.forEach(u=>{
 				u.children.forEach(c=>{
 					if(e == c.value){
 						let obj = {};
@@ -290,15 +300,61 @@ class GoodsOrder extends React.Component{
 	};
 	
 	// 打印订单
-	print = () => {
-		let {checkedAry, data} = this.state;
-		let orders = [];
-		_.map((data), (order)=> {
-			if (_.indexOf(checkedAry, order.id) > -1) {
-				orders.push(order)
-			}
+	print = async () => {
+		this.setState({loadingOne: true});
+		let res = await getSystemSetting({searchJson: searchJson({type: 'MERCHANT_ORDER'})});
+		console.log(res, '===>>>');
+		let hour = null;
+		let minute = null;
+		_.map(res.data, item => {
+			if (item.key === 'MERCHANT_ORDER_PAID_TIME_THRESHOLD_HOUR') {
+				hour = item.value
+			};
+			if (item.key === 'MERCHANT_ORDER_PAID_TIME_THRESHOLD_MINUTE') {
+				minute = item.value
+			};
 		});
-		this.props.history.push({pathname:"/printSummaryOrders", state: {orders, title: '商户订货订单'}})
+		let deadline = `${hour}:${minute}`;
+		let yesterday = getBeforeDate(-1);
+		let today = getBeforeDate(0);
+		let logic_conditions = {
+			conditions: [
+				{
+					conditions: [
+						{
+							key: 'order_paid_at',
+							operation: 'between',
+							value: [`${yesterday} ${deadline}`,`${today} ${deadline}`]
+						},
+					],
+					logic: 'and'
+				}
+			],
+			logic: 'and'
+		};
+		this.getOrders(logic_conditions, 1)
+		// this.props.history.push({pathname:"/printSummaryOrders", state: {orders, title: '商户订货订单'}})
+	};
+
+	getOrders = async (consitions, page) => {
+		let res = await shopOrder({page: page, limit: 10, searchJson: searchJson({logic_conditions: consitions})});
+		let list = res.data;
+		let meta = res.meta;
+		this.setState({todayOrders: this.state.todayOrders.concat(list)}, ()=>{
+			if (meta['pagination']['current_page'] < meta['pagination']['total_pages']) {
+				this.getOrders(consitions, meta['pagination']['current_page'] + 1)
+			} else {
+				this.setState({
+					loadingOne: false,
+				});
+				let todayOrders = this.state.todayOrders;
+				if (todayOrders.length) {
+					this.props.history.push({pathname:"/printSheet", state: {orders: todayOrders, title: '今日订单'}})
+				} else {
+					message.error('今日暂无订单')
+				}
+			}
+		})
 	};
 	
 	render(){
@@ -321,6 +377,7 @@ class GoodsOrder extends React.Component{
 			{key: 'MERCHANT_ORDER_PRODUCT_ORDER_CUSTOMIZE', value: '自定义显示项',},
 			{key: 'MERCHANT_ORDER_PRODUCT_ORDER_PRODUCT', value: '商品维度',},
 			{key: 'MERCHANT_ORDER_PRODUCT_ORDER_SHOP', value: '店铺维度',},
+			{key: 'MERCHANT_ORDER_PRODUCT_ORDER_DELIVERY_TEMPLATE', value: '物流订单模板',},
 		];
 		
 		const exportProps = {
@@ -328,7 +385,7 @@ class GoodsOrder extends React.Component{
 			onCancel : this.hideExport,
 			export: this.export,
 			strategy,
-			values: merchant_order_values,
+			values: merchant_order_custom_fields,
 			conditions: this.state.conditions,
 			slug: 'order_'
 		};
@@ -371,8 +428,8 @@ class GoodsOrder extends React.Component{
 							window.hasPermission("order_management_printing") && <Button
 								size="small"
 								onClick={this.print}
-								disabled={!this.state.checkedAry.length}
-							>打印订单</Button>
+								loading={this.state.loadingOne}
+							>打印今日订单</Button>
 						}
 						{
 							window.hasPermission("order_agent_bind_template") && <Button
@@ -400,7 +457,7 @@ class GoodsOrder extends React.Component{
 						<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 						<div style={{'display':this.state.customVisible?'block':'none'}} className="custom"  onClick={this.showCustom}>
 							<CustomItem
-								data={merchant_order_values}
+								data={merchant_order_custom_fields}
 								targetKeys={orderInputTransformer(this.state.defaultItem)}
 								firstItem={'shop_name'}
 								handleCustom={this.handleCustom} />
