@@ -220,12 +220,12 @@ export const operation = {
 	'merchantOrder': [
 		{
 			label:'等于',
-			value:'in',
+			value:'=',
 			type:'merchantOrder'
 		},
 		{
 			label:'等于其中之一',
-			value:'all',
+			value:'in',
 			type:'merchantOrder'
 		},
 		{
