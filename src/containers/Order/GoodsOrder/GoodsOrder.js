@@ -356,6 +356,17 @@ class GoodsOrder extends React.Component{
 			}
 		})
 	};
+
+	printOrders = () => {
+		let {checkedAry, data} = this.state;
+		let orders = [];
+		_.map((data), (order)=> {
+			if (_.indexOf(checkedAry, order.id) > -1) {
+				orders.push(order)
+			}
+		});
+		this.props.history.push({pathname:"/printSummaryOrders", state: {orders, title: '商户订货订单'}})
+	};
 	
 	render(){
 		const rowSelection = {
@@ -430,6 +441,13 @@ class GoodsOrder extends React.Component{
 								onClick={this.print}
 								loading={this.state.loadingOne}
 							>打印今日订单</Button>
+						}
+						{
+							window.hasPermission("order_management_printing") && <Button
+								size="small"
+								onClick={this.printOrders}
+								disabled={!this.state.checkedAry.length}
+							>打印订单</Button>
 						}
 						{
 							window.hasPermission("order_agent_bind_template") && <Button

@@ -8,9 +8,6 @@ const proApiUrl = 'https://www.neptune.kingdomcloud.cn'; //测试服务器,注�
 const nodeDevEnv = process.env.NODE_ENV=='development' ? true : false;
 
 
-
-
-
 export default {
     nodeDevEnv:nodeDevEnv,
     apiUrl : nodeDevEnv ? devApiUrl : proApiUrl,
