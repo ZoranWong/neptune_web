@@ -72,6 +72,15 @@ export function shelfableProducts(params,activityId) {
 	})
 }
 
+// 获取可上架商品单品列表（该商品必须在分销商城中已上架）
+export function shelfableGroupProducts(params) {
+	return request({
+		url: `/api/backend/group_shopping/products/shelfable`,
+		method: 'get',
+		params: params
+	})
+}
+
 // 获取活动单品列表
 export function products(params,activityId) {
 	return request({

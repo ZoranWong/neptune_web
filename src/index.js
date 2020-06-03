@@ -13,11 +13,10 @@ import {hasPermission} from "./utils/hasPermissions";
 window.hasPermission = hasPermission;
 
 ReactDOM.render(
-		<Router>
+		<Router children={[]}>
 			<Provider store={store}>
 				<App/>
 			</Provider>
-			
 		</Router>
 , document.getElementById('root'));
 

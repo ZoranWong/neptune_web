@@ -6,7 +6,7 @@ import zh_CN from "antd/lib/locale-provider/zh_CN";
 import selection from './fields'
 import CustomUpload from "../../../../../components/Upload/Upload";
 import Editor from "../../../../../components/Editor/Editor";
-import {shelfableProducts} from "../../../../../api/activities/activities";
+import {shelfableGroupProducts} from "../../../../../api/activities/activities";
 import GroupRedPacketLevel from "./components/GroupRedPacketLevel";
 import _ from 'lodash';
 import moment from 'moment';
@@ -50,7 +50,9 @@ class NewGroupon extends Component {
             visible_scope: null,
             data: [], // 可见范围的店铺或店铺组
             type: 'shop',
-            scrollPage: 1
+            scrollPage: 1,
+            page: 1,
+            loadProduct: false
         };
         this.image = React.createRef();
         this.redPacket = React.createRef();
@@ -59,14 +61,38 @@ class NewGroupon extends Component {
 
     componentDidMount() {
 
-        shelfableProducts({limit:100,page:1}, 13).then(r=>{
-            this.setState({products: r.data})
-        }).catch(_=>{});
+        // shelfableGroupProducts({limit:100,page:this.page}).then(r=>{
+        //     console.log(r, '------------------------');
+        //     this.setState({products: r.data, page: r.meta.total_pages > this.state.page ? this.state.page + 1 : this.state.page})
+        // }).catch(_=>{});
+        this.selectorPopupScroll();
         shops({limit:10,page:1}).then(r=>{
             this.setState({data:r.data})
         });
     }
 
+    selectorPopupScroll = () => {
+        console.log(this.state.loadProduct, '-----------------');
+        if(!this.state.loadProduct){
+            shelfableGroupProducts({limit:100,page:this.state.page}).then(r=>{
+                let products = this.state.products;
+                let page = this.state.page;
+                products = products.concat(r.data);
+                console.log('======= ------- ', products, r.data);
+                this.setState({products: products, page: r.meta.total_pages > page ? page + 1 : page, loadProduct: false}, () => {
+                    console.log('======= ------- ');
+                    if(r.meta.total_pages  > page) {
+                        this.selectorPopupScroll();
+                    }
+                });
+                console.log('======= ------- =====');
+            }).catch(_=>{
+                this.setState({loadProduct: false})
+            });
+            this.setState({loadProduct: true})
+        }
+
+    };
     selectionChange = (type, value) => {
         this.setState({[type]: value})
     };
@@ -360,6 +386,7 @@ class NewGroupon extends Component {
                             value={this.state.group_products}
                             className='selectedBox'
                             onChange={(e)=>this.onProductChange(e, 'group_products')}
+                            // onPopupScroll = {(e) => console.log(e)}
                             optionLabelProp="label"
                             optionFilterProp="children"
                             filterOption={(input, option) =>
