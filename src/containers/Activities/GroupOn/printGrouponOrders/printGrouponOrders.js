@@ -98,7 +98,7 @@ class PrintGrouponOrders extends Component {
 							<h4  className="shopInfo" >店铺名称：{order['initiator_name']}</h4>
 							<h4>收货人姓名：{order['initiator_keeper_name']}</h4>
 							<h4>联系电话：{order['initiator_keeper_mobile']}</h4>
-							<h4>单据编号：</h4>
+							<h4>单据编号：{order['trade_no']}</h4>
 							<h4>物流电话：</h4>
 							<h4>配送员：</h4>
 							<h4>汇总时间：{order['summary_date']}</h4>

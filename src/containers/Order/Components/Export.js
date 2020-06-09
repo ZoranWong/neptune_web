@@ -11,6 +11,7 @@ class Export extends Component {
 		super(props);
 		this.state = {
 			value: props['strategy'][0].key,
+			showSelector: true,
 			selectedItems: [],
 			orderItems: []
 		}
@@ -41,6 +42,7 @@ class Export extends Component {
 		console.log('radio checked', e.target.value);
 		this.setState({
 			value: e.target.value,
+			showSelector: e.target.showSelector ? e.target.showSelector : true
 		},() => {
 			console.log(this.state.value, '+++++++++++++++');
 		});
@@ -98,7 +100,7 @@ class Export extends Component {
 						}
 					</Radio.Group>
 					{
-						(this.props.strategy[0]['key'] !== 'SHOP_SELF_PICK_SUMMARY' && this.props.strategy[0]['key'] !== 'MERCHANT_SELF_PICK_CASHBACK_RECORD') && <div className="selectItems">
+						(this.state.showSelector) && <div className="selectItems">
 							<span>选择显示项</span>
 							<Select
 								defaultActiveFirstOption={false}

@@ -349,7 +349,7 @@ class GoodsOrder extends React.Component{
 				});
 				let todayOrders = this.state.todayOrders;
 				if (todayOrders.length) {
-					this.props.history.push({pathname:"/printSheet", state: {orders: todayOrders, title: '今日订单'}})
+					this.props.history.push({pathname:"/printSummaryOrders", state: {orders: todayOrders, title: '今日订单'}})
 				} else {
 					message.error('今日暂无订单')
 				}
@@ -389,6 +389,7 @@ class GoodsOrder extends React.Component{
 			{key: 'MERCHANT_ORDER_PRODUCT_ORDER_PRODUCT', value: '商品维度',},
 			{key: 'MERCHANT_ORDER_PRODUCT_ORDER_SHOP', value: '店铺维度',},
 			{key: 'MERCHANT_ORDER_PRODUCT_ORDER_DELIVERY_TEMPLATE', value: '物流订单模板',},
+			{key: 'MERCHANT_ORDER_DIVIDE_PRODUCT_ORDER_SHOP', value: '物流分货模板',},
 		];
 		
 		const exportProps = {

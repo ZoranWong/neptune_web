@@ -590,7 +590,7 @@ class SummaryOrders extends React.Component{
 			{name:'异常完成收货',key:'UNQUALIFIED_COMPLETED'}
 		];
 		const strategy = [
-			{key: 'SHOP_SELF_PICK_SUMMARY', value: '自提汇总单',},
+			{key: 'SHOP_SELF_PICK_SUMMARY', value: '自提汇总单',showSelector: false},
 			{key: 'SHOP_SELF_PICK_SUMMARY_2', value: '自提汇总单婉秋定制版',}
 		];
 		const exportProps = {
