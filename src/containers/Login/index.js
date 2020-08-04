@@ -102,7 +102,7 @@ class LoginContainer extends React.Component {
 				>
 					<Form>
 						<div className="title">
-							<h3></h3>
+							<div className="img-content"><img alt="" src={require('./12.jpg')}/></div>
 							<span>PineHub</span>
 						</div>
 						<div className="form">
