@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {Button, Input, DatePicker, LocaleProvider, Radio, Select, message} from "antd";
+import {Button, Input, DatePicker, ConfigProvider, Radio, Select, message} from "antd";
 import '../css/newGroupon.sass';
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import CustomUpload from "../../../../../components/Upload/Upload";
@@ -31,8 +31,8 @@ class EditGroupon extends Component {
 
     componentDidMount() {
         let props = this.props.location.state;
+        let group_products = [];
         if(props && props.data && props.data.id){
-            let group_products = [];
             _.map(props.data['group_products'], product => {
                 group_products.push(product.id)
             });
@@ -42,10 +42,10 @@ class EditGroupon extends Component {
             let startMoment = moment(start,'YYYY-MM-DD HH:mm:ss');
             let endMoment = moment(end,'YYYY-MM-DD HH:mm:ss');
             let timeRange = [startMoment, endMoment];
-            this.setState({...props.data, group_products: group_products, timeRange})
+            this.setState({...props.data, group_products: [], timeRange})
         }
         shelfableProducts({limit:100,page:1}, 13).then(r=>{
-            this.setState({products: r.data})
+            this.setState({products: r.data, group_products: group_products})
         }).catch(_=>{})
     }
 
@@ -165,9 +165,9 @@ class EditGroupon extends Component {
                     </li>
                     <li>
                         <h4>拼团时间</h4>
-                        <LocaleProvider locale={zh_CN}>
+                        <ConfigProvider locale={zh_CN}>
                             <RangePicker showTime value={this.state.timeRange} onChange={this.actDateChange} />
-                        </LocaleProvider>
+                        </ConfigProvider>
                     </li>
                     <li>
                         <h4>参与商品</h4>

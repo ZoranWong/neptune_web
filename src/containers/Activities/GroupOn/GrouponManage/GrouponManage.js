@@ -78,13 +78,13 @@ class GrouponManage extends Component {
 
     refresh = (key)=>{
         let logic_conditions = [];
-        if (key < 0) {
+        if (key === 'ALL') {
             logic_conditions = []
         } else {
             logic_conditions = {
                 conditions: [
                     {
-                        key: 'shop_shopping_group_state',
+                        key: 'shop_shopping_group_state_constant',
                         operation: '=',
                         value: key
                     }
@@ -97,7 +97,7 @@ class GrouponManage extends Component {
             paginationParams:{
                 logic_conditions:[],
                 search:'',
-                searchJson:searchJson({state_constant:'',logic_conditions})
+                searchJson:searchJson({logic_conditions})
             }
         },()=>{
             this.child.current.pagination(this.child.current.state.current)
@@ -226,12 +226,18 @@ class GrouponManage extends Component {
 
 
     render() {
+        // WAIT_FORM:待成团
+        // FORMED_BEFORE_ORDERABLE_DEADLINE:已成团：还未到截单时间，但是已满足成团条件
+        // FAIL_FORMED:未成团，成团失败
+        // WAIT_AGENT_VERIFY:待收货
+        // COMPLETED:已完成
         const tabs = [
-            {name:'全部',key: -1},
-            {name:'待成团',key:0},
-            {name:'未成团',key:1},
-            {name:'已成团',key:2},
-            {name:'已完成',key:3}
+            {name:'全部',key: 'ALL'},
+            {name:'待成团',key:'WAIT_FORM'},
+            {name:'已成团',key:'FORMED_BEFORE_ORDERABLE_DEADLINE'},
+            {name:'未成团',key:'FAIL_FORMED'},
+            {name:'待收货',key:'WAIT_AGENT_VERIFY'},
+            {name:'已完成',key: 'COMPLETED'}
         ];
         const productsProps = {
             visible: this.state.productsVisible,

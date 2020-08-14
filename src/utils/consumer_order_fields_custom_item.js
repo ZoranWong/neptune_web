@@ -115,6 +115,11 @@ export const consumer_order_values_custom = [
 				value:'region',
 				type:'detailAddress'
 			},
+			{
+				label: "销售贡献额度",
+				value: 'sales_amount',
+				type: 'numCompare'
+			}
 		]
 	},
 ];

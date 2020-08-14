@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pagination,LocaleProvider} from "antd";
+import {Pagination,ConfigProvider} from "antd";
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import '../../style/pagination.sass'
 class CustomPagination extends React.Component{
@@ -34,16 +34,13 @@ class CustomPagination extends React.Component{
 				})
 			})
 		} else {
-			this.props.api(params).then(r=>{
-				console.log(r, '+++++++++');
+			this.props.api(params).then( r =>{
 				this.props.valChange(r.data);
 				this.setState({
 					total:r.meta.pagination.total
 				})
 			})
 		}
-		
-		
 	};
 	
 	showTotal = (total,range) =>{
@@ -60,7 +57,7 @@ class CustomPagination extends React.Component{
 	render() {
 		return (
 			<div>
-				<LocaleProvider locale={zhCN}>
+				<ConfigProvider locale={zhCN}>
 					<Pagination
 						total={this.state.total}
 						showTotal={this.showTotal}
@@ -70,7 +67,7 @@ class CustomPagination extends React.Component{
 						pageSize={10}
 						onChange={this.onChange}
 					/>
-				</LocaleProvider>
+				</ConfigProvider>
 			</div>
 		)
 	}

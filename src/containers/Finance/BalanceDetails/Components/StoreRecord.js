@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, DatePicker, Input, LocaleProvider, Select, Table} from "antd";
+import {Button, DatePicker, Input, ConfigProvider, Select, Table} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import '../css/balance.sass'
@@ -160,11 +160,11 @@ class StoreRecord extends Component {
 						</li>
 						<li className="needMargin">
 							选择时间：
-							<LocaleProvider locale={zh_CN}>
+							<ConfigProvider locale={zh_CN}>
 								<RangePicker
 									onChange={this.onDateChange}
 								/>
-							</LocaleProvider>
+							</ConfigProvider>
 						
 						</li>
 						<li >

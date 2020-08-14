@@ -124,7 +124,9 @@ class GrouponList extends Component {
     componentDidMount() {
         document.addEventListener('click', this.closeCustom);
     }
-
+    componentWillUnmount () {
+        document.removeEventListener('click', this.closeCustom);
+    }
     editGroupon = (record) => {
         this.props.history.push({pathname:`/activities/editGroupon`, state: {data: record}})
     };

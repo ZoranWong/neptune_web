@@ -180,6 +180,7 @@ export default class SingleLine extends React.Component{
 					<AdvancedFilterValues
 						activeKey={this.state.activeKey}
 						api={this.props.api}
+						advanceSearchKey = {this.props.advanceSearchKey}
 						type={this.state.type}
 						onValueChange={this.valueChange} />
 				</div>

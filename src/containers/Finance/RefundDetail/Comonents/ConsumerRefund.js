@@ -1,5 +1,5 @@
 import React, {Component,Fragment} from 'react';
-import {Button, Input, LocaleProvider, Select, Table,DatePicker} from "antd";
+import {Button, Input, ConfigProvider, Select, Table,DatePicker} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import {withRouter} from 'react-router-dom'
 import CustomPagination from "../../../../components/Layout/Pagination";
@@ -155,11 +155,11 @@ class ConsumerRefund extends Component {
 						</li>
 						<li className="needMargin">
 							申请时间：
-							<LocaleProvider locale={zh_CN}>
+							<ConfigProvider locale={zh_CN}>
 								<RangePicker
 									onChange={this.onDateChange}
 								/>
-							</LocaleProvider>
+							</ConfigProvider>
 						
 						</li>
 						<li >

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Input, LocaleProvider, Select, DatePicker, Table, Popover, message} from "antd";
+import {Button, Input, ConfigProvider, Select, DatePicker, Table, Popover, message} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import './css/index.sass'
 import moment from 'moment';
@@ -252,7 +252,7 @@ class SendOutRecord extends Component {
 						}
 						<div style={{marginLeft:'20px'}}>
 							{
-								time === 'custom' && <LocaleProvider locale={zh_CN}>
+								time === 'custom' && <ConfigProvider locale={zh_CN}>
 									<div>
 										<DatePicker onChange={this.onStartChange} />
 										---
@@ -262,7 +262,7 @@ class SendOutRecord extends Component {
 											onOpenChange={this.open}/>
 										<span className="notice">* 筛选仅支持筛选一个月范围以内哦</span>
 									</div>
-								</LocaleProvider>
+								</ConfigProvider>
 							}
 						</div>
 					</ul>
@@ -300,9 +300,9 @@ class SendOutRecord extends Component {
 						</li>
 						<li className="needMargin">
 							发送时间：
-							<LocaleProvider locale={zh_CN}>
+							<ConfigProvider locale={zh_CN}>
 								<DatePicker onChange={this.onDateChange} />
-							</LocaleProvider>
+							</ConfigProvider>
 						
 						</li>
 						<li className="needMargin">

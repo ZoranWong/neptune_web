@@ -1,5 +1,5 @@
 import React from 'react'
-import {DatePicker,Input,Select,LocaleProvider,Cascader} from 'antd'
+import {DatePicker,Input,Select,ConfigProvider,Cascader} from 'antd'
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
 import {regions} from "../../api/common";
@@ -194,17 +194,21 @@ export default class AdvancedFilterValues extends React.Component{
 		return api
 	};
 	// 获取拼团数据
-	getGrouponData = (api, nextScrollPage) => {
-		api({limit:10,page: nextScrollPage}).then(r=>{
+	getGrouponData = (api, nextScrollPage, key = '') => {
+		let params = {limit:10,page: nextScrollPage};
+		if(key && this.props.advanceSearchKey){
+			params[this.props.advanceSearchKey] = key;
+		}
+		api(params).then(r=>{
 			if(!r.data.length) return;
 			if (r.meta.pagination['current_page'] === 1) {
 				this.setState({grouponData: r.data})
 			} else {
 				this.setState({grouponData: this.state.grouponData.concat(r.data)})
 			}
-
 		});
 	};
+
 	// 下拉加载
 	tagGrouponScroll = e => {
 		let value = this.state.value || 'shopping_group_id';
@@ -219,7 +223,13 @@ export default class AdvancedFilterValues extends React.Component{
 		}
 	};
 
-
+	searchData = (search) => {
+		let value = this.state.value || 'shopping_group_id';
+		let api = this.handleGrouponApi(value);
+		const nextScrollPage =   1;
+		this.setState({ scrollPage: nextScrollPage });
+		this.getGrouponData(api, nextScrollPage, search); // 调用api方法
+	};
 	renderTree = () =>{
 		const { selectedItems } = this.state;
 		switch (this.state.type) {
@@ -496,30 +506,30 @@ export default class AdvancedFilterValues extends React.Component{
 				break;
 			case 'times':
 				return <span>
-					<LocaleProvider locale={zh_CN}>
+					<ConfigProvider locale={zh_CN}>
 						<DatePicker
 							onChange={this.onTimestampChange}
 							placeholder="请选择日期"
 							showToday={false}
 							format="YYYY-MM-DD"
 						/>
-					</LocaleProvider>
+					</ConfigProvider>
 				</span>;
 				break;
 			case 'dateRange':
 				return <span>
-					<LocaleProvider locale={zh_CN}>
+					<ConfigProvider locale={zh_CN}>
 						<RangePicker
 							onChange={this.onPeriodChange}
 							//showTime={true}
 							format="YYYY-MM-DD"
 						/>
-					</LocaleProvider>
+					</ConfigProvider>
 				</span>;
 				break;
 			case 'detailTime':
 				return <span>
-					<LocaleProvider locale={zh_CN}>
+					<ConfigProvider locale={zh_CN}>
 						<DatePicker
 							onChange={this.onTimestampChange}
 							placeholder="请选择时间"
@@ -527,24 +537,24 @@ export default class AdvancedFilterValues extends React.Component{
 							showTime={{ format: 'HH:mm:ss' }}
 							format="YYYY-MM-DD HH:mm:ss"
 						/>
-					</LocaleProvider>
+					</ConfigProvider>
 				</span>;
 				break;
 			case 'periodDetailTime':
 				return <span>
-					<LocaleProvider locale={zh_CN}>
+					<ConfigProvider locale={zh_CN}>
 						<RangePicker
 							onChange={this.onPeriodChange}
 							//showTime={true}
 							showTime={{ format: 'HH:mm:ss' }}
 							format="YYYY-MM-DD HH:mm:ss"
 						/>
-					</LocaleProvider>
+					</ConfigProvider>
 				</span>;
 				break;
 			case 'timestamp':
 				return <span>
-					<LocaleProvider locale={zh_CN}>
+					<ConfigProvider locale={zh_CN}>
 						<DatePicker
 							onChange={this.onTimestampChange}
 							placeholder="请选择日期"
@@ -552,31 +562,31 @@ export default class AdvancedFilterValues extends React.Component{
 							showTime={{ format: 'HH:mm' }}
 							format="YYYY-MM-DD HH:mm"
 						/>
-					</LocaleProvider>
+					</ConfigProvider>
 				</span>;
 				break;
 			case 'period':
 				return <span>
-					<LocaleProvider locale={zh_CN}>
+					<ConfigProvider locale={zh_CN}>
 						<RangePicker
 							onChange={this.onPeriodChange}
 							//showTime={true}
 							showTime={{ format: 'HH:mm' }}
 							format="YYYY-MM-DD HH:mm"
 						/>
-					</LocaleProvider>
+					</ConfigProvider>
 					
 				</span>;
 				break;
 			case 'noTimePeriod':
 				return <span>
-					<LocaleProvider locale={zh_CN}>
+					<ConfigProvider locale={zh_CN}>
 						<RangePicker
 							onChange={this.onPeriodChange}
 							//showTime={true}
 							format="YYYY-MM-DD"
 						/>
-					</LocaleProvider>
+					</ConfigProvider>
 					
 				</span>;
 				break;
@@ -693,6 +703,7 @@ export default class AdvancedFilterValues extends React.Component{
 			case 'selectedOneGrouponBox':
 				return  <span>
 					<Select
+						showSearch
 						defaultActiveFirstOption={false}
 						value={selectedItems}
 						className='selectedBox'
@@ -701,6 +712,7 @@ export default class AdvancedFilterValues extends React.Component{
 						allowClear
 						optionLabelProp="label"
 						optionFilterProp="children"
+						onSearch={this.searchData}
 						filterOption={(input, option) =>
 							option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 						}

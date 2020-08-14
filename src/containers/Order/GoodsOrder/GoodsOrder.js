@@ -1,6 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
-import {Button, message, Table} from 'antd'
+import {Button, message, Modal, Table} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/goodsOrder.sass'
 import {
@@ -17,7 +17,7 @@ import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
 import RefundMoney from "./Modal/RefundMoney";
-import {shopOrder, summaryOrders} from "../../../api/order/orderManage";
+import {shopOrder, shopOrderChecked, summaryOrders} from "../../../api/order/orderManage";
 import {groups} from "../../../api/shops/groups";
 import ReviewGoods from "../Components/ReviewGoods";
 import Export from "../Components/Export";
@@ -127,8 +127,11 @@ class GoodsOrder extends React.Component{
 	
 	
 	refresh = (key='ALL')=>{
+		let arr = this.state.checkedAry;
+		arr[key] = [];
 		this.setState({
 			filterVisible:false,
+			checkedAry: arr,
 			paginationParams:{
 				logic_conditions:[],
 				search:'',
@@ -298,6 +301,10 @@ class GoodsOrder extends React.Component{
 		// 	console.log(r);
 		// }).catch(_=>{})
 	};
+	onOrderChecked = async () => {
+		this.confirmPopover(shopOrderChecked)
+		// console.log(result, '--------------- shop order checked ----------');
+	};
 	
 	// 打印订单
 	print = async () => {
@@ -361,18 +368,62 @@ class GoodsOrder extends React.Component{
 		let {checkedAry, data} = this.state;
 		let orders = [];
 		_.map((data), (order)=> {
-			if (_.indexOf(checkedAry, order.id) > -1) {
+			if (  checkedAry[this.state.activeTab] && _.indexOf(checkedAry[this.state.activeTab], order.id) > -1) {
 				orders.push(order)
 			}
 		});
 		this.props.history.push({pathname:"/printSummaryOrders", state: {orders, title: '商户订货订单'}})
 	};
-	
+	confirmPopover =(fn) => {
+		let refresh = this.refresh;
+		let activeTab = this.state.activeTab;
+		let params = this.state.checkedAry[activeTab];
+		let confirmModal = Modal.confirm({
+			title: (
+				<div className= 'u_confirm_header'>
+					提示
+					<i className="iconfont" style={{'cursor':'pointer'}} onClick={()=>{
+						confirmModal.destroy()
+					}}>&#xe82a;</i>
+				</div>
+			),
+			icon:null,
+			width:'280px',
+			closable:true,
+			centered:true,
+			maskClosable:true,
+			content: (
+				<div className="U_confirm">
+					确定手动核销这些订单吗？
+				</div>
+			),
+			cancelText: '取消',
+			okText:'确定',
+			okButtonProps: {
+				size:'small'
+			},
+			cancelButtonProps:{
+				size:'small'
+			},
+			onOk() {
+				fn(params).then(r=>{
+					message.success(r.message);
+					refresh(activeTab)
+				});
+
+			},
+			onCancel() {
+
+			},
+		});
+	};
 	render(){
 		const rowSelection = {
-			onChange: (selectedRowKeys, selectedRows) => {
-				console.log(selectedRowKeys);
-				this.setState({checkedAry:selectedRowKeys})
+			onChange: (selectedRowKeys) => {
+				let checkedArray = this.state.checkedAry;
+				let activeTab = this.state.activeTab;
+				checkedArray[activeTab] = selectedRowKeys;
+				this.setState({checkedAry:checkedArray})
 			}
 		};
 		const tabs = [
@@ -401,6 +452,7 @@ class GoodsOrder extends React.Component{
 			conditions: this.state.conditions,
 			slug: 'order_'
 		};
+		console.log(typeof this.state.checkedAry[this.state.activeTab] !== 'undefined' );
 		return (
 			<div className="goodsOrder">
 				<Export {...exportProps} />
@@ -447,7 +499,7 @@ class GoodsOrder extends React.Component{
 							window.hasPermission("order_management_printing") && <Button
 								size="small"
 								onClick={this.printOrders}
-								disabled={!this.state.checkedAry.length}
+								disabled={typeof this.state.checkedAry[this.state.activeTab] === 'undefined' || !this.state.checkedAry[this.state.activeTab].length}
 							>打印订单</Button>
 						}
 						{
@@ -457,6 +509,7 @@ class GoodsOrder extends React.Component{
 								onClick={this.setMessage}
 							>设置默认模板消息</Button>
 						}
+						<Button size="small" type="primary" onClick={this.onOrderChecked} disabled={typeof this.state.checkedAry[this.state.activeTab] === 'undefined' || !this.state.checkedAry[this.state.activeTab].length}>核销订货单</Button>
 					</div>
 				</div>
 				

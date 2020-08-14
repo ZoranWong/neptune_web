@@ -111,6 +111,9 @@ export default class OrderDetail extends React.Component{
 							<li>
 								成本总额: {details['cost_amount'] + '元'}
 							</li>
+							<li>
+								订单销售贡献额: {details['sales_amount'] + '元'}
+							</li>
 						</ul>
 					</li>
 					<li>

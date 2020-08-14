@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Modal, DatePicker, LocaleProvider} from "antd";
+import {Modal, DatePicker, ConfigProvider} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 const { RangePicker } = DatePicker;
 class SelectDate extends Component {
@@ -37,9 +37,9 @@ class SelectDate extends Component {
 					cancelText="取消"
 					okText="确定"
 				>
-					<LocaleProvider locale={zh_CN}>
+					<ConfigProvider locale={zh_CN}>
 						<RangePicker onChange={this.dateChange} />
-					</LocaleProvider>
+					</ConfigProvider>
 				</Modal>
 			</div>
 		);

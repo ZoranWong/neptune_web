@@ -62,6 +62,11 @@ export const groupon_fields = [
 				label:'自提店铺',
 				value:'pickup_shop_id',
 				type:'equalShopCompare'
+			},
+			{
+				label: "销售贡献额度",
+				value: 'sales_amount',
+				type: 'numCompare'
 			}
 		]
 	},

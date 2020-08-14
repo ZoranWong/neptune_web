@@ -50,6 +50,8 @@
     },
     "scripts": {
         "start": "gulp --env dev && react-app-rewired start",
+        "start-staging": "gulp --env staging && react-app-rewired start",
+        "start-prod": "gulp --env prod && react-app-rewired start",
         "build": "gulp --env prod && react-app-rewired build",
         "staging": "gulp --env staging && react-app-rewired build",
         "test": "react-app-rewired test",

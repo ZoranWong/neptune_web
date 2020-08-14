@@ -17,6 +17,14 @@ export function login(params) {
     })
 }
 
+export function sendSms(mobile) {
+    return request({
+        url: '/api/backend/auth/send_captcha',
+        method: 'post',
+        data: {mobile: mobile}
+    })
+}
+
 //后台登出
 export function logout(params) {
     return request({

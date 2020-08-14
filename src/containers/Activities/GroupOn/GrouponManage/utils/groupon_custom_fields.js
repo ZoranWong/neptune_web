@@ -71,6 +71,11 @@ export const groupon_custom_fields = [
 				label:'状态',
 				value:'state_desc',
 			},
+			{
+				label: "销售贡献额度",
+				value: 'sales_amount',
+				type: 'numCompare'
+			}
 		]
 	},
 ];

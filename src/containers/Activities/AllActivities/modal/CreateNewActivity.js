@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Input, message, Modal, Radio, DatePicker, LocaleProvider} from "antd";
+import {Input, message, Modal, Radio, DatePicker, ConfigProvider} from "antd";
 import CustomUpload from "../../../../components/Upload/Upload";
 import moment from "moment";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
@@ -195,25 +195,25 @@ class CreateNewActivity extends Component {
 						}
 						<li>
 							<span>活动起始时间: </span>
-							<LocaleProvider locale={zh_CN}>
+							<ConfigProvider locale={zh_CN}>
 								<DatePicker
 									format="YYYY-MM-DD HH:mm"
 									showTime={true}
 									style={{width: '300px'}}
 									disabledDate={this.disabledDate}
 									onChange={(date,dateString)=>this.onDateChange(date, dateString, 'start_date')}  />
-							</LocaleProvider>
+							</ConfigProvider>
 						</li>
 						<li>
 							<span>活动结束时间: </span>
-							<LocaleProvider locale={zh_CN}>
+							<ConfigProvider locale={zh_CN}>
 								<DatePicker
 									format="YYYY-MM-DD HH:mm"
 									showTime={true}
 									style={{width: '300px'}}
 									disabledDate={this.disabledDate}
 									onChange={(date,dateString)=>this.onDateChange(date, dateString, 'end_date')} />
-							</LocaleProvider>
+							</ConfigProvider>
 						</li>
 						{/*<li>*/}
 						{/*	<span>活动状态: </span>*/}

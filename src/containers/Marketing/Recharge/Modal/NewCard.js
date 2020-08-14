@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, DatePicker, Input, LocaleProvider, message, Modal} from "antd";
+import {Button, DatePicker, Input, ConfigProvider, message, Modal} from "antd";
 import '../css/index.sass';
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import {createNewCard} from "../../../../api/marketing/cards";
@@ -103,9 +103,9 @@ class NewCard extends Component {
 						</li>
 						<li className="normalLi imgLi">
 							<span className="left c_left">有效期</span>
-							<LocaleProvider locale={zh_CN}>
+							<ConfigProvider locale={zh_CN}>
 								<RangePicker format="YYYY-MM-DD HH:mm" style={{width: '300px'}} showTime onChange={this.actDateChange} />
-							</LocaleProvider>
+							</ConfigProvider>
 						</li>
 					</ul>
 				</Modal>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {DatePicker, LocaleProvider, Modal} from "antd";
+import {DatePicker, ConfigProvider, Modal} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 
 class EndDateSelect extends Component {
@@ -42,9 +42,9 @@ class EndDateSelect extends Component {
                     <ul className="mainUl">
                         <li>
                             <span className="left">结束时间:</span>
-                            <LocaleProvider locale={zh_CN}>
+                            <ConfigProvider locale={zh_CN}>
                                 <DatePicker style={{width: '300px'}} disabledDate={this.disabledDate} onChange={(date,dateString)=>this.onDateChange(date, dateString, 'end_date')} />
-                            </LocaleProvider>
+                            </ConfigProvider>
                         </li>
                     </ul>
                 </Modal>

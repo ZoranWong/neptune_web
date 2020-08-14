@@ -1,5 +1,5 @@
 import React, {Component,Fragment} from 'react';
-import {LocaleProvider, Modal, Pagination, Table} from "antd";
+import {ConfigProvider, Modal, Pagination, Table} from "antd";
 import '../../../../style/pagination.sass'
 import {receiveCoupons} from "../../../../api/marketing/coupon";
 import zhCN from "antd/lib/locale-provider/zh_CN";
@@ -104,7 +104,7 @@ class PickUpDetails extends Component {
 						/>
 					</div>
 					<div className="pagination">
-						<LocaleProvider locale={zhCN}>
+						<ConfigProvider locale={zhCN}>
 							<Pagination
 								total={this.state.total}
 								showTotal={this.showTotal}
@@ -113,7 +113,7 @@ class PickUpDetails extends Component {
 								pageSize={10}
 								onChange={this.onChange}
 							/>
-						</LocaleProvider>
+						</ConfigProvider>
 					</div>
 				</Modal>
 			</Fragment>

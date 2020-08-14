@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {Button, Input, DatePicker, LocaleProvider, Radio, Select, message, TimePicker} from "antd";
+import {Button, Input, DatePicker, ConfigProvider, Radio, Select, message, TimePicker} from "antd";
 import '../css/newGroupon.sass';
 import SelectionComponent from "./components/SelectionComponent";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
@@ -374,9 +374,9 @@ class NewGroupon extends Component {
                     </li>
                     <li className='longDatePicker'>
                         <h4>拼团时间</h4>
-                        <LocaleProvider locale={zh_CN}>
+                        <ConfigProvider locale={zh_CN}>
                             <RangePicker showTime onChange={this.actDateChange} />
-                        </LocaleProvider>
+                        </ConfigProvider>
                     </li>
                     <li>
                         <h4>参与商品</h4>
@@ -449,24 +449,24 @@ class NewGroupon extends Component {
                     {
                         this.state.order_deadline_type === 'BEFORE_FIXED_DATE' && <li className='longDatePicker'>
                             <h4>某日期前</h4>
-                            <LocaleProvider locale={zh_CN}>
+                            <ConfigProvider locale={zh_CN}>
                                 <DatePicker onChange={(d,ds)=>this.onDatePicker(ds, 'order_deadline_fixed_date')} />
-                            </LocaleProvider>
+                            </ConfigProvider>
                         </li>
                     }
                     {
                         this.state.order_deadline_type === 'FIXED_DATE' && <li>
                             <h4>固定日期</h4>
-                            <LocaleProvider locale={zh_CN}>
+                            <ConfigProvider locale={zh_CN}>
                                 <DatePicker onChange={(d,ds)=>this.onDatePicker(ds, 'order_deadline_fixed_date')} />
-                            </LocaleProvider>
+                            </ConfigProvider>
                         </li>
                     }
                     <li className='time'>
                         <h4>选择截单具体时间</h4>
-                        <LocaleProvider locale={zh_CN}>
+                        <ConfigProvider locale={zh_CN}>
                             <TimePicker  format={format} onChange={(time,t)=>this.onTimeChange(t, 'order_deadline_time')}/>
-                        </LocaleProvider>
+                        </ConfigProvider>
                     </li>
                     <li>
                         <h4>开始消耗库存时间</h4>
@@ -477,9 +477,9 @@ class NewGroupon extends Component {
                     </li>
                     <li className='time'>
                         <h4>开始消耗库存具体时间</h4>
-                        <LocaleProvider locale={zh_CN}>
+                        <ConfigProvider locale={zh_CN}>
                             <TimePicker  format={format} onChange={(time,t)=>this.onTimeChange(t, 'consume_stock_time')}/>
-                        </LocaleProvider>
+                        </ConfigProvider>
                     </li>
                     <li>
                         <h4>配送周期</h4>
@@ -493,17 +493,17 @@ class NewGroupon extends Component {
                     {
                         this.state.delivery_type === 'FIXED_DATE' && <li>
                             <h4>固定日期</h4>
-                            <LocaleProvider locale={zh_CN}>
+                            <ConfigProvider locale={zh_CN}>
                                 <DatePicker onChange={(d,ds)=>this.onDatePicker(ds, 'delivery_fixed_date')} />
-                            </LocaleProvider>
+                            </ConfigProvider>
                         </li>
                     }
                     <li className='timeRange'>
                         <h4>配送时间</h4>
-                        <LocaleProvider locale={zh_CN}>
+                        <ConfigProvider locale={zh_CN}>
                             <TimePicker  format={format} onChange={(time,t)=>this.onTimeRangeChange(t, 'delivery_time_period_start')}/>
                             <TimePicker  format={format} onChange={(time,t)=>this.onTimeRangeChange(t, 'delivery_time_period_end')}/>
-                        </LocaleProvider>
+                        </ConfigProvider>
                     </li>
                     <li>
                         <h4>是否打折</h4>

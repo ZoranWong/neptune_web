@@ -8,6 +8,10 @@ export const groupon_order_fields = [
 				value:'shopping_group_id',
 				type:'equalGrouponCompare'
 			},
+			// {
+			// 	label:'拼团单编号',
+			// 	value:'trade_no'
+			// },
 			{
 				label:'拼团单',
 				value:'shop_shopping_group_id',
@@ -19,9 +23,14 @@ export const groupon_order_fields = [
 				type:'equalShopCompare'
 			},
 			{
-				label:'自提店铺',
-				value:'pickup_shop_id',
-				type:'equalShopCompare'
+				label:'自提店铺名',
+				value:'pick_shop_name',
+				type:'like'
+			},
+			{
+				label:'自提店铺编号',
+				value:'pick_shop_code',
+				type:'like'
 			},
 			{
 				label:'截单时间',
@@ -176,17 +185,20 @@ export const operation = {
 		{
 			label:'等于',
 			value:'=',
-			type:'selectedOneGrouponBox'
+			type:'selectedOneGrouponBox',
+			advanceSearchKey: 'name'
 		},
 		{
 			label:'等于其中之一',
 			value:'in',
-			type:'selectedGrouponBox'
+			type:'selectedGrouponBox',
+			advanceSearchKey: 'name'
 		},
 		{
 			label:'不等于其中之一',
 			value:'not in',
-			type:'selectedGrouponBox'
+			type:'selectedGrouponBox',
+			advanceSearchKey: 'name'
 		},
 	],
 	'equalGrouponCompare':[
@@ -365,4 +377,9 @@ export const operation = {
 			type:''
 		},
 	],
+	'like': {
+		label:'等于',
+		value:'like',
+		type:'input'
+	}
 };

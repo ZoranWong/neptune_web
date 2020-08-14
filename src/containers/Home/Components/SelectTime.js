@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {DatePicker, LocaleProvider, message} from "antd";
+import {DatePicker, ConfigProvider, message} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import '../css/selectTime.sass'
 import moment from "moment";
@@ -127,7 +127,7 @@ class SelectTime extends Component {
 					}
 					<div style={{marginLeft:'20px'}}>
 						{
-							time === 'custom' && <LocaleProvider locale={zh_CN}>
+							time === 'custom' && <ConfigProvider locale={zh_CN}>
 								<div>
 									<DatePicker onChange={this.onStartChange} />
 									---
@@ -136,7 +136,7 @@ class SelectTime extends Component {
 										disabledDate={this.disableTime}
 										onOpenChange={this.open}/>
 								</div>
-							</LocaleProvider>
+							</ConfigProvider>
 						}
 					</div>
 				</ul>
