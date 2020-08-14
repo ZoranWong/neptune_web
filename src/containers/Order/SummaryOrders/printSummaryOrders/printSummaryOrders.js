@@ -118,9 +118,9 @@ class PrintSummaryOrders extends Component {
 								</div> : ''
 							}
 							<h4>单据编号：</h4>
-							<h4>物流电话：</h4>
+							<h4>客服电话：</h4>
 							<h4>配送员：</h4>
-							<h4>汇总时间：{order['summary_date']}</h4>
+							<h4>配送时间：{order['summary_date']}</h4>
 							<h4>车线：{order['shop_delivery_route'] && order['shop_delivery_route'].name}</h4>
 							<div className="chart u_chart">
 								<Table
