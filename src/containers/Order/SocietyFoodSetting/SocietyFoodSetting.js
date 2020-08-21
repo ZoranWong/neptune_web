@@ -1,5 +1,5 @@
 import React from "react";
-import {Button,Input,InputNumber,TimePicker,Radio,DatePicker} from "antd";
+import {Input,InputNumber,TimePicker,Radio,DatePicker} from "antd";
 import './societyFoodSetting.less';
 import {setVirtualSales} from "../../../api/goods/goods";
 const { Search } = Input;
