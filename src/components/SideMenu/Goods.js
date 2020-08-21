@@ -62,17 +62,23 @@ let baseMenu = [
 		text:'分销商城',
 		slug: 'menu_product_distribution_mall_book'
 	},
+	{
+		path:'/goods/hypermarket',
+		icon:'icon-fenxiao',
+		text:'社会餐商城',
+		slug: 'menu_product_food_hypermarket'
+	},
+	{
+		path:'/goods/shopHypermarket',
+		icon:'icon-fenxiao',
+		text:'门店商城',
+		slug: 'menu_product_shop_hypermarket'
+	}
 ];
-baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
+// baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
 const Goods = ({ match }) => (
 	<div style={{ paddingBottom: '120px',width:'216px' }}>
-		<Menu
-			theme="light"
-			defaultSelectedKeys={[match.url]}
-			selectedKeys={[match.url]}
-			defaultOpenKeys={['sub4']}
-			mode="vertical"
-		>
+		<Menu theme="light" defaultSelectedKeys={[match.url]} selectedKeys={[match.url]} defaultOpenKeys={['sub4']} mode="vertical">
 			{
 				baseMenu.map(item=>{
 					return (

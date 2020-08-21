@@ -102,6 +102,4 @@ export default class OutStockDetail extends  React.Component{
 			</div>
 		)
 	}
-	
-	
 }

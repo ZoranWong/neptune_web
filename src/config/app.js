@@ -1,3 +1,4 @@
+import React from "react";
 import {Z2_EMPHASIS_LIFT} from "echarts/src/util/graphic";
 
 //const devApiUrl = 'https://www.neptune.kingdomcloud.cn';
@@ -7,14 +8,11 @@ const proApiUrl = 'https://www.neptune.kingdomcloud.cn'; //测试服务器,注�
 
 const nodeDevEnv = process.env.NODE_ENV=='development' ? true : false;
 
-
-
-
-
 export default {
     nodeDevEnv:nodeDevEnv,
     apiUrl : nodeDevEnv ? devApiUrl : proApiUrl,
     apiPrefix : "",
+    React:React,
     timeout:5000,
     cookiesExpires:7,
     countDown:60,//短信验证码倒计时

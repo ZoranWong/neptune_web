@@ -28,16 +28,7 @@ module.exports = {
       //   use: ["eslint-loader"],
       //   include: path.resolve(__dirname, "src")
       // },
-
-      {
-        test: /\.(js|vue)$/,
-        loader: 'eslint-loader',
-        enforce: 'pre',
-        include: path.resolve(__dirname, "src"),
-        options: {
-          formatter: require('eslint-friendly-formatter')
-        }
-      },
+      //
       {
         // .js .jsx用babel解析
         test: /\.js?$/,

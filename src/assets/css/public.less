@@ -1,0 +1,80 @@
+.search-condition{
+  justify-content: left;
+  display: flex;
+  width: 100%;
+  height: 48px;
+  .ant-btn{
+    color: #4F9863;
+    cursor: pointer;
+    height: 28px;
+    margin-left: 10px;
+  }
+  .ant-input-search{
+    width: 300px;
+    .ant-input-wrapper{
+      height: 28px;
+      width: 300px;
+      .ant-input{
+        height: 28px;
+      }
+    }
+    .ant-btn{
+      margin-left: 0px;
+    }
+  }
+}
+.table-layout-style{
+  width: 100%;
+  .ant-table-body{
+    width: 100%;
+    .ant-table-thead{
+      tr th{
+        padding: 0;
+        height: 44px;
+        background-color: #82B991;
+        text-align: center;
+        line-height: 44px;
+        span{
+          color: #ffffff;
+          font-size: 12px;
+        }
+      }
+    }
+    .ant-table-tbody{
+      .ant-table-row{
+        height: 44px;
+        td{
+          padding: 0;
+          height: 44px;
+          text-align: center;
+          line-height: 44px;
+          color: #666;
+          font-size: 12px;
+          border-bottom: 0px !important;
+          .table-input{
+            text-align: center;
+            border-style: dashed;
+            .ant-input-number-input{
+              text-align: center;
+            }
+          }
+        }
+        .first-one{
+          color: rgb(79, 152, 99);
+        }
+      }
+    }
+    .ant-table-selection-column{
+      .ant-checkbox-indeterminate{
+        .ant-checkbox-inner{
+          background-color: #4f9863;
+          border: 0;
+        }
+        .ant-checkbox-inner::after{
+          height: 2px;
+          background-color: #ffffff;
+        }
+      }
+    }
+  }
+}

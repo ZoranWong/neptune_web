@@ -138,3 +138,5 @@
 120: {id: 121, name: "售卖范围", slug: "product_distribution_mall_book_set_sale_scope"}
 121: {id: 122, name: "警戒库存", slug: "product_distribution_mall_book_set_stock_alert"}
 122: {id: 123, name: "虚拟销量", slug: "product_distribution_mall_book_set_virtual_sale"}
+
+！！！123: {id: 124, name: "店铺设置", slug: "menu_shop_setting"}

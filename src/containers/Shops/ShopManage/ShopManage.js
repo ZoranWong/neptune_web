@@ -369,9 +369,6 @@ class ShopManage extends React.Component{
 			logic_conditions: conditions
 		});
 		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
-		// dataExport({searchJson: searchJson(params)}).then(r=>{
-		// 	console.log(r);
-		// }).catch(_=>{})
 	};
 	
 	// 店铺pv  bv 导出
@@ -564,9 +561,6 @@ class ShopManage extends React.Component{
 								onClick={this.showAddGroup}
 							>加入群组</Button>
 						}
-						{/*{*/}
-						{/*	window.hasPermission("shop_management_export") && <Button size="small" disabled={this.state.checkedAry.length == 0}>导出</Button>*/}
-						{/*}*/}
 					</div>
 					<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 				</div>

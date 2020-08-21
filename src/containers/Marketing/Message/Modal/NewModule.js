@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {Component} from 'react';
 import {Button, Input, message, Modal, Select} from "antd";
 import 'moment/locale/zh-cn';
