@@ -67,12 +67,6 @@ let baseMenu = [
 		icon:'icon-fenxiao',
 		text:'社会餐商城',
 		slug: 'menu_product_food_hypermarket'
-	},
-	{
-		path:'/goods/shopHypermarket',
-		icon:'icon-fenxiao',
-		text:'门店商城',
-		slug: 'menu_product_shop_hypermarket'
 	}
 ];
 // baseMenu = baseMenu.filter(item=> hasPermission(item.slug));

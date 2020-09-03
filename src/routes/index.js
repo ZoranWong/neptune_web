@@ -40,7 +40,6 @@ import OutStock from "../containers/Goods/OutStock/OutStock";
 import OutStockNew from "../containers/Goods/OutStockNew/OutStockNew";
 import OutStockDetail from "../containers/Goods/OutStockDetail/OutStockDetail";
 import hypermarket from "../containers/Goods/Hypermarket/Hypermarket";
-import ShopHypermarket from "../containers/Goods/ShopHypermarket/ShopHypermarket";
 
 import Staffing from "../containers/Setting/Staffing";
 import WarningSetting from '../containers/Setting/AppVersionSetting/AppVersionSetting'
@@ -185,8 +184,7 @@ const Routes = () =>(
 		<Route exact={true} path="/goods/inStockDetail" render={props => onEnter(InStockDetail, props)} />
 		<Route exact={true} path="/goods/outStockDetail" render={props => onEnter(OutStockDetail, props)} />
 		<Route exact={true} path="/goods/hypermarket" render={props => onEnter(hypermarket, props)} />
-		<Route exact={true} path="/goods/shopHypermarket" render={props => onEnter(ShopHypermarket, props)} />
-		
+
 		{/*订单*/}
 		<Route exact={true} path="/order" render={props => onEnter(Order, props)} />
 		<Route exact={true} path="/order/goodsOrder" render={props => onEnter(GoodsOrder, props)} />

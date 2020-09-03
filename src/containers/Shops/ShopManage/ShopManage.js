@@ -11,6 +11,7 @@ import {shops,applicationsCount} from "../../../api/shops/shopManage";
 import CustomPagination from "../../../components/Layout/Pagination";
 import AdvancedFilterComponent from "./AdvancedFilterComponent";
 import AddGroup from "./AddGroup";
+import ShopHypermarket from "./ShopHypermarket";
 import ShopApplication from './ShopApplication'
 import SelectChannel from './ShopAdd/SelectChannel'
 import ChangeStatus from './ChangeStatus'
@@ -56,18 +57,9 @@ class ShopManage extends React.Component{
 				title: '操作',
 				render: (text,record) =>
 					<div>
-						{
-							window.hasPermission("shop_management_edit") && <span
-								style={{'color':'#4F9863','cursor':'pointer'}}
-								onClick={()=>this.editShop(record)}
-							>编辑
-						</span>
-						}
-						<span
-							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
-							onClick={()=>this.showCode(record)}
-						>门店码
-						</span>
+						<span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.editShop(record)}>编辑</span>
+						<span style={{'color':'#4F9863','cursor':'pointer',marginLeft:'15px'}} onClick={()=>this.showCode(record)}>门店码</span>
+						<span style={{'color':'#4F9863','cursor':'pointer',marginLeft:'15px'}} onClick={()=>this.lookShopList(record)}>查看</span>
 					</div>
 			},
 		];
@@ -82,6 +74,8 @@ class ShopManage extends React.Component{
 			applicationVisible:false,
 			codeVisible: false,
 			groupVisible:false,
+			shopMarketVisible:false,
+			shopMarketId:"",
 			statusVisible:false,
 			distributor:false,
 			breakfast:false,
@@ -119,8 +113,6 @@ class ShopManage extends React.Component{
 			this.setState({applications_count:r.data.applications_count});
 		})
 	}
-	
-	
 	editShop = (record) =>{
 		this.setState({recordId:record.id,channel_desc: record.channel});
 		switch (record.channel) {
@@ -177,6 +169,16 @@ class ShopManage extends React.Component{
 	closeAddGroup= () =>{
 		this.setState({groupVisible:false})
 	};
+	//查看门店商城关闭
+	closeShopMarke= () =>{
+		this.setState({shopMarketVisible:false})
+	};
+	//查看门店商城打开
+	lookShopList= (record) =>{
+		console.log("门店ID"+record.id);
+		this.setState({shopMarketId:record.id},()=>this.setState({shopMarketVisible:true}))
+	};
+
 	onSubmitGroup = () =>{
 		this.setState({groupVisible:false})
 	};
@@ -470,6 +472,8 @@ class ShopManage extends React.Component{
 					checkedAry={this.state.checkedAry}
 					conditionsData={this.state.conditions_data}
 				/>
+
+				<ShopHypermarket visible={this.state.shopMarketVisible} onClose={this.closeShopMarke} shopMarketId={this.state.shopMarketId}/>
 				
 				<BreakfastCar
 					visible={this.state.breakfast}

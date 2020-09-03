@@ -1,21 +1,17 @@
 import React from "react";
 import {Button,Input,Table,Modal} from "antd";
 import '../../../assets/css/public.less';
-import {setVirtualSales} from "../../../api/goods/goods";
+import {searchJson} from "../../../utils/dataStorage";
+import {searchShopSocietyList} from "../../../api/order/society";
+import {shopDetails} from "../../../api/shops/shopManage";
 const { Search } = Input;
 export default class ShopHypermarket extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            tableData:[
-                {name:"十全大补丸",spec:"无",retail_price:"100",stock:"30",online_amount:55,outline_amount:66},
-                {name:"乌鸡白凤丸",online_amount:222,outline_amount:1111},
-                {name:"红枣放归堂"},
-                {name:"十全大补丸"},{name:"乌鸡白凤丸"},{name:"红枣放归堂"},
-                {name:"十全大补丸"},{name:"乌鸡白凤丸"},{name:"红枣放归堂"},
-                {name:"十全大补丸"},{name:"乌鸡白凤丸"},{name:"红枣放归堂"},
-                {name:"十全大补丸"},{name:"乌鸡白凤丸"},{name:"红枣放归堂"}
-            ],
+            tableData:[],
+            shop_id:"",
+            pageHelper:{current:1, pageSize:10, total:0},
             columnsStockModal:[
                 {title: '库存', dataIndex: 'stock', ellipsis: true},
                 {title: '变动途径', dataIndex: 'changeRoad', ellipsis: true},
@@ -41,26 +37,46 @@ export default class ShopHypermarket extends React.Component{
             title:"售价详情"
         };
     }
-    searchShopName = (value) =>{
-        console.log(value)
+    onChangePage = (e) =>{
+        this.state.pageHelper.current=e.current;
+        this.getShopHypermarketList();
+    };
+    componentWillReceiveProps(nextProps, nextContext) {
+        if(!(this.props.shopMarketId ==  nextProps.shopMarketId)){
+            this.setState({shop_id:nextProps.shopMarketId},()=>this.getShopHypermarketList())
+        }
     }
-    showPriceDetail = (value) =>{
+    getShopHypermarketList = () =>{
+        let data={
+            limit:this.state.pageHelper.pageSize,
+            page:this.state.pageHelper.current,
+            "searchJson[search]":this.props.shopMarketId
+        }
+        searchShopSocietyList(data).then(r=>{
+            this.state.pageHelper.total=r.meta.pagination.total;
+            this.setState({tableData:r.data});
+        })
+    };
+    showPriceDetail = (record) =>{
         this.setState({visible:true})
         this.state.title="售价详情";
         this.state.columnsModal=this.state.columnsPriceModal;
         this.state.tableModalData=this.state.tablePriceData;
-        console.log(JSON.stringify(value))
+        console.log(JSON.stringify(record))
     }
-    showStockDetail = (value) =>{
+    showStockDetail = (record) =>{
         this.setState({visible:true})
         this.state.title="库存详情";
         this.state.columnsModal=this.state.columnsStockModal;
         this.state.tableModalData=this.state.tableStockData;
-        console.log(JSON.stringify(value))
+        console.log(JSON.stringify(record))
     }
     handleCancel = () =>{
         this.setState({visible:false})
         console.log(this.state.title+"已关闭")
+    }
+    handleTableCancel=()=>{
+        this.props.onClose()
     }
     render() {
         const columns = [
@@ -127,14 +143,9 @@ export default class ShopHypermarket extends React.Component{
         ]
         return(
             <div className="food-shop-hypermarket">
-                <div className="search-condition">
-                    <Search placeholder="请输入门店名称或店主手机号" enterButton="搜索" onSearch={this.searchShopName}/>
-                </div>
-                <Table rowClassName={(record, index) => {
-                    let className = '';
-                    if (index % 2 ) className = 'dark-row';
-                    return className;
-                }} className="table-layout-style" dataSource={this.state.tableData} columns={columns}/>
+                <Modal width={1000} title={this.state.title} visible={this.props.visible} footer={null} onCancel={this.handleTableCancel}>
+                    <Table className="table-layout-style" dataSource={this.state.tableData} columns={columns}/>
+                </Modal>
                 <Modal title={this.state.title} visible={this.state.visible} footer={null} onCancel={this.handleCancel}>
                     <Table className="table-layout-style" dataSource={this.state.tableModalData} columns={this.state.columnsModal}/>
                 </Modal>
