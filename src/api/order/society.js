@@ -11,7 +11,7 @@ export function searchSocietyOrder(params) {
 //查询社会餐订单汇总列表
 export function searchOrderSummaryList(params) {
     return request({
-        url: 'api/backend/orders/agents/summary_orders',
+        url: 'api/backend/society_food/receipts',
         method: 'get',
         params: params
     })

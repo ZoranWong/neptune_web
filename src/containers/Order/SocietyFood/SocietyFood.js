@@ -36,19 +36,15 @@ export default class SocietyFood extends React.Component{
         this.orderList();
     };
     orderList = () =>{
-        let param={}
-        if(this.state.searchValue){
-            param["search"]=this.state.searchValue;
-        }
-        if(this.state.stateConstant){
-            param["state_constant"]=this.state.stateConstant;
-        }
         let data={
             limit:this.state.pageHelper.pageSize,
             page:this.state.pageHelper.current
         }
-        if(param["search"] || param["state_constant"]){
-            data["searchJson"]=searchJson({param});
+        if(this.state.searchValue){
+            data['searchJson[search]']=this.state.searchValue;
+        }
+        if(this.state.stateConstant){
+            data['searchJson[state_constant]']=this.state.stateConstant;
         }
         searchSocietyOrder(data).then(r=>{
             this.state.pageHelper.total=r.meta.pagination.total;
@@ -57,7 +53,18 @@ export default class SocietyFood extends React.Component{
         })
     };
     reviewGoods = (items) =>{
-        console.log("当前值:"+JSON.stringify(items));
+        for (let i = 0; i <items.length; i++) {
+            let spec_value=items[i]['spec_value'];
+            if(spec_value){
+                let result=[];
+                for (let key in spec_value){
+                    result.push(key)
+                    result.push(spec_value[key])
+                }
+                console.log("规格转换结果"+result.toString());
+                items[i]['specValue']=result.toString();
+            }
+        }
         this.setState({shopList:items},()=>this.showModal())
     }
     showModal =()=>{
@@ -123,7 +130,7 @@ export default class SocietyFood extends React.Component{
         return(
             <div className="society-food">
                 <div className="search-condition">
-                    <Search placeholder="请输入门店名称或店主手机号" enterButton="搜索" onSearch={this.searchShopName}/>
+                    <Search placeholder="请输入姓名和手机号" enterButton="搜索" onSearch={this.searchShopName}/>
                 </div>
                 <div className="search-condition search-btn">
                     <Button className={this.state.btnSign == '1'?"selected-btn":""} onClick={()=>this.changeBtn("1","")}>全部</Button>
@@ -145,7 +152,7 @@ export default class SocietyFood extends React.Component{
                                     <img src={item.thumbnail} alt="" className="left"/>
                                     <div className="right">
                                         <span>商品名:{item.name}</span>
-                                        <span>规格:{item.spec_value || '无'}</span>
+                                        <span>规格:{item.specValue || '无'}</span>
                                         <span>数量:{item.quantity}</span>
                                         <span>零售价:{item.retail_price + '元'}</span>
                                         <span>备注:{item.remark || '无'}</span>

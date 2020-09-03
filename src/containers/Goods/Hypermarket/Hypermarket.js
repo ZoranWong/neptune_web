@@ -40,17 +40,13 @@ export default class Hypermarket extends React.Component{
         this.goodsList();
     };
     goodsList = () =>{
-        let param={}
-        if(this.state.searchValue){
-            param["search"]=this.state.searchValue;
-        }
         let data={
             limit:this.state.pageHelper.pageSize,
             page:this.state.pageHelper.current,
             channel:"SOCIETY_FOOD"
         }
-        if(param["search"]){
-            data["searchJson"]=searchJson({param});
+        if(this.state.searchValue){
+            data['searchJson[search]']=this.state.searchValue;
         }
         getSocietyGoodsList(data).then(r=>{
             this.state.pageHelper.total=r.meta.pagination.total;
