@@ -4,7 +4,7 @@ import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/legend'
 import '../css/echarts.sass'
-import {Select, DatePicker, LocaleProvider, message} from 'antd';
+import {Select, DatePicker, ConfigProvider, message} from 'antd';
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import moment from "moment";
 import _ from 'lodash'
@@ -212,9 +212,9 @@ class EChartsLeft extends Component {
 					</div>
 					<div className="right">
 						X:
-						<LocaleProvider locale={zh_CN}>
+						<ConfigProvider locale={zh_CN}>
 							<RangePicker onChange={this.onDateChange} value={this.state.rangeDate} />
-						</LocaleProvider>
+						</ConfigProvider>
 						{/*<ul className="selectRange">*/}
 						{/*	{*/}
 						{/*		range.map(item=>*/}

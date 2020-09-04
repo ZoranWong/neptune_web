@@ -216,7 +216,7 @@ export default class SocietySummary extends React.Component{
                     <Button className={this.state.btnSign == '5'?"selected-btn":""} onClick={()=>this.searchFoodSummary("5","REFUNDED")}>已退款</Button>
                     <Button className={this.state.btnSign == '6'?"selected-btn":""} onClick={()=>this.searchFoodSummary("6","REFUSE_REFUND")} style={{borderRight:"1px solid #D9D9D9"}}>未退款</Button>
                 </div>
-                <Table onChange={this.onChangePage} className="table-layout-style" dataSource={this.state.tableData} columns={columns} pagination={this.state.pageHelper}/>
+                <Table onChange={this.onChangePage} rowKey={record => record.id} className="table-layout-style" dataSource={this.state.tableData} columns={columns} pagination={this.state.pageHelper}/>
                 <AdvancedFilterComponent visible={this.state.filterVisible} onCancel={this.closeHigherFilter} refresh={this.refresh} onSubmit={this.onSubmit} data={summary_order_values} export={this.showExport}/>
                 <Modal title="商品" visible={this.state.visible} onCancel={this.handleCancel} footer={null}>
                     <ul className="reviews">

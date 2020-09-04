@@ -31,6 +31,7 @@ export default class AdvancedFilterComponent extends React.Component{
 	
 	
 	render(){
+		let slug = this.props.slug ? this.props.slug : 'order';
 		return (
 			<div>
 				<Modal
@@ -68,7 +69,7 @@ export default class AdvancedFilterComponent extends React.Component{
 						ref={this.child}
 						value={this.props.data}
 						operation={operation}
-						slug="order"
+						slug={slug}
 						api={{groups, goodsOrder: true}}
 					/>
 				</Modal>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../css/operationLogs.sass';
 import {getOperateLog,admins} from "../../../api/setting";
-import {Button, LocaleProvider, Table, DatePicker, Select} from "antd";
+import {Button, ConfigProvider, Table, DatePicker, Select} from "antd";
 import CustomPagination from "../../../components/Layout/Pagination";
 import {searchJson} from "../../../utils/dataStorage";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
@@ -117,11 +117,11 @@ class OperationLogs extends Component {
 					</li>
 					<li>
 						操作日期：
-						<LocaleProvider locale={zh_CN}>
+						<ConfigProvider locale={zh_CN}>
 							<DatePicker
 								onChange={this.onDateChange}
 							/>
-						</LocaleProvider>
+						</ConfigProvider>
 					</li>
 					<li className="button">
 						<Button size="small" type="primary" onClick={this.search}>搜索</Button>

@@ -9,11 +9,11 @@ class OperateBalance extends Component {
 		value: 'add',
 		remark: ''
 	};
-	
+
 	handleCancel = () => {
 		this.props.onCancel();
 	};
-	
+
 	handleSubmit = () => {
 		console.log(this.props);
 		let api = this.props.type === 'user' ? adjustUserBalance : adjustShopBalance;
@@ -35,11 +35,11 @@ class OperateBalance extends Component {
 			this.setState({balanceValue: 0, remark: ''})
 		}).catch(_=>{})
 	};
-	
+
 	onChange = (e) => {
 		this.setState({value: e.target.value})
 	};
-	
+
 	render() {
 		return (
 			<div>

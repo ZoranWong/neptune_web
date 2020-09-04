@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Input, message, Modal, Radio, DatePicker, LocaleProvider} from "antd";
+import {Input, message, Modal, Radio, DatePicker, ConfigProvider} from "antd";
 import CustomUpload from "../../../../components/Upload/Upload";
 import moment from "moment";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
@@ -19,7 +19,8 @@ class CreateNewActivity extends Component {
 			status: 0,
 			userType: 'ACTIVITY_USE_IN_ALL_USER_SET',
 			user_limit_day: 0,
-			user_limit_num: 0
+			user_limit_num: 0,
+			is_join_sales_cashback: false
 		};
 		this.child = React.createRef();
 	}
@@ -127,10 +128,13 @@ class CreateNewActivity extends Component {
 							<span>限购数量（件）: </span>
 							<Input type='number' className='liInput' value={state.user_limit_num} onChange={(e) => this.onChange('user_limit_num', e, true)}  />
 						</li>
-						{/*<li>*/}
-						{/*	<span>参与活动最大优惠数量: </span>*/}
-						{/*	<Input type='number' className='liInput' value={state.buy_max_num} onChange={(e) => this.onChange('buy_max_num', e)}  />*/}
-						{/*</li>*/}
+						<li>
+							<span>是否参与销售返佣</span>
+							<Radio.Group onChange={(e)=>this.onChange('is_join_sales_cashback', e)} value={this.state['is_join_sales_cashback']}>
+								<Radio value={true}>是</Radio>
+								<Radio value={false}>否</Radio>
+							</Radio.Group>
+						</li>
 						<li>
 							<span>活动人群设置: </span>
 							<Radio.Group onChange={(e)=>this.onChange('userType',e)} value={this.state.userType}>
@@ -191,25 +195,25 @@ class CreateNewActivity extends Component {
 						}
 						<li>
 							<span>活动起始时间: </span>
-							<LocaleProvider locale={zh_CN}>
+							<ConfigProvider locale={zh_CN}>
 								<DatePicker
 									format="YYYY-MM-DD HH:mm"
 									showTime={true}
 									style={{width: '300px'}}
 									disabledDate={this.disabledDate}
 									onChange={(date,dateString)=>this.onDateChange(date, dateString, 'start_date')}  />
-							</LocaleProvider>
+							</ConfigProvider>
 						</li>
 						<li>
 							<span>活动结束时间: </span>
-							<LocaleProvider locale={zh_CN}>
+							<ConfigProvider locale={zh_CN}>
 								<DatePicker
 									format="YYYY-MM-DD HH:mm"
 									showTime={true}
 									style={{width: '300px'}}
 									disabledDate={this.disabledDate}
 									onChange={(date,dateString)=>this.onDateChange(date, dateString, 'end_date')} />
-							</LocaleProvider>
+							</ConfigProvider>
 						</li>
 						{/*<li>*/}
 						{/*	<span>活动状态: </span>*/}

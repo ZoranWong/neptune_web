@@ -3,6 +3,7 @@ import {Select,Cascader} from 'antd';
 import './index.sass'
 //import {this.props.value,operation} from "../../utils/user_fields";
 import AdvancedFilterValues from './AdvancedFilterValues'
+import {list} from "./utils/disabledAdvancedFilterValue";
 import _ from 'lodash'
 const { Option } = Select;
 export default class SingleLine extends React.Component{
@@ -145,8 +146,6 @@ export default class SingleLine extends React.Component{
 		}
 		
 	};
-
-	
 	
 	render(){
 		return (
@@ -181,6 +180,7 @@ export default class SingleLine extends React.Component{
 					<AdvancedFilterValues
 						activeKey={this.state.activeKey}
 						api={this.props.api}
+						advanceSearchKey = {this.props.advanceSearchKey}
 						type={this.state.type}
 						onValueChange={this.valueChange} />
 				</div>

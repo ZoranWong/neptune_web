@@ -111,6 +111,11 @@ import NewGroupon from "../containers/Activities/GroupOn/GrouponList/NewGroupon/
 import SocietyFood from "../containers/Order/SocietyFood/SocietyFood";
 import SocietySummary from "../containers/Order/SocietySummary/SocietySummary";
 import SocietyFoodSetting from "../containers/Order/SocietyFoodSetting/SocietyFoodSetting";
+import EditGroupon from "../containers/Activities/GroupOn/GrouponList/NewGroupon/EditGroupon";
+import GrouponProductsManage from "../containers/Activities/GroupOn/GrouponProductsManage/GrouponProductsManage";
+import PrintGrouponOrders from "../containers/Activities/GroupOn/printGrouponOrders/printGrouponOrders";
+import Recharge from "../containers/Marketing/Recharge/Recharge";
+import RechargeDetails from "../containers/Marketing/Recharge/RechargeDetails/RechargeDetails";
 
 
 /** 跳转到某个路由之前触发 用于验证页面权限**/
@@ -152,6 +157,8 @@ const Routes = () =>(
 		<Route exact={true} path="/activities/grouponManage" component={GrouponManage}/>} />
 		<Route exact={true} path="/activities/grouponOrderManage" component={GrouponOrderManage}/>} />
 		<Route exact={true} path="/activities/newGroupon" component={NewGroupon}/>} />
+		<Route exact={true} path="/activities/editGroupon" component={EditGroupon}/>} />
+		<Route exact={true} path="/activities/grouponProductsManage" component={GrouponProductsManage}/>} />
 
 		{/*数据*/}
 		<Route exact={true} path="/data" render={props => onEnter(Data, props)} />
@@ -213,7 +220,9 @@ const Routes = () =>(
 		<Route exact={true} path="/marketing/editWeChatMessage" render={props => onEnter(EditWeChatMessage, props)} />
 		<Route exact={true} path="/marketing/setMarketingMessage" render={props => onEnter(SetMarketingMessage, props)} />
 		<Route exact={true} path="/marketing/banners" render={props => onEnter(Banners, props)} />
-		
+		<Route exact={true} path="/marketing/recharge" render={props => onEnter(Recharge, props)} />
+		<Route exact={true} path="/marketing/rechargeDetails" render={props => onEnter(RechargeDetails, props)} />
+
 		{/*店铺*/}
 		<Route exact={true} path="/shops" render={props => onEnter(ShopManage, props)} />
 		<Route exact={true} path="/shops/groups" render={props => onEnter(ShopGroup, props)} />
@@ -255,7 +264,8 @@ const Routes = () =>(
 		<Route exact={true} path="/printSummaryOrders" render={props => onEnter(PrintSummaryOrders, props)} />
 		<Route exact={true} path="/printCustomOrders" render={props => onEnter(CustomOrdersPrint, props)} />
 		<Route exact={true} path="/printCustomSummaryOrders" render={props => onEnter(CustomSummaryPrint, props)} />
-		
+		<Route exact={true} path="/printGrouponOrders" render={props => onEnter(PrintGrouponOrders, props)} />
+
 	</Switch>
 );
 export default Routes

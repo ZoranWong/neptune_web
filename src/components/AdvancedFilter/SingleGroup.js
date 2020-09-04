@@ -74,6 +74,7 @@ export default class SingleGroup extends React.Component{
 								onData={this.saveData}
 								value={this.props.value}
 								operation={this.props.operation}
+								advanceSearchKey = {this.props.advanceSearchKey}
 								api={this.props.api}
 								slug={this.props.slug}
 							/>

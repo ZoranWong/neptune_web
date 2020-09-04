@@ -86,6 +86,13 @@ class DistributionMall extends React.Component{
 				}
 			},
 			{
+				title: '是否可用',
+				dataIndex: 'is_visible',
+				render (text, record) {
+					return record['is_visible'] ? '是' : '否';
+				}
+			},
+			{
 				title: '操作',
 				render: (text,record) =>
 					<div>

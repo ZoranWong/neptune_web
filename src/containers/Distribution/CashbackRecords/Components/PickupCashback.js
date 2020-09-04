@@ -151,7 +151,7 @@ class PickupCashback extends Component {
 	
 	render() {
 		const strategy = [
-			{key: 'MERCHANT_SELF_PICK_CASHBACK_RECORD', value: '店铺自提返佣',},
+			{key: 'MERCHANT_SELF_PICK_CASHBACK_RECORD', value: '店铺自提返佣',showSelector: false},
 		];
 		const exportsProps = {
 			visible : this.state.exportVisible,

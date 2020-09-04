@@ -1,5 +1,5 @@
 import React, {Component,Fragment} from 'react';
-import {Button, Input, LocaleProvider, DatePicker, Table} from "antd";
+import {Button, Input, ConfigProvider, DatePicker, Table} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import './css/incomeDetails.sass'
 import CustomPagination from "../../../components/Layout/Pagination";
@@ -119,11 +119,11 @@ class IncomeDetails extends Component {
 						</li>
 						<li>
 							下单时间：
-							<LocaleProvider locale={zh_CN}>
+							<ConfigProvider locale={zh_CN}>
 								<RangePicker
 									onChange={this.onDateChange}
 								/>
-							</LocaleProvider>
+							</ConfigProvider>
 						</li>
 						<li className="button">
 							<Button size="small" type="primary">搜索</Button>

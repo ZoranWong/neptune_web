@@ -1,7 +1,7 @@
 import React, {Component,Fragment} from 'react';
 import './css/index.sass'
 import moment from "moment";
-import {DatePicker, LocaleProvider, message} from "antd";
+import {DatePicker, ConfigProvider, message} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import {searchJson} from "../../utils/dataStorage";
 import {getCurrentMonth,getPreMonth} from "../../utils/dataStorage";
@@ -121,7 +121,7 @@ class SelectTimeRange extends Component {
 					}
 					<div style={{marginLeft:'20px'}}>
 						{
-							time === 'custom' && <LocaleProvider locale={zh_CN}>
+							time === 'custom' && <ConfigProvider locale={zh_CN}>
 								<div>
 									<DatePicker onChange={this.onStartChange} />
 									---
@@ -131,7 +131,7 @@ class SelectTimeRange extends Component {
 										onOpenChange={this.open}/>
 									<span className="notice">* 筛选仅支持筛选一个月范围以内哦</span>
 								</div>
-							</LocaleProvider>
+							</ConfigProvider>
 						}
 					</div>
 				</ul>

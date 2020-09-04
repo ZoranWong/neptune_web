@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Input, DatePicker, LocaleProvider, Table, message, Select} from "antd";
+import {Button, Input, DatePicker, ConfigProvider, Table, message, Select} from "antd";
 import {inStock} from "../../../api/goods/goods";
 import 'moment/locale/zh-cn';
 import './css/inStockNew.sass'

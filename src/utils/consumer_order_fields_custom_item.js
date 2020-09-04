@@ -115,6 +115,11 @@ export const consumer_order_values_custom = [
 				value:'region',
 				type:'detailAddress'
 			},
+			{
+				label: "销售贡献额度",
+				value: 'sales_amount',
+				type: 'numCompare'
+			}
 		]
 	},
 ];
@@ -220,12 +225,12 @@ export const operation = {
 	'merchantOrder': [
 		{
 			label:'等于',
-			value:'in',
+			value:'=',
 			type:'merchantOrder'
 		},
 		{
 			label:'等于其中之一',
-			value:'all',
+			value:'in',
 			type:'merchantOrder'
 		},
 		{

@@ -61,7 +61,7 @@ export default class SaleRange extends React.Component{
 			opt:this.state.opt,
 			where:this.state.where
 		},this.props.rangeId).then(r=>{
-			message.success(r.message)
+			message.success(r.message);
 			this.handleCancel()
 		}).catch(_=>{})
 	};

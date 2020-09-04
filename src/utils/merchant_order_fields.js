@@ -1,99 +1,27 @@
 export const merchant_order_values = [
 	{
-		value:'money_attributes',
-		label:'金额属性',
-		children:[
-			{
-				label:'实付款',
-				value:'settlement_total_fee',
-				type:'numCompare'
-			},
-			{
-				label:'应付款',
-				value:'total_fee',
-				type:'numCompare'
-			},
-			{
-				label:'优惠金额',
-				value:'total_preferential_fee',
-				type:'numCompare'
-			},
-			{
-				label:'成本总额',
-				value:'cost_amount',
-				type:'numCompare'
-			},
-			{
-				label:'付款方式',
-				value:'payment_type',
-				type:'equalCompare'
-			}
-		]
-	},
-	{
 		value:'base_attributes',
 		label:'基本属性',
 		children:[
 			{
-				label:'订单号',
-				value:'trade_no',
-				type:'absoluteCompare'
+				label:'下单时间',
+				value:'created_at',
+				type:'timeDetailCompare'
+			},
+			{
+				label:'支付时间',
+				value:'paid_at',
+				type:'timeDetailCompare'
 			},
 			{
 				label:'店铺名称',
 				value:'shop_name',
-				type:'absoluteCompare'
+				type:'equalCompare'
 			},
-			{
-				label:'店铺组',
-				value:'groups',
-				type:'group'
-			},
-			{
-				label:'支付流水号',
-				value:'transaction_id',
-				type:'absoluteCompare'
-			}
-		]
-	},
-	{
-		value:'order_attribution',
-		label:'订单属性',
-		children:[
 			{
 				label:'订单状态',
 				value:'state',
 				type:'merchantOrder'
-			},
-			{
-				label:'下单时间',
-				value:'created_at',
-				type:'timeCompare'
-			},
-			{
-				label:'商品',
-				value:'products',
-				type:'equalCompare'
-			},
-			{
-				label:'店铺名称',
-				value:'shop_name',
-				type:'equalCompare'
-			},
-			{
-				label:'店铺编号',
-				value:'shop_code',
-				type:'equalCompare'
-			},
-			{
-				label:'破损商品',
-				value:'damagedProducts',
-				type:'equalCompare'
-			},
-			{
-				label:'缺少商品',
-				value:'deficientProducts',
-				type:'equalCompare'
 			},
 		]
 	},
@@ -149,12 +77,12 @@ export const operation = {
 		{
 			label:'等于',
 			value:'=',
-			type:'merchantOrder'
+			type:'merchantOrderEqual'
 		},
 		{
 			label: '在以下所有中',
 			value: 'all',
-			type: 'consumerOrderEqual'
+			type: 'merchantOrder'
 		},
 		{
 			label:'等于其中之一',
@@ -219,41 +147,41 @@ export const operation = {
 			type:'selectedBox'
 		},
 	],
-	'timeCompare':[
+	'timeDetailCompare':[
 		{
 			label:'等于',
 			value:'=',
-			type:'timestamp'
+			type:'detailTime'
 		},
 		{
 			label:'不等于',
 			value:'<>',
-			type:'timestamp'
+			type:'detailTime'
 		},
 		{
 			label:'晚于',
 			value:'>',
-			type:'timestamp'
+			type:'detailTime'
 		},
 		{
 			label:'晚于(含)',
 			value:'>=',
-			type:'timestamp'
+			type:'detailTime'
 		},
 		{
 			label:'早于',
 			value:'<',
-			type:'timestamp'
+			type:'detailTime'
 		},
 		{
 			label:'早于(含)',
 			value:'<=',
-			type:'timestamp'
+			type:'detailTime'
 		},
 		{
 			label:'区间',
 			value:'between',
-			type:'period'
+			type:'periodDetailTime'
 		}
 	],
 	'emptyCompare':[

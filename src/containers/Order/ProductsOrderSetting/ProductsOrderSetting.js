@@ -35,6 +35,10 @@ class ProductsOrderSetting extends Component {
 		}
 		this.setState({[type]: value})
 	};
+
+	valueTextChange = (type,value) => {
+		this.setState({[type]: value})
+	};
 	
 	submitSetting = (key) =>{
 		let value = this.state[key];
@@ -53,7 +57,7 @@ class ProductsOrderSetting extends Component {
 		return (
 			<div className='order_setting'>
 				<div className="setting_header">
-					消费者取消订单时间
+					截单时间
 				</div>
 				<div className="setting_body">
 					{
@@ -84,6 +88,19 @@ class ProductsOrderSetting extends Component {
 						onChange={(e)=>this.valueChange('MERCHANT_ORDER_PAID_THRESHOLD',e.target.value)}
 						onBlur={()=>this.submitSetting('MERCHANT_ORDER_PAID_THRESHOLD')}
 					/> 元起送
+					</div>
+				</div>
+
+				<div className="setting_header">
+					配送时间设置
+				</div>
+				<div className="setting_body">
+					<div className="setting_item">
+						温馨提示: <Input
+						value={state['MERCHANT_ORDER_DELIVERY_TIME_DESC']}
+						onChange={(e)=>this.valueTextChange('MERCHANT_ORDER_DELIVERY_TIME_DESC',e.target.value)}
+						onBlur={()=>this.submitSetting('MERCHANT_ORDER_DELIVERY_TIME_DESC')}
+					/>
 					</div>
 				</div>
 			</div>

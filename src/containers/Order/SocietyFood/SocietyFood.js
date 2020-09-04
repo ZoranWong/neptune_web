@@ -143,7 +143,7 @@ export default class SocietyFood extends React.Component{
                     <Button className={this.state.btnSign == '8'?"selected-btn":""} onClick={()=>this.changeBtn("8","REFUNDED")}>已退款</Button>
                     <Button className={this.state.btnSign == '9'?"selected-btn":""} style={{borderRight:"1px solid #D9D9D9"}} onClick={()=>this.changeBtn("9","WAIT_PAY")}>待支付</Button>
                 </div>
-                <Table onChange={this.onChangePage} className="table-layout-style" dataSource={this.state.tableData} columns={columns} pagination={this.state.pageHelper}/>
+                <Table onChange={this.onChangePage} rowKey={record => record.id} className="table-layout-style" dataSource={this.state.tableData} columns={columns} pagination={this.state.pageHelper}/>
                 <Modal title="商品" visible={this.state.visible} onCancel={this.handleCancel} footer={null}>
                     <ul className="reviews">
                         {

@@ -1,5 +1,5 @@
 import React, {Component,Fragment} from 'react';
-import {DatePicker, Input, LocaleProvider, Modal, Radio, Button, Select, message} from "antd";
+import {DatePicker, Input, ConfigProvider, Modal, Radio, Button, Select, message} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import 'moment/locale/zh-cn';
 import '../css/createNew.sass'
@@ -198,11 +198,11 @@ class CreateNew extends Component {
 						<li className="i_li moreLineLi">
 							<div className="moreLine">
 								<span className="left">自动下架时间:</span>
-								<LocaleProvider locale={zh_CN}>
+								<ConfigProvider locale={zh_CN}>
 									<DatePicker
 										onChange={this.onDateChange}
 									/>
-								</LocaleProvider>
+								</ConfigProvider>
 							</div>
 							<span className="extra">不填则不自动下架</span>
 						</li>

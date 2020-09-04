@@ -76,7 +76,7 @@ class ChangeOrderStatus extends Component {
 					>
 						{
 							inputAmount.map((item,index) => (
-								<div>
+								<div key={index}>
 									<Input
 										className='changeorder'
 										placeholder='请输入订单编号'

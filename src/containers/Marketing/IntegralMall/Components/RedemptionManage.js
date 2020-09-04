@@ -1,5 +1,5 @@
 import React, {Component,Fragment} from 'react';
-import {Button, DatePicker, Input, LocaleProvider, message, Modal, Table} from "antd";
+import {Button, DatePicker, Input, ConfigProvider, message, Modal, Table} from "antd";
 import '../css/index.sass'
 import IconFont from "../../../../utils/IconFont";
 import CustomPagination from "../../../../components/Layout/Pagination";
@@ -225,11 +225,11 @@ class RedemptionManage extends Component {
 					</div>
 					<div className="i_inputs">
 						<span>兑换时间:</span>
-						<LocaleProvider locale={zh_CN}>
+						<ConfigProvider locale={zh_CN}>
 							<RangePicker
 								onChange={this.onDateChange}
 							/>
-						</LocaleProvider>
+						</ConfigProvider>
 					</div>
 					<Button size="small" type="primary" onClick={this.search}>搜索</Button>
 					<span className="i_filter" onClick={this.clear}>清空筛选条件</span>

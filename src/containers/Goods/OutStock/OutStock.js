@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Input, Table, DatePicker, LocaleProvider} from "antd";
+import {Button, Input, Table, DatePicker, ConfigProvider} from "antd";
 import 'moment/locale/zh-cn';
 import './css/inStock.sass'
 import zh_CN from "antd/lib/locale-provider/zh_CN";
@@ -90,11 +90,11 @@ export default class OutStock extends React.Component{
 							</li>
 							<li className="needMargin">
 								出库时间：
-								<LocaleProvider locale={zh_CN}>
+								<ConfigProvider locale={zh_CN}>
 									<RangePicker
 										onChange={this.onDateChange}
 									/>
-								</LocaleProvider>
+								</ConfigProvider>
 							
 							</li>
 							<li>

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars*/
 import React, {Component,Fragment} from 'react';
 import './css/index.sass'
-import {Button, Input, LocaleProvider, Radio, DatePicker, Checkbox, message} from "antd";
+import {Button, Input, ConfigProvider, Radio, DatePicker, Checkbox, message} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import 'moment/locale/zh-cn';
 import CustomUpload from "../../../components/Upload/Upload";
@@ -398,11 +398,11 @@ class NewCoupon extends Component {
 								{
 									this.state.radioValue.release_mode !== 'NEW_USER' && <Radio value='DATE_TYPE_FIX_TIME_RANGE'>
 										固定日期
-										<LocaleProvider locale={zh_CN}>
+										<ConfigProvider locale={zh_CN}>
 											<RangePicker
 												onChange={this.onDateChange}
 											/>
-										</LocaleProvider>
+										</ConfigProvider>
 									</Radio>
 								}
 								<Radio value='DATE_TYPE_FIX_TERM_TODAY'>

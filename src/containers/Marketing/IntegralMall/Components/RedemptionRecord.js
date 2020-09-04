@@ -1,5 +1,5 @@
 import React, {Component,Fragment} from 'react';
-import {Button, DatePicker, Input, LocaleProvider, Table} from "antd";
+import {Button, DatePicker, Input, ConfigProvider, Table} from "antd";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import {exchangeRecords} from "../../../../api/marketing/integral";
 import {searchJson} from "../../../../utils/dataStorage";
@@ -124,11 +124,11 @@ class RedemptionRecord extends Component {
 					</div>
 					<div className="i_inputs">
 						<span>兑换时间:</span>
-						<LocaleProvider locale={zh_CN}>
+						<ConfigProvider locale={zh_CN}>
 							<RangePicker
 								onChange={this.onDateChange}
 							/>
-						</LocaleProvider>
+						</ConfigProvider>
 					</div>
 					<div className="i_inputs">
 						<span>优惠券名称:</span>

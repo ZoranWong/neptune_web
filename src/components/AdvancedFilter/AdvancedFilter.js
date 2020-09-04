@@ -91,6 +91,7 @@ export default class AdvancedFilter extends React.Component{
 								value={this.props.value}
 								operation={this.props.operation}
 								api={this.props.api}
+								advanceSearchKey = {this.props.advanceSearchKey}
 								slug={this.props.slug}
 							/>
 						})

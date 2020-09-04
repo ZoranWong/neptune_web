@@ -4,10 +4,11 @@ import CustomPagination from "../../../../../components/Layout/Pagination";
 
 import EditProduct from "./Modal/EditProduct";
 import {
+	editActProducts,
 	shelfableProducts,
 	products,
 	offShelvesProducts,
-	activityDetails, editActProducts
+	activityDetails,
 } from "../../../../../api/activities/activities";
 
 class ActivityProductsManage extends Component {

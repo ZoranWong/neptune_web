@@ -9,6 +9,14 @@ export function checkOrder(params,orderId) {
 	})
 }
 
+// 手动关闭
+export function orderCancel(id) {
+	return request({
+		url: `/api/backend/orders/${id}/cancel`,
+		method: 'put'
+	})
+}
+
 // 手动完成自提汇总单
 export function checkSummaryOrder(params) {
 	return request({
@@ -120,4 +128,12 @@ export function checkManyOrder(params) {
 		method: 'post',
 		data: params
 	})
+}
+
+export function shopOrderChecked(params) {
+	return request({
+		url: `/api/backend/orders/to_complete`,
+		method: 'POST',
+		data: {order_ids: params}
+	});
 }

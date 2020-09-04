@@ -211,7 +211,7 @@ class IntegralRules extends React.Component{
 												this.handleChange('PAYMENT_PREORDER',e.target.checked, 'status')
 											}}
 										>
-											预付商城：每消费
+											预定商城：每消费
 											<Input
 												value={this.setData('PAYMENT_PREORDER').rule.amount}
 												onChange={(e)=>{

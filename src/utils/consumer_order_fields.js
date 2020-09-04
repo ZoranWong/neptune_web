@@ -113,18 +113,67 @@ export const consumer_order_values = [
 			{
 				label:'订单类型',
 				value:'order_type',
-				type:'consumerOrder'
+				type:'consumerType'
 			},
 			{
 				label:'收货地区',
 				value:'region',
 				type:'detailAddress'
 			},
+			{
+				label: "销售贡献额度",
+				value: 'sales_amount',
+				type: 'numCompare'
+			}
 		]
 	},
 ];
 
 export const operation = {
+	'dataCompare':[
+		{
+			label:'等于',
+			value:'=',
+			type:'times'
+		},
+		{
+			label:'不等于',
+			value:'<>',
+			type:'times'
+		},
+		{
+			label:'晚于',
+			value:'>',
+			type:'times'
+		},
+		{
+			label:'晚于(含)',
+			value:'>=',
+			type:'times'
+		},
+		{
+			label:'早于',
+			value:'<',
+			type:'times'
+		},
+		{
+			label:'早于(含)',
+			value:'<=',
+			type:'times'
+		},
+		{
+			label:'区间',
+			value:'between',
+			type:'dateRange'
+		}
+	],
+	'summaryOrderType': [
+		{
+			label:'等于',
+			value:'=',
+			type:'summaryOrderType'
+		},
+	],
 	'absoluteCompare':[
 		{
 			label:'等于',
@@ -137,6 +186,43 @@ export const operation = {
 			label:'等于',
 			value:'like',
 			type:'orderDetailAddress'
+		}
+	],
+	'timeDetailCompare':[
+		{
+			label:'等于',
+			value:'=',
+			type:'detailTime'
+		},
+		{
+			label:'不等于',
+			value:'<>',
+			type:'detailTime'
+		},
+		{
+			label:'晚于',
+			value:'>',
+			type:'detailTime'
+		},
+		{
+			label:'晚于(含)',
+			value:'>=',
+			type:'detailTime'
+		},
+		{
+			label:'早于',
+			value:'<',
+			type:'detailTime'
+		},
+		{
+			label:'早于(含)',
+			value:'<=',
+			type:'detailTime'
+		},
+		{
+			label:'区间',
+			value:'between',
+			type:'periodDetailTime'
 		}
 	],
 	'numCompare':[
@@ -193,6 +279,13 @@ export const operation = {
 			type:'selectedTagBox'
 		},
 	],
+	'consumerType': [
+		{
+			label:'等于',
+			value:'=',
+			type:'consumerTypeEqual'
+		},
+	],
 	'consumerOrder': [
 		{
 			label:'等于',
@@ -226,7 +319,7 @@ export const operation = {
 		{
 			label:'等于',
 			value:'in',
-			type:'merchantOrder'
+			type:'merchantOrderEqual'
 		},
 		{
 			label:'等于其中之一',

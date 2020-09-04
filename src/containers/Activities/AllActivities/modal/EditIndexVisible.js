@@ -16,8 +16,8 @@ class EditIndexVisible extends Component {
 		};
 		this.child = React.createRef();
 	}
-	
-	
+
+
 	componentWillReceiveProps(nextProps, nextContext) {
 		if (!nextProps.actId) return;
 		products({page:1, limit: 100},nextProps.actId).then(r=>{
@@ -41,15 +41,15 @@ class EditIndexVisible extends Component {
 			})
 		}
 	}
-	
+
 	onModuleChange = (module) => {
 		this.setState({module})
 	};
-	
+
 	handleCancel = () => {
 		this.props.onClose()
 	};
-	
+
 	handleSubmit = () => {
 		let image = this.child.current.state.imgUrl || this.child.current.state.imageUrl;
 		let {state} = this;
@@ -68,7 +68,6 @@ class EditIndexVisible extends Component {
 			}
 		}
 		let modules = [];
-		
 		let ary = [state.productOne, state.productTwo, state.productThree];
 		// let products = [{id: state.productOne}, {id: state.productTwo}, {id: state.productThree}];
 		// _.map(state.products, product => {
@@ -94,11 +93,11 @@ class EditIndexVisible extends Component {
 		});
 		this.props.onSubmit(modules, this.props.actId);
 	};
-	
+
 	onProductChange = (e,product) => {
 		this.setState({[product]: e})
 	};
-	
+
 	render() {
 		const modules = [
 			{key: 'module_1', value: 'module_1', name: '模板一'},
@@ -131,7 +130,7 @@ class EditIndexVisible extends Component {
 								filterOption={(input, option) =>
 									option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 								}
-							
+
 							>
 								{modules.map(item => (
 									<Select.Option key={item.key} label={item.name} value={item.value}>
@@ -164,7 +163,7 @@ class EditIndexVisible extends Component {
 										filterOption={(input, option) =>
 											option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 										}
-									
+
 									>
 										{state.products.map(item => (
 											<Select.Option key={item.id} value={item.id} label={item.name} >
@@ -185,7 +184,7 @@ class EditIndexVisible extends Component {
 										filterOption={(input, option) =>
 											option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 										}
-									
+
 									>
 										{state.products.map(item => (
 											<Select.Option key={item.id} value={item.id} label={item.name} >
@@ -206,7 +205,7 @@ class EditIndexVisible extends Component {
 										filterOption={(input, option) =>
 											option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 										}
-									
+
 									>
 										{state.products.map(item => (
 											<Select.Option key={item.id} value={item.id} label={item.name} >
@@ -217,7 +216,7 @@ class EditIndexVisible extends Component {
 								</li>
 							</Fragment>
 						}
-						
+
 					</ul>
 				</Modal>
 			</div>

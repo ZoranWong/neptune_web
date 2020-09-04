@@ -32,7 +32,8 @@ export const secondRoutes = [
 	'setMarketingMessage',
 	'warningSetting',
 	'logs',
-	'newGroupon'
+	'newGroupon',
+	'editGroupon'
 ];
 
 
