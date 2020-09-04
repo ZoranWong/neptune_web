@@ -120,6 +120,11 @@ export const consumer_order_values_export = [
 				value:'superior_shop_code',
 				type:'equalCompare'
 			},
+			{
+				label: "销售贡献额度",
+				value: 'sales_amount',
+				type: 'numCompare'
+			}
 		]
 	},
 ];

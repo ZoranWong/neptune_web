@@ -142,6 +142,11 @@ class Sms extends Component {
 					<div className="right">
 						<Button size="small" onClick={()=>this.showNew('export')} style={{marginRight: '10px'}}>
 							<IconFont type="icon-plus-circle-fill" />
+							批量发送消息
+						</Button>
+
+						<Button size="small" onClick={()=>this.showNew('export')} style={{marginRight: '10px'}}>
+							<IconFont type="icon-plus-circle-fill" />
 							导入已有模板
 						</Button>
 						<Button size="small" onClick={()=>this.showNew('create')}>

@@ -15,15 +15,13 @@ let logic_conditions = {
     logic: 'and'
 };
 class RechargeDetails extends Component {
-    constructor() {
-        super();
-
+    constructor(props) {
+        super(props);
         this.state = {
             api: exchangeCodes,
             activeTab: 0,
             paginationParams:{
                 logic_conditions:[],
-                search:'',
                 searchJson: searchJson({logic_conditions: logic_conditions})
             },
             current: 1,
@@ -38,21 +36,21 @@ class RechargeDetails extends Component {
     }
 
     refresh = (key)=>{
-        let logic_conditions = {
-            conditions: [
-                {
-                    key: 'consume_card_exchange_code_state',
-                    operation: '=',
-                    value: key
-                }
-            ],
-            logic: 'and'
-        };
+        // let logic_conditions = {
+        //     conditions: [
+        //         {
+        //             key: 'consume_card_exchange_code_state',
+        //             operation: '=',
+        //             value: key
+        //         }
+        //     ],
+        //     logic: 'and'
+        // };
         this.setState({
             filterVisible:false,
             paginationParams:{
-                search:'',
-                searchJson:searchJson({logic_conditions})
+                // "searchJson[status]":key
+                status:key
             }
         },()=>{
             this.child.current.pagination(this.child.current.state.current)
@@ -105,9 +103,9 @@ class RechargeDetails extends Component {
     };
 
     // 切换tab
-    onChangeTab = item =>{
-        this.setState({activeTab:item.key});
-        this.refresh(item.key)
+    onChangeTab = (item) =>{
+        this.setState({activeTab:item.key},()=>this.refresh(item.key));
+       
     };
 
 
@@ -141,19 +139,7 @@ class RechargeDetails extends Component {
             },
             {
                 title: '状态',
-                dataIndex: 'state',
-                render: (text, record) => {
-                    switch (text) {
-                        case 0:
-                            return '未兑换';
-                        case 1:
-                            return '已兑换';
-                        case 2:
-                            return '已停用';
-                        default:
-                            return '已过期'
-                    }
-                }
+                dataIndex: 'state_desc',
             },
             {
                 title: '操作',

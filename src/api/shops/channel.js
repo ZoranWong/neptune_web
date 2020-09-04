@@ -24,6 +24,15 @@ export function getChildChannels(params) {
 		params: params
 	})
 }
+// 批量新增店铺
+export function batchAdd(params) {
+	return request({
+		url: '/api/backend/shops/store/more',
+		method: 'post',
+		data: params
+	})
+}
+
 
 //  一级店铺渠道
 export function getFatherChannels(params) {
