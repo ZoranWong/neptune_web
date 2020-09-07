@@ -21,12 +21,22 @@ module.exports = {
   context: __dirname, // entry 和 module.rules.loader 选项相对于此目录开始解析
   module: {
     rules: [
+      // {
+      //   // 编译前通过eslint检查代码 (注释掉即可取消eslint检测)
+      //   test: /\.js?$/,
+      //   enforce: "pre",
+      //   use: ["eslint-loader"],
+      //   include: path.resolve(__dirname, "src")
+      // },
+
       {
-        // 编译前通过eslint检查代码 (注释掉即可取消eslint检测)
-        test: /\.js?$/,
-        enforce: "pre",
-        use: ["eslint-loader"],
-        include: path.resolve(__dirname, "src")
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        enforce: 'pre',
+        include: path.resolve(__dirname, "src"),
+        options: {
+          formatter: require('eslint-friendly-formatter')
+        }
       },
       {
         // .js .jsx用babel解析
