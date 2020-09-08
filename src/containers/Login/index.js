@@ -8,41 +8,53 @@ import '../../mock/list'
 import {login, getPublic, sendSms} from "../../api/auth";
 import {myPermissions} from "../../api/common";
 
-
 const md5 = require('js-md5');
 // ==================
 // Definition
 // ==================
 var timer = null
 class LoginContainer extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			timer:'',
-			loading: false, // 是否正在登录中
-			rememberPassword: false, // 是否记住密码
-			userValue:'',
-			password:'',
-			popoverUserVisible:false,   //  泡泡visible
-			popoverPassVisible:false,   //  泡泡visible
-			countDown:60,  //短信倒计时
-			public_key:''
-		};
-	}
-	//发送短信
-	sendSmsCountDown = async () => {
-		this.state.timer = setInterval(() => {
-			this.setState({countDown: this.state.countDown - 1});
-			if (this.state.countDown === 0) {
-				clearInterval(this.state.timer);
-				this.setState({countDown: 60})
-			}
-		}, 1000);
-		let result = await sendSms(this.state.userValue);
-		if(result) {
-			message.success('短信发送成功');
-		}
-	};
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false, // 是否正在登录中
+            rememberPassword: false, // 是否记住密码
+            userValue: '',
+            password: '',
+            popoverUserVisible: false,   //  泡泡visible
+            popoverPassVisible: false,   //  泡泡visible
+            countDown: 60,  //短信倒计时
+            public_key: ''
+        };
+    }
+
+    componentDidMount() {
+        // 进入登陆页时，判断之前是否保存了用户名和密码
+        if (this.state.countDown < 60) {
+            this.sendSms()
+        }
+
+        getPublic({}).then(r => {
+            this.setState({public_key: r['public_key']})
+        }).catch(_ => {
+        })
+    }
+
+    //发送短信
+    sendSms = async () => {
+        timer = setInterval(() => {
+            this.setState({countDown: this.state.countDown - 1});
+            if (this.state.countDown === 0) {
+                clearInterval(timer);
+                this.setState({countDown: 60})
+            }
+        }, 1000);
+        let result = await sendSms(this.state.userValue);
+        if(result) {
+            message.success('短信发送成功');
+        }
+    };
 
 	// 用户提交登录
 	onSubmit = () => {
