@@ -176,6 +176,7 @@ export default class SocietyFoodSetting extends React.Component{
     render() {
         const hourFormat = 'H';
         const MinFormat = 'm';
+        const hourMinFormat = 'HH:mm';
         const dataFormat = 'YYYY-MM-DD HH:mm';
         return(
             <div className="society-food-setting">
@@ -237,7 +238,7 @@ export default class SocietyFoodSetting extends React.Component{
                 </div>
                 <div className="society-setting-div">
                     <label className="society-title">社会餐配送时间:</label>
-                    <DatePicker format={dataFormat} placeholder="选择配送时间" value={moment(this.state.societySendTime,"YYYY-MM-DD HH:mm")} onChange={(time,timeString)=>this.onTimeChange(time,timeString)}/>
+                    <TimePicker format={hourMinFormat} placeholder="选择配送时间" value={moment(this.state.societySendTime,"HH:mm")} onChange={(time,timeString)=>this.onTimeChange(time,timeString)}/>
                 </div>
             </div>
         )

@@ -75,6 +75,10 @@ export const merchant_order_custom_fields = [
 				label:'支付时间',
 				value:'paid_at'
 			},
+			{
+				label:'订货类型',
+				value:'order_type'
+			},
 		]
 	},
 ];
