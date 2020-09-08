@@ -1,13 +1,16 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom'
-import {Button, Switch, Table, message, Popover} from "antd";
+import {Button, Switch, Table, message, Popover,Modal,Upload,Select} from "antd";
 import IconFont from "../../../../utils/IconFont";
 import '../css/sms.sass'
+
 import CustomPagination from "../../../../components/Layout/Pagination";
 import NewModule from "../Modal/NewModule";
 import {SMSList,enableSMS,disableSMS} from "../../../../api/marketing/message";
 import {searchJson} from "../../../../utils/dataStorage";
-
+import Config from '../../../../config/app';
+import {getToken} from "../../../../utils/dataStorage";
+const { Option } = Select;
 class Sms extends Component {
 	constructor(props) {
 		super(props);
@@ -19,7 +22,9 @@ class Sms extends Component {
 				searchJson:searchJson({obj_type:'USER'})
 			},
 			visible:false,
-			mode: ''
+			mode: '',
+			sendmessage: false,
+			excelUploadUrl: Config.apiUrl + "/" + Config.apiPrefix + "api/backend/consume_cards/upload"
 		};
 		this.child = React.createRef();
 	}
@@ -37,7 +42,37 @@ class Sms extends Component {
 			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
+	// 批量发送短信显示弹窗
+	showModal = () => {
+		this.setState({
+			sendmessage: true,
+		});
+		};
+	handleCancel = e => {
+		console.log(e);
+		this.setState({
+			sendmessage: false,
+		});
+		};
+		// 上传表格
+	selsetFile=(e)=>{
+		const self =this;
+		// 限制上传的文件只能有一个
+		let fileList =[...e.fileList];
+		fileList = fileList.slice(-1);
+		this.setState({fileList});
+		// if (e.status === 200) {
+		// 	console.log(e);
+		//   }
+		if(e.file.response){
+			this.setState({file_url:e.file.response.data.url});
+			console.log(e.file.response.data.url,"-------------------------11")
+		}
+	}
+
 	
+
+
 	changeRole = role =>{
 		this.setState({role,paginationParams:{...this.state.paginationParams,obj_type: role}},()=>{
 			this.refresh()
@@ -140,6 +175,11 @@ class Sms extends Component {
 						<h5>短信剩余条数10000条</h5>
 					</div>
 					<div className="right">
+						<Button size="small" onClick={this.showModal} style={{marginRight: '10px'}}>
+							<IconFont type="icon-plus-circle-fill" />
+							批量发送消息
+						</Button>
+
 						<Button size="small" onClick={()=>this.showNew('export')} style={{marginRight: '10px'}}>
 							<IconFont type="icon-plus-circle-fill" />
 							导入已有模板
@@ -172,6 +212,33 @@ class Sms extends Component {
 						valChange={this.paginationChange}
 					/>
 				</div>
+
+					{/* 批量发送短信 */}
+				<Modal
+					title="Basic Modal"
+					visible={this.state.sendmessage}
+					onOk={this.handleOk}
+					onCancel={this.handleCancel}
+					>
+						<div>
+						<span className="left">选择模板:</span>
+						<Select
+							value={this.state.obj_type}
+							onChange={(e)=>this.typeChange('obj_type',e)}
+							style={{ width: 300 }}>
+							<Option value="USER">用户</Option>
+							<Option value="MERCHANT">商家</Option>
+						</Select>
+					</div>
+						<div className="s_channel" style={{ marginTop: 10 }}>
+							<span className="left">上传表格:</span>
+							<Upload 
+								onChange={this.selsetFile} fileList={this.state.fileList} 
+								action = {this.state.excelUploadUrl}
+								headers={{'Authorization': `${getToken()}`}}
+							><Button type='primary'>选择文件</Button></Upload>
+						</div>
+					</Modal>
 			</div>
 		);
 	}
