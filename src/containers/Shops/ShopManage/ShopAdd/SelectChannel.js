@@ -57,6 +57,8 @@ class SelectChannel extends React.Component{
 		}
 	};
 	handleOk(){
+		let that=this;
+		console.log(that,"================this.state.file_url=====================")
 		let params={
 			file_url:this.state.file_url,
 			file_extension_name:this.state.file_extension_name
@@ -67,7 +69,7 @@ class SelectChannel extends React.Component{
 			this.setState({
 				newAdd : false,
 			})
-			this.props.refresh()
+			// this.props.refresh()
 			
 		})
 	};
@@ -75,7 +77,6 @@ class SelectChannel extends React.Component{
 		this.setState({
 			newAdd : false,
 		})
-		// console.log(11111111111111111111111111)
 	};
 	
 	
@@ -191,7 +192,7 @@ class SelectChannel extends React.Component{
 				<Modal
 					title="批量新增"
 					visible={this.state.newAdd}
-					onOk={this.handleOk}
+					onOk={this.handleOk.bind(this)}
 					onCancel={this.cancelAdd}
 					>
 							<h1>确定批量新增吗？</h1>
