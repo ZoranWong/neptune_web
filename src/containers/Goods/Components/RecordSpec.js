@@ -58,7 +58,7 @@ export default class RecordSpec extends React.Component{
 				render: (text,record) =>
 					<div>
 						<span
-							style={{'color':'#4F9863','cursor':'pointer',marginLeft:'30px'}}
+							style={{'color':'#4F9863','cursor':'pointer'}}
 							onClick={()=>this.props.onSubmit(record)}
 						>警戒库存
 						</span>

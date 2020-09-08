@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {Component} from 'react';
 import {Input, Modal, Upload, Button, message, Icon} from "antd";
 import Config from '../../../../config/app';

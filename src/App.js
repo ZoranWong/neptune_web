@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars no-unreachable*/
 import React from 'react';
-import './style/style.scss'
+import './assets/css/admin.less';
+import './style/style.scss';
 import './App.sass';
 import { Layout } from 'antd';
 import Nav from './components/Layout/Nav'
@@ -34,16 +36,6 @@ class App extends React.Component{
 	handleSider = () =>{
 		let activities = ['productsManage','orderManage','marketing'];
 		let key = this.props.location.pathname.split('/');
-		// let flag = false;
-		// _.map(activities, (act)=>{
-		// 	if (act === key[2]) {
-		// 		flag = true;
-		// 		return
-		// 	}
-		// });
-		// if (key[1] === 'activities' &&  flag) {
-		// 	return <ActivitiesManage match={{url:this.props.location.pathname}} />
-		// }
 		switch (key[1]) {
 			case "user":
 				return <User match={{url:this.props.location.pathname}}/>;
@@ -69,8 +61,6 @@ class App extends React.Component{
 				return '';
 		}	
 	};
-
-	// check container
 	routeClassName = () =>{
 		let routePath = this.props.location.pathname.split('/');
 		if((!routePath[2]) && firstRoutes.indexOf(routePath[1]) > -1){
@@ -99,7 +89,7 @@ class App extends React.Component{
 			return <PrintGrouponOrders orders={this.props.location.state.orders} />
 		}
 		return (
-			<Layout style={{minHeight:"100vh"}}>
+			<Layout style={{minHeight:"99vh"}}>
 				<TopBar/>
 				<div className="lay_out_header">
 					<Header style={{background:"#fff",height:'80px'}}>

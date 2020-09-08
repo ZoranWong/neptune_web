@@ -1,6 +1,5 @@
 import { Upload, Icon, Modal,message } from 'antd';
 import React from "react";
-import {upload} from "../../api/common";
 import config from '../../config/app'
 import {getToken} from "../../utils/dataStorage";
 function getBase64(file) {

@@ -31,6 +31,7 @@ import ShopGroup from '../containers/Shops/ShopGroup/ShopGroup'
 import FrozenShop from '../containers/Shops/FrozenShop/FrozenShop'
 import ShopChannel from '../containers/Shops/ShopChannel/ShopChannel'
 import ShopDetails from "../containers/Shops/shopDetails/ShopDetails";
+import ShopSetting from "../containers/Shops/ShopSetting/ShopSetting";
 import ReleaseGoods from "../containers/Goods/ReleaseGoods/ReleaseGoods";
 import Specification from "../containers/Goods/Specification/Specification";
 import InStock from "../containers/Goods/InStock/InStock";
@@ -38,6 +39,7 @@ import InStockNew from "../containers/Goods/InStockNew/InStockNew";
 import OutStock from "../containers/Goods/OutStock/OutStock";
 import OutStockNew from "../containers/Goods/OutStockNew/OutStockNew";
 import OutStockDetail from "../containers/Goods/OutStockDetail/OutStockDetail";
+import hypermarket from "../containers/Goods/Hypermarket/Hypermarket";
 
 import Staffing from "../containers/Setting/Staffing";
 import WarningSetting from '../containers/Setting/AppVersionSetting/AppVersionSetting'
@@ -98,8 +100,7 @@ import ProtocolSetting from "../containers/Setting/ProtocolSetting/ProtocolSetti
 import EditProtocol from "../containers/Setting/ProtocolSetting/EditProtocol/EditProtocol";
 import CashbackDetails from "../containers/Distribution/CashbackDetails/CashbackDetails";
 import EditActivityPage from "../containers/Activities/AllActivities/pages/EditActivityPage/EditActivityPage";
-import ActivityProductsManage
-	from "../containers/Activities/AllActivities/pages/ActivityProductsManage/ActivityProductsManage";
+import ActivityProductsManage from "../containers/Activities/AllActivities/pages/ActivityProductsManage/ActivityProductsManage";
 import CakeClassification from "../containers/Activities/Activities/ProductsManage/CakeClassification";
 import OnShelvesProducts from "../containers/Activities/AllActivities/pages/OnShelvesProducts/OnShelvesProducts";
 import ProductsOrderSetting from "../containers/Order/ProductsOrderSetting/ProductsOrderSetting";
@@ -107,6 +108,9 @@ import GrouponList from "../containers/Activities/GroupOn/GrouponList/GrouponLis
 import GrouponManage from "../containers/Activities/GroupOn/GrouponManage/GrouponManage";
 import GrouponOrderManage from "../containers/Activities/GroupOn/GrouponOrderManage/GrouponOrderManage";
 import NewGroupon from "../containers/Activities/GroupOn/GrouponList/NewGroupon/NewGroupon";
+import SocietyFood from "../containers/Order/SocietyFood/SocietyFood";
+import SocietySummary from "../containers/Order/SocietySummary/SocietySummary";
+import SocietyFoodSetting from "../containers/Order/SocietyFoodSetting/SocietyFoodSetting";
 import EditGroupon from "../containers/Activities/GroupOn/GrouponList/NewGroupon/EditGroupon";
 import GrouponProductsManage from "../containers/Activities/GroupOn/GrouponProductsManage/GrouponProductsManage";
 import PrintGrouponOrders from "../containers/Activities/GroupOn/printGrouponOrders/printGrouponOrders";
@@ -186,7 +190,8 @@ const Routes = () =>(
 		<Route exact={true} path="/goods/outStockNew" render={props => onEnter(OutStockNew, props)} />
 		<Route exact={true} path="/goods/inStockDetail" render={props => onEnter(InStockDetail, props)} />
 		<Route exact={true} path="/goods/outStockDetail" render={props => onEnter(OutStockDetail, props)} />
-		
+		<Route exact={true} path="/goods/hypermarket" render={props => onEnter(hypermarket, props)} />
+
 		{/*订单*/}
 		<Route exact={true} path="/order" render={props => onEnter(Order, props)} />
 		<Route exact={true} path="/order/goodsOrder" render={props => onEnter(GoodsOrder, props)} />
@@ -197,6 +202,9 @@ const Routes = () =>(
 		<Route exact={true} path="/order/summaryOrders" render={props => onEnter(SummaryOrders, props)} />
 		<Route exact={true} path="/order/orderTransformer" render={props => onEnter(OrderTransformer, props)} />
 		<Route exact={true} path="/order/productsOrderSetting" render={props => onEnter(ProductsOrderSetting, props)} />
+		<Route exact={true} path="/order/societyFood" render={props => onEnter(SocietyFood, props)} />
+		<Route exact={true} path="/order/societySummary" render={props => onEnter(SocietySummary, props)} />
+		<Route exact={true} path="/order/societyFoodSetting" render={props => onEnter(SocietyFoodSetting, props)} />
 
 		
 		{/*营销*/}
@@ -222,7 +230,8 @@ const Routes = () =>(
 		<Route exact={true} path="/shops/channel" render={props => onEnter(ShopChannel, props)} />
 		<Route exact={true} path="/shops/shopDetails" render={props => onEnter(ShopDetails, props)} />
 		<Route exact={true} path="/shops/logisticsRoutes" render={props => onEnter(LogisticsRoutes, props)} />
-		
+		<Route exact={true} path="/shops/ShopSetting" render={props => onEnter(ShopSetting, props)} />
+
 		{/*用户*/}
 		<Route exact={true} path="/user" render={props => onEnter(UserManage, props)} />
 		<Route exact={true} path="/user/integralRules" render={props => onEnter(IntegralRules, props)} />
