@@ -77,7 +77,7 @@ export const merchant_order_custom_fields = [
 			},
 			{
 				label:'订货类型',
-				value:'order_type'
+				value:'order_type_desc'
 			},
 		]
 	},

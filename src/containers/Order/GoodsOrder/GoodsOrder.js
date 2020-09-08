@@ -56,7 +56,7 @@ class GoodsOrder extends React.Component{
 			{
 				title: '商品',
 				render: (text,record) => {
-					if(record.items.data.length){
+					if(record.items.data){
 						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
 							<span className="orderGoods">{record.items.data[0].name+'......'}</span>
 							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items, '商品')} />
@@ -69,7 +69,7 @@ class GoodsOrder extends React.Component{
 			{
 				title: '缺少商品',
 				render: (text,record) => {
-					if(record.deficient_items.data.length){
+					if(record.deficient_items.data){
 						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
 							<span className="orderGoods">{record.deficient_items.data[0].name+'......'}</span>
 							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.deficient_items, '缺少商品')} />
@@ -82,7 +82,7 @@ class GoodsOrder extends React.Component{
 			{
 				title: '破损商品',
 				render: (text,record) => {
-					if(record.damaged_items.data.length){
+					if(record.damaged_items.data){
 						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
 							<span className="orderGoods">{record.damaged_items.data[0].name+'......'}</span>
 							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.damaged_items, '破损商品')} />
@@ -190,7 +190,7 @@ class GoodsOrder extends React.Component{
 						obj.dataIndex = orderOutputTransformer(e);
 						if (obj.dataIndex === 'damaged_items') {
 							obj.render = (text,record) => {
-								if(record.damaged_items.data.length){
+								if(record.damaged_items.data){
 									return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
 										<span className="orderGoods">{record.damaged_items.data[0].name+'......'}</span>
 										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.damaged_items, '破损商品')} />
@@ -202,7 +202,7 @@ class GoodsOrder extends React.Component{
 						};
 						if (obj.dataIndex === 'items') {
 							obj.render = (text,record) => {
-								if(record.items.data.length){
+								if(record.items.data){
 									return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
 										<span className="orderGoods">{record.items.data[0].name+'......'}</span>
 										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items)} />
@@ -214,7 +214,7 @@ class GoodsOrder extends React.Component{
 						}
 						if (obj.dataIndex === 'deficient_items') {
 							obj.render =(text,record) => {
-								if(record.deficient_items.data.length){
+								if(record.deficient_items.data){
 									return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
 										<span className="orderGoods">{record.deficient_items.data[0].name+'......'}</span>
 										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.deficient_items, '缺少商品')} />
@@ -434,8 +434,8 @@ class GoodsOrder extends React.Component{
 			{name:'处理中',key:'GOODS_UNQUALIFIED_WAIT_VERIFY'},
 			{name:'已退款',key:'GOODS_UNQUALIFIED_REFUNDED'},
 
-			{name:'待支付',key:'GOODS_UNQUALIFIED_REFUNDED'},
-			{name:'已取消',key:'GOODS_UNQUALIFIED_REFUNDED'},
+			{name:'待支付',key:'GOODS_WAIT_PAY'},
+			{name:'已取消',key:'GOODS_CANCELED'},
 		];
 		
 		const strategy = [
