@@ -56,9 +56,9 @@ class GoodsOrder extends React.Component{
 			{
 				title: '商品',
 				render: (text,record) => {
-					if(record.items.data){
+					if(record.items && record.items.length>0){
 						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-							<span className="orderGoods">{record.items.data[0].name+'......'}</span>
+							<span className="orderGoods">{record.items[0].name+'......'}</span>
 							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items, '商品')} />
 						</span>
 					} else {
@@ -69,9 +69,9 @@ class GoodsOrder extends React.Component{
 			{
 				title: '缺少商品',
 				render: (text,record) => {
-					if(record.deficient_items.data){
+					if(record.deficient_items && record.deficient_items.length>0){
 						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-							<span className="orderGoods">{record.deficient_items.data[0].name+'......'}</span>
+							<span className="orderGoods">{record.deficient_items[0].name+'......'}</span>
 							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.deficient_items, '缺少商品')} />
 						</span>
 					} else {
@@ -82,9 +82,9 @@ class GoodsOrder extends React.Component{
 			{
 				title: '破损商品',
 				render: (text,record) => {
-					if(record.damaged_items.data){
+					if(record.damaged_items && record.damaged_items.length>0){
 						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-							<span className="orderGoods">{record.damaged_items.data[0].name+'......'}</span>
+							<span className="orderGoods">{record.damaged_items[0].name+'......'}</span>
 							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.damaged_items, '破损商品')} />
 						</span>
 					} else {
@@ -190,9 +190,9 @@ class GoodsOrder extends React.Component{
 						obj.dataIndex = orderOutputTransformer(e);
 						if (obj.dataIndex === 'damaged_items') {
 							obj.render = (text,record) => {
-								if(record.damaged_items.data){
+								if(record.damaged_items && record.damaged_items.length>0){
 									return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-										<span className="orderGoods">{record.damaged_items.data[0].name+'......'}</span>
+										<span className="orderGoods">{record.damaged_items[0].name+'......'}</span>
 										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.damaged_items, '破损商品')} />
 									</span>
 								} else {
@@ -202,9 +202,9 @@ class GoodsOrder extends React.Component{
 						};
 						if (obj.dataIndex === 'items') {
 							obj.render = (text,record) => {
-								if(record.items.data){
+								if(record.items && record.items.length>0){
 									return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-										<span className="orderGoods">{record.items.data[0].name+'......'}</span>
+										<span className="orderGoods">{record.items[0].name+'......'}</span>
 										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items)} />
 									</span>
 								} else {
@@ -214,9 +214,9 @@ class GoodsOrder extends React.Component{
 						}
 						if (obj.dataIndex === 'deficient_items') {
 							obj.render =(text,record) => {
-								if(record.deficient_items.data){
+								if(record.deficient_items && record.deficient_items.length>0){
 									return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-										<span className="orderGoods">{record.deficient_items.data[0].name+'......'}</span>
+										<span className="orderGoods">{record.deficient_items[0].name+'......'}</span>
 										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.deficient_items, '缺少商品')} />
 									</span>
 								} else {
