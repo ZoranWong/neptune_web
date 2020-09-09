@@ -143,6 +143,15 @@ export function SMSList(params) {
 	})
 }
 
+// 批量导入手机号码发送短信
+export function bulkDeliveryNews(params,smsTemplate) {
+	return request({
+		url: `/api/backend/SmsDiyReport/batchSms/`+smsTemplate,
+		method: 'post',
+		data: params
+	})
+}
+
 // 短信发送记录
 export function SMSSendLog(params) {
 	return request({
