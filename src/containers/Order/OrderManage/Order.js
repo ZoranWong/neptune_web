@@ -9,7 +9,14 @@ import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
 import ReviewGoods from "../Components/ReviewGoods";
-import {userOrder, batchCancel, checkOrders, checkOrder, checkManyOrder} from "../../../api/order/orderManage";
+import {
+    userOrder,
+    batchCancel,
+    checkOrders,
+    checkOrder,
+    checkManyOrder,
+    orderCancel
+} from "../../../api/order/orderManage";
 import {consumer_order_values} from "../../../utils/consumer_order_fields";
 import {consumer_order_values_export} from "../../../utils/consumer_order_fields_export";
 import {consumer_order_values_custom} from "../../../utils/consumer_order_fields_custom_item";
@@ -125,8 +132,11 @@ class Order extends React.Component {
             },
             {
                 title: '操作',
-                render: (text, record) => (<span style={{color: '#4f9863', cursor: 'pointer'}}
-                                                 onClick={() => this.checkOrder(record)}>手动核销</span>)
+                render: (text, record) => {
+                    return
+                    <span style={{color: '#4f9863', cursor: 'pointer'}} onClick={() => this.checkOrder(record)}>手动核销</span>
+                    <span style={{color: '#4f9863', cursor: 'pointer'}} onClick={() => this.cancelOrder(record)}>取消订单</span>;
+                }
             }
         ];
         const defaultItem = ['user_nickname', 'trade_no', 'products', 'settlement_total_fee', 'delivery_type', 'created_at', 'state_desc'];
@@ -643,6 +653,50 @@ class Order extends React.Component {
 
             },
             onCancel() {
+            },
+        });
+    };
+
+    cancelOrder (record) {
+        let refresh = this.refresh;
+        let showCheckinNormal = this.showCheckinNormal;
+        let tab = this.state.activeTab;
+        let confirmModal = Modal.confirm({
+            title: (
+                <div className='u_confirm_header'>
+                    提示
+                    <i className="iconfont" style={{'cursor': 'pointer'}} onClick={() => {
+                        confirmModal.destroy()
+                    }}>&#xe82a;</i>
+                </div>
+            ),
+            icon: null,
+            width: '280px',
+            closable: true,
+            centered: true,
+            maskClosable: true,
+            content: (
+                <div className="U_confirm">
+                    确定手动取消该订单么？
+                </div>
+            ),
+            cancelText: '商品异常',
+            okText: '直接取消',
+            okButtonProps: {
+                size: 'small'
+            },
+            cancelButtonProps: {
+                size: 'small'
+            },
+            onOk() {
+                orderCancel(record.id).then(r => {
+                    message.success(`手动取消订单成功！`);
+                    refresh(tab)
+                });
+
+            },
+            onCancel() {
+                showCheckinNormal(record)
             },
         });
     };
