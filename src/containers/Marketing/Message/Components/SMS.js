@@ -6,7 +6,7 @@ import '../css/sms.sass'
 
 import CustomPagination from "../../../../components/Layout/Pagination";
 import NewModule from "../Modal/NewModule";
-import {SMSList,enableSMS,disableSMS} from "../../../../api/marketing/message";
+import {SMSList,enableSMS,disableSMS,bulkDeliveryNews} from "../../../../api/marketing/message";
 import {searchJson} from "../../../../utils/dataStorage";
 import Config from '../../../../config/app';
 import {getToken} from "../../../../utils/dataStorage";
@@ -23,12 +23,17 @@ class Sms extends Component {
 			},
 			visible:false,
 			mode: '',
+			smsTemplate:'',
+			smsTemplateList:[],
 			sendmessage: false,
+			excel_url:'',
 			excelUploadUrl: Config.apiUrl + "/" + Config.apiPrefix + "api/backend/consume_cards/upload"
 		};
 		this.child = React.createRef();
 	}
-	
+	componentDidMount() {
+        this.getSmsList();
+    };
 	
 	// 分页器改变值
 	paginationChange = (list) =>{
@@ -42,6 +47,9 @@ class Sms extends Component {
 			this.child.current.pagination(this.child.current.state.current)
 		})
 	};
+
+
+
 	// 批量发送短信显示弹窗
 	showModal = () => {
 		this.setState({
@@ -49,11 +57,27 @@ class Sms extends Component {
 		});
 		};
 	handleCancel = e => {
-		console.log(e);
+		// console.log(this.state.smsTemplate,"这是需要穿的参数")
 		this.setState({
 			sendmessage: false,
 		});
-		};
+	};
+	// 发送批量短信
+	handleOk = e =>{
+		console.log(e);
+		
+		let	smsTemplate=this.state.smsTemplate
+		let param={
+			excel_url:this.state.excel_url
+		}
+
+		bulkDeliveryNews(param,smsTemplate).then(r=>{
+			message.success(r.message);
+			this.setState({
+				sendmessage: false,
+			});
+		})
+	}
 		// 上传表格
 	selsetFile=(e)=>{
 		const self =this;
@@ -61,14 +85,20 @@ class Sms extends Component {
 		let fileList =[...e.fileList];
 		fileList = fileList.slice(-1);
 		this.setState({fileList});
-		// if (e.status === 200) {
-		// 	console.log(e);
-		//   }
 		if(e.file.response){
-			this.setState({file_url:e.file.response.data.url});
-			console.log(e.file.response.data.url,"-------------------------11")
+			this.setState({excel_url:e.file.response.data.url});
+			console.log(e.file,"-------------------------11")
 		}
-	}
+	};
+	handleChange =(value) =>{
+	console.log(value,"这是value")
+	this.setState({
+		smsTemplate:value
+	})
+
+	};
+
+	
 
 	
 
@@ -101,8 +131,22 @@ class Sms extends Component {
 		}).catch(_=>{})
 	};
 	
+	getSmsList=()=>{
+		this.state.api({}).then(r=>{
+			let list=r.data;
+			// r.data.map(item =>{
+			// 	const 
+			// })
+
+			this.setState({smsTemplateList:list})
+		}).catch(_=>{})
+	};
+	
 	render() {
 		const {role} = this.state;
+		
+		const options = this.state.smsTemplateList.map(d => d.state ==="审核通过" ?<Option key={d.id} value={d.id}>{d.name}</Option> : '');
+
 		const columns = [
 			{
 				title: '模板名称',
@@ -222,12 +266,8 @@ class Sms extends Component {
 					>
 						<div>
 						<span className="left">选择模板:</span>
-						<Select
-							value={this.state.obj_type}
-							onChange={(e)=>this.typeChange('obj_type',e)}
-							style={{ width: 300 }}>
-							<Option value="USER">用户</Option>
-							<Option value="MERCHANT">商家</Option>
+						<Select onChange={this.handleChange} style={{ width: 300 }}>
+							{options}
 						</Select>
 					</div>
 						<div className="s_channel" style={{ marginTop: 10 }}>
