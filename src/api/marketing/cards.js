@@ -37,7 +37,7 @@ export function stopCard(params,consumeCardId) {
 	})
 }
 
-// 获取消费卡列表
+
 // 激活详情
 export function exchangeCodes(params,consumeCardId) {
 	return request({
@@ -46,6 +46,7 @@ export function exchangeCodes(params,consumeCardId) {
 		params: params
 	})
 }
+// 获取消费卡列表
 // export function exchangeCodes(params,consumeCard) {
 // 	return request({
 // 		url: `/api/backend/consume_cards/${consumeCard}/owned_records`,
