@@ -16,9 +16,7 @@ class Nav extends React.Component{
 			this.setState({userPermission:JSON.parse(getUserInfo())})
 		}
 	}
-	
 	render(){
-		
 		const baseNav = [
 			{
 				text:'首页',
@@ -106,15 +104,6 @@ class Nav extends React.Component{
 								}
 							})
 						}
-						{/*<li name="nav-index"><NavLink exact={false} to={'/home'} >首页</NavLink></li>*/}
-						{/*<li><NavLink exact={false} to={"/user"} name="nav-user">用户</NavLink></li>*/}
-						{/*<li><NavLink to={"/shops"} name="nav-shops">店铺</NavLink></li>*/}
-						{/*<li><NavLink to={"/order"} name="nav-order">订单</NavLink></li>*/}
-						{/*<li><NavLink to={"/marketing"} name="nav-market">营销</NavLink></li>*/}
-						{/*<li><NavLink to={"/goods"} name="nav-goods">商品</NavLink></li>*/}
-						{/*<li><NavLink to={"/data"} name="nav-data">数据</NavLink></li>*/}
-						{/*<li><NavLink to={"/finance"} name="nav-finance">财务</NavLink></li>*/}
-						{/*<li><NavLink exact={false} to={"/setting"} name="nav-setting">设置</NavLink></li>*/}
 					</ul>
 				</div>
 			</div>

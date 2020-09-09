@@ -7,7 +7,7 @@ import CustomPagination from "../../../../components/Layout/Pagination";
 import {SMSSendLog,SMSStatistics} from "../../../../api/marketing/message";
 import {searchJson} from "../../../../utils/dataStorage";
 import IconFont from "../../../../utils/IconFont";
-import {getPreMonth,getCurrentMonth,getBeforeDate} from "../../../../utils/dataStorage";
+import {getPreMonth,getCurrentMonth} from "../../../../utils/dataStorage";
 
 const {RangePicker} = DatePicker;
 class SendOutRecord extends Component {

@@ -5,14 +5,18 @@ import { Link } from 'react-router-dom'
 import '../../style/sider.sass'
 import IconFont from "../../utils/IconFont";
 import {hasPermission} from "../../utils/hasPermissions";
-
-const { SubMenu } = Menu;
 let baseMenu = [
 	{
 		path:'/shops',
 		icon:'icon-arraive',
 		text:'店铺管理',
 		slug: 'menu_shop_management'
+	},
+	{
+		path:'/shops/ShopSetting',
+		icon:'icon-qudao1',
+		text:'店铺设置',
+		slug: 'menu_shop_setting'
 	},
 	{
 		path:'/shops/groups',
@@ -39,17 +43,11 @@ let baseMenu = [
 		slug: 'menu_shop_channel'
 	}
 ];
-baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
-console.log(hasPermission('menu_shop_management'));
+// baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
+console.log("店铺管理信息打印"+hasPermission('menu_shop_management'));
 const Shops = ({ match }) => (
 	<div style={{ paddingBottom: '120px',width:'216px' }}>
-		<Menu
-			theme="light"
-			defaultSelectedKeys={[match.url]}
-			selectedKeys={[match.url]}
-			defaultOpenKeys={['sub4']}
-			mode="vertical"
-		>
+		<Menu theme="light" defaultSelectedKeys={[match.url]} selectedKeys={[match.url]} defaultOpenKeys={['sub4']} mode="vertical">
 			{
 				baseMenu.map(item=>{
 					return (

@@ -50,8 +50,26 @@ let baseMenu = [
 		text:'订单转换',
 		slug: "menu_order_management"
 	},
+	{
+		path:'/order/societyFood',
+		icon:'icon-box-fill',
+		text:'社会餐订单',
+		slug: "menu_order_societyFood"
+	},
+	{
+		path:'/order/societySummary',
+		icon:'icon-box-fill',
+		text:'社会餐汇总',
+		slug: "menu_order_societySummary"
+	},
+	{
+		path:'/order/societyFoodSetting',
+		icon:'icon-box-fill',
+		text:'社会餐订单设置',
+		slug: "menu_order_societyFoodSetting"
+	},
 ];
-baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
+// baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
 const Order = ({ match }) => (
 	<div style={{ paddingBottom: '120px',width:'216px' }}>
 		<Menu
