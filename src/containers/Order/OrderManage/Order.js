@@ -133,9 +133,10 @@ class Order extends React.Component {
             {
                 title: '操作',
                 render: (text, record) => {
-                    return
-                    <span style={{color: '#4f9863', cursor: 'pointer'}} onClick={() => this.checkOrder(record)}>手动核销</span>
-                    <span style={{color: '#4f9863', cursor: 'pointer'}} onClick={() => this.cancelOrder(record)}>取消订单</span>;
+                    return <div>
+                                <span style={{color: '#4f9863', cursor: 'pointer'}} onClick={() => this.checkOrder(record)}>手动核销</span>
+                                <span style={{color: '#4f9863', cursor: 'pointer'}} onClick={() => this.cancelOrder(record)}>取消订单</span>
+                            </div>;
                 }
             }
         ];
