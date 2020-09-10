@@ -111,7 +111,7 @@ class PrintSummaryOrders extends Component {
 							}
 							{
 								order['shipping_info'] ? <div>
-									<h4  className="shopInfo" >店铺名称：{order['name']}</h4>
+									<h4  className="shopInfo" >店铺名称：{order['shop_name']}</h4>
 									<h4>地址：{order['shipping_info']['province']}{order['shipping_info']['city']}{order['shipping_info']['area']}{order['shipping_info']['detail_address']}</h4>
 									<h4>收货人：{order['shipping_info']['consignee_name']}</h4>
 									<h4>联系电话：{order['shipping_info']['consignee_mobile_phone']}</h4>
