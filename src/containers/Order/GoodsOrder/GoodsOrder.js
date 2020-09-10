@@ -375,11 +375,20 @@ class GoodsOrder extends React.Component{
 	printOrders = () => {
 		let {checkedAry, data} = this.state;
 		let orders = [];
-		_.map((data), (order)=> {
-			if (  checkedAry[this.state.activeTab] && _.indexOf(checkedAry[this.state.activeTab], order.id) > -1) {
-				orders.push(order)
+		// _.map((data), (order)=> {
+		// 	if (  checkedAry[this.state.activeTab] && _.indexOf(checkedAry[this.state.activeTab], order.id) > -1) {
+		// 		orders.push(order)
+		// 	}
+		// });
+		let datas=this.state.data;
+		for(let i=0;i<datas.length;i++){
+			let checkedId=datas[i].order_id;
+			if((checkedAry.ALL).indexOf(checkedId) !=-1){
+				orders.push(datas[i])
 			}
-		});
+
+		}
+		console.log("打印"+orders.toString())
 		this.props.history.push({pathname:"/printSummaryOrders", state: {orders, title: '商户订货订单'}})
 	};
 	confirmPopover =(fn) => {
