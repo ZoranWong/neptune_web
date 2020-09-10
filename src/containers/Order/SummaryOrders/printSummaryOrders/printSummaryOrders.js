@@ -111,16 +111,16 @@ class PrintSummaryOrders extends Component {
 							}
 							{
 								order['shipping_info'] ? <div>
-									<h4  className="shopInfo" >店铺名称：{order['name']}</h4>
+									<h4  className="shopInfo" >店铺名称：{order['shop_name']}</h4>
 									<h4>地址：{order['shipping_info']['province']}{order['shipping_info']['city']}{order['shipping_info']['area']}{order['shipping_info']['detail_address']}</h4>
 									<h4>收货人：{order['shipping_info']['consignee_name']}</h4>
 									<h4>联系电话：{order['shipping_info']['consignee_mobile_phone']}</h4>
 								</div> : ''
 							}
 							<h4>单据编号：{order['trade_no']}</h4>
-							<h4>{order.delivery_batch ? '客服电话：17368878588' :'物流电话：'}</h4>
+							<h4>{order.shop_keeper_mobile ? '客服电话：17368878588' :'物流电话：'}</h4>
 							<h4>配送员：</h4>
-						<h4>{order.delivery_batch ? '配送日期:'+order.delivery_batch.slice(0,10) : '汇总时间:'+order.summary_date}</h4>
+						<h4>{order.shop_keeper_mobile ? '配送日期:'+order.summary_date: '汇总时间:'+order.summary_date}</h4>
 							<h4>车线：{order['shop_delivery_route'] && order['shop_delivery_route'].name}</h4>
 							<div className="chart u_chart">
 								<Table
