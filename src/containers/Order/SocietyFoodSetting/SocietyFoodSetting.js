@@ -34,7 +34,6 @@ export default class SocietyFoodSetting extends React.Component{
         if(value=="0"){
             this.saveOrderSetting("SOCIETY_FOOD_USER_ORDER_PAID_THRESHOLD","null");
         }
-
     };
     changeShopRadio = e => {
         let value=e.target.value;
@@ -49,6 +48,9 @@ export default class SocietyFoodSetting extends React.Component{
     orderSetting = () =>{
         let param={'searchJson[type]':"SOCIETY_FOOD"}
         getSocietyOrderSet(param).then(r=>{
+            if(!r){
+               return false;
+            }
             let list=r.data;
             for (let i = 0; i <list.length ; i++) {
                 let key=list[i].key;
@@ -100,7 +102,6 @@ export default class SocietyFoodSetting extends React.Component{
                     }
                 }
             }
-            console.log("当前社会餐设置参数"+JSON.stringify(r.data))
         })
     };
     saveOrderSetting = (key,value) =>{

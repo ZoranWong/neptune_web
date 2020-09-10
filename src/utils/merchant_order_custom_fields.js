@@ -65,7 +65,7 @@ export const merchant_order_custom_fields = [
 			},
 			{
 				label:'下单时间',
-				value:'created_at'
+				value:'created_time'
 			},
 			{
 				label:'成本总额',
@@ -73,7 +73,7 @@ export const merchant_order_custom_fields = [
 			},
 			{
 				label:'支付时间',
-				value:'paid_at'
+				value:'paid_time'
 			},
 			{
 				label:'订货类型',

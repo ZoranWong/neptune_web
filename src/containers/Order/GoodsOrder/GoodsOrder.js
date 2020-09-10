@@ -51,10 +51,12 @@ class GoodsOrder extends React.Component{
 		this.merchantColumns = [
 			{
 				title: '商户名',
-				dataIndex: 'name',
+				dataIndex: 'shop_name',
+				ellipsis: true
 			},
 			{
 				title: '商品',
+				ellipsis: true,
 				render: (text,record) => {
 					if(record.items && record.items.length>0){
 						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
@@ -68,6 +70,7 @@ class GoodsOrder extends React.Component{
 			},
 			{
 				title: '缺少商品',
+				ellipsis: true,
 				render: (text,record) => {
 					if(record.deficient_items && record.deficient_items.length>0){
 						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
@@ -81,6 +84,7 @@ class GoodsOrder extends React.Component{
 			},
 			{
 				title: '破损商品',
+				ellipsis: true,
 				render: (text,record) => {
 					if(record.damaged_items && record.damaged_items.length>0){
 						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
@@ -95,10 +99,12 @@ class GoodsOrder extends React.Component{
 			
 			{
 				title: '下单时间',
-				dataIndex: 'created_at',
+				ellipsis: true,
+				dataIndex: 'created_time',
 			},
 			{
 				title: '实付款',
+				ellipsis: true,
 				dataIndex: 'settlement_total_fee',
 			},
 			{
@@ -129,16 +135,17 @@ class GoodsOrder extends React.Component{
 	refresh = (key='ALL')=>{
 		let arr = this.state.checkedAry;
 		arr[key] = [];
+		let param={
+			logic_conditions:[],
+			search:''
+		}
+		if(key && key!='ALL'){
+			param["searchJson"]=searchJson({state_constant:key});
+		}
 		this.setState({
 			filterVisible:false,
 			checkedAry: arr,
-			paginationParams:{
-				logic_conditions:[],
-				search:'',
-				searchJson:searchJson({
-					state_constant:key
-				})
-			}
+			paginationParams:param
 		},()=>{
 			this.child.current.pagination(this.child.current.state.current)
 		})
@@ -187,6 +194,7 @@ class GoodsOrder extends React.Component{
 					if(e == c.value){
 						let obj = {};
 						obj.title = c.label;
+						obj.ellipsis=true;
 						obj.dataIndex = orderOutputTransformer(e);
 						if (obj.dataIndex === 'damaged_items') {
 							obj.render = (text,record) => {
@@ -433,7 +441,6 @@ class GoodsOrder extends React.Component{
 			{name:'商品异常',key:'GOODS_UNQUALIFIED_WAIT_PROCESS'},
 			{name:'处理中',key:'GOODS_UNQUALIFIED_WAIT_VERIFY'},
 			{name:'已退款',key:'GOODS_UNQUALIFIED_REFUNDED'},
-
 			{name:'待支付',key:'GOODS_WAIT_PAY'},
 			{name:'已取消',key:'GOODS_CANCELED'},
 		];

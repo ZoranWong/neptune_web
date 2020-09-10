@@ -56,9 +56,11 @@ export default class SocietySummary extends React.Component{
         if(this.state.stateConstant){
             data['searchJson[state_constant]']=this.state.stateConstant;
         }
-        searchOrderSummaryList(data).then(r=>{
-            this.state.pageHelper.total=r.meta.pagination.total;
-            this.setState({tableData:r.data});
+        searchOrderSummaryList(data).then(result=>{
+            if(result){
+                this.state.pageHelper.total=result.meta.pagination.total;
+                this.setState({tableData:result.data});
+            }
         })
     };
     //高级筛选

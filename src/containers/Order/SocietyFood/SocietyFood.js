@@ -46,10 +46,12 @@ export default class SocietyFood extends React.Component{
         if(this.state.stateConstant){
             data['searchJson[state_constant]']=this.state.stateConstant;
         }
-        searchSocietyOrder(data).then(r=>{
-            this.state.pageHelper.total=r.meta.pagination.total;
-            this.setState({tableData:r.data});
-            console.log("当前总数"+r.meta.pagination.total+"======="+this.state.pageHelper.total)
+        searchSocietyOrder(data).then(result=>{
+            if(result){
+                this.state.pageHelper.total=result.meta.pagination.total;
+                this.setState({tableData:result.data});
+                console.log("当前总数"+result.meta.pagination.total+"======="+this.state.pageHelper.total)
+            }
         })
     };
     reviewGoods = (items) =>{

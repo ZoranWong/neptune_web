@@ -59,8 +59,8 @@ export default class ReviewGoods extends React.Component{
 				>
 					<ul className="reviews">
 						{
-							(items&&items.length)&&items.map(item=>(
-								<li key={item.item_id}>
+							(items&&items.length)&&items.map((item,index)=>(
+								<li key={index}>
 									<img src={item.thumbnail} alt="" className="left"/>
 									<div className="right">
 										<span>商品名:{item.name || item.product_name}</span>
