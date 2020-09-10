@@ -36,28 +36,37 @@ export default class SocietyFood extends React.Component{
         this.orderList();
     };
     orderList = () =>{
-        let param={}
-        if(this.state.searchValue){
-            param["search"]=this.state.searchValue;
-        }
-        if(this.state.stateConstant){
-            param["state_constant"]=this.state.stateConstant;
-        }
         let data={
             limit:this.state.pageHelper.pageSize,
             page:this.state.pageHelper.current
         }
-        if(param["search"] || param["state_constant"]){
-            data["searchJson"]=searchJson({param});
+        if(this.state.searchValue){
+            data['searchJson[search]']=this.state.searchValue;
         }
-        searchSocietyOrder(data).then(r=>{
-            this.state.pageHelper.total=r.meta.pagination.total;
-            this.setState({tableData:r.data});
-            console.log("当前总数"+r.meta.pagination.total+"======="+this.state.pageHelper.total)
+        if(this.state.stateConstant){
+            data['searchJson[state_constant]']=this.state.stateConstant;
+        }
+        searchSocietyOrder(data).then(result=>{
+            if(result){
+                this.state.pageHelper.total=result.meta.pagination.total;
+                this.setState({tableData:result.data});
+                console.log("当前总数"+result.meta.pagination.total+"======="+this.state.pageHelper.total)
+            }
         })
     };
     reviewGoods = (items) =>{
-        console.log("当前值:"+JSON.stringify(items));
+        for (let i = 0; i <items.length; i++) {
+            let spec_value=items[i]['spec_value'];
+            if(spec_value){
+                let result=[];
+                for (let key in spec_value){
+                    result.push(key)
+                    result.push(spec_value[key])
+                }
+                console.log("规格转换结果"+result.toString());
+                items[i]['specValue']=result.toString();
+            }
+        }
         this.setState({shopList:items},()=>this.showModal())
     }
     showModal =()=>{
@@ -123,7 +132,7 @@ export default class SocietyFood extends React.Component{
         return(
             <div className="society-food">
                 <div className="search-condition">
-                    <Search placeholder="请输入门店名称或店主手机号" enterButton="搜索" onSearch={this.searchShopName}/>
+                    <Search placeholder="请输入姓名和手机号" enterButton="搜索" onSearch={this.searchShopName}/>
                 </div>
                 <div className="search-condition search-btn">
                     <Button className={this.state.btnSign == '1'?"selected-btn":""} onClick={()=>this.changeBtn("1","")}>全部</Button>
@@ -136,7 +145,7 @@ export default class SocietyFood extends React.Component{
                     <Button className={this.state.btnSign == '8'?"selected-btn":""} onClick={()=>this.changeBtn("8","REFUNDED")}>已退款</Button>
                     <Button className={this.state.btnSign == '9'?"selected-btn":""} style={{borderRight:"1px solid #D9D9D9"}} onClick={()=>this.changeBtn("9","WAIT_PAY")}>待支付</Button>
                 </div>
-                <Table onChange={this.onChangePage} className="table-layout-style" dataSource={this.state.tableData} columns={columns} pagination={this.state.pageHelper}/>
+                <Table onChange={this.onChangePage} rowKey={record => record.id} className="table-layout-style" dataSource={this.state.tableData} columns={columns} pagination={this.state.pageHelper}/>
                 <Modal title="商品" visible={this.state.visible} onCancel={this.handleCancel} footer={null}>
                     <ul className="reviews">
                         {
@@ -145,7 +154,7 @@ export default class SocietyFood extends React.Component{
                                     <img src={item.thumbnail} alt="" className="left"/>
                                     <div className="right">
                                         <span>商品名:{item.name}</span>
-                                        <span>规格:{item.spec_value || '无'}</span>
+                                        <span>规格:{item.specValue || '无'}</span>
                                         <span>数量:{item.quantity}</span>
                                         <span>零售价:{item.retail_price + '元'}</span>
                                         <span>备注:{item.remark || '无'}</span>

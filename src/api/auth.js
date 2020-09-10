@@ -8,15 +8,6 @@ export function getPublic(params) {
         params: params
     })
 }
-
-// export function sendSms(mobile) {
-//     return request({
-//         url: '/api/backend/auth/send_captcha',
-//         method: 'post',
-//         data: {mobile: mobile}
-//     })
-// }
-
 export function login(params) {
     return request({
         url: '/api/backend/auth/login',

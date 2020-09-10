@@ -51,12 +51,14 @@ class GoodsOrder extends React.Component{
 		this.merchantColumns = [
 			{
 				title: '商户名',
-				dataIndex: 'shop_keeper_name',
+				dataIndex: 'shop_name',
+				ellipsis: true
 			},
 			{
 				title: '商品',
+				ellipsis: true,
 				render: (text,record) => {
-					if(record.items.length){
+					if(record.items && record.items.length>0){
 						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
 							<span className="orderGoods">{record.items[0].name+'......'}</span>
 							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items, '商品')} />
@@ -68,8 +70,9 @@ class GoodsOrder extends React.Component{
 			},
 			{
 				title: '缺少商品',
+				ellipsis: true,
 				render: (text,record) => {
-					if(record.deficient_items.length){
+					if(record.deficient_items && record.deficient_items.length>0){
 						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
 							<span className="orderGoods">{record.deficient_items[0].name+'......'}</span>
 							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.deficient_items, '缺少商品')} />
@@ -81,8 +84,9 @@ class GoodsOrder extends React.Component{
 			},
 			{
 				title: '破损商品',
+				ellipsis: true,
 				render: (text,record) => {
-					if(record.damaged_items.length){
+					if(record.damaged_items && record.damaged_items.length>0){
 						return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
 							<span className="orderGoods">{record.damaged_items[0].name+'......'}</span>
 							<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.damaged_items, '破损商品')} />
@@ -96,9 +100,11 @@ class GoodsOrder extends React.Component{
 			{
 				title: '下单时间',
 				dataIndex: 'created_time',
+				ellipsis: true,
 			},
 			{
 				title: '实付款',
+				ellipsis: true,
 				dataIndex: 'settlement_total_fee',
 			},
 			{
@@ -129,16 +135,17 @@ class GoodsOrder extends React.Component{
 	refresh = (key='ALL')=>{
 		let arr = this.state.checkedAry;
 		arr[key] = [];
+		let param={
+			logic_conditions:[],
+			search:''
+		}
+		if(key && key!='ALL'){
+			param["searchJson"]=searchJson({state_constant:key});
+		}
 		this.setState({
 			filterVisible:false,
 			checkedAry: arr,
-			paginationParams:{
-				logic_conditions:[],
-				search:'',
-				searchJson:searchJson({
-					state_constant:key
-				})
-			}
+			paginationParams:param
 		},()=>{
 			this.child.current.pagination(this.child.current.state.current)
 		})
@@ -187,12 +194,13 @@ class GoodsOrder extends React.Component{
 					if(e == c.value){
 						let obj = {};
 						obj.title = c.label;
+						obj.ellipsis=true;
 						obj.dataIndex = orderOutputTransformer(e);
 						if (obj.dataIndex === 'damaged_items') {
 							obj.render = (text,record) => {
-								if(record.damaged_items.length){
+								if(record.damaged_items && record.damaged_items.length>0){
 									return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-										<span className="orderGoods">{record.damaged_items.name+'......'}</span>
+										<span className="orderGoods">{record.damaged_items[0].name+'......'}</span>
 										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.damaged_items, '破损商品')} />
 									</span>
 								} else {
@@ -202,7 +210,7 @@ class GoodsOrder extends React.Component{
 						};
 						if (obj.dataIndex === 'items') {
 							obj.render = (text,record) => {
-								if(record.items.length){
+								if(record.items && record.items.length>0){
 									return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
 										<span className="orderGoods">{record.items[0].name+'......'}</span>
 										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.items)} />
@@ -214,9 +222,9 @@ class GoodsOrder extends React.Component{
 						}
 						if (obj.dataIndex === 'deficient_items') {
 							obj.render =(text,record) => {
-								if(record.deficient_items.length){
+								if(record.deficient_items && record.deficient_items.length>0){
 									return <span style={{'color':'#4F9863','cursor':'pointer','display':'flex'}} className="i_span">
-										<span className="orderGoods">{record.deficient_items.name+'......'}</span>
+										<span className="orderGoods">{record.deficient_items[0].name+'......'}</span>
 										<IconFont type="icon-eye-fill" onClick={()=>this.reviewGoods(record.deficient_items, '缺少商品')} />
 									</span>
 								} else {
@@ -308,7 +316,6 @@ class GoodsOrder extends React.Component{
 	
 	// 打印订单
 	print = async () => {
-		console.log("打印订单++++++++++++++++")
 		this.setState({loadingOne: true});
 		let res = await getSystemSetting({searchJson: searchJson({type: 'MERCHANT_ORDER'})});
 		console.log(res, '===>>>');
@@ -373,7 +380,6 @@ class GoodsOrder extends React.Component{
 				orders.push(order)
 			}
 		});
-		console.log("打印"+JSON.stringify(orders))
 		this.props.history.push({pathname:"/printSummaryOrders", state: {orders, title: '商户订货订单'}})
 	};
 	confirmPopover =(fn) => {
@@ -542,7 +548,7 @@ class GoodsOrder extends React.Component{
 					<Table
 						rowSelection={rowSelection}
 						columns={this.merchantColumns}
-						rowKey={record => record.order_id}
+						rowKey={record => record.id}
 						pagination={false}
 						rowClassName={(record, index) => {
 							let className = '';

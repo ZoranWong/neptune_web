@@ -144,10 +144,10 @@ export default class ShopHypermarket extends React.Component{
         return(
             <div className="food-shop-hypermarket">
                 <Modal width={1000} title={this.state.title} visible={this.props.visible} footer={null} onCancel={this.handleTableCancel}>
-                    <Table className="table-layout-style" dataSource={this.state.tableData} columns={columns}/>
+                    <Table className="table-layout-style" rowKey={record => record.id} dataSource={this.state.tableData} columns={columns}/>
                 </Modal>
                 <Modal title={this.state.title} visible={this.state.visible} footer={null} onCancel={this.handleCancel}>
-                    <Table className="table-layout-style" dataSource={this.state.tableModalData} columns={this.state.columnsModal}/>
+                    <Table className="table-layout-style" rowKey={record => record.id} dataSource={this.state.tableModalData} columns={this.state.columnsModal}/>
                 </Modal>
             </div>
         )

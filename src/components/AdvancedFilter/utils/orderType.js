@@ -23,7 +23,10 @@ export const merchantOrder = [
 	{name:'已完成',key:'COMPLETED'},
 	{name:'商品异常',key:'GOODS_UNQUALIFIED_WAIT_PROCESS'},
 	{name:'处理中',key:'GOODS_UNQUALIFIED_WAIT_VERIFY'},
-	{name:'已退款',key:'GOODS_UNQUALIFIED_REFUNDED'}
+	{name:'已退款',key:'GOODS_UNQUALIFIED_REFUNDED'},
+
+	{name:'待支付',key:'GOODS_WAIT_PAY'},
+	{name:'已取消',key:'GOODS_CANCELED'}
 ];
 
 export const deliveryType = [
