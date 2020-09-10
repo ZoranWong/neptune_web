@@ -121,7 +121,7 @@ class LoginContainer extends React.Component {
 										}}
 									/>
 								</Popover>
-								<Button size="small" type="primary" disabled={this.state.countDown < 60} className="getCode" onClick={this.sendSmsCountDown}>
+								<Button size="small" type="primary" disabled={this.state.countDown < 60} className="getCode" onClick={this.sendSms}>
 									{this.state.countDown === 60?'发送验证码' :this.state.countDown+'s'}
 								</Button>
 							</div>
