@@ -308,6 +308,7 @@ class GoodsOrder extends React.Component{
 	
 	// 打印订单
 	print = async () => {
+		console.log("打印订单++++++++++++++++")
 		this.setState({loadingOne: true});
 		let res = await getSystemSetting({searchJson: searchJson({type: 'MERCHANT_ORDER'})});
 		console.log(res, '===>>>');
@@ -372,6 +373,7 @@ class GoodsOrder extends React.Component{
 				orders.push(order)
 			}
 		});
+		console.log("打印"+JSON.stringify(orders))
 		this.props.history.push({pathname:"/printSummaryOrders", state: {orders, title: '商户订货订单'}})
 	};
 	confirmPopover =(fn) => {
@@ -540,7 +542,7 @@ class GoodsOrder extends React.Component{
 					<Table
 						rowSelection={rowSelection}
 						columns={this.merchantColumns}
-						rowKey={record => record.id}
+						rowKey={record => record.order_id}
 						pagination={false}
 						rowClassName={(record, index) => {
 							let className = '';
