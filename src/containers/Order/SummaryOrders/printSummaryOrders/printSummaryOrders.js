@@ -45,7 +45,7 @@ class PrintSummaryOrders extends Component {
 			// },
 			{
 				title: '规格（单位）',
-				dataIndex: 'unit',
+				dataIndex: 'spec_value',
 				align: 'center',
 				render: (text, record, index) => {
 					console.log(record, '===============>');
@@ -63,7 +63,7 @@ class PrintSummaryOrders extends Component {
 			},
 			{
 				title: '单价(元)',
-				dataIndex: 'price',
+				dataIndex: 'retail_price',
 				align: 'center'
 			},
 			{
