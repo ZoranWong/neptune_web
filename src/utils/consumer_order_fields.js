@@ -31,7 +31,7 @@ export const consumer_order_values = [
 			{
 				label:'付款方式',
 				value:'payment_type',
-				type:'equalCompare'
+				type:'orderPaymentType'
 			}
 		]
 	},
@@ -174,6 +174,11 @@ export const operation = {
 			type:'summaryOrderType'
 		},
 	],
+	'orderPaymentType': [{
+		label:'等于',
+		value:'=',
+		type:'orderPaymentType'
+	}],
 	'absoluteCompare':[
 		{
 			label:'等于',
