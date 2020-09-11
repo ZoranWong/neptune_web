@@ -4,8 +4,8 @@ const proApiUrl = 'http://neptune.klsfood.cn'; //正式环境变量,注意修改
 
 
 export default {
-    nodeDevEnv: false,
-    apiUrl : proApiUrl,
+    nodeDevEnv: true,
+    apiUrl :  proApiUrl,
     apiPrefix : "",
     timeout:5000,
     cookiesExpires:7,
