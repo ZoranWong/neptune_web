@@ -63,11 +63,6 @@ export const consumer_order_values_export = [
 				label:'收货人信息',
 				value:'shipping_info',
 				type:'absoluteCompare'
-			},
-			{
-				label:'自提点名称',
-				value:'shop_name',
-				type:'absoluteCompare'
 			}
 		]
 	},
