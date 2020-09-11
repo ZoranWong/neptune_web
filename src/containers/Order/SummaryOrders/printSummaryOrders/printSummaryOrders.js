@@ -45,14 +45,14 @@ class PrintSummaryOrders extends Component {
 			// },
 			{
 				title: '规格（单位）',
-				dataIndex: 'spec_value',
+				dataIndex: 'unit',
 				align: 'center',
 				render: (text, record, index) => {
 					console.log(record, '===============>');
 					if (record.name === '合计') {
 						return '--';
 					} else {
-						return text ;  //++index相当于index+1
+						return text ? text : record.spec_value;  //++index相当于index+1
 					}
 				}
 			},
