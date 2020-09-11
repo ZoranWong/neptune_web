@@ -16,6 +16,7 @@ export const consumerOrderType = [
 	{name:'商城订单',key:'SELF_PICK'},
 	// {name:'待收货(配送单)',key:'WAIT_CUSTOMER_VERIFY_HOME'},
 	{name:'团购订单',key:'GROUP_SHOPPING'},
+	{name: '扫码付订单', key: 'SCAN_CODE'}
 ];
 
 export const merchantOrder = [
