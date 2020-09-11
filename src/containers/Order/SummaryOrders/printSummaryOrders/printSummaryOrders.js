@@ -63,8 +63,11 @@ class PrintSummaryOrders extends Component {
 			},
 			{
 				title: '单价(元)',
-				dataIndex: 'retail_price',
-				align: 'center'
+				dataIndex: 'price',
+				align: 'center',
+				render: (text, record) => (<span>
+					{text ? text : record.retail_price}
+				</span>)
 			},
 			{
 				title: '金额(元)',
