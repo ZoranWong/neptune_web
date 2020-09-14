@@ -590,8 +590,8 @@ class Order extends React.Component {
 
     exportCodeScanPaymentOrders() {
         getExportMerchantCodeScanUrl().then((response) => {
-            if(response.data) {
-                window.location.href = response.data['download_url'];
+            if(response['download_url']) {
+                window.location.href = response['download_url'];
             }
         })
     }
