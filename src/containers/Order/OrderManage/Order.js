@@ -15,7 +15,7 @@ import {
     checkOrders,
     checkOrder,
     checkManyOrder,
-    orderCancel
+    orderCancel, getExportMerchantCodeScanUrl
 } from "../../../api/order/orderManage";
 import {consumer_order_values} from "../../../utils/consumer_order_fields";
 import {consumer_order_values_export} from "../../../utils/consumer_order_fields_export";
@@ -588,6 +588,14 @@ class Order extends React.Component {
         window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
     };
 
+    exportCodeScanPaymentOrders() {
+        getExportMerchantCodeScanUrl().then((response) => {
+            if(response.data) {
+                window.location.href = response.data['download_url'];
+            }
+        })
+    }
+
     // 核实订单
     changeOrderStatus = () => {
         this.setState({changeOrderStatusVisible: true})
@@ -829,10 +837,6 @@ class Order extends React.Component {
                             size="small"
                             onClick={this.conditionSelector(true, ['SELF_PICK'])}
                         >批量导出配送单</Button>
-                        <Button
-                            size="small"
-                            onClick={this.changeOrderStatus}
-                        >核实订单</Button>
 
                         {/*{*/}
                         {/*	window.hasPermission("order_management_platform_cancel") &&<Button*/}
@@ -855,9 +859,17 @@ class Order extends React.Component {
                     <div className="headerLeft">
                         <Button
                             size="small"
+                            onClick={this.changeOrderStatus}
+                        >核实订单</Button>
+                        <Button
+                            size="small"
                             onClick={this.checkManyOrders}
                             disabled={!this.state.checkedAry.length || (this.state.activeTab !== 'WAIT_CUSTOMER_VERIFY' && this.state.activeTab !== 'WAIT_CUSTOMER_VERIFY_HOME')}
                         >批量核销订单</Button>
+                        <Button
+                            size="small"
+                            onClick={this.exportCodeScanPaymentOrders}
+                        >下载早餐车扫码付汇总表</Button>
                     </div>
                 </div>
                 <div className="tabs">

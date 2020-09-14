@@ -120,6 +120,13 @@ export function checkOrders(params) {
 	})
 }
 
+export function getExportMerchantCodeScanUrl () {
+	return request({
+		url: '/api/backend/exportMerchantCollectionSum',
+		method: 'get'
+	});
+}
+
 
 // 批量核销订单
 export function checkManyOrder(params) {
