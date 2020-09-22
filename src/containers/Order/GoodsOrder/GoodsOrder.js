@@ -556,7 +556,7 @@ class GoodsOrder extends React.Component{
 					<Table
 						rowSelection={rowSelection}
 						columns={this.merchantColumns}
-						rowKey={record => record.id}
+						rowKey={record => record['order_id']}
 						pagination={false}
 						rowClassName={(record, index) => {
 							let className = '';
