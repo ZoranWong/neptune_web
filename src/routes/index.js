@@ -231,7 +231,7 @@ const Routes = () =>(
 		<Route exact={true} path="/shops/shopDetails" render={props => onEnter(ShopDetails, props)} />
 		<Route exact={true} path="/shops/logisticsRoutes" render={props => onEnter(LogisticsRoutes, props)} />
 		<Route exact={true} path="/shops/ShopSetting" render={props => onEnter(ShopSetting, props)} />
-		
+
 		{/*用户*/}
 		<Route exact={true} path="/user" render={props => onEnter(UserManage, props)} />
 		<Route exact={true} path="/user/integralRules" render={props => onEnter(IntegralRules, props)} />

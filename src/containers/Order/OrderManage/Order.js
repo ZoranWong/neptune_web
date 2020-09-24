@@ -1,6 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
-import {Button, Table, Modal, message} from 'antd'
+import moment from 'moment';
+import {Button, Table, Modal, message, DatePicker} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/order.sass'
 import {getToken, orderInputTransformer, orderOutputTransformer, searchJson} from "../../../utils/dataStorage";
@@ -9,7 +10,14 @@ import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
 import ReviewGoods from "../Components/ReviewGoods";
-import {userOrder, batchCancel, checkOrders, checkOrder, checkManyOrder} from "../../../api/order/orderManage";
+import {
+    userOrder,
+    batchCancel,
+    checkOrders,
+    checkOrder,
+    checkManyOrder,
+    orderCancel, getExportMerchantCodeScanUrl
+} from "../../../api/order/orderManage";
 import {consumer_order_values} from "../../../utils/consumer_order_fields";
 import {consumer_order_values_export} from "../../../utils/consumer_order_fields_export";
 import {consumer_order_values_custom} from "../../../utils/consumer_order_fields_custom_item";
@@ -125,8 +133,13 @@ class Order extends React.Component {
             },
             {
                 title: '操作',
-                render: (text, record) => (<span style={{color: '#4f9863', cursor: 'pointer'}}
-                                                 onClick={() => this.checkOrder(record)}>手动核销</span>)
+                render: (text, record) => {
+                    return <div>
+                                <span style={{color: '#4f9863', cursor: 'pointer'}} onClick={() => this.checkOrder(record)}>手动核销</span>
+                                <p></p>
+                                <span style={{color: '#4f9863', cursor: 'pointer'}} onClick={() => this.cancelOrder(record)}>取消订单</span>
+                            </div>;
+                }
             }
         ];
         const defaultItem = ['user_nickname', 'trade_no', 'products', 'settlement_total_fee', 'delivery_type', 'created_at', 'state_desc'];
@@ -576,6 +589,57 @@ class Order extends React.Component {
         window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
     };
 
+    exportCodeScanPaymentOrders() {
+        let date = new Date();
+        let dateStr = null;
+        const onChange = (d, dateString) => {
+            date = d;
+            dateStr = dateString;
+        }
+        const exportModal = Modal.confirm({
+            title: (
+                <div className='u_confirm_header'>
+                    扫码付订单导出
+                    <i className="iconfont" style={{'cursor': 'pointer'}} onClick={() => {
+                        exportModal.destroy()
+                    }}>&#xe82a;</i>
+                </div>
+            ),
+            icon: null,
+            width: '280px',
+            closable: true,
+            centered: true,
+            maskClosable: true,
+            content: (
+                <div className="U_confirm">
+                    <DatePicker defaultValue={moment(date,'YYYY-MM-DD')} onChange={onChange}></DatePicker>
+                </div>
+            ),
+            cancelText: '取消',
+            okText: '确定',
+            okButtonProps: {
+                size: 'small'
+            },
+            cancelButtonProps: {
+                size: 'small'
+            },
+            onOk() {
+                if(date) {
+                    console.log(dateStr)
+                    getExportMerchantCodeScanUrl(dateStr).then((response) => {
+                        if(response['download_url']) {
+                            window.location.href = response['download_url'];
+                        }
+                    })
+                }
+            },
+            onCancel() {
+
+            }
+        });
+
+    }
+
     // 核实订单
     changeOrderStatus = () => {
         this.setState({changeOrderStatusVisible: true})
@@ -643,6 +707,50 @@ class Order extends React.Component {
 
             },
             onCancel() {
+            },
+        });
+    };
+
+    cancelOrder (record) {
+        let refresh = this.refresh;
+        let showCheckinNormal = this.showCheckinNormal;
+        let tab = this.state.activeTab;
+        let confirmModal = Modal.confirm({
+            title: (
+                <div className='u_confirm_header'>
+                    提示
+                    <i className="iconfont" style={{'cursor': 'pointer'}} onClick={() => {
+                        confirmModal.destroy()
+                    }}>&#xe82a;</i>
+                </div>
+            ),
+            icon: null,
+            width: '280px',
+            closable: true,
+            centered: true,
+            maskClosable: true,
+            content: (
+                <div className="U_confirm">
+                    确定手动取消该订单么？
+                </div>
+            ),
+            cancelText: '商品异常',
+            okText: '直接取消',
+            okButtonProps: {
+                size: 'small'
+            },
+            cancelButtonProps: {
+                size: 'small'
+            },
+            onOk() {
+                orderCancel(record.id).then(r => {
+                    message.success(`手动取消订单成功！`);
+                    refresh(tab)
+                });
+
+            },
+            onCancel() {
+                showCheckinNormal(record)
             },
         });
     };
@@ -773,10 +881,6 @@ class Order extends React.Component {
                             size="small"
                             onClick={this.conditionSelector(true, ['SELF_PICK'])}
                         >批量导出配送单</Button>
-                        <Button
-                            size="small"
-                            onClick={this.changeOrderStatus}
-                        >核实订单</Button>
 
                         {/*{*/}
                         {/*	window.hasPermission("order_management_platform_cancel") &&<Button*/}
@@ -799,9 +903,17 @@ class Order extends React.Component {
                     <div className="headerLeft">
                         <Button
                             size="small"
+                            onClick={this.changeOrderStatus}
+                        >核实订单</Button>
+                        <Button
+                            size="small"
                             onClick={this.checkManyOrders}
                             disabled={!this.state.checkedAry.length || (this.state.activeTab !== 'WAIT_CUSTOMER_VERIFY' && this.state.activeTab !== 'WAIT_CUSTOMER_VERIFY_HOME')}
                         >批量核销订单</Button>
+                        <Button
+                            size="small"
+                            onClick={this.exportCodeScanPaymentOrders}
+                        >下载早餐车扫码付汇总表</Button>
                     </div>
                 </div>
                 <div className="tabs">

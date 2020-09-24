@@ -17,6 +17,7 @@ class Recharge extends Component {
 			cards: [],
 			newCardVisible: false
 		};
+		
 		this.child = React.createRef();
 	}
 	
@@ -43,7 +44,7 @@ class Recharge extends Component {
 		this.setState({cards:list})
 	};
 
-	// 兑换详情
+	// 激活详情
 	exchangeDetails = (id) => {
 		this.props.history.push({pathname:"/marketing/rechargeDetails", state: {id: id}});
 	};
@@ -130,28 +131,27 @@ class Recharge extends Component {
 				)
 			},
 			{
+				title:'使用场景',
+				dataIndex:'used_scene',
+				// render:(text, record)=>(
+                    //<span style={{'color':'blue','border':'1px solid blue','marginRight' : '10px'}}>{record.used_scene}</span>
+					// &&<span style={{'color':'blue','border':'1px solid blue','marginRight' : '10px'}}>{record.used_scene[1]}</span>
+					// &&<span style={{'color':'blue','border':'1px solid blue','marginRight' : '10px'}}>{record.used_scene[2]}</span>
+					// &&<span style={{'color':'blue','border':'1px solid blue','marginRight' : '10px'}}>{record.used_scene[3]}</span>
+					
+                // )
+			},
+			{
 				title: '总数量',
 				dataIndex: 'total_quantity',
 			},
 			{
-				title: '已兑换数量',
+				title: '已激活数量',
 				dataIndex: 'exchange_quantity'
 			},
 			{
 				title: '状态',
-				dataIndex: 'state',
-				render: (text, record) => {
-					switch (text) {
-						case 0:
-							return '待激活';
-						case 1:
-							return '已激活';
-						case 2:
-							return '已停用';
-						default:
-							return '已过期'
-					}
-				}
+				dataIndex: 'state_desc'
 			},
 			{
 				title: '操作',
@@ -160,7 +160,7 @@ class Recharge extends Component {
 						<span
 							style={{'color':'#4F9863','cursor':'pointer','marginRight' : '10px'}}
 							onClick={()=>this.exchangeDetails(record.id)}
-						>兑换详情
+						>激活详情
 						</span>
 						{
 							(record.state === 0 || record.state === 1) && <span

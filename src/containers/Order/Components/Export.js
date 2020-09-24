@@ -81,6 +81,7 @@ class Export extends Component {
 	
 	render() {
 		const {selectedItems} = this.state;
+		console.log('-------------selectedItems---------------', selectedItems);
 		return (
 			<div className='export'>
 				<Modal

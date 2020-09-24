@@ -12,7 +12,7 @@ export function checkOrder(params,orderId) {
 // 手动关闭
 export function orderCancel(id) {
 	return request({
-		url: `/api/backend/orders/${id}/cancel`,
+		url: `/api/backend/orders/${id}/to_cancel`,
 		method: 'put'
 	})
 }
@@ -118,6 +118,16 @@ export function checkOrders(params) {
 		method: 'put',
 		data: params
 	})
+}
+
+export function getExportMerchantCodeScanUrl (date) {
+	return request({
+		url: '/api/backend/exportMerchantCollectionSum',
+		method: 'get',
+		params: {
+			date: date
+		}
+	});
 }
 
 

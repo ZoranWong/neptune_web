@@ -326,6 +326,7 @@ class LoginContainer extends React.Component {
 			</div>
 		);
 	}
+// >>>>>>>>> Temporary merge branch 2
 }
 
 LoginContainer = Form.create({})(LoginContainer);

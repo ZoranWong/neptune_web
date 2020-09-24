@@ -16,6 +16,7 @@ export const consumerOrderType = [
 	{name:'商城订单',key:'SELF_PICK'},
 	// {name:'待收货(配送单)',key:'WAIT_CUSTOMER_VERIFY_HOME'},
 	{name:'团购订单',key:'GROUP_SHOPPING'},
+	{name: '扫码付订单', key: 'CODE_SCAN'}
 ];
 
 export const merchantOrder = [
@@ -48,4 +49,11 @@ export const withdrawState = [
 export const summaryOrderType = [
 	{name:'商城订单',key:'SELF_PICK_SUMMARY'},
 	{name:'拼团订单',key:'GROUP_SHOPPING'},
+];
+
+export const orderPaymentType = [
+	{name:'微信支付',key:'WX'},
+	{name:'支付宝',key:'ALIPAY'},
+	{name:'余额支付',key:'BALANCE'},
+	{name:'消费卡支付',key:'CONSUME_CARD'},
 ];

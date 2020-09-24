@@ -46,7 +46,8 @@ class GoodsOrder extends React.Component{
 			refundItem:{},
 			defaultItem: defaultItem,
 			todayOrders: [],
-			loadingOne: false
+			loadingOne: false,
+			printType: null
 		};
 		this.merchantColumns = [
 			{
@@ -99,8 +100,8 @@ class GoodsOrder extends React.Component{
 			
 			{
 				title: '下单时间',
-				ellipsis: true,
 				dataIndex: 'created_time',
+				ellipsis: true,
 			},
 			{
 				title: '实付款',
@@ -315,39 +316,50 @@ class GoodsOrder extends React.Component{
 	};
 	
 	// 打印订单
-	print = async () => {
-		this.setState({loadingOne: true});
-		let res = await getSystemSetting({searchJson: searchJson({type: 'MERCHANT_ORDER'})});
-		console.log(res, '===>>>');
-		let hour = null;
-		let minute = null;
-		_.map(res.data, item => {
-			if (item.key === 'MERCHANT_ORDER_PAID_TIME_THRESHOLD_HOUR') {
-				hour = item.value
+	print = (type) => {
+
+		return async () => {
+			this.setState({
+				printType: type
+			})
+			this.setState({loadingOne: true});
+			let res = await getSystemSetting({searchJson: searchJson({type: 'MERCHANT_ORDER'})});
+			console.log(res, '===>>>');
+			let hour = null;
+			let minute = null;
+			_.map(res.data, item => {
+				if (item.key === 'MERCHANT_ORDER_PAID_TIME_THRESHOLD_HOUR') {
+					hour = item.value
+				};
+				if (item.key === 'MERCHANT_ORDER_PAID_TIME_THRESHOLD_MINUTE') {
+					minute = item.value
+				};
+			});
+			let deadline = `${hour}:${minute}`;
+			let yesterday = getBeforeDate(-1);
+			let today = getBeforeDate(0);
+			let logic_conditions = {
+				conditions: [
+					{
+						conditions: [
+							{
+								key: 'order_paid_at',
+								operation: 'between',
+								value: [`${yesterday} ${deadline}`,`${today} ${deadline}`]
+							},
+							{
+								key: 'order_order_type',
+								operation: '=',
+								value: type === 'MERCHANT_ORDER' ? 'SHOP_KEEPER_ORDER_PRODUCT' : 'SOCIETY_FOOD_SHOP_BOOK_ORDER'
+							}
+						],
+						logic: 'and'
+					}
+				],
+				logic: 'and'
 			};
-			if (item.key === 'MERCHANT_ORDER_PAID_TIME_THRESHOLD_MINUTE') {
-				minute = item.value
-			};
-		});
-		let deadline = `${hour}:${minute}`;
-		let yesterday = getBeforeDate(-1);
-		let today = getBeforeDate(0);
-		let logic_conditions = {
-			conditions: [
-				{
-					conditions: [
-						{
-							key: 'order_paid_at',
-							operation: 'between',
-							value: [`${yesterday} ${deadline}`,`${today} ${deadline}`]
-						},
-					],
-					logic: 'and'
-				}
-			],
-			logic: 'and'
-		};
-		this.getOrders(logic_conditions, 1)
+			this.getOrders(logic_conditions, 1)
+		}
 		// this.props.history.push({pathname:"/printSummaryOrders", state: {orders, title: '商户订货订单'}})
 	};
 
@@ -376,10 +388,8 @@ class GoodsOrder extends React.Component{
 		let {checkedAry, data} = this.state;
 		let orders = [];
 		_.map((data), (order)=> {
-			if(order["order_type_desc"]!="社会餐订货"){
-				if (checkedAry[this.state.activeTab] && _.indexOf(checkedAry[this.state.activeTab], order.id) > -1) {
-					orders.push(order)
-				}
+			if (  checkedAry[this.state.activeTab] && _.indexOf(checkedAry[this.state.activeTab], order.id) > -1) {
+				orders.push(order)
 			}
 		});
 		this.props.history.push({pathname:"/printSummaryOrders", state: {orders, title: '商户订货订单'}})
@@ -503,9 +513,16 @@ class GoodsOrder extends React.Component{
 						{
 							window.hasPermission("order_management_printing") && <Button
 								size="small"
-								onClick={this.print}
-								loading={this.state.loadingOne}
-							>打印今日订单</Button>
+								onClick={this.print('MERCHANT_ORDER')}
+								loading={this.state.loadingOne && this.state.printType === 'MERCHANT_ORDER'}
+							>打印商户今日订货订单</Button>
+						}
+						{
+							window.hasPermission("order_management_printing") && <Button
+								size="small"
+								onClick={this.print('SOCIETY_FOOD_SHOP_BOOK_ORDER')}
+								loading={this.state.loadingOne && this.state.printType === 'SOCIETY_FOOD_SHOP_BOOK_ORDER'}
+							>打印商户今日社会订货订单</Button>
 						}
 						{
 							window.hasPermission("order_management_printing") && <Button
@@ -552,7 +569,7 @@ class GoodsOrder extends React.Component{
 					<Table
 						rowSelection={rowSelection}
 						columns={this.merchantColumns}
-						rowKey={record => record.id}
+						rowKey={record => record['order_id']}
 						pagination={false}
 						rowClassName={(record, index) => {
 							let className = '';

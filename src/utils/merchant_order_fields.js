@@ -14,8 +14,23 @@ export const merchant_order_values = [
 				type:'timeDetailCompare'
 			},
 			{
-				label:'店铺名称',
+				label:'自提店铺名称',
+				value:'pick_shop_name',
+				type:'equalCompare'
+			},
+			{
+				label:'自提店铺编号',
+				value:'pick_shop_code',
+				type:'equalCompare'
+			},
+			{
+				label:'支付店铺名称',
 				value:'shop_name',
+				type:'equalCompare'
+			},
+			{
+				label:'支付店铺编号',
+				value:'shop_code',
 				type:'equalCompare'
 			},
 			{
@@ -27,6 +42,11 @@ export const merchant_order_values = [
 				label:'订货类型',
 				value:'type_desc',
 				type:'merchantOrderType'
+			},
+			{
+				label:'付款方式',
+				value:'payment_type',
+				type:'orderPaymentType'
 			}
 		]
 	},
@@ -34,6 +54,11 @@ export const merchant_order_values = [
 
 
 export const operation = {
+	'orderPaymentType': [{
+		label:'等于',
+		value:'=',
+		type:'orderPaymentType'
+	}],
 	'numCompare':[
 		{
 			label:'等于',

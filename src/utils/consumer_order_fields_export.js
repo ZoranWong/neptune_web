@@ -31,7 +31,7 @@ export const consumer_order_values_export = [
 			{
 				label:'付款方式',
 				value:'payment_type',
-				type:'equalCompare'
+				type:'orderPaymentType'
 			}
 		]
 	},
@@ -62,11 +62,6 @@ export const consumer_order_values_export = [
 			{
 				label:'收货人信息',
 				value:'shipping_info',
-				type:'absoluteCompare'
-			},
-			{
-				label:'自提点名称',
-				value:'shop_name',
 				type:'absoluteCompare'
 			}
 		]
@@ -106,7 +101,22 @@ export const consumer_order_values_export = [
 				type:'consumerOrder'
 			},
 			{
+				label:'自提店铺名称',
+				value:'pick_shop_name',
+				type:'equalCompare'
+			},
+			{
 				label:'自提店铺编号',
+				value:'pick_shop_code',
+				type:'equalCompare'
+			},
+			{
+				label:'支付店铺名称',
+				value:'shop_name',
+				type:'equalCompare'
+			},
+			{
+				label:'支付店铺编号',
 				value:'shop_code',
 				type:'equalCompare'
 			},
@@ -120,11 +130,21 @@ export const consumer_order_values_export = [
 				value:'superior_shop_code',
 				type:'equalCompare'
 			},
+			{
+				label: "销售贡献额度",
+				value: 'sales_amount',
+				type: 'numCompare'
+			}
 		]
 	},
 ];
 
 export const operation = {
+	'orderPaymentType': [{
+		label:'等于',
+		value:'=',
+		type:'orderPaymentType'
+	}],
 	'absoluteCompare':[
 		{
 			label:'等于',

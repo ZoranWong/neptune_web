@@ -10,6 +10,14 @@ export function createNewCard(params) {
 		data: params
 	})
 }
+//上传excel
+export function uploadExcel(params) {
+	return request({
+		url: `/api/backend/consume_cards/upload`,
+		method: 'post',
+		data: params
+	})
+}
 
 // 充值卡列表
 export function cardList(params) {
@@ -29,14 +37,23 @@ export function stopCard(params,consumeCardId) {
 	})
 }
 
-// 获取消费卡列表
+
+// 激活详情
 export function exchangeCodes(params,consumeCardId) {
 	return request({
-		url: `/api/backend/consume_cards/${consumeCardId}/exchange_codes`,
+		url: `/api/backend/consume_cards/${consumeCardId}/active_detail`,
 		method: 'get',
 		params: params
 	})
 }
+// 获取消费卡列表
+// export function exchangeCodes(params,consumeCard) {
+// 	return request({
+// 		url: `/api/backend/consume_cards/${consumeCard}/owned_records`,
+// 		method: 'get',
+// 		params: params
+// 	})
+// }
 // 手动停用兑换码
 export function stopCode(params,consumeCardExchangeCodeId) {
 	return request({
