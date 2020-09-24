@@ -376,8 +376,10 @@ class GoodsOrder extends React.Component{
 		let {checkedAry, data} = this.state;
 		let orders = [];
 		_.map((data), (order)=> {
-			if (  checkedAry[this.state.activeTab] && _.indexOf(checkedAry[this.state.activeTab], order.id) > -1) {
-				orders.push(order)
+			if(order["order_type_desc"]!="社会餐订货"){
+				if (checkedAry[this.state.activeTab] && _.indexOf(checkedAry[this.state.activeTab], order.id) > -1) {
+					orders.push(order)
+				}
 			}
 		});
 		this.props.history.push({pathname:"/printSummaryOrders", state: {orders, title: '商户订货订单'}})

@@ -175,8 +175,8 @@ class ShopManage extends React.Component{
 	};
 	//查看门店商城打开
 	lookShopList= (record) =>{
-		console.log("门店ID"+record.id);
-		this.setState({shopMarketId:record.id},()=>this.setState({shopMarketVisible:true}))
+		console.log("门店名称"+record.name);
+		this.setState({shopMarketId:record.name},()=>this.setState({shopMarketVisible:true}))
 	};
 
 	onSubmitGroup = () =>{

@@ -130,6 +130,28 @@ export const consumer_order_values = [
 ];
 
 export const operation = {
+	'merchantOrderType': [
+		{
+			label:'等于',
+			value:'=',
+			type:'merchantOrderTypeEqual'
+		},
+		{
+			label: '在以下所有中',
+			value: 'all',
+			type: 'merchantOrderType'
+		},
+		{
+			label:'等于其中之一',
+			value:'in',
+			type:'merchantOrderType'
+		},
+		{
+			label:'不等于以下任意',
+			value:'not in',
+			type:'merchantOrderType'
+		},
+	],
 	'dataCompare':[
 		{
 			label:'等于',

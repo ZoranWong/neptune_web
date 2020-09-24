@@ -23,6 +23,11 @@ export const merchant_order_values = [
 				value:'state',
 				type:'merchantOrder'
 			},
+			{
+				label:'订货类型',
+				value:'type_desc',
+				type:'merchantOrderType'
+			}
 		]
 	},
 ];
@@ -95,7 +100,6 @@ export const operation = {
 			type:'merchantOrder'
 		},
 	],
-	
 	'contain':[
 		{
 			label:'包含以下任意',
@@ -200,5 +204,5 @@ export const operation = {
 			value:'is not null',
 			type:''
 		},
-	],
+	]
 };

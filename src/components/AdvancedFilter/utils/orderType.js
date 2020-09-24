@@ -24,9 +24,13 @@ export const merchantOrder = [
 	{name:'商品异常',key:'GOODS_UNQUALIFIED_WAIT_PROCESS'},
 	{name:'处理中',key:'GOODS_UNQUALIFIED_WAIT_VERIFY'},
 	{name:'已退款',key:'GOODS_UNQUALIFIED_REFUNDED'},
-
 	{name:'待支付',key:'GOODS_WAIT_PAY'},
 	{name:'已取消',key:'GOODS_CANCELED'}
+];
+
+export const merchantOrderType = [
+	{name:'社会餐订货',key:'SOCIETY_ORDER'},
+	{name:'尝尝族订货',key:'ATTEMPT_FAMILY_ORDER'}
 ];
 
 export const deliveryType = [
