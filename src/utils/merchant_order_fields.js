@@ -40,7 +40,7 @@ export const merchant_order_values = [
 			},
 			{
 				label:'订货类型',
-				value:'type_desc',
+				value:'order_type',
 				type:'merchantOrderType'
 			},
 			{

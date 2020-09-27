@@ -30,8 +30,8 @@ export const merchantOrder = [
 ];
 
 export const merchantOrderType = [
-	{name:'社会餐订货',key:'SOCIETY_ORDER'},
-	{name:'尝尝族订货',key:'ATTEMPT_FAMILY_ORDER'}
+	{name:'社会餐订货',key:'SOCIETY_FOOD_SHOP_BOOK_ORDER'},
+	{name:'尝尝族订货',key:'SHOP_KEEPER_ORDER_PRODUCT'}
 ];
 
 export const deliveryType = [
