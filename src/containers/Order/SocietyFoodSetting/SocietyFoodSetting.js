@@ -115,14 +115,23 @@ export default class SocietyFoodSetting extends React.Component{
         })
     };
     onHHChange1 = (time,timeString) =>{
+        if(!timeString){
+            return false
+        }
         this.setState({timeHH1:timeString})
         this.saveOrderSetting("SOCIETY_FOOD_MERCHANT_ORDER_AUTO_COMPLETE_TIME_HOUR",timeString);
     };
     onMMChange1 = (time,timeString) =>{
+        if(!timeString){
+            return false
+        }
         this.setState({timeMM1:timeString})
         this.saveOrderSetting("SOCIETY_FOOD_MERCHANT_ORDER_AUTO_COMPLETE_TIME_MINUTE",timeString);
     };
     onHHChange2 = (time,timeString) =>{
+        if(!timeString){
+            return false
+        }
         this.setState({timeHH2:timeString})
         this.saveOrderSetting("SOCIETY_FOOD_USER_SELF_PICK_ORDER_AUTO_COMPLETE_TIME_HOUR",timeString);
     };
@@ -135,22 +144,37 @@ export default class SocietyFoodSetting extends React.Component{
         this.saveOrderSetting("SOCIETY_FOOD_USER_HOME_DELIVERY_ORDER_AUTO_COMPLETE_TIME_HOUR",timeString);
     };
     onMMChange3 = (time,timeString) =>{
+        if(!timeString){
+            return false
+        }
         this.setState({timeMM3:timeString})
         this.saveOrderSetting("SOCIETY_FOOD_USER_HOME_DELIVERY_ORDER_AUTO_COMPLETE_TIME_MINUTE",timeString);
     };
     onHHChange4 = (time,timeString) =>{
+        if(!timeString){
+            return false
+        }
         this.setState({timeHH4:timeString})
         this.saveOrderSetting("SOCIETY_FOOD_MERCHANT_ORDER_PAID_TIME_THRESHOLD_HOUR",timeString);
     };
     onMMChange4 = (time,timeString) =>{
+        if(!timeString){
+            return false
+        }
         this.setState({timeMM4:timeString})
         this.saveOrderSetting("SOCIETY_FOOD_MERCHANT_ORDER_PAID_TIME_THRESHOLD_MINUTE",timeString);
     };
     onHHChange5 = (time,timeString) =>{
+        if(!timeString){
+            return false
+        }
         this.setState({timeHH5:timeString})
         this.saveOrderSetting("SOCIETY_FOOD_ORDER_AUTO_CANCEL_TIME_HOUR",timeString);
     };
     onTimeChange = (time,timeString) =>{
+        if(!timeString){
+            return false
+        }
         this.setState({societySendTime:timeString})
         this.saveOrderSetting("SOCIETY_FOOD_DELIVERY_TIME",timeString);
     };
@@ -239,7 +263,7 @@ export default class SocietyFoodSetting extends React.Component{
                 </div>
                 <div className="society-setting-div">
                     <label className="society-title">社会餐配送时间:</label>
-                    <TimePicker format={hourMinFormat} placeholder="选择配送时间" value={moment(this.state.societySendTime,"HH:mm")} onChange={(time,timeString)=>this.onTimeChange(time,timeString)}/>
+                    <TimePicker format={hourMinFormat} allowClear={false} placeholder="选择配送时间" value={moment(this.state.societySendTime,"HH:mm")} onChange={(time,timeString)=>this.onTimeChange(time,timeString)}/>
                 </div>
             </div>
         )
