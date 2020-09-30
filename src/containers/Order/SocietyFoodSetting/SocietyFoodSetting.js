@@ -136,10 +136,16 @@ export default class SocietyFoodSetting extends React.Component{
         this.saveOrderSetting("SOCIETY_FOOD_USER_SELF_PICK_ORDER_AUTO_COMPLETE_TIME_HOUR",timeString);
     };
     onMMChange2 = (time,timeString) =>{
+        if(!timeString){
+            return false
+        }
         this.setState({timeMM2:timeString})
         this.saveOrderSetting("SOCIETY_FOOD_USER_SELF_PICK_ORDER_AUTO_COMPLETE_TIME_MINUTE",timeString);
     };
     onHHChange3 = (time,timeString) =>{
+        if(!timeString){
+            return false
+        }
         this.setState({timeHH3:timeString})
         this.saveOrderSetting("SOCIETY_FOOD_USER_HOME_DELIVERY_ORDER_AUTO_COMPLETE_TIME_HOUR",timeString);
     };
