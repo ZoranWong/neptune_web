@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {message, Modal, Table} from "antd";
+import {message, Modal, Table,Button} from "antd";
 import CustomPagination from "../../../../components/Layout/Pagination";
-import {exchangeCodes, stopCode} from "../../../../api/marketing/cards";
+import {exchangeCodes, stopCode,getTodayActive} from "../../../../api/marketing/cards";
 import {searchJson} from "../../../../utils/dataStorage";
 import '../css/details.sass'
 let logic_conditions = {
@@ -18,6 +18,8 @@ class RechargeDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            visible:false,
+            activeData:[],
             api: exchangeCodes,
             activeTab: 0,
             paginationParams:{
@@ -33,6 +35,7 @@ class RechargeDetails extends Component {
 
     componentDidMount() {
         this.setState({id: this.props.location.state.id})
+        
     }
 
     refresh = (key)=>{
@@ -56,7 +59,25 @@ class RechargeDetails extends Component {
             this.child.current.pagination(this.child.current.state.current)
         })
     };
+    // 获取今日激活
+    todatActive= e=>{
+        console.log(111)
+        getTodayActive({},this.state.id).then(r=>{
+            let activesdata=[];
+            activesdata.push(r)
+            this.setState({activeData:activesdata})
+            console.log(activesdata,'wwwwwwwwwwwwwwwwwwwwwwwwwww')
+        })
+        this.setState({visible:true})
+    }
+    handleCancel =()=>{
+        this.setState({visible:false})
 
+    }
+    handleOk =()=>{
+        this.setState({visible:false})
+
+    }
     // 停用
     stopExchange = (id) => {
         let refresh = this.refresh;
@@ -111,6 +132,36 @@ class RechargeDetails extends Component {
 
 
     render() {
+        const activeColnmns=[
+            {
+                title: '充值卡名称',
+                dataIndex: 'name',
+            },
+            {
+                title: '已使用人数',
+                dataIndex: 'total_used_count',
+            },
+            {
+                title: '已激活人数',
+                dataIndex: 'total_active_count',
+            },
+            {
+                title: '已使用金额',
+                dataIndex: 'total_used_amount',
+            },
+            {
+                title: '今日使用人数',
+                dataIndex: 'today_used_count',
+            },
+            {
+                title: '今日激活人数',
+                dataIndex: 'today_active_count',
+            },
+            {
+                title: '今日使用金额',
+                dataIndex: 'today_used_amount',
+            }
+        ];
         const columns = [
             {
                 title: '兑换码',
@@ -164,6 +215,27 @@ class RechargeDetails extends Component {
 
         return (
             <div className='cardDetails'>
+                 <Modal
+                    width={1200}
+                    title="激活人数"
+                    visible={this.state.visible}
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                    >
+                     <Table
+                        columns={activeColnmns}
+                        dataSource={this.state.activeData}
+                        rowKey={record => record.id}
+                        // pagination={false}
+                        rowClassName={(record, index) => {
+                            let className = '';
+                            if (index % 2 ) className = 'dark-row';
+                            return className;
+                        }}
+                    />
+                </Modal>
+
+
                 <div className="tabs">
                     <ul className="left">
                         {
@@ -175,6 +247,9 @@ class RechargeDetails extends Component {
                                 >{item.name}</li>
                             })
                         }
+                        <li onClick={(e)=>this.todatActive()}>
+                            今日激活
+                        </li>
                     </ul>
                 </div>
                 <div className="chart">

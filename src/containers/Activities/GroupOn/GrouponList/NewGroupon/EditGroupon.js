@@ -4,7 +4,9 @@ import '../css/newGroupon.sass';
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import CustomUpload from "../../../../../components/Upload/Upload";
 import Editor from "../../../../../components/Editor/Editor";
-import {shelfableProducts} from "../../../../../api/activities/activities";
+// import {shelfableProducts} from "../../../../../api/activities/activities";
+import {shelfableGroupProducts} from "../../../../../api/activities/activities";
+
 import _ from 'lodash';
 import moment from 'moment';
 import { editGroupon} from "../../../../../api/activities/groupon";
@@ -156,6 +158,7 @@ class EditGroupon extends Component {
                     // group_stock: product['group_stock']
                 });
             });
+            console.log(group_products)
             let start = props.data['start_date'];
             let end = props.data['end_date'];
             let startMoment = moment(start,'YYYY-MM-DD HH:mm:ss');
@@ -163,7 +166,9 @@ class EditGroupon extends Component {
             let timeRange = [startMoment, endMoment];
             this.setState({...props.data, group_products: group_products, timeRange})
         }
-        shelfableProducts({limit:100,page:1}, 13).then(r=>{
+        // shelfableProducts({limit:100,page:1}, 13).then(r=>{
+            shelfableGroupProducts({limit:100,page:this.state.page}).then(r=>{
+
             console.log(group_products,'group_productsgroup_products')
                 var transferData = [];
                 let requstData=r.data;

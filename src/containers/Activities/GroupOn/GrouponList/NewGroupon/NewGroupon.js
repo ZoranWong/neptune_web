@@ -152,7 +152,7 @@ class NewGroupon extends Component {
             has_group_red_packet: false,
             has_gift: false,
             gift_floor: '',
-            products: [],
+            // products: [],
             gift_products: [],
             group_products: [],
             delivery_fixed_date: '',
@@ -186,7 +186,8 @@ class NewGroupon extends Component {
         console.log(this.state.loadProduct, '-----------------');
         if(!this.state.loadProduct){
             shelfableGroupProducts({limit:100,page:this.state.page}).then(r=>{
-                let products = this.state.products;
+                // let products = this.state.products;
+                let products =[];
                 let page = this.state.page;
                 products = products.concat(r.data);
                 console.log('======= ------- ', products, r.data);
@@ -578,9 +579,9 @@ class NewGroupon extends Component {
                         //disabled={disabled}
                         showSearch={showSearch}
                         onChange={this.onChangeTarget}
-                        // filterOption={(inputValue, item) =>
-                        //     item.title.indexOf(inputValue) !== -1 || item.tag.indexOf(inputValue) !== -1
-                        // }
+                        filterOption={(inputValue, item) =>
+                            item.title.indexOf(inputValue) !== -1 || item.title.indexOf(inputValue) !== -1
+                        }
                         titles={['可选商品', '可选商品']}
                         leftColumns={this.state.rightTableColumns}
                         rightColumns={this.state.leftTableColumns}
