@@ -63,10 +63,10 @@ class RechargeDetails extends Component {
     todatActive= e=>{
         console.log(111)
         getTodayActive({},this.state.id).then(r=>{
-            let activesdata=[];
-            activesdata.push(r)
-            this.setState({activeData:activesdata})
-            console.log(activesdata,'wwwwwwwwwwwwwwwwwwwwwwwwwww')
+            // let activesdata=[];
+            // activesdata.push(r)
+            this.setState({activeData:r.data})
+            console.log(this.state.activeData.name,'wwwwwwwwwwwwwwwwwwwwwwwwwww')
         })
         this.setState({visible:true})
     }
@@ -132,36 +132,36 @@ class RechargeDetails extends Component {
 
 
     render() {
-        const activeColnmns=[
-            {
-                title: '充值卡名称',
-                dataIndex: 'name',
-            },
-            {
-                title: '已使用人数',
-                dataIndex: 'total_used_count',
-            },
-            {
-                title: '已激活人数',
-                dataIndex: 'total_active_count',
-            },
-            {
-                title: '已使用金额',
-                dataIndex: 'total_used_amount',
-            },
-            {
-                title: '今日使用人数',
-                dataIndex: 'today_used_count',
-            },
-            {
-                title: '今日激活人数',
-                dataIndex: 'today_active_count',
-            },
-            {
-                title: '今日使用金额',
-                dataIndex: 'today_used_amount',
-            }
-        ];
+        // const activeColnmns=[
+        //     {
+        //         title: '充值卡名称',
+        //         dataIndex: 'name',
+        //     },
+        //     {
+        //         title: '已使用人数',
+        //         dataIndex: 'total_used_count',
+        //     },
+        //     {
+        //         title: '已激活人数',
+        //         dataIndex: 'total_active_count',
+        //     },
+        //     {
+        //         title: '已使用金额',
+        //         dataIndex: 'total_used_amount',
+        //     },
+        //     {
+        //         title: '今日使用人数',
+        //         dataIndex: 'today_used_count',
+        //     },
+        //     {
+        //         title: '今日激活人数',
+        //         dataIndex: 'today_active_count',
+        //     },
+        //     {
+        //         title: '今日使用金额',
+        //         dataIndex: 'today_used_amount',
+        //     }
+        // ];
         const columns = [
             {
                 title: '兑换码',
@@ -216,23 +216,52 @@ class RechargeDetails extends Component {
         return (
             <div className='cardDetails'>
                  <Modal
-                    width={1200}
+                    // width={1200}
                     title="激活人数"
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     >
-                     <Table
+                     {/* <Table
                         columns={activeColnmns}
                         dataSource={this.state.activeData}
                         rowKey={record => record.id}
-                        // pagination={false}
                         rowClassName={(record, index) => {
                             let className = '';
                             if (index % 2 ) className = 'dark-row';
                             return className;
                         }}
-                    />
+                    /> */}
+                    <ul className="forms">
+                        <li>
+                            <h4>充值卡名称</h4>
+                            <h5>{this.state.activeData.name}</h5>
+                        </li>
+                        <li>
+                            <h4>已使用人数</h4>
+                            <h5>{this.state.activeData.total_used_count}</h5>
+                        </li>
+                        <li>
+                            <h4>已激活人数</h4>
+                            <h5>{this.state.activeData.total_active_count}</h5>
+                        </li>
+                        <li>
+                            <h4>已使用金额</h4>
+                            <h5>{this.state.activeData.total_used_amount}</h5>
+                        </li>
+                        <li>
+                            <h4>今日使用人数</h4>
+                            <h5>{this.state.activeData.today_used_count}</h5>
+                        </li>
+                        <li>
+                            <h4>今日激活人数</h4>
+                            <h5>{this.state.activeData.today_active_count}</h5>
+                        </li>
+                        <li>
+                            <h4>今日使用金额</h4>
+                            <h5>{this.state.activeData.today_used_amount}</h5>
+                        </li>
+                    </ul>
                 </Modal>
 
 
