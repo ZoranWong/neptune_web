@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {Button, Input, DatePicker, ConfigProvider, Radio, Select, message, TimePicker} from "antd";
+import {Button, Input, DatePicker, ConfigProvider, Radio, Select, message, TimePicker,Modal,Transfer, Switch, Table, Tag} from "antd";
 import '../css/newGroupon.sass';
 import SelectionComponent from "./components/SelectionComponent";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
@@ -10,6 +10,7 @@ import {shelfableGroupProducts} from "../../../../../api/activities/activities";
 import GroupRedPacketLevel from "./components/GroupRedPacketLevel";
 import _ from 'lodash';
 import moment from 'moment';
+import difference from 'lodash/difference';
 import {createNewGroupon} from "../../../../../api/activities/groupon";
 import {shops} from "../../../../../api/shops/shopManage";
 import {groups} from "../../../../../api/shops/groups";
@@ -19,10 +20,124 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const format = 'HH:mm';
 
+
+const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
+    <Transfer {...restProps} showSelectAll={false}>
+      {({
+        direction,
+        filteredItems,
+        onItemSelectAll,
+        onItemSelect,
+        selectedKeys: listSelectedKeys,
+        disabled: listDisabled,
+      }) => {
+        const columns = direction === 'left' ? leftColumns : rightColumns;
+  
+        const rowSelection = {
+        //   getCheckboxProps: item => ({ disabled: listDisabled || item.disabled }),
+          onSelectAll(selected, selectedRows) {
+            console.log(selected, selectedRows,777);
+            const treeSelectedKeys = selectedRows
+              .filter(item => !item.disabled)
+              .map(({ key }) => key);
+            const diffKeys = selected
+              ? difference(treeSelectedKeys, listSelectedKeys)
+              : difference(listSelectedKeys, treeSelectedKeys);
+            onItemSelectAll(diffKeys, selected);
+          },
+          onSelect({ key }, selected) {
+              console.log(key, selected);
+            onItemSelect(key, selected);
+          },
+              selectedRowKeys: listSelectedKeys,
+        };
+  
+        return (
+          <Table
+            rowSelection={rowSelection}
+            columns={columns}
+            dataSource={filteredItems}
+            size="small"
+            style={{ pointerEvents: listDisabled ? 'none' : null }}
+            // onRow={({ key }) => ({
+            onRow={({ key, disabled: itemDisabled }) => ({
+            
+              onClick: () => {
+                if (itemDisabled ) return;
+                // onItemSelect(key, !listSelectedKeys.includes(key));
+                onItemSelect(key);
+
+              },
+            })}
+          />
+        );
+      }}
+    </Transfer>
+  );
+
+ 
+
 class NewGroupon extends Component {
     constructor(props) {
+        var leftTableColumns = [
+          {
+            dataIndex: 'title',
+            title: '商品名称',
+          },
+          {
+            dataIndex:'spec_value',
+            title:'规格'
+          },
+          {
+            dataIndex: 'retail_price',
+            title: '零售价',
+          },
+          {
+              dataIndex: 'group_price',
+              title: '促销价',
+              render:(text,record, index) =><Input
+                value={this.state.group_products[index]['group_price']}
+                onChange={(e)=>this.onTableInputChange(e, index,'group_price',record)}
+                style={{'width':'50px','height':'28px'}}
+              ></Input>
+          },
+          {
+              dataIndex: 'everybody_limit_num',
+              title: '限购数量',
+              render:(text,record, index) =><Input
+              value={this.state.group_products[index]['everybody_limit_num']}
+              onChange={(e)=>this.onTableInputChange(e, index,'everybody_limit_num',record)}
+                style={{'width':'50px','height':'28px'}}
+              ></Input>
+          },
+        //   {
+        //       dataIndex: 'group_stock',
+        //       title: '参与优惠最大数量',
+        //       render:(text,record, index) =><Input
+        //       value={this.state.group_products[index]['group_stock']}
+        //       onChange={(e)=>this.onTableInputChange(e, index,'group_stock',record)}
+        //         style={{'width':'50px','height':'28px'}}
+        //       ></Input>
+        //   },
+        ];
+        var rightTableColumns = [
+          {
+            dataIndex: 'title',
+            title: '商品名称',
+          },
+          {
+            dataIndex:'spec_value',
+            title:'规格'
+          }
+        ];
         super(props);
         this.state = {
+            // selectedKeys:key,
+            mockData:[],
+            rightTableColumns:rightTableColumns,
+            leftTableColumns:leftTableColumns,
+            targetKeys: [],
+            showSearch: true,
             name: '',
             display_name: '',
             share_text: '',
@@ -37,7 +152,7 @@ class NewGroupon extends Component {
             has_group_red_packet: false,
             has_gift: false,
             gift_floor: '',
-            products: [],
+            // products: [],
             gift_products: [],
             group_products: [],
             delivery_fixed_date: '',
@@ -52,7 +167,8 @@ class NewGroupon extends Component {
             type: 'shop',
             scrollPage: 1,
             page: 1,
-            loadProduct: false
+            loadProduct: false,
+            visible: false,
         };
         this.image = React.createRef();
         this.redPacket = React.createRef();
@@ -60,11 +176,6 @@ class NewGroupon extends Component {
     }
 
     componentDidMount() {
-
-        // shelfableGroupProducts({limit:100,page:this.page}).then(r=>{
-        //     console.log(r, '------------------------');
-        //     this.setState({products: r.data, page: r.meta.total_pages > this.state.page ? this.state.page + 1 : this.state.page})
-        // }).catch(_=>{});
         this.selectorPopupScroll();
         shops({limit:10,page:1}).then(r=>{
             this.setState({data:r.data})
@@ -75,11 +186,34 @@ class NewGroupon extends Component {
         console.log(this.state.loadProduct, '-----------------');
         if(!this.state.loadProduct){
             shelfableGroupProducts({limit:100,page:this.state.page}).then(r=>{
-                let products = this.state.products;
+                // let products = this.state.products;
+                let products =[];
                 let page = this.state.page;
                 products = products.concat(r.data);
                 console.log('======= ------- ', products, r.data);
-                this.setState({products: products, page: r.meta.total_pages > page ? page + 1 : page, loadProduct: false}, () => {
+
+                var mockData = [];
+                for (let i = 0; i < products.length; i++) {
+
+                    let spec = '无';
+                    if(products[i]['product_entity']['spec_value']) {
+                        spec = _.map(products[i]['product_entity']['spec_value'], function (value, key) {
+                            return value ? `${key}(${value})` : ''
+                        }).concat(';');
+                    }
+                    mockData.push({
+                        key: products[i]['product_entity_id'],
+                        title: products[i]['product_entity'].name,
+                        spec_value: spec,
+                        retail_price:products[i]['product_entity'].retail_price,
+                    });
+                
+                }
+                var originTargetKeys = mockData.filter(item => +item.key % 3 <0).map(item => item.key);
+
+
+
+                this.setState({products: products,mockData:mockData,targetKeys:originTargetKeys, page: r.meta.total_pages > page ? page + 1 : page, loadProduct: false}, () => {
                     console.log('======= ------- ');
                     if(r.meta.total_pages  > page) {
                         this.selectorPopupScroll();
@@ -106,6 +240,14 @@ class NewGroupon extends Component {
     onRadioChange = (e, type) => {
         this.setState({[type]: e.target.value})
     };
+    onTableInputChange =(e, proudctIndex, column,record)=>{
+        let products = this.state.group_products;
+        products[proudctIndex][column] = e.target.value;
+        console.log(products,'productsproducts')
+        this.setState({
+            group_products: products
+        });
+    }
 
     //输入框填写内容
     onInputChange = (e, type) => {
@@ -123,10 +265,73 @@ class NewGroupon extends Component {
     };
 
     // 选择商品
-    onProductChange = (e, type) => {
+    // onProductChange = (e, type) => {
+    //     this.setState({
+    //         [type]: e
+    //     })
+    // };
+    
+    onChangeTarget = (nextTargetKeys, direction, moveKeys) => {
+        console.log(moveKeys,'moveKeysmoveKeysmoveKeys')
+        let groupProducts =this.state.group_products;
+        if(direction === 'right') {
+            _.each(moveKeys, (id) => {
+                groupProducts.push({
+                    entity_id: id,
+                    group_price:'',
+                    everybody_limit_num:'',
+                    // group_stock:''
+                })
+            });
+        }else{
+            _.each(moveKeys, (id) => {
+                let index = _.findIndex(groupProducts, (product) => {
+                    return product['entity_id'] = id
+                });
+                if(index >  -1) {
+                    groupProducts.splice(index, 1);
+                }
+            });
+        }
+        this.setState({ targetKeys: nextTargetKeys });
+      };
+    showModal = () => {
         this.setState({
-            [type]: e
-        })
+          visible: true,
+        });
+    };
+    handleOk = e => {
+        console.log(this.state.group_products);
+        if(this.state.group_products.length >0){
+           _.findIndex(this.state.group_products,(product)=>{
+                if(!product['group_price']){
+                    message.error('请填写促销价');
+                    return
+                }
+                if(!product['everybody_limit_num']){
+                    message.error('请填写限购数量');
+                    return
+                }
+                // if(!product['group_stock']){
+                //     message.error('请填写参与优惠的最大数量');
+                //     return
+                // }
+                this.setState({
+                    visible: false,
+                });
+            })
+        }else{
+            message.error('请选择商品');
+            return
+        }
+       
+    };
+    
+    handleCancel = e => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
     };
 
     // 日期选择
@@ -197,6 +402,7 @@ class NewGroupon extends Component {
             message.error('请选择拼团时间');
             return
         }
+        // console.log(this.state.group_products)
         if (!state.group_products.length) {
             message.error('请选择拼团参与商品');
             return
@@ -357,8 +563,34 @@ class NewGroupon extends Component {
     };
 
     render() {
+        const { targetKeys,showSearch} = this.state;//, disabled, showSearch 
         return (
             <div className='newGroupon'>
+                <Modal
+                    width={1200}
+                    title="选择商品"
+                    visible={this.state.visible}
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                    >
+                     <TableTransfer
+                        dataSource={this.state.mockData}
+                        targetKeys={targetKeys}
+                        //disabled={disabled}
+                        showSearch={showSearch}
+                        onChange={this.onChangeTarget}
+                        filterOption={(inputValue, item) =>
+                            item.title.indexOf(inputValue) !== -1 || item.title.indexOf(inputValue) !== -1
+                        }
+                        titles={['可选商品', '可选商品']}
+                        leftColumns={this.state.rightTableColumns}
+                        rightColumns={this.state.leftTableColumns}
+                        />
+                </Modal>
+
+
+
+
                 <div className="header">
                     <Button size='small' onClick={this.checkData}>保存</Button>
                     <Button onClick={this.back} size='small' >返回上一页</Button>
@@ -378,7 +610,11 @@ class NewGroupon extends Component {
                             <RangePicker showTime onChange={this.actDateChange} />
                         </ConfigProvider>
                     </li>
-                    <li>
+                    <li >
+                        <h4>参与商品</h4>
+                        <Button className='ant-calendar-picker' value={this.state.group_products}  onClick={this.showModal}>选择商品</Button>
+                    </li>
+                    {/* <li>
                         <h4>参与商品</h4>
                         <Select
                             mode='multiple'
@@ -392,7 +628,6 @@ class NewGroupon extends Component {
                             filterOption={(input, option) =>
                                 option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                             }
-
                         >
                             {this.state.products.map(item => (
                                 <Select.Option key={item['product_entity_id'] + ''} value={item['product_entity_id'] + ''} label={item['product_entity'].name} >
@@ -400,7 +635,7 @@ class NewGroupon extends Component {
                                 </Select.Option>
                             ))}
                         </Select>
-                    </li>
+                    </li> */}
                     <li>
                         <h4>成团限制</h4>
                         <Radio.Group onChange={(e)=>this.onRadioChange(e, 'has_group_limit')} value={this.state['has_group_limit']}>
@@ -505,7 +740,7 @@ class NewGroupon extends Component {
                             <TimePicker  format={format} onChange={(time,t)=>this.onTimeRangeChange(t, 'delivery_time_period_end')}/>
                         </ConfigProvider>
                     </li>
-                    <li>
+                    {/* <li>
                         <h4>是否打折</h4>
                         <Radio.Group onChange={(e)=>this.onRadioChange(e, 'has_discount')} value={this.state['has_discount']}>
                             <Radio value={true}>是</Radio>
@@ -517,7 +752,7 @@ class NewGroupon extends Component {
                             <h4>折扣</h4>
                             <Input type='number' value={this.state.discount} onChange={(e)=>this.onInputChange(e, 'discount')} />
                         </li>
-                    }
+                    } */}
                     <li>
                         <h4>是否有成团红包</h4>
                         <Radio.Group onChange={(e)=>this.onRadioChange(e, 'has_group_red_packet')} value={this.state['has_group_red_packet']}>
@@ -569,7 +804,7 @@ class NewGroupon extends Component {
                     <li>
                         <h4>可见范围</h4>
                         <Radio.Group onChange={(e)=>this.onRadioChange(e, 'visible_scope')} value={this.state['visible_scope']}>
-                            <Radio value={null}>全部</Radio>
+                            <Radio >全部</Radio>
                             <Radio value={1}>部分</Radio>
                         </Radio.Group>
                     </li>
