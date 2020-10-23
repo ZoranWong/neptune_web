@@ -139,7 +139,7 @@ class NewGroupon extends Component {
         ];
         super(props);
         this.state = {
-            mockData:[],
+            transferData:[],
             rightTableColumns:rightTableColumns,
             leftTableColumns:leftTableColumns,
             targetKeys: [],
@@ -199,7 +199,7 @@ class NewGroupon extends Component {
                 products = products.concat(r.data);
                 console.log('======= ------- ', products, r.data);
 
-                var mockData = [];
+                var transferData = [];
                 for (let i = 0; i < products.length; i++) {
 
                     let spec = '无';
@@ -208,7 +208,7 @@ class NewGroupon extends Component {
                             return value ? `${key}(${value})` : ''
                         });
                     }
-                    mockData.push({
+                    transferData.push({
                         key: products[i]['product_entity_id'],
                         title: products[i]['product_entity'].name,
                         spec_value: spec,
@@ -216,11 +216,11 @@ class NewGroupon extends Component {
                     });
                 
                 }
-                var originTargetKeys = mockData.filter(item => +item.key % 3 <0).map(item => item.key);
+                var originTargetKeys = transferData.filter(item => +item.key % 3 <0).map(item => item.key);
 
 
 
-                this.setState({products: products,mockData:mockData,targetKeys:originTargetKeys, page: r.meta.total_pages > page ? page + 1 : page, loadProduct: false}, () => {
+                this.setState({products: products,transferData:transferData,targetKeys:originTargetKeys, page: r.meta.total_pages > page ? page + 1 : page, loadProduct: false}, () => {
                     console.log('======= ------- ');
                     if(r.meta.total_pages  > page) {
                         this.selectorPopupScroll();
@@ -267,7 +267,7 @@ class NewGroupon extends Component {
         }
         // else{
         //     _.each(this.state.group_products, (id,index) => {
-        //         let item = _.find(this.state.mockData, ({key}) => {
+        //         let item = _.find(this.state.transferData, ({key}) => {
         //             return key == id;
         //         });
         //         // this.state.group_products[index]['group_price']=item['retail_price'] * this.state.discount / 10;
@@ -310,7 +310,7 @@ class NewGroupon extends Component {
         if(direction === 'right') {
             let products = [];
             _.each(moveKeys, (id,index) => {
-                let item = _.find(this.state.mockData, ({key}) => {
+                let item = _.find(this.state.transferData, ({key}) => {
                     return key == id;
                 });
                 products.push({
@@ -318,15 +318,10 @@ class NewGroupon extends Component {
                     group_price: item ? item['retail_price'] * this.state.discount / 10 : -1,
                     everybody_limit_num:-1,
                     isLimited: false
-                })
-                // if(!groupProducts){
-                //     groupProducts[index-1]['group_price']=item['retail_price'] * this.state.discount / 10;
-                    
-                // }                
+                })               
             });
             
             groupProducts = products.concat(groupProducts);
-            // console.log(groupProducts,'moveKeysmoveKeysmoveKeys')
         }else{
             _.each(moveKeys, (id) => {
                 let index = _.findIndex(groupProducts, (product) => {
@@ -343,23 +338,27 @@ class NewGroupon extends Component {
         this.setState({
           visible: true,
         });
+        
+        if(this.state.group_products.length>0){
+            _.each(this.state.group_products, (id,index) => {
+                    let item = _.map(this.state.transferData, ({key}) => {
+                        return key == id;
+                    });
+                    console.log(item,'item')
+                    console.log(this.state.transferData,99)
+                    // this.state.group_products[index]['group_price']=item[index]['retail_price'] * this.state.discount / 10;
+                })
+        // console.log(this.state.group_products[0]['group_price'],'this.state.group_products')
+        }
+        
     };
     handleOk = e => {
-        console.log(this.state.group_products);
         if(this.state.group_products.length >0){
            _.findIndex(this.state.group_products,(product)=>{
                 if(!product['group_price']){
                     message.error('请填写促销价');
                     return
                 }
-                // if(!product['everybody_limit_num']){
-                //     message.error('请填写限购数量');
-                //     return
-                // }
-                // if(!product['group_stock']){
-                //     message.error('请填写参与优惠的最大数量');
-                //     return
-                // }
                 this.setState({
                     visible: false,
                 });
@@ -617,7 +616,7 @@ class NewGroupon extends Component {
                     onCancel={this.handleCancel}
                     >
                      <TableTransfer
-                        dataSource={this.state.mockData}
+                        dataSource={this.state.transferData}
                         targetKeys={targetKeys}
                         showSearch={showSearch}
                         onChange={this.onChangeTarget}

@@ -158,7 +158,7 @@ class EditGroupon extends Component {
                     // group_stock: product['group_stock']
                 });
             });
-            console.log(group_products)
+            // console.log(group_products)
             let start = props.data['start_date'];
             let end = props.data['end_date'];
             let startMoment = moment(start,'YYYY-MM-DD HH:mm:ss');
@@ -289,7 +289,7 @@ class EditGroupon extends Component {
                 })
             });
             groupProducts = products.concat(groupProducts);
-            console.log(groupProducts,22)
+            // console.log(groupProducts,22)
         }else{
             _.each(moveKeys, (id) => {
                 let index = _.findIndex(groupProducts, (product) => {
@@ -306,6 +306,13 @@ class EditGroupon extends Component {
         this.setState({
           visible: true,
         });
+        console.log(this.state.group_products,'9999999999999999')
+        if(this.state.group_products.length>0){
+            console.log(this.state.group_products)
+            // _.each(this.state.group_products, (id,index) => {
+            //         this.state.group_products[index]['group_price']=this.state.group_products[index]['group_price'] * this.state.discount / 10;
+            //     })
+        }
     };
     handleOk = e => {
         // console.log(this.state.group_products);
