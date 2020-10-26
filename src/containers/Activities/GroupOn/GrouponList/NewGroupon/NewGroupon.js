@@ -340,17 +340,14 @@ class NewGroupon extends Component {
         });
         
         if(this.state.group_products.length>0){
-            _.each(this.state.group_products, (id,index) => {
-                    let item = _.map(this.state.transferData, ({key}) => {
-                        return key == id;
+            _.each(this.state.group_products, (item,index) => {
+                    let idx = _.find(this.state.transferData, ({key}) => {
+                        return key == item['entity_id'];
                     });
-                    console.log(item,'item')
-                    console.log(this.state.transferData,99)
-                    // this.state.group_products[index]['group_price']=item[index]['retail_price'] * this.state.discount / 10;
+                    console.log(idx['retail_price'],'item')
+                    this.state.group_products[index]['group_price']=idx['retail_price'] * this.state.discount / 10;
                 })
-        // console.log(this.state.group_products[0]['group_price'],'this.state.group_products')
         }
-        
     };
     handleOk = e => {
         if(this.state.group_products.length >0){

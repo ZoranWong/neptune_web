@@ -289,7 +289,6 @@ class EditGroupon extends Component {
                 })
             });
             groupProducts = products.concat(groupProducts);
-            // console.log(groupProducts,22)
         }else{
             _.each(moveKeys, (id) => {
                 let index = _.findIndex(groupProducts, (product) => {
@@ -306,16 +305,18 @@ class EditGroupon extends Component {
         this.setState({
           visible: true,
         });
-        console.log(this.state.group_products,'9999999999999999')
+        // 改变折扣时自动计算新价格
         if(this.state.group_products.length>0){
             console.log(this.state.group_products)
-            // _.each(this.state.group_products, (id,index) => {
-            //         this.state.group_products[index]['group_price']=this.state.group_products[index]['group_price'] * this.state.discount / 10;
-            //     })
+            _.each(this.state.group_products, (item,index) => {
+                let idx = _.find(this.state.transferData, ({key}) => {
+                    return key == item['entity_id'];
+                });
+                this.state.group_products[index]['group_price']=idx['retail_price'] * this.state.discount / 10;
+            })
         }
     };
     handleOk = e => {
-        // console.log(this.state.group_products);
         if(this.state.group_products.length >0){
             _.findIndex(this.state.group_products,(product)=>{
                 if(!product['group_price']){
@@ -326,7 +327,6 @@ class EditGroupon extends Component {
                 //     message.error('请填写限购数量');
                 //     return
                 // }
-                console.log(product['everybody_limit_num'])
                 // if(!product['group_stock']){
                 //     message.error('请填写参与优惠的最大数量');
                 //     return
