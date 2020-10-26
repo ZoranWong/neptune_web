@@ -265,14 +265,6 @@ class NewGroupon extends Component {
         if(this.state['has_discount']){
             this.setState({discount:10})
         }
-        // else{
-        //     _.each(this.state.group_products, (id,index) => {
-        //         let item = _.find(this.state.transferData, ({key}) => {
-        //             return key == id;
-        //         });
-        //         // this.state.group_products[index]['group_price']=item['retail_price'] * this.state.discount / 10;
-        //     })
-        // }
     };
     onTableInputChange =(e, proudctIndex, column,record)=>{
         let products = this.state.group_products;
