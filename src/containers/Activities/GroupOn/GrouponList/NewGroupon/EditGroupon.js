@@ -241,6 +241,9 @@ class EditGroupon extends Component {
     // 是非框选择
     onRadioChange = (e, type) => {
         this.setState({[type]: e.target.value})
+        if(this.state['has_discount']){
+            this.setState({discount:10})
+        }
     };
 
     //输入框填写内容
