@@ -344,6 +344,12 @@ class EditGroupon extends Component {
         this.setState({
           visible: true,
         });
+        _.each(this.state.group_products, (item,index) => {
+                if(this.state.group_products[index]['everybody_limit_num'] > 0){
+                this.state.group_products[index]['isLimited'] = true;
+                this.state.group_products[index]['everybody_limit_num']=this.state.group_products[index]['everybody_limit_num'];
+            }
+        })
         
     };
     handleOk = e => {
