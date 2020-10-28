@@ -262,7 +262,7 @@ class NewGroupon extends Component {
     // 是非框选择
     onRadioChange = (e, type) => {
         this.setState({[type]: e.target.value})
-        if(this.state['has_discount']){
+        if(type=='has_discount' && this.state.has_discount){
             this.setState({discount:10})
         }
     };
