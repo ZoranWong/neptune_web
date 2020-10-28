@@ -94,17 +94,33 @@ class EditGroupon extends Component {
                 }
             },
             {
+                // {
+                //     console.log(this.state.group_products[index].isLimited);
+                //     return (<span>
+                //     {this.state.group_products[index].isLimited ? <Input
+                //       value={this.state.group_products[index]['everybody_limit_num']}
+                //       onChange={(e)=>this.onTableInputChange(e, index,'everybody_limit_num',record)}
+                //           style={{'width':'50px','height':'28px'}}
+                //       ></Input> : ''}
+                //   <Switch defaultChecked = {this.state.group_products[index].isLimited} checkedChildren="开启" unCheckedChildren="关闭" onChange={(e)=>this.switchChange(e,index)}  />
+                // </span>
+                // )
+                // }
                 dataIndex: 'everybody_limit_num',
                 title: '限购数量',
-                render:((text,record, index) =><span>
-                  {this.state.group_products[index].isLimited ? <Input
-                    value={this.state.group_products[index]['everybody_limit_num']}
-                    onChange={(e)=>this.onTableInputChange(e, index,'everybody_limit_num',record)}
-                        style={{'width':'50px','height':'28px'}}
-                    ></Input> : ''}
-                <Switch defaultChecked = {this.state.group_products[index].isLimited} checkedChildren="开启" unCheckedChildren="关闭" onChange={(e)=>this.switchChange(e,index)}  />
-              </span>
-              )
+                render:(text,record, index) => {
+                        console.log(this.state.group_products[index].isLimited);
+                        return (<span>
+                        {this.state.group_products[index].isLimited ? <Input
+                          value={this.state.group_products[index]['everybody_limit_num']}
+                          onChange={(e)=>this.onTableInputChange(e, index,'everybody_limit_num',record)}
+                              style={{'width':'50px','height':'28px'}}
+                          ></Input> : ''}
+                      <Switch defaultChecked = {this.state.group_products[index].isLimited} checkedChildren="开启" unCheckedChildren="关闭" onChange={(e)=>this.switchChange(e,index)}  />
+                    </span>
+                    )
+                    }
+              
             },
           ];
           var rightTableColumns = [
@@ -212,8 +228,8 @@ class EditGroupon extends Component {
     };
 
     switchChange = (e, index) =>{
-        console.log(e, index,this.state.discount);
         if(this.state.group_products[index]['isLimited']){
+            // console.log('这是什么鬼啊1')
             this.state.group_products[index]['isLimited'] = false;
             this.state.group_products[index]['everybody_limit_num']=-1;
             //無限購設置先數量為-1（通過index設置團購商品）
@@ -223,6 +239,7 @@ class EditGroupon extends Component {
             this.state.group_products[index]['isLimited'] = true;
             if(this.state.group_products[index]['everybody_limit_num']>0){
                 this.state.group_products[index]['everybody_limit_num']=this.state.group_products[index]['everybody_limit_num'];
+                
             }else{
                 this.state.group_products[index]['everybody_limit_num']=1;
             }
@@ -241,8 +258,15 @@ class EditGroupon extends Component {
     // 是非框选择
     onRadioChange = (e, type) => {
         this.setState({[type]: e.target.value})
-        if(this.state['has_discount']){
-            this.setState({discount:10})
+        if(type=='has_discount'){
+            this.setState({discount:10}, () => {
+                _.each(this.state.group_products, (item,index) => {
+                    let idx = _.find(this.state.transferData, ({key}) => {
+                        return key == item['entity_id'];
+                    });
+                    this.state.group_products[index]['group_price']=idx['retail_price'];
+                })
+            })
         }
     };
 
@@ -250,7 +274,19 @@ class EditGroupon extends Component {
     onInputChange = (e, type) => {
         if (e.target.value < 0) e.target.value = 0;
         let value = parseInt(e.target.value)  ? Number(e.target.value) : e.target.value;
-        this.setState({[type]: value})
+        this.setState({[type]: value}, () => {
+            // // 改变折扣时自动计算新价格
+            if(type === 'discount') {
+                if(this.state.group_products.length > 0 && this.state.discount < 10){
+                    _.each(this.state.group_products, (item,index) => {
+                        let idx = _.find(this.state.transferData, ({key}) => {
+                            return key == item['entity_id'];
+                        });
+                        this.state.group_products[index]['group_price']=idx['retail_price'] * this.state.discount / 10;
+                    })
+                }
+            }
+        });
     };
 
     // 活动起始时间
@@ -284,7 +320,7 @@ class EditGroupon extends Component {
                 let item = _.find(this.state.transferData, ({key}) => {
                     return key == id;
                 });
-                groupProducts.unshift({
+                products.push({
                     entity_id: id,
                     group_price:item ? item['retail_price'] * this.state.discount / 10 : -1,
                     everybody_limit_num:-1,
@@ -308,16 +344,7 @@ class EditGroupon extends Component {
         this.setState({
           visible: true,
         });
-        // 改变折扣时自动计算新价格
-        if(this.state.group_products.length>0){
-            console.log(this.state.group_products)
-            _.each(this.state.group_products, (item,index) => {
-                let idx = _.find(this.state.transferData, ({key}) => {
-                    return key == item['entity_id'];
-                });
-                this.state.group_products[index]['group_price']=idx['retail_price'] * this.state.discount / 10;
-            })
-        }
+        
     };
     handleOk = e => {
         if(this.state.group_products.length >0){
@@ -423,6 +450,7 @@ class EditGroupon extends Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     >
+                        
                      <TableTransfer
                         dataSource={this.state.transferData}
                         targetKeys={targetKeys}
@@ -460,7 +488,9 @@ class EditGroupon extends Component {
                         <Radio.Group onChange={(e)=>this.onRadioChange(e, 'has_discount')} value={this.state['has_discount']}>
                             <Radio value={true}>是</Radio>
                             <Radio value={false}>否</Radio>
+                            {/* <span> 不打折，请输入10</span> */}
                         </Radio.Group>
+                        
                     </li>
                     {
                         this.state.has_discount && <li>
