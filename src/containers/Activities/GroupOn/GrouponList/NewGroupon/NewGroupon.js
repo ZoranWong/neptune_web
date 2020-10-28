@@ -296,7 +296,7 @@ class NewGroupon extends Component {
             [type]: e
         })
     };
-    
+    // 商品穿梭
     onChangeTarget = (nextTargetKeys, direction, moveKeys) => {
         let groupProducts =this.state.group_products;
         if(direction === 'right') {
@@ -326,6 +326,7 @@ class NewGroupon extends Component {
         }
         this.setState({ targetKeys: nextTargetKeys, group_products: groupProducts });
       };
+    //显示选择商品弹框
     showModal = () => {
         this.setState({
           visible: true,
@@ -594,7 +595,7 @@ class NewGroupon extends Component {
     };
 
     render() {
-        const { targetKeys,showSearch} = this.state;//, disabled, showSearch 
+        const { targetKeys,showSearch} = this.state;
         return (
             <div className='newGroupon'>
                 <Modal
