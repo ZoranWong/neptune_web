@@ -268,8 +268,13 @@ class NewGroupon extends Component {
     };
     onTableInputChange =(e, proudctIndex, column,record)=>{
         let products = this.state.group_products;
-        products[proudctIndex][column] = e.target.value;
-        console.log(products,'productsproducts')
+        
+        if(e.target.value > record.retail_price){
+            message.error('促销价必须小于零售价');
+            products[proudctIndex][column]=record.retail_price;
+        }else{
+            products[proudctIndex][column] = e.target.value;
+        }
         this.setState({
             group_products: products
         });
@@ -332,17 +337,6 @@ class NewGroupon extends Component {
           visible: true,
         });
     };
-    // inputOnBlur = () =>{
-    //      if(this.state.group_products.length>0){
-    //         _.each(this.state.group_products, (item,index) => {
-    //                 let idx = _.find(this.state.transferData, ({key}) => {
-    //                     return key == item['entity_id'];
-    //                 });
-    //                 this.state.group_products[index]['group_price']=idx['retail_price'] * this.state.discount / 10;
-    //             })
-    //     }
-    //         console.log(this.state.discount,111)
-    // }
     handleOk = e => {
         if(this.state.group_products.length >0){
            _.findIndex(this.state.group_products,(product)=>{
@@ -376,7 +370,6 @@ class NewGroupon extends Component {
                     this.state.group_products[index]['group_price']=idx['retail_price'] * this.state.discount / 10;
                 })
         }
-    // console.log(this.state.discount)
         this.setState({
             has_discount:false
         })
@@ -623,13 +616,11 @@ class NewGroupon extends Component {
         const { targetKeys,showSearch} = this.state;
         let SpanColor = {
             fontWeight: 800,
-            width: 150,
             color: "#666",
             fontSize: 14,
             marginRight:10
         };
         let SpanColor2 = {
-            width: 150,
             color: "#ccc",
             fontSize: 14,
             marginLeft:10
@@ -637,6 +628,9 @@ class NewGroupon extends Component {
         let dusciuntColor={
             margin:10,
             textAlign: 'center'
+        }
+        let inputstyle={
+            width:150
         }
 
         return (
@@ -647,7 +641,9 @@ class NewGroupon extends Component {
                     onOk={this.discountOk}
                     onCancel={this.discountCancel}
                 >
-                    <Input type='number' placeholder="请输入1-10" value={this.state.discount}  onBlur={this.inputOnBlur} onChange={(e)=>this.onInputChange(e, 'discount')} />
+                    <Input style={inputstyle} type='number' placeholder="请输入大于0,小于或等于10的数值" value={this.state.discount}  onBlur={this.inputOnBlur} onChange={(e)=>this.onInputChange(e, 'discount')} />
+                    <span style={SpanColor}>折</span>
+                    <span style={SpanColor2}>请输入大于0,小于或等于10的数值</span>
                 </Modal>
                 <Modal
                     width={1200}
