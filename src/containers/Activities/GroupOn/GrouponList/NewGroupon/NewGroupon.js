@@ -331,17 +331,18 @@ class NewGroupon extends Component {
         this.setState({
           visible: true,
         });
-        
-        if(this.state.group_products.length>0){
-            _.each(this.state.group_products, (item,index) => {
-                    let idx = _.find(this.state.transferData, ({key}) => {
-                        return key == item['entity_id'];
-                    });
-                    console.log(idx['retail_price'],'item')
-                    this.state.group_products[index]['group_price']=idx['retail_price'] * this.state.discount / 10;
-                })
-        }
     };
+    // inputOnBlur = () =>{
+    //      if(this.state.group_products.length>0){
+    //         _.each(this.state.group_products, (item,index) => {
+    //                 let idx = _.find(this.state.transferData, ({key}) => {
+    //                     return key == item['entity_id'];
+    //                 });
+    //                 this.state.group_products[index]['group_price']=idx['retail_price'] * this.state.discount / 10;
+    //             })
+    //     }
+    //         console.log(this.state.discount,111)
+    // }
     handleOk = e => {
         if(this.state.group_products.length >0){
            _.findIndex(this.state.group_products,(product)=>{
@@ -366,6 +367,30 @@ class NewGroupon extends Component {
             visible: false,
         });
     };
+    discountOk =()=>{
+             if(this.state.group_products.length>0){
+            _.each(this.state.group_products, (item,index) => {
+                    let idx = _.find(this.state.transferData, ({key}) => {
+                        return key == item['entity_id'];
+                    });
+                    this.state.group_products[index]['group_price']=idx['retail_price'] * this.state.discount / 10;
+                })
+        }
+    // console.log(this.state.discount)
+        this.setState({
+            has_discount:false
+        })
+    }
+    discountCancel =()=>{
+        this.setState({
+            has_discount:false
+        })
+    }
+    inputDiscount =()=>{
+        this.setState({
+            has_discount:true
+        })
+    }
 
     // 日期选择
     onDatePicker = (dateString, type) => {
@@ -596,8 +621,34 @@ class NewGroupon extends Component {
 
     render() {
         const { targetKeys,showSearch} = this.state;
+        let SpanColor = {
+            fontWeight: 800,
+            width: 150,
+            color: "#666",
+            fontSize: 14,
+            marginRight:10
+        };
+        let SpanColor2 = {
+            width: 150,
+            color: "#ccc",
+            fontSize: 14,
+            marginLeft:10
+        };
+        let dusciuntColor={
+            margin:10,
+            textAlign: 'center'
+        }
+
         return (
             <div className='newGroupon'>
+                <Modal
+                    title="填写折扣"
+                    visible={this.state.has_discount}
+                    onOk={this.discountOk}
+                    onCancel={this.discountCancel}
+                >
+                    <Input type='number' placeholder="请输入1-10" value={this.state.discount}  onBlur={this.inputOnBlur} onChange={(e)=>this.onInputChange(e, 'discount')} />
+                </Modal>
                 <Modal
                     width={1200}
                     title="选择商品"
@@ -605,6 +656,11 @@ class NewGroupon extends Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     >
+                     <div style={dusciuntColor}>
+                            <span style={SpanColor}>填写本次统一折扣:</span>
+                            <Button onClick={this.inputDiscount}>点击输入折扣</Button>
+                            <span style={SpanColor2}>(默认为不打折)</span>
+                     </div>
                      <TableTransfer
                         dataSource={this.state.transferData}
                         targetKeys={targetKeys}
@@ -641,19 +697,7 @@ class NewGroupon extends Component {
                             <RangePicker showTime onChange={this.actDateChange} />
                         </ConfigProvider>
                     </li>
-                    <li>
-                        <h4>是否打折</h4>
-                        <Radio.Group onChange={(e)=>this.onRadioChange(e, 'has_discount')} value={this.state['has_discount']}>
-                            <Radio value={true}>是</Radio>
-                            <Radio value={false}>否</Radio>
-                        </Radio.Group>
-                    </li>
-                    {
-                        this.state.has_discount && <li>
-                            <h4>折扣</h4>
-                            <Input type='number' placeholder="请输入1-10" value={this.state.discount} onChange={(e)=>this.onInputChange(e, 'discount')} />
-                        </li>
-                    }
+                    
                     <li >
                         <h4>参与商品</h4>
                         <Button className='ant-calendar-picker' value={this.state.group_products}  onClick={this.showModal}>选择商品</Button>

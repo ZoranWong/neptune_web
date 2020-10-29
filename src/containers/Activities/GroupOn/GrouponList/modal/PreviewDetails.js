@@ -81,10 +81,10 @@ class PreviewDetails extends Component {
                             <span className="left">配送时间:</span>
                             <span className='limit'>{delivery(details)}</span>
                         </li>
-                        <li>
+                        {/* <li>
                             <span className="left">折扣:</span>
                             <span className='limit'>{discount(details)}</span>
-                        </li>
+                        </li> */}
                         <li>
                             <span className="left">成团红包:</span>
                             <span className='limit'>{redPacketLevel(details)}</span>
