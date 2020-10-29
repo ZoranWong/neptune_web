@@ -351,12 +351,12 @@ class EditGroupon extends Component {
         this.setState({
           visible: true,
         });
-        // _.each(this.state.group_products, (item,index) => {
-        //         if(this.state.group_products[index]['everybody_limit_num'] > 0){
-        //         this.state.group_products[index]['isLimited'] = true;
-        //         this.state.group_products[index]['everybody_limit_num']=this.state.group_products[index]['everybody_limit_num'];
-        //     }
-        // })
+        _.each(this.state.group_products, (item,index) => {
+                if(this.state.group_products[index]['everybody_limit_num'] > 0){
+                this.state.group_products[index]['isLimited'] = true;
+                this.state.group_products[index]['everybody_limit_num']=this.state.group_products[index]['everybody_limit_num'];
+            }
+        })
         
     };
     handleOk = e => {
@@ -511,7 +511,7 @@ inputDiscount =()=>{
                     <span style={SpanColor}>折</span>
                     <span style={SpanColor2}>请输入大于0,小于或等于10的数值</span>
                 </Modal>
-                 <Modal
+                <Modal
                     width={1200}
                     title="选择商品"
                     visible={this.state.visible}
