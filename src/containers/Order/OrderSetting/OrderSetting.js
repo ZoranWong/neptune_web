@@ -21,10 +21,10 @@ class OrderSetting extends Component {
 	
 	
 	valueChange = (type,value) => {
-		if (type === 'USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR') {
+		if (type === 'USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR' || type === 'USER_ORDER_SUMMARY_TIME_DEADLINE_HOUR') {
 			if(value > 24)return
 		}
-		if (type === 'USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_MINUTE') {
+		if (type === 'USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_MINUTE' || type === 'USER_ORDER_SUMMARY_TIME_DEADLINE_MINUTE') {
 			if(value > 59)return
 		}
 		
@@ -79,74 +79,75 @@ class OrderSetting extends Component {
 		this.setState({data})
 	};
 	
-	handleChange = (type, checked) =>{
-		let {data} = this.state;
-		console.log(checked);
-		_.map(data, (items) => {
-			if (items['key'] === type) {
-				items['flag'] = checked;
-			}
-		});
-		if (type === 'USER_ORDER_MANUAL_CANCEL_TIME_LIMIT') {
-			if (checked) {
-				console.log('前真');
-				this.enableSetting('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT');
-				this.disableSetting('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR');
-				this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT', true);
-				this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR', false);
-			} else {
-				console.log('前jia');
-				this.disableSetting('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT');
-				this.enableSetting('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR')
-				this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT', false);
-				this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR', true);
-			}
-		} else {
-			if (checked) {
-				console.log('hou真');
-				this.disableSetting('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT');
-				this.enableSetting('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR')
-				this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT', false);
-				this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR', true);
-			} else {
-				console.log('houjia');
-				this.enableSetting('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT');
-				this.disableSetting('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR')
-				this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT', true);
-				this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR', false);
-			}
-		}
-	};
+	// handleChange = (type, checked) =>{
+	// 	let {data} = this.state;
+	// 	console.log(checked);
+	// 	_.map(data, (items) => {
+	// 		if (items['key'] === type) {
+	// 			items['flag'] = checked;
+	// 		}
+	// 	});
+	// 	if (type === 'USER_ORDER_MANUAL_CANCEL_TIME_LIMIT') {
+	// 		if (checked) {
+	// 			console.log('前真');
+	// 			this.enableSetting('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT');
+	// 			this.disableSetting('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR');
+	// 			this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT', true);
+	// 			this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR', false);
+	// 		} else {
+	// 			console.log('前jia');
+	// 			this.disableSetting('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT');
+	// 			this.enableSetting('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR')
+	// 			this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT', false);
+	// 			this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR', true);
+	// 		}
+	// 	} else {
+	// 		if (checked) {
+	// 			console.log('hou真');
+	// 			this.disableSetting('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT');
+	// 			this.enableSetting('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR')
+	// 			this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT', false);
+	// 			this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR', true);
+	// 		} else {
+	// 			console.log('houjia');
+	// 			this.enableSetting('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT');
+	// 			this.disableSetting('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR')
+	// 			this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT', true);
+	// 			this.handleChecked('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR', false);
+	// 		}
+	// 	}
+	// };
 	
 	render() {
 		const {state} = this;
 		return (
 			<div className='order_setting'>
 				<div className="setting_header">
+					消费者订单截单时间
+				</div>
+				<div className="setting_body">
+					{
+						state.data.length && <div className="setting_item">
+							<span className='cancelSpan'>每天  <Input
+								type='number'
+								value={state['USER_ORDER_SUMMARY_TIME_DEADLINE_HOUR']}
+								onChange={(e)=>this.valueChange('USER_ORDER_SUMMARY_TIME_DEADLINE_HOUR',e.target.value)}
+								onBlur={()=>this.submitSetting('USER_ORDER_SUMMARY_TIME_DEADLINE_HOUR')}
+							/> 时 <Input
+								type='number'
+								value={state['USER_ORDER_SUMMARY_TIME_DEADLINE_MINUTE']}
+								onChange={(e)=>this.valueChange('USER_ORDER_SUMMARY_TIME_DEADLINE_MINUTE',e.target.value)}
+								onBlur={()=>this.submitSetting('USER_ORDER_SUMMARY_TIME_DEADLINE_MINUTE')}
+							/> 分之前</span>
+						</div>
+					}
+				</div>
+				<div className="setting_header">
 					消费者取消订单时间
 				</div>
 				<div className="setting_body">
 					{
 						state.data.length && <div className="setting_item">
-							{/*<Checkbox*/}
-							{/*	checked={this.getFlag('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT').flag}*/}
-							{/*	onChange={(e)=>{*/}
-							{/*		this.handleChange('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT',e.target.checked)*/}
-							{/*	}}*/}
-							{/*>*/}
-							{/*<span className='cancelSpan'>订单支付完成后 <Input*/}
-							{/*	type='number'*/}
-							{/*	value={state['USER_ORDER_MANUAL_CANCEL_TIME_LIMIT']}*/}
-							{/*	onChange={(e)=>this.valueChange('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT',e.target.value)}*/}
-							{/*	onBlur={()=>this.submitSetting('USER_ORDER_MANUAL_CANCEL_TIME_LIMIT')}*/}
-							{/*/> 小时之内</span>*/}
-							{/*</Checkbox>*/}
-							{/*<Checkbox*/}
-							{/*	checked={this.getFlag('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR').flag}*/}
-							{/*	onChange={(e)=>{*/}
-							{/*		this.handleChange('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR',e.target.checked)*/}
-							{/*	}}*/}
-							{/*>*/}
 							<span className='cancelSpan'>每天  <Input
 								type='number'
 								value={state['USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR']}
@@ -158,7 +159,6 @@ class OrderSetting extends Component {
 								onChange={(e)=>this.valueChange('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_MINUTE',e.target.value)}
 								onBlur={()=>this.submitSetting('USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_MINUTE')}
 							/> 分之前</span>
-							{/*</Checkbox>*/}
 						</div>
 					}
 				</div>
