@@ -9,8 +9,10 @@ class AppVersionSetting extends React.Component{
 		super(props);
 		this.state = {
 			versions : [],
-			type: 0,
+			type: 1,
 			version: '',
+			is_force:1,
+			version_code:'',
 			desc: '',
 			platform: 'IOS',
 			appUrl: '',
@@ -32,6 +34,9 @@ class AppVersionSetting extends React.Component{
 	onRadioChange = e =>{
 		this.setState({type: e.target.value})
 	};
+	onForceUpdate =e =>{
+		this.setState({is_force:e.target.value})
+	}
 	
 	onPlatformChange = e => {
 		this.setState({platform: e.target.value})
@@ -65,17 +70,19 @@ class AppVersionSetting extends React.Component{
 		let url = this.state.uploadType === 'ID' ? '' : this.state.appUrl;
 		
 		
-		this.submit(state.version,id, url,state.type,state.desc,state.platform)
+		this.submit(state.version,id, url,state.type,state.desc,state.platform,state.version_code,state.is_force)
 	};
 	
-	submit = (version, resource_id,resource_url, type, desc, platform, ) =>{
+	submit = (version, resource_id,resource_url, type, desc, platform,version_code, is_force) =>{
 		newPackages({
 			version,
 			resource_id,
 			resource_url,
 			type,
 			desc,
-			platform
+			platform,
+			version_code,
+			is_force
 		}).then(r=>{
 			message.success('新建APP版本成功');
 			this.setState({
@@ -83,7 +90,10 @@ class AppVersionSetting extends React.Component{
 				version: '',
 				desc: '',
 				platform: 'IOS',
-				appUrl: ''
+				appUrl: '',
+				version_code:'',
+				is_force:''
+
 			},()=>{
 				if (this.state.uploadType === 'ID') {
 					this.child.current.remove();
@@ -101,6 +111,10 @@ class AppVersionSetting extends React.Component{
 		const columns = [
 			{
 				title: '版本号',
+				dataIndex: 'version_code'
+			},
+			{
+				title: '版本名称',
 				dataIndex: 'version'
 			},
 			{
@@ -128,8 +142,18 @@ class AppVersionSetting extends React.Component{
 					</div>
 					<div className="app_body">
 						<div className="setting_item">
-							<span>
+						<span>
 								<h5>版本号:</h5>
+								<Input
+									defaultValue="number"
+									value={this.state.version_code.replace(/[^\-?\d]/g,'')}
+									onChange={(e)=>{
+										this.setState({version_code: e.target.value})
+									}}
+								/>
+							</span>
+							<span>
+								<h5>版本名称:</h5>
 								<Input
 									value={this.state.version}
 									onChange={(e)=>{
@@ -161,14 +185,21 @@ class AppVersionSetting extends React.Component{
 									/>
 								</span>
 							}
-							
 							<span>
+								<h5>是否强制更新:</h5>
+								<Radio.Group onChange={this.onForceUpdate} value={this.state.is_force}>
+									<Radio value={0}>是</Radio>
+									<Radio value={1}>否</Radio>
+							  	</Radio.Group>
+							</span>
+							
+							{/* <span>
 								<h5>资源包类型：</h5>
 								<Radio.Group onChange={this.onRadioChange} value={this.state.type}>
 									<Radio value={0}>补丁</Radio>
 									<Radio value={1}>非补丁</Radio>
 							  	</Radio.Group>
-							</span>
+							</span> */}
 							<span>
 								<h5>资源包平台：</h5>
 								<Radio.Group onChange={this.onPlatformChange} value={this.state.platform}>
