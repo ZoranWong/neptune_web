@@ -40,6 +40,8 @@ import OutStock from "../containers/Goods/OutStock/OutStock";
 import OutStockNew from "../containers/Goods/OutStockNew/OutStockNew";
 import OutStockDetail from "../containers/Goods/OutStockDetail/OutStockDetail";
 import hypermarket from "../containers/Goods/Hypermarket/Hypermarket";
+import BreakfastCart from "../containers/Shops/BreakfastCart/BreakfastCart"
+import Supervision from "../containers/Shops/Supervision/Supervision"
 
 import Staffing from "../containers/Setting/Staffing";
 import WarningSetting from '../containers/Setting/AppVersionSetting/AppVersionSetting'
@@ -231,6 +233,8 @@ const Routes = () =>(
 		<Route exact={true} path="/shops/shopDetails" render={props => onEnter(ShopDetails, props)} />
 		<Route exact={true} path="/shops/logisticsRoutes" render={props => onEnter(LogisticsRoutes, props)} />
 		<Route exact={true} path="/shops/ShopSetting" render={props => onEnter(ShopSetting, props)} />
+		<Route exact={true} path="/shops/BreakfastCart" render={props => onEnter(BreakfastCart, props)} />
+		<Route exact={true} path="/shops/Supervision" render={props => onEnter(Supervision, props)} />
 
 		{/*用户*/}
 		<Route exact={true} path="/user" render={props => onEnter(UserManage, props)} />

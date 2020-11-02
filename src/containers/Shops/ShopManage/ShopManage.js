@@ -546,6 +546,10 @@ class ShopManage extends React.Component{
 						disabled={this.state.checkedAry.length == 0 || this.state.checkedAry.length > 1 }
 						onClick={()=>this.shopExport('MERCHANT_PARTNERS_CURRENT_MONTH_BV', true)}
 					>导出指定店铺所有下线当月bv</Button>
+					<Button
+						size="small"
+						onClick={()=>this.shopExport('MERCHANT_CURRENT_MONTH_BV', true)}
+					>导出所有预警店铺</Button>
 				</div>
 				
 				<div className="s_body"  style={{paddingTop: '16px'}}>

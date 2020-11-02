@@ -41,6 +41,18 @@ let baseMenu = [
 		icon:'icon-qudao1',
 		text:'物流路线',
 		slug: 'menu_shop_channel'
+	},
+	{
+		path:'/shops/BreakfastCart',
+		icon:'icon-qudao1',
+		text:'早餐车',
+		slug: 'menu_shop_breakfastCart'
+	},
+	{
+		path:'/shops/Supervision',
+		icon:'icon-qudao1',
+		text:'督导组',
+		slug: 'menu_shop_supervision'
 	}
 ];
 // baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
