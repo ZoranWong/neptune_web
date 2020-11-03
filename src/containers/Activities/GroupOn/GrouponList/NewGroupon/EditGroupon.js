@@ -309,7 +309,7 @@ class EditGroupon extends Component {
         let products = this.state.group_products;
         // products[proudctIndex][column] = e.target.value;
         // console.log(products,'productsproducts')
-        if(e.target.value > record.retail_price){
+        if(e.target.value > record.retail_price && column == "group_price"){
             message.error('促销价必须小于零售价');
             products[proudctIndex][column]=record.retail_price;
         }else{
