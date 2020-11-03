@@ -268,8 +268,8 @@ class NewGroupon extends Component {
     };
     onTableInputChange =(e, proudctIndex, column,record)=>{
         let products = this.state.group_products;
-        
-        if(e.target.value > record.retail_price){
+        console.log(proudctIndex,column)
+        if(e.target.value > record.retail_price && column == "group_price" ){
             message.error('促销价必须小于零售价');
             products[proudctIndex][column]=record.retail_price;
         }else{
