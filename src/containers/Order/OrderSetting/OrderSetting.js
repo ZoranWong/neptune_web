@@ -24,7 +24,7 @@ class OrderSetting extends Component {
 		if (type === 'USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_HOUR' || type === 'USER_ORDER_SUMMARY_TIME_DEADLINE_HOUR') {
 			if(value > 24)return
 		}
-		if (type === 'USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_MINUTE' || type === 'USER_ORDER_SUMMRY_TIME_DEADLINE_MINUTE') {
+		if (type === 'USER_ORDER_MANUAL_CANCEL_TIME_DEADLINE_MINUTE' || type === 'USER_ORDER_SUMMARY_TIME_DEADLINE_MINUTE') {
 			if(value > 59)return
 		}
 		
