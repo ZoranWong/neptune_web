@@ -15,6 +15,7 @@ import Home from './components/SideMenu/Home'
 import Shops from './components/SideMenu/Shops'
 import {withRouter} from 'react-router-dom'
 import Setting from "./components/SideMenu/Setting";
+import Payment from "./components/SideMenu/Payment"
 import Order from "./components/SideMenu/Order";
 import Activities from "./components/SideMenu/Activities";
 import Marketing from "./components/SideMenu/Marketing";
@@ -36,6 +37,7 @@ class App extends React.Component{
 	handleSider = () =>{
 		let activities = ['productsManage','orderManage','marketing'];
 		let key = this.props.location.pathname.split('/');
+		console.log(key, '==================================');
 		switch (key[1]) {
 			case "user":
 				return <User match={{url:this.props.location.pathname}}/>;
@@ -55,6 +57,8 @@ class App extends React.Component{
 				return <Setting match={{url:this.props.location.pathname}}/>;
 			case "distribution":
 				return <Distribution match={{url:this.props.location.pathname}}  />
+			case "payment":
+					return <Payment match={{url:this.props.location.pathname}}  />
 			case "activities":
 				return <Activities match={{url:this.props.location.pathname}}  />
 			default:

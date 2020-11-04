@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './index.sass'
-import {Input, message, Modal, Radio} from "antd";
+import {Input, message, Modal, Radio,Button} from "antd";
 import {adjustShopBalance} from "../../api/shops/shopManage";
 import {adjustUserBalance} from "../../api/user";
 
@@ -52,6 +52,24 @@ class OperateBalance extends Component {
 					okText="确定"
 					cancelText="取消"
 				>
+					<div className="operateBalanceRemark">
+						<span>验证的手机号码:</span>
+						<Input
+							// value={this.state.remark}
+						/>
+						
+					</div>
+					<div className="operateBalanceRemark">
+						<span>验证码:</span>
+						<Input
+							className="operate-input"
+							// value={this.state.remark}
+							// onChange={(e)=>{
+							// 	this.setState({remark:e.target.value})
+							// }}
+						/>
+						<Button>发送验证码</Button>
+					</div>
 					<div className="operateBalance">
 						<Radio.Group onChange={this.onChange} value={this.state.value}>
 							<Radio value='add'>增加</Radio>

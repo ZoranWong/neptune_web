@@ -22,7 +22,8 @@ class ShopDetails extends React.Component{
 			data:{},  // 店铺详情数据
 			position:{},
 			images:{},
-			overdraft: false
+			overdraft: false,
+			visible: false
 		}
 	}
 
@@ -133,6 +134,29 @@ class ShopDetails extends React.Component{
 	hideBalance = () => {
 		this.setState({balanceVisible: false})
 	};
+	// 透支额度设置
+	showQuotaSetting = () =>{
+		console.log("这是透支额度")
+		this.setState({visible:true})
+	}
+	// 设置余额
+	// Settingbalance = () =>{
+	// 	console.log(9999999999)
+	// }
+
+	handleOk = e => {
+		console.log(e);
+		this.setState({
+			visible: false,
+		});
+	};
+
+	handleCancel = e => {
+		console.log(e);
+		this.setState({
+			visible: false,
+		});
+	};
 	
 	// 调整透支额度
 	showOverdraft = () =>{
@@ -200,6 +224,22 @@ class ShopDetails extends React.Component{
 					 position={this.state.position}
 					 disabled={true}
 				/>
+				<Modal
+					title="透支额度预警设置"
+					visible={this.state.visible}
+					onOk={this.handleOk}
+					onCancel={this.handleCancel}
+					>
+						<div>
+							<span>设置余额：</span>
+							<input
+							// value={this.state.remark}
+							// Settingbalance={(e)=>{
+							// 	this.setState({remark:e.target.value})
+							// }}
+							/>
+						</div>
+				</Modal>
 				
 				
 				<div className="u_top">
@@ -261,8 +301,15 @@ class ShopDetails extends React.Component{
 								}
 								{
 									window.hasPermission('shop_management_display_set_overdraft') && <div className="overdraft">
-										透支额度： {data.overdraft}元
-										<span className='adjustOverdraft' onClick={this.showOverdraft} >调整</span>
+										<span
+											className='adjustQuotaSetting'
+											onClick={this.showQuotaSetting}
+											style={{'cursor':'pointer'}}
+										>透支额度设置</span>
+										<span>
+											透支额度： {data.overdraft}元
+											<span className='adjustOverdraft' onClick={this.showOverdraft} >调整</span>
+										</span>
 									</div>
 								}
 								

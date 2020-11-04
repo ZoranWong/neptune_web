@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Checkbox, Input, message} from 'antd'
+import {Checkbox, Input, message,Tabs} from 'antd'
 import './css/index.sass'
 import {systemSetting,getSystemSetting, disableSetting, enable} from "../../../api/common";
 import {searchJson} from "../../../utils/dataStorage";
 import _ from 'lodash'
+const { TabPane } = Tabs;
 class ProductsOrderSetting extends Component {
 	state = {
 		data: []
@@ -55,55 +56,113 @@ class ProductsOrderSetting extends Component {
 	render() {
 		const {state} = this;
 		return (
-			<div className='order_setting'>
-				<div className="setting_header">
-					截单时间
-				</div>
-				<div className="setting_body">
-					{
-						state.data.length && <div className="setting_item">
-							<span className='cancelSpan'>每天  <Input
-								type='number'
-								value={state['MERCHANT_ORDER_PAID_TIME_THRESHOLD_HOUR']}
-								onChange={(e)=>this.valueChange('MERCHANT_ORDER_PAID_TIME_THRESHOLD_HOUR',e.target.value)}
-								onBlur={()=>this.submitSetting('MERCHANT_ORDER_PAID_TIME_THRESHOLD_HOUR')}
-							/> 时 <Input
-								type='number'
-								value={state['MERCHANT_ORDER_PAID_TIME_THRESHOLD_MINUTE']}
-								onChange={(e)=>this.valueChange('MERCHANT_ORDER_PAID_TIME_THRESHOLD_MINUTE',e.target.value)}
-								onBlur={()=>this.submitSetting('MERCHANT_ORDER_PAID_TIME_THRESHOLD_MINUTE')}
-							/> 分之前</span>
+			<div className="distributionStatistics">
+				<Tabs defaultActiveKey="MERCHANTS">
+				<TabPane tab="商户/分销员" key="MERCHANTS">
+					<div className='order_setting'>
+						<div className="setting_header">
+							截单时间
 						</div>
-					}
-				</div>
-				
-				<div className="setting_header">
-					起订金额设置
-				</div>
-				<div className="setting_body">
-					<div className="setting_item">
-						满 <Input
-						type='number'
-						value={state['MERCHANT_ORDER_PAID_THRESHOLD']}
-						onChange={(e)=>this.valueChange('MERCHANT_ORDER_PAID_THRESHOLD',e.target.value)}
-						onBlur={()=>this.submitSetting('MERCHANT_ORDER_PAID_THRESHOLD')}
-					/> 元起送
-					</div>
-				</div>
+						<div className="setting_body">
+							{
+								state.data.length && <div className="setting_item">
+									<span className='cancelSpan'>每天  <Input
+										type='number'
+										value={state['MERCHANT_ORDER_PAID_TIME_THRESHOLD_HOUR']}
+										onChange={(e)=>this.valueChange('MERCHANT_ORDER_PAID_TIME_THRESHOLD_HOUR',e.target.value)}
+										onBlur={()=>this.submitSetting('MERCHANT_ORDER_PAID_TIME_THRESHOLD_HOUR')}
+									/> 时 <Input
+										type='number'
+										value={state['MERCHANT_ORDER_PAID_TIME_THRESHOLD_MINUTE']}
+										onChange={(e)=>this.valueChange('MERCHANT_ORDER_PAID_TIME_THRESHOLD_MINUTE',e.target.value)}
+										onBlur={()=>this.submitSetting('MERCHANT_ORDER_PAID_TIME_THRESHOLD_MINUTE')}
+									/> 分之前</span>
+								</div>
+							}
+						</div>
+					
+						<div className="setting_header">
+							起订金额设置
+						</div>
+						<div className="setting_body">
+							<div className="setting_item">
+								满 <Input
+								type='number'
+								value={state['MERCHANT_ORDER_PAID_THRESHOLD']}
+								onChange={(e)=>this.valueChange('MERCHANT_ORDER_PAID_THRESHOLD',e.target.value)}
+								onBlur={()=>this.submitSetting('MERCHANT_ORDER_PAID_THRESHOLD')}
+							/> 元起送
+							</div>
+						</div>
 
-				<div className="setting_header">
-					配送时间设置
-				</div>
-				<div className="setting_body">
-					<div className="setting_item">
-						温馨提示: <Input
-						value={state['MERCHANT_ORDER_DELIVERY_TIME_DESC']}
-						onChange={(e)=>this.valueTextChange('MERCHANT_ORDER_DELIVERY_TIME_DESC',e.target.value)}
-						onBlur={()=>this.submitSetting('MERCHANT_ORDER_DELIVERY_TIME_DESC')}
-					/>
+						<div className="setting_header">
+							配送时间设置
+						</div>
+						<div className="setting_body">
+							<div className="setting_item">
+								温馨提示: <Input
+								value={state['MERCHANT_ORDER_DELIVERY_TIME_DESC']}
+								onChange={(e)=>this.valueTextChange('MERCHANT_ORDER_DELIVERY_TIME_DESC',e.target.value)}
+								onBlur={()=>this.submitSetting('MERCHANT_ORDER_DELIVERY_TIME_DESC')}
+							/>
+							</div>
+						</div>
 					</div>
-				</div>
+				</TabPane>
+				<TabPane tab="早餐车" key="BREAKFAST_CART">
+				<div className='order_setting'>
+						<div className="setting_header">
+							截单时间
+						</div>
+						<div className="setting_body">
+							{
+								state.data.length && <div className="setting_item">
+									<span className='cancelSpan'>每天  <Input
+										type='number'
+										value={state['MERCHANT_ORDER_PAID_TIME_THRESHOLD_HOUR']}
+										onChange={(e)=>this.valueChange('MERCHANT_ORDER_PAID_TIME_THRESHOLD_HOUR',e.target.value)}
+										onBlur={()=>this.submitSetting('MERCHANT_ORDER_PAID_TIME_THRESHOLD_HOUR')}
+									/> 时 <Input
+										type='number'
+										value={state['MERCHANT_ORDER_PAID_TIME_THRESHOLD_MINUTE']}
+										onChange={(e)=>this.valueChange('MERCHANT_ORDER_PAID_TIME_THRESHOLD_MINUTE',e.target.value)}
+										onBlur={()=>this.submitSetting('MERCHANT_ORDER_PAID_TIME_THRESHOLD_MINUTE')}
+									/> 分之前</span>
+								</div>
+							}
+						</div>
+					
+						<div className="setting_header">
+							起订金额设置
+						</div>
+						<div className="setting_body">
+							<div className="setting_item">
+								满 <Input
+								type='number'
+								value={state['MERCHANT_ORDER_PAID_THRESHOLD']}
+								onChange={(e)=>this.valueChange('MERCHANT_ORDER_PAID_THRESHOLD',e.target.value)}
+								onBlur={()=>this.submitSetting('MERCHANT_ORDER_PAID_THRESHOLD')}
+							/> 元起送
+							</div>
+						</div>
+
+						<div className="setting_header">
+							配送时间设置
+						</div>
+						<div className="setting_body">
+							<div className="setting_item">
+								温馨提示: <Input
+								value={state['MERCHANT_ORDER_DELIVERY_TIME_DESC']}
+								onChange={(e)=>this.valueTextChange('MERCHANT_ORDER_DELIVERY_TIME_DESC',e.target.value)}
+								onBlur={()=>this.submitSetting('MERCHANT_ORDER_DELIVERY_TIME_DESC')}
+							/>
+							</div>
+						</div>
+					</div>
+				</TabPane>
+			</Tabs>
 			</div>
+		
 		);
 	}
 }

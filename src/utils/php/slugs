@@ -140,3 +140,6 @@
 122: {id: 123, name: "虚拟销量", slug: "product_distribution_mall_book_set_virtual_sale"}
 
 ！！！123: {id: 124, name: "店铺设置", slug: "menu_shop_setting"}
+
+124: {id: 125, name: "支付", slug: "nav-payment"}
+125: {id: 126, name: "支付设置", slug: "menu_set_payment"}

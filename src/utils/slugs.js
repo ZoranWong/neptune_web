@@ -7,6 +7,7 @@ export const slugs = [
 	'nav-product',
 	'nav-data',
 	'nav-finance',
+	'nav-payment',
 	'nav-setting',
 	'nav-distribution'
 ];

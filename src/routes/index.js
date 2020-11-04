@@ -79,6 +79,8 @@ import RefundApplication from "../containers/Finance/RefundDetail/RefundApplicat
 import WithdrawApplication from "../containers/Finance/WithdrawDetails/WithdrawApplication/WithdrawApplication";
 import CustomWeChatMessage from "../containers/Marketing/Message/CustomWeChatMessage/CustomWeChatMessage";
 import EditWeChatMessage from "../containers/Marketing/Message/EditWeChatMessage/EditWeChatMessage";
+import FinancialReconciliation from "../containers/Finance/FinancialReconciliation/FinancialReconciliation"
+
 
 import DistributionStatistics from '../containers/Distribution/DistributionStatistics/DistributionStatistics'
 import CashbackRecords from "../containers/Distribution/CashbackRecords/CashbackRecords";
@@ -118,6 +120,8 @@ import GrouponProductsManage from "../containers/Activities/GroupOn/GrouponProdu
 import PrintGrouponOrders from "../containers/Activities/GroupOn/printGrouponOrders/printGrouponOrders";
 import Recharge from "../containers/Marketing/Recharge/Recharge";
 import RechargeDetails from "../containers/Marketing/Recharge/RechargeDetails/RechargeDetails";
+
+import SetPayment from "../containers/Payment/PaymentSetting/SetPayment"
 
 
 /** 跳转到某个路由之前触发 用于验证页面权限**/
@@ -173,6 +177,7 @@ const Routes = () =>(
 		<Route exact={true} path="/finance/incomeDetails" render={props => onEnter(IncomeDetails, props)} />
 		<Route exact={true} path="/finance/refundApplication" render={props => onEnter(RefundApplication, props)} />
 		<Route exact={true} path="/finance/withdrawApplication" render={props => onEnter(WithdrawApplication, props)} />
+		<Route exact={true} path="/finance/FinancialReconciliation" render={props => onEnter(FinancialReconciliation, props)} />
 		
 		{/*商品*/}
 		<Route exact={true} path="/goods" render={props => onEnter(Goods, props)} />
@@ -245,6 +250,8 @@ const Routes = () =>(
 		<Route exact={true} path="/user/groupManage" render={props => onEnter(UserGroupManage, props)} />
 		<Route exact={true} path="/user/UserDetails" render={props => onEnter(UserDetails, props)} />
 		
+		{/* 支付 */}
+		<Route exact={true} path="/payment" render={props => onEnter(SetPayment, props)} />
 		{/*设置*/}
 		<Route exact={true} path="/setting" render={props => onEnter(Staffing, props)} />
 		<Route exact={true} path="/setting/warningSetting" render={props => onEnter(WarningSetting, props)} />

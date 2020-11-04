@@ -8,45 +8,16 @@ import {hasPermission} from "../../utils/hasPermissions";
 const { SubMenu } = Menu;
 let baseMenu = [
 	{
-		path:'/finance',
+		path:'/payment',
 		icon:'icon-accountbook-fill',
-		text:'资产概览',
-		slug: 'menu_assets_overview'
+		text:'支付设置',
+		slug: 'menu_set_payment'
 	},
-	{
-		path:'/finance/incomeDetails',
-		icon:'icon-qianbao1',
-		text:'收入明细',
-		slug: 'menu_income_detailed'
-	},
-	{
-		path:'/finance/balanceDetails',
-		icon:'icon-YUAN-circle-fill',
-		text:'余额明细',
-		slug: 'menu_balance_detailed'
-	},
-	{
-		path:'/finance/refundDetails',
-		icon:'icon-tuikuan',
-		text:'退款详情',
-		slug: 'menu_refund_detailed'
-	},
-	{
-		path:'/finance/withdrawDetails',
-		icon:'icon-tixian1',
-		text:'提现详情',
-		slug: 'menu_withdraw_detailed'
-	},
-	{
-		path:'/finance/FinancialReconciliation',
-		icon:'icon-accountbook-fill',
-		text:'财务对账',
-		slug: 'menu_withdraw_detailed'
-	},
+	
 ];
 baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
 
-const Finance = ({ match }) => (
+const Payment = ({ match }) => (
 	<div style={{ paddingBottom: '120px',width:'216px' }}>
 		<Menu
 			theme="light"
@@ -70,9 +41,8 @@ const Finance = ({ match }) => (
 		</Menu>
 	</div>
 )
-
-Finance.propTypes = {
+Payment.propTypes = {
 	match: PropTypes.object.isRequired
 }
 
-export default Finance
+export default Payment

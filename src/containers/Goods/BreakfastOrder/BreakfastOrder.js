@@ -46,6 +46,23 @@ class BreakfastOrder extends React.Component{
 			{
 				title: '零售价',
 				dataIndex: 'retail_price',
+				// render: (text,record) =>{
+				// 	if (window.hasPermission("product_breakfast_book_set_virtual_sale")) {
+				// 		return <InputNumber
+				// 			className="virtualSales"
+				// 			defaultValue={text}
+				// 			onBlur={(e)=>{
+				// 				e.target.value = e.target.value < 0? 0:e.target.value;
+				// 				if(e.target.value <= 0) return;
+				// 				setVirtualSales({virtual_sales:e.target.value},record.provide_id).then(r=>{
+				// 					message.success(r.message)
+				// 				}).catch(_=>{})
+				// 			}}
+				// 		/>
+				// 	} else {
+				// 		return <span>{text}</span>
+				// 	}
+				// }
 			},
 			{
 				title: '库存',
@@ -131,7 +148,8 @@ class BreakfastOrder extends React.Component{
 			columns:columns,
 			recordSpecVisible:false,
 			rangeId:'',// 设置范围
-			current: 1
+			current: 1,
+			visible: false
 		};
 	}
 	
@@ -311,6 +329,29 @@ class BreakfastOrder extends React.Component{
 	outStock = () =>{
 		this.props.history.push({pathname:"/goods/outStock",state:{channel:this.channel}})
 	};
+	// 批量修改价格
+	batchModification = () =>{
+		this.setState({visible:true})
+	}
+	handleOk = e => {
+		console.log(e);
+		this.setState({
+		  visible: false,
+		});
+	};
+	
+	handleCancel = e => {
+		console.log(e);
+		this.setState({
+			visible: false,
+		});
+	};
+	downTemplate =() =>{
+		console.log('下载模板')
+	}
+	addFile =() =>{
+		console.log('添加文件')
+	}
 	
 	render(){
 		const rowSelection = {
@@ -323,8 +364,29 @@ class BreakfastOrder extends React.Component{
 				name: record.name,
 			})
 		};
+		const spanmargin={
+			marginBottom: 20
+		}
+
 		return (
 			<div>
+				<Modal
+				title="批量导入"
+				visible={this.state.visible}
+				onOk={this.handleOk}
+				onCancel={this.handleCancel}
+				>
+					<div style={spanmargin}>
+						<em>准备数据：</em>
+						<span className='spancolor' onClick={this.downTemplate}>下载模板商品</span>
+					</div>
+					<div style={spanmargin}>
+						<em>上传数据：</em>
+						<span className='spancolor spancolor1' onClick={this.addFile}>添加文件</span>
+					</div>
+					<div>提示：上传的文件大小请勿大于5M</div>
+					
+				</Modal>
 				<AdvancedFilterComponent
 					visible={this.state.filterVisible}
 					onCancel={this.closeHigherFilter}
@@ -376,6 +438,11 @@ class BreakfastOrder extends React.Component{
 							<IconFont type="icon-upload" />
 							商品出库
 						</Button>
+					}
+					{
+						<Button size="small" onClick={this.batchModification}>
+						批量修改商品价格
+					</Button>
 					}
 					
 				</div>

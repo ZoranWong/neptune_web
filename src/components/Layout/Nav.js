@@ -73,6 +73,12 @@ class Nav extends React.Component{
 				name:"nav-finance"
 			},
 			{
+				text:'支付',
+				path:'/payment',
+				exact:true,
+				name:"nav-payment"
+			},
+			{
 				text:'设置',
 				path:'/setting',
 				exact:true,
@@ -83,6 +89,7 @@ class Nav extends React.Component{
 		this.state.userPermission.forEach(item=>{
 			navs.push(item.slug);
 		});
+		console.log(baseNav);
 		return (
 			<div className="nav">
 				<div className="main-content main">
