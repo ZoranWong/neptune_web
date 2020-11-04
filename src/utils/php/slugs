@@ -1,0 +1,142 @@
+0: {id: 1, name: "首页", slug: "nav-index"}
+
+1: {id: 2, name: "店铺", slug: "nav-shop"}
+!!!2: {id: 3, name: "店铺管理", slug: "menu_shop_management"}
+3: {id: 4, name: "店铺申请", slug: "shop_management_application"}
+4: {id: 5, name: "新增店铺", slug: "shop_management_add_shop"}
+5: {id: 6, name: "修改店铺状态", slug: "shop_management_switch_state"}
+6: {id: 7, name: "加入群组", slug: "shop_management_add_group"}
+7: {id: 8, name: "导出", slug: "shop_management_export"}
+8: {id: 9, name: "编辑", slug: "shop_management_edit"}
+9: {id: 10, name: "店铺详情", slug: "shop_management_display"}
+10: {id: 11, name: "调整余额", slug: "shop_management_display_balance_operate"}
+11: {id: 12, name: "店铺组", slug: "menu_shop_group"}
+12: {id: 13, name: "可操作", slug: "shop_group_operable"}
+!!!13: {id: 14, name: "已冻结", slug: "menu_shop_frozen"}
+14: {id: 15, name: "店铺详情", slug: "shop_frozen_display"}
+15: {id: 16, name: "导出", slug: "shop_frozen_export"}
+16: {id: 17, name: "解冻", slug: "shop_frozen_unfreeze"}
+17: {id: 18, name: "删除", slug: "shop_frozen_delete"}
+!!!18: {id: 19, name: "店铺渠道", slug: "menu_shop_channel"}
+???19: {id: 20, name: "可操作", slug: "shop_channel_operable"}
+???20: {id: 21, name: "只读", slug: "shop_channel_readonly"}
+
+21: {id: 22, name: "分销", slug: "nav-distribution"}
+!!!22: {id: 23, name: "返现记录", slug: "menu_cashback_record"}
+!!!23: {id: 24, name: "返现设置", slug: "menu_cashback_setting"}
+???24: {id: 25, name: "可操作", slug: "cashback_setting_operable"}
+???25: {id: 26, name: "只读", slug: "cashback_setting_readonly"}
+
+26: {id: 27, name: "财务", slug: "nav-finance"}
+!!!27: {id: 28, name: "资产概览", slug: "menu_assets_overview"}
+!!!28: {id: 29, name: "收入明细", slug: "menu_income_detailed"}
+29: {id: 30, name: "导出", slug: "income_detailed_export"}
+!!!30: {id: 31, name: "余额明细", slug: "menu_balance_detailed"}
+31: {id: 32, name: "导出", slug: "balance_detailed_export"}
+!!!32: {id: 33, name: "退款详情", slug: "menu_refund_detailed"}
+33: {id: 34, name: "导出", slug: "refund_detailed_export"}
+34: {id: 35, name: "退款申请", slug: "refund_detailed_application"}
+!!!35: {id: 36, name: "提现详情", slug: "menu_withdraw_detailed"}
+36: {id: 37, name: "导出", slug: "withdraw_detailed_export"}
+37: {id: 38, name: "提现申请", slug: "withdraw_detailed_application"}
+
+
+38: {id: 39, name: "设置", slug: "nav-setting"}
+!!!39: {id: 40, name: "人员配置", slug: "menu_user_setting"}
+40: {id: 41, name: "可操作", slug: "user_setting_operable"}
+
+41: {id: 42, name: "用户", slug: "nav-user"}
+!!!42: {id: 43, name: "用户管理", slug: "menu_user_management"}
+43: {id: 44, name: "加群组", slug: "user_management_add_group"}
+44: {id: 45, name: "加标签", slug: "user_management_add_tag"}
+45: {id: 46, name: "导出", slug: "user_management_export"}
+!!!46: {id: 47, name: "标签管理", slug: "menu_tag_management"}
+47: {id: 48, name: "可操作", slug: "tag_management_operable"}
+!!!48: {id: 49, name: "群组管理", slug: "menu_user_group"}
+49: {id: 50, name: "可操作", slug: "user_group_operable"}
+!!!50: {id: 51, name: "积分规则", slug: "menu_user_score_rule"}
+51: {id: 52, name: "可操作", slug: "user_score_rule_operable"}
+
+
+52: {id: 53, name: "订单", slug: "nav-order"}
+!!!53: {id: 54, name: "订单管理", slug: "menu_order_management"}
+54: {id: 55, name: "导出", slug: "order_management_export"}
+55: {id: 56, name: "设置默认模版消息", slug: "order_management_bind_template"}
+56: {id: 57, name: "打印订单", slug: "order_management_printing"}
+57: {id: 58, name: "取消订单", slug: "order_management_platform_cancel"}
+58: {id: 59, name: "确认订单", slug: "order_management_platform_verify"}
+!!!59: {id: 60, name: "订单设置", slug: "menu_order_setting"}
+60: {id: 61, name: "可操作", slug: "order_setting_operable"}
+!!!61: {id: 62, name: "退款售后", slug: "menu_order_after_service"}
+62: {id: 63, name: "可操作", slug: "order_after_service_operable"}
+!!!63: {id: 64, name: "订货管理", slug: "menu_order_agent"}
+64: {id: 65, name: "设置默认模版消息", slug: "order_agent_bind_template"}
+65: {id: 66, name: "退款", slug: "order_agent_confirm_refund"}
+
+
+66: {id: 67, name: "营销", slug: "nav-marketing"}
+！！！67: {id: 68, name: "优惠券", slug: "menu_marketing_coupon"}
+68: {id: 69, name: "可操作", slug: "coupon_operable"}
+！！！69: {id: 70, name: "积分商城", slug: "menu_marketing_integral_mall"}
+70: {id: 71, name: "可操作", slug: "integral_mall_operable"}
+！！！71: {id: 72, name: "用户储值", slug: "menu_marketing_deposit"}
+72: {id: 73, name: "可操作", slug: "marketing_deposit_operable"}
+！！！73: {id: 74, name: "模板消息", slug: "menu_marketing_msg_template"}
+74: {id: 75, name: "可操作", slug: "marketing_msg_template_operable"}
+
+
+75: {id: 76, name: "商品", slug: "nav-product"}
+！！！76: {id: 77, name: "商品库管理", slug: "menu_product_management"}
+77: {id: 78, name: "发布商品", slug: "product_management_create"}
+78: {id: 79, name: "编辑", slug: "product_management_edit"}
+79: {id: 80, name: "加入商品组", slug: "product_management_add_group"}
+80: {id: 81, name: "下架", slug: "product_management_get_off_shelves"}
+！！！81: {id: 82, name: "下架商品", slug: "menu_product_off_shelves"}
+82: {id: 83, name: "上架", slug: "product_off_shelves_put_on"}
+83: {id: 84, name: "删除", slug: "product_off_shelves_delete"}
+84: {id: 85, name: "编辑", slug: "product_off_shelves_edit"}
+！！！85: {id: 86, name: "商品分类", slug: "menu_product_category"}
+86: {id: 87, name: "可操作", slug: "product_category_operable"}
+87: {id: 88, name: "商品规格", slug: "menu_product_spec"}
+88: {id: 89, name: "可操作", slug: "product_spec_operable"}
+89: {id: 90, name: "商品组", slug: "menu_product_group"}
+90: {id: 91, name: "可操作", slug: "product_group_operable"}
+！！！91: {id: 92, name: "早餐车订货", slug: "menu_product_breakfast_book"}
+92: {id: 93, name: "上架商品", slug: "product_breakfast_book_put_on"}
+93: {id: 94, name: "商品入库", slug: "product_breakfast_book_add_stock"}
+94: {id: 95, name: "商品出库", slug: "product_breakfast_book_out_stock"}
+95: {id: 96, name: "下架", slug: "product_breakfast_book_get_off"}
+96: {id: 97, name: "售卖范围", slug: "product_breakfast_book_set_sale_scope"}
+97: {id: 98, name: "警戒库存", slug: "product_breakfast_book_set_stock_alert"}
+98: {id: 99, name: "虚拟销量", slug: "product_breakfast_book_set_virtual_sale"}
+
+！！！99: {id: 100, name: "商户订货", slug: "menu_product_merchant_book"}
+100: {id: 101, name: "上架商品", slug: "product_merchant_book_put_on"}
+101: {id: 102, name: "商品入库", slug: "product_merchant_book_add_stock"}
+102: {id: 103, name: "商品出库", slug: "product_merchant_book_out_stock"}
+103: {id: 104, name: "下架", slug: "product_merchant_book_get_off"}
+104: {id: 105, name: "售卖范围", slug: "product_merchant_book_set_sale_scope"}
+105: {id: 106, name: "警戒库存", slug: "product_merchant_book_set_stock_alert"}
+106: {id: 107, name: "虚拟销量", slug: "product_merchant_book_set_virtual_sale"}
+
+
+！！！107: {id: 108, name: "活动", slug: "menu_product_activity_book"}
+108: {id: 109, name: "上架商品", slug: "product_activity_book_put_on"}
+109: {id: 110, name: "商品入库", slug: "product_activity_book_add_stock"}
+110: {id: 111, name: "商品出库", slug: "product_activity_book_out_stock"}
+111: {id: 112, name: "下架", slug: "product_activity_book_get_off"}
+112: {id: 113, name: "售卖范围", slug: "product_activity_book_set_sale_scope"}
+113: {id: 114, name: "警戒库存", slug: "product_activity_book_set_stock_alert"}
+114: {id: 115, name: "虚拟销量", slug: "product_activity_book_set_virtual_sale"}
+
+
+！！！115: {id: 116, name: "分销商城", slug: "menu_product_distribution_mall_book"}
+116: {id: 117, name: "上架商品", slug: "product_distribution_mall_book_put_on"}
+117: {id: 118, name: "商品入库", slug: "product_distribution_mall_book_add_stock"}
+118: {id: 119, name: "商品出库", slug: "product_distribution_mall_book_out_stock"}
+119: {id: 120, name: "下架", slug: "product_distribution_mall_book_get_off"}
+120: {id: 121, name: "售卖范围", slug: "product_distribution_mall_book_set_sale_scope"}
+121: {id: 122, name: "警戒库存", slug: "product_distribution_mall_book_set_stock_alert"}
+122: {id: 123, name: "虚拟销量", slug: "product_distribution_mall_book_set_virtual_sale"}
+
+！！！123: {id: 124, name: "店铺设置", slug: "menu_shop_setting"}

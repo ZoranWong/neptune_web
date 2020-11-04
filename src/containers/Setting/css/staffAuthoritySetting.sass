@@ -1,0 +1,84 @@
+.activeG
+	//选项卡被选中的样式
+	color: #4F9863!important
+	border: 1px solid #4F9863 !important
+	z-index: 100
+.all
+	width: 100%
+	position: relative
+	.boxHeader
+		display: flex
+		justify-content: space-between
+		align-items: center
+		font-size: 12px
+		color: #666
+		border-bottom: 1px solid #E9E9E9
+		padding-bottom: 20px
+		margin-top: 6px
+		.userInfo
+			span
+				margin-left: 50px
+		.tab
+			display: flex
+			justify-content: center
+			align-items: center
+			span
+				display: inline-block
+				width: 66px
+				height: 28px
+				background: #ffffff
+				border: 1px solid #666666
+				color: #666666
+				line-height: 28px
+				text-align: center
+				overflow: hidden
+				text-overflow: ellipsis
+				white-space: nowrap
+				margin: 0 -1px
+				&:hover
+					color: #4F9863
+					border: 1px solid #4F9863
+					z-index: 150
+	.tree1
+		width: 100%
+		height: 450px
+		overflow: auto
+		background: #F4F4F4
+		border: 1px solid #D9D9D9
+		border-radius: 4px!important
+	.footBtn
+		width: 100%
+		margin-top: 20px
+		padding-top: 20px
+		display: flex
+		justify-content: center
+		align-items: center
+		border-top: 1px solid #E9E9E9
+	.ant-tabs
+		margin-top: 20px
+	.ant-tabs-bar
+		border: none
+		margin: 0!important
+	.ant-tabs-tab
+		background: #FFF!important
+		font-size: 12px
+		height: 28px!important
+		line-height: 28px!important
+	.ant-tabs-tab-active
+		background: #F4F4F4!important
+		border-bottom: 1px solid #f4f4f4!important
+	.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-nav-container
+		height: 28px !important
+	.ant-tree-title
+		font-size: 12px
+	.ant-tree-checkbox-inner
+		width: 14px!important
+		height: 14px !important
+		&:after
+			content: ''
+			left: 20% !important
+	.ant-tree-checkbox-indeterminate
+		.ant-tree-checkbox-inner
+			&:after
+				left: 49% !important
+	
