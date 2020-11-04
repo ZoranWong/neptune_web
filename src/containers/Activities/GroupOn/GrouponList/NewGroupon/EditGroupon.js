@@ -307,8 +307,14 @@ class EditGroupon extends Component {
     // };
     onTableInputChange =(e, proudctIndex, column,record)=>{
         let products = this.state.group_products;
-        products[proudctIndex][column] = e.target.value;
-        console.log(products,'productsproducts')
+        // products[proudctIndex][column] = e.target.value;
+        // console.log(products,'productsproducts')
+        if(e.target.value > record.retail_price && column == "group_price"){
+            message.error('促销价必须小于零售价');
+            products[proudctIndex][column]=record.retail_price;
+        }else{
+            products[proudctIndex][column] = e.target.value;
+        }
         this.setState({
             group_products: products
         });
@@ -345,12 +351,12 @@ class EditGroupon extends Component {
         this.setState({
           visible: true,
         });
-        // _.each(this.state.group_products, (item,index) => {
-        //         if(this.state.group_products[index]['everybody_limit_num'] > 0){
-        //         this.state.group_products[index]['isLimited'] = true;
-        //         this.state.group_products[index]['everybody_limit_num']=this.state.group_products[index]['everybody_limit_num'];
-        //     }
-        // })
+        _.each(this.state.group_products, (item,index) => {
+                if(this.state.group_products[index]['everybody_limit_num'] > 0){
+                this.state.group_products[index]['isLimited'] = true;
+                this.state.group_products[index]['everybody_limit_num']=this.state.group_products[index]['everybody_limit_num'];
+            }
+        })
         
     };
     handleOk = e => {
@@ -385,6 +391,7 @@ class EditGroupon extends Component {
         });
     };
     discountOk =()=>{
+        // if(this.state.discount)
         if(this.state.group_products.length>0){
        _.each(this.state.group_products, (item,index) => {
                let idx = _.find(this.state.transferData, ({key}) => {
@@ -488,6 +495,9 @@ inputDiscount =()=>{
             margin:10,
             textAlign: 'center'
         }
+        let inputstyle={
+            width:150
+        }
         return (
             
             <div className='newGroupon'>
@@ -497,9 +507,11 @@ inputDiscount =()=>{
                     onOk={this.discountOk}
                     onCancel={this.discountCancel}
                 >
-                    <Input type='number' placeholder="请输入1-10" value={this.state.discount}  onBlur={this.inputOnBlur} onChange={(e)=>this.onInputChange(e, 'discount')} />
+                    <Input style={inputstyle} type='number' placeholder="请输入大于0,小于或等于10的数值" value={this.state.discount}  onBlur={this.inputOnBlur} onChange={(e)=>this.onInputChange(e, 'discount')} />
+                    <span style={SpanColor}>折</span>
+                    <span style={SpanColor2}>请输入大于0,小于或等于10的数值</span>
                 </Modal>
-                 <Modal
+                <Modal
                     width={1200}
                     title="选择商品"
                     visible={this.state.visible}

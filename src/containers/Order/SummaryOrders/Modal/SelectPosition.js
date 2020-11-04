@@ -110,7 +110,6 @@ export default class SelectPosition extends React.Component {
         this.handleCancel();
     };
     selectDate = (date) => {
-        console.log(date, '---------------');
         this.setState({
             deliveryDate: date
         });
@@ -147,12 +146,12 @@ export default class SelectPosition extends React.Component {
                 >
                     <ul className='mainUl'>
                         <li>
-                            <span>配送日期:</span>
+                            <span>汇总日期:</span>
                             <DatePicker defaultValue={this.state.deliveryDate} onChange={this.selectDate}/>
                         </li>
-                        {
+                        {/* {
                             !this.props.deliveryTimeShow ? '' : (<li>
-                                <span>配送时间:</span>
+                                <span>汇总时间:</span>
                                 <div style={flex}>
                                     <Select style={{width: 120}} defaultValue={this.state.deliveryStartTime}
                                             onChange={this.selectStartTime}>
@@ -171,7 +170,7 @@ export default class SelectPosition extends React.Component {
                                     </Select>
                                 </div>
                             </li>)
-                        }
+                        } */}
 
                         <li>
                             <span>地区:</span> {
