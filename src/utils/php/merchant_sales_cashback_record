@@ -1,7 +1,0 @@
-shop_name   店铺名称   merchantSalesCashbackRecord  field   =|like   name  merchant
-shop_no    店铺编号    merchantSalesCashbackRecord   field  =|like   code  merchant
-shop_keeper_name  店主名称   merchantSalesCashbackRecord  field  =|like   keeper_name  merchant
-shop_keeper_mobile  店主手机   merchantSalesCashbackRecord  field  =|like   keeper_mobile  merchant
-commission_at  反佣时间   merchantSalesCashbackRecord   field  =|>|>=|<|<=|<>|between  created_at
-commission_ratio  返佣比例    merchantSalesCashbackRecord  field  =|>|>=|<|<=|<>|between    commission_ratio
-commission_fee   返佣金额     merchantSalesCashbackRecord   field   =|>|>=|<|<=|<>|between  commission
