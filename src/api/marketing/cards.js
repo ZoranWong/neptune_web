@@ -37,6 +37,16 @@ export function stopCard(params,consumeCardId) {
 	})
 }
 
+// 获取当日激活
+export function getTodayActive(params,consumeCardId) {
+	return request({
+		url: `/api/backend/consume_cards/${consumeCardId}/status`,
+		method: 'get',
+		params: params
+	})
+}
+
+
 
 // 激活详情
 export function exchangeCodes(params,consumeCardId) {
