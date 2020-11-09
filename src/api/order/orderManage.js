@@ -120,10 +120,13 @@ export function checkOrders(params) {
 	})
 }
 
-export function getExportMerchantCodeScanUrl () {
+export function getExportMerchantCodeScanUrl (date) {
 	return request({
 		url: '/api/backend/exportMerchantCollectionSum',
-		method: 'get'
+		method: 'get',
+		params: {
+			date: date
+		}
 	});
 }
 

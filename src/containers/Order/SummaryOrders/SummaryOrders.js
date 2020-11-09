@@ -10,15 +10,14 @@ import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
 import ReviewGoods from "../Components/ReviewGoods";
-import {summaryOrders, userOrder, checkSummaryOrder, checkManyOrder} from "../../../api/order/orderManage";
+import {summaryOrders, userOrder, checkSummaryOrder} from "../../../api/order/orderManage";
 import Export from "../Components/Export";
 import Config from '../../../config/app'
 import _ from "lodash";
-import {timeFormer, getBeforeDate} from '../../../utils/dataStorage'
 import SelectPosition from "./Modal/SelectPosition";
 
 class SummaryOrders extends React.Component {
-    constructor(props) {
+    constructor (props) {
 
         const defaultItem = ['user_nickname', 'trade_no', 'products', 'settlement_total_fee', 'refund_type', 'refund_apply_at', 'refund_state'];
         super(props);
@@ -118,14 +117,14 @@ class SummaryOrders extends React.Component {
         ];
     }
 
-    componentWillMount() {
+    componentWillMount () {
         if (this.props.location.state && this.props.location.state.current) {
             this.setState({current: this.props.location.state.current})
         }
         document.addEventListener('click', this.closeCustom);
     }
 
-    componentWillUnmount() {
+    componentWillUnmount () {
         document.removeEventListener('click', this.closeCustom);
     }
 
@@ -231,7 +230,7 @@ class SummaryOrders extends React.Component {
                         }
                         if (obj.dataIndex === 'deficient_items') {
                             obj.render = (text, record) => {
-                                if (record.deficient_items.length) {
+                                if (record['deficient_items'].length) {
                                     return <span style={{'color': '#4F9863', 'cursor': 'pointer', 'display': 'flex'}}
                                                  className="i_span">
 										<span
@@ -249,8 +248,8 @@ class SummaryOrders extends React.Component {
                 })
             })
         });
-        let index = e.indexOf('id');
-        if (index < 0) {
+        let idx = e.indexOf('id');
+        if (idx < 0) {
             e.push('id');
         }
         ary[0].render = (text, record) => <span
@@ -312,8 +311,7 @@ class SummaryOrders extends React.Component {
         }
 
         let position = this.state.position;
-        let conditions = [
-        ];
+        let conditions = [];
 
         if (position && position.key && position.value) {
             let positionCondition = {
@@ -340,7 +338,7 @@ class SummaryOrders extends React.Component {
             conditions.push(deliveryTimeCondition);
         }
         return {
-            conditions:conditions,
+            conditions: conditions,
             logic: 'and'
         }
     };
@@ -395,7 +393,7 @@ class SummaryOrders extends React.Component {
     };
 
     // 获取汇总单高级筛选条件
-    getSummaryConditions = (position, group, summaryDate, summaryTime) => {
+    getSummaryConditions = (position, group, date, times, type) => {
         let conditions = [];
         if (position && position.key && position.value) {
             position.key = 'merchant_summary_order_' + position.key;
@@ -406,31 +404,31 @@ class SummaryOrders extends React.Component {
             };
             conditions.push(positionCondition);
         }
-        if(group) {
-            let groupCondition =                 {
+        if (group) {
+            let groupCondition = {
                 key: 'merchant_summary_order_shop_group',
                 operation: '=',
                 value: group
             };
             conditions.push(groupCondition);
         }
-        if(summaryDate) {
+        if (date) {
             let summaryDateCondition = {
-                key: 'merchant_summary_order_delivery_date',
+                key: `merchant_summary_order_${type}_date`,
                 operation: '=',
-                value: summaryDate
+                value: date
             };
             conditions.push(summaryDateCondition);
         }
-        if(summaryTime){
+        if (times) {
             let summaryTimeCondition = {
-                key: 'merchant_summary_order_delivery_time_period',
+                key: `merchant_summary_order_${type}_time_period`,
                 operation: 'between',
-                value: summaryTime
+                value: times
             };
             conditions.push(summaryTimeCondition);
         }
-        return  {
+        return {
             conditions: [
                 {
                     conditions: conditions,
@@ -455,7 +453,7 @@ class SummaryOrders extends React.Component {
                     loadingTwo: false
                 });
                 let todayOrders = this.state.todayOrders;
-                if (type === 'summary') {
+                if (type === 'delivery') {
                     let orders = [];
                     if (todayOrders.length) {
                         _.map(todayOrders, (todayOrder) => {
@@ -467,7 +465,7 @@ class SummaryOrders extends React.Component {
                     } else {
                         message.error('今日暂无订单')
                     }
-                } else if (type === 'order') {
+                } else if (type === 'summary') {
                     if (todayOrders.length) {
                         this.props.history.push({
                             pathname: "/printSummaryOrders",
@@ -486,14 +484,18 @@ class SummaryOrders extends React.Component {
     printAllSummaryOrders = async (group) => {
         let {position, deliveryDate, deliveryTime} = this.state;
         this.setState({loadingOne: true});
-        await this.getTodayOrder(1, this.getSummaryConditions(position, group, deliveryDate, deliveryTime), 'order');
+        await this.getTodayOrder(1,
+            this.getSummaryConditions(position, group, deliveryDate, deliveryTime, 'summary'),
+            'summary');
     };
 
     // 打印今日订单
-    printAllOrders = async (group) => {
+    printDeliveryOrders = async (group) => {
         let {position, deliveryDate, deliveryTime} = this.state;
         this.setState({loadingTwo: true});
-        await this.getTodayOrder(1, this.getSummaryConditions(position, group, deliveryDate, deliveryTime), 'summary');
+        await this.getTodayOrder(1,
+            this.getSummaryConditions(position, group, deliveryDate, deliveryTime, 'delivery'),
+            'delivery');
     };
 
     // 选择地点
@@ -510,7 +512,7 @@ class SummaryOrders extends React.Component {
                     await this.printDeliveryOrders();
                     break;
                 case 'orders':
-                    await this.printAllOrders(group);
+                    await this.printDeliveryOrders(group);
                     break;
                 case 'summaryOrders':
                     await this.printAllSummaryOrders(group);
@@ -578,7 +580,11 @@ class SummaryOrders extends React.Component {
     printDeliveryOrders = async (page = 1) => {
         let {position, deliveryDate, deliveryTime} = this.state;
         this.setState({loadingThree: true});
-        let res = await userOrder({page: page, limit: 10, searchJson: searchJson(this.getConditions(position, deliveryDate, deliveryTime))});
+        let res = await userOrder({
+            page: page,
+            limit: 10,
+            searchJson: searchJson(this.getConditions(position, deliveryDate, deliveryTime))
+        });
         let list = res.data;
         let meta = res.meta;
         this.setState({deliveryHomeOrders: this.state.deliveryHomeOrders.concat(list)}, () => {
@@ -629,7 +635,7 @@ class SummaryOrders extends React.Component {
             cancelButtonProps: {
                 size: 'small'
             },
-            onOk() {
+            onOk () {
                 checkSummaryOrder({order_ids: ids}).then(r => {
                     message.success(`批量核销订单成功！`);
                     self.setState({
@@ -645,12 +651,12 @@ class SummaryOrders extends React.Component {
                 });
 
             },
-            onCancel() {
+            onCancel () {
             },
         });
     };
 
-    render() {
+    render () {
 
         const rowSelection = {
             onChange: (selectedRowKeys, selectedRows) => {
@@ -739,7 +745,7 @@ class SummaryOrders extends React.Component {
                         {
                             window.hasPermission("order_management_printing") && <Button
                                 size="small"
-                                onClick={() => this.showConditionSelector('summaryOrders')}
+                                onClick={() => this.showConditionSelector('summaryOrders', false)}
                                 loading={this.state.loadingOne}
                             >批量打印汇总单</Button>
                         }

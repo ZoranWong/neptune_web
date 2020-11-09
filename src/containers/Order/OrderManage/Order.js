@@ -1,6 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
-import {Button, Table, Modal, message} from 'antd'
+import moment from 'moment';
+import {Button, Table, Modal, message, DatePicker} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/order.sass'
 import {getToken, orderInputTransformer, orderOutputTransformer, searchJson} from "../../../utils/dataStorage";
@@ -589,11 +590,54 @@ class Order extends React.Component {
     };
 
     exportCodeScanPaymentOrders() {
-        getExportMerchantCodeScanUrl().then((response) => {
-            if(response['download_url']) {
-                window.location.href = response['download_url'];
+        let date = new Date();
+        let dateStr = null;
+        const onChange = (d, dateString) => {
+            date = d;
+            dateStr = dateString;
+        }
+        const exportModal = Modal.confirm({
+            title: (
+                <div className='u_confirm_header'>
+                    扫码付订单导出
+                    <i className="iconfont" style={{'cursor': 'pointer'}} onClick={() => {
+                        exportModal.destroy()
+                    }}>&#xe82a;</i>
+                </div>
+            ),
+            icon: null,
+            width: '280px',
+            closable: true,
+            centered: true,
+            maskClosable: true,
+            content: (
+                <div className="U_confirm">
+                    <DatePicker defaultValue={moment(date,'YYYY-MM-DD')} onChange={onChange}></DatePicker>
+                </div>
+            ),
+            cancelText: '取消',
+            okText: '确定',
+            okButtonProps: {
+                size: 'small'
+            },
+            cancelButtonProps: {
+                size: 'small'
+            },
+            onOk() {
+                if(date) {
+                    console.log(dateStr)
+                    getExportMerchantCodeScanUrl(dateStr).then((response) => {
+                        if(response['download_url']) {
+                            window.location.href = response['download_url'];
+                        }
+                    })
+                }
+            },
+            onCancel() {
+
             }
-        })
+        });
+
     }
 
     // 核实订单
