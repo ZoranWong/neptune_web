@@ -139,13 +139,13 @@ export default class SelectPosition extends React.Component {
                     <ul className='mainUl'>
                         {
                             !this.props.deliveryDateShow ? '' : (<li>
-                                <span>汇总日期:</span>
+                                <span>配送日期:</span>
                                 <DatePicker defaultValue={this.state.deliveryDate} onChange={this.selectDate}/>
                             </li>)
                         }
                         {
                             !this.props.deliveryTimeShow ? '' : (<li>
-                                <span>汇总时间:</span>
+                                <span>配送时间:</span>
                                 <div style={flex}>
                                     <Select style={{width: 120}} defaultValue={this.state.deliveryStartTime}
                                             onChange={this.selectStartTime}>
