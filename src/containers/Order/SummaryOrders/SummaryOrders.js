@@ -490,7 +490,7 @@ class SummaryOrders extends React.Component {
     };
 
     // 打印今日订单
-    printDeliveryOrders = async (group) => {
+    printAllOrders = async (group) => {
         let {position, deliveryDate, deliveryTime} = this.state;
         this.setState({loadingTwo: true});
         await this.getTodayOrder(1,
@@ -512,7 +512,7 @@ class SummaryOrders extends React.Component {
                     await this.printDeliveryOrders();
                     break;
                 case 'orders':
-                    await this.printDeliveryOrders(group);
+                    await this.printAllOrders(group);
                     break;
                 case 'summaryOrders':
                     await this.printAllSummaryOrders(group);
@@ -560,9 +560,14 @@ class SummaryOrders extends React.Component {
         });
         conditions.push({
             key: 'order_state',
-            operation: '=',
-            value: 'WAIT_CUSTOMER_VERIFY'
+            operation: 'in',
+            value: ['WAIT_AGENT_VERIFY', 'WAIT_CUSTOMER_VERIFY']
         });
+        conditions.push({
+            key: 'order_order_type',
+            operation: 'in',
+            value:  ['SELF_PICK', 'GROUP_SHOPPING']
+        })
         return {
             logic_conditions: {
                 conditions: [
