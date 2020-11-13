@@ -1,11 +1,12 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
-import {Button, Table, Modal, Input, message, InputNumber} from 'antd'
+import {Button, Table, Modal, Input, message, InputNumber,Upload} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/breakfastOrder.sass'
-import {channelsGoods,onShelves,offShelves,setWarning,setVirtualSales} from "../../../api/goods/goods";
-import {searchJson} from "../../../utils/dataStorage";
+import {channelsGoods,onShelves,offShelves,setWarning,setVirtualSales,updateProductPrice} from "../../../api/goods/goods";
+import {searchJson,getToken} from "../../../utils/dataStorage";
 import SaleRange from "./SaleRange";
+import Config from '../../../config/app';
 import AdvancedFilterComponent from "./AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomPagination from "../../../components/Layout/Pagination";
@@ -46,23 +47,26 @@ class BreakfastOrder extends React.Component{
 			{
 				title: '零售价',
 				dataIndex: 'retail_price',
-				// render: (text,record) =>{
-				// 	if (window.hasPermission("product_breakfast_book_set_virtual_sale")) {
-				// 		return <InputNumber
-				// 			className="virtualSales"
-				// 			defaultValue={text}
-				// 			onBlur={(e)=>{
-				// 				e.target.value = e.target.value < 0? 0:e.target.value;
-				// 				if(e.target.value <= 0) return;
-				// 				setVirtualSales({virtual_sales:e.target.value},record.provide_id).then(r=>{
-				// 					message.success(r.message)
-				// 				}).catch(_=>{})
-				// 			}}
-				// 		/>
-				// 	} else {
-				// 		return <span>{text}</span>
-				// 	}
-				// }
+				render: (text,record) =>{
+					if (window.hasPermission("product_breakfast_book_set_virtual_sale")) {
+						return <div>
+							<InputNumber
+								className="virtualSales"
+								defaultValue={text}
+								onBlur={(e)=>{
+									e.target.value = e.target.value < 0? 0:e.target.value;
+									if(e.target.value <= 0) return;
+									// setVirtualSales({virtual_sales:e.target.value},record.provide_id).then(r=>{
+										// message.success(r.message)
+										message.success(e.target.value)
+									// }).catch(_=>{})
+								}}
+							/>￥
+						</div>
+					} else {
+						return <span>{text}</span>
+					}
+				}
 			},
 			{
 				title: '库存',
@@ -131,6 +135,9 @@ class BreakfastOrder extends React.Component{
 		this.child = React.createRef();
 		this.channel = 'BREAKFAST_CAR';
 		this.state = {
+			file_extension_name:'',//文件扩展名
+			file_url:'',//文件路径
+			excelUploadUrl: Config.apiUrl + "/" + Config.apiPrefix + "api/backend/consume_cards/upload",//文件上传
 			api:channelsGoods,
 			filterVisible:false,  // 高级筛选
 			warningStockVisible:false,   // 售卖范围
@@ -333,11 +340,45 @@ class BreakfastOrder extends React.Component{
 	batchModification = () =>{
 		this.setState({visible:true})
 	}
+	// 选择文件
+	selsetFile=(e)=>{
+		const self =this;
+		// 限制上传的文件只能有一个
+		let fileList =[...e.fileList];
+		fileList = fileList.slice(-1);
+		this.setState({fileList});
+		// if (e.status === 200) {
+			console.log(e,"-----------2222--");
+		//   }
+		if(e.file.response){
+			this.setState({file_url:e.file.response.data.url});
+			this.setState({file_extension_name:e.file.response.data.file_extension});
+			console.log(this.state.file_extension_name,"-------------------------11")
+			// if(e.file.response.status_code ===200){
+			// 	this.state.newAdd=true;
+			// 	this.handleCancel();
+			// }
+		}
+
+		
+	}
+	// 批量更新商品零售价
 	handleOk = e => {
-		console.log(e);
-		this.setState({
-		  visible: false,
+		let params={
+			file_url:this.state.file_url,
+			file_extension_name:this.state.file_extension_name
+		}
+		if(this.state.file_url && this.state.file_extension_name){
+		updateProductPrice(params).then(r=>{
+				message.success(r.message);
+				this.setState({visible : false,})
+		})
+		}
+		
+	this.setState({
+		visible: false,
 		});
+		
 	};
 	
 	handleCancel = e => {
@@ -382,7 +423,12 @@ class BreakfastOrder extends React.Component{
 					</div>
 					<div style={spanmargin}>
 						<em>上传数据：</em>
-						<span className='spancolor spancolor1' onClick={this.addFile}>添加文件</span>
+						
+						<Upload 
+							onChange={this.selsetFile} fileList={this.state.fileList} 
+							action = {this.state.excelUploadUrl}
+							headers={{'Authorization': `${getToken()}`}}
+							><span className='spancolor spancolor1' onClick={this.addFile}>添加文件</span></Upload>
 					</div>
 					<div>提示：上传的文件大小请勿大于5M</div>
 					

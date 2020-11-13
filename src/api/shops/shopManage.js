@@ -169,3 +169,76 @@ export function setOverdraft(params) {
 		data: params
 	})
 }
+
+
+//获取早餐车组列表
+export function getBreakfastCart(params) {
+	return request({
+		url: '/api/backend/breakfast/get/subgroup',
+		method: 'get',
+		data: params
+	})
+}
+
+//新增早餐车组
+export function newBreakfastCart(params) {
+	return request({
+		url: '/api/backend/breakfast/add/subgroup',
+		method: 'post',
+		data: params
+	})
+}
+
+//删除早餐车组
+export function delBreakfastCart(params,subgroupId) {
+	return request({
+		url: `/api/backend/breakfast/del/${subgroupId}/subgroup`,
+		method: 'del',
+		data: params
+	})
+}
+
+// 编辑早餐车组
+export function editBreakfastCart(params,subgroupId) {
+	return request({
+		url: `/api/backend/breakfast/update/${subgroupId}/subgroup`,
+		method: 'put',
+		data: params
+	})
+}
+
+//获取督导组列表
+export function getSupervision(params) {
+	return request({
+		url: '/api/backend/breakfast/get/supervise',
+		method: 'get',
+		data: params
+	})
+}
+
+//新增督导组
+export function newSupervision(params) {
+	return request({
+		url: '/api/backend/breakfast/add/supervise',
+		method: 'post',
+		data: params
+	})
+}
+
+//删除督导组
+export function delSupervision(params,superviseId) {
+	return request({
+		url: `/api/backend/breakfast/del/${superviseId}/supervise`,
+		method: 'del',
+		data: params
+	})
+}
+
+// 编辑督导组
+export function editSupervision(params,superviseId) {
+	return request({
+		url: `/api/backend/breakfast/update/${superviseId}/supervise`,
+		method: 'put',
+		data: params
+	})
+}

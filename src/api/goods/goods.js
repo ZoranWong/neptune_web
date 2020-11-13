@@ -203,3 +203,13 @@ export function StockListDetail(params,id) {
 		params: params
 	})
 }
+
+// 批量更新商品零售价
+export function updateProductPrice(params) {
+	return request({
+		url: '/api/backend/breakfast/update/product/price',
+		method: 'post',
+		params: params
+	})
+}
+// 修改单个商品零售价

@@ -3,7 +3,7 @@ import {DatePicker, message, Modal, Table} from "antd";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import {searchJson} from "../../../../utils/dataStorage";
 import {summaries,} from "../../../../api/distribution/statistics";
-import {sendIssueBalance} from "../../../../api/distribution/records";
+import {breakfastCashback} from "../../../../api/distribution/records";
 import locale from "antd/es/date-picker/locale/zh_CN";
 const { RangePicker,MonthPicker } = DatePicker;
 class BreakfastCartback extends Component {
@@ -140,7 +140,7 @@ class BreakfastCartback extends Component {
 			),
 			okText:'知道了',
 			onOk() {
-				sendIssueBalance({},record.id).then(r=>{
+				breakfastCashback({},record.id).then(r=>{
 					message.success(r.message);
 					self.setState({canClick: true});
 					refresh()

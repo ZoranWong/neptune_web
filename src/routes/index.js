@@ -42,7 +42,8 @@ import OutStockDetail from "../containers/Goods/OutStockDetail/OutStockDetail";
 import hypermarket from "../containers/Goods/Hypermarket/Hypermarket";
 import BreakfastCart from "../containers/Shops/BreakfastCart/BreakfastCart"
 import Supervision from "../containers/Shops/Supervision/Supervision"
-
+import SupervisionDetails from "../containers/Shops/Supervision/SupervisionDetails/SupervisionDetails"
+// import BreakfastCartDetails from "../containers/Shops/BreakfastCart/BreakfastCartDetails/BreakfastCartDetails"
 import Staffing from "../containers/Setting/Staffing";
 import WarningSetting from '../containers/Setting/AppVersionSetting/AppVersionSetting'
 
@@ -120,6 +121,7 @@ import GrouponProductsManage from "../containers/Activities/GroupOn/GrouponProdu
 import PrintGrouponOrders from "../containers/Activities/GroupOn/printGrouponOrders/printGrouponOrders";
 import Recharge from "../containers/Marketing/Recharge/Recharge";
 import RechargeDetails from "../containers/Marketing/Recharge/RechargeDetails/RechargeDetails";
+import BreakfastCartOrder from "../containers/Order/BreakfastCartOrder/BreakfastCartOrder"
 
 import SetPayment from "../containers/Payment/PaymentSetting/SetPayment"
 
@@ -212,6 +214,7 @@ const Routes = () =>(
 		<Route exact={true} path="/order/societyFood" render={props => onEnter(SocietyFood, props)} />
 		<Route exact={true} path="/order/societySummary" render={props => onEnter(SocietySummary, props)} />
 		<Route exact={true} path="/order/societyFoodSetting" render={props => onEnter(SocietyFoodSetting, props)} />
+		<Route exact={true} path="/order/BreakfastCartOrder" render={props => onEnter(BreakfastCartOrder, props)} />
 
 		
 		{/*营销*/}
@@ -240,7 +243,8 @@ const Routes = () =>(
 		<Route exact={true} path="/shops/ShopSetting" render={props => onEnter(ShopSetting, props)} />
 		<Route exact={true} path="/shops/BreakfastCart" render={props => onEnter(BreakfastCart, props)} />
 		<Route exact={true} path="/shops/Supervision" render={props => onEnter(Supervision, props)} />
-
+		<Route exact={true} path="/shops/SupervisionDetails" render={props => onEnter(SupervisionDetails, props)} />
+		{/* <Route exact={true} path="/shops/BreakfastCartDetails" render={props => onEnter(BreakfastCartDetails, props)} /> */}
 		{/*用户*/}
 		<Route exact={true} path="/user" render={props => onEnter(UserManage, props)} />
 		<Route exact={true} path="/user/integralRules" render={props => onEnter(IntegralRules, props)} />

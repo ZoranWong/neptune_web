@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Button, Input, message, Modal} from "antd";
-// import {createRoute,editRoute} from "../../../../api/shops/routes";
+import {newBreakfastCart,editBreakfastCart} from "../../../../api/shops/shopManage";
 
 class OperateGroup extends Component {
 	constructor(props) {
@@ -26,8 +26,8 @@ class OperateGroup extends Component {
 		this.props.onCancel()
 	};
 	handleSubmit = ()=>{
-		// let api = this.state.type === 'create' ? createRoute : editRoute;
-		// let id = this.state.type === 'create' ? '' : this.props.record.id;
+		let api = this.state.type === 'create' ? newBreakfastCart : editBreakfastCart;
+		let id = this.state.type === 'create' ? '' : this.props.record.id;
 		if(!this.state.name) {
 			message.error('请填写分组名称');
 			return;
@@ -36,13 +36,13 @@ class OperateGroup extends Component {
 			message.error('请填写备注');
 			return;
 		}
-		// api({name: this.state.name},id).then(r=>{
-		// 	message.success(r.message);
-		// 	this.setState({name: ''},()=>{
-		// 		this.handleCancel();
-		// 		this.props.refresh();
-		// 	})
-		// }).catch(_=>{})
+		api({name: this.state.name,remarks: this.state.remarks},id).then(r=>{
+			message.success(r.message);
+			this.setState({name: '',remarks:''},()=>{
+				this.handleCancel();
+				this.props.refresh();
+			})
+		}).catch(_=>{})
 	};
 	
 	render() {
@@ -82,9 +82,9 @@ class OperateGroup extends Component {
                           <span className="left">备注</span>
                           <Input
                             className="liInput"
-                            value={this.state.name}
+                            value={this.state.remarks}
                             onChange={(e)=>{
-                              this.setState({name:e.target.value})
+                              this.setState({remarks:e.target.value})
                             }}
                           />
                         </li>
