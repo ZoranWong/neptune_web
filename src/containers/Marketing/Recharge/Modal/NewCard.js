@@ -153,7 +153,7 @@ class NewCard extends Component {
 							<span className="c_left">使用场景</span>
 							<Checkbox.Group  onChange={this.checkboxChange}>
 									<Checkbox value="SCAN_CODE_PAY">扫码付   </Checkbox>
-									<Checkbox value="SHOP_MALL_ORDER">商城订单</Checkbox><br/>
+									<Checkbox value="SHOP_MALL_ORDER">商城订单</Checkbox>
 									<Checkbox value="GROUP_ORDER">团购订单</Checkbox>
 									<Checkbox value="SOCIETY_ORDER">社会餐订单</Checkbox>
 							</Checkbox.Group>

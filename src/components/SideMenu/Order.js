@@ -68,6 +68,12 @@ let baseMenu = [
 		text:'社会餐订单设置',
 		slug: "menu_order_societyFoodSetting"
 	},
+	{
+		path:'/order/BreakfastCartOrder',
+		icon:'icon-shopping-cart-fill',
+		text:'早餐车订单',
+		slug: "menu_order_BreakfastCartOrder"
+	},
 ];
 // baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
 const Order = ({ match }) => (

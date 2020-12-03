@@ -11,6 +11,8 @@ import {shops,applicationsCount} from "../../../api/shops/shopManage";
 import CustomPagination from "../../../components/Layout/Pagination";
 import AdvancedFilterComponent from "./AdvancedFilterComponent";
 import AddGroup from "./AddGroup";
+import AddBreakfastGroup from "./AddBreakfastGroup"
+import AddSupervisionGroup from "./AddSupervisionGroup"
 import ShopHypermarket from "./ShopHypermarket";
 import ShopApplication from './ShopApplication'
 import SelectChannel from './ShopAdd/SelectChannel'
@@ -74,6 +76,9 @@ class ShopManage extends React.Component{
 			applicationVisible:false,
 			codeVisible: false,
 			groupVisible:false,
+			breakfastGroupVisible:false,
+			supervisionVisible:false,
+
 			shopMarketVisible:false,
 			shopMarketId:"",
 			statusVisible:false,
@@ -185,6 +190,34 @@ class ShopManage extends React.Component{
 	showAddGroup = (data) =>{
 		this.setState({groupVisible:true,conditions_data:data})
 	};
+
+	// 加入督导组群组
+	showSupervisionAddGroup =() =>{
+		// this.setState({supervisionVisible:true,conditions_data:data})
+		this.setState({supervisionVisible:true})
+
+	}
+	closesupervisionGroup = () =>{
+		this.setState({supervisionVisible:false})
+	}
+	onSubmitsupervisionGroup = () =>{
+		this.setState({supervisionVisible:false})
+	}
+	
+	// 加入早餐车群组
+	showBreakfastAddGroup = () =>{
+		this.setState({breakfastGroupVisible:true})
+	}
+
+	closebreakfastGroup = () =>{
+		this.setState({breakfastGroupVisible:false})
+	}
+	onSubmitbreakfastGroup = () =>{
+		this.setState({breakfastGroupVisible:false})
+	}
+
+
+
 	
 	// 头部搜索框
 	search = (value) =>{
@@ -472,6 +505,21 @@ class ShopManage extends React.Component{
 					checkedAry={this.state.checkedAry}
 					conditionsData={this.state.conditions_data}
 				/>
+				{/* 加入早餐车群组 */}
+				<AddBreakfastGroup
+					visible={this.state.breakfastGroupVisible} 
+					onClose={this.closebreakfastGroup}
+					onSubmit={this.onSubmitbreakfastGroup}
+					checkedAry={this.state.checkedAry}
+				/>
+
+				{/* 加入督导组群组 */}
+				<AddSupervisionGroup
+					visible={this.state.supervisionVisible}
+					onClose={this.closesupervisionGroup}
+					onSubmit={this.onSubmitsupervisionGroup}
+					checkedAry={this.state.checkedAry}
+				/>
 
 				<ShopHypermarket visible={this.state.shopMarketVisible} onClose={this.closeShopMarke} shopMarketId={this.state.shopMarketId}/>
 				
@@ -546,6 +594,10 @@ class ShopManage extends React.Component{
 						disabled={this.state.checkedAry.length == 0 || this.state.checkedAry.length > 1 }
 						onClick={()=>this.shopExport('MERCHANT_PARTNERS_CURRENT_MONTH_BV', true)}
 					>导出指定店铺所有下线当月bv</Button>
+					<Button
+						size="small"
+						onClick={()=>this.shopExport('MERCHANT_CURRENT_MONTH_BV', true)}
+					>导出所有预警店铺</Button>
 				</div>
 				
 				<div className="s_body"  style={{paddingTop: '16px'}}>
@@ -565,6 +617,18 @@ class ShopManage extends React.Component{
 								onClick={this.showAddGroup}
 							>加入群组</Button>
 						}
+						<Button
+								size="small"
+								disabled={this.state.checkedAry.length == 0}
+								onClick={this.showBreakfastAddGroup}
+							>加入早餐车群组
+						</Button>
+						<Button
+								size="small"
+								disabled={this.state.checkedAry.length == 0}
+								onClick={this.showSupervisionAddGroup}
+							>加入督导群组
+						</Button>
 					</div>
 					<Button type="primary" size="small" onClick={this.showCustom}>自定义显示项</Button>
 				</div>

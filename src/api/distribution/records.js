@@ -18,6 +18,15 @@ export function pickupCashback(params) {
 	})
 }
 
+// 获取早餐车返现
+export function breakfastCashback(params) {
+	return request({
+		url: '/api/backend/breakfast/sales/cashback/platform/summaries',
+		method: 'get',
+		params: params
+	})
+}
+
 // 发放佣金
 export function sendIssueBalance(params,platformSummary) {
 	return request({

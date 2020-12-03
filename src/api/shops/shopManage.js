@@ -169,3 +169,129 @@ export function setOverdraft(params) {
 		data: params
 	})
 }
+
+// 透支额度预警
+export function setWarningAmount(params) {
+	return request({
+		url: '/api/backend/shops/set/warning_amount',
+		method: 'put',
+		data: params
+	})
+}
+
+//修改余额 发送验证码 
+export function sendVerificationCode(params) {
+	return request({
+		url: '/api/backend/shops/balance/send/captcha',
+		method: 'post',
+		data: params
+	})
+}
+//修改余额 校验验证码 
+export function verificationCode(params) {
+	return request({
+		url: '/api/backend/shops/balance/verify/captcha',
+		method: 'post',
+		data: params
+	})
+}
+//获取早餐车组列表
+export function getBreakfastCart(params) {
+	return request({
+		url: '/api/backend/breakfast/get/subgroup',
+		method: 'get',
+		data: params
+	})
+}
+
+//新增早餐车组
+export function newBreakfastCart(params) {
+	return request({
+		url: '/api/backend/breakfast/add/subgroup',
+		method: 'post',
+		data: params
+	})
+}
+
+//删除早餐车组
+export function delBreakfastCart(params,subgroupId) {
+	return request({
+		url: `/api/backend/breakfast/del/${subgroupId}/subgroup`,
+		method: 'delete',
+		data: params
+	})
+}
+
+// 编辑早餐车组
+export function editBreakfastCart(params,subgroupId) {
+	return request({
+		url: `/api/backend/breakfast/update/${subgroupId}/subgroup`,
+		method: 'put',
+		data: params
+	})
+}
+
+//添加店铺到店铺分组 
+export function addBreakfastCartGroup(params) {
+	return request({
+		url: '/api/backend/breakfast/add/shops/subgroup',
+		method: 'post',
+		data: params
+	})
+}
+
+//获取督导组列表
+export function getSupervision(params) {
+	return request({
+		url: '/api/backend/breakfast/get/supervise',
+		method: 'get',
+		data: params
+	})
+}
+
+//新增督导组
+export function newSupervision(params) {
+	return request({
+		url: '/api/backend/breakfast/add/supervise',
+		method: 'post',
+		data: params
+	})
+}
+
+//删除督导组
+export function delSupervision(params,superviseId) {
+	return request({
+		url: `/api/backend/breakfast/del/${superviseId}/supervise`,
+		method: 'delete',
+		data: params
+	})
+}
+
+// 编辑督导组
+export function editSupervision(params,superviseId) {
+	return request({
+		url: `/api/backend/breakfast/update/${superviseId}/supervise`,
+		method: 'put',
+		data: params
+	})
+}
+
+//添加店铺到督导分组 
+export function addSupervisionGroup(params) {
+	return request({
+		url: '/api/backend/breakfast/add/shops/supervise',
+		method: 'post',
+		data: params
+	})
+}
+
+
+
+//分组配置微信支付 
+export function wxPayment(params) {
+	return request({
+		url: '/api/backend/breakfast/add/wx/payment',
+		method: 'post',
+		data: params
+	})
+}

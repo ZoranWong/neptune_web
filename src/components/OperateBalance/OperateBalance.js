@@ -1,18 +1,32 @@
 import React, {Component} from 'react';
 import './index.sass'
-import {Input, message, Modal, Radio} from "antd";
+import {Input, message, Modal, Radio,Button} from "antd";
 import {adjustShopBalance} from "../../api/shops/shopManage";
 import {adjustUserBalance} from "../../api/user";
 
+// var timer = null
 class OperateBalance extends Component {
 	state = {
 		value: 'add',
-		remark: ''
+		remark: '',
+		// countDown: 60,  //短信倒计时
+		// userPhone:15056046046,
+		// password:''
 	};
 
 	handleCancel = () => {
 		this.props.onCancel();
 	};
+	// 发送验证码
+	// sendCode = () =>{
+	// 	timer = setInterval(() => {
+    //         this.setState({countDown: this.state.countDown - 1});
+    //         if (this.state.countDown === 0) {
+    //             clearInterval(timer);
+    //             this.setState({countDown: 60})
+    //         }
+    //     }, 1000);
+	// }
 
 	handleSubmit = () => {
 		console.log(this.props);
@@ -52,6 +66,31 @@ class OperateBalance extends Component {
 					okText="确定"
 					cancelText="取消"
 				>
+					{/* <div className="operateBalanceRemark">
+						<span>验证的手机号码:</span>
+						<Input
+							disabled
+							value={this.state.userPhone}
+						/>
+						
+					</div>
+					<div className="operateBalanceRemark">
+						<span>验证码:</span>
+						<Input
+							className="operate-input"
+							value={this.state.password}
+							onChange={(e)=>{
+								this.setState({password:e.target.value})
+							}}
+						/>
+						<Button
+							 onClick={this.sendCode}
+							 type="primary"
+							 disabled={this.state.countDown < 60 }
+								>
+							 {this.state.countDown === 60 ? '发送验证码' : this.state.countDown + 's后重新发送'}
+						</Button>
+					</div> */}
 					<div className="operateBalance">
 						<Radio.Group onChange={this.onChange} value={this.state.value}>
 							<Radio value='add'>增加</Radio>

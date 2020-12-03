@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Tag, Modal, message} from "antd";
-import {shopRealDetails,deleteGroup} from "../../../api/shops/shopManage";
+import {shopRealDetails,deleteGroup,setWarningAmount} from "../../../api/shops/shopManage";
 import './css/shop_details.sass'
 import ShopInformation from "./ShopInformation";
 import Introduction from './Introduction'
@@ -8,7 +8,7 @@ import IntroductionPerson from './IntroductionPerson'
 import CodePayment from "./CodePayment";
 import Map from "../../../components/Map/Map";
 import SetOverdraft from "./SetOverdraft";
-import OperateBalance from "../../../components/OperateBalance/OperateBalance";
+import BreackfastOperateBalance from "../../../components/OperateBalance/breackfastOperateBalance";
 class ShopDetails extends React.Component{
 	constructor(props){
 		super(props);
@@ -22,7 +22,9 @@ class ShopDetails extends React.Component{
 			data:{},  // 店铺详情数据
 			position:{},
 			images:{},
-			overdraft: false
+			overdraft: false,
+			visible: false,
+			warning_amount:0
 		}
 	}
 
@@ -133,6 +135,35 @@ class ShopDetails extends React.Component{
 	hideBalance = () => {
 		this.setState({balanceVisible: false})
 	};
+	// 透支额度设置
+	showQuotaSetting = () =>{
+		console.log("这是透支额度")
+		this.setState({visible:true})
+	}
+	// 设置余额
+	// Settingbalance = () =>{
+	// 	console.log(9999999999)
+	// }
+// 透支额度预警
+	handleOk = () => {
+		// console.log(e);
+		setWarningAmount({warning_amount:this.state.warning_amount,shop_id:this.id}).then(r=>{
+			// message.success(r.message);
+			console.log(r,'透支额度预警')
+			this.setState({
+				visible: false,
+			});
+
+		}).catch(_=>{})
+		
+	};
+
+	handleCancel = e => {
+		// console.log(e);
+		this.setState({
+			visible: false,
+		});
+	};
 	
 	// 调整透支额度
 	showOverdraft = () =>{
@@ -173,8 +204,10 @@ class ShopDetails extends React.Component{
 		};
 		return (
 			<div className="shopDetail">
+				{/* 透支额度设置 */}
 				<SetOverdraft {...overdraftProps} />
-				<OperateBalance {...balanceProps} />
+				{/*余额调整 */}
+				<BreackfastOperateBalance {...balanceProps} />
 				<ShopInformation
 					visible={this.state.shopInformationVisible}
 					onClose={this.hideShopInformation}
@@ -200,6 +233,27 @@ class ShopDetails extends React.Component{
 					 position={this.state.position}
 					 disabled={true}
 				/>
+				<Modal
+					title="透支额度预警设置"
+					visible={this.state.visible}
+					onOk={this.handleOk}
+					onCancel={this.handleCancel}
+					>
+						<div>
+							<span>设置余额：</span>
+							<input
+								Number
+								style={{ width:300}}
+								value={this.state.warning_amount}
+								onChange={(e)=>{
+									this.setState({warning_amount:e.target.value})
+								}}
+							// Settingbalance={(e)=>{
+							// 	this.setState({remark:e.target.value})
+							// }}
+							/>
+						</div>
+				</Modal>
 				
 				
 				<div className="u_top">
@@ -261,8 +315,15 @@ class ShopDetails extends React.Component{
 								}
 								{
 									window.hasPermission('shop_management_display_set_overdraft') && <div className="overdraft">
-										透支额度： {data.overdraft}元
-										<span className='adjustOverdraft' onClick={this.showOverdraft} >调整</span>
+										<span
+											className='adjustQuotaSetting'
+											onClick={this.showQuotaSetting}
+											style={{'cursor':'pointer'}}
+										>透支额度设置</span>
+										<span>
+											透支额度： {data.overdraft}元
+											<span className='adjustOverdraft' onClick={this.showOverdraft} >调整</span>
+										</span>
 									</div>
 								}
 								

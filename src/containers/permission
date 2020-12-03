@@ -22,6 +22,7 @@
         nav-goods(商品)
         nav-data(数据)
         nav-finance(财务)
+        nav-payment(支付)
         nav-setting(设置)
             无细分权限，设置模块为根权限
 

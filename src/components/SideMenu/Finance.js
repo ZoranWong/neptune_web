@@ -37,6 +37,12 @@ let baseMenu = [
 		text:'提现详情',
 		slug: 'menu_withdraw_detailed'
 	},
+	{
+		path:'/finance/FinancialReconciliation',
+		icon:'icon-accountbook-fill',
+		text:'财务对账',
+		slug: 'menu_withdraw_detailed'
+	},
 ];
 baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
 

@@ -147,3 +147,12 @@ export function shopOrderChecked(params) {
 		data: {order_ids: params}
 	});
 }
+
+// 早餐车订单
+export function breakfastCarOrder(params) {
+	return request({
+		url: '/api/backend/orders/breakfastCar/agents',
+		method: 'get',
+		params: params
+	});
+}

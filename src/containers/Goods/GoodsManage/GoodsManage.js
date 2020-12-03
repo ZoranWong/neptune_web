@@ -136,6 +136,7 @@ class GoodsManage extends React.Component{
 	
 	// 头部搜索框
 	search = (value) =>{
+		debugger
 		this.setState({
 			api:products,
 			paginationParams:{...this.state.paginationParams,
@@ -143,6 +144,7 @@ class GoodsManage extends React.Component{
 		},()=>{
 			this.child.current.pagination(this.child.current.state.current)
 		});
+		console.log(this.state.paginationParams)
 	};
 	//高级筛选
 	higherFilter = () =>{

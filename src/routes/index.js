@@ -40,7 +40,10 @@ import OutStock from "../containers/Goods/OutStock/OutStock";
 import OutStockNew from "../containers/Goods/OutStockNew/OutStockNew";
 import OutStockDetail from "../containers/Goods/OutStockDetail/OutStockDetail";
 import hypermarket from "../containers/Goods/Hypermarket/Hypermarket";
-
+import BreakfastCart from "../containers/Shops/BreakfastCart/BreakfastCart"
+import Supervision from "../containers/Shops/Supervision/Supervision"
+import SupervisionDetails from "../containers/Shops/Supervision/SupervisionDetails/SupervisionDetails"
+// import BreakfastCartDetails from "../containers/Shops/BreakfastCart/BreakfastCartDetails/BreakfastCartDetails"
 import Staffing from "../containers/Setting/Staffing";
 import WarningSetting from '../containers/Setting/AppVersionSetting/AppVersionSetting'
 
@@ -77,6 +80,8 @@ import RefundApplication from "../containers/Finance/RefundDetail/RefundApplicat
 import WithdrawApplication from "../containers/Finance/WithdrawDetails/WithdrawApplication/WithdrawApplication";
 import CustomWeChatMessage from "../containers/Marketing/Message/CustomWeChatMessage/CustomWeChatMessage";
 import EditWeChatMessage from "../containers/Marketing/Message/EditWeChatMessage/EditWeChatMessage";
+import FinancialReconciliation from "../containers/Finance/FinancialReconciliation/FinancialReconciliation"
+
 
 import DistributionStatistics from '../containers/Distribution/DistributionStatistics/DistributionStatistics'
 import CashbackRecords from "../containers/Distribution/CashbackRecords/CashbackRecords";
@@ -115,7 +120,12 @@ import EditGroupon from "../containers/Activities/GroupOn/GrouponList/NewGroupon
 import GrouponProductsManage from "../containers/Activities/GroupOn/GrouponProductsManage/GrouponProductsManage";
 import PrintGrouponOrders from "../containers/Activities/GroupOn/printGrouponOrders/printGrouponOrders";
 import Recharge from "../containers/Marketing/Recharge/Recharge";
+// 
+import RechargeMerchants from "../containers/Marketing/RechargeMerchants/RechargeMerchants";
 import RechargeDetails from "../containers/Marketing/Recharge/RechargeDetails/RechargeDetails";
+import BreakfastCartOrder from "../containers/Order/BreakfastCartOrder/BreakfastCartOrder"
+
+import SetPayment from "../containers/Payment/PaymentSetting/SetPayment"
 
 
 /** 跳转到某个路由之前触发 用于验证页面权限**/
@@ -171,6 +181,7 @@ const Routes = () =>(
 		<Route exact={true} path="/finance/incomeDetails" render={props => onEnter(IncomeDetails, props)} />
 		<Route exact={true} path="/finance/refundApplication" render={props => onEnter(RefundApplication, props)} />
 		<Route exact={true} path="/finance/withdrawApplication" render={props => onEnter(WithdrawApplication, props)} />
+		<Route exact={true} path="/finance/FinancialReconciliation" render={props => onEnter(FinancialReconciliation, props)} />
 		
 		{/*商品*/}
 		<Route exact={true} path="/goods" render={props => onEnter(Goods, props)} />
@@ -205,6 +216,7 @@ const Routes = () =>(
 		<Route exact={true} path="/order/societyFood" render={props => onEnter(SocietyFood, props)} />
 		<Route exact={true} path="/order/societySummary" render={props => onEnter(SocietySummary, props)} />
 		<Route exact={true} path="/order/societyFoodSetting" render={props => onEnter(SocietyFoodSetting, props)} />
+		<Route exact={true} path="/order/BreakfastCartOrder" render={props => onEnter(BreakfastCartOrder, props)} />
 
 		
 		{/*营销*/}
@@ -222,6 +234,7 @@ const Routes = () =>(
 		<Route exact={true} path="/marketing/banners" render={props => onEnter(Banners, props)} />
 		<Route exact={true} path="/marketing/recharge" render={props => onEnter(Recharge, props)} />
 		<Route exact={true} path="/marketing/rechargeDetails" render={props => onEnter(RechargeDetails, props)} />
+		<Route exact={true} path="/marketing/rechargeMerchants" render={props => onEnter(RechargeMerchants, props)} />
 
 		{/*店铺*/}
 		<Route exact={true} path="/shops" render={props => onEnter(ShopManage, props)} />
@@ -231,7 +244,10 @@ const Routes = () =>(
 		<Route exact={true} path="/shops/shopDetails" render={props => onEnter(ShopDetails, props)} />
 		<Route exact={true} path="/shops/logisticsRoutes" render={props => onEnter(LogisticsRoutes, props)} />
 		<Route exact={true} path="/shops/ShopSetting" render={props => onEnter(ShopSetting, props)} />
-
+		<Route exact={true} path="/shops/BreakfastCart" render={props => onEnter(BreakfastCart, props)} />
+		<Route exact={true} path="/shops/Supervision" render={props => onEnter(Supervision, props)} />
+		<Route exact={true} path="/shops/SupervisionDetails" render={props => onEnter(SupervisionDetails, props)} />
+		{/* <Route exact={true} path="/shops/BreakfastCartDetails" render={props => onEnter(BreakfastCartDetails, props)} /> */}
 		{/*用户*/}
 		<Route exact={true} path="/user" render={props => onEnter(UserManage, props)} />
 		<Route exact={true} path="/user/integralRules" render={props => onEnter(IntegralRules, props)} />
@@ -241,6 +257,8 @@ const Routes = () =>(
 		<Route exact={true} path="/user/groupManage" render={props => onEnter(UserGroupManage, props)} />
 		<Route exact={true} path="/user/UserDetails" render={props => onEnter(UserDetails, props)} />
 		
+		{/* 支付 */}
+		<Route exact={true} path="/payment" render={props => onEnter(SetPayment, props)} />
 		{/*设置*/}
 		<Route exact={true} path="/setting" render={props => onEnter(Staffing, props)} />
 		<Route exact={true} path="/setting/warningSetting" render={props => onEnter(WarningSetting, props)} />
