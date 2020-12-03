@@ -6,6 +6,7 @@ import 'moment/locale/zh-cn';
 import CustomUpload from "../../../components/Upload/Upload";
 import SelectShop from "../NewCoupon/Components/SelectShop";
 import SelectShopGroup from "../NewCoupon/Components/SelectShopGroup";
+import SelectBreakfastGroup from "../NewCoupon/Components/SelectBreakfastGroup"
 import SelectGoods from '../NewCoupon/Components/SelectGoods';
 import SelectGoodsCate from '../NewCoupon/Components/SelectGoodsCate'
 import SelectGoodsGroup from "../NewCoupon/Components/SelectGoodsGroup";
@@ -50,6 +51,7 @@ class NewCouponShop extends Component {
 		this.ableGoodCate = React.createRef();
 		this.banner = React.createRef();
 		this.ableChannel = React.createRef();
+		this.ableBreakfastGroup = React.createRef()
 	}
 	
 	componentDidMount() {
@@ -58,6 +60,7 @@ class NewCouponShop extends Component {
 	
 	
 	onRadioChange = (type,e) =>{
+		console.log(e.target.value)
 		this.setState({radioValue:{...this.state.radioValue,[type]:e.target.value}})
 	};
 	
@@ -175,29 +178,38 @@ class NewCouponShop extends Component {
 		// 验证商户
 		let userType = this.state.radioValue.userType;
 		let put_conditions = {};
-		switch (userType) {
-			case 'ALL':
-				put_conditions.strategy = 'COUPON_PUT_IN_ALL_SHOP_SET';
-				break;
-			case 'PARTIAL_AVAILABLE_ID':
-				put_conditions.strategy = 'COUPON_PUT_IN_SHOP_SET';
-				put_conditions['value'] = this.ableUser.current.state.selectedItems;
-				break;
-			case 'PARTIAL_FORBIDDEN':
-				put_conditions.strategy = 'COUPON_PUT_NOT_IN_SHOP_SET';
-				put_conditions['value'] = this.disableUser.current.state.selectedItems;
-				break;
-			case 'PARTIAL_AVAILABLE_GROUP':
-				put_conditions.strategy = 'COUPON_PUT_IN_SHOP_CHANNEL_SET';
-				put_conditions['value'] = this.ableUserGroup.current.state.selectedItems;
-				break;
-			case 'PARTIAL_FORBIDDEN_GROUP':
-				put_conditions.strategy = 'COUPON_PUT_IN_SHOP_GROUP_SET';
-				put_conditions['value'] = this.ableChannel.current.state.selectedItems;
-				break;
-			default:
-				break;
-		}
+		// console.log(userType)
+		// if(userType == "PARTIAL_AVAILABLE_BREAKFAST_GROUP"){
+		// 	userType='PARTIAL_AVAILABLE_ID';
+		// }
+			switch (userType) {
+				case 'ALL':
+					put_conditions.strategy = 'COUPON_PUT_IN_ALL_SHOP_SET';
+					break;
+				case 'PARTIAL_AVAILABLE_ID':
+					put_conditions.strategy = 'COUPON_PUT_IN_SHOP_SET';
+					put_conditions['value'] = this.ableUser.current.state.selectedItems;
+					break;
+				case 'PARTIAL_FORBIDDEN':
+					put_conditions.strategy = 'COUPON_PUT_NOT_IN_SHOP_SET';
+					put_conditions['value'] = this.disableUser.current.state.selectedItems;
+					break;
+				case 'PARTIAL_AVAILABLE_GROUP':
+					put_conditions.strategy = 'COUPON_PUT_IN_SHOP_CHANNEL_SET';
+					put_conditions['value'] = this.ableUserGroup.current.state.selectedItems;
+					break;
+				case 'PARTIAL_AVAILABLE_BREAKFAST_GROUP':
+					put_conditions.strategy = 'COUPON_PUT_IN_SHOP_SUBGROUP_SET';
+					put_conditions['value'] = this.ableBreakfastGroup.current.state.selectedItems;
+					break;
+				case 'PARTIAL_FORBIDDEN_GROUP':
+					put_conditions.strategy = 'COUPON_PUT_IN_SHOP_GROUP_SET';
+					put_conditions['value'] = this.ableChannel.current.state.selectedItems;
+					break;
+				default:
+					break;
+			}
+		
 		if(values.release_mode !== 'INTEGRAL_EXCHANGE'){
 			if(put_conditions.strategy !== 'COUPON_PUT_IN_ALL_SHOP_SET'){
 				if(!put_conditions['value'] || !put_conditions['value'].length){
@@ -211,10 +223,13 @@ class NewCouponShop extends Component {
 		values.use_conditions.push(use_conditions);
 		values.put_conditions.push(put_conditions);
 		
-		
+		if(values.userType == 'PARTIAL_AVAILABLE_BREAKFAST_GROUP'){
+			values.userType = 'PARTIAL_AVAILABLE_ID'
+		}
 		values.obj_type = "MERCHANT";
 		
 		this.submit(values)
+		
 		
 	};
 	
@@ -307,6 +322,9 @@ class NewCouponShop extends Component {
 				break;
 			case "PARTIAL_AVAILABLE_GROUP":
 				msg = '指定群组可用';
+				break;
+			case "PARTIAL_AVAILABLE_BREAKFAST_GROUP":
+				msg = '指定早餐车群组可用';
 				break;
 			case "PARTIAL_FORBIDDEN_GROUP":
 				msg = '指定渠道可用';
@@ -459,10 +477,14 @@ class NewCouponShop extends Component {
 										指定商户不可用
 									</Radio>
 									<SelectShop ref={this.disableUser} />
-									<Radio value="PARTIAL_AVAILABLE_GROUP">
+									{/* <Radio value="PARTIAL_AVAILABLE_GROUP">
 										指定群组可用
 									</Radio>
-									<SelectShopGroup ref={this.ableUserGroup} />
+									<SelectShopGroup ref={this.ableUserGroup} /> */}
+									<Radio value="PARTIAL_AVAILABLE_BREAKFAST_GROUP">
+										指定早餐车群组可用
+									</Radio>
+									<SelectBreakfastGroup ref={this.ableBreakfastGroup} />
 									<Radio value="PARTIAL_FORBIDDEN_GROUP">
 										指定渠道可用
 									</Radio>

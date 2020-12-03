@@ -44,6 +44,12 @@ let baseMenu = [
 		text: '充值卡',
 		slug: 'menu_marketing_msg_template'
 	},
+	{
+		path:'/marketing/rechargeMerchants',
+		icon:'icon-chongzhiqia',
+		text: '商户充值卡',
+		slug: 'menu_marketing_msg_template'
+	},
 ];
 baseMenu = baseMenu.filter(item=> hasPermission(item.slug));
 const Marketing = ({ match }) => (

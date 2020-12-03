@@ -10,16 +10,16 @@ import {getToken, searchJson} from "../../../../utils/dataStorage";
 import {shops,applicationsCount} from "../../../../api/shops/shopManage";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import AdvancedFilterComponent from "../../ShopManage/AdvancedFilterComponent";
-import ShopHypermarket from "../../ShopManage/ShopHypermarket";
-import BreakfastCar from "../../ShopManage/ShopAdd/BreakfastCar";
-import Distributor from "../../ShopManage/ShopAdd/Distributor";
-import ShopKeeper from "../../ShopManage/ShopAdd/ShopKeeper";
+// import ShopHypermarket from "../../ShopManage/ShopHypermarket";
+// import BreakfastCar from "../../ShopManage/ShopAdd/BreakfastCar";
+// import Distributor from "../../ShopManage/ShopAdd/Distributor";
+// import ShopKeeper from "../../ShopManage/ShopAdd/ShopKeeper";
 import ShopCode from "../../ShopManage/ShopCode";
 // import {shopListInGroup} from "../../../../api/shops/groups";
 import Export from "../../../Order/Components/Export";
 import Config from '../../../../config/app'
 import SelectDate from "../../ShopManage/SelectDate";
-class BreakfastCartDetails extends React.Component{
+class SupervisionDetails extends React.Component{
 	constructor(props){
 		const columns = [
 			{
@@ -53,9 +53,9 @@ class BreakfastCartDetails extends React.Component{
 				title: '操作',
 				render: (text,record) =>
 					<div>
-						<span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.editShop(record)}>编辑</span>
+						{/* <span style={{'color':'#4F9863','cursor':'pointer'}} onClick={()=>this.editShop(record)}>编辑</span> */}
 						<span style={{'color':'#4F9863','cursor':'pointer',marginLeft:'15px'}} onClick={()=>this.showCode(record)}>门店码</span>
-						<span style={{'color':'#4F9863','cursor':'pointer',marginLeft:'15px'}} onClick={()=>this.lookShopList(record)}>查看</span>
+						{/* <span style={{'color':'#4F9863','cursor':'pointer',marginLeft:'15px'}} onClick={()=>this.lookShopList(record)}>查看</span> */}
 					</div>
 			},
 		];
@@ -74,7 +74,7 @@ class BreakfastCartDetails extends React.Component{
 			shopMarketId:"",
 			distributor:false,
 			breakfast:false,
-			shopKeeper:false,
+			// shopKeeper:false,
 			user_data:[],
 			applications_count:0,
 			checkedAry:[],     // 列表页选中的用户id组
@@ -108,19 +108,19 @@ class BreakfastCartDetails extends React.Component{
 			this.setState({applications_count:r.data.applications_count});
 		})
 	}
-	editShop = (record) =>{
-		this.setState({recordId:record.id,channel_desc: record.channel});
-		switch (record.channel) {
-			case "早餐车":
-				this.showBreakfast();
-				return;
-			case "分销员":
-				this.showDistributor();
-				return;
-			default :
-				this.showShopKeeper()
-		}
-	};
+	// editShop = (record) =>{
+	// 	this.setState({recordId:record.id,channel_desc: record.channel});
+	// 	switch (record.channel) {
+	// 		case "早餐车":
+	// 			this.showBreakfast();
+	// 			return;
+	// 		case "分销员":
+	// 			this.showDistributor();
+	// 			return;
+	// 		default :
+	// 			this.showShopKeeper()
+	// 	}
+	// };
 	refresh = ()=>{
 		this.setState({
 			filterVisible:false,
@@ -195,24 +195,24 @@ class BreakfastCartDetails extends React.Component{
 	};
 	
 	// 分销员
-	showDistributor = () =>{
-		this.setState({distributor:true})
-	};
-	hideDistributor = () =>{
-		this.setState({distributor:false},()=>{
-			this.refresh()
-		})
-	};
+	// showDistributor = () =>{
+	// 	this.setState({distributor:true})
+	// };
+	// hideDistributor = () =>{
+	// 	this.setState({distributor:false},()=>{
+	// 		this.refresh()
+	// 	})
+	// };
 	
 	// 商户
-	showShopKeeper = () =>{
-		this.setState({shopKeeper:true})
-	};
-	hideShopKeeper = () =>{
-		this.setState({shopKeeper:false},()=>{
-			this.refresh()
-		})
-	};
+	// showShopKeeper = () =>{
+	// 	this.setState({shopKeeper:true})
+	// };
+	// hideShopKeeper = () =>{
+	// 	this.setState({shopKeeper:false},()=>{
+	// 		this.refresh()
+	// 	})
+	// };
 	
 	
 	//自定义显示项
@@ -342,19 +342,19 @@ class BreakfastCartDetails extends React.Component{
 	};
 	
 	// 店铺pv  bv 导出
-	shopExport = (type, isShowDate) => {
-		if (isShowDate) {
-			this.setState({selectDate: true, strategy: type})
-		} else {
-			let json = searchJson({
-				strategy: type,
-				customize_columns: [],
-				logic_conditions: [],
-				shop_id: this.state.checkedAry[0]
-			});
-			window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
-		}
-	};
+	// shopExport = (type, isShowDate) => {
+	// 	if (isShowDate) {
+	// 		this.setState({selectDate: true, strategy: type})
+	// 	} else {
+	// 		let json = searchJson({
+	// 			strategy: type,
+	// 			customize_columns: [],
+	// 			logic_conditions: [],
+	// 			shop_id: this.state.checkedAry[0]
+	// 		});
+	// 		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+	// 	}
+	// };
 	hideSelectDate = () => {
 		this.setState({selectDate:false})
 	};
@@ -383,15 +383,15 @@ class BreakfastCartDetails extends React.Component{
 	
 	
 	render(){
-		const rowSelection = {
-			onChange: (selectedRowKeys, selectedRows) => {
-				this.setState({checkedAry:selectedRowKeys, selectedRows:selectedRows})
-			},
-			getCheckboxProps: record => ({
-				disabled: record.name === 'Disabled User', // Column configuration not to be checked
-				name: record.name,
-			})
-		};
+		// const rowSelection = {
+		// 	onChange: (selectedRowKeys, selectedRows) => {
+		// 		this.setState({checkedAry:selectedRowKeys, selectedRows:selectedRows})
+		// 	},
+		// 	getCheckboxProps: record => ({
+		// 		disabled: record.name === 'Disabled User', // Column configuration not to be checked
+		// 		name: record.name,
+		// 	})
+		// };
 		
 		const codeProps = {
 			visible: this.state.codeVisible,
@@ -435,34 +435,34 @@ class BreakfastCartDetails extends React.Component{
 				
 				
 
-				<ShopHypermarket visible={this.state.shopMarketVisible} onClose={this.closeShopMarke} shopMarketId={this.state.shopMarketId}/>
+				{/* <ShopHypermarket visible={this.state.shopMarketVisible} onClose={this.closeShopMarke} shopMarketId={this.state.shopMarketId}/> */}
 				
-				<BreakfastCar
+				{/* <BreakfastCar
 					visible={this.state.breakfast}
 					onClose={this.hideBreakfast}
 					onShow={this.showBreakfast}
 					recordId={this.state.recordId}
 					channelDesc={this.state.channel_desc}
-				/>
-				<Distributor
+				/> */}
+				{/* <Distributor
 					visible={this.state.distributor}
 					onClose={this.hideDistributor}
 					onShow={this.showDistributor}
 					recordId={this.state.recordId}
 					channelDesc={this.state.channel_desc}
-				/>
-				<ShopKeeper
+				/> */}
+				{/* <ShopKeeper
 					visible={this.state.shopKeeper}
 					onClose={this.hideShopKeeper}
 					onShow={this.showShopKeeper}
 					recordId={this.state.recordId}
 					channelDesc={this.state.channel_desc}
 					refresh={this.refresh}
-				/>
+				/> */}
 				
 				
 				
-				<div className="s_header" style={{marginTop: '16px'}}>
+				{/* <div className="s_header" style={{marginTop: '16px'}}>
 					<Button
 						size="small"
 						onClick={()=>this.shopExport('MERCHANT_CURRENT_MONTH_PV', false)}
@@ -481,7 +481,7 @@ class BreakfastCartDetails extends React.Component{
 						disabled={this.state.checkedAry.length == 0 || this.state.checkedAry.length > 1 }
 						onClick={()=>this.shopExport('MERCHANT_PARTNERS_CURRENT_MONTH_BV', true)}
 					>导出指定店铺所有下线当月bv</Button>
-				</div>
+				</div> */}
 				
 				<div className="s_body"  style={{paddingTop: '16px'}}>
 					<div className="headerLeft">
@@ -504,7 +504,7 @@ class BreakfastCartDetails extends React.Component{
 				
 				<div className="chart u_chart">
 					<Table
-						rowSelection={rowSelection}
+						// rowSelection={rowSelection}
 						columns={this.state.columns}
 						rowKey={record => record.id}
 						pagination={false}
@@ -534,4 +534,4 @@ class BreakfastCartDetails extends React.Component{
 		)
 	}
 }
-export default withRouter(BreakfastCartDetails)
+export default withRouter(SupervisionDetails)

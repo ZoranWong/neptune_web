@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Input, message, Modal, Table, Tabs } from "antd";
 import './css/index.sass'
-import OperationRatio from "./Modals/OperationRatio";
+import BreakfastOperationRatio from "./Modals/breakfastOperationRatio"
 import { getSettings, getLevels, deleteLevels } from "../../../api/distribution/setting";
 import { systemSetting } from "../../../api/common";
 const { TabPane } = Tabs;
@@ -86,7 +86,7 @@ class BreakfastSetting extends Component {
 	};
 
 	valueChange = (type, value) => {
-		if (type === 'PI') {
+		if (type === 'BREAKFAST_CAR_PI') {
 			value = parseFloat(value)
 		} else {
 			value = parseInt(value);
@@ -102,7 +102,7 @@ class BreakfastSetting extends Component {
 		let value = this.state[key];
 
 		systemSetting({
-			type: 'DISTRIBUTION',
+			type: 'BREAKFAST_CAR',
 			key,
 			value
 		}).then(r => {
@@ -152,7 +152,8 @@ class BreakfastSetting extends Component {
 		};
 		return (
 						<div className='cash_back_setting'>
-							<OperationRatio {...operationRatioParams} />
+							{/* <breakfastOperationRatio {...operationRatioParams} /> */}
+							<BreakfastOperationRatio {...operationRatioParams} />
 							<ul className="setting_items">
 								<li>
 									<h4>生产力指数设置:</h4>
@@ -161,18 +162,18 @@ class BreakfastSetting extends Component {
 											<h5>生产力指数:</h5>
 											<Input
 												type='number'
-												value={state['PI']}
-												onChange={(e) => this.valueChange('PI', e.target.value)}
-												onBlur={(e) => this.submitSetting('PI')}
+												value={state['BREAKFAST_CAR_PI']}
+												onChange={(e) => this.valueChange('BREAKFAST_CAR_PI', e.target.value)}
+												onBlur={(e) => this.submitSetting('BREAKFAST_CAR_PI')}
 											/>
 										</span>
 										<span>
 											<h5>净营业额换算比率(%)：</h5>
 											<Input
 												type='number'
-												value={state['NET_SALES_CONVERSION_RATIO']}
-												onBlur={(e) => this.submitSetting('NET_SALES_CONVERSION_RATIO')}
-												onChange={(e) => this.valueChange('NET_SALES_CONVERSION_RATIO', e.target.value)}
+												value={state['BREAKFAST_CAR_NET_SALES_CONVERSION_RATIO']}
+												onBlur={(e) => this.submitSetting('BREAKFAST_CAR_NET_SALES_CONVERSION_RATIO')}
+												onChange={(e) => this.valueChange('BREAKFAST_CAR_NET_SALES_CONVERSION_RATIO', e.target.value)}
 											/>
 										</span>
 									</div>
@@ -185,9 +186,9 @@ class BreakfastSetting extends Component {
 											<h5>销售补贴比例(%):</h5>
 											<Input
 												type='number'
-												onBlur={(e) => this.submitSetting('SALES_SUBSIDY_RATIO')}
-												value={state['SALES_SUBSIDY_RATIO']}
-												onChange={(e) => this.valueChange('SALES_SUBSIDY_RATIO', e.target.value)}
+												onBlur={(e) => this.submitSetting('BREAKFAST_CAR_SALES_SUBSIDY_RATIO')}
+												value={state['BREAKFAST_CAR_SALES_SUBSIDY_RATIO']}
+												onChange={(e) => this.valueChange('BREAKFAST_CAR_SALES_SUBSIDY_RATIO', e.target.value)}
 											/>
 										</span>
 										<span>

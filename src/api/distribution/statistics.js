@@ -26,3 +26,11 @@ export function handleStatistics(params, platformSummaryId) {
 		data: params
 	})
 }
+// 早餐车返现
+export function breakfastCarSummaries(params) {
+	return request({
+		url: '/api/backend/distribution/breakfastCar/sales/cashback/platform/summaries',
+		method: 'get',
+		params: params
+	})
+}

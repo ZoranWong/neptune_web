@@ -5,7 +5,7 @@ import locale from 'antd/es/date-picker/locale/zh_CN';
 import '../css/basicStatistics.sass'
 import CustomPagination from "../../../../components/Layout/Pagination";
 import {getToken, searchJson} from "../../../../utils/dataStorage";
-import {summaries} from "../../../../api/distribution/statistics";
+import {breakfastCarSummaries} from "../../../../api/distribution/statistics";
 import Config from "../../../../config/app";
 
 const {MonthPicker} = DatePicker;
@@ -64,7 +64,7 @@ class BreakfastDistribution extends Component {
 		this.state = {
 			filterVisible:false,
 			customVisible:false,
-			api:summaries,
+			api:breakfastCarSummaries,
 			value: '',
 			data:[],
 			paginationParams:{

@@ -14,7 +14,7 @@ class CashbackSetting extends Component {
 		return (
 			<div className="distributionStatistics">
 				<Tabs defaultActiveKey='MERCHANTS'>
-					<TabPane ab="商户/分销员" key="MERCHANTS">
+					<TabPane tab="商户/分销员" key="MERCHANTS">
 						<MerchantsSetting />
 					</TabPane>
 					<TabPane tab="早餐车" key="BREAKFAST_CART">

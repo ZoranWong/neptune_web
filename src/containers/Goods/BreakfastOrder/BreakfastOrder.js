@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom'
 import {Button, Table, Modal, Input, message, InputNumber,Upload} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/breakfastOrder.sass'
-import {channelsGoods,onShelves,offShelves,setWarning,setVirtualSales,updateProductPrice} from "../../../api/goods/goods";
+import {channelsGoods,onShelves,offShelves,setWarning,setVirtualSales,updateProductPrice,updateSingleProductPrice,downLoadTemplate} from "../../../api/goods/goods";
 import {searchJson,getToken} from "../../../utils/dataStorage";
 import SaleRange from "./SaleRange";
 import Config from '../../../config/app';
@@ -48,6 +48,7 @@ class BreakfastOrder extends React.Component{
 				title: '零售价',
 				dataIndex: 'retail_price',
 				render: (text,record) =>{
+					console.log(record.breakfast_provide_id,'早餐车')
 					if (window.hasPermission("product_breakfast_book_set_virtual_sale")) {
 						return <div>
 							<InputNumber
@@ -56,10 +57,9 @@ class BreakfastOrder extends React.Component{
 								onBlur={(e)=>{
 									e.target.value = e.target.value < 0? 0:e.target.value;
 									if(e.target.value <= 0) return;
-									// setVirtualSales({virtual_sales:e.target.value},record.provide_id).then(r=>{
-										// message.success(r.message)
-										message.success(e.target.value)
-									// }).catch(_=>{})
+									updateSingleProductPrice({retail_price:e.target.value},record.breakfast_provide_id).then(r=>{
+										message.success(r.message)
+									}).catch(_=>{})
 								}}
 							/>￥
 						</div>
@@ -389,9 +389,10 @@ class BreakfastOrder extends React.Component{
 	};
 	downTemplate =() =>{
 		console.log('下载模板')
-	}
-	addFile =() =>{
-		console.log('添加文件')
+		// downLoadTemplate().then((response)=>{
+		// 	console.log(response,333)
+		// })?token=${}
+		 window.location.href = `${Config.apiUrl}/api/backend/breakfast/download`;
 	}
 	
 	render(){
@@ -428,7 +429,7 @@ class BreakfastOrder extends React.Component{
 							onChange={this.selsetFile} fileList={this.state.fileList} 
 							action = {this.state.excelUploadUrl}
 							headers={{'Authorization': `${getToken()}`}}
-							><span className='spancolor spancolor1' onClick={this.addFile}>添加文件</span></Upload>
+							><span className='spancolor spancolor1' >添加文件</span></Upload>
 					</div>
 					<div>提示：上传的文件大小请勿大于5M</div>
 					

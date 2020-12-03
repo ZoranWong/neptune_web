@@ -11,7 +11,8 @@ let baseMenu = [
 		path:'/payment',
 		icon:'icon-accountbook-fill',
 		text:'支付设置',
-		slug: 'menu_set_payment'
+		// slug: 'menu_set_payment'
+		slug:'menu_order_agent'
 	},
 	
 ];

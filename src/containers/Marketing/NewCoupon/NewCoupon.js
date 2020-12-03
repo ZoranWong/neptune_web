@@ -469,11 +469,6 @@ class NewCoupon extends Component {
 									选择商品分类
 								</Radio>
 								<SelectGoodsCate ref={this.ableGoodCate}/>
-								<Radio value="PARTIAL_AVAILABLE_GROUP">
-									指定群组可用
-								</Radio>
-								<SelectUserGroup ref={this.ableUserGroup} />
-
 								<Radio value='PARTIAL_AVAILABLE_GROUP'>
 									选择商品组
 								</Radio>

@@ -120,6 +120,8 @@ import EditGroupon from "../containers/Activities/GroupOn/GrouponList/NewGroupon
 import GrouponProductsManage from "../containers/Activities/GroupOn/GrouponProductsManage/GrouponProductsManage";
 import PrintGrouponOrders from "../containers/Activities/GroupOn/printGrouponOrders/printGrouponOrders";
 import Recharge from "../containers/Marketing/Recharge/Recharge";
+// 
+import RechargeMerchants from "../containers/Marketing/RechargeMerchants/RechargeMerchants";
 import RechargeDetails from "../containers/Marketing/Recharge/RechargeDetails/RechargeDetails";
 import BreakfastCartOrder from "../containers/Order/BreakfastCartOrder/BreakfastCartOrder"
 
@@ -232,6 +234,7 @@ const Routes = () =>(
 		<Route exact={true} path="/marketing/banners" render={props => onEnter(Banners, props)} />
 		<Route exact={true} path="/marketing/recharge" render={props => onEnter(Recharge, props)} />
 		<Route exact={true} path="/marketing/rechargeDetails" render={props => onEnter(RechargeDetails, props)} />
+		<Route exact={true} path="/marketing/rechargeMerchants" render={props => onEnter(RechargeMerchants, props)} />
 
 		{/*店铺*/}
 		<Route exact={true} path="/shops" render={props => onEnter(ShopManage, props)} />

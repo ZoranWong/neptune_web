@@ -61,7 +61,6 @@ export function systemSetting(params) {
     })
 }
 
-//早餐车系统设置/api/backend/system/setting/set
 
 // 获取系统设置
 export function getSystemSetting(params) {

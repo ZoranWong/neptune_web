@@ -16,9 +16,9 @@ class SupervisionGroup extends Component {
 	componentWillReceiveProps(nextProps, nextContext) {
 		console.log(nextProps.record,99999)
 		if (nextProps.record && nextProps.record.id) {
-			this.setState({type : 'edit',name: nextProps.record.name})
+			this.setState({type : 'edit',name: nextProps.record.name,remarks: nextProps.record.remarks})
 		} else {
-			this.setState({type: 'create',name:''})
+			this.setState({type: 'create',name:'',remarks:''})
 		}
 	}
 	
@@ -36,8 +36,7 @@ class SupervisionGroup extends Component {
 			message.error('请填写备注');
 			return;
 		}
-		newSupervision({name: this.state.name,remarks:this.state.remarks},id).then(r=>{
-			message.success(r.message);
+		api({name: this.state.name,remarks:this.state.remarks},id).then(r=>{
 			this.setState({name: '',remarks:''},()=>{
 				this.handleCancel();
 				this.props.refresh();

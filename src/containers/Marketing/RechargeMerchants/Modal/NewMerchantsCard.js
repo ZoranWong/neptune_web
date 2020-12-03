@@ -9,7 +9,7 @@ import {getToken} from "../../../../utils/dataStorage";
 // import e from 'express';
 
 const { RangePicker } = DatePicker;
-class NewCard extends Component {
+class NewMerchantsCard extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -19,7 +19,6 @@ class NewCard extends Component {
 			start_time: '',
 			end_time: '',
 			access_method:'PLATFORM_PUT',  // 领取方式
-			used_scene:[],
 			file_url:'',
 			excelUploadUrl: Config.apiUrl + "/" + Config.apiPrefix + "api/backend/consume_cards/upload"
 		};
@@ -31,11 +30,8 @@ class NewCard extends Component {
 	};
 	
 	handleSubmit = () => {
-		let {used_scene,name,amount, total_quantity, start_time,end_time} = this.state;
-		if(!used_scene){
-			message.error('请勾使用场景');
-			return
-		}
+		let {name,amount, total_quantity, start_time,end_time} = this.state;
+		
 		if (!name) {
 			message.error('请填写充值卡名称');
 			return
@@ -52,16 +48,33 @@ class NewCard extends Component {
 			message.error('请选择充值卡有效期');
 			return
 		}
-		let param={
-			name:this.state.name,
-			amount:this.state.amount,
-			start_time:this.state.start_time,
-			total_quantity:this.state.total_quantity,
-			end_time:this.state.end_time,
-			access_method:this.state.access_method,
-			used_scene:this.state.used_scene,
-			file_url:this.state.file_url
+		var param;
+		if(this.state.access_method =='EXCHANGE'){
+			param={
+				name:this.state.name,
+				amount:this.state.amount,
+				start_time:this.state.start_time,
+				total_quantity:this.state.total_quantity,
+				end_time:this.state.end_time,
+				access_method:this.state.access_method,
+				consume_group:1,
+				used_scene:['ZAO_CAN_CHE']
+			}
+		}else{
+			 param={
+				name:this.state.name,
+				amount:this.state.amount,
+				start_time:this.state.start_time,
+				// total_quantity:this.state.total_quantity,
+				end_time:this.state.end_time,
+				access_method:this.state.access_method,
+				file_url:this.state.file_url,
+				consume_group:1,
+				used_scene:['ZAO_CAN_CHE']
+			}
 		}
+		console.log(param)
+		
 		createNewCard(param).then(r=>{
 			message.success(r.message);
 			this.handleCancel();
@@ -85,9 +98,9 @@ class NewCard extends Component {
 		this.setState({[type]:e.target.value})
 	};
 	// 多选
-	checkboxChange=(checkedValues)=>{
-		this.setState({used_scene:checkedValues})
-	}	
+	// checkboxChange=(checkedValues)=>{
+	// 	this.setState({used_scene:checkedValues})
+	// }	
 	inputChange = (e,type) => {
 		this.setState({[type]: e.target.value})
 	};
@@ -149,7 +162,7 @@ class NewCard extends Component {
 								</Radio>
 							</Radio.Group>
 						</li>
-						<li className="normalLi imgLi">
+						{/* <li className="normalLi imgLi">
 							<span className="c_left">使用场景</span>
 							<Checkbox.Group  onChange={this.checkboxChange}>
 									<Checkbox value="SCAN_CODE_PAY">扫码付   </Checkbox>
@@ -157,7 +170,7 @@ class NewCard extends Component {
 									<Checkbox value="GROUP_ORDER">团购订单</Checkbox>
 									<Checkbox value="SOCIETY_ORDER">社会餐订单</Checkbox>
 							</Checkbox.Group>
-						</li>
+						</li> */}
 						<li className="normalLi imgLi">
 							<span className="left c_left">充值卡名称</span>
 							<Input className="liInput" type="text" value={this.state.name} onChange={(e)=>this.inputChange(e, 'name')} />
@@ -197,4 +210,4 @@ class NewCard extends Component {
 	}
 }
 
-export default NewCard;
+export default NewMerchantsCard;

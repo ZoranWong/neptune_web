@@ -3,11 +3,13 @@ import { Input, Modal, message, Button, Table, Tooltip } from "antd";
 import './css/breakfastCart.sass'
 import OperateGroup from './Moda/OperateGroup'
 import CustomPagination from "../../../components/Layout/Pagination";
+import {getBreakfastCart,delBreakfastCart} from "../../../api/shops/shopManage";
 
 class BreakfastCart extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      api:getBreakfastCart,
       visible: false,
       data: [
         // {
@@ -18,6 +20,7 @@ class BreakfastCart extends Component {
         // }
       ]
     }
+    this.child = React.createRef();
   }
   paginationChange = (list) => {
     this.setState({ data: list })
@@ -44,16 +47,17 @@ class BreakfastCart extends Component {
   }
   //详情
   detailShops = (record) => {
+    this.props.history.push({pathname:"/shops/SupervisionDetails",state:{id:record.id,path:'/shops'}})
     console.log(record)
   }
   // 删除组
   deleteShops = (record) => {
     console.log(record)
 
-    // deleteShops({},record.id).then(r => {
-    //     message.success(r.message);
-    //     this.refresh()
-    //   }).catch(_ => {})
+    delBreakfastCart({},record.id).then(r => {
+        message.success(r.message);
+        this.refresh()
+      }).catch(_ => {})
   }
 
   render() {
@@ -63,19 +67,19 @@ class BreakfastCart extends Component {
         // dataIndex: 'name',
         render:(text,record) =>
           <Tooltip title={record.name}>
-            <span style={{'overflow': 'hidden','text-overflow': 'ellipsis','white-space': 'nowrap',width:'140px',display:'block'}}>{record.name}</span>
+            <span style={{'overflow': 'hidden','textOverflow': 'ellipsis','whiteSpace': 'nowrap',width:'140px',display:'block'}}>{record.name}</span>
           </Tooltip>
       },
       {
         title: '创建时间',
-        dataIndex: 'time',
+        dataIndex: 'create_at',
       },
       {
         title: '备注',
         // dataIndex: 'remarks',
         render:(text,record) =>
           <Tooltip title={record.remarks}>
-            <span style={{'overflow': 'hidden','text-overflow': 'ellipsis','white-space': 'nowrap',width:'140px',display:'block'}}>{record.remarks}</span>
+            <span style={{'overflow': 'hidden','textOverflow': 'ellipsis','whiteSpace': 'nowrap',width:'140px',display:'block'}}>{record.remarks}</span>
           </Tooltip>
       },
       {

@@ -1,91 +1,18 @@
-// import React, {Component} from 'react';
-// import {Input, message, Modal} from "antd";
-// import {setOverdraft} from "../../../api/shops/shopManage";
-
-// class SetOverdraft extends Component {
-// 	state = {
-// 		overdraft: ''
-// 	};
-	
-// 	componentWillReceiveProps(nextProps, nextContext) {
-// 		if (!nextProps.overdraft) return ;
-// 		this.setState({overdraft: nextProps.overdraft})
-// 	}
-	
-// 	handleCancel = () => {
-// 		this.props.onCancel();
-// 	};
-	
-// 	handleSubmit = () => {
-// 		let id = this.props.id;
-// 		if (!this.state.overdraft || this.state.balanceValue < 0) {
-// 			message.error('透支额度不合法');
-// 			return
-// 		}
-// 		setOverdraft({
-// 			shop_id: id,
-// 			overdraft: this.state.overdraft
-// 		}).then(r=>{
-// 			message.success(r.message);
-// 			this.handleCancel();
-// 			this.props.refresh();
-// 			this.setState({overdraft: 0})
-// 		}).catch(_=>{})
-// 	};
-	
-// 	render() {
-// 		return (
-// 			<div>
-// 				<Modal
-// 					title='透支额度调整'
-// 					width={520}
-// 					visible={this.props.visible}
-// 					onCancel={this.handleCancel}
-// 					onOk={this.handleSubmit}
-// 					okText="确定"
-// 					cancelText="取消"
-// 				>
-// 					<div className="operateBalance">
-// 						<span>设置透支额度</span>
-// 						<Input
-// 							value={this.state.overdraft}
-// 							type='number'
-// 							onChange={(e)=>{
-// 								if (e.target.value < 0) {
-// 									message.error('透支额度不可小于0');
-// 									return;
-// 								}
-// 								this.setState({overdraft:e.target.value})
-// 							}}
-// 						/>
-// 					</div>
-// 				</Modal>
-// 			</div>
-// 		);
-// 	}
-// }
-
-// export default SetOverdraft;
 import React, {Component} from 'react';
-import './css/index.sass'
+import './index.sass'
 import {Input, message, Modal, Radio,Button} from "antd";
-import {adjustShopBalance,sendVerificationCode,verificationCode} from "../../../api/shops/shopManage";
-// import {adjustUserBalance} from "../../../api/user";
-var timer =null
-class SetOverdraft extends Component {
+import {adjustShopBalance,sendVerificationCode,verificationCode} from "../../api/shops/shopManage";
+// import {adjustUserBalance} from "../../api/user";
+
+var timer = null
+class breackfastOperateBalance extends Component {
 	state = {
 		value: 'add',
 		remark: '',
+		countDown: 60,  //短信倒计时
 		userPhone:15056046046,
-		countDown:60,
 		password:''
 	};
-	componentWillReceiveProps(nextProps, nextContext) {
-		console.log(nextProps,'nextPropsnextPropsnextProps')
-		if (!nextProps.overdraft) return ;
-
-		this.setState({overdraft: nextProps.overdraft})
-	}
 
 	handleCancel = () => {
 		this.props.onCancel();
@@ -106,11 +33,10 @@ class SetOverdraft extends Component {
 	}
 
 	handleSubmit = () => {
-		console.log(this.props);
+		console.log(this.props,'--------------------');
 		// let api = this.props.type === 'user' ? adjustUserBalance : adjustShopBalance;
 		// let field = this.props.type === 'user'? 'user_id' : 'shop_id';
 		let id = this.props.id;
-		console.log(id,"=============id============")
 		if (!this.state.balanceValue || this.state.balanceValue < 0) {
 			message.error('余额值不合法');
 			return
@@ -137,7 +63,7 @@ class SetOverdraft extends Component {
 		return (
 			<div>
 				<Modal
-					title='透支额度调整'
+					title='余额调整'
 					width={520}
 					visible={this.props.visible}
 					onCancel={this.handleCancel}
@@ -150,9 +76,6 @@ class SetOverdraft extends Component {
 						<Input
 							disabled
 							value={this.state.userPhone}
-							// onChange={(e)=>{
-							// 	this.setState({remark:e.target.value})
-							// }}
 						/>
 						
 					</div>
@@ -163,13 +86,6 @@ class SetOverdraft extends Component {
 							value={this.state.password}
 							onChange={(e)=>{
 								this.setState({password:e.target.value})
-							}}
-							onBlur={(e)=>{
-								if(!e.target.value) return;
-								verificationCode({captcha:e.target.value}).then(r=>{
-									message.success(r.message)
-									// message.success(e.target.value)
-								}).catch(_=>{})
 							}}
 						/>
 						<Button
@@ -212,4 +128,4 @@ class SetOverdraft extends Component {
 	}
 }
 
-export default SetOverdraft;
+export default breackfastOperateBalance;

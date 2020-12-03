@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {DatePicker, message, Modal, Table} from "antd";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import {searchJson} from "../../../../utils/dataStorage";
-import {summaries,} from "../../../../api/distribution/statistics";
-import {breakfastCashback} from "../../../../api/distribution/records";
+import {breakfastCarSummaries,} from "../../../../api/distribution/statistics";//table数据
+import {breakfastCashback,sendIssueBalance} from "../../../../api/distribution/records";
 import locale from "antd/es/date-picker/locale/zh_CN";
 const { RangePicker,MonthPicker } = DatePicker;
 class BreakfastCartback extends Component {
@@ -70,7 +70,7 @@ class BreakfastCartback extends Component {
 		this.state = {
 			filterVisible:false,
 			customVisible:false,
-			api:summaries,
+			api:breakfastCarSummaries,
 			data:[],
 			paginationParams:{
 				logic_conditions:[],
@@ -104,7 +104,7 @@ class BreakfastCartback extends Component {
 	// 头部搜索框
 	search = (value) =>{
 		this.setState({
-			api:summaries,
+			api:breakfastCarSummaries,
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value})}
 		},()=>{
@@ -140,7 +140,7 @@ class BreakfastCartback extends Component {
 			),
 			okText:'知道了',
 			onOk() {
-				breakfastCashback({},record.id).then(r=>{
+				sendIssueBalance({},record.id).then(r=>{
 					message.success(r.message);
 					self.setState({canClick: true});
 					refresh()

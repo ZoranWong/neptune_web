@@ -7,18 +7,11 @@ class Supervision extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // api:getSupervision,
+      api:getSupervision,
       visible: false,
-      // tipvisible: false,
-      data: [
-        {
-          name: '哈哈哈哈哈哈哈哈哈哈或或或或或',
-          time: '111',
-          id: 1,
-          remarks: '哈哈哈哈哈哈哈哈哈哈或或或或或'
-        }
-      ]
+      data: []
     }
+    this.child = React.createRef();
   }
   paginationChange = (list) => {
     this.setState({ data: list })
@@ -54,17 +47,11 @@ class Supervision extends Component {
     console.log(record)
     // window.location.reload()
 
-    // delSupervision({},record.id).then(r => {
-    //     message.success(r.message);
-        // this.refresh()
-    //   }).catch(_ => {this.setState({handleCancel:true})})
+    delSupervision({},record.id).then(r => {
+        message.success(r.message);
+        this.refresh()
+      }).catch(_ => {})//this.setState({handleCancel:true})
   }
-  // handleCancel = ()  => {
-  //   this.setState({tipvisible:false})
-  // }
-  // handleOk = ()  => {
-  //   this.setState({tipvisible:false})
-  // }
 
 
 
@@ -75,19 +62,19 @@ class Supervision extends Component {
         // dataIndex: 'name',
         render:(text,record) =>
           <Tooltip title={record.name}>
-            <span style={{'overflow': 'hidden','text-overflow': 'ellipsis','white-space': 'nowrap',width:'140px',display:'block'}}>{record.name}</span>
+            <span style={{'overflow': 'hidden','textOverflow': 'ellipsis','whiteSpace': 'nowrap',width:'140px',display:'block'}}>{record.name}</span>
           </Tooltip>
       },
       {
         title: '创建时间',
-        dataIndex: 'time',
+        dataIndex: 'create_at',
       },
       {
         title: '备注',
         // dataIndex: 'remarks',
         render:(text,record) =>
           <Tooltip title={record.remarks}>
-            <span style={{'overflow': 'hidden','text-overflow': 'ellipsis','white-space': 'nowrap',width:'140px',display:'block'}}>{record.remarks}</span>
+            <span style={{'overflow': 'hidden','textOverflow': 'ellipsis','whiteSpace': 'nowrap',width:'140px',display:'block'}}>{record.remarks}</span>
           </Tooltip>
       },
       {
@@ -119,16 +106,6 @@ class Supervision extends Component {
     ];
     return (
       <div>
-        {/* <Modal
-            title="Basic Modal"
-            visible={this.state.tipvisible}
-            onOk={this.handleOk}
-            onCancel={this.handleCancel}
-        >
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-        </Modal> */}
         <SuoervisionGroup
           visible={this.state.visible}
           onCancel={this.closeNew}

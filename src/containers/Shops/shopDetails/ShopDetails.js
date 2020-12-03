@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Tag, Modal, message} from "antd";
-import {shopRealDetails,deleteGroup} from "../../../api/shops/shopManage";
+import {shopRealDetails,deleteGroup,setWarningAmount} from "../../../api/shops/shopManage";
 import './css/shop_details.sass'
 import ShopInformation from "./ShopInformation";
 import Introduction from './Introduction'
@@ -8,7 +8,7 @@ import IntroductionPerson from './IntroductionPerson'
 import CodePayment from "./CodePayment";
 import Map from "../../../components/Map/Map";
 import SetOverdraft from "./SetOverdraft";
-import OperateBalance from "../../../components/OperateBalance/OperateBalance";
+import BreackfastOperateBalance from "../../../components/OperateBalance/breackfastOperateBalance";
 class ShopDetails extends React.Component{
 	constructor(props){
 		super(props);
@@ -23,7 +23,8 @@ class ShopDetails extends React.Component{
 			position:{},
 			images:{},
 			overdraft: false,
-			visible: false
+			visible: false,
+			warning_amount:0
 		}
 	}
 
@@ -143,16 +144,22 @@ class ShopDetails extends React.Component{
 	// Settingbalance = () =>{
 	// 	console.log(9999999999)
 	// }
+// 透支额度预警
+	handleOk = () => {
+		// console.log(e);
+		setWarningAmount({warning_amount:this.state.warning_amount,shop_id:this.id}).then(r=>{
+			// message.success(r.message);
+			console.log(r,'透支额度预警')
+			this.setState({
+				visible: false,
+			});
 
-	handleOk = e => {
-		console.log(e);
-		this.setState({
-			visible: false,
-		});
+		}).catch(_=>{})
+		
 	};
 
 	handleCancel = e => {
-		console.log(e);
+		// console.log(e);
 		this.setState({
 			visible: false,
 		});
@@ -197,8 +204,10 @@ class ShopDetails extends React.Component{
 		};
 		return (
 			<div className="shopDetail">
+				{/* 透支额度设置 */}
 				<SetOverdraft {...overdraftProps} />
-				<OperateBalance {...balanceProps} />
+				{/*余额调整 */}
+				<BreackfastOperateBalance {...balanceProps} />
 				<ShopInformation
 					visible={this.state.shopInformationVisible}
 					onClose={this.hideShopInformation}
@@ -233,7 +242,12 @@ class ShopDetails extends React.Component{
 						<div>
 							<span>设置余额：</span>
 							<input
-							// value={this.state.remark}
+								Number
+								style={{ width:300}}
+								value={this.state.warning_amount}
+								onChange={(e)=>{
+									this.setState({warning_amount:e.target.value})
+								}}
 							// Settingbalance={(e)=>{
 							// 	this.setState({remark:e.target.value})
 							// }}
