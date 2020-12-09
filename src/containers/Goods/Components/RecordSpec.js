@@ -1,7 +1,8 @@
 import React from "react";
-import { Modal, Table} from 'antd'
+import { Modal, Table,InputNumber,message} from 'antd'
 import '../InStockNew/css/selectGoods.sass'
 import {stockSpec} from "../../../api/goods/specification";
+import {updateSingleProductPrice} from "../../../api/goods/goods"
 import IconFont from "../../../utils/IconFont";
 
 export default class RecordSpec extends React.Component{
@@ -13,10 +14,11 @@ export default class RecordSpec extends React.Component{
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
+		console.log(nextProps,9999999999)
 		if(!nextProps.provide_id) return;
-		stockSpec({},nextProps.provide_id).then(r=>{
-			this.setState({data:r.data})
-		}).catch(_=>{})
+			stockSpec({},nextProps.provide_id).then(r=>{
+				this.setState({data:r.data})
+			}).catch(_=>{})
 	}
 	
 	
@@ -34,7 +36,22 @@ export default class RecordSpec extends React.Component{
 			},
 			{
 				title: '零售价',
-				dataIndex:'retail_price'
+				dataIndex:'retail_price',
+				render:(text,record) =>
+				// console.log(record,"零售价零售价零售价")
+				<div>
+					<InputNumber
+						className="virtualSales"
+						defaultValue={text}
+						onBlur={(e)=>{
+							e.target.value = e.target.value < 0? 0:e.target.value;
+							if(e.target.value <= 0) return;
+							// updateSingleProductPrice({retail_price:e.target.value},record.breakfast_provide_id).then(r=>{
+								message.success(e.target.value)
+							// }).catch(_=>{})
+						}}
+					/>￥
+				</div>
 			},
 			{
 				title: '库存',

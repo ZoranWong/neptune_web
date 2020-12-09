@@ -22,6 +22,7 @@ export function getUserInfo(){
  */
 export function setUserInfo(user){
     Storage.set(Config.storageUserKey,user);
+    // console.log(Storage.set(Config.storageUserKey,user),'user')
     return user;
 }
 

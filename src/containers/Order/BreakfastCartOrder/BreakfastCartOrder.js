@@ -9,7 +9,7 @@ import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
 import ReviewGoods from "../Components/ReviewGoods";
-
+import SelectPosition from "./Modal/SelectPosition"
 import { breakfastCarOrder,checkOrder, orderCancel, getExportMerchantCodeScanUrl,userOrder} from "../../../api/order/orderManage";
 
 import {consumer_order_values} from "../../../utils/consumer_order_fields";
@@ -161,7 +161,9 @@ class BreakfastCartOrder extends React.Component {
             orderTypes: null,
             deliveryDate: null,
             deliveryTime: null,
-            exportTable: false
+            exportTable: false,
+            positionVisible: false,
+
         };
     }
 
@@ -222,7 +224,7 @@ class BreakfastCartOrder extends React.Component {
     };
     onSubmit = (data) => {
         this.setState({
-            api: userOrder,
+            api: breakfastCarOrder,
             paginationParams: {...this.state.paginationParams, searchJson: searchJson({logic_conditions: data})}
         }, () => {
             this.child.current.pagination(this.child.current.state.current)
@@ -318,51 +320,7 @@ class BreakfastCartOrder extends React.Component {
         this.refresh(item.key)
     };
 
-    // 取消订单 / 确认订单
-    // confirmPopover = (fn, keyWord) => {
-    //     let refresh = this.refresh;
-    //     let self = this;
-    //     let checkedAry = this.state.checkedAry;
-    //     let confirmModal = Modal.confirm({
-    //         title: (
-    //             <div className='u_confirm_header'>
-    //                 提示
-    //                 <i className="iconfont" style={{'cursor': 'pointer'}} onClick={() => {
-    //                     confirmModal.destroy()
-    //                 }}>&#xe82a;</i>
-    //             </div>
-    //         ),
-    //         icon: null,
-    //         width: '280px',
-    //         closable: true,
-    //         centered: true,
-    //         maskClosable: true,
-    //         content: (
-    //             <div className="U_confirm">
-    //                 确定{keyWord}该订单么？
-    //             </div>
-    //         ),
-    //         cancelText: '取消',
-    //         okText: '确定',
-    //         okButtonProps: {
-    //             size: 'small'
-    //         },
-    //         cancelButtonProps: {
-    //             size: 'small'
-    //         },
-    //         onOk() {
-    //             fn({order_ids: checkedAry}).then(r => {
-    //                 message.success(`${keyWord}订单成功！`);
-    //                 self.setState({checkedAry: []});
-    //                 refresh('WAIT_PLATFORM_VERIFY')
-    //             });
-
-    //         },
-    //         onCancel() {
-
-    //         },
-    //     });
-    // };
+    
 
     // 选择核销破损商品
     showCheckinNormal = (record) => {
@@ -382,51 +340,7 @@ class BreakfastCartOrder extends React.Component {
         });
     };
 
-    // check
-    // checkOrder = (record) => {
-    //     let refresh = this.refresh;
-    //     let showCheckinNormal = this.showCheckinNormal;
-    //     let confirmModal = Modal.confirm({
-    //         title: (
-    //             <div className='u_confirm_header'>
-    //                 提示
-    //                 <i className="iconfont" style={{'cursor': 'pointer'}} onClick={() => {
-    //                     confirmModal.destroy()
-    //                 }}>&#xe82a;</i>
-    //             </div>
-    //         ),
-    //         icon: null,
-    //         width: '280px',
-    //         closable: true,
-    //         centered: true,
-    //         maskClosable: true,
-    //         content: (
-    //             <div className="U_confirm">
-    //                 确定手动核销该订单么？
-    //             </div>
-    //         ),
-    //         cancelText: '商品异常',
-    //         okText: '直接核销',
-    //         okButtonProps: {
-    //             size: 'small'
-    //         },
-    //         cancelButtonProps: {
-    //             size: 'small'
-    //         },
-    //         onOk() {
-    //             checkOrder({is_exception: false}, record.id).then(r => {
-    //                 message.success(`手动核销订单成功！`);
-    //                 refresh('WAIT_CUSTOMER_VERIFY')
-    //             });
 
-    //         },
-    //         onCancel() {
-    //             showCheckinNormal(record)
-    //         },
-    //     });
-    // }
-
-    // 商品回显
     // 商品回显
     reviewGoods = (record, text) => {
         this.setState({reviewGoodsVisible: true, items: record, text: text})
@@ -463,19 +377,6 @@ class BreakfastCartOrder extends React.Component {
         // dataExport({searchJson: searchJson(params)}).then(r=>{
         // 	console.log(r);
         // }).catch(_=>{})
-    };
-
-    // 打印订单
-    print = () => {
-        let {checkedAry, data} = this.state;
-        let orders = [];
-        _.map((data), (order) => {
-            if (_.indexOf(checkedAry, order.id) > -1) {
-                orders.push(order)
-            }
-        });
-        console.log(orders,'打印订单')
-        // this.props.history.push({pathname: "/printSheet", state: {orders, title: '顾客订单'}})
     };
 
     // 今日订单高级筛选conditions
@@ -534,7 +435,7 @@ class BreakfastCartOrder extends React.Component {
     // 查看今日订单
     todayOrders = (orderTypes = null) => {
         this.setState({
-            api: userOrder,
+            api: breakfastCarOrder,
             paginationParams: {
                 ...this.state.paginationParams, searchJson: searchJson({logic_conditions: this.conditions(orderTypes)})
             }
@@ -554,13 +455,13 @@ class BreakfastCartOrder extends React.Component {
         });
     };
 
-    导出今日订单
+    // 导出今日订单
     exportTodayOrders = () => {
         this.setState({exportVisible: true, isToday: true})
     };
     // 确认导出今日订单
     exportToday = (type, items) => {
-        console.log(this.state.orderTypes);
+        console.log(this.state.orderTypes,"ordertype");
         let json = searchJson({
             strategy: type,
             customize_columns: items,
@@ -578,50 +479,23 @@ class BreakfastCartOrder extends React.Component {
     }
 
 
+    // 维度订单导出
+    conditionSelector = () =>{
+        console.log(111111111)
+        this.setState({positionVisible:true})
+    }
+    hidePosition = () => {
+        this.setState({positionVisible: false})
+    };
+    submitCondition = (date) =>{
+        // let json='',
+        // json=searchJson({
 
-    // cancelOrder (record) {
-    //     let refresh = this.refresh;
-    //     let showCheckinNormal = this.showCheckinNormal;
-    //     let tab = this.state.activeTab;
-    //     let confirmModal = Modal.confirm({
-    //         title: (
-    //             <div className='u_confirm_header'>
-    //                 提示
-    //                 <i className="iconfont" style={{'cursor': 'pointer'}} onClick={() => {
-    //                     confirmModal.destroy()
-    //                 }}>&#xe82a;</i>
-    //             </div>
-    //         ),
-    //         icon: null,
-    //         width: '280px',
-    //         closable: true,
-    //         centered: true,
-    //         maskClosable: true,
-    //         content: (
-    //             <div className="U_confirm">
-    //                 确定手动取消该订单么？
-    //             </div>
-    //         ),
-    //         cancelText: '商品异常',
-    //         okText: '直接取消',
-    //         okButtonProps: {
-    //             size: 'small'
-    //         },
-    //         cancelButtonProps: {
-    //             size: 'small'
-    //         },
-    //         onOk() {
-    //             orderCancel(record.id).then(r => {
-    //                 message.success(`手动取消订单成功！`);
-    //                 refresh(tab)
-    //             });
+        // })
+        // window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+    }
 
-    //         },
-    //         onCancel() {
-    //             showCheckinNormal(record)
-    //         },
-    //     });
-    // };
+    
 
 
     render() {
@@ -636,17 +510,6 @@ class BreakfastCartOrder extends React.Component {
             }
         };
         const tabs = [
-            // {name: '全部', key: 'ALL'},
-            // {name: '待收货(自提单)', key: 'WAIT_AGENT_VERIFY'},
-            // {name: '待自提', key: 'WAIT_CUSTOMER_VERIFY'},
-            // {name: '已完成', key: 'COMPLETED'},
-            // {name: '已退款', key: 'REFUNDED'},
-            // {name: '已取消', key: 'CANCELED'},
-            // {name: '订单异常', key: 'EXCEPTION'},
-            // {name: '申请售后', key: 'AFTER_SALE'},
-            // {name: '拒绝退款', key: 'REFUSE_REFUND'},
-            // {name: '待收货(配送单)', key: 'WAIT_CUSTOMER_VERIFY_HOME'},
-            // {name: '待成团', key: 'WAIT_FORM_GROUP'},
             {name: '全部', key: 'ALL'},
             {name: '待收货', key: 'WAIT_AGENT_VERIFY'},
             {name: '待付款', key: 'WAIT_PAY'},
@@ -674,17 +537,17 @@ class BreakfastCartOrder extends React.Component {
             slug: 'order_'
         };
 
-
-        // const checkOrderProps = {
-        //     visible: this.state.checkVisible,
-        //     onCancel: this.hideCheckNormal,
-        //     refresh: () => this.refresh('WAIT_CUSTOMER_VERIFY'),
-        //     onSubmit: this.checkInNormalOrder,
-        //     problemOrder: this.state.problemOrder
-        // };
-
+        const positionProps = {
+            visible: this.state.positionVisible,
+            onCancel: this.hidePosition,
+            submit: this.submitCondition,
+            type: 'deliveryOrders',
+            deliveryDateShow: true,
+            deliveryTimeShow: true
+        };
         return (
             <div className="order">
+                <SelectPosition {...positionProps} />
                 <Export {...exportProps} />
                 {/* <CheckOrder {...checkOrderProps} /> */}
                 <AdvancedFilterComponent
@@ -716,24 +579,20 @@ class BreakfastCartOrder extends React.Component {
                                 onClick={this.setMessage}
                             >设置默认模板消息</Button>
                         }
-                        {
-                            window.hasPermission("order_management_printing") && <Button
-                                size="small"
-                                onClick={this.print}
-                                disabled={!this.state.checkedAry.length}
-                            >打印订单</Button>
-                        }
-
-                    </div>
-                </div>
-                {/* <div className="s_body" style={{marginTop: '20px'}}>
-                    <div className="headerLeft">
                         <Button
                             size="small"
-                            onClick={this.exportCodeScanPaymentOrders}
-                        >下载早餐车扫码付汇总表</Button>
+                            onClick={this.conditionSelector}
+                        >批量导出商品维度订单</Button>
+                        <Button
+                            size="small"
+                            onClick={this.conditionSelector}
+                        >批量导出店铺维度订单</Button>
+                        <Button
+                            size="small"
+                            onClick={this.conditionSelector}
+                        >批量导出物流订单</Button>
                     </div>
-                </div> */}
+                </div>
                 <div className="tabs">
                     <ul className="left">
                         {

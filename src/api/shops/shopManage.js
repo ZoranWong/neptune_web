@@ -285,7 +285,22 @@ export function addSupervisionGroup(params) {
 	})
 }
 
-
+// 督导组详情
+export function supervisionDetail(params,superviseId) {
+	return request({
+		url: `/api/backend/breakfast/get/supervise/${superviseId}/detail`,
+		method: 'get',
+		data: params
+	})
+}
+// 早餐车详情
+export function breakfastDetail(params,subgroupId) {
+	return request({
+		url: `/api/backend/breakfast/get/subgroup/${subgroupId}/detail`,
+		method: 'get',
+		data: params
+	})
+}
 
 //分组配置微信支付 
 export function wxPayment(params) {
@@ -295,3 +310,4 @@ export function wxPayment(params) {
 		data: params
 	})
 }
+

@@ -96,8 +96,9 @@ export default class SelectPosition extends React.Component {
                 `${this.state.deliveryEndTime < MAX_TIME ? (this.state.deliveryEndTime + ':00:00') : '23:59:59'}`
             ];
         }
+        console.log(params,"fff",deliveryDate,deliveryTime,'vvvvvvvvvvvvvvv')
         this.props.submit(params, deliveryDate, deliveryTime);
-        this.handleCancel();
+        // this.handleCancel();
     };
     selectDate = (date) => {
         console.log(date, '---------------');

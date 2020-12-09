@@ -6,7 +6,7 @@ class PaymentSettingGroup extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-            name: '',
+            // name: '',
             merchant_type:'PERSONAL',
             merchant_name:'',//商户名称
             app_id:'',//商户号
@@ -32,21 +32,19 @@ class PaymentSettingGroup extends Component {
 			return;
 		}
         let params = {
-            merchant_name: this.props.record.name,
+            merchant_name: this.state.merchant_name,
             merchant_type: this.state.merchant_type,
             app_id: this.state.app_id,
             subgroup_id: this.props.record.id
         }
         console.log(params)
-        // wxPayment(params).then(r => {
-        //     message.success(r.message);
-        //     this.setState({
-        //         visible: false,
-        //     });
-        //     this.props.refresh();
-        // }).catch(err => {
-        //     message.error(err.message);
-        // })
+        wxPayment(params).then(r => {
+            message.success(r.message);
+            this.handleCancel();
+            this.props.refresh();
+        }).catch(err => {
+            message.error(err.message);
+        })
 	};
 	
 	render() {
@@ -60,7 +58,12 @@ class PaymentSettingGroup extends Component {
                 >
                     <div className='wxset'>
                         <span className="wx-left">早餐车名称：</span>
-                        <span>{this.state.name}</span>
+                        <Input
+                            value={this.state.merchant_name}
+                            onChange={(e) => {
+                                this.setState({ merchant_name: e.target.value })
+                            }}
+                        />
                     </div>
                     <div className='wxset'>
                         <span className="wx-left">选择商户号类型：</span>

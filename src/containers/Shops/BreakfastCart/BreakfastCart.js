@@ -11,14 +11,7 @@ class BreakfastCart extends Component {
     this.state = {
       api:getBreakfastCart,
       visible: false,
-      data: [
-        // {
-        //   name: '哈哈哈哈哈哈哈哈哈哈少时诵诗书所所所',
-        //   time: '111',
-        //   id: 1,
-        //   remarks: '哈哈哈哈哈哈哈哈哈哈aaaa'
-        // }
-      ]
+      data: []
     }
     this.child = React.createRef();
   }
@@ -47,7 +40,7 @@ class BreakfastCart extends Component {
   }
   //详情
   detailShops = (record) => {
-    this.props.history.push({pathname:"/shops/SupervisionDetails",state:{id:record.id,path:'/shops'}})
+    this.props.history.push({pathname:"/shops/BreakfastCartDetails",state:{id:record.id,path:'/shops'}})
     console.log(record)
   }
   // 删除组

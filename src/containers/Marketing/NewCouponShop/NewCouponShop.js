@@ -210,14 +210,14 @@ class NewCouponShop extends Component {
 					break;
 			}
 		
-		if(values.release_mode !== 'INTEGRAL_EXCHANGE'){
-			if(put_conditions.strategy !== 'COUPON_PUT_IN_ALL_SHOP_SET'){
-				if(!put_conditions['value'] || !put_conditions['value'].length){
-					message.error('请选择商户或商户组');
-					return;
-				}
-			}
-		}
+		// if(values.release_mode !== 'INTEGRAL_EXCHANGE'){
+		// 	if(put_conditions.strategy !== 'COUPON_PUT_IN_ALL_SHOP_SET'){
+		// 		if(!put_conditions['value'] || !put_conditions['value'].length){
+		// 			message.error('请选择商户或商户组');
+		// 			return;
+		// 		}
+		// 	}
+		// }
 		values.use_conditions = [];
 		values.put_conditions = [];
 		values.use_conditions.push(use_conditions);

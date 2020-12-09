@@ -5,6 +5,7 @@ export function hasPermission(slug) {
 	if (_.isEmpty(Storage.get(Config.storageUserKey))) return false;
 	let permissions = JSON.parse(Storage.get(Config.storageUserKey));
 	let hasPermission = false;
+	// console.log(permissions,'permissions')
 	_.map(permissions, (permission)=>{
 		if (!hasPermission && permission['slug'] === slug) {
 			hasPermission = true;

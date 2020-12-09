@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, message, Table} from 'antd'
+import {Button, message, Table,Upload,Modal} from 'antd'
 import './css/shopManage.sass'
 import {withRouter} from 'react-router-dom'
 import SearchInput from "../../../components/SearchInput/SearchInput";
@@ -78,7 +78,7 @@ class ShopManage extends React.Component{
 			groupVisible:false,
 			breakfastGroupVisible:false,
 			supervisionVisible:false,
-
+			logisticsRoutesVisible:false,
 			shopMarketVisible:false,
 			shopMarketId:"",
 			statusVisible:false,
@@ -102,7 +102,10 @@ class ShopManage extends React.Component{
 			current: 1,
 			exportVisible: false,
 			selectDate: false,
-			strategy: ''
+			strategy: '',
+			file_extension_name:'',//文件扩展名
+			file_url:'',//文件路径
+			excelUploadUrl: Config.apiUrl + "/" + Config.apiPrefix + "api/backend/consume_cards/upload",//文件上传
 		};
 	}
 	
@@ -169,6 +172,48 @@ class ShopManage extends React.Component{
 	closeAdd = ()=>{
 		this.setState({addVisible:false})
 	};
+	// 导入物流线路
+	showLogisticsRoutes = () =>{
+		this.setState({logisticsRoutesVisible:true})
+	}
+
+	handleCancel = () =>{
+		this.setState({logisticsRoutesVisible:false})
+	}
+	// 选择文件
+	selsetFile=(e)=>{
+		const self =this;
+		// 限制上传的文件只能有一个
+		let fileList =[...e.fileList];
+		fileList = fileList.slice(-1);
+		this.setState({fileList});
+		// if (e.status === 200) {
+			console.log(e,"-----------2222--");
+		//   }
+		if(e.file.response){
+			this.setState({file_url:e.file.response.data.url});
+			this.setState({file_extension_name:e.file.response.data.file_extension});
+			console.log(this.state.file_extension_name,"-------------------------11")
+			// if(e.file.response.status_code ===200){
+			// 	this.state.newAdd=true;
+			// 	this.handleCancel();
+			// }
+		}
+	}
+
+	handleOk = () =>{
+		let params={
+			file_url:this.state.file_url,
+			file_extension_name:this.state.file_extension_name
+		}
+		console.log(params,'params')
+		if(this.state.file_url && this.state.file_extension_name){
+		// updateProductPrice(params).then(r=>{
+		// 		message.success(r.message);
+		// 		this.setState({logisticsRoutesVisible : false,})
+		// })
+		}
+	}
 	
 	// 加群组
 	closeAddGroup= () =>{
@@ -443,7 +488,8 @@ class ShopManage extends React.Component{
 				end_date: date[1]
 			});
 		}
-		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+		console.log(this.state.strategy+'--'+this.state.checkedAry[0],'submitSelectDatesubmitSelectDate')
+		// window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
 	};
 	
 	
@@ -481,9 +527,33 @@ class ShopManage extends React.Component{
 			onClose: this.hideSelectDate,
 			onSubmit: this.submitSelectDate
 		};
-		
+		const spanmargin={
+			marginBottom: 20
+		}
 		return (
 			<div>
+				<Modal
+				title="批量导入"
+				visible={this.state.logisticsRoutesVisible}
+				onOk={this.handleOk}
+				onCancel={this.handleCancel}
+				>
+					<div style={spanmargin}>
+						<em>准备数据：</em>
+						<span className='spancolor' onClick={this.downTemplate}>下载导入物流路线</span>
+					</div>
+					<div style={spanmargin}>
+						<em>上传数据：</em>
+						
+						<Upload 
+							onChange={this.selsetFile} fileList={this.state.fileList} 
+							action = {this.state.excelUploadUrl}
+							headers={{'Authorization': `${getToken()}`}}
+							><span className='spancolor spancolor1' >添加文件</span></Upload>
+					</div>
+					<div>提示：请下载导入物流路线，并按照实例填写，文件大小请勿超过10M</div>
+					
+				</Modal>
 				<SelectDate {...dateProps} />
 				<Export {...exportProps} />
 				<AdvancedFilterComponent
@@ -520,6 +590,7 @@ class ShopManage extends React.Component{
 					onSubmit={this.onSubmitsupervisionGroup}
 					checkedAry={this.state.checkedAry}
 				/>
+
 
 				<ShopHypermarket visible={this.state.shopMarketVisible} onClose={this.closeShopMarke} shopMarketId={this.state.shopMarketId}/>
 				
@@ -573,6 +644,7 @@ class ShopManage extends React.Component{
 					{
 						window.hasPermission("shop_management_add_shop") && <Button size="small" onClick={this.showAdd}>新增店铺</Button>
 					}
+					 <Button size="small" onClick={this.showLogisticsRoutes}>导入物流线路</Button>
 				</div>
 				
 				<div className="s_header" style={{marginTop: '16px'}}>
