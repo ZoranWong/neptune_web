@@ -168,7 +168,6 @@ class SetOverdraft extends Component {
 								if(!e.target.value) return;
 								verificationCode({captcha:e.target.value}).then(r=>{
 									message.success(r.message)
-									// message.success(e.target.value)
 								}).catch(_=>{})
 							}}
 						/>

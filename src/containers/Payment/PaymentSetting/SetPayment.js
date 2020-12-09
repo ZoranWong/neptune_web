@@ -61,7 +61,7 @@ class SetPayment extends Component {
     // 支付宝配置按钮
     zfbConfigure = (record) => {
         // console.log(record, '支付宝配置按钮')
-        this.setState({ zfbvisible: true ,merchant_name: record.name, subgroup_id: record.id })
+        this.setState({ zfbvisible: true ,subgroup_id: record.id })
     }
     zfbhandleOk = e => {
         console.log(e);
@@ -108,7 +108,7 @@ class SetPayment extends Component {
                 title: '商户号简称（微信）',
                 render:((text, record) =>
                     <div>
-                        {
+                        {/* {
                            record.payment.length > 0 ? record.payment.map((item,index) =>{
                                 if(item.type == '微信'){
                                     return <span>{item.merchant_name}</span>
@@ -118,6 +118,14 @@ class SetPayment extends Component {
                                 }
                                
                             }) : "无"
+                        } */}
+                        {
+                         record.payment.map((item,index) =>{
+                                if(item.type == '微信'){
+                                    return <span>{item.merchant_name}</span>
+                                }
+                               
+                            })
                         }
                     </div>
                 )
@@ -128,14 +136,11 @@ class SetPayment extends Component {
                     <div>
                         
                         { 
-                            record.payment.length > 0 ? record.payment.map((item,index) =>{
+                            record.payment.map((item,index) =>{
                                 if(item.type == '支付宝'){
                                     return item.merchant_name
                                 }
-                                else{
-                                    return <span>无</span>
-                                }
-                            }) : "无"
+                            })
                         }
                     </div>)
             },
@@ -172,34 +177,6 @@ class SetPayment extends Component {
         ]
         return (
             <div>
-                {/* <Modal
-                    title="微信配置"
-                    visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
-                >
-                    <div className='wxset'>
-                        <span className="wx-left">早餐车名称：</span>
-                        <span>{this.state.merchant_name}</span>
-                    </div>
-                    <div className='wxset'>
-                        <span className="wx-left">选择商户号类型：</span>
-                        <Radio.Group onChange={(e) => { this.setState({ merchant_type: e.target.value }) }} value={this.state.merchant_type}>
-                            <Radio value="PERSONAL">个体商户</Radio>
-                            <Radio value="COMPANY">企业</Radio>
-                        </Radio.Group>
-                    </div>
-                    <div className='wxset'>
-                        <span className="wx-left">商户号：</span>
-                        <Input
-                            value={this.state.app_id}
-                            onChange={(e) => {
-                                this.setState({ app_id: e.target.value })
-                            }}
-                        />
-
-                    </div>
-                </Modal> */}
                 {/* 微信配置 */}
                 <PaymentSettingGroup 
                     visible={this.state.visible}
@@ -210,14 +187,19 @@ class SetPayment extends Component {
                 {/* 支付宝配置 */}
 
                 <Modal
-                    title="授权服务商模式"
+                    title="支付宝配置"
                     visible={this.state.zfbvisible}
                     onOk={this.zfbhandleOk}
                     onCancel={this.zfbhandleCancel}
                 >
                     <div className='wxset'>
                         <span className="wx-left">早餐车名称：</span>
-                        <span>{this.state.merchant_name}</span>
+                        <Input
+                            value={this.state.merchant_name}
+                            onChange={(e) => {
+                                this.setState({ merchant_name: e.target.value })
+                            }}
+                        />
                     </div>
                     <div className='wxset'>
                         <span className="wx-left">选择商户号类型：</span>

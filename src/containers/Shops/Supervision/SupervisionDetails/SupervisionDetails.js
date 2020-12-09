@@ -7,7 +7,7 @@ import CustomItem from "../../../../components/CustomItems/CustomItems";
 import {shop_values} from "../../../../utils/shop_fields";
 import {shop_export_values} from "../../ShopManage/shop_export_fields";
 import {getToken, searchJson} from "../../../../utils/dataStorage";
-import {shops,applicationsCount} from "../../../../api/shops/shopManage";
+import {supervisionDetail} from "../../../../api/shops/shopManage";
 import CustomPagination from "../../../../components/Layout/Pagination";
 import AdvancedFilterComponent from "../../ShopManage/AdvancedFilterComponent";
 import ShopHypermarket from "../../ShopManage/ShopHypermarket";
@@ -63,7 +63,7 @@ class SupervisionDetails extends React.Component{
 		super(props);
 		this.child = React.createRef();
 		this.state = {
-			api:shops,
+			api:supervisionDetail,
 			id:'',
 			filterVisible:false,
 			customVisible:false,
@@ -98,6 +98,7 @@ class SupervisionDetails extends React.Component{
 	
 	componentWillMount() {
 		console.log(this.props.location.state.id,'传过来的id')
+		this.setState({id:this.props.location.state.id})
 		if (this.props.location.state && this.props.location.state.current) {
 			this.setState({current: this.props.location.state.current})
 		}
@@ -105,9 +106,6 @@ class SupervisionDetails extends React.Component{
 		// if(this.props.location.query&&this.props.location.query.groupId){
 		// 	this.setState({id:this.props.location.query.groupId,api:shopListInGroup})
 		// }
-		applicationsCount({}).then(r=>{
-			this.setState({applications_count:r.data.applications_count});
-		})
 	}
 	// editShop = (record) =>{
 	// 	this.setState({recordId:record.id,channel_desc: record.channel});
@@ -165,7 +163,7 @@ class SupervisionDetails extends React.Component{
 	// 头部搜索框
 	search = (value) =>{
 		this.setState({
-			api:shops,
+			api:supervisionDetail,
 			paginationParams:{...this.state.paginationParams,
 				searchJson:searchJson({search:value})}
 		},()=>{
@@ -180,7 +178,7 @@ class SupervisionDetails extends React.Component{
 		this.setState({filterVisible:false})
 	};
 	onSubmit = (data) =>{
-		this.setState({api:shops,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
+		this.setState({api:supervisionDetail,paginationParams:{...this.state.paginationParams,searchJson:searchJson({logic_conditions:data})}},()=>{
 			this.child.current.pagination(this.child.current.state.current)
 		});
 	};

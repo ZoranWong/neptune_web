@@ -31,11 +31,13 @@ class BreakfastOrder extends React.Component{
 			{
 				title: '规格',
 				render:(text,record) =>{
+					console.log(record.stocks,'规格规格')
 					if(record.open_specification){
 						return (<span
 							style={{'color':'#4F9863','cursor':'pointer'}}
 							onClick={()=>{
 								this.setState({recordSpecVisible:true,provide_id:record.provide_id})
+								// this.setState({recordSpecVisible:true,stocks:record.stocks})
 								}
 							}
 						>查看规格</span>)
@@ -48,8 +50,6 @@ class BreakfastOrder extends React.Component{
 				title: '零售价',
 				dataIndex: 'retail_price',
 				render: (text,record) =>{
-					console.log(record.breakfast_provide_id,'早餐车')
-					if (window.hasPermission("product_breakfast_book_set_virtual_sale")) {
 						return <div>
 							<InputNumber
 								className="virtualSales"
@@ -63,9 +63,6 @@ class BreakfastOrder extends React.Component{
 								}}
 							/>￥
 						</div>
-					} else {
-						return <span>{text}</span>
-					}
 				}
 			},
 			{
@@ -143,6 +140,7 @@ class BreakfastOrder extends React.Component{
 			warningStockVisible:false,   // 售卖范围
 			shelfGoodsVisible:false,  // 上架商品
 			stock_id:'',
+			stocks:[],//多规格商品
 			provide_id:'',  // 订货查看规格id
 			user_data:[],
 			checkedAry:[],     // 列表页选中的用户id组
@@ -359,8 +357,6 @@ class BreakfastOrder extends React.Component{
 			// 	this.handleCancel();
 			// }
 		}
-
-		
 	}
 	// 批量更新商品零售价
 	handleOk = e => {
@@ -374,11 +370,6 @@ class BreakfastOrder extends React.Component{
 				this.setState({visible : false,})
 		})
 		}
-		
-	this.setState({
-		visible: false,
-		});
-		
 	};
 	
 	handleCancel = e => {
@@ -388,7 +379,7 @@ class BreakfastOrder extends React.Component{
 		});
 	};
 	downTemplate =() =>{
-		console.log('下载模板')
+		// console.log('下载模板')
 		// downLoadTemplate().then((response)=>{
 		// 	console.log(response,333)
 		// })?token=${}

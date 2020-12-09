@@ -70,6 +70,7 @@ class LoginContainer extends React.Component {
             message.success("登录成功");
             myPermissions({}, res.user.id).then(r => {
                 setUserInfo(JSON.stringify(r.data))
+                // console.log(setUserInfo(JSON.stringify(r.data)),'setUserInfo(JSON.stringify(r.data))')
             });
             setTimeout(() => {
                 this.props.history.replace("/")
@@ -256,7 +257,8 @@ class LoginContainer extends React.Component {
 			setToken('bearer '+res.token);
 			message.success("登录成功");
 			myPermissions({},res.user.id).then(r=>{
-				setUserInfo(JSON.stringify(r.data))
+                setUserInfo(JSON.stringify(r.data))
+                // console.log(setUserInfo(JSON.stringify(r.data)),'setUserInfo(JSON.stringify(r.data))22222222222222222222')
 			});
 			setTimeout(() =>{ this.props.history.replace("/")},500); // 跳转到主页,用setTimeout是为了等待上一句设置用户信息完成} else {message.error(res.message);}}).finally(err => {this.setState({ loading: false });});
 		 })

@@ -43,7 +43,7 @@ import hypermarket from "../containers/Goods/Hypermarket/Hypermarket";
 import BreakfastCart from "../containers/Shops/BreakfastCart/BreakfastCart"
 import Supervision from "../containers/Shops/Supervision/Supervision"
 import SupervisionDetails from "../containers/Shops/Supervision/SupervisionDetails/SupervisionDetails"
-// import BreakfastCartDetails from "../containers/Shops/BreakfastCart/BreakfastCartDetails/BreakfastCartDetails"
+import BreakfastCartDetails from "../containers/Shops/BreakfastCart/BreakfastCartDetails/BreakfastCartDetails"
 import Staffing from "../containers/Setting/Staffing";
 import WarningSetting from '../containers/Setting/AppVersionSetting/AppVersionSetting'
 
@@ -247,7 +247,7 @@ const Routes = () =>(
 		<Route exact={true} path="/shops/BreakfastCart" render={props => onEnter(BreakfastCart, props)} />
 		<Route exact={true} path="/shops/Supervision" render={props => onEnter(Supervision, props)} />
 		<Route exact={true} path="/shops/SupervisionDetails" render={props => onEnter(SupervisionDetails, props)} />
-		{/* <Route exact={true} path="/shops/BreakfastCartDetails" render={props => onEnter(BreakfastCartDetails, props)} /> */}
+		<Route exact={true} path="/shops/BreakfastCartDetails" render={props => onEnter(BreakfastCartDetails, props)} />
 		{/*用户*/}
 		<Route exact={true} path="/user" render={props => onEnter(UserManage, props)} />
 		<Route exact={true} path="/user/integralRules" render={props => onEnter(IntegralRules, props)} />
