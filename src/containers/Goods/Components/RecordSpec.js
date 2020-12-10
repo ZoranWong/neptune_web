@@ -1,6 +1,7 @@
 import React from "react";
 import { Modal, Table,InputNumber,message} from 'antd'
 import '../InStockNew/css/selectGoods.sass'
+import _ from 'lodash';
 import {stockSpec} from "../../../api/goods/specification";
 import {updateSingleProductPrice} from "../../../api/goods/goods"
 import IconFont from "../../../utils/IconFont";
@@ -14,7 +15,7 @@ export default class RecordSpec extends React.Component{
 	}
 	
 	componentWillReceiveProps(nextProps, nextContext) {
-		console.log(nextProps,9999999999)
+		// console.log(nextProps.stocks,9999999999)
 		if(!nextProps.provide_id) return;
 			stockSpec({},nextProps.provide_id).then(r=>{
 				this.setState({data:r.data})
@@ -32,13 +33,21 @@ export default class RecordSpec extends React.Component{
 		const columns = [
 			{
 				title: '规格',
-				dataIndex: 'spec',
+				dataIndex:'spec'
+				// render:(text,record) =>
+				// 	<div>
+				// 			{
+				// 				// _.mapKeys(record.spec_value,(key)=>{
+				// 				// 	// return value
+				// 					console.log(record.spec_value)
+				// 				// })
+				// 			}
+				// 	</div>
 			},
 			{
 				title: '零售价',
 				dataIndex:'retail_price',
 				render:(text,record) =>
-				// console.log(record,"零售价零售价零售价")
 				<div>
 					<InputNumber
 						className="virtualSales"
@@ -46,9 +55,9 @@ export default class RecordSpec extends React.Component{
 						onBlur={(e)=>{
 							e.target.value = e.target.value < 0? 0:e.target.value;
 							if(e.target.value <= 0) return;
-							// updateSingleProductPrice({retail_price:e.target.value},record.breakfast_provide_id).then(r=>{
-								message.success(e.target.value)
-							// }).catch(_=>{})
+							updateSingleProductPrice({retail_price:e.target.value},record.breakfast_provide_id).then(r=>{
+								message.success(r.message)
+							}).catch(_=>{})
 						}}
 					/>￥
 				</div>

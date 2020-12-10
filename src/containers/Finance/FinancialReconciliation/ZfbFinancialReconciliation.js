@@ -16,7 +16,7 @@ class ZfbFinancialReconciliation extends Component {
             activeTab:'',
 			api:userBalanceRecord,
 			searchJson:{
-				type:'',
+				// type:'',
 				'user.nickname':'',//商户号
 				// 'user.real_name':'',
 				// 'user.mobile':'',//门店id
@@ -116,6 +116,10 @@ class ZfbFinancialReconciliation extends Component {
     };
     // 切换日期筛选数据
 	searchDate = (date) => {
+		console.log(date,111)
+		this.setState({searchJson:{...this.state.searchJson,created_at:date}})
+		console.log(this.state.searchJson.created_at,222)
+		// this.search()
 		// overviewStatistics({
 		// 	searchJson: searchJson({
 		// 		start_date: date[0],
@@ -125,29 +129,49 @@ class ZfbFinancialReconciliation extends Component {
 		// 	this.handleData(r.data)
 		// })
 	};
+	downBill = (record) =>{
+		console.log(record)
+	}
 	// 根据返回渲染类型
 	
 	render() {
 		const columns = [
 			{
-				title: '昵称',
+				title: '早餐车分组名称',
 				dataIndex: 'nickname',
 			},
 			{
-				title: '收入',
+				title: '商户号',
 				dataIndex: 'income',
 			},
 			{
-				title: '支出',
+				title: '总交易单数',
 				dataIndex: 'expense',
 			},
 			{
-				title: '时间',
+				title: '应收订单总金额',
 				dataIndex: 'created_at',
 			},
 			{
-				title:'备注',
+				title:'实收金额',
 				dataIndex:'remark'
+			},
+			{
+				title:'退款总金额',
+				dataIndex:'ee'
+			},
+			{
+				title:'订单总金额',
+				dataIndex:'remddark'
+			},
+			{
+				title:'操作',
+				render:(text,record) =>
+					<span 
+						style={{ 'color': '#4F9863', 'cursor': 'pointer' }}
+						onClick={() => this.downBill(record)}
+					>下载对账单</span>
+				
 			},
         ];
         const headerTabs = ['今日','近7天','近30天'];
@@ -190,33 +214,8 @@ class ZfbFinancialReconciliation extends Component {
 								/>
 							</ConfigProvider>
 						</li>
-						{/* <li >
-							选择类型：
-							<Select
-								value={this.state.searchJson.type}
-								onChange={(e)=>{
-									this.setState({searchJson:{...this.state.searchJson,type:e}})
-								}}
-								defaultActiveFirstOption={false}
-							>
-								<Select.Option  value="">全部</Select.Option>
-								<Select.Option  value="DEPOSIT">充值</Select.Option>
-								<Select.Option  value="RECEIVE_RED_PACKET">领取红包</Select.Option>
-								<Select.Option  value="REFUND">退款</Select.Option>
-								<Select.Option  value="WITHDRAW">提现</Select.Option>
-								<Select.Option  value="CONSUME">消费</Select.Option>
-							</Select>
-						</li> */}
 						<li className="button">
 							<Button size="small" type="primary" onClick={this.search}>搜索</Button>
-							{/* {
-								window.hasPermission("balance_detailed_export") && <Button
-									size="small"
-								
-								>导出筛选结果
-								</Button>
-							} */}
-						
 							<span className="clear" onClick={this.clear}>清空筛选条件</span>
 						</li>
 					</ul>

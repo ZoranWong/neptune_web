@@ -65,7 +65,7 @@ class BreakfastCart extends Component {
       },
       {
         title: '创建时间',
-        dataIndex: 'create_at',
+        dataIndex: 'created_at',
       },
       {
         title: '备注',

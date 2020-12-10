@@ -125,6 +125,12 @@ class WxFinancialReconciliation extends Component {
 		// 	this.handleData(r.data)
 		// })
 	};
+
+	// 下载账单
+	downBill = (record) =>{
+		console.log(record)
+	}
+
 	// 根据返回渲染类型
 	
 	render() {
@@ -148,6 +154,15 @@ class WxFinancialReconciliation extends Component {
 			{
 				title:'备注',
 				dataIndex:'remark'
+			},
+			{
+				title:'操作',
+				render:(text,record) =>
+					<span 
+						style={{ 'color': '#4F9863', 'cursor': 'pointer' }}
+						onClick={() => this.downBill(record)}
+					>下载对账单</span>
+				
 			},
         ];
         const headerTabs = ['今日','近7天','近30天'];

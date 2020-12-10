@@ -10,7 +10,9 @@ import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
 import ReviewGoods from "../Components/ReviewGoods";
 import SelectPosition from "./Modal/SelectPosition"
-import { breakfastCarOrder,checkOrder, orderCancel, getExportMerchantCodeScanUrl,userOrder} from "../../../api/order/orderManage";
+import LogisticsSelectPosition from "./Modal/LogisticsSelectPosition"
+import ShopSelectPosition from "./Modal/ShopSelectPosition"
+import { breakfastCarOrder,checkOrder, orderCancel,userOrder} from "../../../api/order/orderManage";
 
 import {consumer_order_values} from "../../../utils/consumer_order_fields";
 import {consumer_order_values_export} from "../../../utils/consumer_order_fields_export";
@@ -163,6 +165,9 @@ class BreakfastCartOrder extends React.Component {
             deliveryTime: null,
             exportTable: false,
             positionVisible: false,
+            shopVisible:false,
+            logisticsVisible:false
+
 
         };
     }
@@ -470,16 +475,9 @@ class BreakfastCartOrder extends React.Component {
         window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
     };
 
-    exportCodeScanPaymentOrders() {
-        getExportMerchantCodeScanUrl().then((response) => {
-            if(response['download_url']) {
-                window.location.href = response['download_url'];
-            }
-        })
-    }
 
 
-    // 维度订单导出
+    // 商品维度订单导出
     conditionSelector = () =>{
         console.log(111111111)
         this.setState({positionVisible:true})
@@ -487,16 +485,58 @@ class BreakfastCartOrder extends React.Component {
     hidePosition = () => {
         this.setState({positionVisible: false})
     };
-    submitCondition = (date) =>{
-        // let json='',
-        // json=searchJson({
-
-        // })
+    dimensionOrder = (date,dataTime,hoursTime) =>{
+        console.log(date,dataTime,hoursTime,'data-----')
+    //    let  json = searchJson({
+    //         strategy: this.state.strategy,
+    //         customize_columns: [],
+    //         logic_conditions: [],
+    //         shop_id: this.state.checkedAry[0],
+    //         start_date: date[0],
+    //         end_date: date[1]
+    //     });
         // window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
     }
-
-    
-
+    // 店铺维度订单导出
+    shopSelector = () =>{
+        console.log(111111111)
+        this.setState({shopVisible:true})
+    }
+    shopHidePosition = () => {
+        this.setState({shopVisible: false})
+    };
+    shopOrder = (date,dataTime,hoursTime) =>{
+        console.log(date,dataTime,hoursTime,'data-----')
+    //    let  json = searchJson({
+    //         strategy: this.state.strategy,
+    //         customize_columns: [],
+    //         logic_conditions: [],
+    //         shop_id: this.state.checkedAry[0],
+    //         start_date: date[0],
+    //         end_date: date[1]
+    //     });
+        // window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+    }
+    // 物流维度订单
+    logisticsSelector = () =>{
+        console.log(111111111)
+        this.setState({logisticsVisible:true})
+    }
+    logisticshidePosition = () => {
+        this.setState({logisticsVisible: false})
+    };
+    logisticsOrder = (date,dataTime,hoursTime) =>{
+        console.log(date,dataTime,hoursTime,'data-----')
+    //    let  json = searchJson({
+    //         strategy: this.state.strategy,
+    //         customize_columns: [],
+    //         logic_conditions: [],
+    //         shop_id: this.state.checkedAry[0],
+    //         start_date: date[0],
+    //         end_date: date[1]
+    //     });
+        // window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+    }
 
     render() {
 
@@ -536,11 +576,29 @@ class BreakfastCartOrder extends React.Component {
             exportToday: this.exportToday,
             slug: 'order_'
         };
-
+        // 商品维度
         const positionProps = {
             visible: this.state.positionVisible,
             onCancel: this.hidePosition,
-            submit: this.submitCondition,
+            submit: this.dimensionOrder,
+            type: 'deliveryOrders',
+            deliveryDateShow: true,
+            deliveryTimeShow: true
+        };
+        // 店铺维度
+        const shopPositionProps = {
+            visible: this.state.shopVisible,
+            onCancel: this.shopHidePosition,
+            submit: this.shopOrder,
+            type: 'deliveryOrders',
+            deliveryDateShow: true,
+            deliveryTimeShow: true
+        };
+        // 物流维度
+        const logisticsPositionProps = {
+            visible: this.state.logisticsVisible,
+            onCancel: this.logisticshidePosition,
+            submit: this.logisticsOrder,
             type: 'deliveryOrders',
             deliveryDateShow: true,
             deliveryTimeShow: true
@@ -548,6 +606,8 @@ class BreakfastCartOrder extends React.Component {
         return (
             <div className="order">
                 <SelectPosition {...positionProps} />
+                <ShopSelectPosition {...shopPositionProps} />
+                <LogisticsSelectPosition {...logisticsPositionProps} />
                 <Export {...exportProps} />
                 {/* <CheckOrder {...checkOrderProps} /> */}
                 <AdvancedFilterComponent
@@ -585,11 +645,11 @@ class BreakfastCartOrder extends React.Component {
                         >批量导出商品维度订单</Button>
                         <Button
                             size="small"
-                            onClick={this.conditionSelector}
+                            onClick={this.shopSelector}
                         >批量导出店铺维度订单</Button>
                         <Button
                             size="small"
-                            onClick={this.conditionSelector}
+                            onClick={this.logisticsSelector}
                         >批量导出物流订单</Button>
                     </div>
                 </div>

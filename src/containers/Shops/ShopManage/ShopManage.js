@@ -110,6 +110,7 @@ class ShopManage extends React.Component{
 	}
 	
 	componentWillMount() {
+		console.log(this.props.location.state,'this.props.location.state')
 		if (this.props.location.state && this.props.location.state.current) {
 			this.setState({current: this.props.location.state.current})
 		}
@@ -488,8 +489,7 @@ class ShopManage extends React.Component{
 				end_date: date[1]
 			});
 		}
-		console.log(this.state.strategy+'--'+this.state.checkedAry[0],'submitSelectDatesubmitSelectDate')
-		// window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+		window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
 	};
 	
 	
