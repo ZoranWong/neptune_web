@@ -5,7 +5,7 @@ import SearchInput from "../../../components/SearchInput/SearchInput"
 import { searchJson } from "../../../utils/dataStorage"
 import "../css/paymentsrt.sass"
 import _ from 'lodash';
-import { getBreakfastCart, wxPayment } from "../../../api/shops/shopManage";
+import { getBreakfastCart, wxPayment,zfbPayment } from "../../../api/shops/shopManage";
 import CustomPagination from "../../../components/Layout/Pagination"
 const { Search } = Input;
 
@@ -18,40 +18,20 @@ class SetPayment extends Component {
             api: getBreakfastCart,
             visible: false,
             zfbvisible: false,
-            app_id: "",//商户号
-            merchant_type: "PERSONAL",
-            merchant_name: '',// 商户名称
-            subgroup_id: '',
+            //app_id: "",//商户号
+           // merchant_type: "PERSONAL",
+            // merchant_name: '',// 商户名称
+            // subgroup_id: '',
             paginationParams: {
                 // name:''
             },
+            imgURL:'',
         }
     }
-    // componentDidMount() {
-    // 	this.refresh();
-    // };
     // 微信配置按钮
     wxConfigure = (record) => {
         this.setState({ visible: true, record:record})//merchant_name: record.name, subgroup_id: record.id 
     }
-    // handleOk = e => {
-    //     let params = {
-    //         merchant_name: this.state.merchant_name,
-    //         merchant_type: this.state.merchant_type,
-    //         app_id: this.state.app_id,
-    //         subgroup_id: this.state.subgroup_id
-    //     }
-        // wxPayment(params).then(r => {
-        //     message.success(r.message);
-        //     this.setState({
-        //         visible: false,
-        //     });
-        // }).catch(err => {
-        //     message.error(err.message);
-        // })
-    //     console.log(params)
-
-    // };
 
     handleCancel = e => {
         this.setState({
@@ -59,17 +39,18 @@ class SetPayment extends Component {
         });
     };
     // 支付宝配置按钮
-    zfbConfigure = (record) => {
-        // console.log(record, '支付宝配置按钮')
-        this.setState({ zfbvisible: true ,subgroup_id: record.id })
+    zfbConfigure = (record) => {  
+        let subgroup =record.id
+        let img ='http://neptune.klsfood.cn/api/backend/ali/'+`${subgroup}`+'/auth_qr_code'
+            this.setState({ zfbvisible: true ,imgURL: img})  
     }
     zfbhandleOk = e => {
-        console.log(e);
-        this.setState({visible: false,});
+        this.setState({zfbvisible: false,});
     };
 
-    zfbhandleCancel = e => {
-        this.setState({ zfbvisible: false,app_id:''});
+    zfbhandleCancel = e => {;
+        this.setState({ zfbvisible: false});
+
     };
     // 更新
     refresh = () => {
@@ -108,21 +89,10 @@ class SetPayment extends Component {
                 title: '商户号简称（微信）',
                 render:((text, record) =>
                     <div>
-                        {/* {
-                           record.payment.length > 0 ? record.payment.map((item,index) =>{
-                                if(item.type == '微信'){
-                                    return <span>{item.merchant_name}</span>
-                                }
-                                else{
-                                    return '无'
-                                }
-                               
-                            }) : "无"
-                        } */}
                         {
                          record.payment.map((item,index) =>{
                                 if(item.type == '微信'){
-                                    return <span>{item.merchant_name}</span>
+                                    return item.merchant_name
                                 }
                                
                             })
@@ -175,6 +145,9 @@ class SetPayment extends Component {
                     </div>
             }, ,
         ]
+        const modelM ={
+
+        }
         return (
             <div>
                 {/* 微信配置 */}
@@ -192,32 +165,9 @@ class SetPayment extends Component {
                     onOk={this.zfbhandleOk}
                     onCancel={this.zfbhandleCancel}
                 >
-                    <div className='wxset'>
-                        <span className="wx-left">早餐车名称：</span>
-                        <Input
-                            value={this.state.merchant_name}
-                            onChange={(e) => {
-                                this.setState({ merchant_name: e.target.value })
-                            }}
-                        />
-                    </div>
-                    <div className='wxset'>
-                        <span className="wx-left">选择商户号类型：</span>
-                        <Radio.Group onChange={(e) => { this.setState({ merchant_type: e.target.value }) }} value={this.state.merchant_type}>
-                            <Radio value="PERSONAL">个体商户</Radio>
-                            <Radio value="COMPANY">企业</Radio>
-                        </Radio.Group>
-                    </div>
-                    <div className='wxset'>
-                        <span className="wx-left">商户号：</span>
-                        <Input
-                            value={this.state.app_id}
-                            onChange={(e) => {
-                                this.setState({ app_id: e.target.value })
-                            }}
-                        />
+                    <h3>请用商户支付扫码进行授权，授权通过后，服务商模式设置成功</h3>
+                    <img style={{ margin: '0 60px' }} src={this.state.imgURL} />
 
-                    </div>
 
                 </Modal>
                 <div className="payment-top">

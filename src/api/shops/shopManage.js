@@ -200,7 +200,7 @@ export function getBreakfastCart(params) {
 	return request({
 		url: '/api/backend/breakfast/get/subgroup',
 		method: 'get',
-		data: params
+		params: params
 	})
 }
 
@@ -245,7 +245,7 @@ export function getSupervision(params) {
 	return request({
 		url: '/api/backend/breakfast/get/supervise',
 		method: 'get',
-		data: params
+		params: params
 	})
 }
 
@@ -290,7 +290,7 @@ export function supervisionDetail(params,superviseId) {
 	return request({
 		url: `/api/backend/breakfast/get/supervise/${superviseId}/detail`,
 		method: 'get',
-		data: params
+		params: params
 	})
 }
 // 早餐车详情
@@ -298,7 +298,7 @@ export function breakfastDetail(params,subgroupId) {
 	return request({
 		url: `/api/backend/breakfast/get/subgroup/${subgroupId}/detail`,
 		method: 'get',
-		data: params
+		params: params
 	})
 }
 
@@ -310,4 +310,15 @@ export function wxPayment(params) {
 		data: params
 	})
 }
+
+//支付宝配置授权码
+export function zfbPayment(params,subgroup) {
+	return request({
+		url: `/api/backend/ali/${subgroup}/auth_qr_code`,
+		method: 'get',
+		responseType: 'blob',
+		params: params
+	})
+}
+
 
