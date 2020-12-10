@@ -104,7 +104,7 @@ class BreakfastCart extends Component {
     ];
 
     return (
-      <div>
+      <div className="bannerSetting">
         <OperateGroup
           visible={this.state.visible}
           onCancel={this.closeNew}
@@ -117,7 +117,8 @@ class BreakfastCart extends Component {
                       添加早餐车主。</span>
         </div>
         <div>
-          <Button onClick={this.addNew}>新增早餐车组</Button>
+          <Button style={{'marginBottom':'20px'}} onClick={this.addNew}>新增早餐车组</Button>
+
           <Table
             dataSource={this.state.data}
             rowKey={record => record.id}

@@ -54,3 +54,11 @@ export function addBreakfastNewLevels(params) {
 		data: params
 	})
 }
+// 早餐车获取返现设置 
+export function getBreackfastLevels(params) {
+	return request({
+		url: '/api/backend/distribution/cashback/settings/breakfastCar',
+		method: 'get',
+		params: params
+	})
+}
