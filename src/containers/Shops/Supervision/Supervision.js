@@ -44,13 +44,10 @@ class Supervision extends Component {
   }
   // 删除组
   deleteShops = (record) => {
-    console.log(record)
-    // window.location.reload()
-
     delSupervision({},record.id).then(r => {
         message.success(r.message);
         this.refresh()
-      }).catch(_ => {})//this.setState({handleCancel:true})
+      }).catch(_ => {})
   }
 
 
@@ -59,7 +56,6 @@ class Supervision extends Component {
     const columns = [
       {
         title: '分组名称',
-        // dataIndex: 'name',
         render:(text,record) =>
           <Tooltip title={record.name}>
             <span style={{'overflow': 'hidden','textOverflow': 'ellipsis','whiteSpace': 'nowrap',width:'140px',display:'block'}}>{record.name}</span>
@@ -71,7 +67,6 @@ class Supervision extends Component {
       },
       {
         title: '备注',
-        // dataIndex: 'remarks',
         render:(text,record) =>
           <Tooltip title={record.remarks}>
             <span style={{'overflow': 'hidden','textOverflow': 'ellipsis','whiteSpace': 'nowrap',width:'140px',display:'block'}}>{record.remarks}</span>
@@ -116,7 +111,7 @@ class Supervision extends Component {
           <h2>督导组</h2>
         </div>
         <div>
-          <Button onClick={this.addNew}>新增督导组</Button>
+          <Button style={{'marginBottom':'20px'}} onClick={this.addNew}>新增督导组</Button>
           <Table
             dataSource={this.state.data}
             rowKey={record => record.id}
@@ -127,9 +122,7 @@ class Supervision extends Component {
               if (index % 2) className = 'dark-row';
               return className;
             }}
-          >
-
-          </Table>
+          />
         </div>
 
         <div className="pagination">

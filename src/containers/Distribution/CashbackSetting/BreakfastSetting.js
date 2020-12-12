@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Input, message, Modal, Table, Tabs } from "antd";
 import './css/index.sass'
 import BreakfastOperationRatio from "./Modals/breakfastOperationRatio"
-import { getSettings, getLevels, deleteLevels } from "../../../api/distribution/setting";
+import { getBreackfastLevels, getLevels, deleteLevels } from "../../../api/distribution/setting";
 import { systemSetting } from "../../../api/common";
 const { TabPane } = Tabs;
 class BreakfastSetting extends Component {
@@ -20,7 +20,7 @@ class BreakfastSetting extends Component {
 	}
 
 	refresh = () => {
-		getSettings({}).then(r => {
+		getBreackfastLevels({}).then(r => {
 			r.data.forEach(item => {
 				this.setState({ [item['key']]: item['value'] })
 			})

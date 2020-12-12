@@ -110,7 +110,6 @@ class ShopManage extends React.Component{
 	}
 	
 	componentWillMount() {
-		console.log(this.props.location.state,'this.props.location.state')
 		if (this.props.location.state && this.props.location.state.current) {
 			this.setState({current: this.props.location.state.current})
 		}

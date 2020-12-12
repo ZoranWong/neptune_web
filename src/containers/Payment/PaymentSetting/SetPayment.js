@@ -5,81 +5,78 @@ import SearchInput from "../../../components/SearchInput/SearchInput"
 import { searchJson } from "../../../utils/dataStorage"
 import "../css/paymentsrt.sass"
 import _ from 'lodash';
-import { getBreakfastCart, wxPayment,zfbPayment } from "../../../api/shops/shopManage";
+import { getBreakfastCart, wxPayment, zfbPayment } from "../../../api/shops/shopManage";
 import CustomPagination from "../../../components/Layout/Pagination"
-const { Search } = Input;
-
 class SetPayment extends Component {
     constructor(props) {
-        super(props)
-        this.child = React.createRef();
+        super(props);
         this.state = {
             paymentdata: [],
             api: getBreakfastCart,
             visible: false,
             zfbvisible: false,
-            //app_id: "",//商户号
-           // merchant_type: "PERSONAL",
-            // merchant_name: '',// 商户名称
-            // subgroup_id: '',
-            paginationParams: {
-                // name:''
-            },
-            imgURL:'',
+            paginationParams: {},
+            imgURL: '',
         }
+
+        this.child = React.createRef();
     }
+
+    componentDidMount() {
+        this.refresh();
+    };
     // 微信配置按钮
     wxConfigure = (record) => {
-        this.setState({ visible: true, record:record})//merchant_name: record.name, subgroup_id: record.id 
+        this.setState({ visible: true, record: record })//merchant_name: record.name, subgroup_id: record.id 
     }
 
     handleCancel = e => {
         this.setState({
-            visible: false, app_id:''
+            visible: false, app_id: ''
         });
     };
     // 支付宝配置按钮
-    zfbConfigure = (record) => {  
-        let subgroup =record.id
-        let img ='http://neptune.klsfood.cn/api/backend/ali/'+`${subgroup}`+'/auth_qr_code'
-            this.setState({ zfbvisible: true ,imgURL: img})  
+    zfbConfigure = (record) => {
+        let subgroup = record.id
+        let img = 'http://neptune.klsfood.cn/api/backend/ali/' + `${subgroup}` + '/auth_qr_code'
+        this.setState({ zfbvisible: true, imgURL: img })
     }
     zfbhandleOk = e => {
-        this.setState({zfbvisible: false,});
+        this.setState({ zfbvisible: false, });
     };
 
-    zfbhandleCancel = e => {;
-        this.setState({ zfbvisible: false});
+    zfbhandleCancel = e => {
+        ;
+        this.setState({ zfbvisible: false });
 
     };
-    // 更新
     refresh = () => {
         this.child.current.pagination(this.child.current.state.current)
     };
+
     // 头部搜索框
     search = (value) => {
-        debugger
         this.setState({
             api: getBreakfastCart,
             paginationParams: {
                 ...this.state.paginationParams,
-                searchJson: searchJson({ name: value })
-            },
-        }, () => {
-                this.child.current.pagination(this.child.current.state.current)
+                searchJson: searchJson({ search: value })
             }
-        );
-        console.log(this.state.paginationParams)
-    }
-    // 分页器改变值
+        }, () => {
+            this.child.current.pagination(this.child.current.state.current)
+        });
+    };
+
     paginationChange = (list) => {
-        // console.log(list)
         this.setState({ paymentdata: list })
     };
     clearAll = () => {
+        // this.refresh()
         window.location.reload()
     }
+
     render() {
+
         const columns = [
             {
                 title: '早餐车分组名称',
@@ -87,14 +84,14 @@ class SetPayment extends Component {
             },
             {
                 title: '商户号简称（微信）',
-                render:((text, record) =>
+                render: ((text, record) =>
                     <div>
                         {
-                         record.payment.map((item,index) =>{
-                                if(item.type == '微信'){
+                            record.payment.map((item, index) => {
+                                if (item.type == '微信') {
                                     return item.merchant_name
                                 }
-                               
+
                             })
                         }
                     </div>
@@ -102,12 +99,12 @@ class SetPayment extends Component {
             },
             {
                 title: '商户号名称（支付宝）',
-                render:((text, record) =>
+                render: ((text, record) =>
                     <div>
-                        
-                        { 
-                            record.payment.map((item,index) =>{
-                                if(item.type == '支付宝'){
+
+                        {
+                            record.payment.map((item, index) => {
+                                if (item.type == '支付宝') {
                                     return item.merchant_name
                                 }
                             })
@@ -145,13 +142,13 @@ class SetPayment extends Component {
                     </div>
             }, ,
         ]
-        const modelM ={
 
-        }
+
         return (
-            <div>
+            <div className='bannerSetting'>
+
                 {/* 微信配置 */}
-                <PaymentSettingGroup 
+                <PaymentSettingGroup
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
                     refresh={this.refresh}
@@ -174,40 +171,44 @@ class SetPayment extends Component {
                     <span className="payment-tille">支付设置</span>
                     <span>服务商模式下为商户配置支付</span>
                 </div>
-                <div style={{ margin: '10px' }}>
-                    <SearchInput
-                        getDatas={this.search}
-                        text='请输入早餐分组名称'
-                    />
-                    <span onClick={this.clearAll} style={{ color: '#4F9863', cursor: 'pointer' }}>清空搜素条件</span>
-                </div>
 
-                <div>
+                <div className="chart">
+                    <div style={{ margin: '10px' }}>
+                        <SearchInput
+                            getDatas={this.search}
+                            text='请输入早餐分组名称'
+                        />
+                        <span onClick={this.clearAll} style={{ color: '#4F9863', cursor: 'pointer' }}>清空搜素条件</span>
+
+                    </div>
+
                     <Table
-                        columns={columns}
+                        dataSource={this.state.paymentdata}
                         rowKey={record => record.id}
                         pagination={false}
+                        columns={columns}
                         rowClassName={(record, index) => {
                             let className = '';
                             if (index % 2) className = 'dark-row';
                             return className;
                         }}
-                        dataSource={this.state.paymentdata}
-                    />
+                    >
 
+                    </Table>
                 </div>
                 <div className="pagination">
                     <CustomPagination
                         api={this.state.api}
+                        text="条数据"
                         ref={this.child}
                         params={this.state.paginationParams}
-                        id={this.state.id}
+                        current={this.state.current}
                         valChange={this.paginationChange}
                     />
                 </div>
-
             </div>
-        )
+        );
     }
 }
+
 export default SetPayment;
