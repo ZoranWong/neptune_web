@@ -128,17 +128,23 @@ class SetPayment extends Component {
                 title: '操作',
                 render: (text, record) =>
                     <div>
-                        <span
-                            style={{ 'color': '#4F9863', 'cursor': 'pointer' }}
-                            onClick={() => this.wxConfigure(record)}
-                        >微信配置
-                        </span>/
-                        <span
-                            style={{ 'color': '#4F9863', 'cursor': 'pointer' }}
-                            onClick={() => this.zfbConfigure(record)}
-                        >支付宝配置
-                        </span>
-
+                        {
+                            !record.is_wx_pay ?
+                                <span
+                                style={{ 'color': '#4F9863', 'cursor': 'pointer' }}
+                                onClick={() => this.wxConfigure(record)}
+                            >微信配置
+                            </span>
+                          :  <span>微信配置</span>
+                        }
+                       /
+                       {
+                           !record.is_ali_pay ?  <span
+                                style={{ 'color': '#4F9863', 'cursor': 'pointer' }}
+                                onClick={() => this.zfbConfigure(record)}
+                            >支付宝配置
+                            </span> :<span>支付宝配置</span>
+                        }
                     </div>
             }, ,
         ]

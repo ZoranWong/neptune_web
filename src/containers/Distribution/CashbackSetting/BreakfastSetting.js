@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Input, message, Modal, Table, Tabs } from "antd";
 import './css/index.sass'
 import BreakfastOperationRatio from "./Modals/breakfastOperationRatio"
-import { getBreackfastLevels, getLevels, deleteLevels } from "../../../api/distribution/setting";
+import { getBreackfastLevels, getBreakfastNewLevels, deleteLevels } from "../../../api/distribution/setting";
 import { systemSetting } from "../../../api/common";
 const { TabPane } = Tabs;
 class BreakfastSetting extends Component {
@@ -25,7 +25,7 @@ class BreakfastSetting extends Component {
 				this.setState({ [item['key']]: item['value'] })
 			})
 		});
-		getLevels({ limit: 100, page: 1 }).then(r => {
+		getBreakfastNewLevels({ limit: 100, page: 1 }).then(r => {
 			this.setState({ tableData: r.data })
 		}).catch(_ => { })
 	};

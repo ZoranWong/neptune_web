@@ -62,3 +62,11 @@ export function getBreackfastLevels(params) {
 		params: params
 	})
 }
+//早餐车新增销售佣金比例 
+export function getBreakfastNewLevels(params) {
+	return request({
+		url: '/api/backend/distribution/bonus/levels/breakfastCar',
+		method: 'get',
+		params: params
+	})
+}
