@@ -306,7 +306,7 @@ class ShopDetails extends React.Component{
 							{/* <h3>余额</h3> */}
 							
 							<div className='adjust'>
-								<span style={{'fontSize':'14px','color':'#666'}}>余额：</span>{data['balance_with_overdraft']}
+								<span style={{'fontSize':'14px','color':'#666'}}>余额：</span>{data['balance']}
 								{
 									window.hasPermission("shop_management_display_balance_operate") && <span
 										className='adjustBalance'

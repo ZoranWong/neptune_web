@@ -87,6 +87,12 @@ class breackfastOperateBalance extends Component {
 							onChange={(e)=>{
 								this.setState({password:e.target.value})
 							}}
+							onBlur={(e)=>{
+								if(!e.target.value) return;
+								verificationCode({captcha:e.target.value}).then(r=>{
+									message.success(r.message)
+								}).catch(_=>{})
+							}}
 						/>
 						<Button
 							 onClick={this.sendCode}
