@@ -10,7 +10,7 @@ class breackfastOperateBalance extends Component {
 		value: 'add',
 		remark: '',
 		countDown: 60,  //短信倒计时
-		userPhone:15056046046,
+		userPhone:18156068636,
 		password:''
 	};
 

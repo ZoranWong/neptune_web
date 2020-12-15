@@ -7,7 +7,7 @@ var timer =null
 class SetOverdraft extends Component {
 	state = {
 		value: 'add',
-		userPhone:15056046046,
+		userPhone:18156068636,
 		countDown:60,
 		password:'',
 		overdraft:'',
@@ -51,6 +51,7 @@ class SetOverdraft extends Component {
 		setOverdraft({
 			overdraft: this.state.overdraft,
 			shop_id: id,
+			operation: this.state.value,
 			captcha:this.state.password
 		}).then(r=>{
 			message.success(r.message);
