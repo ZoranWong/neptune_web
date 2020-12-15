@@ -303,8 +303,6 @@ class ShopDetails extends React.Component{
 					</div>
 					<ul>
 						<li>
-							{/* <h3>余额</h3> */}
-							
 							<div className='adjust'>
 								<span style={{'fontSize':'14px','color':'#666'}}>余额：</span>{data['balance']}
 								{
