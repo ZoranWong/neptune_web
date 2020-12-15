@@ -328,22 +328,22 @@ class BreakfastCartOrder extends React.Component {
     
 
     // 选择核销破损商品
-    showCheckinNormal = (record) => {
-        this.setState({checkVisible: true, problemOrder: record})
-    };
-    hideCheckNormal = () => {
-        this.setState({checkVisible: false})
-    };
-    checkInNormalOrder = (id, items, boolean) => {
-        checkOrder({
-            is_exception: boolean,
-            items
-        }, id).then(r => {
-            message.success(`手动核销订单成功！`);
-            this.hideCheckNormal();
-            this.refresh('WAIT_CUSTOMER_VERIFY')
-        });
-    };
+    // showCheckinNormal = (record) => {
+    //     this.setState({checkVisible: true, problemOrder: record})
+    // };
+    // hideCheckNormal = () => {
+    //     this.setState({checkVisible: false})
+    // };
+    // checkInNormalOrder = (id, items, boolean) => {
+    //     checkOrder({
+    //         is_exception: boolean,
+    //         items
+    //     }, id).then(r => {
+    //         message.success(`手动核销订单成功！`);
+    //         this.hideCheckNormal();
+    //         this.refresh('WAIT_CUSTOMER_VERIFY')
+    //     });
+    // };
 
 
     // 商品回显

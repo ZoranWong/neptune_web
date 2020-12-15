@@ -303,9 +303,10 @@ class ShopDetails extends React.Component{
 					</div>
 					<ul>
 						<li>
-							<h3>余额</h3>
+							{/* <h3>余额</h3> */}
+							
 							<div className='adjust'>
-								{data['balance_with_overdraft']}
+								<span style={{'fontSize':'14px','color':'#666'}}>余额：</span>{data['balance_with_overdraft']}
 								{
 									window.hasPermission("shop_management_display_balance_operate") && <span
 										className='adjustBalance'
@@ -328,6 +329,7 @@ class ShopDetails extends React.Component{
 								}
 								
 							</div>
+							<h3 style={{'marginTop':'20px'}}>可透支额度：{data['able_overdraft']}</h3>
 						</li>
 						<li>
 							<h3>充值总额</h3>
