@@ -339,25 +339,26 @@ class GoodsOrder extends React.Component{
 						{
 							key: 'order_paid_at',
 							operation: 'between',
-							value: [`${yesterday} ${deadline}`,`${today} ${deadline}`]
-						},
+							value: [`${yesterday} ${deadline}`,`${today} ${deadline}`],							
+						}
 					],
 					logic: 'and'
 				}
 			],
-			logic: 'and'
+			logic: 'and',
 		};
-		this.getOrders(logic_conditions, 1)
+		this.getOrders({conditions: logic_conditions, state: 'WAIT_AGENT_VERIFY'}, 1)
 		// this.props.history.push({pathname:"/printSummaryOrders", state: {orders, title: '商户订货订单'}})
 	};
 
-	getOrders = async (consitions, page) => {
-		let res = await shopOrder({page: page, limit: 10, searchJson: searchJson({logic_conditions: consitions})});
+	getOrders = async ({conditions, state = 'ALL'}, page) => {
+		let res = await shopOrder({page: page, limit: 10, searchJson: searchJson({logic_conditions: conditions, state_constant: state})});
 		let list = res.data;
 		let meta = res.meta;
 		this.setState({todayOrders: this.state.todayOrders.concat(list)}, ()=>{
+			console.log(list,'metametametametameta')
 			if (meta['pagination']['current_page'] < meta['pagination']['total_pages']) {
-				this.getOrders(consitions, meta['pagination']['current_page'] + 1)
+				this.getOrders(conditions, meta['pagination']['current_page'] + 1)
 			} else {
 				this.setState({
 					loadingOne: false,
