@@ -3,9 +3,10 @@ import {Button, DatePicker, Input, ConfigProvider, Select, Table} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import moment from "moment";
 import CustomPagination from "../../../components/Layout/Pagination";
-import {userBalanceRecord} from "../../../api/finance/balance";
+import {userBalanceRecord , downFinanceAccount,financeDetail} from "../../../api/finance/balance";
 import {searchJson} from "../../../utils/dataStorage";
 import './css/shop.sass'
+import Config from '../../../config/app'
 const {RangePicker} = DatePicker;
 
 class WxFinancialReconciliation extends Component {
@@ -14,7 +15,7 @@ class WxFinancialReconciliation extends Component {
 		this.state = {
             data:[],
             activeTab:'',
-			api:userBalanceRecord,
+			api:financeDetail,
 			searchJson:{
 				type:'',
 				'user.nickname':'',//商户号
@@ -23,6 +24,9 @@ class WxFinancialReconciliation extends Component {
 				created_at:'',
 			},
 			paginationParams:{
+				searchJson:{
+					type:1
+				}
 			},
 		};
 		this.child = React.createRef();
@@ -128,7 +132,8 @@ class WxFinancialReconciliation extends Component {
 
 	// 下载账单
 	downBill = (record) =>{
-		console.log(record)
+		window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.id}&type=1`;
+
 	}
 
 	// 根据返回渲染类型
@@ -136,24 +141,32 @@ class WxFinancialReconciliation extends Component {
 	render() {
 		const columns = [
 			{
-				title: '昵称',
-				dataIndex: 'nickname',
+				title: '早餐车分组名称',
+				dataIndex: 'subgroup_name',
 			},
 			{
-				title: '收入',
-				dataIndex: 'income',
+				title: '商户号',
+				dataIndex: 'merchant_name',
 			},
 			{
-				title: '支出',
-				dataIndex: 'expense',
+				title: '总交易单数',
+				dataIndex: 'count',
 			},
 			{
-				title: '时间',
-				dataIndex: 'created_at',
+				title: '应收订单总金额',
+				dataIndex: 'total_fee',
 			},
 			{
-				title:'备注',
-				dataIndex:'remark'
+				title:'实收金额',
+				dataIndex:'settlement_total_fee'
+			},
+			{
+				title:'退款总金额',
+				dataIndex:'refund_fee'
+			},
+			{
+				title:'订单总金额',
+				dataIndex:'order_total_fee'
 			},
 			{
 				title:'操作',

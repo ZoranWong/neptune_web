@@ -322,3 +322,12 @@ export function zfbPayment(params,subgroup) {
 }
 
 
+// 导入物流线路  
+
+export function updateRoutes(params) {
+	return request({
+		url: '/api/backend/shops/update/shops/route',
+		method: 'post',
+		data: params
+	})
+}

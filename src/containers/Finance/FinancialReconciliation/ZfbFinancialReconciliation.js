@@ -3,9 +3,10 @@ import {Button, DatePicker, Input, ConfigProvider, Select, Table} from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import moment from "moment";
 import CustomPagination from "../../../components/Layout/Pagination";
-import {userBalanceRecord} from "../../../api/finance/balance";
+import {userBalanceRecord ,downFinanceAccount,financeDetail } from "../../../api/finance/balance";
 import {searchJson} from "../../../utils/dataStorage";
 import './css/shop.sass'
+import Config from '../../../config/app'
 const {RangePicker} = DatePicker;
 
 class ZfbFinancialReconciliation extends Component {
@@ -14,15 +15,14 @@ class ZfbFinancialReconciliation extends Component {
 		this.state = {
             data:[],
             activeTab:'',
-			api:userBalanceRecord,
+			api:financeDetail,
 			searchJson:{
 				// type:'',
 				'user.nickname':'',//商户号
-				// 'user.real_name':'',
-				// 'user.mobile':'',//门店id
 				created_at:'',
 			},
 			paginationParams:{
+				searchJson:{type:2}
 			},
 		};
 		this.child = React.createRef();
@@ -130,7 +130,7 @@ class ZfbFinancialReconciliation extends Component {
 		// })
 	};
 	downBill = (record) =>{
-		console.log(record)
+		window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.id}&type=2`;		
 	}
 	// 根据返回渲染类型
 	
@@ -138,31 +138,31 @@ class ZfbFinancialReconciliation extends Component {
 		const columns = [
 			{
 				title: '早餐车分组名称',
-				dataIndex: 'nickname',
+				dataIndex: 'subgroup_name',
 			},
 			{
 				title: '商户号',
-				dataIndex: 'income',
+				dataIndex: 'merchant_name',
 			},
 			{
 				title: '总交易单数',
-				dataIndex: 'expense',
+				dataIndex: 'count',
 			},
 			{
 				title: '应收订单总金额',
-				dataIndex: 'created_at',
+				dataIndex: 'total_fee',
 			},
 			{
 				title:'实收金额',
-				dataIndex:'remark'
+				dataIndex:'settlement_total_fee'
 			},
 			{
 				title:'退款总金额',
-				dataIndex:'ee'
+				dataIndex:'refund_fee'
 			},
 			{
 				title:'订单总金额',
-				dataIndex:'remddark'
+				dataIndex:'order_total_fee'
 			},
 			{
 				title:'操作',

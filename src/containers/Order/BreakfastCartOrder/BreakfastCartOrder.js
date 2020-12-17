@@ -479,43 +479,32 @@ class BreakfastCartOrder extends React.Component {
 
     // 商品维度订单导出
     conditionSelector = () =>{
-        console.log(111111111)
         this.setState({positionVisible:true})
     }
     hidePosition = () => {
         this.setState({positionVisible: false})
     };
     dimensionOrder = (date,dataTime,hoursTime) =>{
-        console.log(date,dataTime,hoursTime,'data-----')
-    //    let  json = searchJson({
-    //         strategy: this.state.strategy,
-    //         customize_columns: [],
-    //         logic_conditions: [],
-    //         shop_id: this.state.checkedAry[0],
-    //         start_date: date[0],
-    //         end_date: date[1]
-    //     });
-        // window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+        if(date.value){
+            window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/product/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=${date.value}`;
+        }else{
+            window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/product/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=''`;
+        }
+        
     }
     // 店铺维度订单导出
     shopSelector = () =>{
-        console.log(111111111)
         this.setState({shopVisible:true})
     }
     shopHidePosition = () => {
         this.setState({shopVisible: false})
     };
     shopOrder = (date,dataTime,hoursTime) =>{
-        console.log(date,dataTime,hoursTime,'data-----')
-    //    let  json = searchJson({
-    //         strategy: this.state.strategy,
-    //         customize_columns: [],
-    //         logic_conditions: [],
-    //         shop_id: this.state.checkedAry[0],
-    //         start_date: date[0],
-    //         end_date: date[1]
-    //     });
-        // window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+        if(date.value){
+            window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/shop/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=${date.value}`;
+        }else{
+            window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/shop/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=''`;
+        }
     }
     // 物流维度订单
     logisticsSelector = () =>{
@@ -526,16 +515,11 @@ class BreakfastCartOrder extends React.Component {
         this.setState({logisticsVisible: false})
     };
     logisticsOrder = (date,dataTime,hoursTime) =>{
-        console.log(date,dataTime,hoursTime,'data-----')
-    //    let  json = searchJson({
-    //         strategy: this.state.strategy,
-    //         customize_columns: [],
-    //         logic_conditions: [],
-    //         shop_id: this.state.checkedAry[0],
-    //         start_date: date[0],
-    //         end_date: date[1]
-    //     });
-        // window.location.href = `${Config.apiUrl}/api/backend/export?searchJson=${json}&Authorization=${getToken()}`;
+        if(date.value){
+            window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/route/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=${date.value}`;
+        }else{
+            window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/route/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=''`;
+        }
     }
 
     render() {
