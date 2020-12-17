@@ -486,9 +486,10 @@ class BreakfastCartOrder extends React.Component {
     };
     dimensionOrder = (date,dataTime,hoursTime) =>{
         if(date.value){
+            // console.log(`${Config.apiUrl}/api/backend/breakfast/load/product/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=${date.value}`,'导出商品维度')
             window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/product/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=${date.value}`;
         }else{
-            window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/product/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=''`;
+            window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/product/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=`;
         }
         
     }
@@ -503,7 +504,7 @@ class BreakfastCartOrder extends React.Component {
         if(date.value){
             window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/shop/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=${date.value}`;
         }else{
-            window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/shop/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=''`;
+            window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/shop/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=`;
         }
     }
     // 物流维度订单
@@ -518,7 +519,7 @@ class BreakfastCartOrder extends React.Component {
         if(date.value){
             window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/route/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=${date.value}`;
         }else{
-            window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/route/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=''`;
+            window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/route/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=`;
         }
     }
 
