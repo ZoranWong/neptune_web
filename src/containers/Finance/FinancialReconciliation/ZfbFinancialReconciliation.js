@@ -17,12 +17,14 @@ class ZfbFinancialReconciliation extends Component {
             activeTab:'',
 			api:financeDetail,
 			searchJson:{
-				// type:'',
-				'user.nickname':'',//商户号
-				created_at:'',
+				type:2,
+				search:null,//早餐车名称
+				// created_at:'',
+				time_start:'',
+				time_end:'',
 			},
 			paginationParams:{
-				searchJson:{type:2}
+				type:2
 			},
 		};
 		this.child = React.createRef();
@@ -65,11 +67,14 @@ class ZfbFinancialReconciliation extends Component {
 	// 清空筛选条件
 	clear = () =>{
 		let searchJson = {
-			type:'',
-			'user.nickname':'',
+			type:2,
+			search:null,
+			time_start:'',
+			time_end:'',
 			// 'user.real_name':'',
 			// 'user.mobile':'',
-			created_at:'',
+			// created_at:'',
+			
 		};
 		this.setState({searchJson},()=>{
 			this.search()
@@ -78,7 +83,6 @@ class ZfbFinancialReconciliation extends Component {
     // 切换头部选项卡
     changeTab = activeTab =>{
         this.setState({activeTab});
-        console.log(activeTab,'activeTabactiveTabactiveTabactiveTab')
         switch (activeTab) {
             case '近7天':
                 this.selectWeek();
@@ -94,43 +98,53 @@ class ZfbFinancialReconciliation extends Component {
         
     //今日
     selectToday = () =>{
-        let today = moment().format('YYYY-MM-DD' );
+		let today =moment().startOf('day').format('YYYY-MM-DD HH:mm:ss');
+		let todays =moment().endOf('day').format('YYYY-MM-DD HH:mm:ss');
         console.log(today,'todaytodaytodaytoday')
-        this.searchDate([today,today])
+        this.searchDate([today,todays])
     };
     
     // 近7天
     selectWeek = () =>{
-        let today = moment().format('YYYY-MM-DD' );
-        let last7 = moment().subtract('days', 6).format('YYYY-MM-DD');
+		let today =moment().endOf('day').format('YYYY-MM-DD HH:mm:ss');
+        let last7 = moment().startOf('day').subtract('days', 6).format('YYYY-MM-DD HH:mm:ss');
         console.log(today,last7,'todaytodaytodaytoday')
         this.searchDate([last7,today]);
     };
     
     // 近30天
     selectMonth = () =>{
-        let today = moment().format('YYYY-MM-DD' );
-        let last30 = moment().subtract('days', 30).format('YYYY-MM-DD');
+		let today =moment().endOf('day').format('YYYY-MM-DD HH:mm:ss');
+        let last30 = moment().startOf('day').subtract('days', 30).format('YYYY-MM-DD HH:mm:ss');
         console.log(today,last30,'todaytodaytodaytoday')
         this.searchDate([last30,today]);
     };
     // 切换日期筛选数据
 	searchDate = (date) => {
 		console.log(date,111)
-		this.setState({searchJson:{...this.state.searchJson,created_at:date}})
-		console.log(this.state.searchJson.created_at,222)
-		// this.search()
-		// overviewStatistics({
-		// 	searchJson: searchJson({
-		// 		start_date: date[0],
-		// 		end_date: date[1]
-		// 	})
-		// }).then(r=>{
-		// 	this.handleData(r.data)
-		// })
+		let params={
+			search:null,
+			time_start:date[0],
+			time_end:date[1],
+		}
+
+		let obj = {};
+		let searchJsons = params;
+		// for (let key in searchJsons){
+		// 	if(searchJsons[key]){
+		// 		obj[key] = searchJsons[key]
+		// 	}
+		// }
+		this.setState({
+			paginationParams:{...this.state.paginationParams,
+				searchJson}
+		},()=>{
+			this.child.current.pagination(this.child.current.state.current)
+		});
+		console.log(params,'------------params')
 	};
 	downBill = (record) =>{
-		window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.id}&type=2`;		
+		window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.subgroup_id}&type=2`;		
 	}
 	// 根据返回渲染类型
 	

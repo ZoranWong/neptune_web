@@ -17,14 +17,14 @@ class BalanceFinancialReconciliation extends Component {
 			activeTab: '',
 			api: financeDetail,
 			searchJson: {
-				type: '',
+				type: 3,
 				'user.nickname': '',//商户号
 				// 'user.real_name':'',
 				// 'user.mobile':'',//门店id
 				created_at: '',
 			},
 			paginationParams: {
-				searchJson:{type:3}
+				type:3
 			},
 		};
 		this.child = React.createRef();
@@ -133,7 +133,7 @@ class BalanceFinancialReconciliation extends Component {
 	// 下载账单
 	downBill = (record) =>{
 		
-		window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.id}&type=3`;
+		window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.subgroup_id}&type=3`;
 
 	}
 	// 根据返回渲染类型

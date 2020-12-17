@@ -18,15 +18,11 @@ class WxFinancialReconciliation extends Component {
 			api:financeDetail,
 			searchJson:{
 				type:'',
-				'user.nickname':'',//商户号
-				// 'user.real_name':'',
-				// 'user.mobile':'',//门店id
+				'user.nickname':'',
 				created_at:'',
 			},
 			paginationParams:{
-				searchJson:{
 					type:1
-				}
 			},
 		};
 		this.child = React.createRef();
@@ -132,7 +128,7 @@ class WxFinancialReconciliation extends Component {
 
 	// 下载账单
 	downBill = (record) =>{
-		window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.id}&type=1`;
+		window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.subgroup_id}&type=1`;
 
 	}
 
