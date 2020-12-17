@@ -92,8 +92,8 @@ export default class SelectPosition extends React.Component {
 
         if (this.props.deliveryTimeShow) {
             deliveryTime = [
-                `${this.state.deliveryStartTime}:00:00`,
-                `${this.state.deliveryEndTime < MAX_TIME ? (this.state.deliveryEndTime + ':00:00') : '23:59:59'}`
+                `${this.state.deliveryStartTime}`,
+                `${this.state.deliveryEndTime < MAX_TIME ? (this.state.deliveryEndTime ) : 24}`
             ];
         }
         console.log(deliveryDate,deliveryTime,'vvvvvvvvvvvvvvv')

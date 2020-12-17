@@ -7,7 +7,7 @@ import CustomItem from "../../../components/CustomItems/CustomItems";
 import {shop_values} from "../../../utils/shop_fields";
 import {shop_export_values} from "./shop_export_fields";
 import {getToken, searchJson} from "../../../utils/dataStorage";
-import {shops,applicationsCount} from "../../../api/shops/shopManage";
+import {shops,applicationsCount,updateRoutes} from "../../../api/shops/shopManage";
 import CustomPagination from "../../../components/Layout/Pagination";
 import AdvancedFilterComponent from "./AdvancedFilterComponent";
 import AddGroup from "./AddGroup";
@@ -208,11 +208,16 @@ class ShopManage extends React.Component{
 		}
 		console.log(params,'params')
 		if(this.state.file_url && this.state.file_extension_name){
-		// updateProductPrice(params).then(r=>{
-		// 		message.success(r.message);
-		// 		this.setState({logisticsRoutesVisible : false,})
-		// })
+		updateRoutes(params).then(r=>{
+				message.success(r.message);
+				this.setState({logisticsRoutesVisible : false,})
+		})
 		}
+	}
+
+	// 下载物流线路模板
+	downTemplate = () => {
+		window.location.href = `${Config.apiUrl}/api/backend/shops/routes/load`;
 	}
 	
 	// 加群组

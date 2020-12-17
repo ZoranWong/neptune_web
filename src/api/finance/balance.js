@@ -35,3 +35,22 @@ export function userBalanceRecord(params) {
 	})
 }
 
+// 下载对账单
+
+export function downFinanceAccount(params){
+	return request({
+		url: '/api/backend/breakfast/load/finance/account',
+		method: 'post',
+		data: params,
+	})
+}
+
+// 财务对账列表
+export function financeDetail(params){
+	return request({
+		url: '/api/backend/breakfast/get/finance/detail',
+		method: 'get',
+		params:params,
+	})
+}
+
