@@ -17,11 +17,11 @@ class BalanceFinancialReconciliation extends Component {
 			activeTab: '',
 			api: financeDetail,
 			searchJson: {
-				type: 3,
-				'user.nickname': '',//商户号
-				// 'user.real_name':'',
-				// 'user.mobile':'',//门店id
-				created_at: '',
+				// type: 3,
+				search:null,//早餐车名称
+				// created_at:'',
+				time_start:'',
+				time_end:'',
 			},
 			paginationParams: {
 				type:3
@@ -35,16 +35,17 @@ class BalanceFinancialReconciliation extends Component {
 	search = () => {
 		let obj = {};
 		let searchJsons = this.state.searchJson;
-		console.log(searchJsons)
-		for (let key in searchJsons) {
-			if (searchJsons[key]) {
-				obj[key] = searchJsons[key]
-			}
-		}
+		// console.log(searchJsons)
+		// for (let key in searchJsons) {
+		// 	if (searchJsons[key]) {
+		// 		obj[key] = searchJsons[key]
+		// 	}
+		// }
 		this.setState({
 			paginationParams: {
 				...this.state.paginationParams,
-				searchJson: searchJson(obj)
+				// searchJson: searchJson(obj)
+				searchJson:searchJson(searchJsons)
 			}
 		}, () => {
 			this.child.current.pagination(this.child.current.state.current)
@@ -53,7 +54,9 @@ class BalanceFinancialReconciliation extends Component {
 
 	// 选择搜索日期
 	onDateChange = (date, dateString) => {
-		this.setState({ searchJson: { ...this.state.searchJson, created_at: dateString } })
+		this.setState({searchJson:{...this.state.searchJson,time_start:dateString[0]+" 00:00:00",time_end:dateString[1]+" 23:59:59"}})
+
+		// this.setState({ searchJson: { ...this.state.searchJson, created_at: dateString } })
 	};
 
 
@@ -68,18 +71,17 @@ class BalanceFinancialReconciliation extends Component {
 	};
 
 	// 清空筛选条件
-	clear = () => {
-		let searchJson = {
-			type: '',
-			'user.nickname': '',
-			// 'user.real_name':'',
-			// 'user.mobile':'',
-			created_at: '',
-		};
-		this.setState({ searchJson }, () => {
-			this.search()
-		})
-	};
+	// clear = () => {
+	// 	let searchJson = {
+	// 		// type: 3,
+	// 		search:null,
+	// 		time_start:'',
+	// 		time_end:'',
+	// 	};
+	// 	this.setState({ searchJson }, () => {
+	// 		this.search()
+	// 	})
+	// };
 	// 切换头部选项卡
 	changeTab = activeTab => {
 		this.setState({ activeTab });
@@ -97,38 +99,52 @@ class BalanceFinancialReconciliation extends Component {
 	};
 
 
-	//今日
-	selectToday = () => {
-		let today = moment().format('YYYY-MM-DD');
-		console.log(today, 'todaytodaytodaytoday')
-		this.searchDate([today, today])
-	};
+ //今日
+ selectToday = () =>{
+	let today =moment().startOf('day').format('YYYY-MM-DD HH:mm:ss');
+	let todays =moment().endOf('day').format('YYYY-MM-DD HH:mm:ss');
+	console.log(today,'todaytodaytodaytoday')
+	this.searchDate([today,todays])
+};
 
-	// 近7天
-	selectWeek = () => {
-		let today = moment().format('YYYY-MM-DD');
-		let last7 = moment().subtract('days', 6).format('YYYY-MM-DD');
-		console.log(today, last7, 'todaytodaytodaytoday')
-		this.searchDate([last7, today]);
-	};
+// 近7天
+selectWeek = () =>{
+	let today =moment().endOf('day').format('YYYY-MM-DD HH:mm:ss');
+	let last7 = moment().startOf('day').subtract('days', 6).format('YYYY-MM-DD HH:mm:ss');
+	console.log(today,last7,'todaytodaytodaytoday')
+	this.searchDate([last7,today]);
+};
 
-	// 近30天
-	selectMonth = () => {
-		let today = moment().format('YYYY-MM-DD');
-		let last30 = moment().subtract('days', 30).format('YYYY-MM-DD');
-		console.log(today, last30, 'todaytodaytodaytoday')
-		this.searchDate([last30, today]);
-	};
+// 近30天
+selectMonth = () =>{
+	let today =moment().endOf('day').format('YYYY-MM-DD HH:mm:ss');
+	let last30 = moment().startOf('day').subtract('days', 30).format('YYYY-MM-DD HH:mm:ss');
+	console.log(today,last30,'todaytodaytodaytoday')
+	this.searchDate([last30,today]);
+};
 	// 切换日期筛选数据
 	searchDate = (date) => {
-		// overviewStatistics({
-		// 	searchJson: searchJson({
-		// 		start_date: date[0],
-		// 		end_date: date[1]
-		// 	})
-		// }).then(r=>{
-		// 	this.handleData(r.data)
-		// })
+		console.log(date,111)
+		let params={
+			search:null,
+			time_start:date[0],
+			time_end:date[1],
+		}
+
+		let obj = {};
+		let searchJsons = params;
+		// for (let key in searchJsons){
+		// 	if(searchJsons[key]){
+		// 		obj[key] = searchJsons[key]
+		// 	}
+		// }
+		this.setState({
+			paginationParams:{...this.state.paginationParams,
+				searchJson:searchJson(params)}
+		},()=>{
+			this.child.current.pagination(this.child.current.state.current)
+		});
+		console.log(params,'------------params')
 	};
 	// 下载账单
 	downBill = (record) =>{
@@ -188,8 +204,8 @@ class BalanceFinancialReconciliation extends Component {
 							分组名称：
 							<Input
 								placeholder='请输入早餐车分组名称'
-								value={this.state.searchJson['user.nickname']}
-								onChange={(e) => { this.changeSearchValue(e, 'user.nickname') }}
+								value={this.state.searchJson.search}
+								onChange={(e) => { this.changeSearchValue(e, 'search') }}
 							/>
 						</li>
 
@@ -199,7 +215,6 @@ class BalanceFinancialReconciliation extends Component {
 									key={item}
 									className="selectDay"
 									onClick={() => this.changeTab(item)}
-								// className={this.state.activeTab === item?'active':''}
 								>{item}</li>
 							))
 						}
@@ -211,44 +226,10 @@ class BalanceFinancialReconciliation extends Component {
 								/>
 							</ConfigProvider>
 						</li>
-						{/* <li className="needMargin">
-							门店id：
-							<Input
-								placeholder="请输入门店id"
-								value={this.state.searchJson['user.mobile']}
-								onChange={(e)=>{this.changeSearchValue(e,'user.mobile')}}
-							/>
-						</li> */}
-
-						{/* <li >
-							选择类型：
-							<Select
-								value={this.state.searchJson.type}
-								onChange={(e)=>{
-									this.setState({searchJson:{...this.state.searchJson,type:e}})
-								}}
-								defaultActiveFirstOption={false}
-							>
-								<Select.Option  value="">全部</Select.Option>
-								<Select.Option  value="DEPOSIT">充值</Select.Option>
-								<Select.Option  value="RECEIVE_RED_PACKET">领取红包</Select.Option>
-								<Select.Option  value="REFUND">退款</Select.Option>
-								<Select.Option  value="WITHDRAW">提现</Select.Option>
-								<Select.Option  value="CONSUME">消费</Select.Option>
-							</Select>
-						</li> */}
-						<li className="button">
+						{/* <li className="button"> */}
 							<Button size="small" type="primary" onClick={this.search}>搜索</Button>
-							{/* {
-								window.hasPermission("balance_detailed_export") && <Button
-									size="small"
-								
-								>导出筛选结果
-								</Button>
-							} */}
-
-							<span className="clear" onClick={this.clear}>清空筛选条件</span>
-						</li>
+							{/* <span className="clear" onClick={this.clear}>清空筛选条件</span> */}
+						{/* </li> */}
 					</ul>
 					<div className="chart u_chart">
 						<Table

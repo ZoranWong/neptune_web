@@ -1,6 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
-import {Button, Table, Modal, message} from 'antd'
+import {Button, Table, Modal, message,Input} from 'antd'
 import IconFont from "../../../utils/IconFont";
 import './css/order.sass'
 import {getToken, orderInputTransformer, orderOutputTransformer, searchJson} from "../../../utils/dataStorage";
@@ -12,7 +12,7 @@ import ReviewGoods from "../Components/ReviewGoods";
 import SelectPosition from "./Modal/SelectPosition"
 import LogisticsSelectPosition from "./Modal/LogisticsSelectPosition"
 import ShopSelectPosition from "./Modal/ShopSelectPosition"
-import { breakfastCarOrder,checkOrder, orderCancel,userOrder} from "../../../api/order/orderManage";
+import { breakfastCarOrder,refund,checkOrder, orderCancel,userOrder} from "../../../api/order/orderManage";
 
 import {consumer_order_values} from "../../../utils/consumer_order_fields";
 import {consumer_order_values_export} from "../../../utils/consumer_order_fields_export";
@@ -66,13 +66,16 @@ class BreakfastCartOrder extends React.Component {
             {
                 title: '订单状态',
                 dataIndex: 'state_desc',
-                render: (text, record) => {
-                    if (!record['shop_name'] && record['state'] === 'WAIT_CUSTOMER_VERIFY') {
-                        return '待收货'
-                    } else {
-                        return text
-                    }
-                }
+                // render: (text, record) => {
+                //     if (record['state'] === 'GOODS_UNQUALIFIED_WAIT_PROCESS') {
+                //         return <span style={{color: '#4f9863', cursor: 'pointer'}} onClick={() => this.refund(record)}>退款</span>
+                //     } else {
+                //         return record.state_desc
+                //         // console.log(record,'ooooooooooo')
+                //     }
+                // }
+               
+            // }
             },
         ];
 
@@ -115,25 +118,17 @@ class BreakfastCartOrder extends React.Component {
             },
             {
                 title: '订单状态',
-                dataIndex: 'state_desc',
+                // dataIndex: 'state_desc',
                 render: (text, record) => {
-                    if (!record['shop_name'] && record['state'] === 'WAIT_CUSTOMER_VERIFY') {
-                        return '待收货'
+                        if (record['state'] === 'GOODS_UNQUALIFIED_WAIT_PROCESS') {
+                        return <span style={{color: '#4f9863', cursor: 'pointer'}} onClick={() => this.refund(record)}>退款</span>
                     } else {
-                        return text
+                        return record.state_desc
+                        // console.log(record,'ooooooooooo')
                     }
                 }
+                
             },
-            {
-                title: '操作',
-                render: (text, record) => {
-                    return <div>
-                                {/* <span style={{color: '#4f9863', cursor: 'pointer'}} onClick={() => this.checkOrder(record)}>手动核销</span> */}
-                                <p></p>
-                                {/* <span style={{color: '#4f9863', cursor: 'pointer'}} onClick={() => this.cancelOrder(record)}>取消订单</span> */}
-                            </div>;
-                }
-            }
         ];
         const defaultItem = ['user_nickname', 'trade_no', 'products', 'settlement_total_fee', 'delivery_type', 'created_at', 'state_desc'];
         super(props);
@@ -166,8 +161,10 @@ class BreakfastCartOrder extends React.Component {
             exportTable: false,
             positionVisible: false,
             shopVisible:false,
-            logisticsVisible:false
-
+            logisticsVisible:false,
+            refundvisible:false,
+            item:{},
+            refund:''
 
         };
     }
@@ -204,6 +201,31 @@ class BreakfastCartOrder extends React.Component {
             state: {id: record.id, path: '/order', current: this.child.current.state.current}
         })
     };
+
+    // 退款
+    refund =(record)=>{
+        console.log(record,'退款')
+        this.setState({refundvisible:true,item:record})
+    }
+
+    handleCancel=()=>{
+        this.setState({refundvisible:false})
+    }
+    handleSubmit = ()=>{
+        if(!this.state.refund){
+			message.error('请输入退款金额');
+			return;
+		}
+		if(this.state.refund - this.state.item.refund_need_amount * 2 > 0){
+			message.error('退款金额最多为商品金额的两倍');
+			return;
+		}
+		refund({refund_amount:this.state.refund},this.state.item.refund_id).then(r=>{
+			message.success(r.message);
+            this.setState({refundvisible:false})
+            this.refresh()
+		}).catch(_=>{})
+    }
 
     // 头部搜索框
     search = (value) => {
@@ -590,6 +612,37 @@ class BreakfastCartOrder extends React.Component {
         };
         return (
             <div className="order">
+                <Modal
+					title="退款"
+					width={520}
+					visible={this.state.refundvisible}
+					onCancel={this.handleCancel}
+					onOk={this.handleSubmit}
+					okText="确定"
+					cancelText="取消"
+				>
+					<ul className="mainUl">
+						<li>
+							<span>异常商品总金额：</span>
+							<h5>
+								{
+									this.state.item.refund_state_desc == '用户申请售后'?'无':this.state.item.refund_need_amount
+								}
+							</h5>
+						</li>
+						<li>
+							<span>实付款：</span>
+							<h5>{this.state.item.settlement_total_fee}</h5>
+						</li>
+						<li>
+							<span>退款金额</span>
+							<Input className="liInput" value={this.state.refund} onChange={(e)=>{
+								this.setState({refund:e.target.value})
+							}} />
+						</li>
+					</ul>
+				</Modal>
+
                 <SelectPosition {...positionProps} />
                 <ShopSelectPosition {...shopPositionProps} />
                 <LogisticsSelectPosition {...logisticsPositionProps} />
@@ -669,7 +722,7 @@ class BreakfastCartOrder extends React.Component {
                 <div className="chart u_chart">
                     <Table
                         rowSelection={rowSelection}
-                        columns={this.state.activeTab === 'WAIT_CUSTOMER_VERIFY' || this.state.activeTab === 'WAIT_CUSTOMER_VERIFY_HOME' ? this.state.sColumns : this.state.columns}
+                        columns={this.state.activeTab === 'GOODS_UNQUALIFIED_WAIT_PROCESS'  ? this.state.sColumns : this.state.columns}
                         rowKey={record => record.id}
                         pagination={false}
                         rowClassName={(record, index) => {
