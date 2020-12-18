@@ -126,7 +126,13 @@ class ZfbFinancialReconciliation extends Component {
 	};
 	downBill = (record) =>{
 			console.log(this.state.start,this.state.end,'window.location.href')	
-			window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.subgroup_id}&type=2&time_start=${this.state.start}&time_end=${this.state.end}`;
+			if(this.state.start &&  this.state.end){
+				window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.subgroup_id}&type=2&time_start=${this.state.start}&time_end=${this.state.end}`;
+
+			}else{
+			window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.subgroup_id}&type=2&time_start=&time_end=`;
+
+			}
 	}
 	// 根据返回渲染类型
 	

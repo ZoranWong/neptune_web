@@ -139,9 +139,13 @@ selectMonth = () =>{
 	// 下载账单
 	downBill = (record) =>{
 		console.log(this.state.start,this.state.end,'下载账单')
-		// window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.subgroup_id}&type=3&time_start=${this.state.start}&time_end=${this.state.end}`;
-		// window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.subgroup_id}&type=3`;
+		if(this.state.start &&  this.state.end){
+			window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.subgroup_id}&type=3&time_start=${this.state.start}&time_end=${this.state.end}`;
 
+		}else{
+		window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.subgroup_id}&type=3&time_start=&time_end=`;
+
+		}
 	}
 	// 根据返回渲染类型
 

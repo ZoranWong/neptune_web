@@ -1,7 +1,7 @@
 import React,{Fragment} from "react";
 import './css/goods.sass'
 import {Modal} from "antd";
-export default class ReviewGoods extends React.Component{
+export default class ReviewGoodsBreakfast extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -19,8 +19,8 @@ export default class ReviewGoods extends React.Component{
 			let items = nextProps.items;
 			items.forEach(item=>{
 				let ary = [];
-				for ( let k in item['product_spec_value']){
-					ary.push(item['product_spec_value'][k])
+				for ( let k in item['spec_value']){
+					ary.push(item['spec_value'][k])
 				}
 				item.spec_desc = ary.join(',')
 				console.log(item.spec_desc,'kkkkkkkkkk')

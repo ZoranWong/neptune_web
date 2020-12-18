@@ -8,7 +8,7 @@ import AdvancedFilterComponent from "../Components/AdvancedFilterComponent";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import CustomItem from "../../../components/CustomItems/CustomItems";
 import CustomPagination from "../../../components/Layout/Pagination";
-import ReviewGoods from "../Components/ReviewGoods";
+import ReviewGoodsBreakfast from "../Components/ReviewGoodsBreakfast";
 import SelectPosition from "./Modal/SelectPosition"
 import LogisticsSelectPosition from "./Modal/LogisticsSelectPosition"
 import ShopSelectPosition from "./Modal/ShopSelectPosition"
@@ -656,7 +656,7 @@ class BreakfastCartOrder extends React.Component {
                     data={consumer_order_values}
                 />
 
-                <ReviewGoods
+                <ReviewGoodsBreakfast
                     visible={this.state.reviewGoodsVisible}
                     onCancel={this.closeReviewGoods}
                     items={this.state.items}
