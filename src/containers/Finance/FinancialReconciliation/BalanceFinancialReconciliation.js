@@ -16,13 +16,12 @@ class BalanceFinancialReconciliation extends Component {
 			data: [],
 			activeTab: '',
 			api: financeDetail,
-			searchJson: {
-				// type: 3,
-				search:null,//早餐车名称
-				// created_at:'',
-				time_start:'',
-				time_end:'',
-			},
+			start:null,
+			end:null,
+			search:null,
+			type:3,
+			time_start:null,
+			time_end:null,
 			paginationParams: {
 				type:3
 			},
@@ -33,29 +32,26 @@ class BalanceFinancialReconciliation extends Component {
 
 	// 筛选
 	search = () => {
-		let obj = {};
-		let searchJsons = this.state.searchJson;
-		// console.log(searchJsons)
-		// for (let key in searchJsons) {
-		// 	if (searchJsons[key]) {
-		// 		obj[key] = searchJsons[key]
-		// 	}
-		// }
-		this.setState({
-			paginationParams: {
-				...this.state.paginationParams,
-				// searchJson: searchJson(obj)
-				searchJson:searchJson(searchJsons)
-			}
-		}, () => {
-			this.child.current.pagination(this.child.current.state.current)
-		});
-	};
+		let params={
+			type:3,
+			search:this.state.search,
+			limit: 10,
+			page: 1,
+			time_start:this.state.time_start,
+			time_end:this.state.time_end
+		}
+		this.state.api(params).then(r=>{
+			// console.log(r.data,'筛选')
+			this.setState({data:r.data},()=>{
+					// this.child.current.pagination(this.child.current.state.current)
+				})
+		}).catch(_=>{})
+	}
 
 	// 选择搜索日期
 	onDateChange = (date, dateString) => {
-		this.setState({searchJson:{...this.state.searchJson,time_start:dateString[0]+" 00:00:00",time_end:dateString[1]+" 23:59:59"}})
-
+		// this.setState({searchJson:{...this.state.searchJson,time_start:dateString[0]+" 00:00:00",time_end:dateString[1]+" 23:59:59"}})
+		this.setState({time_start:dateString[0]+" 00:00:00",time_end:dateString[1]+" 23:59:59",start:dateString[0]+" 00:00:00",end:dateString[1]+" 23:59:59"})
 		// this.setState({ searchJson: { ...this.state.searchJson, created_at: dateString } })
 	};
 
@@ -66,9 +62,9 @@ class BalanceFinancialReconciliation extends Component {
 	};
 
 	//改变搜索值
-	changeSearchValue = (e, type) => {
-		this.setState({ searchJson: { ...this.state.searchJson, [type]: e.target.value } })
-	};
+	// changeSearchValue = (e, type) => {
+	// 	this.setState({ searchJson: { ...this.state.searchJson, [type]: e.target.value } })
+	// };
 
 	// 清空筛选条件
 	// clear = () => {
@@ -104,6 +100,7 @@ class BalanceFinancialReconciliation extends Component {
 	let today =moment().startOf('day').format('YYYY-MM-DD HH:mm:ss');
 	let todays =moment().endOf('day').format('YYYY-MM-DD HH:mm:ss');
 	console.log(today,'todaytodaytodaytoday')
+	this.setState({start:today,end:todays})
 	this.searchDate([today,todays])
 };
 
@@ -112,6 +109,7 @@ selectWeek = () =>{
 	let today =moment().endOf('day').format('YYYY-MM-DD HH:mm:ss');
 	let last7 = moment().startOf('day').subtract('days', 6).format('YYYY-MM-DD HH:mm:ss');
 	console.log(today,last7,'todaytodaytodaytoday')
+	this.setState({start:last7,end:today})
 	this.searchDate([last7,today]);
 };
 
@@ -120,36 +118,29 @@ selectMonth = () =>{
 	let today =moment().endOf('day').format('YYYY-MM-DD HH:mm:ss');
 	let last30 = moment().startOf('day').subtract('days', 30).format('YYYY-MM-DD HH:mm:ss');
 	console.log(today,last30,'todaytodaytodaytoday')
+	this.setState({start:last30,end:today})
 	this.searchDate([last30,today]);
 };
 	// 切换日期筛选数据
 	searchDate = (date) => {
 		console.log(date,111)
 		let params={
-			search:null,
+			type:3,
+			search:this.state.search,
+			limit: 10,
+			page: 1,
 			time_start:date[0],
-			time_end:date[1],
+			time_end:date[1]
 		}
-
-		let obj = {};
-		let searchJsons = params;
-		// for (let key in searchJsons){
-		// 	if(searchJsons[key]){
-		// 		obj[key] = searchJsons[key]
-		// 	}
-		// }
-		this.setState({
-			paginationParams:{...this.state.paginationParams,
-				searchJson:searchJson(params)}
-		},()=>{
-			this.child.current.pagination(this.child.current.state.current)
-		});
-		console.log(params,'------------params')
+		this.state.api(params).then(r=>{
+			this.setState({data:r.data})
+		}).catch(_=>{})
 	};
 	// 下载账单
 	downBill = (record) =>{
-		
-		window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.subgroup_id}&type=3`;
+		console.log(this.state.start,this.state.end,'下载账单')
+		// window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.subgroup_id}&type=3&time_start=${this.state.start}&time_end=${this.state.end}`;
+		// window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.subgroup_id}&type=3`;
 
 	}
 	// 根据返回渲染类型
@@ -204,8 +195,11 @@ selectMonth = () =>{
 							分组名称：
 							<Input
 								placeholder='请输入早餐车分组名称'
-								value={this.state.searchJson.search}
-								onChange={(e) => { this.changeSearchValue(e, 'search') }}
+								value={this.state.search}
+								onChange={(e) => {
+									this.setState({ search: e.target.value })
+								}}
+								// onChange={(e) => { this.changeSearchValue(e, 'search') }}
 							/>
 						</li>
 

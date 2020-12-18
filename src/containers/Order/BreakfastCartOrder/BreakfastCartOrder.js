@@ -508,7 +508,6 @@ class BreakfastCartOrder extends React.Component {
     };
     dimensionOrder = (date,dataTime,hoursTime) =>{
         if(date.value){
-            // console.log(`${Config.apiUrl}/api/backend/breakfast/load/product/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=${date.value}`,'导出商品维度')
             window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/product/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=${date.value}`;
         }else{
             window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/product/dimension?delivery_date=${dataTime}&time_start=${hoursTime[0]}&time_end=${hoursTime[1]}&value=`;
@@ -559,9 +558,9 @@ class BreakfastCartOrder extends React.Component {
         const tabs = [
             {name: '全部', key: 'ALL'},
             {name: '待收货', key: 'WAIT_AGENT_VERIFY'},
-            {name: '待付款', key: 'WAIT_PAY'},
+            {name: '待付款', key: 'GOODS_WAIT_PAY'},
             {name: '已完成', key: 'COMPLETED'},
-            {name: '已退款', key: 'REFUNDED'},
+            {name: '已退款', key: 'GOODS_UNQUALIFIED_REFUNDED'},
             {name: '商品异常', key: 'GOODS_UNQUALIFIED_WAIT_PROCESS'},
             {name: '处理中', key: 'GOODS_UNQUALIFIED_WAIT_VERIFY'},
         ];

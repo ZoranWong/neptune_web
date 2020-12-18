@@ -17,13 +17,12 @@ class ZfbFinancialReconciliation extends Component {
             data:[],
             activeTab:'',
 			api:financeDetail,
-			searchJson:{
-				// type:2,
-				search:null,//早餐车名称
-				// created_at:'',
-				time_start:null,
-				time_end:null,
-			},
+			start:null,
+			end:null,
+			search:null,
+			type:2,
+			time_start:null,
+			time_end:null,
 			paginationParams:{
 				type:2
 			},
@@ -34,25 +33,28 @@ class ZfbFinancialReconciliation extends Component {
 	
 	// 筛选
 	search = () =>{
-		// let obj = {};
-		let searchJsons = this.state.searchJson;
-		// for (let key in searchJsons){
-		// 	if(searchJsons[key]){
-		// 		obj[key] = searchJsons[key]
-		// 	}
-		// }
-		this.setState({
-			paginationParams:{...this.state.paginationParams,
-				searchJson:searchJson(searchJsons)}
-		},()=>{
-			this.child.current.pagination(this.child.current.state.current)
-		});
+		let params={
+			type:2,
+			search:this.state.search,
+			limit: 10,
+			page: 1,
+			time_start:this.state.time_start,
+			time_end:this.state.time_end
+		}
+		this.state.api(params).then(r=>{
+			// console.log(r.data,'筛选')
+			this.setState({data:r.data},()=>{
+					// this.child.current.pagination(this.child.current.state.current)
+				})
+		}).catch(_=>{})
 	};
 	
 	// 选择搜索日期
 	onDateChange = (date,dateString) =>{
 		console.log(dateString,'dateStringdateString')
-		this.setState({searchJson:{...this.state.searchJson,time_start:dateString[0]+" 00:00:00",time_end:dateString[1]+" 23:59:59"}})
+		// this.setState({searchJson:{...this.state.searchJson,time_start:dateString[0]+" 00:00:00",time_end:dateString[1]+" 23:59:59"}})
+		this.setState({time_start:dateString[0]+" 00:00:00",time_end:dateString[1]+" 23:59:59",start:dateString[0]+" 00:00:00",end:dateString[1]+" 23:59:59"})
+
 	};
 	
 	
@@ -61,10 +63,6 @@ class ZfbFinancialReconciliation extends Component {
 		this.setState({data:list})
 	};
 	
-	//改变搜索值
-	changeSearchValue = (e,type) =>{
-		this.setState({searchJson:{...this.state.searchJson,[type]:e.target.value}})
-	};
 	
     // 切换头部选项卡
     changeTab = activeTab =>{
@@ -86,7 +84,8 @@ class ZfbFinancialReconciliation extends Component {
     selectToday = () =>{
 		let today =moment().startOf('day').format('YYYY-MM-DD HH:mm:ss');
 		let todays =moment().endOf('day').format('YYYY-MM-DD HH:mm:ss');
-        console.log(today,'todaytodaytodaytoday')
+		console.log(today,'todaytodaytodaytoday')
+		this.setState({start:today,end:todays})
         this.searchDate([today,todays])
     };
     
@@ -94,7 +93,8 @@ class ZfbFinancialReconciliation extends Component {
     selectWeek = () =>{
 		let today =moment().endOf('day').format('YYYY-MM-DD HH:mm:ss');
         let last7 = moment().startOf('day').subtract('days', 6).format('YYYY-MM-DD HH:mm:ss');
-        console.log(today,last7,'todaytodaytodaytoday')
+		console.log(today,last7,'todaytodaytodaytoday')
+		this.setState({start:last7,end:today})
         this.searchDate([last7,today]);
     };
     
@@ -102,31 +102,31 @@ class ZfbFinancialReconciliation extends Component {
     selectMonth = () =>{
 		let today =moment().endOf('day').format('YYYY-MM-DD HH:mm:ss');
         let last30 = moment().startOf('day').subtract('days', 30).format('YYYY-MM-DD HH:mm:ss');
-        console.log(today,last30,'todaytodaytodaytoday')
+		console.log(today,last30,'todaytodaytodaytoday')
+		this.setState({start:last30,end:today})
+		
         this.searchDate([last30,today]);
     };
     // 切换日期筛选数据
 	searchDate = (date) => {
 		console.log(date,111)
-		let params={
-			search:null,
-			time_start:date[0],
-			time_end:date[1],
-		}
 
-		
-		this.setState({
-			paginationParams:{...this.state.paginationParams,
-			search:'',
+		let params={
+			type:2,
+			search:this.state.search,
+			limit: 10,
+			page: 1,
 			time_start:date[0],
-			time_end:date[1],}
-		},()=>{
-			this.child.current.pagination(this.child.current.state.current)
-		});
-		console.log(params,'------------params')
+			time_end:date[1]
+		}
+		this.state.api(params).then(r=>{
+			this.setState({data:r.data})
+		}).catch(_=>{})
+
 	};
 	downBill = (record) =>{
-		window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.subgroup_id}&type=2`;		
+			console.log(this.state.start,this.state.end,'window.location.href')	
+			window.location.href = `${Config.apiUrl}/api/backend/breakfast/load/finance/account?subgroup_id=${record.subgroup_id}&type=2&time_start=${this.state.start}&time_end=${this.state.end}`;
 	}
 	// 根据返回渲染类型
 	
@@ -180,8 +180,12 @@ class ZfbFinancialReconciliation extends Component {
 						分组名称：
 							<Input
 								placeholder='请输入早餐车分组名称'
-								value={this.state.searchJson.search}
-								onChange={(e)=>{this.changeSearchValue(e,'search')}}
+								// value={this.state.searchJson.search}
+								value={this.state.search}
+								// onChange={(e)=>{this.changeSearchValue(e,'search')}}
+								onChange={(e) => {
+									this.setState({ search: e.target.value })
+								}}
 							/>
 						</li>
                         {
