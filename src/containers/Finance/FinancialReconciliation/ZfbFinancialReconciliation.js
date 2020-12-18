@@ -7,6 +7,7 @@ import {userBalanceRecord ,downFinanceAccount,financeDetail } from "../../../api
 import {searchJson} from "../../../utils/dataStorage";
 import './css/shop.sass'
 import Config from '../../../config/app'
+import { coupons } from '../../../api/marketing/coupon';
 const {RangePicker} = DatePicker;
 
 class ZfbFinancialReconciliation extends Component {
@@ -17,11 +18,11 @@ class ZfbFinancialReconciliation extends Component {
             activeTab:'',
 			api:financeDetail,
 			searchJson:{
-				type:2,
+				// type:2,
 				search:null,//早餐车名称
 				// created_at:'',
-				time_start:'',
-				time_end:'',
+				time_start:null,
+				time_end:null,
 			},
 			paginationParams:{
 				type:2
@@ -33,16 +34,16 @@ class ZfbFinancialReconciliation extends Component {
 	
 	// 筛选
 	search = () =>{
-		let obj = {};
+		// let obj = {};
 		let searchJsons = this.state.searchJson;
-		for (let key in searchJsons){
-			if(searchJsons[key]){
-				obj[key] = searchJsons[key]
-			}
-		}
+		// for (let key in searchJsons){
+		// 	if(searchJsons[key]){
+		// 		obj[key] = searchJsons[key]
+		// 	}
+		// }
 		this.setState({
 			paginationParams:{...this.state.paginationParams,
-				searchJson:searchJson(obj)}
+				searchJson:searchJson(searchJsons)}
 		},()=>{
 			this.child.current.pagination(this.child.current.state.current)
 		});
@@ -50,7 +51,8 @@ class ZfbFinancialReconciliation extends Component {
 	
 	// 选择搜索日期
 	onDateChange = (date,dateString) =>{
-		this.setState({searchJson:{...this.state.searchJson,created_at:dateString}})
+		console.log(dateString,'dateStringdateString')
+		this.setState({searchJson:{...this.state.searchJson,time_start:dateString[0]+" 00:00:00",time_end:dateString[1]+" 23:59:59"}})
 	};
 	
 	
@@ -64,22 +66,6 @@ class ZfbFinancialReconciliation extends Component {
 		this.setState({searchJson:{...this.state.searchJson,[type]:e.target.value}})
 	};
 	
-	// 清空筛选条件
-	clear = () =>{
-		let searchJson = {
-			type:2,
-			search:null,
-			time_start:'',
-			time_end:'',
-			// 'user.real_name':'',
-			// 'user.mobile':'',
-			// created_at:'',
-			
-		};
-		this.setState({searchJson},()=>{
-			this.search()
-		})
-	};
     // 切换头部选项卡
     changeTab = activeTab =>{
         this.setState({activeTab});
@@ -128,16 +114,12 @@ class ZfbFinancialReconciliation extends Component {
 			time_end:date[1],
 		}
 
-		let obj = {};
-		let searchJsons = params;
-		// for (let key in searchJsons){
-		// 	if(searchJsons[key]){
-		// 		obj[key] = searchJsons[key]
-		// 	}
-		// }
+		
 		this.setState({
 			paginationParams:{...this.state.paginationParams,
-				searchJson}
+			search:'',
+			time_start:date[0],
+			time_end:date[1],}
 		},()=>{
 			this.child.current.pagination(this.child.current.state.current)
 		});
@@ -198,8 +180,8 @@ class ZfbFinancialReconciliation extends Component {
 						分组名称：
 							<Input
 								placeholder='请输入早餐车分组名称'
-								value={this.state.searchJson['user.nickname']}
-								onChange={(e)=>{this.changeSearchValue(e,'user.nickname')}}
+								value={this.state.searchJson.search}
+								onChange={(e)=>{this.changeSearchValue(e,'search')}}
 							/>
 						</li>
                         {
@@ -208,18 +190,9 @@ class ZfbFinancialReconciliation extends Component {
                                 key={item}
                                 className="selectDay"
 								onClick={()=>this.changeTab(item)}
-								// className={this.state.activeTab === item?'active':''}
 							>{item}</li>
 						))
 					}
-						{/* <li className="needMargin">
-							门店id：
-							<Input
-								placeholder="请输入门店id"
-								value={this.state.searchJson['user.mobile']}
-								onChange={(e)=>{this.changeSearchValue(e,'user.mobile')}}
-							/>
-						</li> */}
 						<li className="needMargin">
 							交易日期：
 							<ConfigProvider locale={zh_CN}>
@@ -228,10 +201,7 @@ class ZfbFinancialReconciliation extends Component {
 								/>
 							</ConfigProvider>
 						</li>
-						<li className="button">
 							<Button size="small" type="primary" onClick={this.search}>搜索</Button>
-							<span className="clear" onClick={this.clear}>清空筛选条件</span>
-						</li>
 					</ul>
 					<div className="chart u_chart">
 						<Table
