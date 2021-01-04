@@ -70,3 +70,12 @@ export function groupsProductsManage(params) {
 		params: params
 	})
 }
+
+// 平台手动退款拼团单订单
+export function groupsRefund(params,orderId) {
+	return request({
+		url: `/api/backend/group_shopping/order/${orderId}/refund`,
+		method: 'get',
+		params: params
+	})
+}

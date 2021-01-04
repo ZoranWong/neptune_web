@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Button, message, Table} from "antd";
-import {groupsOrdersList } from "../../../../api/activities/groupon";
+import {groupsOrdersList,groupsRefund } from "../../../../api/activities/groupon";
 import {getToken, orderInputTransformer, orderOutputTransformer, searchJson} from "../../../../utils/dataStorage";
 import {groupon_order_fields} from "./utils/groupon_order_fields";
 import {operation} from "./utils/groupon_order_fields";
@@ -70,7 +70,18 @@ class GrouponOrderManage extends Component {
             },
             {
                 title: '状态',
-                dataIndex: 'state_desc'
+                // dataIndex: 'state_desc'
+                render:(text,record) =>
+                    <div>
+                        {/* {record.state_desc} */}
+                        {
+                            record.is_refund == 1 ? <div>
+                                <span>{record.state_desc}</span>
+                                <span style={{'color':'#4F9863','cursor':"pointer","marginLeft":'5px'}} onClick={()=> this.refund(record)}>退款</span>
+                                </div> :
+                                <span>{record.state_desc}</span>
+                        }
+                    </div>
             }
         ];
         this.child = React.createRef()
@@ -79,7 +90,14 @@ class GrouponOrderManage extends Component {
     componentDidMount() {
         document.addEventListener('click', this.closeCustom);
     }
-
+    // 退款
+    refund =(record)=>{
+        console.log(record.id)
+        groupsRefund({},record.id).then(r =>{
+            message.success(r.message)
+        }).catch(err =>{
+        })
+    }
 
     refresh = (key)=>{
         let logic_conditions = [];
