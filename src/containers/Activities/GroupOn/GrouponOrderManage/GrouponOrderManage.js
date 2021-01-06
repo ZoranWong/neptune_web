@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, message, Table} from "antd";
+import {Button, message, Table,Modal} from "antd";
 import {groupsOrdersList,groupsRefund } from "../../../../api/activities/groupon";
 import {getToken, orderInputTransformer, orderOutputTransformer, searchJson} from "../../../../utils/dataStorage";
 import {groupon_order_fields} from "./utils/groupon_order_fields";
@@ -33,7 +33,9 @@ class GrouponOrderManage extends Component {
             defaultItem: defaultItem,
             exportVisible: false,
             orders: [],
-            loading: false
+            loading: false,
+            isModalVisible:false,
+            refundId:''
         };
         this.columns = [
             {
@@ -92,12 +94,20 @@ class GrouponOrderManage extends Component {
     }
     // 退款
     refund =(record)=>{
-        console.log(record.id)
-        groupsRefund({},record.id).then(r =>{
+        this.setState({isModalVisible:true,refundId:record.id})
+    }
+     handleOk = () => {
+        
+         groupsRefund({},this.state.refundId).then(r =>{
             message.success(r.message)
+            this.setState({isModalVisible:false})
         }).catch(err =>{
         })
-    }
+      };
+    
+    handleCancel = () => {
+        this.setState({isModalVisible:false})
+      };
 
     refresh = (key)=>{
         let logic_conditions = [];
@@ -280,6 +290,11 @@ class GrouponOrderManage extends Component {
 
         return (
             <div className='grouponList'>
+                <Modal width='200px' visible={this.state.isModalVisible} onOk={this.handleOk} onCancel={this.handleCancel}>
+                    <h3>您即将进行退款</h3>
+                </Modal>
+
+
                 <AdvancedFilterComponent
                     visible={this.state.filterVisible}
                     onCancel={this.closeHigherFilter}
