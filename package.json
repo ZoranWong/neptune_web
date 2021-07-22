@@ -48,7 +48,7 @@
     "slsx": "0.0.3",
     "webpack-hot-middleware": "^2.25.0",
     "webpackbar": "^3.2.0",
-    "xlsx": "^0.15.6"
+    "xlsx": "^0.17.0"
   },
   "scripts": {
     "start": "gulp --env dev && react-app-rewired start",
