@@ -89,6 +89,6 @@
     "gulp-copy": "^4.0.1",
     "gulp-if": "^3.0.0",
     "gulp-uglify": "^3.0.2",
-    "minimist": "^1.2.5"
+    "minimist": "^1.2.6"
   }
 }
